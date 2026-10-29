@@ -1,6 +1,6 @@
 # Informe de extracción
 
-Generado: 2026-10-29T18:29:35+00:00
+Generado: 2026-10-29T20:18:54+00:00
 
 ## Totales
 
@@ -16,7 +16,7 @@ Generado: 2026-10-29T18:29:35+00:00
 | items | 1347 | 707 | 640 |
 | rules | 84 | 39 | 45 |
 
-Páginas descargadas en esta ejecución: 3698  
+Páginas descargadas en esta ejecución: 0  
 Fallos de descarga: 0 · Páginas que no se pudieron convertir: 1
 
 ## Sustituidos por la versión de 2024

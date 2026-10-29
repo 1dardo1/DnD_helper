@@ -15,12 +15,32 @@ export interface Character {
   updatedBy: string;
   species: { id: string; variant: string | null } | null;
   background: { id: string; abilityIncreases: Partial<Record<Ability, number>> } | null;
-  classes: { id: string; level: number; subclassId: string | null; hp: number[] }[];
+  /**
+   * In the order they were taken; the first one is the starting class (its saving throws,
+   * full HP die at level 1). hp: hit points gained at each level of that class (null = average).
+   */
+  classes: { id: string; level: number; subclassId: string | null; hp: (number | null)[] }[];
   abilityScores: {
     method: 'standard' | 'point-buy' | 'roll' | 'manual';
     base: Record<Ability, number>;
   } | null;
-  choices: { skills: string[]; feats: string[]; options: string[]; spells: string[] };
+  choices: {
+    /** Skill proficiencies chosen from class, background, species, feats... */
+    skills: string[];
+    /** Skills with Expertise (double proficiency). */
+    expertise: string[];
+    /** Extra saving throw proficiencies (e.g. the Resilient feat). */
+    saves: Ability[];
+    /** Feat ids, including origin feats and Ability Score Improvement. */
+    feats: string[];
+    /** Ability increases other than the background's (ASIs, half feats...). */
+    abilityIncreases: { source: string; ability: Ability; amount: number }[];
+    /** Class option ids (invocations, maneuvers, blood curses...). */
+    options: string[];
+    spells: string[];
+  };
+  /** Item ids from data/items.json, used for Armor Class. */
+  equipped: { armorId: string | null; shield: boolean };
   equipment: string;
   state: {
     hpCurrent: number | null;
@@ -73,9 +93,43 @@ export function newCharacter(name: string, device: string): Character {
     background: null,
     classes: [],
     abilityScores: null,
-    choices: { skills: [], feats: [], options: [], spells: [] },
+    choices: {
+      skills: [],
+      expertise: [],
+      saves: [],
+      feats: [],
+      abilityIncreases: [],
+      options: [],
+      spells: [],
+    },
+    equipped: { armorId: null, shield: false },
     equipment: '',
     state: { hpCurrent: null, hpTemp: 0, spentSlots: [0, 0, 0, 0, 0, 0, 0, 0, 0], resources: {} },
     notes: '',
+  };
+}
+
+/**
+ * Fills in what an older or hand-written character file may lack, so the rest of the app can
+ * rely on every field. Returns null if the JSON isn't a character at all.
+ */
+export function normalizeCharacter(raw: unknown): Character | null {
+  if (!raw || typeof raw !== 'object') return null;
+  const c = raw as Partial<Character>;
+  if (typeof c.id !== 'string' || typeof c.name !== 'string') return null;
+  const base = newCharacter(c.name, c.updatedBy ?? '');
+  return {
+    ...base,
+    ...c,
+    id: c.id,
+    schemaVersion: 1,
+    choices: { ...base.choices, ...(c.choices ?? {}) },
+    equipped: { ...base.equipped, ...(c.equipped ?? {}) },
+    state: { ...base.state, ...(c.state ?? {}) },
+    classes: (c.classes ?? []).map((k) => ({
+      ...k,
+      hp: k.hp ?? [],
+      subclassId: k.subclassId ?? null,
+    })),
   };
 }

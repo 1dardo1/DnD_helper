@@ -1,0 +1,68 @@
+// Structural layout only; the visual design comes later.
+.stats,
+.abilities {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  gap: 0.5rem;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+
+  strong {
+    font-size: 1.4rem;
+  }
+}
+
+.skills {
+  list-style: none;
+  padding: 0;
+  columns: 2 14rem;
+
+  li {
+    display: flex;
+    gap: 0.4rem;
+    align-items: baseline;
+    break-inside: avoid;
+  }
+
+  strong {
+    margin-left: auto;
+  }
+}
+
+.pairs {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 1rem;
+
+  dt {
+    font-weight: bold;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.warnings {
+  border-left: 3px solid #c90;
+  padding-left: 0.75rem;
+}
+
+.status,
+.slot {
+  border: 1px solid currentColor;
+  padding: 0 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.feature summary {
+  cursor: pointer;
+  padding: 0.2rem 0;
+}

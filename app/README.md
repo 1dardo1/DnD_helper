@@ -40,13 +40,14 @@ src/app/
     models/        tipos de data/*.json y del fichero de personaje
     data/          DataSource: GitHub (API, commits) y local
     compendium/    carga y caché del compendio
-    characters/    personajes guardados en el dispositivo
+    characters/    personajes guardados en el dispositivo y descarga desde el repo
+    rules/         motor de reglas: calcula la ficha a partir de las decisiones del personaje
     storage/       IndexedDB
     settings/      ajustes (localStorage)
     i18n/          textos de la interfaz (es.ts, en.ts)
   features/
     compendium/    consulta: secciones, listas con buscador, fichas
-    characters/    lista de personajes con su estado en la nube
+    characters/    lista de personajes con su estado en la nube y ficha calculada
     creation/      asistente de creación (pendiente)
     settings/      ajustes
   shared/          pipe de Markdown
@@ -64,13 +65,24 @@ Cada personaje se guarda primero en el dispositivo y luego se sube al repo con u
 | Dos versiones distintas | El repo tiene otra versión: la app enseña las dos y eliges cuál conservar (o ambas) |
 | Pendiente de borrar | Se borrará del repo en la próxima sincronización |
 
-El modelo de datos y la escritura con detección de conflictos ya están; el motor de sincronización
-y la pantalla de conflictos llegan con la fase de gestión de personajes.
+Ya funciona la descarga: al abrir la lista, la app trae del repo los personajes nuevos o cambiados
+y marca un conflicto si un personaje cambió en los dos sitios. Falta la subida (commit al guardar) y
+la pantalla para resolver conflictos.
+
+## Ficha de personaje
+
+El fichero del personaje solo guarda decisiones; `core/rules/engine.ts` calcula el resto: puntuaciones
+finales, bonificador de competencia, salvaciones, habilidades (con pericia y *Jack of All Trades*),
+puntos de golpe, CA (armadura equipada, escudo, *Unarmored Defense*), velocidad, visión en la oscuridad,
+lanzamiento de conjuros (CD, ataque, espacios, multiclase y Magia de pacto), la tabla de la clase y los
+rasgos que tiene por nivel. Lo que no encuentra en el compendio aparece como aviso en la ficha.
+
+`characters/ejemplo-thorin.json` es un personaje de ejemplo para probarla; se puede borrar.
 
 ## Pendiente
 
 1. Compendio completo (fichas específicas de cada tipo, buscador global).
-2. Ficha de personaje calculada (motor de reglas) y sincronización con el repo.
+2. Subida de personajes al repo (commit) y pantalla de conflictos.
 3. Asistente de creación.
 4. Estado de partida, subir de nivel, multiclase.
 5. Despliegue: GitHub Pages (PWA) y APK Android con Capacitor y actualización automática.

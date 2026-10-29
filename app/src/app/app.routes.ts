@@ -27,6 +27,11 @@ export const routes: Routes = [
       import('./features/creation/character-create').then((m) => m.CharacterCreate),
   },
   {
+    path: 'characters/:id',
+    loadComponent: () =>
+      import('./features/characters/character-sheet').then((m) => m.CharacterSheet),
+  },
+  {
     path: 'settings',
     loadComponent: () => import('./features/settings/settings-page').then((m) => m.SettingsPage),
   },

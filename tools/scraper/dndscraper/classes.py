@@ -100,7 +100,7 @@ def parse_spellcasting(progression: dict | None, features: list[dict]) -> dict |
     spell_feat = next((f for f in features if re.search(r"spellcasting|pact magic", f["name"], re.I)), None)
     ability = None
     if spell_feat:
-        m = re.search(r"(\w+) is your spellcasting ability", spell_feat["description"], re.I)
+        m = re.search(r"(\w+) is (?:your|the) spellcasting ability", spell_feat["description"], re.I)
         if m and m.group(1).lower() in ABILITIES:
             ability = ABILITIES[m.group(1).lower()]
     slots = []

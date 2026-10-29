@@ -1,10 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { CharacterStore } from '../../core/characters/character-store.service';
+import { RepositoryService } from '../../core/data/repository.service';
 import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 
-/** Characters on this device, with their cloud status. The character sheet comes in a later phase. */
+/** Characters on this device (plus any new ones in the repo), with their cloud status. */
 @Component({
   selector: 'app-character-list',
   imports: [RouterLink, TranslatePipe, LocalDatePipe],
@@ -14,10 +15,16 @@ import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
       <a routerLink="/characters/new">+ {{ 'nav.create' | t }}</a>
     </p>
 
+    @if (pullError()) {
+      <p role="alert">{{ 'common.error' | t: { message: pullError() } }}</p>
+    }
+
     <ul class="characters">
       @for (r of store.all(); track r.character.id) {
         <li>
-          <strong>{{ r.character.name }}</strong>
+          <a [routerLink]="['/characters', r.character.id]"
+            ><strong>{{ r.character.name }}</strong></a
+          >
           <span class="status" [attr.data-status]="r.status">{{
             'characters.status.' + r.status | t
           }}</span>
@@ -49,8 +56,17 @@ import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 })
 export class CharacterList implements OnInit {
   protected readonly store = inject(CharacterStore);
+  private readonly repo = inject(RepositoryService);
+  protected readonly pullError = signal('');
 
-  ngOnInit(): void {
-    void this.store.load();
+  async ngOnInit(): Promise<void> {
+    await this.store.load();
+    const source = this.repo.source();
+    if (!source) return;
+    try {
+      await this.store.pull(source);
+    } catch (e) {
+      this.pullError.set((e as Error).message); // offline: keep showing what's on the device
+    }
   }
 }

@@ -90,6 +90,8 @@ def validate(root: Path) -> list[str]:
             errors.append(f"class '{e['id']}': progression doesn't have 20 levels")
         if not set(e["savingThrows"]) <= ABILITIES or len(e["savingThrows"]) != 2:
             errors.append(f"class '{e['id']}': bad saving throws {e['savingThrows']}")
+        if e.get("spellcasting") and e["spellcasting"].get("ability") not in ABILITIES:
+            errors.append(f"class '{e['id']}': spellcasting without a spellcasting ability")
     for e in data["spell"]:
         if not 0 <= e["level"] <= 9:
             errors.append(f"spell '{e['id']}': bad level {e['level']}")

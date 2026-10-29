@@ -1,13 +1,14 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 
-import { Character, CharacterRecord } from '../models/character';
+import { DataSource } from '../data/data-source';
+import { Character, CharacterRecord, normalizeCharacter } from '../models/character';
 import { SettingsService } from '../settings/settings.service';
 import { LocalDb } from '../storage/local-db';
 
 /**
  * Characters stored on this device. Every save goes here first (it works without a connection)
- * and marks the character as 'local' — not saved to the cloud yet. Pushing to the repo and
- * confirming it (local → sent → synced, conflicts) is the sync engine's job (next phase).
+ * and marks the character as 'local' — not saved to the cloud yet. pull() brings the repo's
+ * characters here; pushing local changes to the repo comes with the sync engine (next phase).
  */
 @Injectable({ providedIn: 'root' })
 export class CharacterStore {
@@ -64,6 +65,49 @@ export class CharacterStore {
       return;
     }
     await this.write({ ...record, status: 'pending-delete' });
+  }
+
+  /**
+   * Brings the repo's characters onto the device (the download half of the sync):
+   * - new in the repo → stored as 'synced'
+   * - changed in the repo, unchanged here → updated, still 'synced'
+   * - 'sent' and the repo now has exactly what was sent → confirmed, 'synced'
+   * - changed in the repo AND here → 'conflict', keeping both versions for the user to choose
+   * Never overwrites local changes and never deletes anything.
+   */
+  async pull(source: DataSource): Promise<{ added: number; updated: number; conflicts: number }> {
+    await this.load();
+    const result = { added: 0, updated: 0, conflicts: 0 };
+    for (const file of await source.listJson('characters')) {
+      const id = file.path.replace(/^characters\//, '').replace(/\.json$/, '');
+      const local = this.records().find((r) => r.character.id === id);
+      if (local && (local.baseSha === file.sha || local.status === 'conflict')) continue;
+      if (local?.status === 'sent' && local.sentSha === file.sha) {
+        await this.write({ ...local, status: 'synced', baseSha: file.sha, sentSha: null });
+        continue;
+      }
+      if (local?.status === 'pending-delete') continue;
+      const remoteFile = await source.readJsonWithSha<unknown>(file.path);
+      const remote = normalizeCharacter(remoteFile?.content);
+      if (!remoteFile || !remote) continue;
+      if (!local) {
+        result.added++;
+        await this.write({
+          character: remote,
+          status: 'synced',
+          baseSha: remoteFile.sha,
+          sentSha: null,
+          remote: null,
+        });
+      } else if (local.status === 'synced') {
+        result.updated++;
+        await this.write({ ...local, character: remote, baseSha: remoteFile.sha });
+      } else {
+        result.conflicts++;
+        await this.write({ ...local, status: 'conflict', remote, baseSha: remoteFile.sha });
+      }
+    }
+    return result;
   }
 
   private deviceName(): string {

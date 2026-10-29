@@ -1,6 +1,14 @@
 // Copies the repo's data/ and characters/ JSON files into .dev-data/, which the development
 // build serves as /data and /characters (Angular only serves folders inside the project).
-import { cpSync, existsSync, mkdirSync, rmSync, statSync } from 'node:fs';
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -17,4 +25,10 @@ for (const dir of ['data', 'characters']) {
     });
   }
 }
+// A static server can't list folders: characters/index.json is the list of character files.
+const characters = readdirSync(join(out, 'characters')).filter((f) => f.endsWith('.json'));
+writeFileSync(
+  join(out, 'characters', 'index.json'),
+  JSON.stringify(characters.map((f) => `characters/${f}`)),
+);
 console.log('dev data copied to .dev-data/');
