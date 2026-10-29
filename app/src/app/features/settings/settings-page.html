@@ -1,0 +1,57 @@
+<h1>{{ 'settings.title' | t }}</h1>
+
+<form (ngSubmit)="save()">
+  <label>
+    {{ 'settings.language' | t }}
+    <select name="language" [(ngModel)]="form.language">
+      <option value="es">{{ 'lang.es' | t }}</option>
+      <option value="en">{{ 'lang.en' | t }}</option>
+    </select>
+  </label>
+
+  <label>
+    {{ 'settings.deviceName' | t }}
+    <input name="deviceName" [(ngModel)]="form.deviceName" />
+    <small>{{ 'settings.deviceNameHelp' | t }}</small>
+  </label>
+
+  <label>
+    {{ 'settings.dataSource' | t }}
+    <select name="dataSource" [(ngModel)]="form.dataSource">
+      <option value="github">{{ 'settings.dataSource.github' | t }}</option>
+      <option value="local">{{ 'settings.dataSource.local' | t }}</option>
+    </select>
+  </label>
+
+  @if (form.dataSource === 'github') {
+    <label>
+      {{ 'settings.token' | t }}
+      <input name="githubToken" type="password" autocomplete="off" [(ngModel)]="form.githubToken" />
+      <small>{{ 'settings.tokenHelp' | t }}</small>
+    </label>
+    <label>
+      {{ 'settings.owner' | t }}
+      <input name="owner" [(ngModel)]="form.owner" />
+    </label>
+    <label>
+      {{ 'settings.repo' | t }}
+      <input name="repo" [(ngModel)]="form.repo" />
+    </label>
+    <label>
+      {{ 'settings.branch' | t }}
+      <input name="branch" [(ngModel)]="form.branch" />
+    </label>
+  }
+
+  <div class="row">
+    <button type="submit">{{ 'common.save' | t }}</button>
+    @if (form.dataSource === 'github') {
+      <button type="button" (click)="test()">{{ 'settings.test' | t }}</button>
+    }
+    <button type="button" (click)="refreshData()">{{ 'settings.refreshData' | t }}</button>
+  </div>
+
+  @if (message()) {
+    <p role="status">{{ message() }}</p>
+  }
+</form>

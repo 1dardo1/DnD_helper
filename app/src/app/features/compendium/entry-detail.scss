@@ -1,0 +1,50 @@
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.adjustments {
+  border-left: 3px solid #999;
+  padding-left: 0.75rem;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 1rem;
+
+  dt {
+    font-weight: bold;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+
+  th,
+  td {
+    border: 1px solid #ccc;
+    padding: 0.25rem 0.5rem;
+    text-align: left;
+  }
+}
+
+// Tables inside Markdown descriptions
+.md ::ng-deep table {
+  border-collapse: collapse;
+
+  th,
+  td {
+    border: 1px solid #ccc;
+    padding: 0.25rem 0.5rem;
+  }
+}

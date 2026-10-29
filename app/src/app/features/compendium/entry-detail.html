@@ -1,0 +1,143 @@
+<p>
+  <a [routerLink]="['/compendium', entryType()]">← {{ 'type.' + entryType() | t }}</a>
+</p>
+
+@if (entry.isLoading()) {
+  <p>{{ 'common.loading' | t }}</p>
+} @else if (entry.error()) {
+  <app-load-error [error]="entry.error()" />
+} @else if (entry.value(); as e) {
+  <article>
+    <h1>{{ e.name }}</h1>
+    <p class="meta">
+      <span class="edition">{{ 'common.edition' | t: { edition: e.edition } }}</span>
+      @if (e.source) {
+        <span>{{ 'common.source' | t }}: {{ e.source }}</span>
+      }
+      <a [href]="e.url" target="_blank" rel="noopener">{{ 'compendium.originalPage' | t }}</a>
+    </p>
+
+    @if (e.adjustments?.length) {
+      <aside class="adjustments">
+        <strong>{{ 'compendium.adjustments' | t }}</strong>
+        <ul>
+          @for (a of e.adjustments; track a) {
+            <li>{{ a }}</li>
+          }
+        </ul>
+      </aside>
+    }
+
+    @switch (e.type) {
+      @case ('spell') {
+        @let s = asSpell(e);
+        <dl class="fields">
+          <dt>Level</dt>
+          <dd>
+            {{ s.level === 0 ? 'Cantrip' : s.level }} · {{ s.school
+            }}{{ s.ritual ? ' (ritual)' : '' }}
+          </dd>
+          <dt>Casting Time</dt>
+          <dd>{{ s.castingTime.raw }}</dd>
+          <dt>Range</dt>
+          <dd>{{ s.range }}</dd>
+          <dt>Components</dt>
+          <dd>{{ components(s) }}</dd>
+          <dt>Duration</dt>
+          <dd>{{ s.duration }}</dd>
+          <dt>Classes</dt>
+          <dd>{{ s.classes.join(', ') }}</dd>
+        </dl>
+        <div class="md" [innerHTML]="e.description | markdown"></div>
+        @if (s.higherLevels) {
+          <div class="md" [innerHTML]="'**Higher levels.** ' + s.higherLevels | markdown"></div>
+        }
+      }
+
+      @case ('class') {
+        @let c = asClass(e);
+        <div class="md" [innerHTML]="e.description | markdown"></div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Level</th>
+                <th>PB</th>
+                <th>Features</th>
+                @for (col of c.progression.columns; track col) {
+                  <th>{{ col }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of c.progression.rows; track row.level) {
+                <tr>
+                  <td>{{ row.level }}</td>
+                  <td>+{{ row.proficiencyBonus }}</td>
+                  <td>{{ row.features.join(', ') }}</td>
+                  @for (col of c.progression.columns; track col) {
+                    <td>{{ row.values[col] }}</td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <h2>{{ 'compendium.subclasses' | t }} ({{ c.subclassTitle }})</h2>
+        <ul>
+          @for (s of subclasses.value() ?? []; track s.id) {
+            <li>
+              <a [routerLink]="['/compendium', 'subclass', s.id]">{{ s.name }}</a>
+              @if (s.edition === '2014') {
+                <small> (2014)</small>
+              }
+            </li>
+          }
+        </ul>
+
+        <h2>{{ 'compendium.features' | t }}</h2>
+        <ng-container *ngTemplateOutlet="features; context: { $implicit: c.features }" />
+      }
+
+      @case ('subclass') {
+        @let sc = asSubclass(e);
+        <p>
+          <a [routerLink]="['/compendium', 'class', sc.classId]">{{ sc.classId }}</a>
+        </p>
+        <div class="md" [innerHTML]="e.description | markdown"></div>
+        @if (sc.spells?.length) {
+          <table>
+            <tbody>
+              @for (row of sc.spells; track row.classLevel) {
+                <tr>
+                  <td>{{ row.classLevel }}</td>
+                  <td>{{ row.spells.join(', ') }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+        <h2>{{ 'compendium.features' | t }}</h2>
+        <ng-container *ngTemplateOutlet="features; context: { $implicit: sc.features }" />
+      }
+
+      @default {
+        <div class="md" [innerHTML]="e.description | markdown"></div>
+      }
+    }
+  </article>
+
+  <ng-template #features let-list>
+    @for (group of byLevel(list); track group.level) {
+      @for (f of group.features; track f.name) {
+        <section class="feature">
+          <h3>{{ 'compendium.level' | t: { level: group.level } }}: {{ f.name }}</h3>
+          <div class="md" [innerHTML]="f.description | markdown"></div>
+        </section>
+      }
+    }
+  </ng-template>
+} @else {
+  <p>{{ 'compendium.notFound' | t }}</p>
+}

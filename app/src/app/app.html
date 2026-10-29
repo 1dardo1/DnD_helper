@@ -1,0 +1,27 @@
+<header class="topbar">
+  <a class="brand" routerLink="/compendium">{{ 'app.title' | t }}</a>
+  <nav>
+    @for (item of nav; track item.path) {
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.path === '/characters' }"
+      >
+        {{ item.label | t }}
+      </a>
+    }
+  </nav>
+  <select
+    class="lang"
+    [value]="language()"
+    (change)="setLanguage($any($event.target).value)"
+    aria-label="Language"
+  >
+    <option value="es">{{ 'lang.es' | t }}</option>
+    <option value="en">{{ 'lang.en' | t }}</option>
+  </select>
+</header>
+
+<main>
+  <router-outlet />
+</main>
