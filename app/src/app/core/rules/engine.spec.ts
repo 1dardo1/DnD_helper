@@ -354,3 +354,116 @@ describe('computeSheet', () => {
     expect(sheet.warnings).toEqual([]);
   });
 });
+
+describe('computeSheet: multiclass, tools, languages and size', () => {
+  const ranger = cls('ranger', {
+    proficiencies: {
+      armor: ['Light', 'Medium armor', 'Shields'],
+      weapons: ['Simple', 'Martial weapons'],
+      tools: [],
+      skills: { choose: 3, from: [] },
+    },
+  });
+  const wizard = cls('wizard', {
+    proficiencies: {
+      armor: [],
+      weapons: ['Simple weapons'],
+      tools: [],
+      skills: { choose: 2, from: [] },
+    },
+  });
+  ranger.multiclass.proficienciesGained =
+    "- Gain the following traits from the Core Ranger Traits table: Hit Point Die, proficiency with Martial weapons, proficiency in one skill of your choice from the Ranger's skill list, training with Light and Medium Armor and Shields.\n- Gain the Ranger's level 1 features.";
+  const rogue = cls('rogue', {
+    proficiencies: {
+      armor: ['Light armor'],
+      weapons: ['Simple weapons'],
+      tools: ["Thieves' Tools"],
+      skills: { choose: 4, from: [] },
+    },
+  });
+  rogue.multiclass.proficienciesGained =
+    "- Gain the following traits from the Core Rogue Traits table: Hit Point Die, proficiency in one skill of your choice from the Rogue's skill list, proficiency with Thieves' Tools, and training with Light Armor.";
+
+  it('adds what later classes grant when multiclassing', () => {
+    const sheet = computeSheet(
+      character({
+        classes: [
+          { id: 'wizard', level: 3, subclassId: null, hp: [] },
+          { id: 'ranger', level: 1, subclassId: null, hp: [] },
+          { id: 'rogue', level: 1, subclassId: null, hp: [] },
+        ],
+      }),
+      data({ classes: [wizard, ranger, rogue] }),
+    );
+    expect(sheet.proficiencies.armor).toEqual(['Light armor', 'Medium armor', 'Shields']);
+    expect(sheet.proficiencies.weapons).toEqual(['Simple weapons', 'Martial weapons']);
+    expect(sheet.proficiencies.tools).toEqual(["Thieves' Tools"]);
+  });
+
+  it('replaces "choose one kind of" tools with the chosen ones, and lists languages and size', () => {
+    const bg = {
+      id: 'soldier',
+      type: 'background',
+      name: 'Soldier',
+      abilityScores: [],
+      feat: null,
+      featId: null,
+      skills: [],
+      tools: 'Choose one kind of Gaming Set',
+    } as unknown as Background;
+    const elf = {
+      id: 'elf',
+      type: 'species',
+      name: 'Elf',
+      size: ['Small', 'Medium'],
+      speed: { walk: 30 },
+      darkvision: 60,
+      traits: [],
+      variants: [],
+    } as unknown as Species;
+    const sheet = computeSheet(
+      character({
+        background: { id: 'soldier', abilityIncreases: {} },
+        species: { id: 'elf', variant: null },
+        size: 'Small',
+        choices: {
+          ...newCharacter('x', 'x').choices,
+          languages: ['Elvish', 'Draconic'],
+          toolChoices: [{ slot: 'background', tools: ['Dice'] }],
+        },
+      }),
+      data({ backgrounds: [bg], species: [elf] }),
+    );
+    expect(sheet.proficiencies.tools).toEqual(['Dice']);
+    expect(sheet.languages).toEqual(['Common', 'Elvish', 'Draconic']);
+    expect(sheet.size).toEqual(['Small']);
+  });
+
+  it('names armor and weapons the same way whatever the source writes', () => {
+    const fighter = cls('fighter', {
+      proficiencies: {
+        armor: ['Light', 'Medium', 'Heavy armor', 'Shields'],
+        weapons: ['Simple', 'Martial weapons'],
+        tools: [],
+        skills: { choose: 2, from: [] },
+      },
+    });
+    const sheet = computeSheet(
+      character({
+        classes: [
+          { id: 'fighter', level: 1, subclassId: null, hp: [] },
+          { id: 'rogue', level: 1, subclassId: null, hp: [] },
+        ],
+      }),
+      data({ classes: [fighter, rogue] }),
+    );
+    expect(sheet.proficiencies.armor).toEqual([
+      'Light armor',
+      'Medium armor',
+      'Heavy armor',
+      'Shields',
+    ]);
+    expect(sheet.proficiencies.weapons).toEqual(['Simple weapons', 'Martial weapons']);
+  });
+});

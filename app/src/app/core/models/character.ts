@@ -14,6 +14,8 @@ export interface Character {
   updatedAt: string;
   updatedBy: string;
   species: { id: string; variant: string | null } | null;
+  /** Chosen size when the species allows more than one ("Small" / "Medium"). */
+  size: string | null;
   background: { id: string; abilityIncreases: Partial<Record<Ability, number>> } | null;
   /**
    * In the order they were taken; the first one is the starting class (its saving throws,
@@ -43,6 +45,13 @@ export interface Character {
     /** Class option ids (invocations, maneuvers, blood curses...). */
     options: string[];
     spells: string[];
+    /** Languages besides Common, and those granted by features (Druidic, Thieves' Cant). */
+    languages: string[];
+    /**
+     * Tools picked where a background or class says "choose one kind of ...".
+     * slot: "background", "class:<id>" or "multiclass:<id>".
+     */
+    toolChoices: { slot: string; tools: string[] }[];
   };
   /** Item ids from data/items.json, used for Armor Class. */
   equipped: { armorId: string | null; shield: boolean };
@@ -95,6 +104,7 @@ export function newCharacter(name: string, device: string): Character {
     updatedAt: new Date().toISOString(),
     updatedBy: device,
     species: null,
+    size: null,
     background: null,
     classes: [],
     abilityScores: null,
@@ -107,6 +117,8 @@ export function newCharacter(name: string, device: string): Character {
       abilityIncreases: [],
       options: [],
       spells: [],
+      languages: [],
+      toolChoices: [],
     },
     equipped: { armorId: null, shield: false },
     equipment: '',

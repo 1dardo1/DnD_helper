@@ -104,3 +104,18 @@
     gap: 0.5rem;
   }
 }
+
+.issue {
+  color: #b00020;
+}
+
+.steps button.flagged {
+  border-color: #b00020;
+}
+
+.class-row .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: end;
+}

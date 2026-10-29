@@ -48,6 +48,8 @@ export interface Sheet {
   };
 
   proficiencies: { armor: string[]; weapons: string[]; tools: string[] };
+  /** Common plus the chosen and feature-granted languages. */
+  languages: string[];
   /** Values of each class's table at its current level (Rages, Focus Points, Hemocraft Die...). */
   resources: { classId: string; name: string; value: string }[];
   features: SheetFeature[];

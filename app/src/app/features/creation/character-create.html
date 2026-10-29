@@ -13,92 +13,134 @@
         type="button"
         [class.current]="step() === s"
         [class.done]="isDone(s)"
+        [class.flagged]="issuesIn(s).length"
         (click)="setStep(s)"
       >
         {{ i + 1 }}. {{ 'create.step.' + s | t }}
-        @if (isDone(s)) {
+        @if (issuesIn(s).length) {
+          ⚠
+        } @else if (isDone(s)) {
           ✓
         }
       </button>
     }
   </nav>
 
+  <ng-template #toolPicker let-tc>
+    <fieldset>
+      <legend>{{ tc.text }} ({{ toolsIn(tc.slot).length }} / {{ tc.count }})</legend>
+      @for (tool of tc.options; track tool) {
+        <label class="inline">
+          <input
+            type="checkbox"
+            [checked]="toolsIn(tc.slot).includes(tool)"
+            (change)="setTool(tc.slot, tool, checked($event))"
+          />
+          {{ tool }}
+        </label>
+      }
+    </fieldset>
+  </ng-template>
+
   <div class="layout">
     <section class="step">
       @switch (step()) {
-        <!-- 1. Class ------------------------------------------------------------------- -->
+        <!-- 1. Classes ------------------------------------------------------------------ -->
         @case ('class') {
-          <label>
-            {{ 'create.class' | t }}
-            <select [value]="classEntry()?.id ?? ''" (change)="setClass(value($event))">
-              <option value="">—</option>
-              @for (k of d.classes; track k.id) {
-                <option [value]="k.id">
-                  {{ k.name }}{{ k.edition === '2014' ? ' (2014)' : '' }}
-                </option>
-              }
-            </select>
-          </label>
-          @if (cls(); as k) {
-            <label>
-              {{ 'create.level' | t }}
-              <input
-                type="number"
-                min="1"
-                max="20"
-                [value]="level()"
-                (change)="setLevel(value($event))"
-              />
-            </label>
-            @if (level() >= k.subclassLevel) {
-              <label>
-                {{ k.subclassTitle }}
-                <select
-                  [value]="classEntry()?.subclassId ?? ''"
-                  (change)="setSubclass(value($event))"
-                >
-                  <option value="">—</option>
-                  @for (s of subclasses(); track s.id) {
-                    <option [value]="s.id">
-                      {{ s.name }}{{ s.edition === '2014' ? ' (2014)' : '' }}
-                    </option>
-                  }
-                </select>
-              </label>
-            } @else {
-              <p>
-                <small>{{
-                  'create.subclassAt' | t: { title: k.subclassTitle, level: k.subclassLevel }
-                }}</small>
-              </p>
-            }
-            <details>
-              <summary>{{ 'create.hp' | t: { die: k.hitDie } }}</summary>
-              <p>
-                <small>{{ 'create.hpHelp' | t: { avg: k.hitDie / 2 + 1 } }}</small>
-              </p>
-              <div class="hp">
-                @for (i of levels(); track i) {
-                  @if (i > 0) {
-                    <label>
-                      {{ 'compendium.level' | t: { level: i + 1 } }}
-                      <input
-                        type="number"
-                        min="1"
-                        [max]="k.hitDie"
-                        [value]="classEntry()?.hp?.[i] ?? ''"
-                        [placeholder]="k.hitDie / 2 + 1"
-                        (change)="setHp(i, value($event))"
-                      />
-                    </label>
-                  }
+          @for (r of rows(); track r.index) {
+            <fieldset class="class-row">
+              <legend>
+                {{ (r.index === 0 ? 'create.startingClass' : 'create.multiclass') | t }}
+              </legend>
+              <div class="row">
+                <label>
+                  {{ 'create.class' | t }}
+                  <select [value]="r.entry.id" (change)="setClass(r.index, value($event))">
+                    <option value="">—</option>
+                    @for (k of d.classes; track k.id) {
+                      <option [value]="k.id">
+                        {{ k.name }}{{ k.edition === '2014' ? ' (2014)' : '' }}
+                      </option>
+                    }
+                  </select>
+                </label>
+                <label>
+                  {{ 'create.level' | t }}
+                  <input
+                    type="number"
+                    min="1"
+                    max="20"
+                    [value]="r.entry.level"
+                    (change)="setLevel(r.index, value($event))"
+                  />
+                </label>
+                @if (r.index > 0) {
+                  <button type="button" (click)="removeClass(r.index)">
+                    {{ 'create.removeClass' | t }}
+                  </button>
                 }
               </div>
-            </details>
-            <details>
-              <summary>{{ k.name }}</summary>
-              <div class="md" [innerHTML]="k.description | markdown"></div>
-            </details>
+              @if (r.cls; as k) {
+                @if (r.entry.level >= k.subclassLevel) {
+                  <label>
+                    {{ k.subclassTitle }}
+                    <select
+                      [value]="r.entry.subclassId ?? ''"
+                      (change)="setSubclass(r.index, value($event))"
+                    >
+                      <option value="">—</option>
+                      @for (s of r.subclasses; track s.id) {
+                        <option [value]="s.id">
+                          {{ s.name }}{{ s.edition === '2014' ? ' (2014)' : '' }}
+                        </option>
+                      }
+                    </select>
+                  </label>
+                } @else {
+                  <p>
+                    <small>{{
+                      'create.subclassAt' | t: { title: k.subclassTitle, level: k.subclassLevel }
+                    }}</small>
+                  </p>
+                }
+                <details>
+                  <summary>{{ 'create.hp' | t: { die: k.hitDie } }}</summary>
+                  <p>
+                    <small>{{
+                      (r.index === 0 ? 'create.hpHelp' : 'create.hpHelpMulti')
+                        | t: { avg: k.hitDie / 2 + 1 }
+                    }}</small>
+                  </p>
+                  <div class="hp">
+                    @for (i of levels(r.entry); track i) {
+                      @if (r.index > 0 || i > 0) {
+                        <label>
+                          {{ 'compendium.level' | t: { level: i + 1 } }}
+                          <input
+                            type="number"
+                            min="1"
+                            [max]="k.hitDie"
+                            [value]="r.entry.hp[i] ?? ''"
+                            [placeholder]="k.hitDie / 2 + 1"
+                            (change)="setHp(r.index, i, value($event))"
+                          />
+                        </label>
+                      }
+                    }
+                  </div>
+                </details>
+              }
+            </fieldset>
+          } @empty {
+            <p>
+              <button type="button" (click)="addClass()">+ {{ 'create.class' | t }}</button>
+            </p>
+          }
+          @if (classList().length) {
+            <p>
+              <button type="button" (click)="addClass()">+ {{ 'create.addClass' | t }}</button>
+              <small> {{ 'create.totalLevel' | t: { level: totalLevel() } }}</small>
+            </p>
           }
         }
 
@@ -162,6 +204,11 @@
                 <p>{{ b.abilityScores.map(abilityLabel).join(', ') }} +1</p>
               }
             </fieldset>
+            @for (tc of tools(); track tc.slot) {
+              @if (tc.slot === 'background') {
+                <ng-container *ngTemplateOutlet="toolPicker; context: { $implicit: tc }" />
+              }
+            }
             <details>
               <summary>{{ b.name }}</summary>
               <div class="md" [innerHTML]="b.description | markdown"></div>
@@ -169,7 +216,7 @@
           }
         }
 
-        <!-- 3. Species ------------------------------------------------------------------ -->
+        <!-- 3. Species, size and languages ----------------------------------------------- -->
         @case ('species') {
           <label>
             {{ 'create.species' | t }}
@@ -194,12 +241,39 @@
                 </select>
               </label>
             }
+            @if (s.size.length > 1) {
+              <label>
+                {{ 'sheet.size' | t }}
+                <select [value]="c.size ?? ''" (change)="setSize(value($event))">
+                  <option value="">—</option>
+                  @for (z of s.size; track z) {
+                    <option [value]="z">{{ z }}</option>
+                  }
+                </select>
+              </label>
+            }
             <ul>
               @for (t of s.traits; track t.name) {
                 <li>{{ t.name }}</li>
               }
             </ul>
           }
+          <fieldset>
+            <legend>{{ 'create.languages' | t: { count: c.choices.languages.length } }}</legend>
+            @for (l of languages; track l) {
+              <label class="inline">
+                <input
+                  type="checkbox"
+                  [checked]="c.choices.languages.includes(l)"
+                  (change)="setLanguage(l, checked($event))"
+                />
+                {{ l }}
+                @if (rareLanguages.includes(l)) {
+                  <small>({{ 'create.rare' | t }})</small>
+                }
+              </label>
+            }
+          </fieldset>
         }
 
         <!-- 4. Ability scores ------------------------------------------------------------ -->
@@ -259,10 +333,11 @@
 
         <!-- 5. Class choices ------------------------------------------------------------- -->
         @case ('choices') {
-          @if (cls(); as k) {
+          @if (classList().length) {
+            @let picks = skillChoice();
             <fieldset>
-              <legend>{{ 'create.skills' | t: { count: k.proficiencies.skills.choose } }}</legend>
-              @for (s of k.proficiencies.skills.from; track s) {
+              <legend>{{ 'create.skills' | t: { count: picks.count } }}</legend>
+              @for (s of picks.from; track s) {
                 @let fromBg = background()?.skills?.includes(s);
                 <label class="inline">
                   <input
@@ -279,9 +354,9 @@
               }
             </fieldset>
 
-            @if (expertise()) {
+            @if (expertiseTotal()) {
               <fieldset>
-                <legend>{{ 'create.expertise' | t: { count: expertise() } }}</legend>
+                <legend>{{ 'create.expertise' | t: { count: expertiseTotal() } }}</legend>
                 @for (s of proficientSkills(); track s) {
                   <label class="inline">
                     <input
@@ -295,109 +370,138 @@
               </fieldset>
             }
 
-            @for (s of slots(); track s.slot) {
-              @let feat = slotFeatEntry(s.slot);
-              @let picks = slotPicks(feat);
-              <fieldset>
-                <legend>{{ 'create.slot.' + s.kind | t: { level: s.level } }}</legend>
-                <select [value]="slotFeat(s.slot)" (change)="setSlotFeat(s.slot, value($event))">
-                  <option value="">—</option>
-                  @for (f of featsFor(s.kind, s.level); track f.id) {
-                    <option [value]="f.id">
-                      {{ f.name }}{{ f.edition === '2014' ? ' (2014)' : '' }}
-                    </option>
-                  }
-                </select>
-                @for (n of range(picks.picks); track n) {
-                  <label>
-                    +1
+            @for (tc of tools(); track tc.slot) {
+              @if (tc.slot !== 'background') {
+                <ng-container *ngTemplateOutlet="toolPicker; context: { $implicit: tc }" />
+              }
+            }
+
+            @for (r of rows(); track r.index) {
+              @if (r.cls; as k) {
+                <h2>{{ k.name }} {{ r.entry.level }}</h2>
+
+                @for (s of r.slots; track s.slot) {
+                  @let feat = slotFeatEntry(s.slot);
+                  @let fp = slotPicks(feat);
+                  @let problems = featProblems(feat);
+                  <fieldset>
+                    <legend>{{ 'create.slot.' + s.kind | t: { level: s.level } }}</legend>
                     <select
-                      [value]="slotAbility(s.slot, n)"
-                      (change)="setSlotAbility(s.slot, n, value($event), picks.picks)"
+                      [value]="slotFeat(s.slot)"
+                      (change)="setSlotFeat(s.slot, value($event))"
                     >
                       <option value="">—</option>
-                      @for (a of picks.from; track a) {
-                        <option [value]="a">{{ 'ability.' + a | t }}</option>
+                      @for (f of featsFor(s.kind); track f.id) {
+                        <option [value]="f.id">
+                          {{ f.name }}{{ f.edition === '2014' ? ' (2014)' : ''
+                          }}{{ featProblems(f).length ? ' ⚠' : '' }}
+                        </option>
                       }
                     </select>
-                  </label>
-                }
-                @if (feat) {
-                  <details>
-                    <summary>{{ feat.name }}</summary>
-                    <div class="md" [innerHTML]="feat.description | markdown"></div>
-                  </details>
-                }
-              </fieldset>
-            }
-
-            @for (g of optionGroups(); track g.group) {
-              <fieldset>
-                <legend>
-                  {{ groupName(g.group) }}
-                  @if (g.count !== null) {
-                    ({{ chosenCount(c.choices.options, g.options) }} / {{ g.count }})
-                  }
-                </legend>
-                @for (o of g.options; track o.id) {
-                  <label class="inline" [title]="o.prerequisites?.raw ?? ''">
-                    <input
-                      type="checkbox"
-                      [checked]="c.choices.options.includes(o.id)"
-                      (change)="setOption(o.id, checked($event))"
-                    />
-                    {{ o.name }}
-                  </label>
-                }
-              </fieldset>
-            }
-
-            @if (spellLists(); as sl) {
-              <fieldset>
-                <legend>{{ 'sheet.spellcasting' | t }}</legend>
-                <input
-                  type="search"
-                  [placeholder]="'common.search' | t"
-                  [value]="spellFilter()"
-                  (input)="spellFilter.set(value($event))"
-                />
-                @if (sl.cantripCount !== null) {
-                  <h3>
-                    {{ 'sheet.cantrips' | t }} ({{ chosenCount(c.choices.spells, sl.cantrips) }} /
-                    {{ sl.cantripCount }})
-                  </h3>
-                  <div class="spells">
-                    @for (s of sl.cantrips; track s.id) {
-                      <label class="inline">
-                        <input
-                          type="checkbox"
-                          [checked]="c.choices.spells.includes(s.id)"
-                          (change)="setSpell(s.id, checked($event))"
-                        />
-                        {{ s.name }}
+                    @for (n of problems; track n.key) {
+                      <p class="issue">⚠ {{ n.key | t: n.params }}</p>
+                    }
+                    @for (n of range(fp.picks); track n) {
+                      <label>
+                        +1
+                        <select
+                          [value]="slotAbility(s.slot, n)"
+                          (change)="setSlotAbility(s.slot, n, value($event), fp.picks)"
+                        >
+                          <option value="">—</option>
+                          @for (a of fp.from; track a) {
+                            <option [value]="a">{{ 'ability.' + a | t }}</option>
+                          }
+                        </select>
                       </label>
                     }
-                  </div>
+                    @if (feat) {
+                      <details>
+                        <summary>{{ feat.name }}</summary>
+                        <div class="md" [innerHTML]="feat.description | markdown"></div>
+                      </details>
+                    }
+                  </fieldset>
                 }
-                <h3>
-                  {{ 'sheet.prepared' | t }}
-                  @if (sl.preparedCount !== null) {
-                    ({{ chosenCount(c.choices.spells, sl.leveled) }} / {{ sl.preparedCount }})
-                  }
-                </h3>
-                <div class="spells">
-                  @for (s of sl.leveled; track s.id) {
-                    <label class="inline">
-                      <input
-                        type="checkbox"
-                        [checked]="c.choices.spells.includes(s.id)"
-                        (change)="setSpell(s.id, checked($event))"
-                      />
-                      <small>{{ s.level }}º</small> {{ s.name }}
-                    </label>
-                  }
-                </div>
-              </fieldset>
+
+                @for (g of r.optionGroups; track g.group) {
+                  @let taken = chosenCount(c.choices.options, g.options);
+                  <fieldset>
+                    <legend [class.issue]="g.count !== null && taken > g.count">
+                      {{ groupName(g.group) }}
+                      @if (g.count !== null) {
+                        ({{ taken }} / {{ g.count }})
+                      }
+                    </legend>
+                    @for (o of g.options; track o.id) {
+                      <label
+                        class="inline"
+                        [class.issue]="optionTooHigh(o, r.entry.level)"
+                        [title]="o.prerequisites?.raw ?? ''"
+                      >
+                        <input
+                          type="checkbox"
+                          [checked]="c.choices.options.includes(o.id)"
+                          (change)="setOption(o.id, checked($event))"
+                        />
+                        {{ o.name }}
+                        @if (optionTooHigh(o, r.entry.level)) {
+                          <small>⚠ {{ o.prerequisites?.raw }}</small>
+                        }
+                      </label>
+                    }
+                  </fieldset>
+                }
+
+                @if (r.spells; as sl) {
+                  @let nC = chosenCount(c.choices.spells, sl.cantrips);
+                  @let nP = chosenCount(c.choices.spells, sl.leveled);
+                  <fieldset>
+                    <legend>{{ 'sheet.spellcasting' | t }}</legend>
+                    <input
+                      type="search"
+                      [placeholder]="'common.search' | t"
+                      [value]="spellFilter()"
+                      (input)="spellFilter.set(value($event))"
+                    />
+                    @if (sl.cantripCount !== null) {
+                      <h3 [class.issue]="nC > sl.cantripCount">
+                        {{ 'sheet.cantrips' | t }} ({{ nC }} / {{ sl.cantripCount }})
+                      </h3>
+                      <div class="spells">
+                        @for (s of sl.cantrips; track s.id) {
+                          <label class="inline">
+                            <input
+                              type="checkbox"
+                              [checked]="c.choices.spells.includes(s.id)"
+                              (change)="setSpell(s.id, checked($event))"
+                            />
+                            {{ s.name }}
+                          </label>
+                        }
+                      </div>
+                    }
+                    <h3 [class.issue]="sl.preparedCount !== null && nP > sl.preparedCount">
+                      {{ 'sheet.prepared' | t }}
+                      @if (sl.preparedCount !== null) {
+                        ({{ nP }} / {{ sl.preparedCount }})
+                      }
+                    </h3>
+                    <div class="spells">
+                      @for (s of sl.leveled; track s.id) {
+                        <label class="inline">
+                          <input
+                            type="checkbox"
+                            [checked]="c.choices.spells.includes(s.id)"
+                            (change)="setSpell(s.id, checked($event))"
+                          />
+                          <small>{{ s.level }}º</small> {{ s.name }}
+                        </label>
+                      }
+                    </div>
+                  </fieldset>
+                }
+              }
             }
           } @else {
             <p>{{ 'create.missing.class' | t }}</p>
@@ -447,12 +551,14 @@
               (change)="patch(withNotes(value($event)))"
             ></textarea>
           </label>
-          @if (allMissing().length) {
+          @if (allNotes().length) {
             <aside class="missing">
               <strong>{{ 'sheet.warnings' | t }}</strong>
               <ul>
-                @for (m of allMissing(); track m.key) {
-                  <li>{{ m.key | t: m.params }}</li>
+                @for (m of allNotes(); track $index) {
+                  <li [class.issue]="m.kind === 'issue'">
+                    {{ m.kind === 'issue' ? '⚠ ' : '' }}{{ m.key | t: m.params }}
+                  </li>
                 }
               </ul>
               <small>{{ 'create.canFinishLater' | t }}</small>
@@ -469,10 +575,12 @@
         }
       }
 
-      @if (missing()[step()].length && step() !== 'details') {
+      @if (step() !== 'details' && notes()[step()].length) {
         <ul class="missing">
-          @for (m of missing()[step()]; track m.key) {
-            <li>{{ m.key | t: m.params }}</li>
+          @for (m of notes()[step()]; track $index) {
+            <li [class.issue]="m.kind === 'issue'">
+              {{ m.kind === 'issue' ? '⚠ ' : '' }}{{ m.key | t: m.params }}
+            </li>
           }
         </ul>
       }
@@ -492,8 +600,9 @@
       <aside class="preview" [attr.aria-label]="'create.preview' | t">
         <h2>{{ c.name || ('create.preview' | t) }}</h2>
         <p>
-          @for (k of sh.classes; track k.id) {
-            {{ k.name }} {{ k.level }}{{ k.subclass ? ' (' + k.subclass + ')' : '' }}
+          @for (k of sh.classes; track k.id; let last = $last) {
+            {{ k.name }} {{ k.level }}{{ k.subclass ? ' (' + k.subclass + ')' : ''
+            }}{{ last ? '' : ' / ' }}
           }
           @if (sh.species) {
             · {{ sh.species }}

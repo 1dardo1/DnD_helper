@@ -5,11 +5,16 @@ import {
   expertiseCount,
   featSlots,
   featsForSlot,
+  featIssues,
   maxSpellLevel,
-  missing,
+  multiclassIssues,
   pointBuyCost,
+  review,
+  skillPicks,
   spellsFor,
+  toolChoices,
 } from './creation-rules';
+import { Sheet } from '../rules/sheet';
 
 const rows = (features: Record<number, string[]>, slots?: (lvl: number) => number[]) =>
   Array.from({ length: 20 }, (_, i) => ({
@@ -70,7 +75,7 @@ describe('creation rules', () => {
     expect(featSlots(fighter, 20).map((s) => s.kind)).toContain('epic-boon');
   });
 
-  it('offers Ability Score Improvement first, then general feats the level allows', () => {
+  it('offers Ability Score Improvement first, then every general feat', () => {
     const feats = [
       feat('tough', 'general', 4),
       feat('ability-score-improvement', 'general', 4),
@@ -78,11 +83,12 @@ describe('creation rules', () => {
       feat('archery', 'fighting-style'),
       feat('late', 'general', 8),
     ];
-    expect(featsForSlot('asi', feats, 4).map((f) => f.id)).toEqual([
+    expect(featsForSlot('asi', feats).map((f) => f.id)).toEqual([
       'ability-score-improvement',
+      'late',
       'tough',
     ]);
-    expect(featsForSlot('fighting-style', feats, 1).map((f) => f.id)).toEqual(['archery']);
+    expect(featsForSlot('fighting-style', feats).map((f) => f.id)).toEqual(['archery']);
   });
 
   it('counts Expertise picks', () => {
@@ -122,15 +128,128 @@ describe('creation rules', () => {
       ...newCharacter('', 'pc'),
       classes: [{ id: 'fighter', level: 4, subclassId: null, hp: [] }],
     };
-    const m = missing(ch, { cls: fighter, background: undefined, speciesHasVariants: false });
+    const m = review(ch, { classes: [fighter], sheet: null, feats: new Map(), spells: new Map() });
     expect(m.class).toEqual([
-      { key: 'create.missing.subclass', params: { title: 'Fighter Subclass' } },
+      { key: 'create.missing.subclass', params: { title: 'Fighter Subclass' }, kind: 'missing' },
     ]);
     expect(m.background.map((x) => x.key)).toEqual(['create.missing.background']);
+    expect(m.species.map((x) => x.key)).toEqual([
+      'create.missing.species',
+      'create.missing.languages',
+    ]);
     expect(m.choices).toEqual([
-      { key: 'create.missing.skills', params: { count: 2 } },
-      { key: 'create.missing.feats', params: { count: 2 } },
+      { key: 'create.missing.skills', params: { count: 2 }, kind: 'missing' },
+      { key: 'create.missing.feats', params: { count: 2 }, kind: 'missing' },
     ]);
     expect(m.details.map((x) => x.key)).toEqual(['create.missing.name']);
+  });
+});
+
+/** A sheet with just what the requirement checks read. */
+function sheetWith(scores: Partial<Record<string, number>>, over: Partial<Sheet> = {}): Sheet {
+  const abilities = Object.fromEntries(
+    ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'].map((a) => [a, { score: scores[a] ?? 10 }]),
+  );
+  return {
+    totalLevel: 4,
+    abilities,
+    spellcasting: { classes: [], slots: [], pact: null },
+    proficiencies: { armor: ['Light armor'], weapons: [], tools: [] },
+    ...over,
+  } as unknown as Sheet;
+}
+
+describe('requirements', () => {
+  it('explains why a feat is not available', () => {
+    const gwm = {
+      name: 'Great Weapon Master',
+      prerequisites: {
+        raw: '',
+        level: 4,
+        abilities: [{ ability: 'STR', min: 13 }],
+        abilitiesMode: 'all',
+      },
+    } as unknown as Feat;
+    expect(featIssues(gwm, sheetWith({ STR: 15 }), null)).toEqual([]);
+    expect(featIssues(gwm, sheetWith({ STR: 12 }), null).map((n) => n.key)).toEqual([
+      'create.issue.featAbility',
+    ]);
+    const war = {
+      prerequisites: { raw: '', spellcasting: true, proficiency: ['medium armor'] },
+    } as unknown as Feat;
+    expect(featIssues(war, sheetWith({}), null).map((n) => n.key)).toEqual([
+      'create.issue.featSpellcasting',
+      'create.issue.featProficiency',
+    ]);
+    const elven = { prerequisites: { raw: '', species: ['elf', 'half-elf'] } } as unknown as Feat;
+    expect(featIssues(elven, sheetWith({}), 'elf')).toEqual([]);
+    expect(featIssues(elven, sheetWith({}), 'dwarf').map((n) => n.key)).toEqual([
+      'create.issue.featSpecies',
+    ]);
+  });
+
+  it('needs 13 in the primary ability of every class to multiclass', () => {
+    const a = {
+      name: 'Paladin',
+      multiclass: {
+        prerequisites: [
+          { anyOf: ['STR'], min: 13 },
+          { anyOf: ['CHA'], min: 13 },
+        ],
+      },
+    } as unknown as DndClass;
+    const b = {
+      name: 'Fighter',
+      multiclass: { prerequisites: [{ anyOf: ['STR', 'DEX'], min: 13 }] },
+    } as unknown as DndClass;
+    expect(multiclassIssues([a], sheetWith({}))).toEqual([]); // single class: no requirement
+    expect(multiclassIssues([a, b], sheetWith({ STR: 14, CHA: 13 }))).toEqual([]);
+    expect(
+      multiclassIssues([a, b], sheetWith({ STR: 8, DEX: 14, CHA: 13 })).map((n) => n.params),
+    ).toEqual([{ cls: 'Paladin', what: 'STR 13' }]);
+  });
+
+  it('adds one skill pick per later class that grants one when multiclassing', () => {
+    const rogue = {
+      id: 'rogue',
+      proficiencies: { skills: { choose: 4, from: ['stealth'] } },
+      multiclass: {
+        proficienciesGained:
+          "- Gain the following traits: Hit Point Die, proficiency in one skill of your choice from the Rogue's skill list.",
+      },
+    } as unknown as DndClass;
+    const bard = {
+      id: 'bard',
+      proficiencies: { skills: { choose: 3, from: [] } },
+      multiclass: {
+        proficienciesGained:
+          '- Gain the following traits: Hit Point Die, proficiency in one skill of your choice, proficiency with one Musical Instrument of your choice.',
+      },
+    } as unknown as DndClass;
+    expect(skillPicks([fighter, rogue]).count).toBe(3);
+    expect(skillPicks([fighter, rogue]).from).toContain('stealth');
+    expect(skillPicks([fighter, bard]).from).toHaveLength(18);
+    expect(toolChoices([fighter, bard], undefined).map((t) => [t.slot, t.count])).toEqual([
+      ['multiclass:bard', 1],
+    ]);
+  });
+
+  it('finds "choose one kind of" tool choices', () => {
+    const bg = { tools: 'Choose one kind of Gaming Set' } as unknown as Background;
+    const bard = {
+      id: 'bard',
+      proficiencies: { tools: ['Choose 3 Musical Instruments'] },
+      multiclass: {},
+    } as unknown as DndClass;
+    const monk = {
+      id: 'monk',
+      proficiencies: { tools: ["Choose one type of Artisan's Tools or Musical Instrument"] },
+      multiclass: {},
+    } as unknown as DndClass;
+    expect(toolChoices([bard], bg).map((t) => [t.slot, t.count, t.options.length])).toEqual([
+      ['background', 1, 4],
+      ['class:bard', 3, 10],
+    ]);
+    expect(toolChoices([monk], undefined)[0].options).toHaveLength(27);
   });
 });

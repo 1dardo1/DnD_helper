@@ -9,6 +9,7 @@ import {
   Species,
   Subclass,
 } from '../models/compendium';
+import { multiclassGains } from './multiclass';
 import { Bonus, Sheet, SheetFeature } from './sheet';
 import { ABILITIES, MULTICLASS_SLOTS, SKILL_ABILITY, modifier, proficiencyBonus } from './tables';
 
@@ -268,7 +269,6 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       .filter((r) => r.value && r.value !== '-'),
   );
 
-  const first = classes[0]?.cls;
   return {
     name: ch.name,
     totalLevel,
@@ -295,20 +295,79 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     armorClass,
     speed,
     darkvision: species?.darkvision ?? null,
-    size: species?.size ?? [],
+    size: ch.size ? [ch.size] : (species?.size ?? []),
     spellcasting: { classes: spellClasses, slots, pact },
-    proficiencies: {
-      armor: first?.proficiencies.armor ?? [],
-      weapons: first?.proficiencies.weapons ?? [],
-      tools: [
-        ...(first?.proficiencies.tools ?? []),
-        ...(background?.tools ? [background.tools] : []),
-      ],
-    },
+    proficiencies: proficiencies(
+      ch,
+      classes.map((c) => c.cls),
+      background,
+    ),
+    // Common, the chosen ones, and those a feature teaches (Druid's Druidic, Rogue's Thieves' Cant)
+    languages: [
+      ...new Set([
+        'Common',
+        ...ch.choices.languages,
+        ...FEATURE_LANGUAGES.filter((l) => features.some((f) => f.name === l)),
+      ]),
+    ],
     resources,
     features,
     warnings,
   };
+}
+
+/** Languages that come with a class feature of the same name. */
+const FEATURE_LANGUAGES = ['Druidic', "Thieves' Cant"];
+
+/** "Choose one kind of Gaming Set", "one type of Artisan's Tools of your choice"... */
+export const TOOL_CHOICE = /choose|of your choice/i;
+
+/**
+ * Armor, weapons and tools: all of the starting class, what each later class grants when
+ * multiclassing, the background's tool, and the tools picked where a choice was offered.
+ */
+function proficiencies(
+  ch: Character,
+  classes: DndClass[],
+  background: Background | undefined,
+): Sheet['proficiencies'] {
+  const [first, ...rest] = classes;
+  const armor = [...(first?.proficiencies.armor ?? [])];
+  const weapons = [...(first?.proficiencies.weapons ?? [])];
+  const tools = [
+    ...(first?.proficiencies.tools ?? []),
+    ...(background?.tools ? [background.tools] : []),
+  ].filter((t) => !TOOL_CHOICE.test(t));
+  for (const cls of rest) {
+    const g = multiclassGains(cls);
+    armor.push(...g.armor);
+    weapons.push(...g.weapons);
+    tools.push(...g.tools);
+  }
+  tools.push(...ch.choices.toolChoices.flatMap((c) => c.tools));
+  const unique = (xs: string[]) => [...new Map(xs.map((x) => [x.toLowerCase(), x])).values()];
+  return {
+    armor: unique(armor.flatMap(armorName)),
+    weapons: unique(weapons.map(weaponName)),
+    tools: unique(tools),
+  };
+}
+
+/** Class tables write "Light", "Medium armor", "All armor"; the multiclass text "Light armor". */
+function armorName(raw: string): string[] {
+  const s = raw.trim();
+  if (/^all armor/i.test(s)) return ['Light armor', 'Medium armor', 'Heavy armor'];
+  const kind = s.match(/^(light|medium|heavy)\b/i)?.[1];
+  if (kind) return [`${kind[0].toUpperCase()}${kind.slice(1).toLowerCase()} armor`];
+  if (/^shields?$/i.test(s)) return ['Shields'];
+  return [s];
+}
+
+/** "Simple" / "Martial" (from "Simple and Martial weapons") → "Simple weapons" / "Martial weapons". */
+function weaponName(raw: string): string {
+  const s = raw.trim();
+  const kind = s.match(/^(all )?(simple|martial)( weapons)?$/i)?.[2];
+  return kind ? `${kind[0].toUpperCase()}${kind.slice(1).toLowerCase()} weapons` : s;
 }
 
 function gained(list: Feature[], level: number, source: SheetFeature['source']): SheetFeature[] {

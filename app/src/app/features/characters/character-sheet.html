@@ -186,6 +186,12 @@
       <dd>{{ s.proficiencies.weapons.join(', ') || '—' }}</dd>
       <dt>{{ 'sheet.tools' | t }}</dt>
       <dd>{{ s.proficiencies.tools.join(', ') || '—' }}</dd>
+      <dt>{{ 'sheet.languages' | t }}</dt>
+      <dd>{{ s.languages.join(', ') }}</dd>
+      @if (s.size.length) {
+        <dt>{{ 'sheet.size' | t }}</dt>
+        <dd>{{ s.size.join(' / ') }}</dd>
+      }
     </dl>
   </section>
 

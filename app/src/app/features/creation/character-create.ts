@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, effect, inject, input, resource, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
@@ -5,38 +6,47 @@ import { CharacterStore } from '../../core/characters/character-store.service';
 import { SyncService } from '../../core/characters/sync.service';
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import {
+  Note,
   POINT_BUY_BUDGET,
+  RARE_LANGUAGES,
   STANDARD_ARRAY,
+  STANDARD_LANGUAGES,
   STEPS,
   Step,
   expertiseCount,
+  featIssues,
   featSlots,
   featsForSlot,
-  missing,
   optionGroupsFor,
   pointBuyCost,
+  review,
+  skillPicks,
   spellsFor,
   subclassesFor,
+  toolChoices,
 } from '../../core/creation/creation-rules';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, newCharacter, normalizeCharacter } from '../../core/models/character';
-import { Ability, Feat } from '../../core/models/compendium';
+import { Ability, ClassOption, DndClass, Feat } from '../../core/models/compendium';
 import { computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
-import { ABILITIES, SKILL_ABILITY } from '../../core/rules/tables';
+import { ABILITIES } from '../../core/rules/tables';
 import { SettingsService } from '../../core/settings/settings.service';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { LoadError } from '../compendium/load-error';
 
 const DRAFT_KEY = 'dnd-helper.draft';
 
+type ClassEntry = Character['classes'][number];
+
 /**
  * Character creation (and editing) wizard, step by step in the 2024 order. The draft is kept in
- * this browser until saved, and every step shows the sheet the rules engine computes from it.
+ * this browser until saved, every step shows the sheet the rules engine computes from it, and
+ * choices that break a requirement are allowed but flagged (the DM may allow exceptions).
  */
 @Component({
   selector: 'app-character-create',
-  imports: [RouterLink, TranslatePipe, MarkdownPipe, LoadError],
+  imports: [RouterLink, NgTemplateOutlet, TranslatePipe, MarkdownPipe, LoadError],
   templateUrl: './character-create.html',
   styleUrl: './character-create.scss',
 })
@@ -53,9 +63,10 @@ export class CharacterCreate {
 
   protected readonly steps = STEPS;
   protected readonly abilities = ABILITIES;
-  protected readonly skills = Object.keys(SKILL_ABILITY);
   protected readonly standardArray = STANDARD_ARRAY;
   protected readonly budget = POINT_BUY_BUDGET;
+  protected readonly languages = [...STANDARD_LANGUAGES, ...RARE_LANGUAGES];
+  protected readonly rareLanguages = RARE_LANGUAGES;
 
   protected readonly step = signal<Step>('class');
   protected readonly draft = signal<Character>(newCharacter('', ''));
@@ -76,6 +87,7 @@ export class CharacterCreate {
       return {
         rules,
         spells,
+        spellsById: new Map(spells.map((s) => [s.id, s])),
         options,
         meta,
         classes: sorted(rules.classes.values()),
@@ -90,14 +102,51 @@ export class CharacterCreate {
   });
 
   // -- what's selected ----------------------------------------------------------------
-  protected readonly classEntry = computed(
-    (): Character['classes'][number] | undefined => this.draft().classes[0],
-  );
-  protected readonly cls = computed(() => {
-    const id = this.classEntry()?.id;
-    return id ? this.data.value()?.rules.classes.get(id) : undefined;
+  /** The character's classes with everything each one offers. The first is the starting class. */
+  protected readonly rows = computed(() => {
+    const d = this.data.value();
+    const q = this.spellFilter().toLowerCase();
+    const match = (s: { name: string }) => !q || s.name.toLowerCase().includes(q);
+    return this.draft().classes.map((entry, index) => {
+      const cls = d?.rules.classes.get(entry.id);
+      if (!d || !cls) {
+        return {
+          index,
+          entry,
+          cls,
+          subclasses: [],
+          slots: [],
+          optionGroups: [],
+          expertise: 0,
+          spells: null,
+        };
+      }
+      const sl = cls.spellcasting ? spellsFor(cls, entry.level, d.spells) : null;
+      return {
+        index,
+        entry,
+        cls,
+        subclasses: subclassesFor(cls.id, [...d.rules.subclasses.values()]),
+        slots: featSlots(cls, entry.level),
+        optionGroups: optionGroupsFor(cls, entry.level, entry.subclassId, d.options),
+        expertise: expertiseCount(cls, entry.level),
+        spells: sl && {
+          cantrips: sl.cantrips.filter(match),
+          leveled: sl.leveled.filter(match),
+          cantripCount: cls.spellcasting!.cantripsByLevel?.[entry.level - 1] ?? null,
+          preparedCount: cls.spellcasting!.preparedByLevel?.[entry.level - 1] ?? null,
+        },
+      };
+    });
   });
-  protected readonly level = computed(() => this.classEntry()?.level ?? 1);
+  protected readonly classList = computed(() =>
+    this.rows()
+      .map((r) => r.cls)
+      .filter((c): c is DndClass => !!c),
+  );
+  protected readonly totalLevel = computed(() =>
+    this.draft().classes.reduce((n, c) => n + c.level, 0),
+  );
   protected readonly background = computed(() => {
     const id = this.draft().background?.id;
     return id ? this.data.value()?.rules.backgrounds.get(id) : undefined;
@@ -106,55 +155,29 @@ export class CharacterCreate {
     const id = this.draft().species?.id;
     return id ? this.data.value()?.rules.species.get(id) : undefined;
   });
-  protected readonly subclasses = computed(() => {
-    const d = this.data.value();
-    const c = this.cls();
-    return d && c ? subclassesFor(c.id, [...d.rules.subclasses.values()]) : [];
-  });
-  protected readonly slots = computed(() => {
-    const c = this.cls();
-    return c ? featSlots(c, this.level()) : [];
-  });
-  protected readonly expertise = computed(() => {
-    const c = this.cls();
-    return c ? expertiseCount(c, this.level()) : 0;
-  });
-  protected readonly optionGroups = computed(() => {
-    const d = this.data.value();
-    const c = this.cls();
-    return d && c
-      ? optionGroupsFor(c, this.level(), this.classEntry()?.subclassId ?? null, d.options)
-      : [];
-  });
-  protected readonly spellLists = computed(() => {
-    const d = this.data.value();
-    const c = this.cls();
-    if (!d || !c?.spellcasting) return null;
-    const q = this.spellFilter().toLowerCase();
-    const { cantrips, leveled } = spellsFor(c, this.level(), d.spells);
-    const match = (s: { name: string }) => !q || s.name.toLowerCase().includes(q);
-    const sc = c.spellcasting;
-    return {
-      cantrips: cantrips.filter(match),
-      leveled: leveled.filter(match),
-      cantripCount: sc.cantripsByLevel?.[this.level() - 1] ?? null,
-      preparedCount: sc.preparedByLevel?.[this.level() - 1] ?? null,
-    };
-  });
+  protected readonly skillChoice = computed(() => skillPicks(this.classList()));
+  protected readonly expertiseTotal = computed(() =>
+    this.rows().reduce((n, r) => n + r.expertise, 0),
+  );
+  protected readonly tools = computed(() => toolChoices(this.classList(), this.background()));
 
   /** The sheet as it stands, recomputed on every change. */
   protected readonly sheet = computed(() => {
     const d = this.data.value();
     return d ? computeSheet(this.draft(), d.rules) : null;
   });
-  protected readonly missing = computed(() =>
-    missing(this.draft(), {
-      cls: this.cls(),
+  protected readonly notes = computed(() => {
+    const d = this.data.value();
+    return review(this.draft(), {
+      classes: this.rows().map((r) => r.cls),
       background: this.background(),
-      speciesHasVariants: !!this.species()?.variants.length,
-    }),
-  );
-  protected readonly allMissing = computed(() => STEPS.flatMap((s) => this.missing()[s]));
+      species: this.species(),
+      sheet: this.sheet(),
+      feats: d?.rules.feats ?? new Map(),
+      spells: d?.spellsById ?? new Map(),
+    });
+  });
+  protected readonly allNotes = computed(() => STEPS.flatMap((s) => this.notes()[s]));
 
   constructor() {
     // Load the character being edited, or the saved draft of a new one.
@@ -165,13 +188,19 @@ export class CharacterCreate {
       if (id) {
         void this.store.get(id).then((r) => r && this.draft.set(normalizeCharacter(r.character)!));
       } else {
-        this.draft.set(loadDraft() ?? newCharacter('', this.settings.settings().deviceName));
+        this.draft.set(loadDraft() ?? this.blank());
       }
     });
     // Keep the draft of a new character in this browser until it's saved.
     effect(() => {
       if (!this.id()) saveDraft(this.draft());
     });
+  }
+
+  /** A new character starts with one empty class row to fill in. */
+  private blank(): Character {
+    const c = newCharacter('', this.settings.settings().deviceName);
+    return { ...c, classes: [{ id: '', level: 1, subclassId: null, hp: [null] }] };
   }
 
   // -- generic helpers -----------------------------------------------------------------
@@ -191,10 +220,35 @@ export class CharacterCreate {
     return on ? [...new Set([...list, id])] : list.filter((x) => x !== id);
   }
 
-  /** A step is ticked when nothing is missing and something was actually chosen in it. */
+  protected range(n: number): number[] {
+    return Array.from({ length: n }, (_, i) => i);
+  }
+
+  protected signed(n: number): string {
+    return n >= 0 ? `+${n}` : `${n}`;
+  }
+
+  protected readonly skillLabel = (s: string) => this.i18n.t(`skill.${s}` as never);
+  protected readonly abilityLabel = (a: string) => this.i18n.t(`ability.${a}` as never);
+
+  /** "eldritch-invocation" → "Eldritch Invocation" (option groups are game terms, left in English). */
+  protected groupName(group: string): string {
+    return group.replace(/-/g, ' ').replace(/\b\w/g, (ch) => ch.toUpperCase());
+  }
+
+  // -- steps ---------------------------------------------------------------------------
+  protected missingIn(s: Step): Note[] {
+    return this.notes()[s].filter((n) => n.kind === 'missing');
+  }
+
+  protected issuesIn(s: Step): Note[] {
+    return this.notes()[s].filter((n) => n.kind === 'issue');
+  }
+
+  /** Ticked when nothing is missing and something was actually chosen in it. */
   protected isDone(s: Step): boolean {
-    if (this.missing()[s].length) return false;
-    if (s === 'choices') return !!this.cls();
+    if (this.missingIn(s).length) return false;
+    if (s === 'choices') return this.classList().length > 0;
     if (s === 'equipment') return !!this.draft().equipment;
     return true;
   }
@@ -213,88 +267,104 @@ export class CharacterCreate {
     this.step.set(s);
   }
 
-  protected readonly skillLabel = (s: string) => this.i18n.t(`skill.${s}` as never);
-  protected readonly abilityLabel = (a: string) => this.i18n.t(`ability.${a}` as never);
-
-  protected withName(name: string) {
-    return (c: Character) => ({ ...c, name });
-  }
-
-  protected withNotes(notes: string) {
-    return (c: Character) => ({ ...c, notes });
-  }
-
-  protected withEquipment(equipment: string) {
-    return (c: Character) => ({ ...c, equipment });
-  }
-
-  protected withArmor(armorId: string) {
-    return (c: Character) => ({ ...c, equipped: { ...c.equipped, armorId: armorId || null } });
-  }
-
-  protected withShield(shield: boolean) {
-    return (c: Character) => ({ ...c, equipped: { ...c.equipped, shield } });
-  }
-
-  // -- class ---------------------------------------------------------------------------
-  protected setClass(id: string): void {
-    const cls = this.data.value()?.rules.classes.get(id);
+  // -- classes -------------------------------------------------------------------------
+  protected setClass(index: number, id: string): void {
     this.patch((c) => {
-      const level = c.classes[0]?.level ?? 1;
-      c.classes = id ? [{ id, level, subclassId: null, hp: Array(level).fill(null) }] : [];
-      // choices that belonged to the previous class
-      c.choices.skills = c.choices.skills.filter((s) => cls?.proficiencies.skills.from.includes(s));
-      c.choices.featSlots = c.choices.featSlots.filter((s) => s.slot.startsWith(`${id}:`));
-      c.choices.abilityIncreases = c.choices.abilityIncreases.filter(
-        (i) => !i.slot || i.slot.startsWith(`${id}:`),
-      );
-      c.choices.options = [];
-      c.choices.spells = [];
-      c.choices.expertise = [];
+      const old = c.classes[index];
+      const level = old?.level ?? 1;
+      if (id) c.classes[index] = { id, level, subclassId: null, hp: Array(level).fill(null) };
+      else c.classes.splice(index, 1);
+      if (old) this.forgetClass(c, old.id);
       return c;
     });
   }
 
-  protected setLevel(raw: string): void {
-    const level = Math.min(Math.max(parseInt(raw, 10) || 1, 1), 20);
+  protected addClass(): void {
+    this.patch((c) => ({
+      ...c,
+      classes: [...c.classes, { id: '', level: 1, subclassId: null, hp: [null] }],
+    }));
+  }
+
+  protected removeClass(index: number): void {
     this.patch((c) => {
-      const k = c.classes[0];
+      const [gone] = c.classes.splice(index, 1);
+      if (gone) this.forgetClass(c, gone.id);
+      return c;
+    });
+  }
+
+  protected setLevel(index: number, raw: string): void {
+    const level = Math.min(Math.max(parseInt(raw, 10) || 1, 1), 20);
+    const cls = this.rows()[index]?.cls;
+    this.patch((c) => {
+      const k = c.classes[index];
       if (!k) return c;
       k.level = level;
       k.hp = Array.from({ length: level }, (_, i) => k.hp[i] ?? null);
-      if (this.cls() && level < this.cls()!.subclassLevel) k.subclassId = null;
-      const valid = new Set(featSlots(this.cls()!, level).map((s) => s.slot));
-      c.choices.featSlots = c.choices.featSlots.filter((s) => valid.has(s.slot));
-      c.choices.abilityIncreases = c.choices.abilityIncreases.filter(
-        (i) => !i.slot || valid.has(i.slot),
-      );
+      if (cls && level < cls.subclassLevel) k.subclassId = null;
+      if (cls) {
+        const valid = new Set(featSlots(cls, level).map((s) => s.slot));
+        const mine = (slot: string) => slot.startsWith(`${cls.id}:`);
+        c.choices.featSlots = c.choices.featSlots.filter((s) => !mine(s.slot) || valid.has(s.slot));
+        c.choices.abilityIncreases = c.choices.abilityIncreases.filter(
+          (i) => !i.slot || !mine(i.slot) || valid.has(i.slot),
+        );
+      }
       return c;
     });
   }
 
-  protected setSubclass(id: string): void {
+  protected setSubclass(index: number, id: string): void {
     this.patch((c) => {
-      if (c.classes[0]) c.classes[0].subclassId = id || null;
+      if (c.classes[index]) c.classes[index].subclassId = id || null;
       return c;
     });
   }
 
-  protected setHp(levelIndex: number, raw: string): void {
+  protected setHp(index: number, levelIndex: number, raw: string): void {
     const n = parseInt(raw, 10);
     this.patch((c) => {
-      if (c.classes[0]) c.classes[0].hp[levelIndex] = Number.isNaN(n) ? null : n;
+      if (c.classes[index]) c.classes[index].hp[levelIndex] = Number.isNaN(n) ? null : n;
       return c;
     });
   }
 
-  protected levels(): number[] {
-    return Array.from({ length: this.level() }, (_, i) => i);
+  protected levels(entry: ClassEntry): number[] {
+    return this.range(entry.level);
+  }
+
+  /** Drops the choices that belonged to a class that was changed or removed. */
+  private forgetClass(c: Character, classId: string): void {
+    if (!classId || c.classes.some((k) => k.id === classId)) return;
+    const mine = (slot?: string) => !!slot && slot.startsWith(`${classId}:`);
+    const options = new Set(
+      (this.data.value()?.options ?? []).filter((o) => o.classId === classId).map((o) => o.id),
+    );
+    const spells = new Set(
+      (this.data.value()?.spells ?? []).filter((s) => s.classes.includes(classId)).map((s) => s.id),
+    );
+    c.choices.featSlots = c.choices.featSlots.filter((s) => !mine(s.slot));
+    c.choices.abilityIncreases = c.choices.abilityIncreases.filter((i) => !mine(i.slot));
+    c.choices.toolChoices = c.choices.toolChoices.filter((t) => !t.slot.endsWith(`:${classId}`));
+    c.choices.options = c.choices.options.filter((o) => !options.has(o));
+    c.choices.spells = c.choices.spells.filter((s) => !spells.has(s));
+    const offered = new Set(
+      skillPicks(
+        c.classes
+          .map((k) => this.data.value()?.rules.classes.get(k.id))
+          .filter((k): k is DndClass => !!k),
+      ).from,
+    );
+    c.choices.skills = c.choices.skills.filter((s) => offered.has(s));
+    c.choices.expertise = c.choices.expertise.filter((s) => c.choices.skills.includes(s));
   }
 
   // -- background ----------------------------------------------------------------------
   protected setBackground(id: string): void {
     this.patch((c) => {
       c.background = id ? { id, abilityIncreases: {} } : null;
+      c.choices.toolChoices = c.choices.toolChoices.filter((t) => t.slot !== 'background');
       return c;
     });
   }
@@ -331,10 +401,11 @@ export class CharacterCreate {
     });
   }
 
-  // -- species -------------------------------------------------------------------------
+  // -- species, size, languages ----------------------------------------------------------
   protected setSpecies(id: string): void {
     this.patch((c) => {
       c.species = id ? { id, variant: null } : null;
+      c.size = null;
       return c;
     });
   }
@@ -346,14 +417,38 @@ export class CharacterCreate {
     });
   }
 
+  protected setSize(size: string): void {
+    this.patch((c) => ({ ...c, size: size || null }));
+  }
+
+  protected setLanguage(lang: string, on: boolean): void {
+    this.patch((c) => {
+      c.choices.languages = this.toggle(c.choices.languages, lang, on);
+      return c;
+    });
+  }
+
+  // -- tools -----------------------------------------------------------------------------
+  protected toolsIn(slot: string): string[] {
+    return this.draft().choices.toolChoices.find((t) => t.slot === slot)?.tools ?? [];
+  }
+
+  protected setTool(slot: string, tool: string, on: boolean): void {
+    this.patch((c) => {
+      const tools = this.toggle(this.toolsIn(slot), tool, on);
+      c.choices.toolChoices = [
+        ...c.choices.toolChoices.filter((t) => t.slot !== slot),
+        { slot, tools },
+      ];
+      return c;
+    });
+  }
+
   // -- ability scores --------------------------------------------------------------------
   protected setMethod(method: string): void {
-    const base =
-      method === 'standard'
-        ? { STR: 0, DEX: 0, CON: 0, INT: 0, WIS: 0, CHA: 0 }
-        : { STR: 8, DEX: 8, CON: 8, INT: 8, WIS: 8, CHA: 8 };
-    if (method === 'manual')
-      Object.assign(base, { STR: 10, DEX: 10, CON: 10, INT: 10, WIS: 10, CHA: 10 });
+    const fill = (n: number) =>
+      Object.fromEntries(ABILITIES.map((a) => [a, n])) as Record<Ability, number>;
+    const base = method === 'standard' ? fill(0) : method === 'manual' ? fill(10) : fill(8);
     this.patch((c) => {
       c.abilityScores = { method: method as 'standard' | 'point-buy' | 'manual', base };
       return c;
@@ -409,8 +504,23 @@ export class CharacterCreate {
     return id ? this.data.value()?.rules.feats.get(id) : undefined;
   }
 
-  protected featsFor(kind: 'asi' | 'fighting-style' | 'epic-boon', level: number): Feat[] {
-    return featsForSlot(kind, this.data.value()?.feats ?? [], level);
+  protected featsFor(kind: 'asi' | 'fighting-style' | 'epic-boon'): Feat[] {
+    return featsForSlot(kind, this.data.value()?.feats ?? []);
+  }
+
+  /** Why this character can't normally take a feat (empty = it can). */
+  protected featProblems(feat: Feat | undefined): Note[] {
+    const sheet = this.sheet();
+    if (!feat || !sheet) return [];
+    return featIssues(feat, sheet, this.draft().species?.id ?? null).map((n) => ({
+      ...n,
+      params: { ...n.params, feat: feat.name },
+    }));
+  }
+
+  /** Options above the class level are listed but flagged. */
+  protected optionTooHigh(o: ClassOption, level: number): boolean {
+    return (o.prerequisites?.level ?? 0) > level;
   }
 
   protected setSlotFeat(slot: string, featId: string): void {
@@ -427,8 +537,7 @@ export class CharacterCreate {
   /** Ability chosen for the n-th +1 of a slot (ASI gives two; same ability twice = +2). */
   protected slotAbility(slot: string, n: number): string {
     const incs = this.draft().choices.abilityIncreases.filter((i) => i.slot === slot);
-    const flat = incs.flatMap((i) => Array(i.amount).fill(i.ability));
-    return flat[n] ?? '';
+    return incs.flatMap((i) => Array(i.amount).fill(i.ability))[n] ?? '';
   }
 
   protected setSlotAbility(slot: string, n: number, ability: string, picks: number): void {
@@ -459,15 +568,6 @@ export class CharacterCreate {
     return { picks: feat.abilityIncrease.amount, from: feat.abilityIncrease.from };
   }
 
-  /** "eldritch-invocation" → "Eldritch Invocation" (option groups are game terms, left in English). */
-  protected groupName(group: string): string {
-    return group.replace(/-/g, ' ').replace(/\b\w/g, (ch) => ch.toUpperCase());
-  }
-
-  protected range(n: number): number[] {
-    return Array.from({ length: n }, (_, i) => i);
-  }
-
   protected setOption(id: string, on: boolean): void {
     this.patch((c) => {
       c.choices.options = this.toggle(c.choices.options, id, on);
@@ -487,12 +587,34 @@ export class CharacterCreate {
     return ids.filter((id) => set.has(id)).length;
   }
 
-  // -- equipment -------------------------------------------------------------------------
+  // -- equipment and details -----------------------------------------------------------
   /** First time on this step, start from the class and background starting equipment. */
   protected prefillEquipment(): void {
     if (this.draft().equipment) return;
-    const parts = [this.cls()?.startingEquipment, this.background()?.equipment].filter(Boolean);
+    const parts = [this.classList()[0]?.startingEquipment, this.background()?.equipment].filter(
+      Boolean,
+    );
     if (parts.length) this.patch((c) => ({ ...c, equipment: parts.join('\n\n') }));
+  }
+
+  protected withName(name: string) {
+    return (c: Character) => ({ ...c, name });
+  }
+
+  protected withNotes(notes: string) {
+    return (c: Character) => ({ ...c, notes });
+  }
+
+  protected withEquipment(equipment: string) {
+    return (c: Character) => ({ ...c, equipment });
+  }
+
+  protected withArmor(armorId: string) {
+    return (c: Character) => ({ ...c, equipped: { ...c.equipped, armorId: armorId || null } });
+  }
+
+  protected withShield(shield: boolean) {
+    return (c: Character) => ({ ...c, equipped: { ...c.equipped, shield } });
   }
 
   // -- save ------------------------------------------------------------------------------
@@ -501,7 +623,8 @@ export class CharacterCreate {
     const name = this.draft().name.trim() || '?';
     // a new character's file is named after it (characters/elara-1730000000.json)
     const id = this.id() ?? newCharacter(name, '').id;
-    const ch = { ...this.draft(), id, name, dataVersion: d?.meta.generatedAt ?? null };
+    const classes = this.draft().classes.filter((k) => k.id);
+    const ch = { ...this.draft(), id, name, classes, dataVersion: d?.meta.generatedAt ?? null };
     await this.sync.save(ch);
     if (!this.id()) clearDraft();
     await this.router.navigate(['/characters', ch.id]);
@@ -509,12 +632,8 @@ export class CharacterCreate {
 
   protected restart(): void {
     clearDraft();
-    this.draft.set(newCharacter('', this.settings.settings().deviceName));
+    this.draft.set(this.blank());
     this.step.set('class');
-  }
-
-  protected signed(n: number): string {
-    return n >= 0 ? `+${n}` : `${n}`;
   }
 }
 

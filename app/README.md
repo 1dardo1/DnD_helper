@@ -103,9 +103,22 @@ y nombre. Cada paso enseña lo que falta y una vista previa calculada por el mot
 guardar incompleto. El borrador de un personaje nuevo se queda en el navegador hasta que se guarda.
 Las reglas del asistente están en `core/creation/creation-rules.ts`.
 
+- **Multiclase:** en el paso de clase se añaden más clases, cada una con su nivel, subclase y PG; la
+  primera es la clase inicial (sus salvaciones, el máximo del dado a nivel 1). Las demás añaden lo que da
+  multiclasear según el texto de 2024 de cada clase (armaduras, armas, herramientas, una habilidad, un
+  instrumento). Los espacios de conjuro se combinan con la tabla de multiclase.
+- **Idiomas:** Común + 2 (tabla estándar; las lenguas raras avisan). Los que da un rasgo (Druidic,
+  Thieves' Cant) se añaden solos.
+- **Tamaño** cuando la especie deja elegir, y **herramientas** cuando el trasfondo o la clase dicen
+  «elige un tipo de…» (juegos, instrumentos, herramientas de artesano).
+- **Requisitos:** dotes (nivel, características, especie, lanzamiento de conjuros, competencias),
+  multiclase (13 en la característica principal de cada clase), y número de trucos, conjuros, opciones,
+  idiomas o herramientas. Lo que no se cumple **se puede elegir igualmente** (por si tu DM lo permite),
+  pero se marca en rojo con el motivo y aparece en «Por revisar».
+
 ## Pendiente
 
 1. Compendio completo (fichas específicas de cada tipo, buscador global).
-2. Estado de partida (PG, espacios gastados, descansos), subir de nivel y multiclase en el asistente.
+2. Estado de partida (PG, espacios gastados, descansos) y subir de nivel guiado.
 3. Despliegue: GitHub Pages (PWA) y APK Android con Capacitor y actualización automática.
 4. Diseño visual.
