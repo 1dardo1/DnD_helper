@@ -11,6 +11,38 @@
       </a>
     }
   </nav>
+  <div class="sync" role="status">
+    @if (readOnly()) {
+      <small>{{ 'sync.readOnly' | t }}</small>
+    } @else {
+      @switch (sync.state()) {
+        @case ('syncing') {
+          <small>{{ 'sync.syncing' | t }}</small>
+        }
+        @case ('offline') {
+          <small>{{ 'sync.offline' | t }}</small>
+        }
+        @case ('error') {
+          <small [title]="sync.lastError() ?? ''">{{ 'sync.error' | t }}</small>
+        }
+        @default {
+          @if (store.pending()) {
+            <small>{{ 'sync.pending' | t: { count: store.pending() } }}</small>
+          } @else if (!store.conflicts().length) {
+            <small>{{ 'sync.ok' | t }}</small>
+          }
+        }
+      }
+      @if (store.conflicts().length) {
+        <a routerLink="/characters"
+          ><small>{{ 'sync.conflicts' | t: { count: store.conflicts().length } }}</small></a
+        >
+      }
+      <button type="button" (click)="sync.sync()" [disabled]="sync.state() === 'syncing'">
+        {{ 'sync.now' | t }}
+      </button>
+    }
+  </div>
   <select
     class="lang"
     [value]="language()"

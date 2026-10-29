@@ -66,3 +66,15 @@
   cursor: pointer;
   padding: 0.2rem 0;
 }
+
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+}

@@ -65,9 +65,22 @@ Cada personaje se guarda primero en el dispositivo y luego se sube al repo con u
 | Dos versiones distintas | El repo tiene otra versión: la app enseña las dos y eliges cuál conservar (o ambas) |
 | Pendiente de borrar | Se borrará del repo en la próxima sincronización |
 
-Ya funciona la descarga: al abrir la lista, la app trae del repo los personajes nuevos o cambiados
-y marca un conflicto si un personaje cambió en los dos sitios. Falta la subida (commit al guardar) y
-la pantalla para resolver conflictos.
+La sincronización (`core/characters/`) se lanza sola al abrir la app, al recuperar la conexión,
+cada 5 minutos y justo después de guardar; también hay un botón «Sincronizar ahora» en la barra
+superior, que muestra el estado («Todo guardado en la nube», «N sin guardar en la nube», «Sin conexión»…).
+
+- **Bajada:** trae del repo los personajes nuevos o cambiados; nunca pisa cambios hechos en el dispositivo.
+- **Subida:** un commit por personaje cambiado (`Personaje: guardar "Nombre" desde Dispositivo`). Después
+  relee el repo y solo lo da por **guardado en la nube** si el fichero tiene exactamente lo enviado.
+  Si un envío se quedó sin confirmar (se cerró la app), en la siguiente sincronización se confirma o se reenvía.
+- **Conflictos:** si el repo cambió mientras tanto, GitHub rechaza el commit y el personaje queda con
+  **dos versiones distintas**. La pantalla de conflicto enseña las dos lado a lado, solo con lo que cambia
+  (nivel, puntos de golpe, dotes, notas…), con la fecha y el dispositivo de cada una, y tres botones:
+  quedarme con esta, quedarme con la otra, o conservar las dos (la de este dispositivo pasa a ser «(copia)»).
+  La versión descartada sigue en el historial de git.
+- **Borrar:** se borra del repo con un commit; si mientras tanto se cambió en otro dispositivo, no se borra
+  y se conserva esa versión.
+- Con «Ficheros locales» no se sube nada (solo lectura).
 
 ## Ficha de personaje
 
@@ -82,8 +95,7 @@ rasgos que tiene por nivel. Lo que no encuentra en el compendio aparece como avi
 ## Pendiente
 
 1. Compendio completo (fichas específicas de cada tipo, buscador global).
-2. Subida de personajes al repo (commit) y pantalla de conflictos.
-3. Asistente de creación.
-4. Estado de partida, subir de nivel, multiclase.
-5. Despliegue: GitHub Pages (PWA) y APK Android con Capacitor y actualización automática.
-6. Diseño visual.
+2. Asistente de creación.
+3. Estado de partida, subir de nivel, multiclase.
+4. Despliegue: GitHub Pages (PWA) y APK Android con Capacitor y actualización automática.
+5. Diseño visual.

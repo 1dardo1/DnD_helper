@@ -1,8 +1,9 @@
-import { Component, computed, inject, input, resource } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, computed, inject, input, resource, signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 
 import { CharacterStore } from '../../core/characters/character-store.service';
-import { TranslatePipe } from '../../core/i18n/i18n.service';
+import { SyncService } from '../../core/characters/sync.service';
+import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { Sheet, SheetFeature } from '../../core/rules/sheet';
@@ -22,6 +23,12 @@ export class CharacterSheet {
   readonly id = input.required<string>();
   private readonly store = inject(CharacterStore);
   private readonly rules = inject(RulesDataService);
+  private readonly sync = inject(SyncService);
+  private readonly i18n = inject(I18nService);
+  private readonly router = inject(Router);
+
+  /** Notes being edited (null = not touched yet, show the saved ones). */
+  protected readonly notesDraft = signal<string | null>(null);
 
   protected readonly abilities = ABILITIES;
 
@@ -43,6 +50,23 @@ export class CharacterSheet {
     }
     return [...groups.values()].map((fs) => ({ source: fs[0].source, features: fs }));
   });
+
+  protected async saveNotes(): Promise<void> {
+    const record = this.view.value()?.record;
+    const notes = this.notesDraft();
+    if (!record || notes === null) return;
+    await this.sync.save({ ...record.character, notes });
+    this.notesDraft.set(null);
+    this.view.reload();
+  }
+
+  protected async remove(): Promise<void> {
+    const record = this.view.value()?.record;
+    if (!record) return;
+    if (!confirm(this.i18n.t('sheet.confirmDelete', { name: record.character.name }))) return;
+    await this.sync.remove(record.character.id);
+    await this.router.navigate(['/characters']);
+  }
 
   protected signed(n: number): string {
     return n >= 0 ? `+${n}` : `${n}`;

@@ -1,8 +1,8 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { CharacterStore } from '../../core/characters/character-store.service';
-import { RepositoryService } from '../../core/data/repository.service';
+import { SyncService } from '../../core/characters/sync.service';
 import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 
 /** Characters on this device (plus any new ones in the repo), with their cloud status. */
@@ -15,8 +15,8 @@ import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
       <a routerLink="/characters/new">+ {{ 'nav.create' | t }}</a>
     </p>
 
-    @if (pullError()) {
-      <p role="alert">{{ 'common.error' | t: { message: pullError() } }}</p>
+    @if (sync.lastError()) {
+      <p role="alert">{{ 'common.error' | t: { message: sync.lastError() ?? '' } }}</p>
     }
 
     <ul class="characters">
@@ -28,6 +28,11 @@ import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
           <span class="status" [attr.data-status]="r.status">{{
             'characters.status.' + r.status | t
           }}</span>
+          @if (r.status === 'conflict') {
+            <a [routerLink]="['/characters', r.character.id, 'conflict']">{{
+              'conflict.resolve' | t
+            }}</a>
+          }
           <small>{{ r.character.updatedAt | localDate }} · {{ r.character.updatedBy }}</small>
         </li>
       } @empty {
@@ -56,17 +61,10 @@ import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 })
 export class CharacterList implements OnInit {
   protected readonly store = inject(CharacterStore);
-  private readonly repo = inject(RepositoryService);
-  protected readonly pullError = signal('');
+  protected readonly sync = inject(SyncService);
 
   async ngOnInit(): Promise<void> {
     await this.store.load();
-    const source = this.repo.source();
-    if (!source) return;
-    try {
-      await this.store.pull(source);
-    } catch (e) {
-      this.pullError.set((e as Error).message); // offline: keep showing what's on the device
-    }
+    void this.sync.sync();
   }
 }

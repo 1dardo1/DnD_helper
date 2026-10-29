@@ -1,0 +1,51 @@
+<p>
+  <a routerLink="/characters">← {{ 'characters.title' | t }}</a>
+</p>
+
+@if (view.isLoading()) {
+  <p>{{ 'common.loading' | t }}</p>
+} @else if (view.error()) {
+  <app-load-error [error]="view.error()" />
+} @else if (view.value(); as v) {
+  <h1>{{ 'conflict.title' | t: { name: v.mine.name } }}</h1>
+  <p>{{ 'conflict.intro' | t }}</p>
+
+  <div class="versions">
+    @for (side of ['mine', 'theirs']; track side) {
+      @let c = side === 'mine' ? v.mine : v.theirs;
+      <section class="version" [attr.data-side]="side">
+        <h2>{{ (side === 'mine' ? 'conflict.mine' : 'conflict.theirs') | t }}</h2>
+        <p>
+          <small>{{
+            'conflict.edited' | t: { date: (c.updatedAt | localDate), device: c.updatedBy || '?' }
+          }}</small>
+        </p>
+        @if (v.differences.length) {
+          <dl>
+            @for (d of v.differences; track d.label) {
+              <dt>{{ d.label | t }}</dt>
+              <dd>{{ side === 'mine' ? d.mine : d.theirs }}</dd>
+            }
+          </dl>
+        } @else {
+          <p>{{ 'conflict.same' | t }}</p>
+        }
+        <button
+          type="button"
+          [disabled]="busy()"
+          (click)="keep(side === 'mine' ? 'mine' : 'theirs')"
+        >
+          {{ 'conflict.keepThis' | t }}
+        </button>
+      </section>
+    }
+  </div>
+
+  <p class="both">
+    <button type="button" [disabled]="busy()" (click)="keep('both')">
+      {{ 'conflict.keepBoth' | t }}
+    </button>
+  </p>
+} @else {
+  <p>{{ 'sheet.notFound' | t }}</p>
+}

@@ -23,6 +23,13 @@
   nav a.active {
     font-weight: bold;
   }
+
+  .sync {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }
 
 main {

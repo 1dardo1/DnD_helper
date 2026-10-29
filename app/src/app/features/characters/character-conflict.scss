@@ -1,0 +1,36 @@
+// Structural layout only; the visual design comes later.
+.versions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.version {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border: 1px solid #ccc;
+
+  dl {
+    flex: 1;
+  }
+
+  dt {
+    font-weight: bold;
+  }
+
+  dd {
+    margin: 0 0 0.5rem;
+    white-space: pre-line;
+  }
+
+  button {
+    align-self: stretch;
+    padding: 0.75rem;
+  }
+}
+
+.both {
+  text-align: center;
+  margin-top: 1rem;
+}

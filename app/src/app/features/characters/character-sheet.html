@@ -25,6 +25,13 @@
     </p>
   </header>
 
+  @if (v.record.status === 'conflict') {
+    <aside class="warnings" role="note">
+      {{ 'sheet.inConflict' | t }}
+      <a [routerLink]="['/characters', c.id, 'conflict']">{{ 'conflict.resolve' | t }}</a>
+    </aside>
+  }
+
   @if (s.warnings.length) {
     <aside class="warnings" role="note">
       <strong>{{ 'sheet.warnings' | t }}</strong>
@@ -205,12 +212,21 @@
       <p>{{ c.equipment }}</p>
     </section>
   }
-  @if (c.notes) {
-    <section>
-      <h2>{{ 'sheet.notes' | t }}</h2>
-      <div class="md" [innerHTML]="c.notes | markdown"></div>
-    </section>
-  }
+  <section>
+    <h2>{{ 'sheet.notes' | t }}</h2>
+    <textarea
+      rows="5"
+      [value]="notesDraft() ?? c.notes"
+      (input)="notesDraft.set($any($event.target).value)"
+      [attr.aria-label]="'sheet.notes' | t"
+    ></textarea>
+    <p class="actions">
+      <button type="button" (click)="saveNotes()" [disabled]="notesDraft() === null">
+        {{ 'sheet.saveNotes' | t }}
+      </button>
+      <button type="button" class="danger" (click)="remove()">{{ 'sheet.delete' | t }}</button>
+    </p>
+  </section>
 } @else {
   <p>{{ 'sheet.notFound' | t }}</p>
 }
