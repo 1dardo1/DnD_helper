@@ -27,6 +27,11 @@ export class CharacterSheet {
   private readonly i18n = inject(I18nService);
   private readonly router = inject(Router);
 
+  /** Live cloud status (sync runs in the background after a save). */
+  protected readonly status = computed(
+    () => this.store.all().find((r) => r.character.id === this.id())?.status,
+  );
+
   /** Notes being edited (null = not touched yet, show the saved ones). */
   protected readonly notesDraft = signal<string | null>(null);
 

@@ -21,11 +21,12 @@
       }
     </p>
     <p>
-      <span class="status">{{ 'characters.status.' + v.record.status | t }}</span>
+      <span class="status">{{ 'characters.status.' + (status() ?? v.record.status) | t }}</span>
+      <a [routerLink]="['/characters', c.id, 'edit']">{{ 'sheet.edit' | t }}</a>
     </p>
   </header>
 
-  @if (v.record.status === 'conflict') {
+  @if (status() === 'conflict') {
     <aside class="warnings" role="note">
       {{ 'sheet.inConflict' | t }}
       <a [routerLink]="['/characters', c.id, 'conflict']">{{ 'conflict.resolve' | t }}</a>

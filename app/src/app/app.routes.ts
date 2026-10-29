@@ -27,6 +27,11 @@ export const routes: Routes = [
       import('./features/creation/character-create').then((m) => m.CharacterCreate),
   },
   {
+    path: 'characters/:id/edit',
+    loadComponent: () =>
+      import('./features/creation/character-create').then((m) => m.CharacterCreate),
+  },
+  {
     path: 'characters/:id/conflict',
     loadComponent: () =>
       import('./features/characters/character-conflict').then((m) => m.CharacterConflict),

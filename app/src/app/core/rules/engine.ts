@@ -55,8 +55,16 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   const pb = proficiencyBonus(totalLevel);
   const species = find(data.species, ch.species?.id, 'Species');
   const background = find(data.backgrounds, ch.background?.id, 'Background');
+  // background origin feat + feats taken at ASI / Fighting Style / Epic Boon levels + any other
+  const slotFeats = (ch.choices.featSlots ?? [])
+    .map((s) => s.featId)
+    .filter((id): id is string => !!id);
   const featIds = [
-    ...new Set([...(background?.featId ? [background.featId] : []), ...ch.choices.feats]),
+    ...new Set([
+      ...(background?.featId ? [background.featId] : []),
+      ...slotFeats,
+      ...ch.choices.feats,
+    ]),
   ];
   const feats = featIds.map((id) => find(data.feats, id, 'Feat')).filter((f): f is Feat => !!f);
 

@@ -48,7 +48,7 @@ src/app/
   features/
     compendium/    consulta: secciones, listas con buscador, fichas
     characters/    lista de personajes con su estado en la nube y ficha calculada
-    creation/      asistente de creación (pendiente)
+    creation/      asistente de creación y edición
     settings/      ajustes
   shared/          pipe de Markdown
 ```
@@ -92,10 +92,20 @@ rasgos que tiene por nivel. Lo que no encuentra en el compendio aparece como avi
 
 `characters/ejemplo-thorin.json` es un personaje de ejemplo para probarla; se puede borrar.
 
+## Asistente de creación
+
+«Nuevo personaje» (y «Editar» en la ficha) recorre los pasos en el orden de 2024: clase (nivel, subclase,
+PG por nivel), trasfondo (+2/+1 o +1/+1/+1 a sus tres características; su dote de origen y habilidades
+vienen solas), especie y linaje, características (array estándar, compra de 27 puntos o a mano), elecciones
+de clase (habilidades, pericia, una dote o Mejora de característica en cada nivel que la da, estilo de
+combate, opciones como invocaciones o maldiciones de sangre, trucos y conjuros), equipo y armadura puesta,
+y nombre. Cada paso enseña lo que falta y una vista previa calculada por el motor de reglas; se puede
+guardar incompleto. El borrador de un personaje nuevo se queda en el navegador hasta que se guarda.
+Las reglas del asistente están en `core/creation/creation-rules.ts`.
+
 ## Pendiente
 
 1. Compendio completo (fichas específicas de cada tipo, buscador global).
-2. Asistente de creación.
-3. Estado de partida, subir de nivel, multiclase.
-4. Despliegue: GitHub Pages (PWA) y APK Android con Capacitor y actualización automática.
-5. Diseño visual.
+2. Estado de partida (PG, espacios gastados, descansos), subir de nivel y multiclase en el asistente.
+3. Despliegue: GitHub Pages (PWA) y APK Android con Capacitor y actualización automática.
+4. Diseño visual.

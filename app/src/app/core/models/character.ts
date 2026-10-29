@@ -33,8 +33,13 @@ export interface Character {
     saves: Ability[];
     /** Feat ids, including origin feats and Ability Score Improvement. */
     feats: string[];
-    /** Ability increases other than the background's (ASIs, half feats...). */
-    abilityIncreases: { source: string; ability: Ability; amount: number }[];
+    /**
+     * Feats taken at the levels that grant one: ASI levels ("ability-score-improvement" or a
+     * general feat), Fighting Style, Epic Boon. slot = "<classId>:<level>".
+     */
+    featSlots: { slot: string; featId: string | null }[];
+    /** Ability increases other than the background's (ASIs, half feats...), by feat and slot. */
+    abilityIncreases: { source: string; ability: Ability; amount: number; slot?: string }[];
     /** Class option ids (invocations, maneuvers, blood curses...). */
     options: string[];
     spells: string[];
@@ -98,6 +103,7 @@ export function newCharacter(name: string, device: string): Character {
       expertise: [],
       saves: [],
       feats: [],
+      featSlots: [],
       abilityIncreases: [],
       options: [],
       spells: [],

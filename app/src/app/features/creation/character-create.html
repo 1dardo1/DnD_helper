@@ -1,0 +1,523 @@
+<h1>{{ (id() ? 'create.editTitle' : 'create.title') | t }}</h1>
+
+@if (data.isLoading()) {
+  <p>{{ 'common.loading' | t }}</p>
+} @else if (data.error()) {
+  <app-load-error [error]="data.error()" />
+} @else if (data.value(); as d) {
+  @let c = draft();
+
+  <nav class="steps" aria-label="steps">
+    @for (s of steps; track s; let i = $index) {
+      <button
+        type="button"
+        [class.current]="step() === s"
+        [class.done]="isDone(s)"
+        (click)="setStep(s)"
+      >
+        {{ i + 1 }}. {{ 'create.step.' + s | t }}
+        @if (isDone(s)) {
+          ✓
+        }
+      </button>
+    }
+  </nav>
+
+  <div class="layout">
+    <section class="step">
+      @switch (step()) {
+        <!-- 1. Class ------------------------------------------------------------------- -->
+        @case ('class') {
+          <label>
+            {{ 'create.class' | t }}
+            <select [value]="classEntry()?.id ?? ''" (change)="setClass(value($event))">
+              <option value="">—</option>
+              @for (k of d.classes; track k.id) {
+                <option [value]="k.id">
+                  {{ k.name }}{{ k.edition === '2014' ? ' (2014)' : '' }}
+                </option>
+              }
+            </select>
+          </label>
+          @if (cls(); as k) {
+            <label>
+              {{ 'create.level' | t }}
+              <input
+                type="number"
+                min="1"
+                max="20"
+                [value]="level()"
+                (change)="setLevel(value($event))"
+              />
+            </label>
+            @if (level() >= k.subclassLevel) {
+              <label>
+                {{ k.subclassTitle }}
+                <select
+                  [value]="classEntry()?.subclassId ?? ''"
+                  (change)="setSubclass(value($event))"
+                >
+                  <option value="">—</option>
+                  @for (s of subclasses(); track s.id) {
+                    <option [value]="s.id">
+                      {{ s.name }}{{ s.edition === '2014' ? ' (2014)' : '' }}
+                    </option>
+                  }
+                </select>
+              </label>
+            } @else {
+              <p>
+                <small>{{
+                  'create.subclassAt' | t: { title: k.subclassTitle, level: k.subclassLevel }
+                }}</small>
+              </p>
+            }
+            <details>
+              <summary>{{ 'create.hp' | t: { die: k.hitDie } }}</summary>
+              <p>
+                <small>{{ 'create.hpHelp' | t: { avg: k.hitDie / 2 + 1 } }}</small>
+              </p>
+              <div class="hp">
+                @for (i of levels(); track i) {
+                  @if (i > 0) {
+                    <label>
+                      {{ 'compendium.level' | t: { level: i + 1 } }}
+                      <input
+                        type="number"
+                        min="1"
+                        [max]="k.hitDie"
+                        [value]="classEntry()?.hp?.[i] ?? ''"
+                        [placeholder]="k.hitDie / 2 + 1"
+                        (change)="setHp(i, value($event))"
+                      />
+                    </label>
+                  }
+                }
+              </div>
+            </details>
+            <details>
+              <summary>{{ k.name }}</summary>
+              <div class="md" [innerHTML]="k.description | markdown"></div>
+            </details>
+          }
+        }
+
+        <!-- 2. Background --------------------------------------------------------------- -->
+        @case ('background') {
+          <label>
+            {{ 'create.background' | t }}
+            <select [value]="c.background?.id ?? ''" (change)="setBackground(value($event))">
+              <option value="">—</option>
+              @for (b of d.backgrounds; track b.id) {
+                <option [value]="b.id">{{ b.name }}</option>
+              }
+            </select>
+          </label>
+          @if (background(); as b) {
+            <p>
+              {{ 'create.backgroundGives' | t }}: {{ b.feat }} ·
+              {{ b.skills.map(skillLabel).join(', ') }}
+              @if (b.tools) {
+                · {{ b.tools }}
+              }
+            </p>
+            <fieldset>
+              <legend>{{ 'create.backgroundIncreases' | t }}</legend>
+              <label class="inline">
+                <input
+                  type="radio"
+                  name="bgmode"
+                  [checked]="backgroundMode() === '2-1'"
+                  (change)="setBackgroundMode('2-1')"
+                />
+                +2 / +1
+              </label>
+              <label class="inline">
+                <input
+                  type="radio"
+                  name="bgmode"
+                  [checked]="backgroundMode() === '1-1-1'"
+                  (change)="setBackgroundMode('1-1-1')"
+                />
+                +1 / +1 / +1
+              </label>
+              @if (backgroundMode() === '2-1') {
+                @for (amount of [2, 1]; track amount) {
+                  <label>
+                    +{{ amount }}
+                    <select
+                      [value]="backgroundPick($any(amount))"
+                      (change)="setBackgroundPick($any(amount), value($event))"
+                    >
+                      <option value="">—</option>
+                      @for (a of b.abilityScores; track a) {
+                        <option [value]="a" [disabled]="backgroundPick(amount === 2 ? 1 : 2) === a">
+                          {{ 'ability.' + a | t }}
+                        </option>
+                      }
+                    </select>
+                  </label>
+                }
+              } @else {
+                <p>{{ b.abilityScores.map(abilityLabel).join(', ') }} +1</p>
+              }
+            </fieldset>
+            <details>
+              <summary>{{ b.name }}</summary>
+              <div class="md" [innerHTML]="b.description | markdown"></div>
+            </details>
+          }
+        }
+
+        <!-- 3. Species ------------------------------------------------------------------ -->
+        @case ('species') {
+          <label>
+            {{ 'create.species' | t }}
+            <select [value]="c.species?.id ?? ''" (change)="setSpecies(value($event))">
+              <option value="">—</option>
+              @for (s of d.species; track s.id) {
+                <option [value]="s.id">
+                  {{ s.name }}{{ s.edition === '2014' ? ' (2014)' : '' }}
+                </option>
+              }
+            </select>
+          </label>
+          @if (species(); as s) {
+            @if (s.variants.length) {
+              <label>
+                {{ 'create.variant' | t }}
+                <select [value]="c.species?.variant ?? ''" (change)="setVariant(value($event))">
+                  <option value="">—</option>
+                  @for (v of s.variants; track v.name) {
+                    <option [value]="v.name">{{ v.name }}</option>
+                  }
+                </select>
+              </label>
+            }
+            <ul>
+              @for (t of s.traits; track t.name) {
+                <li>{{ t.name }}</li>
+              }
+            </ul>
+          }
+        }
+
+        <!-- 4. Ability scores ------------------------------------------------------------ -->
+        @case ('abilities') {
+          <label>
+            {{ 'create.method' | t }}
+            <select [value]="c.abilityScores?.method ?? ''" (change)="setMethod(value($event))">
+              <option value="" disabled>—</option>
+              <option value="standard">{{ 'create.method.standard' | t }}</option>
+              <option value="point-buy">{{ 'create.method.point-buy' | t }}</option>
+              <option value="manual">{{ 'create.method.manual' | t }}</option>
+            </select>
+          </label>
+          @if (c.abilityScores; as scores) {
+            @if (scores.method === 'point-buy') {
+              <p>{{ 'create.points' | t: { spent: pointsSpent(), budget: budget } }}</p>
+            }
+            <table class="scores">
+              <tbody>
+                @for (a of abilities; track a) {
+                  <tr>
+                    <th>{{ 'ability.' + a | t }}</th>
+                    <td>
+                      @if (scores.method === 'standard') {
+                        <select
+                          [value]="scores.base[a] || ''"
+                          (change)="setScore(a, value($event))"
+                        >
+                          <option value="">—</option>
+                          @for (n of standardArray; track n) {
+                            <option [value]="n">{{ n }}</option>
+                          }
+                        </select>
+                      } @else {
+                        <input
+                          type="number"
+                          [min]="scores.method === 'point-buy' ? 8 : 3"
+                          [max]="scores.method === 'point-buy' ? 15 : 20"
+                          [value]="scores.base[a]"
+                          (change)="setScore(a, value($event))"
+                        />
+                      }
+                    </td>
+                    @if (sheet(); as sh) {
+                      <td>
+                        → <strong>{{ sh.abilities[a].score }}</strong> ({{
+                          signed(sh.abilities[a].modifier)
+                        }})
+                      </td>
+                    }
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+        }
+
+        <!-- 5. Class choices ------------------------------------------------------------- -->
+        @case ('choices') {
+          @if (cls(); as k) {
+            <fieldset>
+              <legend>{{ 'create.skills' | t: { count: k.proficiencies.skills.choose } }}</legend>
+              @for (s of k.proficiencies.skills.from; track s) {
+                @let fromBg = background()?.skills?.includes(s);
+                <label class="inline">
+                  <input
+                    type="checkbox"
+                    [checked]="fromBg || c.choices.skills.includes(s)"
+                    [disabled]="fromBg"
+                    (change)="setSkill(s, checked($event))"
+                  />
+                  {{ 'skill.' + s | t }}
+                  @if (fromBg) {
+                    <small>({{ 'create.background' | t }})</small>
+                  }
+                </label>
+              }
+            </fieldset>
+
+            @if (expertise()) {
+              <fieldset>
+                <legend>{{ 'create.expertise' | t: { count: expertise() } }}</legend>
+                @for (s of proficientSkills(); track s) {
+                  <label class="inline">
+                    <input
+                      type="checkbox"
+                      [checked]="c.choices.expertise.includes(s)"
+                      (change)="setExpertise(s, checked($event))"
+                    />
+                    {{ 'skill.' + s | t }}
+                  </label>
+                }
+              </fieldset>
+            }
+
+            @for (s of slots(); track s.slot) {
+              @let feat = slotFeatEntry(s.slot);
+              @let picks = slotPicks(feat);
+              <fieldset>
+                <legend>{{ 'create.slot.' + s.kind | t: { level: s.level } }}</legend>
+                <select [value]="slotFeat(s.slot)" (change)="setSlotFeat(s.slot, value($event))">
+                  <option value="">—</option>
+                  @for (f of featsFor(s.kind, s.level); track f.id) {
+                    <option [value]="f.id">
+                      {{ f.name }}{{ f.edition === '2014' ? ' (2014)' : '' }}
+                    </option>
+                  }
+                </select>
+                @for (n of range(picks.picks); track n) {
+                  <label>
+                    +1
+                    <select
+                      [value]="slotAbility(s.slot, n)"
+                      (change)="setSlotAbility(s.slot, n, value($event), picks.picks)"
+                    >
+                      <option value="">—</option>
+                      @for (a of picks.from; track a) {
+                        <option [value]="a">{{ 'ability.' + a | t }}</option>
+                      }
+                    </select>
+                  </label>
+                }
+                @if (feat) {
+                  <details>
+                    <summary>{{ feat.name }}</summary>
+                    <div class="md" [innerHTML]="feat.description | markdown"></div>
+                  </details>
+                }
+              </fieldset>
+            }
+
+            @for (g of optionGroups(); track g.group) {
+              <fieldset>
+                <legend>
+                  {{ groupName(g.group) }}
+                  @if (g.count !== null) {
+                    ({{ chosenCount(c.choices.options, g.options) }} / {{ g.count }})
+                  }
+                </legend>
+                @for (o of g.options; track o.id) {
+                  <label class="inline" [title]="o.prerequisites?.raw ?? ''">
+                    <input
+                      type="checkbox"
+                      [checked]="c.choices.options.includes(o.id)"
+                      (change)="setOption(o.id, checked($event))"
+                    />
+                    {{ o.name }}
+                  </label>
+                }
+              </fieldset>
+            }
+
+            @if (spellLists(); as sl) {
+              <fieldset>
+                <legend>{{ 'sheet.spellcasting' | t }}</legend>
+                <input
+                  type="search"
+                  [placeholder]="'common.search' | t"
+                  [value]="spellFilter()"
+                  (input)="spellFilter.set(value($event))"
+                />
+                @if (sl.cantripCount !== null) {
+                  <h3>
+                    {{ 'sheet.cantrips' | t }} ({{ chosenCount(c.choices.spells, sl.cantrips) }} /
+                    {{ sl.cantripCount }})
+                  </h3>
+                  <div class="spells">
+                    @for (s of sl.cantrips; track s.id) {
+                      <label class="inline">
+                        <input
+                          type="checkbox"
+                          [checked]="c.choices.spells.includes(s.id)"
+                          (change)="setSpell(s.id, checked($event))"
+                        />
+                        {{ s.name }}
+                      </label>
+                    }
+                  </div>
+                }
+                <h3>
+                  {{ 'sheet.prepared' | t }}
+                  @if (sl.preparedCount !== null) {
+                    ({{ chosenCount(c.choices.spells, sl.leveled) }} / {{ sl.preparedCount }})
+                  }
+                </h3>
+                <div class="spells">
+                  @for (s of sl.leveled; track s.id) {
+                    <label class="inline">
+                      <input
+                        type="checkbox"
+                        [checked]="c.choices.spells.includes(s.id)"
+                        (change)="setSpell(s.id, checked($event))"
+                      />
+                      <small>{{ s.level }}º</small> {{ s.name }}
+                    </label>
+                  }
+                </div>
+              </fieldset>
+            }
+          } @else {
+            <p>{{ 'create.missing.class' | t }}</p>
+          }
+        }
+
+        <!-- 6. Equipment ----------------------------------------------------------------- -->
+        @case ('equipment') {
+          <label>
+            {{ 'sheet.equipment' | t }}
+            <textarea
+              rows="8"
+              [value]="c.equipment"
+              (change)="patch(withEquipment(value($event)))"
+            ></textarea>
+          </label>
+          <label>
+            {{ 'create.armorWorn' | t }}
+            <select [value]="c.equipped.armorId ?? ''" (change)="patch(withArmor(value($event)))">
+              <option value="">{{ 'create.noArmor' | t }}</option>
+              @for (a of d.armor; track a.id) {
+                <option [value]="a.id">{{ a.name }} ({{ a.armor?.kind }})</option>
+              }
+            </select>
+          </label>
+          <label class="inline">
+            <input
+              type="checkbox"
+              [checked]="c.equipped.shield"
+              (change)="patch(withShield(checked($event)))"
+            />
+            {{ 'create.shield' | t }}
+          </label>
+        }
+
+        <!-- 7. Details & summary --------------------------------------------------------- -->
+        @case ('details') {
+          <label>
+            {{ 'conflict.field.name' | t }}
+            <input [value]="c.name" (input)="patch(withName(value($event)))" />
+          </label>
+          <label>
+            {{ 'sheet.notes' | t }}
+            <textarea
+              rows="4"
+              [value]="c.notes"
+              (change)="patch(withNotes(value($event)))"
+            ></textarea>
+          </label>
+          @if (allMissing().length) {
+            <aside class="missing">
+              <strong>{{ 'sheet.warnings' | t }}</strong>
+              <ul>
+                @for (m of allMissing(); track m.key) {
+                  <li>{{ m.key | t: m.params }}</li>
+                }
+              </ul>
+              <small>{{ 'create.canFinishLater' | t }}</small>
+            </aside>
+          }
+          <p class="actions">
+            <button type="button" class="primary" (click)="save()">{{ 'common.save' | t }}</button>
+            @if (!id()) {
+              <button type="button" (click)="restart()">{{ 'create.restart' | t }}</button>
+            } @else {
+              <a [routerLink]="['/characters', id()]">{{ 'common.back' | t }}</a>
+            }
+          </p>
+        }
+      }
+
+      @if (missing()[step()].length && step() !== 'details') {
+        <ul class="missing">
+          @for (m of missing()[step()]; track m.key) {
+            <li>{{ m.key | t: m.params }}</li>
+          }
+        </ul>
+      }
+
+      <p class="nav">
+        <button type="button" (click)="go(-1)" [disabled]="stepIndex() === 0">
+          ← {{ 'create.prev' | t }}
+        </button>
+        @if (stepIndex() < steps.length - 1) {
+          <button type="button" (click)="go(1)">{{ 'create.next' | t }} →</button>
+        }
+      </p>
+    </section>
+
+    <!-- Live preview -------------------------------------------------------------------- -->
+    @if (sheet(); as sh) {
+      <aside class="preview" [attr.aria-label]="'create.preview' | t">
+        <h2>{{ c.name || ('create.preview' | t) }}</h2>
+        <p>
+          @for (k of sh.classes; track k.id) {
+            {{ k.name }} {{ k.level }}{{ k.subclass ? ' (' + k.subclass + ')' : '' }}
+          }
+          @if (sh.species) {
+            · {{ sh.species }}
+          }
+          @if (sh.background) {
+            · {{ sh.background }}
+          }
+        </p>
+        <dl>
+          <dt>{{ 'sheet.armorClass' | t }}</dt>
+          <dd>{{ sh.armorClass.value }}</dd>
+          <dt>{{ 'sheet.hitPoints' | t }}</dt>
+          <dd>{{ sh.hitPoints.max }}</dd>
+          <dt>{{ 'sheet.proficiencyBonus' | t }}</dt>
+          <dd>{{ signed(sh.proficiencyBonus) }}</dd>
+          <dt>{{ 'sheet.initiative' | t }}</dt>
+          <dd>{{ signed(sh.initiative) }}</dd>
+        </dl>
+        <p class="mini-abilities">
+          @for (a of abilities; track a) {
+            <span>{{ 'abbr.' + a | t }} {{ sh.abilities[a].score }}</span>
+          }
+        </p>
+      </aside>
+    }
+  </div>
+}
