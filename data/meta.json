@@ -1,0 +1,58 @@
+{
+  "generatedAt": "2026-10-29T17:57:56+00:00",
+  "sources": {
+    "2014": "https://dnd5e.wikidot.com",
+    "2024": "https://dnd2024.wikidot.com"
+  },
+  "counts": {
+    "class": 15,
+    "subclass": 209,
+    "option": 192,
+    "spell": 645,
+    "feat": 360,
+    "species": 89,
+    "background": 75,
+    "item": 1347,
+    "rule": 84
+  },
+  "byEdition": {
+    "class": {
+      "2024": 14,
+      "2014": 1
+    },
+    "subclass": {
+      "2024": 109,
+      "2014": 100
+    },
+    "option": {
+      "2024": 54,
+      "2014": 138
+    },
+    "spell": {
+      "2024": 474,
+      "2014": 171
+    },
+    "feat": {
+      "2024": 242,
+      "2014": 118
+    },
+    "species": {
+      "2024": 30,
+      "2014": 59
+    },
+    "background": {
+      "2024": 75
+    },
+    "item": {
+      "2024": 707,
+      "2014": 640
+    },
+    "rule": {
+      "2024": 39,
+      "2014": 45
+    }
+  },
+  "pagesDownloaded": 0,
+  "downloadFailures": 0,
+  "parseFailures": 1
+}

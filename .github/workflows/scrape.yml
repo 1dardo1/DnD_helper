@@ -1,0 +1,78 @@
+name: Extraer datos de las wikis
+
+# Lánzalo a mano (Actions → "Extraer datos de las wikis" → Run workflow) cuando salga contenido nuevo.
+on:
+  workflow_dispatch:
+    inputs:
+      full_refresh:
+        description: "Descargar todo de nuevo (ignora la caché de páginas)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scrape-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    defaults:
+      run:
+        working-directory: tools/scraper
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tools/scraper/requirements.txt
+
+      - run: pip install -r requirements.txt
+
+      # Downloaded pages are cached between runs; only pages changed since (sitemap lastmod) are fetched again.
+      - name: Restore page cache
+        if: ${{ !inputs.full_refresh }}
+        uses: actions/cache/restore@v4
+        with:
+          path: tools/scraper/.cache
+          key: wiki-pages-${{ github.run_id }}
+          restore-keys: wiki-pages-
+
+      - name: Scrape and build data/*.json
+        run: python -m dndscraper --delay 0.5
+
+      - name: Validate data
+        run: python -m dndscraper.validate
+
+      - name: Save page cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: tools/scraper/.cache
+          key: wiki-pages-${{ github.run_id }}
+
+      - name: Commit changes
+        working-directory: .
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data tools/scraper/report.md
+          if git diff --cached --quiet; then
+            echo "Sin cambios en los datos."
+          else
+            git commit -m "data: actualizar extracción de las wikis"
+            git push
+          fi
+
+      - name: Summary
+        if: always()
+        working-directory: .
+        run: |
+          if [ -f tools/scraper/report.md ]; then
+            sed -n '1,/## Conservados/p' tools/scraper/report.md >> "$GITHUB_STEP_SUMMARY"
+          fi

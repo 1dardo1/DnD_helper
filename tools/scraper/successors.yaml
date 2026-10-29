@@ -1,0 +1,48 @@
+# 2014 → 2024 renames that name matching can't detect on its own.
+# When a 2014 entry is listed here and its 2024 successor exists, the 2014 entry is dropped.
+#
+# Matching already ignores case, punctuation, "(UA)" and the usual subclass wording
+# ("Path of the", "Way of the", "Warrior of the", "School of", "... Domain", "... Sorcery",
+# "... Patron", ...), so "Way of the Open Hand" → "Warrior of the Open Hand" needs no entry.
+#
+# Subclasses are keyed by class, using the short names on both sides.
+
+subclass:
+  barbarian:
+    Totem Warrior: Wild Heart
+  monk:
+    Four Elements: Elements
+  wizard:
+    Abjuration: Abjurer
+    Conjuration: Conjurer
+    Divination: Diviner
+    Enchantment: Enchanter
+    Evocation: Evoker
+    Illusion: Illusionist
+    Necromancy: Necromancer
+    Transmutation: Transmuter
+    Bladesinging: Bladesinger
+
+# Other types: "2014 name": "2024 name"
+spell: {}
+feat: {}
+species: {}
+item:
+  Padded: Padded Armor
+  Leather: Leather Armor
+  Studded leather: Studded Leather Armor
+  Hide: Hide Armor
+  Scale mail: Scale Mail
+  Half plate: Half Plate Armor
+  Halfplate: Half Plate Armor
+  Ring mail: Ring Mail
+  Chain mail: Chain Mail
+  Plate: Plate Armor
+  Case, Map/Scroll: Case, Map or Scroll
+  Dice set: Dice
+  Dragonchess set: Dragonchess
+  Playing card set: Playing Cards
+  Three-Dragon Ante set: Three-dragon Ante
+  Robes: Robe
+option: {}
+rule: {}
