@@ -55,9 +55,6 @@ export const es: Record<keyof typeof en, string> = {
 
   'settings.title': 'Ajustes',
   'settings.language': 'Idioma',
-  'settings.dataSource': 'Origen de los datos',
-  'settings.dataSource.github': 'Repositorio de GitHub',
-  'settings.dataSource.local': 'Ficheros locales (npm start)',
   'settings.token': 'Token de GitHub',
   'settings.tokenHelp':
     'Token de acceso personal (fine-grained) con acceso solo a este repositorio y permiso "Contents: read and write". Solo se guarda en este navegador.',
@@ -65,12 +62,30 @@ export const es: Record<keyof typeof en, string> = {
   'settings.repo': 'Repositorio',
   'settings.branch': 'Rama',
   'settings.deviceName': 'Nombre de este dispositivo',
-  'settings.deviceNameHelp': 'Aparece junto a cada versión guardada, p. ej. "Móvil" o "PC".',
+  'settings.deviceNameHelp':
+    'Aparece junto a cada versión guardada, p. ej. "Móvil de Lucía" o "PC de Lucía".',
   'settings.test': 'Probar conexión',
   'settings.testOk': 'Conectado a {repo}.',
   'settings.testFail': 'No se ha podido conectar: {message}',
   'settings.saved': 'Ajustes guardados.',
   'settings.refreshData': 'Volver a descargar los datos',
+  'settings.vault.title': 'Token en otros dispositivos',
+  'settings.vault.storeHelp':
+    'Guarda el token en el repositorio cifrado con una contraseña (mínimo {min} caracteres). En un dispositivo nuevo solo tendrás que escribir la contraseña. Si la olvidas, vuelve a guardarlo con otra.',
+  'settings.vault.unlockHelp':
+    'Hay un token guardado con contraseña. Escríbela para usarlo en este dispositivo.',
+  'settings.vault.none':
+    'Aún no hay ningún token guardado con contraseña. Pon el token arriba y guárdalo desde aquí.',
+  'settings.vault.password': 'Contraseña',
+  'settings.vault.passwordAgain': 'Repite la contraseña',
+  'settings.vault.store': 'Guardar el token cifrado',
+  'settings.vault.unlock': 'Desbloquear',
+  'settings.vault.stored':
+    'Token cifrado guardado en el repositorio. Los demás dispositivos lo verán cuando la app se publique de nuevo.',
+  'settings.vault.unlocked': 'Token desbloqueado y guardado en este dispositivo.',
+  'settings.vault.wrongPassword': 'Contraseña incorrecta.',
+  'settings.vault.tooShort': 'La contraseña debe tener al menos {min} caracteres.',
+  'settings.vault.mismatch': 'Las contraseñas no coinciden.',
 
   'sheet.notFound': 'Este personaje no está en el dispositivo.',
   'sheet.level': 'Nivel {level}',

@@ -5,6 +5,14 @@ import { CompendiumService } from '../../core/compendium/compendium.service';
 import { GitHubDataSource } from '../../core/data/github-data-source';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Settings, SettingsService } from '../../core/settings/settings.service';
+import {
+  ENCRYPTED_TOKEN_PATH,
+  EncryptedToken,
+  MIN_PASSWORD_LENGTH,
+  decryptToken,
+  encryptToken,
+  fetchEncryptedToken,
+} from '../../core/settings/token-vault';
 
 @Component({
   selector: 'app-settings-page',
@@ -19,6 +27,10 @@ import { Settings, SettingsService } from '../../core/settings/settings.service'
     label {
       display: grid;
       gap: 0.25rem;
+    }
+    fieldset {
+      display: grid;
+      gap: 0.75rem;
     }
     .row {
       display: flex;
@@ -35,6 +47,16 @@ export class SettingsPage {
   /** Edited copy; applied on save. */
   protected readonly form: Settings = { ...this.settings.settings() };
   protected readonly message = signal('');
+
+  /** The encrypted token served with the app (null: none yet), to unlock it on this device. */
+  protected readonly encrypted = signal<EncryptedToken | null>(null);
+  protected password = '';
+  protected passwordAgain = '';
+  protected readonly minPassword = MIN_PASSWORD_LENGTH;
+
+  constructor() {
+    void fetchEncryptedToken().then((enc) => this.encrypted.set(enc));
+  }
 
   protected save(): void {
     this.settings.update({
@@ -55,6 +77,51 @@ export class SettingsPage {
       this.message.set(this.i18n.t('settings.testOk', { repo: name }));
     } catch (e) {
       this.message.set(this.i18n.t('settings.testFail', { message: (e as Error).message }));
+    }
+  }
+
+  /** Decrypts the token served with the app and keeps it on this device. */
+  protected async unlock(): Promise<void> {
+    const enc = this.encrypted();
+    if (!enc) return;
+    this.message.set(this.i18n.t('common.loading'));
+    const token = await decryptToken(enc, this.password);
+    if (!token) {
+      this.message.set(this.i18n.t('settings.vault.wrongPassword'));
+      return;
+    }
+    this.form.githubToken = token;
+    this.password = '';
+    this.save();
+    this.message.set(this.i18n.t('settings.vault.unlocked'));
+  }
+
+  /** Encrypts the token with the password and commits it, for the other devices. */
+  protected async storeEncrypted(): Promise<void> {
+    if (this.password.length < MIN_PASSWORD_LENGTH) {
+      this.message.set(this.i18n.t('settings.vault.tooShort', { min: MIN_PASSWORD_LENGTH }));
+      return;
+    }
+    if (this.password !== this.passwordAgain) {
+      this.message.set(this.i18n.t('settings.vault.mismatch'));
+      return;
+    }
+    const { githubToken: token, owner, repo, branch } = this.form;
+    this.message.set(this.i18n.t('common.loading'));
+    try {
+      const enc = await encryptToken(token, this.password);
+      const source = new GitHubDataSource({ token, owner, repo, branch });
+      const current = await source.readJsonWithSha(ENCRYPTED_TOKEN_PATH);
+      await source.writeJson(
+        ENCRYPTED_TOKEN_PATH,
+        enc,
+        current?.sha ?? null,
+        'Guardar el token de GitHub cifrado',
+      );
+      this.password = this.passwordAgain = '';
+      this.message.set(this.i18n.t('settings.vault.stored'));
+    } catch (e) {
+      this.message.set(this.i18n.t('common.error', { message: (e as Error).message }));
     }
   }
 

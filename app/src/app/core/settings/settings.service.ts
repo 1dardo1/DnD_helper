@@ -1,17 +1,14 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
 
 export type Language = 'es' | 'en';
-export type DataSourceKind = 'github' | 'local';
 
 export interface Settings {
   language: Language;
-  /** Where data/ and characters/ are read from: the GitHub repo, or the files served by `npm start`. */
-  dataSource: DataSourceKind;
   githubToken: string;
   owner: string;
   repo: string;
   branch: string;
-  /** Shown next to each saved version ("Móvil", "PC"...), e.g. when resolving a conflict. */
+  /** Shown next to each saved version ("Móvil de Lucía", "PC de Lucía"...), e.g. when resolving a conflict. */
   deviceName: string;
 }
 
@@ -19,7 +16,6 @@ const STORAGE_KEY = 'dnd-helper.settings';
 
 export const DEFAULT_SETTINGS: Settings = {
   language: navigator.language?.startsWith('es') ? 'es' : 'en',
-  dataSource: 'github',
   githubToken: '',
   owner: '1dardo1',
   repo: 'DnD_helper',
@@ -52,7 +48,10 @@ export class SettingsService {
 function load(): Settings {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? { ...DEFAULT_SETTINGS, ...JSON.parse(raw) } : { ...DEFAULT_SETTINGS };
+    if (!raw) return { ...DEFAULT_SETTINGS };
+    // dataSource was a setting in older versions; the source is chosen automatically now.
+    const { dataSource: _, ...stored } = JSON.parse(raw);
+    return { ...DEFAULT_SETTINGS, ...stored };
   } catch {
     return { ...DEFAULT_SETTINGS };
   }
