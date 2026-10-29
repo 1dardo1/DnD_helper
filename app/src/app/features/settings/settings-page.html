@@ -16,40 +16,67 @@
   </label>
 
   <label>
-    {{ 'settings.dataSource' | t }}
-    <select name="dataSource" [(ngModel)]="form.dataSource">
-      <option value="github">{{ 'settings.dataSource.github' | t }}</option>
-      <option value="local">{{ 'settings.dataSource.local' | t }}</option>
-    </select>
+    {{ 'settings.token' | t }}
+    <input name="githubToken" type="password" autocomplete="off" [(ngModel)]="form.githubToken" />
+    <small>{{ 'settings.tokenHelp' | t }}</small>
   </label>
-
-  @if (form.dataSource === 'github') {
-    <label>
-      {{ 'settings.token' | t }}
-      <input name="githubToken" type="password" autocomplete="off" [(ngModel)]="form.githubToken" />
-      <small>{{ 'settings.tokenHelp' | t }}</small>
-    </label>
-    <label>
-      {{ 'settings.owner' | t }}
-      <input name="owner" [(ngModel)]="form.owner" />
-    </label>
-    <label>
-      {{ 'settings.repo' | t }}
-      <input name="repo" [(ngModel)]="form.repo" />
-    </label>
-    <label>
-      {{ 'settings.branch' | t }}
-      <input name="branch" [(ngModel)]="form.branch" />
-    </label>
-  }
+  <label>
+    {{ 'settings.owner' | t }}
+    <input name="owner" [(ngModel)]="form.owner" />
+  </label>
+  <label>
+    {{ 'settings.repo' | t }}
+    <input name="repo" [(ngModel)]="form.repo" />
+  </label>
+  <label>
+    {{ 'settings.branch' | t }}
+    <input name="branch" [(ngModel)]="form.branch" />
+  </label>
 
   <div class="row">
     <button type="submit">{{ 'common.save' | t }}</button>
-    @if (form.dataSource === 'github') {
-      <button type="button" (click)="test()">{{ 'settings.test' | t }}</button>
-    }
+    <button type="button" (click)="test()">{{ 'settings.test' | t }}</button>
     <button type="button" (click)="refreshData()">{{ 'settings.refreshData' | t }}</button>
   </div>
+
+  <fieldset>
+    <legend>{{ 'settings.vault.title' | t }}</legend>
+    @if (form.githubToken) {
+      <small>{{ 'settings.vault.storeHelp' | t: { min: minPassword } }}</small>
+      <label>
+        {{ 'settings.vault.password' | t }}
+        <input name="password" type="password" autocomplete="new-password" [(ngModel)]="password" />
+      </label>
+      <label>
+        {{ 'settings.vault.passwordAgain' | t }}
+        <input
+          name="passwordAgain"
+          type="password"
+          autocomplete="new-password"
+          [(ngModel)]="passwordAgain"
+        />
+      </label>
+      <div class="row">
+        <button type="button" (click)="storeEncrypted()">{{ 'settings.vault.store' | t }}</button>
+      </div>
+    } @else if (encrypted()) {
+      <small>{{ 'settings.vault.unlockHelp' | t }}</small>
+      <label>
+        {{ 'settings.vault.password' | t }}
+        <input
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          [(ngModel)]="password"
+        />
+      </label>
+      <div class="row">
+        <button type="button" (click)="unlock()">{{ 'settings.vault.unlock' | t }}</button>
+      </div>
+    } @else {
+      <small>{{ 'settings.vault.none' | t }}</small>
+    }
+  </fieldset>
 
   @if (message()) {
     <p role="status">{{ message() }}</p>

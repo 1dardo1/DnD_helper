@@ -13,24 +13,32 @@ npm install
 npm start
 ```
 
-Abre <http://localhost:4200>. `npm start` copia antes `../data` y `../characters` a `.dev-data/` para
-poder usar el origen de datos **«Ficheros locales»** sin conexión a GitHub.
+Abre <http://localhost:4200>. `npm start` copia antes `../data` y `../characters` a `.dev-data/`, que la
+app lee mientras no haya un token de GitHub configurado (solo en desarrollo).
 
 ```bash
 npm test         # tests unitarios (Vitest)
 npm run build    # compilación de producción en dist/ (no incluye los datos de D&D)
 ```
 
-## Origen de los datos (Ajustes)
+## Origen de los datos
 
-- **Repositorio de GitHub** (por defecto): lee `data/*.json` y `characters/*.json` del repo con la API de
-  GitHub, y cada guardado de un personaje será un commit. Necesita un *fine-grained personal access token*
-  con acceso solo a este repositorio y el permiso **Contents: read and write**. El token solo se guarda en
-  el navegador de cada dispositivo.
-- **Ficheros locales**: los que sirve `npm start`. Solo lectura y sin personajes; útil para desarrollar.
+No se elige: la app lee `data/*.json` y `characters/*.json` del repo con la API de GitHub, y cada guardado
+de un personaje es un commit. Sin conexión usa lo que ya está guardado en el dispositivo: el compendio
+(IndexedDB, que solo se vuelve a descargar cuando cambia `data/meta.json`) y los personajes. En desarrollo,
+sin token, lee los ficheros locales de `npm start` (solo lectura).
 
-El compendio se guarda en el dispositivo (IndexedDB) y solo se vuelve a descargar cuando cambia
-`data/meta.json`, así que también funciona sin conexión.
+## Token de GitHub
+
+Necesita un *fine-grained personal access token* con acceso solo a este repositorio y el permiso
+**Contents: read and write**. Se guarda en el navegador de cada dispositivo.
+
+Para no tener que pegarlo en cada dispositivo, en Ajustes → **Token en otros dispositivos** se guarda cifrado
+con una contraseña (mínimo 12 caracteres) en `app/public/token.enc.json`, con un commit. Ese fichero se
+publica con la app; en un dispositivo nuevo basta con escribir la contraseña. El cifrado es AES-GCM con una
+clave sacada de la contraseña con PBKDF2-SHA256 (600 000 iteraciones): sin la contraseña no sirve de nada,
+pero conviene que sea larga porque quien tenga la app tiene el fichero. Si olvidas la contraseña o el token
+caduca, vuelve a guardarlo.
 
 ## Estructura
 

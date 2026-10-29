@@ -1,7 +1,7 @@
 /**
  * Where the app reads data/*.json and reads/writes characters/*.json.
  * GitHubDataSource talks to the repo through the GitHub API (every write is a commit);
- * LocalDataSource reads the files served by `npm start` (read-only, for development).
+ * LocalDataSource reads the files served by `npm start` (read-only, used in development until GitHub is configured).
  */
 export interface RepoFile {
   path: string;

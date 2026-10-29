@@ -53,9 +53,6 @@ export const en = {
 
   'settings.title': 'Settings',
   'settings.language': 'Language',
-  'settings.dataSource': 'Data source',
-  'settings.dataSource.github': 'GitHub repository',
-  'settings.dataSource.local': 'Local files (npm start)',
   'settings.token': 'GitHub token',
   'settings.tokenHelp':
     'Fine-grained personal access token with access to this repository only and "Contents: read and write" permission. It is stored only in this browser.',
@@ -63,12 +60,30 @@ export const en = {
   'settings.repo': 'Repository',
   'settings.branch': 'Branch',
   'settings.deviceName': 'Name of this device',
-  'settings.deviceNameHelp': 'Shown next to each saved version, e.g. "Phone" or "PC".',
+  'settings.deviceNameHelp':
+    'Shown next to each saved version, e.g. "Lucía\'s phone" or "Lucía\'s PC".',
   'settings.test': 'Test connection',
   'settings.testOk': 'Connected to {repo}.',
   'settings.testFail': 'Could not connect: {message}',
   'settings.saved': 'Settings saved.',
   'settings.refreshData': 'Download data again',
+  'settings.vault.title': 'Token on other devices',
+  'settings.vault.storeHelp':
+    'Stores the token in the repository, encrypted with a password (at least {min} characters). On a new device you only need to type the password. If you forget it, store it again with a new one.',
+  'settings.vault.unlockHelp':
+    'There is a password-protected token. Type the password to use it on this device.',
+  'settings.vault.none':
+    'No password-protected token yet. Enter the token above and store it from here.',
+  'settings.vault.password': 'Password',
+  'settings.vault.passwordAgain': 'Repeat the password',
+  'settings.vault.store': 'Store the encrypted token',
+  'settings.vault.unlock': 'Unlock',
+  'settings.vault.stored':
+    'Encrypted token stored in the repository. Other devices will see it once the app is published again.',
+  'settings.vault.unlocked': 'Token unlocked and saved on this device.',
+  'settings.vault.wrongPassword': 'Wrong password.',
+  'settings.vault.tooShort': 'The password must be at least {min} characters long.',
+  'settings.vault.mismatch': 'The passwords do not match.',
 
   'sheet.notFound': 'Character not found on this device.',
   'sheet.level': 'Level {level}',
