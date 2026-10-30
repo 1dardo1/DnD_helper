@@ -48,23 +48,44 @@ import { entrySummary } from './entry-summary';
   styles: `
     input[type='search'] {
       width: 100%;
-      max-width: 24rem;
-      margin-bottom: 1rem;
+      max-width: 28rem;
+      margin-bottom: var(--space-4);
     }
     .entries {
-      list-style: none;
+      columns: 2 22rem;
+      column-gap: var(--space-6);
       padding: 0;
+      list-style: none;
     }
     .entries li {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0 var(--space-2);
       align-items: baseline;
-      padding: 0.25rem 0;
+      margin: 0;
+      padding: 0.45rem 0.25rem;
+      border-bottom: 1px dashed var(--line);
+      break-inside: avoid;
     }
-    .edition {
-      border: 1px solid currentColor;
-      padding: 0 0.25rem;
+    .entries a {
+      font-weight: 600;
+    }
+    .entries small {
+      margin-left: auto;
+      text-align: right;
+    }
+    .entries .edition {
+      margin-left: 0;
+      padding: 0 0.4em;
+      font-family: var(--font-note);
+      border: 1.5px solid currentColor;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    }
+    @media (pointer: coarse) {
+      .entries li {
+        min-height: var(--tap);
+        align-items: center;
+      }
     }
   `,
 })

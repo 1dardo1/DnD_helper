@@ -1,0 +1,124 @@
+// Notebook mixins, shared by styles.scss and component styles:
+//   @use '../../shared/theme/notebook' as nb;   then   @include nb.sticky-note;
+// They only use the design tokens defined on :root in styles.scss.
+
+@use 'sass:string';
+
+/// Replaces every `$search` in `$s` (used to build SVG data URIs).
+@function str-replace($s, $search, $replace: '') {
+  $i: string.index($s, $search);
+  @if $i {
+    @return string.slice($s, 1, $i - 1) + $replace +
+      str-replace(string.slice($s, $i + string.length($search)), $search, $replace);
+  }
+  @return $s;
+}
+
+/// A 24×24 line icon as a data URI; meant for `mask-image` (colour comes from background).
+/// `$stretch: true` lets a line drawing stretch to any width (underlines, rules).
+@function svg($body, $view: '0 0 24 24', $stroke: 1.8, $stretch: false) {
+  $par: '';
+  @if $stretch {
+    $par: " preserveAspectRatio='none'";
+  }
+  $svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='#{$view}'#{$par} fill='none' stroke='black' stroke-width='#{$stroke}' stroke-linecap='round' stroke-linejoin='round'>#{$body}</svg>";
+  $svg: str-replace($svg, '<', '%3C');
+  $svg: str-replace($svg, '>', '%3E');
+  $svg: str-replace($svg, '#', '%23');
+  @return url('data:image/svg+xml,#{$svg}');
+}
+
+/// Hand-drawn wobbly box corners.
+$hand-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+
+/// An icon drawn with the current accent (or `$color`) through a mask.
+@mixin icon($url, $size: 1.25em, $color: currentColor) {
+  content: '';
+  display: inline-block;
+  flex: none;
+  width: $size;
+  height: $size;
+  background-color: $color;
+  mask: $url center / contain no-repeat;
+}
+
+/// Yellow sticky note with a strip of tape: warnings, "to review", notes.
+@mixin sticky-note($tilt: -0.6deg) {
+  position: relative;
+  margin: 1.25rem 0.25rem;
+  padding: 1rem 1rem 0.75rem;
+  background: var(--sticky);
+  color: var(--sticky-ink);
+  border: 0;
+  border-radius: 2px 2px 2px 14px / 2px 2px 2px 6px;
+  box-shadow: var(--shadow-note);
+  transform: rotate($tilt);
+
+  &::before {
+    // tape
+    content: '';
+    position: absolute;
+    top: -0.6rem;
+    left: 50%;
+    width: 5.5rem;
+    height: 1.25rem;
+    transform: translateX(-50%) rotate(2deg);
+    background: var(--tape);
+    border-left: 1px dashed rgb(0 0 0 / 0.08);
+    border-right: 1px dashed rgb(0 0 0 / 0.08);
+  }
+
+  a {
+    color: inherit;
+    font-weight: 700;
+  }
+
+  strong:first-child {
+    font-family: var(--font-note);
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 40rem), (prefers-reduced-motion: reduce) {
+    transform: none;
+  }
+}
+
+/// Paper card glued on the page.
+@mixin card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+  padding: var(--space-4);
+}
+
+/// Ink stamp / pencil-circled label.
+@mixin stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.05em 0.6em;
+  font-family: var(--font-note);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--stamp, var(--ink-soft));
+  border: 1.5px solid currentColor;
+  border-radius: $hand-radius;
+  white-space: nowrap;
+}
+
+/// Yellow highlighter behind inline text.
+@mixin highlighter($color: var(--highlight)) {
+  background: linear-gradient(
+    100deg,
+    transparent 0.2em,
+    $color 0.3em,
+    $color calc(100% - 0.4em),
+    transparent calc(100% - 0.2em)
+  );
+  background-size: 100% 0.75em;
+  background-position: 0 85%;
+  background-repeat: no-repeat;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}

@@ -21,21 +21,42 @@ import {
   styles: `
     form {
       display: grid;
-      gap: 1rem;
-      max-width: 32rem;
+      gap: var(--space-4);
+      max-width: 34rem;
     }
     label {
       display: grid;
-      gap: 0.25rem;
+      gap: 0.3rem;
+      font-family: var(--font-note);
+      font-weight: 700;
+    }
+    label > :is(input, select) {
+      width: 100%;
+      font-family: var(--font-body);
+      font-weight: 400;
+    }
+    label > small {
+      font-family: var(--font-body);
+      font-weight: 400;
     }
     fieldset {
       display: grid;
-      gap: 0.75rem;
+      gap: var(--space-3);
     }
     .row {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: var(--space-2);
+    }
+    .row button[type='submit'] {
+      color: var(--on-accent);
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    [role='status'] {
+      font-family: var(--font-note);
+      font-weight: 700;
+      color: var(--ok);
     }
   `,
 })

@@ -1,39 +1,359 @@
-// Structural layout only; the visual design comes later.
+// App shell: the notebook cover strip with divider tabs (desktop) or a bottom tab bar
+// (phone), and <main class="page"> as the notebook page.
+@use 'shared/theme/notebook' as nb;
+
+$phone: 44.99rem;
+$wide: 60rem;
+
+:host {
+  display: block;
+  --tab-compendium: #ecdcae;
+  --tab-characters: #cfe2c6;
+  --tab-create: #f2cfc6;
+  --tab-settings: #cbd9ec;
+  --tab-other: #e3d2ec;
+  --tab-ink: #2c2620;
+
+  @media (prefers-color-scheme: dark) {
+    --tab-compendium: #4b4330;
+    --tab-characters: #354536;
+    --tab-create: #4c3433;
+    --tab-settings: #333f52;
+    --tab-other: #43384c;
+    --tab-ink: #ece5d6;
+  }
+}
+
 .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  grid-template-areas: 'brand nav sync lang';
+  align-items: end;
+  column-gap: 1rem;
+  padding: 0.5rem max(1rem, calc((100% - var(--content-width)) / 2)) 0;
+  color: var(--cover-ink);
+  background-color: var(--cover);
+  // cloth texture: two faint diagonal hatchings
+  background-image:
+    repeating-linear-gradient(45deg, rgb(255 255 255 / 0.03) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(-45deg, rgb(0 0 0 / 0.08) 0 2px, transparent 2px 5px);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.25);
+}
+
+.brand {
+  grid-area: brand;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.1rem 0.25rem 0.5rem;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &::before {
+    @include nb.icon(
+      nb.svg(
+        "<path d='M12 3 19.5 7.5v9L12 21 4.5 16.5v-9z'/><path d='M12 3 8 12h8zM4.5 7.5 8 12M19.5 7.5 16 12M12 21l-4-9M12 21l4-9'/>"
+      ),
+      1.6rem
+    );
+  }
+
+  &:hover {
+    color: inherit;
+  }
+}
+
+nav {
+  grid-area: nav;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.25rem;
+  min-width: 0;
+
+  a {
+    --tab: var(--tab-other);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: var(--tap);
+    padding: 0.35rem 0.9rem 0.25rem;
+    font-family: var(--font-note);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--tab-ink);
+    text-decoration: none;
+    white-space: nowrap;
+    background: var(--tab);
+    border-radius: 10px 10px 0 0;
+    box-shadow: inset 0 -6px 6px -6px rgb(0 0 0 / 0.35);
+    transform: translateY(4px);
+    transition:
+      transform 0.12s,
+      background-color 0.12s;
+
+    &::before {
+      @include nb.icon(var(--icon), 1.15rem);
+    }
+
+    &:hover {
+      transform: translateY(1px);
+    }
+
+    &.active {
+      color: var(--accent);
+      background: var(--paper);
+      box-shadow: none;
+      transform: none;
+    }
+
+    &:focus-visible {
+      outline-offset: -3px;
+    }
+  }
+
+  [data-icon='/compendium'] {
+    --tab: var(--tab-compendium);
+    --icon: #{nb.svg(
+        "<path d='M3 5c3-1 6-1 9 1 3-2 6-2 9-1v14c-3-1-6-1-9 1-3-2-6-2-9-1z'/><path d='M12 6v14'/>"
+      )};
+  }
+
+  [data-icon='/characters'] {
+    --tab: var(--tab-characters);
+    --icon: #{nb.svg(
+        "<circle cx='9' cy='8' r='3.5'/><path d='M2.5 20c.5-4 3-6 6.5-6s6 2 6.5 6'/><path d='M15.5 4.8a3.5 3.5 0 0 1 0 6.4M18 14.5c2 .8 3.2 2.6 3.5 5.5'/>"
+      )};
+  }
+
+  [data-icon='/characters/new'] {
+    --tab: var(--tab-create);
+    --icon: #{nb.svg(
+        "<path d='M20 4C11 4 6 10 5 20'/><path d='M20 4c0 8-5 13-13 13M9 13h6M12 9h5'/>"
+      )};
+  }
+
+  [data-icon='/settings'] {
+    --tab: var(--tab-settings);
+    --icon: #{nb.svg(
+        "<circle cx='12' cy='12' r='3'/><path d='M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1'/>"
+      )};
+  }
+
+  // any future entry
+  a:not([data-icon^='/compendium'], [data-icon^='/characters'], [data-icon^='/settings']) {
+    --icon: #{nb.svg(
+        "<path d='M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z'/>"
+      )};
+  }
+}
+
+.sync {
+  grid-area: sync;
+  align-self: center;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 1rem;
-  padding: 0.5rem 1rem;
-  border-bottom: 1px solid #ccc;
+  justify-content: flex-end;
+  gap: 0.25rem 0.6rem;
+  padding-bottom: 0.4rem;
+  min-width: 0;
 
-  .brand {
-    font-weight: bold;
-    text-decoration: none;
-    color: inherit;
+  small {
+    color: color-mix(in srgb, var(--cover-ink) 80%, transparent);
+    font-size: 0.8rem;
+    line-height: 1.2;
   }
 
-  nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    flex: 1;
+  a {
+    color: #ffd27a;
+    font-weight: 700;
   }
 
-  nav a.active {
-    font-weight: bold;
-  }
+  button {
+    min-height: 2rem;
+    padding: 0.15rem 0.7rem;
+    font-size: 0.85rem;
+    color: var(--cover-ink);
+    background: rgb(255 255 255 / 0.08);
+    border-color: rgb(255 255 255 / 0.35);
+    box-shadow: none;
 
-  .sync {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem;
+    &:hover:not(:disabled) {
+      background: rgb(255 255 255 / 0.16);
+      border-color: rgb(255 255 255 / 0.6);
+    }
+  }
+}
+
+.lang {
+  grid-area: lang;
+  align-self: center;
+  margin-bottom: 0.4rem;
+  min-height: 2.25rem;
+  padding-block: 0.1rem;
+  font-family: var(--font-note);
+  font-size: 0.95rem;
+  color: var(--cover-ink);
+  background-color: rgb(255 255 255 / 0.08);
+  background-image: nb.svg("<path d='M6 9l6 6 6-6' stroke='white'/>");
+  border-color: rgb(255 255 255 / 0.35);
+  box-shadow: none;
+
+  option {
+    color: var(--ink);
+    background: var(--card);
   }
 }
 
 main {
-  max-width: 64rem;
-  margin: 0 auto;
-  padding: 1rem;
+  max-width: var(--content-width);
+  min-height: calc(100dvh - 6rem);
+  margin: 0 auto 2.5rem;
+  padding: 1.75rem 1.75rem 3rem calc(var(--margin-x) + 1.25rem);
+  border-radius: 0 0 6px 6px;
+  box-shadow: var(--shadow-page);
+}
+
+// Tablets / narrow desktops: brand, status and language on top, the tabs on a second row.
+@media (min-width: #{$phone + 0.01rem}) and (max-width: 74.99rem) {
+  .topbar {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      'brand sync lang'
+      'nav nav nav';
+    row-gap: 0.15rem;
+  }
+
+  nav {
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-top: 0.25rem;
+  }
+}
+
+// Wide screens: spiral binding on the left edge of the page.
+@media (min-width: $wide) {
+  main {
+    --margin-x: 4.5rem;
+    margin-left: max(2rem, calc((100% - var(--content-width)) / 2));
+    margin-right: max(1rem, calc((100% - var(--content-width)) / 2));
+    padding-left: calc(var(--margin-x) + 1.75rem);
+
+    &::before {
+      // punched holes + wire loops
+      content: '';
+      position: absolute;
+      top: 0.75rem;
+      bottom: 0.75rem;
+      left: -0.9rem;
+      width: 2.4rem;
+      background:
+        radial-gradient(
+            circle at 1.6rem 50%,
+            var(--desk) 0 0.32rem,
+            color-mix(in srgb, var(--desk) 50%, black) 0.34rem 0.4rem,
+            transparent 0.42rem
+          )
+          0 0 / 100% 1.5rem repeat-y,
+        linear-gradient(
+            to bottom,
+            transparent 0.55rem,
+            var(--wire) 0.55rem 0.8rem,
+            transparent 0.8rem
+          )
+          0 0 / 1.65rem 1.5rem repeat-y;
+      border-radius: 0.3rem;
+      pointer-events: none;
+    }
+  }
+}
+
+// Phone: header scrolls away; navigation becomes a bottom tab bar.
+@media (max-width: $phone) {
+  .topbar {
+    position: static;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'brand lang'
+      'sync sync';
+    padding: 0.5rem 1rem 0.25rem;
+  }
+
+  .brand {
+    font-size: 1.7rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .lang {
+    margin-bottom: 0;
+  }
+
+  .sync {
+    justify-content: space-between;
+    padding: 0.25rem 0 0.4rem;
+    border-top: 1px dashed rgb(255 255 255 / 0.2);
+  }
+
+  nav {
+    position: fixed;
+    z-index: 20;
+    inset: auto 0 0;
+    align-items: stretch;
+    gap: 0;
+    padding: 0 0.25rem env(safe-area-inset-bottom);
+    background-color: var(--cover);
+    box-shadow: 0 -2px 10px rgb(0 0 0 / 0.3);
+
+    a {
+      flex: 1 1 0;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.15rem;
+      min-width: 0;
+      min-height: 3.6rem;
+      padding: 0.35rem 0.15rem;
+      font-size: 0.78rem;
+      text-align: center;
+      white-space: normal;
+      color: var(--cover-ink);
+      background: transparent;
+      border-radius: 0 0 10px 10px;
+      box-shadow: none;
+      transform: none;
+
+      &::before {
+        width: 1.4rem;
+        height: 1.4rem;
+      }
+
+      &:hover {
+        transform: none;
+      }
+
+      &.active {
+        color: var(--accent);
+        background: var(--paper);
+        box-shadow: inset 0 3px 0 var(--accent);
+      }
+    }
+  }
+
+  main {
+    --margin-x: 0.9rem;
+    --grid-size: 1.25rem;
+    min-height: calc(100dvh - 5.5rem);
+    margin: 0;
+    padding: 1rem 1rem calc(5.5rem + env(safe-area-inset-bottom)) 1.6rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
 }

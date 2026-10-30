@@ -7,7 +7,7 @@
 } @else if (entry.error()) {
   <app-load-error [error]="entry.error()" />
 } @else if (entry.value(); as e) {
-  <article>
+  <article [appClassTheme]="e">
     <h1>{{ e.name | dataName }}</h1>
     <p class="meta">
       <span class="edition">{{ 'common.edition' | t: { edition: e.edition } }}</span>

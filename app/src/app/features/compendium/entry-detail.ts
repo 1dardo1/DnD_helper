@@ -16,6 +16,7 @@ import {
   Subclass,
 } from '../../core/models/compendium';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
+import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from './load-error';
 
 /** Detail page for any entry, with extra sections for classes, subclasses and spells. */
@@ -31,6 +32,7 @@ import { LoadError } from './load-error';
     DataTextPipe,
     MarkdownPipe,
     LoadError,
+    ClassThemeDirective,
   ],
   templateUrl: './entry-detail.html',
   styleUrl: './entry-detail.scss',

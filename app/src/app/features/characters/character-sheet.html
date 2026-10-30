@@ -9,7 +9,11 @@
 } @else if (view.value(); as v) {
   @let s = v.sheet;
   @let c = v.record.character;
-  <header class="identity">
+  <header
+    class="identity"
+    [appClassTheme]="{ classId: c.classes[0]?.id, subclassId: c.classes[0]?.subclassId }"
+    appClassThemeScope="parent"
+  >
     <h1>{{ s.name }}</h1>
     <p>
       {{ classLine(s) }}

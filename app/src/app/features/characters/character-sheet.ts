@@ -11,6 +11,7 @@ import { RulesDataService } from '../../core/rules/rules-data.service';
 import { Sheet, SheetFeature, SheetWarning } from '../../core/rules/sheet';
 import { ABILITIES } from '../../core/rules/tables';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
+import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
 
 /** The character sheet: everything computed by the rules engine from the character's choices. */
@@ -24,6 +25,7 @@ import { LoadError } from '../compendium/load-error';
     DataTextPipe,
     MarkdownPipe,
     LoadError,
+    ClassThemeDirective,
   ],
   templateUrl: './character-sheet.html',
   styleUrl: './character-sheet.scss',

@@ -36,6 +36,7 @@ import { RulesDataService } from '../../core/rules/rules-data.service';
 import { ABILITIES } from '../../core/rules/tables';
 import { SettingsService } from '../../core/settings/settings.service';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
+import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
 
 const DRAFT_KEY = 'dnd-helper.draft';
@@ -58,6 +59,7 @@ type ClassEntry = Character['classes'][number];
     DataTextPipe,
     MarkdownPipe,
     LoadError,
+    ClassThemeDirective,
   ],
   templateUrl: './character-create.html',
   styleUrl: './character-create.scss',

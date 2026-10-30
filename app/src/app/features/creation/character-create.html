@@ -610,7 +610,11 @@
 
     <!-- Live preview -------------------------------------------------------------------- -->
     @if (sheet(); as sh) {
-      <aside class="preview" [attr.aria-label]="'create.preview' | t">
+      <aside
+        class="preview"
+        [attr.aria-label]="'create.preview' | t"
+        [appClassTheme]="{ classId: c.classes[0]?.id, subclassId: c.classes[0]?.subclassId }"
+      >
         <h2>{{ c.name || ('create.preview' | t) }}</h2>
         <p>
           @for (k of sh.classes; track k.id; let last = $last) {
