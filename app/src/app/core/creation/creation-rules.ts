@@ -54,7 +54,8 @@ export function featSlots(cls: DndClass, level: number): FeatSlot[] {
   const out: FeatSlot[] = [];
   for (const row of cls.progression.rows.slice(0, level)) {
     for (const f of row.features) {
-      const kind: SlotKind | null = /ability score improvement/i.test(f)
+      // "Improvemnt": a typo in the Blood Hunter table on the wiki
+      const kind: SlotKind | null = /ability score improvem?e?nt/i.test(f)
         ? 'asi'
         : /^(additional )?fighting style/i.test(f)
           ? 'fighting-style'

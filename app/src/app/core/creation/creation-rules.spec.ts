@@ -76,6 +76,17 @@ describe('creation rules', () => {
     expect(featSlots(fighter, 20).map((s) => s.kind)).toContain('epic-boon');
   });
 
+  it('reads the "Ability Score Improvemnt" typo in the Blood Hunter table as an ASI', () => {
+    const rows = Array.from({ length: 16 }, (_, i) => ({
+      level: i + 1,
+      features: i === 15 ? ['Ability Score Improvemnt'] : [],
+    }));
+    const hunter = { id: 'blood-hunter', progression: { rows } } as unknown as DndClass;
+    expect(featSlots(hunter, 16).map((s) => [s.slot, s.kind])).toEqual([
+      ['blood-hunter:16', 'asi'],
+    ]);
+  });
+
   it('offers Ability Score Improvement first, then every general feat', () => {
     const feats = [
       feat('tough', 'general', 4),
