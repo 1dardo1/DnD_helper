@@ -60,78 +60,42 @@ interface ClassDef {
   /** Base hue (0-359) and saturation (%). */
   hue: number;
   sat: number;
+  /**
+   * Lightness (%) to start from on light / dark paper; the colour then gets darker / lighter
+   * only as much as contrast needs. Lets a class be "dark blue" or "light green".
+   */
+  light?: number;
+  dark?: number;
   /** First motif is the class's own; the rest are used for derived subclass variations. */
   motifs: readonly Motif[];
 }
 
 export const CLASS_THEMES: Record<string, ClassDef> = {
-  artificer: {
-    hue: 28,
-    sat: 62,
-    motifs: ['gears', 'hammer', 'crystal', 'book', 'bolt'],
-  },
-  barbarian: {
-    hue: 12,
-    sat: 68,
-    motifs: ['axe', 'claw', 'flame', 'mountain', 'paw'],
-  },
-  bard: {
-    hue: 305,
-    sat: 52,
-    motifs: ['note', 'mask', 'star', 'feather', 'heart'],
-  },
+  artificer: { hue: 18, sat: 62, motifs: ['gears', 'hammer', 'crystal', 'book', 'bolt'] },
+  barbarian: { hue: 2, sat: 82, motifs: ['axe', 'claw', 'flame', 'mountain', 'paw'] },
+  bard: { hue: 328, sat: 62, motifs: ['note', 'mask', 'star', 'feather', 'heart'] },
   'blood-hunter': {
-    hue: 352,
+    hue: 348,
     sat: 78,
+    light: 28,
     motifs: ['drop', 'skull', 'eye', 'paw', 'flame'],
   },
-  cleric: {
-    hue: 42,
-    sat: 72,
-    motifs: ['cross', 'sun', 'crown', 'heart', 'scales'],
-  },
-  druid: { hue: 118, sat: 42, motifs: ['leaf', 'tree', 'moon', 'paw', 'wave'] },
+  cleric: { hue: 44, sat: 88, motifs: ['cross', 'sun', 'crown', 'heart', 'scales'] },
+  druid: { hue: 100, sat: 55, dark: 64, motifs: ['leaf', 'tree', 'moon', 'paw', 'wave'] },
   fighter: {
-    hue: 212,
-    sat: 32,
-    motifs: ['sword', 'shield', 'arrow', 'crown', 'hammer'],
-  },
-  monk: { hue: 190, sat: 60, motifs: ['fist', 'enso', 'wave', 'sun', 'leaf'] },
-  paladin: {
     hue: 222,
     sat: 62,
-    motifs: ['shield', 'cross', 'sun', 'crown', 'sword'],
+    light: 28,
+    motifs: ['sword', 'shield', 'arrow', 'crown', 'hammer'],
   },
-  psion: {
-    hue: 282,
-    sat: 48,
-    motifs: ['spiral', 'crystal', 'eye', 'star', 'bolt'],
-  },
-  ranger: {
-    hue: 88,
-    sat: 42,
-    motifs: ['bow', 'arrow', 'leaf', 'paw', 'tree'],
-  },
-  rogue: {
-    hue: 192,
-    sat: 24,
-    motifs: ['dagger', 'mask', 'eye', 'web', 'moon'],
-  },
-  sorcerer: {
-    hue: 335,
-    sat: 66,
-    motifs: ['stars', 'spark', 'flame', 'bolt', 'wave'],
-  },
-  warlock: {
-    hue: 266,
-    sat: 56,
-    motifs: ['scroll', 'eye', 'tentacle', 'skull', 'moon'],
-  },
-  wizard: {
-    hue: 236,
-    sat: 52,
-    motifs: ['hat', 'rune', 'book', 'star', 'hourglass'],
-  },
+  monk: { hue: 26, sat: 42, light: 30, motifs: ['fist', 'enso', 'wave', 'sun', 'leaf'] },
+  paladin: { hue: 210, sat: 10, dark: 74, motifs: ['shield', 'cross', 'sun', 'crown', 'sword'] },
+  psion: { hue: 282, sat: 48, motifs: ['spiral', 'crystal', 'eye', 'star', 'bolt'] },
+  ranger: { hue: 140, sat: 50, light: 24, motifs: ['bow', 'arrow', 'leaf', 'paw', 'tree'] },
+  rogue: { hue: 0, sat: 0, light: 16, motifs: ['dagger', 'mask', 'eye', 'web', 'moon'] },
+  sorcerer: { hue: 30, sat: 100, motifs: ['stars', 'spark', 'flame', 'bolt', 'wave'] },
+  warlock: { hue: 276, sat: 55, light: 26, motifs: ['scroll', 'eye', 'tentacle', 'skull', 'moon'] },
+  wizard: { hue: 204, sat: 72, dark: 68, motifs: ['hat', 'rune', 'book', 'star', 'hourglass'] },
 };
 
 /** Secondary hue of each class (ornaments). */
@@ -407,8 +371,8 @@ export function themeFor(classId: string, subclassId?: string | null): ClassThem
 
   const sat = base.sat;
   const sat2 = Math.max(40, Math.min(60, sat));
-  // inks and pigments, not neon: accents are a little muted and deep
-  const ink = Math.round(Math.min(50, sat) * 0.8);
+  // inks and pigments, not neon: accents are a little muted
+  const ink = Math.round(sat * 0.85);
   return {
     classId,
     subclassId: sub,
@@ -416,8 +380,8 @@ export function themeFor(classId: string, subclassId?: string | null): ClassThem
     sat,
     hue2,
     motif,
-    accentLight: readable(hue, ink, PAPER_LIGHT, 'darker'),
-    accentDark: readable(hue, ink, PAPER_DARK, 'lighter'),
+    accentLight: readable(hue, ink, PAPER_LIGHT, 'darker', 4.6, base.light),
+    accentDark: readable(hue, ink, PAPER_DARK, 'lighter', 4.6, base.dark),
     // decoration only (not text): 3:1 is enough (WCAG 1.4.11)
     accent2Light: readable(hue2, sat2, PAPER_LIGHT, 'darker', 3.1),
     accent2Dark: readable(hue2, sat2, PAPER_DARK, 'lighter', 3.1),
@@ -457,8 +421,9 @@ function readable(
   paper: string,
   dir: 'darker' | 'lighter',
   min = 4.6,
+  from?: number,
 ): string {
-  const start = dir === 'darker' ? 42 : 58;
+  const start = from ?? (dir === 'darker' ? 42 : 58);
   const step = dir === 'darker' ? -1 : 1;
   for (let l = start; l >= 5 && l <= 95; l += step) {
     const c = hslToHex(hue, sat, l);

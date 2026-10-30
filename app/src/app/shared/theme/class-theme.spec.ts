@@ -77,7 +77,7 @@ describe('class themes', () => {
   it('exposes CSS variables', () => {
     const vars = themeVars(themeFor('wizard'));
     expect(vars['--th-accent-light']).toMatch(/^#[0-9a-f]{6}$/);
-    expect(vars['--th-hue']).toBe('236');
+    expect(vars['--th-hue']).toBe('204');
   });
 
   it('converts colours', () => {
