@@ -48,6 +48,7 @@ class Report:
         self.near: list[tuple[str, str, str]] = []
         self.skipped: list[str] = []
         self.excluded: list[str] = []   # pages that only belong to an excluded class (Psion)
+        self.pruned_options: dict[str, int] = {}   # option group → 2014 options dropped
 
     def warn(self, page: Page | str, msgs: list[str]):
         if msgs:
@@ -413,6 +414,43 @@ def load_successors(path: Path) -> dict:
     return out
 
 
+def _text(e: dict) -> str:
+    return " ".join([e.get("description", "")] + [f"{f['name']} {f['description']}" for f in e.get("features", [])]).lower()
+
+
+def prune_options(entries: list[dict], report: Report) -> list[dict]:
+    """Class option lists follow the class version in the data:
+    - a group with 2024 options (Eldritch Invocations) keeps only those;
+    - 2014 options whose class or subclass is now the 2024 version and no longer mentions the
+      feature are dropped (Artificer Infusions, Elemental Disciplines); options of a class or
+      subclass not in the data are dropped too. Groups still used (Battle Master maneuvers, Blood
+      Hunter curses and mutagens) stay."""
+    by_id = {e["id"]: e for e in entries}
+    options = [e for e in entries if e["type"] == "option"]
+    groups_2024 = {o["group"] for o in options if o["edition"] == "2024"}
+
+    def keep(o: dict) -> bool:
+        if o["edition"] == "2024":
+            return True
+        if o["group"] in groups_2024:
+            return False
+        owner = by_id.get(o.get("subclassId") or o.get("classId") or "")
+        if owner is None:
+            return False
+        if owner["edition"] == "2024":
+            words = o["group"].replace(o.get("classId") or "", "").strip("-").replace("-", " ")
+            return words.rstrip("s") in _text(owner)
+        return True
+
+    out = []
+    for e in entries:
+        if e["type"] == "option" and not keep(e):
+            report.pruned_options[e["group"]] = report.pruned_options.get(e["group"], 0) + 1
+            continue
+        out.append(e)
+    return out
+
+
 def merge(e14: list[dict], e24: list[dict], successors: dict, report: Report) -> list[dict]:
     new = dedupe(e24, report)
     old = dedupe(e14, report)
@@ -526,6 +564,10 @@ def render_report(meta: dict, r: Report, crawler: Crawler) -> str:
     if r.skipped:
         L.append(f"\n## Excluidos (homebrew)\n\n{len(r.skipped)} páginas: secciones *Homebrew* de las wikis "
                  "y páginas marcadas «(HB)».\n")
+    if r.pruned_options:
+        L.append("\n## Opciones de clase de 2014 descartadas\n\nSu clase o subclase es la versión de 2024, que "
+                 "tiene su propia lista o ya no usa ese rasgo: "
+                 + ", ".join(f"{g} ({n})" for g, n in sorted(r.pruned_options.items())) + "\n")
     if r.excluded:
         L.append(f"\n## Excluidos (Psion)\n\n{len(r.excluded)} páginas solo de la clase Psion "
                  "(sus páginas de clase, disciplinas y subclases ni se descargan).\n")
@@ -573,7 +615,7 @@ def run(root: Path, offline: bool = False, delay: float = 0.5, translate: bool =
     e24 = r.parse_2024()
     e14 = r.parse_2014()
     successors = load_successors(root / "tools/scraper/successors.yaml")
-    merged = merge(e14, e24, successors, report)
+    merged = prune_options(merge(e14, e24, successors, report), report)
     apply_multiclass_gains(merged, root / "tools/scraper/multiclass.yaml", report)
     meta = write(merged, root / "data", report, crawler, root / "tools/scraper/report.md")
     if translate:

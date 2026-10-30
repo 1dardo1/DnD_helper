@@ -32,7 +32,7 @@ FIELDS = {
 }
 # Lower bounds that catch a broken parser or a wiki layout change.
 MINIMUMS = {"class": 14, "subclass": 150, "spell": 500, "feat": 250, "species": 60, "background": 50,
-            "item": 600, "option": 100}
+            "item": 600, "option": 80}
 MUST_EXIST = [("class", "blood-hunter"), ("class", "artificer"), ("class", "barbarian"),
               ("subclass", "blood-hunter/order-of-the-ghostslayer"), ("subclass", "blood-hunter/order-of-the-lycan"),
               ("subclass", "blood-hunter/order-of-the-mutant"), ("subclass", "blood-hunter/order-of-the-profane-soul"),

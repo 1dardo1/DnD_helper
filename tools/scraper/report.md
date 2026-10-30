@@ -1,6 +1,6 @@
 # Informe de extracción
 
-Generado: 2026-10-30T12:49:26+00:00
+Generado: 2026-10-30T17:21:35+00:00
 
 ## Totales
 
@@ -8,7 +8,7 @@ Generado: 2026-10-30T12:49:26+00:00
 |---|---|---|---|
 | classes | 14 | 13 | 1 |
 | subclasses | 205 | 105 | 100 |
-| options | 178 | 40 | 138 |
+| options | 95 | 40 | 55 |
 | spells | 641 | 469 | 172 |
 | feats | 360 | 242 | 118 |
 | species | 89 | 30 | 59 |
@@ -16,7 +16,7 @@ Generado: 2026-10-30T12:49:26+00:00
 | items | 1346 | 707 | 639 |
 | rules | 84 | 39 | 45 |
 
-Páginas descargadas en esta ejecución: 3  
+Páginas descargadas en esta ejecución: 0  
 Fallos de descarga: 0 · Páginas que no se pudieron convertir: 1
 
 ## Sustituidos por la versión de 2024
@@ -139,6 +139,11 @@ Elementos de 2014 que se han conservado pero se parecen a uno de 2024. Si son la
 ## Excluidos (homebrew)
 
 34 páginas: secciones *Homebrew* de las wikis y páginas marcadas «(HB)».
+
+
+## Opciones de clase de 2014 descartadas
+
+Su clase o subclase es la versión de 2024, que tiene su propia lista o ya no usa ese rasgo: artificer-infusion (17), eldritch-invocation (49), elemental-discipline (17)
 
 
 ## Excluidos (Psion)

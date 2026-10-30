@@ -4369,7 +4369,7 @@
   {
     "id": "chain-mail",
     "type": "item",
-    "name": "Correo en cadena",
+    "name": "Cota de malla",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -4414,7 +4414,7 @@
   {
     "id": "chain-shirt",
     "type": "item",
-    "name": "Camisa de cadena",
+    "name": "Camisa de malla",
     "edition": "2024",
     "source": null,
     "description": "",
