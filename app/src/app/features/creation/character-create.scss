@@ -1,6 +1,7 @@
 // Creation wizard: steps as bookmark ribbons, the form on the page, and the live preview
 // as a themed index card (side panel on desktop, below the form on phones).
 @use '../../shared/theme/notebook' as nb;
+@use '../../shared/picker/cards';
 
 .steps {
   display: flex;
@@ -70,7 +71,7 @@
     align-items: center;
     gap: var(--space-2) var(--space-3);
 
-    > :is(p, details, h3, .spells, select, input[type='search'], label:not(.inline)) {
+    > :is(p, details, h3, app-picker, select, input[type='search'], label:not(.inline)) {
       flex: 1 1 100%;
       margin: 0;
     }
@@ -112,19 +113,9 @@
   }
 }
 
-.spells {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
-  max-height: 18rem;
-  overflow-y: auto;
-  padding: var(--space-2);
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-
-  label.inline {
-    margin: 0;
-  }
+// Lineage cards of the species picker (its own template).
+.variant-card {
+  @include cards.text;
 }
 
 .scores {

@@ -31,12 +31,14 @@ import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/dat
 import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, newCharacter, normalizeCharacter } from '../../core/models/character';
-import { Ability, ClassOption, DndClass, Feat } from '../../core/models/compendium';
+import { Ability, ClassOption, DndClass, Feat, Feature } from '../../core/models/compendium';
 import { castingOf, computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { ABILITIES } from '../../core/rules/tables';
 import { SettingsService } from '../../core/settings/settings.service';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
+import { ENTRY_FACETS } from '../../shared/picker/entry-facets';
+import { Picker } from '../../shared/picker/picker';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
 
@@ -61,6 +63,7 @@ type ClassEntry = Character['classes'][number];
     MarkdownPipe,
     LoadError,
     ClassThemeDirective,
+    Picker,
   ],
   templateUrl: './character-create.html',
   styleUrl: './character-create.scss',
@@ -83,10 +86,16 @@ export class CharacterCreate {
   protected readonly budget = POINT_BUY_BUDGET;
   protected readonly languages = [...STANDARD_LANGUAGES, ...RARE_LANGUAGES];
   protected readonly rareLanguages = RARE_LANGUAGES;
+  // filters of each card picker
+  protected readonly classFacets = ENTRY_FACETS.class;
+  protected readonly subclassFacets = ENTRY_FACETS.subclass.filter((k) => k !== 'class');
+  protected readonly backgroundFacets = ENTRY_FACETS.background;
+  protected readonly speciesFacets = ENTRY_FACETS.species;
+  /** All from the class's own list, so no class filter. */
+  protected readonly spellFacets = ENTRY_FACETS.spell.filter((k) => k !== 'class');
 
   protected readonly step = signal<Step>('class');
   protected readonly draft = signal<Character>(newCharacter('', ''));
-  protected readonly spellFilter = signal('');
   private loadedFor: string | null | undefined = undefined;
 
   /** Everything the wizard offers choices from. */
@@ -121,8 +130,6 @@ export class CharacterCreate {
   /** The character's classes with everything each one offers. The first is the starting class. */
   protected readonly rows = computed(() => {
     const d = this.data.value();
-    const q = this.spellFilter().toLowerCase();
-    const match = (s: { name: string }) => !q || s.name.toLowerCase().includes(q);
     return this.draft().classes.map((entry, index) => {
       const cls = d?.rules.classes.get(entry.id);
       if (!d || !cls) {
@@ -151,8 +158,8 @@ export class CharacterCreate {
         expertise: expertiseCount(cls, entry.level),
         sub,
         spells: sl && {
-          cantrips: sl.cantrips.filter(match),
-          leveled: sl.leveled.filter(match),
+          cantrips: sl.cantrips,
+          leveled: sl.leveled,
           cantripCount: sc!.cantripsByLevel?.[entry.level - 1] ?? null,
           preparedCount: sc!.preparedByLevel?.[entry.level - 1] ?? null,
         },
@@ -175,6 +182,10 @@ export class CharacterCreate {
     const id = this.draft().species?.id;
     return id ? this.data.value()?.rules.species.get(id) : undefined;
   });
+  /** The species' lineages or variants, as picker items (the name is their id). */
+  protected readonly variants = computed(() =>
+    (this.species()?.variants ?? []).map((v) => ({ ...v, id: v.name })),
+  );
   protected readonly skillChoice = computed(() => skillPicks(this.classList()));
   protected readonly expertiseTotal = computed(() =>
     this.rows().reduce((n, r) => n + r.expertise, 0),
@@ -476,6 +487,10 @@ export class CharacterCreate {
       if (c.species) c.species.variant = name || null;
       return c;
     });
+  }
+
+  protected traitNames(traits: Feature[]): string {
+    return traits.map((t) => this.dataText.shortName(t.name)).join(', ');
   }
 
   protected setSize(size: string): void {

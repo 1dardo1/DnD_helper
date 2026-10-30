@@ -37,12 +37,14 @@ import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/dat
 import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, normalizeCharacter } from '../../core/models/character';
-import { Ability, ClassOption, DndClass, Feat, Spell } from '../../core/models/compendium';
+import { Ability, ClassOption, DndClass, Feat } from '../../core/models/compendium';
 import { swapRule } from '../../core/play/spell-swap';
 import { computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { Sheet } from '../../core/rules/sheet';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
+import { ENTRY_FACETS } from '../../shared/picker/entry-facets';
+import { Picker } from '../../shared/picker/picker';
 import { LoadError } from '../compendium/load-error';
 
 type Step = 'class' | 'hp' | 'subclass' | 'feats' | 'choices' | 'summary';
@@ -61,6 +63,7 @@ type Step = 'class' | 'hp' | 'subclass' | 'feats' | 'choices' | 'summary';
     DataTextPipe,
     MarkdownPipe,
     LoadError,
+    Picker,
   ],
   templateUrl: './level-up.html',
   styleUrl: './level-up.scss',
@@ -82,7 +85,7 @@ export class LevelUp {
   protected readonly classId = signal('');
   /** 'roll' shows the input for the rolled hit points. */
   protected readonly hpMode = signal<'average' | 'roll'>('average');
-  protected readonly spellFilter = signal('');
+  protected readonly spellFacets = ENTRY_FACETS.spell.filter((k) => k !== 'class');
   protected readonly saving = signal(false);
 
   /** Changes when the character shows up (a first visit can arrive before the pull brings it). */
@@ -144,19 +147,12 @@ export class LevelUp {
     const before = d.original.classes.find((k) => k.id === entry.id);
     const g = levelGains(cls, entry.level, before, sub, d.options, !d.original.classes.length);
     const sl = g.spells && spellsFor(g.spells.list, g.spells.sc, entry.level, d.spells);
-    const q = this.spellFilter().toLowerCase();
-    const match = (s: { name: string }) =>
-      !q || this.dataText.searchText(s.name).toLowerCase().includes(q);
     return {
       ...g,
       entry,
       sub,
       subclasses: subclassesFor(cls.id, [...d.rules.subclasses.values()]),
-      spellLists: sl && {
-        all: [...sl.cantrips, ...sl.leveled],
-        cantrips: sl.cantrips.filter(match),
-        leveled: sl.leveled.filter(match),
-      },
+      spellLists: sl,
       skillOptions: multiclassSkillOptions(cls, g.multiclass),
       instruments: g.multiclass?.instrument ? TOOL_GROUPS['Musical Instrument'] : [],
     };
@@ -333,7 +329,6 @@ export class LevelUp {
     const original = this.data.value()?.original;
     this.classId.set(id);
     this.hpMode.set('average');
-    this.spellFilter.set('');
     this.draft.set(original && id ? addLevel(original, id).character : null);
   }
 
@@ -500,14 +495,6 @@ export class LevelUp {
       ...c,
       choices: { ...c.choices, spells: this.toggle(c.choices.spells, id, on) },
     }));
-  }
-
-  protected cantripsOf(spells: Spell[]): Spell[] {
-    return spells.filter((s) => s.level === 0);
-  }
-
-  protected leveledOf(spells: Spell[]): Spell[] {
-    return spells.filter((s) => s.level > 0);
   }
 
   /** Options above the class level are listed but flagged. */

@@ -1,0 +1,111 @@
+// Card picker: a grid of vellum cards; the chosen ones in red ink with a wax-seal tick.
+@use './cards';
+
+:host {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.cards {
+  @include cards.grid;
+}
+
+.pick {
+  @include cards.frame;
+
+  &.open {
+    grid-column: 1 / -1;
+  }
+}
+
+// The whole card selects: a plain block button.
+.pick-main {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  gap: var(--space-2);
+  min-height: var(--tap);
+  width: 100%;
+  padding: var(--space-3) var(--space-3) var(--space-1);
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  text-align: left;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: inherit;
+  box-shadow: none;
+
+  &:hover:not(:disabled) {
+    background: var(--highlight);
+  }
+
+  > :last-child {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+// An empty ring; a wax seal with a tick when chosen.
+.check {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: 0.1rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  color: #fff4dc;
+  border: 2px solid var(--line-strong);
+  border-radius: 48% 52% 45% 55% / 55% 45% 52% 48%;
+
+  .chosen & {
+    border-color: transparent;
+    background: radial-gradient(
+      circle at 35% 30%,
+      color-mix(in srgb, var(--wax) 60%, white) 0,
+      var(--wax) 40%,
+      color-mix(in srgb, var(--wax) 70%, black) 100%
+    );
+    box-shadow:
+      inset 0 0 0 2px color-mix(in srgb, var(--wax) 80%, black),
+      0 1px 2px rgb(0 0 0 / 0.4);
+  }
+}
+
+.pick-more {
+  align-self: flex-end;
+  min-height: var(--tap);
+  margin: 0 var(--space-2) var(--space-1);
+  padding: 0 var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--ink-blue);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.pick-details {
+  margin: 0 var(--space-3) var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--line-strong);
+  min-width: 0;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  color: var(--ink-soft);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+label.inline {
+  font-family: var(--font-title);
+  font-size: var(--fs-sm);
+}

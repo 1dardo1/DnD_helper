@@ -1,0 +1,92 @@
+<ng-template #pick let-item>
+  @let chosen = isChosen(item);
+  @let opened = isOpen(item);
+  <li class="pick" [class.chosen]="chosen" [class.open]="opened">
+    <button
+      type="button"
+      class="pick-main"
+      [attr.aria-pressed]="chosen"
+      [attr.title]="chosen ? ('picker.chosen' | t) : null"
+      (click)="choose(item)"
+    >
+      <span class="check" aria-hidden="true">{{ chosen ? '✓' : '' }}</span>
+      @if (cardTpl(); as tpl) {
+        <ng-container *ngTemplateOutlet="tpl; context: { $implicit: item }" />
+      } @else {
+        <app-entry-card [entry]="asEntry(item)" />
+      }
+    </button>
+    <button
+      type="button"
+      class="pick-more btn-ghost"
+      [attr.aria-expanded]="opened"
+      (click)="toggleOpen(item)"
+    >
+      {{ (opened ? 'picker.less' : 'picker.more') | t }}
+    </button>
+    @if (opened) {
+      <div class="pick-details">
+        @if (detailsTpl(); as tpl) {
+          <ng-container *ngTemplateOutlet="tpl; context: { $implicit: item }" />
+        } @else {
+          <app-entry-details [entry]="asEntry(item)" />
+        }
+      </div>
+    }
+  </li>
+</ng-template>
+
+@if (collapsed()) {
+  <ul class="cards" [attr.aria-label]="label()">
+    @for (item of chosenItems(); track item.id) {
+      <ng-container *ngTemplateOutlet="pick; context: { $implicit: item }" />
+    }
+  </ul>
+  <p class="actions">
+    <button type="button" (click)="browsing.set(true)">{{ 'picker.change' | t }}</button>
+  </p>
+} @else {
+  @if (searchable()) {
+    <app-filter-bar
+      [query]="query()"
+      [facets]="facetViews()"
+      [shown]="filtered().length"
+      [total]="items().length"
+      (queryChange)="query.set($event)"
+      (facetChange)="setFacet($event.key, $event.value)"
+      (clear)="clear()"
+    >
+      @if (multiple() && selected().length) {
+        <label class="inline">
+          <input
+            type="checkbox"
+            [checked]="chosenOnly()"
+            (change)="chosenOnly.set($any($event.target).checked)"
+          />
+          {{ 'picker.chosenOnly' | t }}
+        </label>
+      }
+    </app-filter-bar>
+  }
+  <ul class="cards" [attr.aria-label]="label()">
+    @for (item of visible(); track item.id) {
+      <ng-container *ngTemplateOutlet="pick; context: { $implicit: item }" />
+    } @empty {
+      <li class="empty">{{ 'common.noResults' | t }}</li>
+    }
+  </ul>
+  @if (filtered().length > visible().length || (browsing() && chosenItems().length)) {
+    <p class="actions">
+      @if (filtered().length > visible().length) {
+        <button type="button" (click)="showMore()">
+          {{ 'picker.showMore' | t: { count: filtered().length - visible().length } }}
+        </button>
+      }
+      @if (browsing() && chosenItems().length) {
+        <button type="button" class="btn-ghost" (click)="browsing.set(false)">
+          {{ 'picker.cancel' | t }}
+        </button>
+      }
+    </p>
+  }
+}

@@ -1,145 +1,50 @@
-import { Component, computed, inject, input, resource } from '@angular/core';
+import { Component, computed, inject, input, linkedSignal, resource } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
-import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service';
-import { TermDomain, term } from '../../core/i18n/glossary';
-import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
-import { ENTRY_TYPES, Entry, EntryType } from '../../core/models/compendium';
-import { FILTERS, FilterKey, applyFilters, filterChoices } from './compendium-filters';
+import { DataTextService } from '../../core/i18n/data-text.service';
+import { I18nService, TranslatePipe, TranslationKey } from '../../core/i18n/i18n.service';
+import { ENTRY_TYPES, Entry, EntryType, Item } from '../../core/models/compendium';
+import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
+import { EntryCard } from '../../shared/picker/entry-card';
+import {
+  ENTRY_FACETS,
+  FacetKey,
+  MULTI_FACETS,
+  facetValues,
+  sortByPrice,
+} from '../../shared/picker/entry-facets';
+import { EntryLabels } from '../../shared/picker/entry-labels.service';
+import { FilterBar } from '../../shared/picker/filter-bar';
+import { applyFacets } from '../../shared/picker/picker-filters';
 import { normalise } from './compendium-search';
 import { LoadError } from './load-error';
-import { entrySummary } from './entry-summary';
 
-/** Glossary domain of the "category" filter for each type that has one. */
-const CATEGORY_DOMAIN: Partial<Record<EntryType, TermDomain>> = {
-  feat: 'featCategory',
-  item: 'itemCategory',
-  rule: 'ruleCategory',
+/** Types long enough to first choose a group (feats by category, options by group...). */
+const GROUPED: Partial<Record<EntryType, FacetKey>> = {
+  feat: 'category',
+  option: 'group',
+  item: 'category',
+  subclass: 'class',
 };
 
-/** Entries of one type, with a name search and filters; both live in the URL (?q=…&school=…). */
+/** Types whose list can also be sorted by price (?sort=price-asc|price-desc). */
+const PRICED = new Set<EntryType>(['item']);
+
+/** Cards rendered at a time ("Mostrar más" for the rest). */
+const PAGE = 60;
+
+/**
+ * Entries of one type as summary cards (the same ones the wizard pickers show), with a name search
+ * and filters; both live in the URL (?q=…&school=…). Feats, class options, items and subclasses
+ * first offer a card per group (?category=general, ?class=wizard); ?all=1 lists every entry.
+ */
 @Component({
   selector: 'app-entry-list',
-  imports: [RouterLink, TranslatePipe, DataNamePipe, LoadError],
-  template: `
-    <p>
-      <a routerLink="/compendium">← {{ 'compendium.title' | t }}</a>
-    </p>
-    <h1>{{ 'type.' + entryType() | t }}</h1>
-
-    <div class="controls">
-      <input
-        type="search"
-        [placeholder]="'common.search' | t"
-        [value]="query()"
-        (input)="setParam('q', $any($event.target).value, true)"
-        [attr.aria-label]="'common.search' | t"
-      />
-      @for (f of filters(); track f.key) {
-        <label>
-          {{ 'filter.' + f.key | t }}
-          <select (change)="setParam(f.key, $any($event.target).value)">
-            <option value="" [selected]="!f.selected">{{ 'filter.all' | t }}</option>
-            @for (c of f.choices; track c.value) {
-              <option [value]="c.value" [selected]="c.value === f.selected">{{ c.label }}</option>
-            }
-          </select>
-        </label>
-      }
-      @if (anyActive()) {
-        <button type="button" (click)="clear()">{{ 'filter.clear' | t }}</button>
-      }
-    </div>
-
-    @if (entries.isLoading()) {
-      <p>{{ 'common.loading' | t }}</p>
-    } @else if (entries.error()) {
-      <app-load-error [error]="entries.error()" />
-    } @else {
-      <p class="count" aria-live="polite">
-        <small>{{ 'filter.count' | t: { count: filtered().length } }}</small>
-      </p>
-      <ul class="entries">
-        @for (e of filtered(); track e.id) {
-          <li>
-            <a [routerLink]="['/compendium', entryType(), e.id]">{{ e.name | dataName }}</a>
-            <small>{{ summary(e) }}</small>
-            @if (e.edition === '2014') {
-              <small class="edition">2014</small>
-            }
-          </li>
-        } @empty {
-          <li>{{ 'common.noResults' | t }}</li>
-        }
-      </ul>
-    }
-  `,
-  styles: `
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem 1rem;
-      align-items: end;
-      margin-bottom: 0.5rem;
-    }
-    .controls label {
-      display: flex;
-      flex-direction: column;
-      font-size: 0.875rem;
-    }
-    .controls select {
-      max-width: 14rem;
-    }
-    input[type='search'] {
-      width: 100%;
-      max-width: 28rem;
-      margin-bottom: var(--space-4);
-    }
-    .count {
-      margin: 0;
-    }
-    .entries {
-      columns: 2 22rem;
-      column-gap: var(--space-6);
-      padding: 0;
-      list-style: none;
-    }
-    .entries li {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0 var(--space-2);
-      align-items: baseline;
-      margin: 0;
-      padding: 0.45rem 0.25rem;
-      border-bottom: 1px dashed var(--line);
-      break-inside: avoid;
-    }
-    .entries a {
-      font-weight: 600;
-    }
-    .entries small {
-      margin-left: auto;
-      text-align: right;
-    }
-    .entries .edition {
-      margin-left: 0;
-      padding: 0 0.4em;
-      font-family: var(--font-title);
-      border: 1px solid currentColor;
-      border-radius: 0.8em;
-      box-shadow:
-        inset 0 0 0 2px var(--paper),
-        inset 0 0 0 3px var(--line);
-    }
-    @media (pointer: coarse) {
-      .entries li {
-        min-height: var(--tap);
-        align-items: center;
-      }
-    }
-  `,
+  imports: [RouterLink, TranslatePipe, LoadError, EntryCard, FilterBar, ClassThemeDirective],
+  templateUrl: './entry-list.html',
+  styleUrl: './entry-list.scss',
 })
 export class EntryList {
   /** Route parameter. */
@@ -147,6 +52,9 @@ export class EntryList {
   private readonly compendium = inject(CompendiumService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly data = inject(DataTextService);
+  private readonly i18n = inject(I18nService);
+  private readonly labels = inject(EntryLabels);
   private readonly params = toSignal(this.route.queryParamMap, {
     initialValue: this.route.snapshot.queryParamMap,
   });
@@ -155,57 +63,113 @@ export class EntryList {
     ENTRY_TYPES.includes(this.type() as EntryType) ? (this.type() as EntryType) : 'class',
   );
   protected readonly query = computed(() => this.params().get('q') ?? '');
-  private readonly selected = computed(
-    () =>
-      Object.fromEntries(
-        FILTERS[this.entryType()].map((k) => [k, this.params().get(k) ?? '']),
-      ) as Record<FilterKey, string>,
-  );
-  protected readonly anyActive = computed(
-    () => !!this.query() || Object.values(this.selected()).some(Boolean),
+  private readonly keys = computed(() => ENTRY_FACETS[this.entryType()]);
+  private readonly selected = computed(() =>
+    Object.fromEntries(this.keys().map((k) => [k, this.params().get(k) ?? ''])),
   );
 
   protected readonly entries = resource({
     params: () => this.entryType(),
     loader: ({ params }) => this.compendium.all(params) as Promise<Entry[]>,
   });
-  private readonly data = inject(DataTextService);
-  private readonly i18n = inject(I18nService);
-  private readonly classNames = resource({
-    loader: async () => new Map((await this.compendium.all('class')).map((c) => [c.id, c.name])),
-  });
 
-  /** The filters worth showing (more than one value to choose from), with their labels. */
-  protected readonly filters = computed(() => {
-    const list = this.entries.value() ?? [];
-    return FILTERS[this.entryType()]
-      .map((key) => {
-        const choices = filterChoices(list, key).map((value) => ({
-          value,
-          label: this.label(key, value),
-        }));
-        // Levels and rarities keep their game order; the rest go alphabetically by label.
-        if (key !== 'level' && key !== 'rarity') {
-          choices.sort((a, b) => a.label.localeCompare(b.label));
-        }
-        return { key, selected: this.selected()[key], choices };
-      })
-      .filter((f) => f.choices.length > 1 || f.selected);
-  });
-
-  /** Searches the name shown and the English one; sorted by the name shown. */
-  protected readonly filtered = computed(() => {
-    const q = normalise(this.query());
-    const list = applyFilters(this.entries.value() ?? [], this.selected());
-    const matches = q
-      ? list.filter((e) => normalise(this.data.searchText(e.name)).includes(q))
-      : list;
+  /** Sorted by the name shown, with the normalised names to search by. */
+  private readonly sorted = computed(() => {
     const shown = (e: Entry) => this.data.shortName(e.name);
-    return [...matches].sort((a, b) => shown(a).localeCompare(shown(b)));
+    const list = [...(this.entries.value() ?? [])].sort((a, b) => shown(a).localeCompare(shown(b)));
+    return { list, texts: list.map((e) => normalise(this.data.searchText(e.name))) };
   });
+
+  // -- groups --------------------------------------------------------------------------------
+  /** The facet this type is grouped by, if any. */
+  protected readonly groupKey = computed(() => GROUPED[this.entryType()] ?? null);
+  /** The group open (its label), for the title. */
+  protected readonly groupLabel = computed(() => {
+    const key = this.groupKey();
+    const value = key && this.selected()[key];
+    return value ? this.labels.optionLabel(this.entryType(), key, value) : '';
+  });
+  /** Show the group cards: a grouped type with no group, filter, search or ?all=1. */
+  protected readonly choosing = computed(
+    () =>
+      !!this.groupKey() &&
+      !this.params().get('all') &&
+      !this.query() &&
+      !Object.values(this.selected()).some(Boolean),
+  );
+  protected readonly groups = computed(() => {
+    const key = this.groupKey();
+    if (!key) return [];
+    const type = this.entryType();
+    const counts = new Map<string, number>();
+    for (const e of this.entries.value() ?? [])
+      for (const v of facetValues(e, key)) counts.set(v, (counts.get(v) ?? 0) + 1);
+    return (
+      [...counts]
+        .map(([value, count]) => {
+          const infoKey = `picker.groupInfo.${type}.${value}`;
+          const info = this.i18n.t(infoKey as TranslationKey);
+          return {
+            value,
+            params: { [key]: value },
+            count,
+            label: this.labels.optionLabel(type, key, value),
+            info: info === infoKey ? '' : info,
+          };
+        })
+        // classes alphabetically; other groups from the biggest
+        .sort((a, b) => (key === 'class' ? 0 : b.count - a.count) || a.label.localeCompare(b.label))
+    );
+  });
+
+  // -- list ----------------------------------------------------------------------------------
+  /** Every entry, or those of the group that's open. */
+  protected readonly inGroup = computed(() => {
+    const group = this.groupKey();
+    const value = group ? this.selected()[group] : '';
+    const all = this.entries.value() ?? [];
+    return value ? all.filter((e) => facetValues(e, group!).includes(value)) : all;
+  });
+
+  /** The filters, except the group when one is open (the title says which; the chooser changes it). */
+  protected readonly facets = computed(() => {
+    const group = this.groupKey();
+    const keys = this.keys().filter((k) => k !== group || !this.groupLabel());
+    return this.labels.facetViews(this.entryType(), this.inGroup(), keys, this.selected());
+  });
+
+  protected readonly priced = computed(() => PRICED.has(this.entryType()));
+  protected readonly sort = computed(() => this.params().get('sort') ?? '');
+
+  protected readonly filtered = computed(() => {
+    const { list, texts } = this.sorted();
+    const found = applyFacets(
+      list,
+      texts,
+      (i, k) => facetValues(list[i], k as FacetKey),
+      this.selected(),
+      this.query(),
+      MULTI_FACETS,
+    );
+    const sort = this.priced() ? this.sort() : '';
+    return sort.startsWith('price-') ? sortByPrice(found as Item[], sort === 'price-desc') : found;
+  });
+
+  /** Back to one page whenever the type, search or filters change. */
+  protected readonly limit = linkedSignal({
+    source: computed(
+      () => `${this.entryType()}|${this.query()}|${this.sort()}|${JSON.stringify(this.selected())}`,
+    ),
+    computation: () => PAGE,
+  });
+  protected readonly visible = computed(() => this.filtered().slice(0, this.limit()));
+
+  protected showMore(): void {
+    this.limit.update((n) => n + PAGE);
+  }
 
   /** Updates one query parameter; typing replaces the history entry instead of adding one. */
-  protected setParam(key: 'q' | FilterKey, value: string, replaceUrl = false): void {
+  protected setParam(key: string, value: string, replaceUrl = false): void {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { [key]: value || null },
@@ -214,55 +178,13 @@ export class EntryList {
     });
   }
 
+  /** Clears search and filters but stays in the group that's open. */
   protected clear(): void {
-    this.router.navigate([], { relativeTo: this.route, queryParams: {} });
-  }
-
-  private label(key: FilterKey, value: string): string {
-    const lang = this.i18n.language();
-    let text: string;
-    switch (key) {
-      case 'level':
-        text =
-          value === '0'
-            ? this.i18n.t('spell.cantrip')
-            : this.i18n.t('filter.levelN', { level: value });
-        break;
-      case 'school':
-        text = term(lang, 'school', value);
-        break;
-      case 'class':
-        text = this.data.shortName(this.classNames.value()?.get(value) ?? value);
-        break;
-      case 'category': {
-        const domain = CATEGORY_DOMAIN[this.entryType()];
-        text = domain ? term(lang, domain, value) : value;
-        break;
-      }
-      case 'rarity':
-        text = term(lang, 'rarity', value);
-        break;
-      case 'magic':
-        text = this.i18n.t(value === 'magic' ? 'filter.magicOnly' : 'filter.mundaneOnly');
-        break;
-      case 'group':
-        text = term(lang, 'optionGroup', value);
-        break;
-      case 'edition':
-        text = this.i18n.t('common.edition', { edition: value });
-        break;
-    }
-    return text.charAt(0).toUpperCase() + text.slice(1);
-  }
-
-  protected summary(e: Entry): string {
-    return entrySummary(
-      e,
-      this.i18n.language(),
-      this.i18n.t('spell.cantrip'),
-      new Map(
-        [...(this.classNames.value() ?? new Map())].map(([id, n]) => [id, this.data.shortName(n)]),
-      ),
-    );
+    const key = this.groupKey();
+    const group = key ? this.selected()[key] : '';
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: key && group ? { [key]: group } : key ? { all: 1 } : {},
+    });
   }
 }

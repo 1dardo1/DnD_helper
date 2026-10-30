@@ -1,0 +1,88 @@
+<nav class="crumbs" [attr.aria-label]="'picker.breadcrumb' | t">
+  <a routerLink="/compendium">← {{ 'compendium.title' | t }}</a>
+  @if (groupKey() && !choosing()) {
+    › <a [routerLink]="[]">{{ 'type.' + entryType() | t }}</a>
+  }
+</nav>
+<h1>
+  {{ 'type.' + entryType() | t }}
+  @if (groupLabel(); as g) {
+    › {{ g }}
+  }
+</h1>
+
+@if (entries.isLoading()) {
+  <p>{{ 'common.loading' | t }}</p>
+} @else if (entries.error()) {
+  <app-load-error [error]="entries.error()" />
+} @else if (choosing()) {
+  <p>{{ 'picker.chooseGroup' | t }}</p>
+  <ul class="groups">
+    @for (g of groups(); track g.value) {
+      <li [appClassTheme]="groupKey() === 'class' ? { classId: g.value } : null">
+        <a class="group" [routerLink]="[]" [queryParams]="g.params">
+          <span class="name">{{ g.label }}</span>
+          @if (g.info) {
+            <span class="info">{{ g.info }}</span>
+          }
+          <span class="n">{{ 'compendium.entries' | t: { count: g.count } }}</span>
+        </a>
+      </li>
+    }
+    <li>
+      <a class="group all" [routerLink]="[]" [queryParams]="{ all: 1 }">
+        <span class="name">{{ 'picker.all' | t }}</span>
+        <span class="info">{{ 'picker.allInfo' | t }}</span>
+        <span class="n">{{
+          'compendium.entries' | t: { count: entries.value()?.length ?? 0 }
+        }}</span>
+      </a>
+    </li>
+  </ul>
+} @else {
+  <app-filter-bar
+    [query]="query()"
+    [facets]="facets()"
+    [shown]="filtered().length"
+    [total]="inGroup().length"
+    (queryChange)="setParam('q', $event, true)"
+    (facetChange)="setParam($event.key, $event.value)"
+    (clear)="clear()"
+  >
+    @if (priced()) {
+      <label class="sort">
+        {{ 'picker.sort' | t }}
+        <select (change)="setParam('sort', $any($event.target).value)">
+          <option value="" [selected]="!sort()">{{ 'picker.sort.name' | t }}</option>
+          <option value="price-asc" [selected]="sort() === 'price-asc'">
+            {{ 'picker.sort.priceAsc' | t }}
+          </option>
+          <option value="price-desc" [selected]="sort() === 'price-desc'">
+            {{ 'picker.sort.priceDesc' | t }}
+          </option>
+        </select>
+      </label>
+    }
+  </app-filter-bar>
+  <ul class="cards">
+    @for (e of visible(); track e.id) {
+      <li
+        class="card-item"
+        [appClassTheme]="entryType() === 'subclass' || entryType() === 'class' ? e : null"
+      >
+        <a class="card-link" [routerLink]="['/compendium', entryType(), e.id]">
+          <app-entry-card [entry]="e" />
+        </a>
+      </li>
+    } @empty {
+      <li class="empty">{{ 'common.noResults' | t }}</li>
+    }
+  </ul>
+  @if (filtered().length > visible().length) {
+    <p class="more">
+      <button type="button" (click)="showMore()">
+        {{ 'picker.showMore' | t: { count: filtered().length - visible().length } }}
+      </button>
+    </p>
+  }
+}
