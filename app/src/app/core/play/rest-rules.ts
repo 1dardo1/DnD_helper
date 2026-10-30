@@ -6,7 +6,6 @@
  *
  *   short: 'all' → every expended use;  n → n expended uses;  0 → nothing
  *   shortFromLevel: the short-rest recovery needs this class level (Bard's Font of Inspiration)
- *   countDice: the table value is "4D6"-like and the number of dice is what gets spent
  *   passive: a number in the class table that isn't spent (Weapon Mastery, Invocations known...)
  *
  * Keys are resource names normalised with restKey(): lowercase, single spaces.
@@ -14,7 +13,6 @@
 export interface RestRule {
   short: Recovery;
   shortFromLevel?: number;
-  countDice?: boolean;
   passive?: boolean;
 }
 
@@ -29,7 +27,6 @@ export const REST_RULES: Record<string, RestRule> = {
   'focus points': { short: 'all' },
   'sorcery points': { short: 0 },
   'favored enemy': { short: 0 }, // free Hunter's Mark casts
-  'energy dice': { short: 1, countDice: true }, // Psion (UA)
   // -- uses that come from a feature, not from a column (see playResources) --
   'bardic inspiration': { short: 'all', shortFromLevel: 5 },
   'action surge': { short: 'all' },

@@ -7,9 +7,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
+from .common import EXCLUDED_CLASSES
 from .pipeline import FILES
 
 ABILITIES = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
@@ -38,7 +40,28 @@ MUST_EXIST = [("class", "blood-hunter"), ("class", "artificer"), ("class", "barb
 # Must have been replaced by their 2024 version (the 2014 one must not survive).
 MUST_BE_2024 = [("class", "barbarian"), ("spell", "fireball"), ("species", "elf"), ("feat", "alert"),
                 ("subclass", "barbarian/path-of-the-zealot")]
-EXCLUDED_URLS = ["fighter:gunslinger", "monk:cobalt-soul", "barbarian:juggernaut", "/mystic", "/hb:"]
+EXCLUDED_URLS = ["fighter:gunslinger", "monk:cobalt-soul", "barbarian:juggernaut", "/mystic", "/hb:",
+                 "/ua:class-psion", "/ua:subclass-psion-",
+                 # spells only on the Psion list (dropped because their only class is excluded)
+                 "/ua:spell-ego-whip", "/ua:spell-life-siphon", "/ua:spell-mind-blast",
+                 "/ua:spell-telekinetic-fling", "/ua:spell-thought-form"]
+# Option groups that only exist for an excluded class.
+EXCLUDED_GROUPS = {"psionic-discipline"}
+_EXCLUDED_ID = re.compile(r"(^|/)(?:" + "|".join(EXCLUDED_CLASSES) + r")(/|$)")
+
+
+def excluded_class_errors(where: str, e: dict) -> list[str]:
+    """Anything that belongs to an excluded class (Mystic, Psion) must not be in the output."""
+    errors = []
+    if _EXCLUDED_ID.search(e.get("id") or ""):
+        errors.append(f"{where}: id names an excluded class")
+    if e.get("classId") in EXCLUDED_CLASSES:
+        errors.append(f"{where}: belongs to excluded class '{e['classId']}'")
+    if e.get("type") == "option" and e.get("group") in EXCLUDED_GROUPS:
+        errors.append(f"{where}: excluded option group '{e['group']}'")
+    if e.get("type") == "spell" and set(e.get("classes") or []) & set(EXCLUDED_CLASSES):
+        errors.append(f"{where}: excluded class in the spell's class list {e['classes']}")
+    return errors
 
 
 def validate(root: Path) -> list[str]:
@@ -68,6 +91,7 @@ def validate(root: Path) -> list[str]:
             ids.add(e.get("id"))
             if any(x in e.get("url", "") for x in EXCLUDED_URLS):
                 errors.append(f"{where}: excluded page made it into the data ({e['url']})")
+            errors.extend(excluded_class_errors(where, e))
         if len(rows) < MINIMUMS.get(t, 0):
             errors.append(f"{FILES[t]}.json: only {len(rows)} entries (expected ≥ {MINIMUMS[t]})")
 
@@ -115,6 +139,19 @@ def validate(root: Path) -> list[str]:
         if e["edition"] == "2014" and e["category"] in ("general", "racial") and \
                 (e.get("prerequisites") or {}).get("level") is None:
             errors.append(f"feat '{e['id']}': 2014 feat without the level 4 prerequisite")
+    # The translated copy must not bring excluded content back either.
+    for t, f in FILES.items():
+        path = root / "data" / "es" / f"{f}.json"
+        if path.exists():
+            try:
+                rows = json.loads(path.read_text(encoding="utf-8"))
+            except ValueError as e:
+                errors.append(f"{path}: {e}")
+                continue
+            for e in rows:
+                if any(x in e.get("url", "") for x in EXCLUDED_URLS):
+                    errors.append(f"es/{f}.json[{e.get('id')}]: excluded page made it into the data ({e['url']})")
+                errors.extend(excluded_class_errors(f"es/{f}.json[{e.get('id')}]", e))
     missing_feats = sorted({e["featId"] for e in data["background"] if e.get("featId") and e["featId"] not in feat_ids})
     if len(missing_feats) > 5:
         errors.append(f"backgrounds reference unknown feats: {missing_feats}")

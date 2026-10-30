@@ -58,6 +58,12 @@ categorías, competencias…) no se traduce.
 ## Exclusiones
 
 - La clase Mystic y sus disciplinas.
+- La clase Psion (Psiónico, UA de 2024): sus páginas de clase, sus disciplinas psiónicas y sus subclases
+  (`ua:class-psion*`, `ua:subclass-psion-*`) no se descargan (`crawl.py`). Los hechizos que solo están en
+  la lista del Psion se descartan y, en los demás, `psion` se quita de `classes`
+  (`common.EXCLUDED_CLASSES`). `dndscraper.validate` falla si aparece algo del Psion en `data/` o `data/es/`.
+  Se conservan las dotes *Wild Talent* del mismo UA (son dotes generales) y lo psiónico de otras clases
+  (Psi Warrior, Soulknife, Aberrant Sorcery…).
 - La sección *Homebrew Subclasses* de la wiki de 2014 y la sección *Homebrew* de la de 2024.
 - Los trasfondos de 2014 (solo se usan los de 2024).
 

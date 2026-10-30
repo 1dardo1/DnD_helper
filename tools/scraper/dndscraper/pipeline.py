@@ -47,6 +47,7 @@ class Report:
         self.kept_2014: dict[str, list[str]] = defaultdict(list)
         self.near: list[tuple[str, str, str]] = []
         self.skipped: list[str] = []
+        self.excluded: list[str] = []   # pages that only belong to an excluded class (Psion)
 
     def warn(self, page: Page | str, msgs: list[str]):
         if msgs:
@@ -143,6 +144,9 @@ class Run:
         if entry is None:
             self.r.fail(page, warns)
             return None
+        if entry.pop("_excluded", False):      # e.g. a spell only on the Psion list
+            self.r.excluded.append(page.url)
+            return None
         self.r.warn(page, warns)
         entry["name"] = display_name(entry["name"])
         out.append(entry)
@@ -174,7 +178,7 @@ class Run:
                     sp = self.page(ed, sn)
                     if sp:
                         self._add(out, sp, classes.parse_subclass(sp, cid, e["subclassLevel"]))
-        for p in ua_option_pages:   # e.g. "Psionic Discipline Options", "Eldritch Invocation Options"
+        for p in ua_option_pages:   # e.g. "Eldritch Invocation Options"
             title = display_name(p.title)
             group = slug(re.sub(r"\s*\(.*?\)|\s+options?$", "", title, flags=re.I)).rstrip("s")
             group = "eldritch-invocation" if "invocation" in group else group
@@ -311,7 +315,7 @@ _CLASS_SIGNATURES = {
     "cleric": r"channel divinity|\bdomain\b", "warlock": r"pact magic|eldritch invocation|\bpatron\b",
     "wizard": r"spellbook|arcane recovery", "druid": r"wild shape", "bard": r"bardic inspiration",
     "ranger": r"favored enemy|hunter's mark", "fighter": r"action surge|second wind|maneuver",
-    "artificer": r"infus|tinker", "psion": r"psionic energy",
+    "artificer": r"infus|tinker",
 }
 
 
@@ -522,6 +526,9 @@ def render_report(meta: dict, r: Report, crawler: Crawler) -> str:
     if r.skipped:
         L.append(f"\n## Excluidos (homebrew)\n\n{len(r.skipped)} páginas: secciones *Homebrew* de las wikis "
                  "y páginas marcadas «(HB)».\n")
+    if r.excluded:
+        L.append(f"\n## Excluidos (Psion)\n\n{len(r.excluded)} páginas solo de la clase Psion "
+                 "(sus páginas de clase, disciplinas y subclases ni se descargan).\n")
     if r.failures or crawler.failed:
         L.append("\n## Páginas que fallaron\n")
         for url, err in crawler.failed:

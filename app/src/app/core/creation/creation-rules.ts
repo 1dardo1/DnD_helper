@@ -137,7 +137,6 @@ const OPTION_COUNT_COLUMN: Record<string, RegExp> = {
   'eldritch-invocation': /invocation/i,
   'blood-curse': /blood curse/i,
   'artificer-infusion': /infusion/i,
-  'psionic-discipline': /discipline/i,
 };
 
 export interface OptionGroup {

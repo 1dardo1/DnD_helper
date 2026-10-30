@@ -120,8 +120,7 @@
     "blood-curse": "Maldiciones de sangre",
     "mutagen": "Mutágenos",
     "artificer-infusion": "Infusiones de artífice",
-    "elemental-discipline": "Disciplinas elementales",
-    "psionic-discipline": "Disciplinas psiónicas"
+    "elemental-discipline": "Disciplinas elementales"
   },
   "ruleCategory": {
     "epic-boons": "Dones épicos",
@@ -289,7 +288,6 @@
     "hemocraft die": "Dado de hemocracia",
     "blood curses known": "Maldiciones de sangre conocidas",
     "psionic energy dice": "Dados de energía psiónica",
-    "psionic energy die": "Dado de energía psiónica",
-    "energy dice": "Dados de energía"
+    "psionic energy die": "Dado de energía psiónica"
   }
 }
