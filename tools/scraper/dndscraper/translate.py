@@ -100,6 +100,21 @@ def restore(text: str, values: list[str]) -> str:
     return re.sub(r"⟦\s*(\d+)\s*⟧", f, text)
 
 
+def load_fixes(path: Path) -> list[tuple[re.Pattern, str]]:
+    """fixes.es.yaml: whole-word replacements applied to translated text (keep the first capital)."""
+    fixes = yaml.safe_load(path.read_text(encoding="utf-8")) or {} if path.exists() else {}
+    return [(re.compile(rf"(?<![\w-]){re.escape(wrong)}(?![\w-])", re.I), right)
+            for wrong, right in sorted(fixes.items(), key=lambda kv: len(kv[0]), reverse=True)]
+
+
+def apply_fixes(text: str, fixes) -> str:
+    def keep_case(right):
+        return lambda m: right[:1].upper() + right[1:] if m.group(0)[:1].isupper() else right
+    for rx, right in fixes:
+        text = rx.sub(keep_case(right), text)
+    return text
+
+
 # -- translation ----------------------------------------------------------------------------------
 
 class Throttled(Exception):
@@ -251,6 +266,7 @@ def run(root: Path, offline: bool = False, limit: int | None = None, budget_minu
     translator asks to slow down before stopping (what's done is kept for the next run)."""
     terms = load_terms(HERE / "terms.es.yaml", root / "app/src/app/core/i18n/glossary.es.json")
     tr = Translator(HERE / "translations.es.json", offline, budget_minutes=budget_minutes)
+    fixes = load_fixes(HERE / "fixes.es.yaml")
     data = {f: json.loads((root / "data" / f"{f}.json").read_text(encoding="utf-8")) for f in FILES}
 
     # 1. Collect every text (protected) and translate what's missing.
@@ -275,7 +291,7 @@ def run(root: Path, offline: bool = False, limit: int | None = None, budget_minu
                 if es is None:
                     missing += 1
                 else:
-                    es = restore(es, values)
+                    es = apply_fixes(restore(es, values), fixes)
                     c[k] = es[:1].upper() + es[1:] if k in ("name", "shortName") else es
         (out_dir / f"{f}.json").write_text(json.dumps(entries, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     stats = {"texts": len(protected_texts), "untranslated": missing, "requests": tr.requests,

@@ -1,0 +1,45 @@
+# Correcciones que se aplican al texto ya traducido (palabra completa; respeta la mayúscula
+# inicial). Sirven para lo que el traductor dice mal de forma sistemática. A diferencia de
+# terms.es.yaml, cambiar esto no obliga a traducir nada otra vez. Usa solo cambios que no alteren
+# el género de la palabra (hechizo → conjuro sí; ranura → espacio no).
+
+# Terminología oficial
+hechizo: conjuro
+hechizos: conjuros
+asistente: mago
+asistentes: magos
+luchador: guerrero
+luchadores: guerreros
+guardabosques: explorador
+propenso: derribado
+restringido: apresado
+
+# Nombres de clase que el traductor deja en inglés
+artificer: artífice
+artificers: artífices
+barbarian: bárbaro
+barbarians: bárbaros
+bard: bardo
+bards: bardos
+cleric: clérigo
+clerics: clérigos
+druid: druida
+druids: druidas
+fighter: guerrero
+fighters: guerreros
+monk: monje
+monks: monjes
+paladin: paladín
+paladins: paladines
+ranger: explorador
+rangers: exploradores
+rogue: pícaro
+rogues: pícaros
+sorcerer: hechicero
+sorcerers: hechiceros
+warlock: brujo
+warlocks: brujos
+wizard: mago
+wizards: magos
+blood hunter: cazador de sangre
+blood hunters: cazadores de sangre

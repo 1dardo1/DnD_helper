@@ -50,6 +50,9 @@ categorías, competencias…) no se traduce.
   cambiado: cada traducción se guarda en `translations.es.json` (se sube al repo con los datos).
 - **`terms.es.yaml`**: términos de juego que se respetan siempre (puntos de golpe, acción adicional,
   po…). Puedes añadir los que salgan mal. Los nombres de herramientas se toman del glosario de la app.
+- **`fixes.es.yaml`**: correcciones que se aplican al texto ya traducido (p. ej. «hechizo» → «conjuro»,
+  «Wizard» → «Mago»). Cambiarlo no obliga a volver a traducir: basta con regenerar
+  (`python -m dndscraper.translate --offline`).
 - Si Google pide ir más despacio, el script espera; si tarda demasiado (`--translate-budget`, 90 minutos
   en la acción) se para, guarda lo traducido y la siguiente ejecución continúa. El resumen de la acción
   dice cuántos textos están traducidos.
