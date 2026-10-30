@@ -1,0 +1,127 @@
+// Layout and touch sizes only (≥ 44px targets); colours come from the global design.
+fieldset {
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  min-width: 0;
+}
+
+legend {
+  font-weight: bold;
+}
+
+button {
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  padding: 0 0.9rem;
+  font-size: 1rem;
+}
+
+input[type='number'] {
+  min-height: 2.75rem;
+  width: 6rem;
+  font-size: 1.2rem;
+  box-sizing: border-box;
+}
+
+.hp-now {
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
+
+  strong {
+    font-size: 2rem;
+  }
+
+  .temp {
+    font-size: 1rem;
+    margin-left: 0.5rem;
+  }
+}
+
+.amount {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  button {
+    flex: 1 1 8rem;
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  padding: 0.35rem 0;
+
+  .label {
+    flex: 0 0 9rem;
+  }
+
+  small {
+    flex: 1 1 100%;
+  }
+}
+
+.pips,
+.counter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+// A spent use / slot is a filled circle.
+.pip {
+  appearance: none;
+  margin: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  cursor: pointer;
+  flex: none;
+
+  &:checked {
+    background: currentColor;
+  }
+
+  &.bad:checked {
+    background: #b00;
+    border-color: #b00;
+  }
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.75rem;
+  cursor: pointer;
+}
+
+.spend {
+  padding: 0 0 0.5rem;
+}
+
+.note {
+  display: block;
+  margin: 0.25rem 0 0;
+}
+
+.rests {
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 30rem) {
+  .row .label {
+    flex-basis: 100%;
+  }
+}

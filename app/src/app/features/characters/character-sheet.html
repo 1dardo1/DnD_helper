@@ -94,6 +94,8 @@
     }
   </section>
 
+  <app-play-panel [sheet]="s" [state]="c.state" (changed)="saveState($event)" />
+
   <section>
     <h2>{{ 'sheet.abilities' | t }}</h2>
     <div class="abilities">
