@@ -193,6 +193,13 @@ export class CharacterStore {
         if (r.status === 'local' || r.status === 'sent') {
           const message = `Personaje: guardar "${r.character.name}" desde ${r.character.updatedBy}`;
           const written = await source.writeJson(path, r.character, r.baseSha, message);
+          const edited = this.editedSince(r);
+          if (edited) {
+            // saved again while the commit was on its way: that edit goes in the next commit
+            await this.write({ ...edited, baseSha: written.sha, sentSha: null });
+            result.uploaded++;
+            continue;
+          }
           const sent: CharacterRecord = { ...r, status: 'sent', sentSha: written.sha };
           await this.write(sent);
           await this.verify(source, sent);
@@ -233,7 +240,18 @@ export class CharacterStore {
   }
 
   private async confirm(r: CharacterRecord, sha: string): Promise<void> {
+    const edited = this.editedSince(r);
+    if (edited) {
+      await this.write({ ...edited, baseSha: sha, sentSha: null });
+      return;
+    }
     await this.write({ ...r, status: 'synced', baseSha: sha, sentSha: null, remote: null });
+  }
+
+  /** The current record, if the character was saved again after `r` was read (sync is async). */
+  private editedSince(r: CharacterRecord): CharacterRecord | null {
+    const current = this.records().find((x) => x.character.id === r.character.id);
+    return current && current.character !== r.character ? current : null;
   }
 
   private async markConflict(source: DataSource, r: CharacterRecord): Promise<number> {

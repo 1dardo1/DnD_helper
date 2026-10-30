@@ -59,8 +59,15 @@ export interface Character {
   state: {
     hpCurrent: number | null;
     hpTemp: number;
+    /** Spell slots spent per level (1–9). */
     spentSlots: number[];
+    /** Uses spent per class resource, by "<classId>:<name>" (see core/play). */
     resources: Record<string, number>;
+    pactSlotsSpent: number;
+    /** Hit Dice spent per size ("d10"). */
+    hitDiceSpent: Record<string, number>;
+    deathSaves: { successes: number; failures: number };
+    heroicInspiration: boolean;
   };
   notes: string;
 }
@@ -122,7 +129,16 @@ export function newCharacter(name: string, device: string): Character {
     },
     equipped: { armorId: null, shield: false },
     equipment: '',
-    state: { hpCurrent: null, hpTemp: 0, spentSlots: [0, 0, 0, 0, 0, 0, 0, 0, 0], resources: {} },
+    state: {
+      hpCurrent: null,
+      hpTemp: 0,
+      spentSlots: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      resources: {},
+      pactSlotsSpent: 0,
+      hitDiceSpent: {},
+      deathSaves: { successes: 0, failures: 0 },
+      heroicInspiration: false,
+    },
     notes: '',
   };
 }

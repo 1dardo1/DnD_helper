@@ -5,6 +5,8 @@ import { Character, CharacterRecord } from '../models/character';
 import { CharacterStore, SyncResult } from './character-store.service';
 
 const EVERY_MS = 5 * 60 * 1000;
+/** Quiet period after in-game changes before uploading them (one commit per burst of taps). */
+const SOON_MS = 5 * 1000;
 
 export type SyncState = 'idle' | 'syncing' | 'offline' | 'error';
 
@@ -25,6 +27,7 @@ export class SyncService {
   private running: Promise<void> | null = null;
   private again = false;
   private started = false;
+  private soon: ReturnType<typeof setTimeout> | null = null;
 
   /** Call once (the app shell does). */
   start(destroyRef: DestroyRef): void {
@@ -36,6 +39,8 @@ export class SyncService {
     destroyRef.onDestroy(() => {
       window.removeEventListener('online', onOnline);
       clearInterval(timer);
+      if (this.soon) clearTimeout(this.soon);
+      this.soon = null;
       this.started = false;
     });
     void this.sync();
@@ -45,6 +50,20 @@ export class SyncService {
   async save(character: Character): Promise<CharacterRecord> {
     const record = await this.store.save(character);
     void this.sync();
+    return record;
+  }
+
+  /**
+   * Saves on the device and uploads once no other change has come for a few seconds: for the
+   * in-game state, which changes with every tap.
+   */
+  async saveSoon(character: Character): Promise<CharacterRecord> {
+    const record = await this.store.save(character);
+    if (this.soon) clearTimeout(this.soon);
+    this.soon = setTimeout(() => {
+      this.soon = null;
+      void this.sync();
+    }, SOON_MS);
     return record;
   }
 

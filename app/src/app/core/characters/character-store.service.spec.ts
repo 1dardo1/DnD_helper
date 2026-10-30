@@ -179,6 +179,28 @@ describe('CharacterStore', () => {
     expect(repo.commits).toHaveLength(1);
   });
 
+  it('keeps an edit saved while its previous version was being uploaded', async () => {
+    const { store, repo } = setup();
+    const c = { ...newCharacter('Thorin', 'pc'), id: 'thorin' };
+    await store.save(c);
+    const write = repo.writeJson.bind(repo);
+    repo.writeJson = async (...args) => {
+      const written = await write(...args);
+      await store.save({ ...c, notes: 'tapped during the upload' });
+      return written;
+    };
+    expect(await store.push(asSource(repo))).toMatchObject({ uploaded: 1, conflicts: 0 });
+    let r = (await store.get('thorin'))!;
+    expect(r.status).toBe('local');
+    expect(r.character.notes).toBe('tapped during the upload');
+
+    repo.writeJson = write;
+    await store.push(asSource(repo));
+    r = (await store.get('thorin'))!;
+    expect(r.status).toBe('synced');
+    expect(repo.get('thorin')?.notes).toBe('tapped during the upload');
+  });
+
   it('uploads edits on top of the repo version', async () => {
     const { store, repo } = setup();
     const c = { ...newCharacter('Thorin', 'pc'), id: 'thorin' };

@@ -6,12 +6,14 @@ import { SyncService } from '../../core/characters/sync.service';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TermDomain, TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
+import { Character } from '../../core/models/character';
 import { computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { Sheet, SheetFeature, SheetWarning } from '../../core/rules/sheet';
 import { ABILITIES } from '../../core/rules/tables';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { LoadError } from '../compendium/load-error';
+import { PlayPanel } from './play-panel';
 
 /** The character sheet: everything computed by the rules engine from the character's choices. */
 @Component({
@@ -24,6 +26,7 @@ import { LoadError } from '../compendium/load-error';
     DataTextPipe,
     MarkdownPipe,
     LoadError,
+    PlayPanel,
   ],
   templateUrl: './character-sheet.html',
   styleUrl: './character-sheet.scss',
@@ -52,7 +55,7 @@ export class CharacterSheet {
     params: () => this.id(),
     loader: async ({ params }) => {
       const [record, data] = await Promise.all([this.store.get(params), this.rules.load()]);
-      return record ? { record, sheet: computeSheet(record.character, data) } : null;
+      return record ? { record, data, sheet: computeSheet(record.character, data) } : null;
     },
   });
 
@@ -74,6 +77,29 @@ export class CharacterSheet {
     await this.sync.save({ ...record.character, notes });
     this.notesDraft.set(null);
     this.view.reload();
+  }
+
+  private stateSaves = Promise.resolve();
+
+  /**
+   * In-game changes: shown at once (a tap must not wait for the database), saved in order, and
+   * uploaded a few seconds after the last one.
+   */
+  protected saveState(state: Character['state']): void {
+    const v = this.view.value();
+    if (!v) return;
+    const character = { ...v.record.character, state };
+    this.view.set({
+      ...v,
+      record: { ...v.record, character },
+      sheet: computeSheet(character, v.data),
+    });
+    this.stateSaves = this.stateSaves
+      .then(() => this.sync.saveSoon(character))
+      .then(
+        () => undefined,
+        (e) => console.error(e),
+      );
   }
 
   protected async remove(): Promise<void> {
