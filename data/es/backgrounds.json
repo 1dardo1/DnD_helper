@@ -1,0 +1,1652 @@
+[
+  {
+    "id": "aberrant-heir",
+    "type": "background",
+    "name": "Heredero aberrante",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Tu aberrante marca del dragón ha dificultado la vida desde que se manifestó. Es posible que lo hayas ocultado con éxito durante la mayor parte de tu vida o que hayas logrado pasar desapercibido. Alternativamente, es posible que hayas encontrado sospechas y miedo, quizás junto con el antagonismo absoluto de una o más casas marcadas por el dragón. Es posible que hayas formado una asociación con la organización criminal Casa Tarkanan (llamada así por uno de los líderes más notorios de los aberrantes dragones marcados en la Guerra de la Marca hace veinticinco siglos). O puede que tengas dificultades para encontrar tu propio camino en el mundo, confiando en tu ingenio y el poder de tu marca.",
+    "url": "https://dnd2024.wikidot.com/background:aberrant-heir",
+    "abilityScores": [
+      "STR",
+      "CON",
+      "CHA"
+    ],
+    "feat": "Marca del dragón aberrante",
+    "featId": "aberrant-dragonmark",
+    "skills": [
+      "history",
+      "intimidation"
+    ],
+    "tools": "Útiles para disfrazarse",
+    "equipment": "Elige A o B: (A) Daga, Útiles para disfrazarse, Traje, Ropa de viajero, 16 po; o (B) 50 po"
+  },
+  {
+    "id": "acolyte",
+    "type": "background",
+    "name": "Acólito",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Te dedicaste al servicio en un templo, ya sea enclavado en una ciudad o apartado en un bosque sagrado. Allí se realizaban ritos en honor a un dios o panteón. Serviste bajo la dirección de un sacerdote y estudiaste religión. Gracias a la instrucción de tu sacerdote y a tu propia devoción, también aprendiste a canalizar un mínimo de poder divino al servicio de tu lugar de culto y de las personas que allí oraban.",
+    "url": "https://dnd2024.wikidot.com/background:acolyte",
+    "abilityScores": [
+      "INT",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Iniciado Mágico (Clérigo)",
+    "featId": "magic-initiate",
+    "skills": [
+      "insight",
+      "religion"
+    ],
+    "tools": "Utensilios de calígrafo",
+    "equipment": "Elija A o B: (A) Utensilios de calígrafo, Libro (oraciones), Símbolo Sagrado, Pergamino (10 hojas), Túnica, 8 po; o (B) 50 po"
+  },
+  {
+    "id": "agent-of-the-ninth-quill",
+    "type": "background",
+    "name": "Agente de la Novena Pluma",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Tu mente aguda y tus habilidades para robar te llevaron a unirte a la Novena Pluma, un colectivo de ladrones, saboteadores y espías que roban conocimientos mágicos y reliquias de otros. A través de tus escapadas, desde robar objetos mágicos y tomos arcanos hasta sabotear a grupos de magos, has desarrollado habilidades astutas y trucos mágicos para mejorar tu arte de espionaje.",
+    "url": "https://dnd2024.wikidot.com/background:agent-of-the-ninth-quill",
+    "abilityScores": [
+      "DEX",
+      "INT",
+      "CHA"
+    ],
+    "feat": "Infiltrado arcano",
+    "featId": "arcane-infiltrator",
+    "skills": [
+      "arcana",
+      "sleight-of-hand"
+    ],
+    "tools": "Herramientas de ladrón",
+    "equipment": "Elige A o B: (A) Daga, Martillo ligero, Herramientas de ladrón, Púas de hierro, Cuerda, Ropa de viajero, 17 po; o (B) 50 po"
+  },
+  {
+    "id": "archaeologist",
+    "type": "background",
+    "name": "Arqueólogo",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Has realizado un estudio de por vida de las culturas perdidas y caídas del pasado, visitando sus ruinas, descifrando sus registros escritos y examinando sus obras maestras supervivientes. Quizás estudiaste en la Universidad de Morgrave o en una institución similar, complementando tu tiempo en la biblioteca con trabajo de campo en medio de ruinas antiguas en lugares remotos. Algunos arqueólogos saquean los tesoros del pasado en busca de riqueza o fama, pero la mayoría considera que su vocación es aprender del pasado. En cualquier caso, los arqueólogos de Eberron combinan las cualidades de los historiadores eruditos con el valor de los cazadores de tesoros.",
+    "url": "https://dnd2024.wikidot.com/background:archaeologist",
+    "abilityScores": [
+      "DEX",
+      "INT",
+      "WIS"
+    ],
+    "feat": "Calificado",
+    "featId": "skilled",
+    "skills": [
+      "history",
+      "survival"
+    ],
+    "tools": "Herramientas de cartógrafo",
+    "equipment": "Elija A o B: (A) Herramientas de cartógrafo, Linterna de diana, Mapa, Estuche para mapas o pergaminos, Pala, Tienda de campaña, Ropa de viajero, 17 po; o (B) 50 po"
+  },
+  {
+    "id": "artisan",
+    "type": "background",
+    "name": "Artesano",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Empezaste a fregar suelos y fregar encimeras en un taller artesanal por unas cuantas monedas de cobre al día tan pronto como tuviste fuerzas para cargar un cubo. Cuando tuviste la edad suficiente para ser aprendiz, aprendiste a crear tus propias manualidades básicas, así como a hablar dulcemente con algún cliente exigente ocasional. Su oficio también le ha dado un buen ojo para los detalles.",
+    "url": "https://dnd2024.wikidot.com/background:artisan",
+    "abilityScores": [
+      "STR",
+      "DEX",
+      "INT"
+    ],
+    "feat": "artesano",
+    "featId": "crafter",
+    "skills": [
+      "investigation",
+      "persuasion"
+    ],
+    "tools": "Elige un tipo de Herramientas de artesano",
+    "equipment": "Elija A o B: (A) Herramientas de artesano (igual que arriba), 2 bolsas, ropa de viajero, 32 po; o (B) 50 po"
+  },
+  {
+    "id": "bejeweled-conclave-spy",
+    "type": "background",
+    "name": "Espía del cónclave enjoyado",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Públicamente, eres un cortesano, un mediador o un artista. Pero detrás de ese rostro glamoroso hay una mente afinada para reunir secretos. Entrenado por los encantadores del Cónclave Bejeweled, sabes cómo usar tu encanto e ingenio (más un poco de magia) para infiltrarte en organizaciones, descubrir información y negociar acuerdos.",
+    "url": "https://dnd2024.wikidot.com/background:bejeweled-conclave-spy",
+    "abilityScores": [
+      "DEX",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Elocuencia Arcana",
+    "featId": "arcane-eloquence",
+    "skills": [
+      "deception",
+      "perception"
+    ],
+    "tools": "Útiles para disfrazarse",
+    "equipment": "Elige A o B: (A) Útiles para disfrazarse, Ropa Fina, Perfume, 5 po; o (B) 50 po"
+  },
+  {
+    "id": "carouser",
+    "type": "background",
+    "name": "Carrusel",
+    "edition": "2024",
+    "source": "El libro del hambre de Astarion",
+    "description": "Llegaste a la edad adulta en el corazón palpitante de una gran ciudad, como Baldur's Gate. Pasaste innumerables noches en tabernas, teatros, salones y garitos de juego, saboreando todo lo que la ciudad tenía para ofrecer. Eres natural interactuando con personas para aprender sus secretos, ya sea en un juego de alto riesgo o en una velada de alto nivel. Puede que te hayan echado de uno o diez establecimientos, pero sólo por gente que no sabe salir de fiesta.",
+    "url": "https://dnd2024.wikidot.com/background:carouser",
+    "abilityScores": [
+      "DEX",
+      "INT",
+      "CHA"
+    ],
+    "feat": "Juerguista incansable",
+    "featId": "tireless-reveler",
+    "skills": [
+      "deception",
+      "persuasion"
+    ],
+    "tools": "Elige un tipo de Juego",
+    "equipment": "Elija A o B: (A) Daga, Juego (igual que arriba), ropa fina, botella de vidrio, espejo, perfume, bolsa, yesquero, 19 po; o (B) 50 po"
+  },
+  {
+    "id": "charlatan",
+    "type": "background",
+    "name": "Charlatán",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Una vez que tenías edad suficiente para pedir una cerveza, pronto tenías un taburete favorito en cada taberna en un radio de diez millas de donde naciste. A medida que recorrías el circuito desde la taberna hasta el abrevadero, aprendiste a aprovecharte de los desafortunados que buscaban una o dos mentiras reconfortantes, tal vez una poción falsa o registros de ascendencia falsificados.",
+    "url": "https://dnd2024.wikidot.com/background:charlatan",
+    "abilityScores": [
+      "DEX",
+      "CON",
+      "CHA"
+    ],
+    "feat": "Calificado",
+    "featId": "skilled",
+    "skills": [
+      "deception",
+      "sleight-of-hand"
+    ],
+    "tools": "Útiles de falsificación",
+    "equipment": "Elige A o B: (A) Útiles de falsificación, Traje, Ropa Fina, 15 po; o (B) 50 po"
+  },
+  {
+    "id": "chondathan-freebooter",
+    "type": "background",
+    "name": "Filibustero chondathano",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Aunque la mayoría de los jóvenes de Chondath aceptan su servicio militar obligatorio de cuatro años, usted se enfureció ante ese intento autoritario de controlar su vida. Renunciaste a tu nacionalidad, descartaste tu nombre de pila y trabajaste como pirata en el primer barco que quiso atraparte. Desde entonces, has viajado por Vilhon Reach. Aunque nunca has navegado a más de unas pocas docenas de leguas desde tierra, lo compensas con profundas conexiones locales y la amplitud de tus experiencias.",
+    "url": "https://dnd2024.wikidot.com/background:chondathan-freebooter",
+    "abilityScores": [
+      "STR",
+      "DEX",
+      "WIS"
+    ],
+    "feat": "Calificado",
+    "featId": "skilled",
+    "skills": [
+      "athletics",
+      "sleight-of-hand"
+    ],
+    "tools": "Herramientas de tejedor",
+    "equipment": "Elija A o B: (A) Daga, Herramientas de tejedor, mochila, rodamientos de bolas, cesta, petate, cubo, raciones (para 3 días), cuerda, silbato de señales, ropa de viajero, 38 po; o (B) 50 po"
+  },
+  {
+    "id": "cosmic-dawn-experiment",
+    "type": "background",
+    "name": "Experimento del amanecer cósmico",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Tu cuerpo ha sido deformado por las prácticas de transmutación de los Portadores del Amanecer Cósmico. Quizás sin darte cuenta quedaste atrapado en uno de los experimentos de la organización, o tal vez eras miembro de la organización y buscabas mejorar tu forma física a través del poder mágico. Cualquiera sea el caso, utilizas tu extraña anatomía para tu beneficio.",
+    "url": "https://dnd2024.wikidot.com/background:cosmic-dawn-experiment",
+    "abilityScores": [
+      "STR",
+      "DEX",
+      "CON"
+    ],
+    "feat": "Anatomía transmutada",
+    "featId": "transmuted-anatomy",
+    "skills": [
+      "athletics",
+      "survival"
+    ],
+    "tools": "Elige un tipo de Herramientas de artesano",
+    "equipment": "Elija A o B: (A) Herramientas de artesano (igual que arriba), mochila, bata, ropa de viajero, 30 po; o (B) 50 po"
+  },
+  {
+    "id": "covenant-of-the-grave-recruit",
+    "type": "background",
+    "name": "Recluta del Pacto de la Tumba",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "La muerte siempre te ha fascinado. Has estudiado ese tema morboso junto a miembros del Pacto de la Tumba, analizando lo macabro con precisión científica. A través de estos estudios, has acumulado conocimientos sobre medicación, nigromancia e historia.",
+    "url": "https://dnd2024.wikidot.com/background:covenant-of-the-grave-recruit",
+    "abilityScores": [
+      "STR",
+      "INT",
+      "WIS"
+    ],
+    "feat": "Enterrador arcano",
+    "featId": "arcane-undertaker",
+    "skills": [
+      "history",
+      "medicine"
+    ],
+    "tools": "Útiles de herborista",
+    "equipment": "Elija A o B: (A) Daga, Útiles de herborista, Libro (anatomía), Pala, 16 po; o (B) 50 po"
+  },
+  {
+    "id": "criminal",
+    "type": "background",
+    "name": "Delincuente",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Te ganabas la vida a duras penas en callejones oscuros, robando carteras o robando tiendas. Quizás eras parte de una pequeña pandilla de malhechores con ideas afines que se cuidaban unos a otros. O tal vez eras un lobo solitario, defendiéndote del gremio de ladrones local y de los infractores de la ley más temibles.",
+    "url": "https://dnd2024.wikidot.com/background:criminal",
+    "abilityScores": [
+      "DEX",
+      "CON",
+      "INT"
+    ],
+    "feat": "Alerta",
+    "featId": "alert",
+    "skills": [
+      "sleight-of-hand",
+      "stealth"
+    ],
+    "tools": "Herramientas de ladrón",
+    "equipment": "Elija A o B: (A) 2 dagas, Herramientas de ladrón, palanca, 2 bolsas, ropa de viajero, 16 po; o (B) 50 po"
+  },
+  {
+    "id": "crucible-storm-chaser",
+    "type": "background",
+    "name": "Cazatormentas del Crisol",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Tus tendencias temerarias y tu sed de emoción te llevaron a Crucible Keepers, una organización dedicada a estudiar catástrofes naturales y mágicas. Desde jugar con vidrio fundido hasta atacar el ojo de un huracán, prosperarás cuando el desastre esté a solo unos pasos de distancia.",
+    "url": "https://dnd2024.wikidot.com/background:crucible-storm-chaser",
+    "abilityScores": [
+      "STR",
+      "CON",
+      "INT"
+    ],
+    "feat": "Sobrecarga arcana",
+    "featId": "arcane-overload",
+    "skills": [
+      "athletics",
+      "nature"
+    ],
+    "tools": "Herramientas de soplador de vidrio",
+    "equipment": "Elige A o B: (A) Herramientas de soplador de vidrio, Mochila, Cuerda, Ropa de viajero, 15 po; o (B) 50 po"
+  },
+  {
+    "id": "dead-magic-dweller",
+    "type": "background",
+    "name": "Habitante mágico muerto",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Las zonas mágicas muertas del desierto de Anauroch son un anatema para los lanzadores de conjuros y los monstruos que dependen de la magia, y es exactamente por eso que hiciste tu vida allí. Quizás estés huyendo de los Magos Rojos o te hayas topado con un poderoso djinni en Calimshan. Cualquiera sea el caso, decidiste que vivir en Anauroch era tu mejor opción. Después de largos meses o años, eres más fuerte, más sabio y estás armado con conocimientos adquiridos con esfuerzo sobre la medicina del desierto y la supervivencia en tierras baldías.",
+    "url": "https://dnd2024.wikidot.com/background:dead-magic-dweller",
+    "abilityScores": [
+      "STR",
+      "CON",
+      "WIS"
+    ],
+    "feat": "sanador",
+    "featId": "healer",
+    "skills": [
+      "medicine",
+      "survival"
+    ],
+    "tools": "Herramientas de peletero",
+    "equipment": "Elija A o B: (A) Gran club, Herramientas de peletero, petate, manta, kit de sanador, palo, raciones (para 3 días), tienda de campaña, yesquero, 5 antorchas, ropa de viajero, odre de agua, 32 po; o (B) 50 po"
+  },
+  {
+    "id": "discredited-neural-tuner",
+    "type": "background",
+    "name": "Sintonizador neuronal desacreditado",
+    "edition": "2024",
+    "source": "Proyecto Lamordia",
+    "description": "Hubo un tiempo en que usted era operador o técnico en Mordenheim Kinetics y realizaba trabajos éticamente cuestionables en las profundidades más oscuras de las instalaciones. Pero sucedió algo que disgustó a los poderes fácticos y usted fue severamente disciplinado por ello. Tal vez tuviste una crisis de conciencia y trataste de sabotear el trabajo del Dr. Mordenheim, o tal vez hiciste todo bien y no tienes idea de por qué fuiste castigado.\n\nCualquiera que sea el caso, le tendieron una emboscada durante la noche y se lo llevó la seguridad de la empresa. Te despertaste en una de las sucias cámaras de eliminación de desechos de Mordenheim Kinetics, donde los experimentos fallidos se reducen a sus partes esenciales para ser reutilizadas y recicladas. Afortunadamente, escapaste de ese destino espantoso y ahora existes en las afueras de las instalaciones como un recreante deshonrado. Con poco que perder, te verás impulsado a descubrir la verdad detrás de la oscura empresa que una vez te empleó.",
+    "url": "https://dnd2024.wikidot.com/background:discredited-neural-tuner",
+    "abilityScores": [
+      "STR",
+      "DEX",
+      "INT"
+    ],
+    "feat": "Susurros reunidos o una hazaña de Regalo oscuro de tu elección",
+    "featId": null,
+    "skills": [
+      "medicine",
+      "nature"
+    ],
+    "tools": "Herramientas de hojalatero (como kit de herramientas del ingeniero)",
+    "equipment": "Elija A o B: (A) Herramientas de hojalatero (como kit de herramientas del ingeniero); o (B) 50 po (como 50 dólares)"
+  },
+  {
+    "id": "dragon-cultist",
+    "type": "background",
+    "name": "Cultista del Dragón",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Eres un iniciado del Culto del Dragón. Descubriste o fuiste llevado a un culto celular, donde ejemplificaste los valores honrados por los cultistas del dragón: duplicidad, secreto y determinación. A cambio de tu juramento de servir al culto, el culto te ofreció la compañía de otros adoradores de dragones, además de acceso a recursos que podrían ayudarte a avanzar en tus estudios en los reinos de los arcanos y el ocultismo.",
+    "url": "https://dnd2024.wikidot.com/background:dragon-cultist",
+    "abilityScores": [
+      "DEX",
+      "CON",
+      "INT"
+    ],
+    "feat": "Culto del Iniciado del Dragón",
+    "featId": "cult-of-the-dragon-initiate",
+    "skills": [
+      "deception",
+      "stealth"
+    ],
+    "tools": "Utensilios de calígrafo",
+    "equipment": "Elija A o B: (A) Utensilios de calígrafo, Daga, Botella de vidrio, Lámpara, Esposas, Aceite (5 frascos), 2 Bolsas, Túnica, Cuerda, 30 po; o (B) 50 po"
+  },
+  {
+    "id": "emerald-enclave-caretaker",
+    "type": "background",
+    "name": "Cuidador del Enclave Esmeralda",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Como cuidador del Enclave Esmeralda, cuidas de aquellos que se preocupan por el mundo. Ya sea junto con tus compañeros de Emerald Enclave o solo, has aprendido habilidades esenciales para vivir con la tierra: cómo rastrear la caza, dónde buscar hierbas útiles e incluso cómo pronosticar el clima. Usas estos talentos para mantener el equilibrio entre la civilización y la naturaleza y para librar al mundo de criaturas antinaturales.",
+    "url": "https://dnd2024.wikidot.com/background:emerald-enclave-caretaker",
+    "abilityScores": [
+      "CON",
+      "INT",
+      "WIS"
+    ],
+    "feat": "Incipiente del Enclave Esmeralda",
+    "featId": "emerald-enclave-fledgling",
+    "skills": [
+      "nature",
+      "survival"
+    ],
+    "tools": "Útiles de herborista",
+    "equipment": "Elija A o B: (A) Arco corto, 20 flechas, Útiles de herborista, petate, manta, bolsa, tienda de campaña, ropa de viajero, 13 po; o (B) 50 po"
+  },
+  {
+    "id": "entertainer",
+    "type": "background",
+    "name": "Animador",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Pasaste gran parte de tu juventud siguiendo ferias y carnavales itinerantes, realizando trabajos ocasionales para músicos y acróbatas a cambio de lecciones. Quizás hayas aprendido a caminar sobre la cuerda floja, a tocar el laúd con un estilo distinto o a recitar poesía con una dicción impecable. Hasta el día de hoy, prosperas con los aplausos y añoras el escenario.",
+    "url": "https://dnd2024.wikidot.com/background:entertainer",
+    "abilityScores": [
+      "STR",
+      "DEX",
+      "CHA"
+    ],
+    "feat": "Músico",
+    "featId": "musician",
+    "skills": [
+      "acrobatics",
+      "performance"
+    ],
+    "tools": "Elige un tipo de Instrumento musical",
+    "equipment": "Elige A o B: (A) Instrumento musical (igual que arriba), 2 Disfraces, Espejo, Perfume, Ropa de Viajero, 11 po; o (B) 50 po"
+  },
+  {
+    "id": "fabricated-mind",
+    "type": "background",
+    "name": "Mente fabricada",
+    "edition": "2024",
+    "source": "Proyecto Lamordia",
+    "description": "Eres el resultado de una monstruosa neurotecnología experimental. Tu mente no es simplemente una copia de la de otra persona, sino algo completamente nuevo y único. Llegaste a ser consciente y realizado plenamente en algún lugar de los pasillos de Mordenheim Kinetics, sin idea de quién o qué te creó.\n\nTu naturaleza sintética te impulsa a la aventura. Quizás esperes encontrar una identidad propia o aliados potenciales con orígenes igualmente misteriosos. O quizás busques vengarte de los técnicos responsables de tu atormentada existencia.",
+    "url": "https://dnd2024.wikidot.com/background:fabricated-mind",
+    "abilityScores": [
+      "DEX",
+      "INT",
+      "CHA"
+    ],
+    "feat": "Alma resonante o una hazaña de regalo oscuro de tu elección",
+    "featId": null,
+    "skills": [
+      "deception",
+      "insight"
+    ],
+    "tools": "Útiles de falsificación",
+    "equipment": "Elija A o B: (A) Útiles de falsificación, ropa fina, tinta, 2 bolígrafos de tinta, 3 púas de hierro, 7 po (como 7 dólares); o (B) 50 po (como 50 dólares)"
+  },
+  {
+    "id": "familiar-trainer",
+    "type": "background",
+    "name": "Entrenador familiar",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Un familiar mágico se unió a ti cuando eras joven y te acompañó durante toda tu adolescencia. Ahora, no puedes imaginar la vida sin tu amigo peludo (o plumoso, escamoso o viscoso) a tu lado. Has aprendido a trabajar en conjunto con tu familiar, y cuando la aventura presenta sus desafíos, tu familiar rápidamente te recuerda las pequeñas alegrías de la vida.",
+    "url": "https://dnd2024.wikidot.com/background:familiar-trainer",
+    "abilityScores": [
+      "CON",
+      "INT",
+      "WIS"
+    ],
+    "feat": "amigo familiar",
+    "featId": "familiar-friend",
+    "skills": [
+      "animal-handling",
+      "arcana"
+    ],
+    "tools": "Elige un tipo de Juego",
+    "equipment": "Elija A o B: (A) Bastón, Juego (igual que arriba), petate, campana, hilo, yesquero, ropa de viajero, odre, 44 po; o (B) 50 po"
+  },
+  {
+    "id": "farmer",
+    "type": "background",
+    "name": "Granjero",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Creciste cerca de la tierra. Los años cuidando animales y cultivando la tierra te recompensaron con paciencia y buena salud. Tienes un gran aprecio por la generosidad de la naturaleza junto con un sano respeto por la ira de la naturaleza.",
+    "url": "https://dnd2024.wikidot.com/background:farmer",
+    "abilityScores": [
+      "STR",
+      "CON",
+      "WIS"
+    ],
+    "feat": "duro",
+    "featId": "tough",
+    "skills": [
+      "animal-handling",
+      "nature"
+    ],
+    "tools": "Herramientas de carpintero",
+    "equipment": "Elija A o B: (A) Hoz, Herramientas de carpintero, Kit de sanador, Olla de hierro, Pala, Ropa de viajero, 30 po; o (B) 50 po"
+  },
+  {
+    "id": "flaming-fist-mercenary",
+    "type": "background",
+    "name": "Mercenario del puño llameante",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "La principal rama policial de Baldur's Gate es Flaming Fist, un musculoso gremio de mercenarios liderado por el gran duque de la ciudad. Una vez serviste como Puño Ardiente, donde aprendiste a prevenir problemas con tu mirada intimidante y, cuando era necesario, a absorber golpes mortales. Los mercenarios de Flaming Fist, activos o retirados, son conocidos como algunos de los guerreros más duros y resistentes de la Costa de la Espada, y tú buscas mantener esa reputación.",
+    "url": "https://dnd2024.wikidot.com/background:flaming-fist-mercenary",
+    "abilityScores": [
+      "STR",
+      "CON",
+      "CHA"
+    ],
+    "feat": "duro",
+    "featId": "tough",
+    "skills": [
+      "intimidation",
+      "perception"
+    ],
+    "tools": "Herramientas de herrero",
+    "equipment": "Elija A o B: (A) Maza, Herramientas de herrero, ropa fina, esposas, ariete portátil, 4 po; o (B) 50 po"
+  },
+  {
+    "id": "genie-touched",
+    "type": "background",
+    "name": "Genio tocado",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Aunque los genios ya no gobiernan Calimshan, la magia de los genios sigue siendo común en tu tierra natal. Quizás invocaste sin darte cuenta a un djinni de una lámpara mágica, o quizás te topaste con un oasis custodiado por una marid. Un dao podría haberte salvado de un deslizamiento de tierra, o haber negociado con un efreeti una riqueza fugaz. Independientemente de cómo tu destino se cruzara con el de un genio, la experiencia te dejó con un buen ojo, una lengua plateada y más que un toque de magia.",
+    "url": "https://dnd2024.wikidot.com/background:genie-touched",
+    "abilityScores": [
+      "DEX",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Iniciado mágico (mago)",
+    "featId": "magic-initiate",
+    "skills": [
+      "perception",
+      "persuasion"
+    ],
+    "tools": "Herramientas de soplador de vidrio",
+    "equipment": "Elija A o B: (A) Martillo ligero, Herramientas de soplador de vidrio, ropa fina, lámpara, aceite (3 frascos), odre de agua, 2 po; o (B) 50 po"
+  },
+  {
+    "id": "guard",
+    "type": "background",
+    "name": "Guardia",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Te duelen los pies al recordar las innumerables horas que pasaste en tu puesto en la torre. Fuiste entrenado para mantener un ojo mirando fuera del muro, en busca de merodeadores que salieran del bosque cercano, y el otro ojo mirando dentro del muro, en busca de ladrones y alborotadores.",
+    "url": "https://dnd2024.wikidot.com/background:guard",
+    "abilityScores": [
+      "STR",
+      "INT",
+      "WIS"
+    ],
+    "feat": "Alerta",
+    "featId": "alert",
+    "skills": [
+      "athletics",
+      "perception"
+    ],
+    "tools": "Elige un tipo de Juego",
+    "equipment": "Elija A o B: (A) Lanza, Ballesta ligera, 20 virotes, Juego (igual que arriba), Linterna con capucha, Esposas, Carcaj, Ropa de viajero, 12 po; o (B) 50 po"
+  },
+  {
+    "id": "guide",
+    "type": "background",
+    "name": "Guía",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Llegaste a la mayoría de edad al aire libre, lejos de las tierras colonizadas. Tu hogar estaba en cualquier lugar donde eligieras extender tu petate. Hay maravillas en la naturaleza (monstruos extraños, bosques y arroyos prístinos, ruinas cubiertas de grandes salones que alguna vez fueron pisados ​​por gigantes) y aprendiste a valerte por ti mismo mientras los explorabas. De vez en cuando, guiaste a amigables sacerdotes de la naturaleza que te instruyeron en los fundamentos para canalizar la magia de la naturaleza.",
+    "url": "https://dnd2024.wikidot.com/background:guide",
+    "abilityScores": [
+      "DEX",
+      "CON",
+      "WIS"
+    ],
+    "feat": "Iniciado Mágico (Druida)",
+    "featId": "magic-initiate",
+    "skills": [
+      "stealth",
+      "survival"
+    ],
+    "tools": "Herramientas de cartógrafo",
+    "equipment": "Elige A o B: (A) Arco corto, 20 flechas, Herramientas de cartógrafo, petate, carcaj, tienda de campaña, ropa de viajero, 3 po; o (B) 50 po"
+  },
+  {
+    "id": "harper",
+    "type": "background",
+    "name": "Harper",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Aceptaste una invitación para unirte a los Harper y juraste defender el código Harper y actuar al servicio del bien común. Como todos los Harpers, comprendes el valor del trabajo en equipo y también cuándo es mejor hacerlo solo. Los veteranos de Harper te han enseñado los secretos de la orden (melodías mágicas, consignas especiales y prestidigitación) y te han confiado el uso de ese conocimiento para vigilar y socavar las fuerzas del mal.",
+    "url": "https://dnd2024.wikidot.com/background:harper",
+    "abilityScores": [
+      "DEX",
+      "INT",
+      "CHA"
+    ],
+    "feat": "Agente Harper",
+    "featId": "harper-agent",
+    "skills": [
+      "performance",
+      "sleight-of-hand"
+    ],
+    "tools": "Útiles para disfrazarse",
+    "equipment": "Elige A o B: (A) Útiles para disfrazarse, petate, disfraz, gancho de agarre, cuerda, ropa de viajero, 14 po; o (B) 50 po"
+  },
+  {
+    "id": "haunted-one",
+    "type": "background",
+    "name": "Uno embrujado",
+    "edition": "2024",
+    "source": "Ravenloft - Los horrores internos",
+    "description": "Estás atormentado por los acontecimientos de tu pasado. Ya sea que haya sido un incidente terrible y solitario o una acumulación de momentos dolorosos, usted soporta el peso inquebrantable de lo que le sucedió. Has intentado enterrarlo y huir de él, sin éxito; No se puede matar con una espada ni desterrar mediante magia. Sin embargo, persistes.",
+    "url": "https://dnd2024.wikidot.com/background:haunted-one",
+    "abilityScores": [
+      "CON",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Sobreviviente o una hazaña de Regalo Oscuro de tu elección",
+    "featId": null,
+    "skills": [
+      "arcana",
+      "survival"
+    ],
+    "tools": "Elige un tipo de Juego",
+    "equipment": "Elija A o B: (A) Juego (igual que arriba), palanca, agua bendita (1 frasco), espejo, aceite (2 frascos), silbato de señales, yesquero, ropa de viajero, 5 antorchas, odre de agua y 14 po; o (B) 50 po"
+  },
+  {
+    "id": "hermit",
+    "type": "background",
+    "name": "Ermitaño",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Pasaste tus primeros años recluido en una choza o monasterio ubicado mucho más allá de las afueras del asentamiento más cercano. En aquellos días, tus únicos compañeros eran las criaturas del bosque y aquellos que ocasionalmente te visitaban para traer noticias del mundo exterior y suministros. La soledad te permitió pasar muchas horas reflexionando sobre los misterios de la creación.",
+    "url": "https://dnd2024.wikidot.com/background:hermit",
+    "abilityScores": [
+      "CON",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "sanador",
+    "featId": "healer",
+    "skills": [
+      "medicine",
+      "religion"
+    ],
+    "tools": "Útiles de herborista",
+    "equipment": "Elija A o B: (A) Bastón, Útiles de herborista, Petate, Libro (filosofía), Lámpara, Aceite (3 frascos), Ropa de viajero, 16 po; o (B) 50 po"
+  },
+  {
+    "id": "horizon-weaver-initiate",
+    "type": "background",
+    "name": "Iniciado tejedor de horizontes",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Tu adolescencia estuvo marcada por una pasión por los viajes insaciable. Saliste de casa y comenzaste tus viajes tan pronto como pudiste. En el camino, te encontraste con los aventureros magos de los Horizon Weavers, quienes te enseñaron algo de su magia de teletransportación para avanzar en tus exploraciones.",
+    "url": "https://dnd2024.wikidot.com/background:horizon-weaver-initiate",
+    "abilityScores": [
+      "DEX",
+      "CON",
+      "WIS"
+    ],
+    "feat": "Saltador de portal",
+    "featId": "portal-jumper",
+    "skills": [
+      "acrobatics",
+      "survival"
+    ],
+    "tools": "Herramientas de tejedor",
+    "equipment": "Elige A o B: (A) Arco corto, 20 flechas, Herramientas de tejedor, mapa, carcaj, cuerda, ropa de viajero, 18 po; o (B) 50 po"
+  },
+  {
+    "id": "house-agent",
+    "type": "background",
+    "name": "Agente de la casa",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Estás conectado a una de las casas marcadas por el dragón, pero (todavía) no has manifestado una marca del dragón. Puede ser un miembro de la familia por nacimiento o un empleado de la casa sin conexión familiar. Usted se ha ganado la vida haciendo los negocios de la casa, sirviendo como las manos, los pies y los ojos del liderazgo de la casa en el mundo. Es posible que tengas muchos viejos amigos, mentores y rivales en la casa a la que sirves, además de aliados o enemigos en otras casas.",
+    "url": "https://dnd2024.wikidot.com/background:house-agent",
+    "abilityScores": [
+      "STR",
+      "INT",
+      "CHA"
+    ],
+    "feat": "suerte",
+    "featId": "lucky",
+    "skills": [
+      "investigation",
+      "persuasion"
+    ],
+    "tools": "Elige un tipo de Herramientas de artesano",
+    "equipment": "Elija A o B: (A) Herramientas de artesano (igual que arriba), Ropa fina, 20 po; o (B) 50 po"
+  },
+  {
+    "id": "house-cannith-heir",
+    "type": "background",
+    "name": "Heredero de la Casa Cannith",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Como descendiente de la Casa Cannith, llevas un legado de orgullo. Cannith crea maravillas del mundo moderno y se espera que usted contribuya al éxito continuo de la casa a través de inventos, becas, negocios o diplomacia. Lo único que puede interponerse en su camino es la profunda brecha dentro de su propia casa. Cuanto antes los tres barones decidan cuál de ellos es el verdadero jefe de la casa (y tú, sin duda, tienes tu preferencia), antes la Casa Cannith podrá reclamar su legítima posición de liderazgo entre todas las casas marcadas por el dragón.",
+    "url": "https://dnd2024.wikidot.com/background:house-cannith-heir",
+    "abilityScores": [
+      "STR",
+      "DEX",
+      "INT"
+    ],
+    "feat": "Marca de fabricación",
+    "featId": "mark-of-making",
+    "skills": [
+      "investigation",
+      "sleight-of-hand"
+    ],
+    "tools": "Elige un tipo de Herramientas de artesano",
+    "equipment": "Elija A o B: (A) Herramientas de artesano (igual que arriba), palanca, ropa fina, 2 bolsas, 17 po; o (B) 50 po"
+  },
+  {
+    "id": "house-deneith-heir",
+    "type": "background",
+    "name": "Heredero de la casa Deneith",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Como heredero de la Casa Deneith, has sido entrenado para el combate, no para buscarlo, pero tampoco para rehuirlo. Ha aprendido la importancia del deber, el honor y las leyes que se utilizan para gobernar la sociedad cuando el deber y el honor fallan. Cuando estableciste tu nombre en la casa, podrías haber trabajado como guardaespaldas de algún dignatario menor, como mercenario o como mariscal cazando fugitivos. Ahora estás preparado para reclamar la posición que te corresponde en la más poderosa de las casas marcadas por el dragón.",
+    "url": "https://dnd2024.wikidot.com/background:house-deneith-heir",
+    "abilityScores": [
+      "STR",
+      "CON",
+      "WIS"
+    ],
+    "feat": "Marca de centinela",
+    "featId": "mark-of-sentinel",
+    "skills": [
+      "insight",
+      "perception"
+    ],
+    "tools": "Elige un tipo de Juego",
+    "equipment": "Elija A o B: (A) Lanza, Arco corto, 20 flechas, Juego (igual que arriba), Ropa fina, Kit de sanador, Carcaj, 1 po; o (B) 50 po"
+  },
+  {
+    "id": "house-ghallanda-heir",
+    "type": "background",
+    "name": "Heredero de la Casa Ghallanda",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Gracias a tus conexiones con la Casa Ghallanda, creciste acostumbrado a las comodidades, las conversaciones animadas, la buena bebida y la comida deliciosa. Podrías ser un vástago encantador e ingenioso de la casa al que nada le gusta más que una agradable velada junto a un cálido hogar. O podrías ser un intrigante que explota los lazos de confianza y amistad para doblegar a los demás a su voluntad. Podrías seguir una carrera aventurera para dominar las cocinas de otras culturas y épocas, ampliar tu red de contactos útiles o ganar suficiente dinero para abrir tu propia posada.",
+    "url": "https://dnd2024.wikidot.com/background:house-ghallanda-heir",
+    "abilityScores": [
+      "DEX",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Marca de hospitalidad",
+    "featId": "mark-of-hospitality",
+    "skills": [
+      "insight",
+      "persuasion"
+    ],
+    "tools": "Utensilios de cocinero",
+    "equipment": "Elige A o B: (A) Utensilios de cocinero, Ropa Fina, Olla de Hierro, Lámpara, Aceite (5 frascos), Perfume, 26 po; o (B) 50 po"
+  },
+  {
+    "id": "house-jorasco-heir",
+    "type": "background",
+    "name": "Heredero de la Casa Jorasco",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "La Casa Jorasco enseña que las enfermedades y las lesiones acechan a los vivos como fantasmas, robándoles la salud y la longevidad. Te han enseñado formas de combatir estos flagelos, tanto mágica como médicamente. Estás capacitado para utilizar esas habilidades al servicio de los demás y para asegurarte de que siempre recibas una compensación adecuada por este servicio, asegurando la salud y la longevidad de la Casa Jorasco. Podrías ser un sanador amable sin estómago para el combate o un especialista desapasionado que sabe exactamente cómo incapacitar o matar a un enemigo con golpes precisos.",
+    "url": "https://dnd2024.wikidot.com/background:house-jorasco-heir",
+    "abilityScores": [
+      "DEX",
+      "CON",
+      "WIS"
+    ],
+    "feat": "Marca de curación",
+    "featId": "mark-of-healing",
+    "skills": [
+      "medicine",
+      "stealth"
+    ],
+    "tools": "Útiles de herborista",
+    "equipment": "Elija A o B: (A) Útiles de herborista, ropa fina, kit de sanador, 25 po; o (B) 50 po"
+  },
+  {
+    "id": "house-kundarak-heir",
+    "type": "background",
+    "name": "Heredero de la Casa Kundarak",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Como heredero de la Casa Kundarak, estás muy orgulloso de tu familia y de su trabajo de salvaguardar los objetos de valor de Khorvaire. Tu casa siempre ha sido líder entre los clanes de Mror Holds. Aunque nunca ha ostentado la corona, tiene reputación de profesionalismo, honor y orden. Podrías esforzarte por mantener esa reputación, podrías anteponer tu propio sentido del honor al de tu familia, o podrías rebelarte contra las expectativas de la casa y burlarte de las exigencias del honor.",
+    "url": "https://dnd2024.wikidot.com/background:house-kundarak-heir",
+    "abilityScores": [
+      "STR",
+      "CON",
+      "INT"
+    ],
+    "feat": "Marca de protección",
+    "featId": "mark-of-warding",
+    "skills": [
+      "arcana",
+      "investigation"
+    ],
+    "tools": "Herramientas de ladrón",
+    "equipment": "Elige A o B: (A) Herramientas de ladrón, Ropa Fina, 10 po; o (B) 50 po"
+  },
+  {
+    "id": "house-lyrandar-heir",
+    "type": "background",
+    "name": "Heredero de la Casa Lyrandar",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Como heredero de la Casa Lyrandar, el viento es tu aliado, el mar y el cielo tu dominio. A pesar de la devastación de la Última Guerra, tu casa está en ascenso, impulsada por su dominio de la nueva tecnología de aeronaves. Es posible que haya pasado los inicios de su carrera en el mar como marinero o navegante; como carpintero de barcos; o como miembro del Raincallers' Guild, manipulando el clima y ayudando con el riego y obras públicas similares. O quizás hayas sido uno de los primeros en tu casa en surcar los cielos como parte de la tripulación de un dirigible. El servicio a la casa puede requerir que caces piratas en el mar de Lhazaar, explores ruinas antiguas en busca de tecnología mágica para unir fuerzas elementales o salves una aeronave naufragada en Mournland.",
+    "url": "https://dnd2024.wikidot.com/background:house-lyrandar-heir",
+    "abilityScores": [
+      "STR",
+      "DEX",
+      "CHA"
+    ],
+    "feat": "Marca de tormenta",
+    "featId": "mark-of-storm",
+    "skills": [
+      "acrobatics",
+      "nature"
+    ],
+    "tools": "Herramientas de navegante",
+    "equipment": "Elige A o B: (A) Herramientas de navegante, Ropa Fina, 10 po; o (B) 50 po"
+  },
+  {
+    "id": "house-medani-heir",
+    "type": "background",
+    "name": "Heredero de la casa Medani",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Como miembro de la Casa Medani, tu vida gira en torno al subterfugio: no participar en él, sino impedir que otros lo hagan. Ves el mundo que te rodea como una intrincada red de esquemas, tramas y contratramas. Al evaluar la gama de posibilidades, utiliza el instinto para predecir las amenazas a sus clientes y defenderse de ellas mucho antes de que esas amenazas se conviertan en peligro. Defenderse de la espada de un asesino es un trabajo que cualquier mercenario Deneith o ejecutor Tharashk puede hacer; asegurarse de que nadie desenvaine esa espada es el estilo Medani.",
+    "url": "https://dnd2024.wikidot.com/background:house-medani-heir",
+    "abilityScores": [
+      "DEX",
+      "INT",
+      "WIS"
+    ],
+    "feat": "Marca de detección",
+    "featId": "mark-of-detection",
+    "skills": [
+      "insight",
+      "investigation"
+    ],
+    "tools": "Útiles para disfrazarse",
+    "equipment": "Elige A o B: (A) Útiles para disfrazarse, Ropa Fina, 10 po; o (B) 50 po"
+  },
+  {
+    "id": "house-orien-heir",
+    "type": "background",
+    "name": "Heredero de la Casa Orien",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Antes de la Última Guerra, la influencia de Orien cubría Khorvaire, y sus rutas comerciales y raíles relámpago eran el alma de un reino vibrante. Pero la guerra cortó esas arterias, dejando a Galifar muerto y a la Casa Orien ensangrentada. Si bien los mensajeros y transportistas de la casa aún mantienen las mercancías en movimiento en ambos lados del continente, encontrar una manera de restablecer rutas a través de Mournland sigue siendo la principal prioridad de la casa. Mientras tanto, los aventureros de Orien pueden servir a su casa investigando a los mensajeros desaparecidos, recuperando bienes robados de las caravanas y solucionando problemas en el rayo.",
+    "url": "https://dnd2024.wikidot.com/background:house-orien-heir",
+    "abilityScores": [
+      "DEX",
+      "CON",
+      "INT"
+    ],
+    "feat": "Marca de paso",
+    "featId": "mark-of-passage",
+    "skills": [
+      "acrobatics",
+      "athletics"
+    ],
+    "tools": "Herramientas de cartógrafo",
+    "equipment": "Elige A o B: (A) Herramientas de cartógrafo, Ropa fina, Mapa, Mapa o Estuche de pergaminos, 18 po; o (B) 50 po"
+  },
+  {
+    "id": "house-phiarlan-heir",
+    "type": "background",
+    "name": "Heredero de la Casa Phiarlan",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Aunque has visto riqueza, fama y belleza como hijo de la Casa Phiarlan, consideras el conocimiento (y el poder que aporta) el mayor tesoro de todos. Podrías perseguir ese poder como artista o intérprete, siempre alerta a los secretos incluso mientras deleitas al mundo con historias, canciones, acrobacias o arte. O podrías fomentar vínculos con el brazo secreto de espionaje de tu casa: la Mesa Serpentina.",
+    "url": "https://dnd2024.wikidot.com/background:house-phiarlan-heir",
+    "abilityScores": [
+      "DEX",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Marca de la sombra",
+    "featId": "mark-of-shadow",
+    "skills": [
+      "deception",
+      "stealth"
+    ],
+    "tools": "Útiles para disfrazarse",
+    "equipment": "Elige A o B: (A) Útiles para disfrazarse, Ropa Fina, 10 po; o (B) 50 po"
+  },
+  {
+    "id": "house-sivis-heir",
+    "type": "background",
+    "name": "Heredero de la Casa Sivis",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Durante casi treinta siglos, su familia ha trabajado para mantener el orden. La comunicación es el cordón que une a la civilización, y tus ancestros resolvieron las disputas de soberanos y ayudaron a las casas marcadas por el dragón a encontrar un lugar en el mundo. Pocas personas se dan cuenta de la influencia que ha tenido la Casa Sivis en la configuración de la era moderna, del mismo modo que pocos saben con qué frecuencia un consejero real tiene más poder que el gobernante real. Mientras las otras casas marcadas por el dragón luchan por la fama y el reconocimiento, la Casa Sivis juega un largo juego de influencia sutil detrás de escena, manteniendo el orden en medio del caos de la intriga interminable.",
+    "url": "https://dnd2024.wikidot.com/background:house-sivis-heir",
+    "abilityScores": [
+      "INT",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Marca de escritura",
+    "featId": "mark-of-scribing",
+    "skills": [
+      "history",
+      "perception"
+    ],
+    "tools": "Utensilios de calígrafo",
+    "equipment": "Elija A o B: (A) Utensilios de calígrafo, Ropa fina, Tinta, 5 bolígrafos de tinta, Papel (30 hojas), Pergamino (9 hojas), 8 po; o (B) 50 po"
+  },
+  {
+    "id": "house-tharashk-heir",
+    "type": "background",
+    "name": "Heredero de la Casa Tharashk",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Los herederos de otras casas llevan vidas lujosas, pero en la Casa Tharashk aprendiste la autosuficiencia desde una edad temprana. Lo que a tu joven casa le falta en recursos, lo compensa en espíritu y determinación. Tharashk tiene un destino que cumplir y tú tienes parte en él. Ya sea en combate o en interacción social, has aprendido a desempeñar el papel del cazador: estudia a tus enemigos, explota sus debilidades y haz lo que sea necesario para lograr la victoria.",
+    "url": "https://dnd2024.wikidot.com/background:house-tharashk-heir",
+    "abilityScores": [
+      "CON",
+      "INT",
+      "WIS"
+    ],
+    "feat": "Marca de hallazgo",
+    "featId": "mark-of-finding",
+    "skills": [
+      "perception",
+      "survival"
+    ],
+    "tools": "Elige un tipo de Juego",
+    "equipment": "Elija A o B: (A) Juego (igual que arriba), equipo de escalador, ropa fina, trampa de caza, esposas, 2 po; o (B) 50 po"
+  },
+  {
+    "id": "house-thuranni-heir",
+    "type": "background",
+    "name": "Heredero de la Casa Thuranni",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Dada la corta historia de la Casa Thuranni y su enfoque en el espionaje, sus líderes esperan que usted promueva los intereses de la casa en cada oportunidad. Durante los años de formación de la casa como entidad independiente, cada movimiento que usted realiza ha sido observado de cerca. Esto no quiere decir que cada heredero Thuranni deba espiar activamente a instancias de los ancianos de la casa. Pero incluso los artistas y artesanos más aislados de la casa deben mantenerse al día con los acontecimientos políticos actuales y transmitir o recopilar información cuando se les solicita.",
+    "url": "https://dnd2024.wikidot.com/background:house-thuranni-heir",
+    "abilityScores": [
+      "DEX",
+      "INT",
+      "CHA"
+    ],
+    "feat": "Marca de la sombra",
+    "featId": "mark-of-shadow",
+    "skills": [
+      "performance",
+      "stealth"
+    ],
+    "tools": "Elige un tipo de Instrumento musical",
+    "equipment": "Elija A o B: (A) Instrumento musical (igual que arriba), Traje, Ropa fina, 13 po; o (B) 50 po"
+  },
+  {
+    "id": "house-vadalis-heir",
+    "type": "background",
+    "name": "Heredero de la Casa Vadalis",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Has crecido respetando tanto la familia como la naturaleza. Entiendes la cultura de las Cinco Naciones, pero no te dejas arrastrar por los juegos de ambición y estatus que juegan otros. Conoces la belleza y el poder inherentes a la vida, los misterios del nacimiento y la muerte, y los milagros que suceden en el medio. Tus conocimientos sobre el mundo natural te permiten ver más allá de las mentiras y engaños de la gente de la ciudad, y nunca dejar ver hasta qué punto reconoces sus subterfugios.",
+    "url": "https://dnd2024.wikidot.com/background:house-vadalis-heir",
+    "abilityScores": [
+      "CON",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Marca de manejo",
+    "featId": "mark-of-handling",
+    "skills": [
+      "animal-handling",
+      "nature"
+    ],
+    "tools": "Útiles de herborista",
+    "equipment": "Elige A o B: (A) Útiles de herborista, Ropa Fina, Neto, 29 po; o (B) 50 po"
+  },
+  {
+    "id": "ice-fisher",
+    "type": "background",
+    "name": "Pescador de hielo",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Provienes de una orgullosa línea de pescadores en hielo de Ten-Towns en Icewind Dale. La captura de truchas knucklehead no es el oficio más glorioso del Norte, pero es una forma de vida honesta. Has entrenado tus sentidos para el más mínimo tirón de la línea, has sacado grandes truchas de lagos cubiertos de hielo y destripado suficientes truchas cabeza de nudillo para alimentar a tu aldea muchas veces. Estas experiencias han fortalecido tu cuerpo y tu mente para una vida de aventuras.",
+    "url": "https://dnd2024.wikidot.com/background:ice-fisher",
+    "abilityScores": [
+      "STR",
+      "DEX",
+      "CON"
+    ],
+    "feat": "Alerta",
+    "featId": "alert",
+    "skills": [
+      "animal-handling",
+      "athletics"
+    ],
+    "tools": "Herramientas de tallista",
+    "equipment": "Elija A o B: (A) Herramientas de tallista, cesta, bloque y aparejo, cubo, cadena, trampa de caza, red, palo, raciones (para 3 días), cuerda, ropa de viajero, 32 po; o (B) 50 po"
+  },
+  {
+    "id": "inquisitive",
+    "type": "background",
+    "name": "Curioso",
+    "edition": "2024",
+    "source": "Eberron - Forja del Artífice",
+    "description": "Has perfeccionado tus talentos de investigación y deducción, impulsados por una curiosidad ilimitada, para explorar misterios, encontrar personas desaparecidas, recuperar bienes robados, desenterrar corrupción y conspiraciones, y resolver crímenes. Como curioso, es posible que haya trabajado por cuenta propia, haya firmado con una agencia de curiosos (quizás una con licencia de una casa con la marca del dragón como Medani o Tharashk), haya trabajado para un periódico de gran formato o haya trabajado para una fuerza policial.",
+    "url": "https://dnd2024.wikidot.com/background:inquisitive",
+    "abilityScores": [
+      "CON",
+      "INT",
+      "CHA"
+    ],
+    "feat": "Alerta",
+    "featId": "alert",
+    "skills": [
+      "insight",
+      "investigation"
+    ],
+    "tools": "Herramientas de ladrón",
+    "equipment": "Elija A o B: (A) Herramientas de ladrón, Linterna de diana, Palanca, Aceite (10 frascos), Ropa de viajero, 10 po; o (B) 50 po"
+  },
+  {
+    "id": "investigator",
+    "type": "background",
+    "name": "Investigador",
+    "edition": "2024",
+    "source": "Ravenloft - Los horrores internos",
+    "description": "Buscas implacablemente la verdad. Quizás fuiste testigo de algo notable o terrible y ahora deseas desentrañar su misterio, o quizás estés motivado por la justicia y la honestidad universales. Ya sea que los casos en los que esté involucrado sean crímenes locales o conspiraciones sobrenaturales, estará obligado a revelar lo que otros mantendrían oculto.",
+    "url": "https://dnd2024.wikidot.com/background:investigator",
+    "abilityScores": [
+      "INT",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Ojo afilado o una hazaña de don oscuro de tu elección",
+    "featId": null,
+    "skills": [
+      "insight",
+      "investigation"
+    ],
+    "tools": "Útiles para disfrazarse",
+    "equipment": "Elija A o B: (A) Útiles para disfrazarse, esposas, pala, ropa de viajero, 3 viales y 16 po; o (B) 50 po"
+  },
+  {
+    "id": "knight-of-the-gauntlet",
+    "type": "background",
+    "name": "Caballero del guantelete",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "No todos los que responden al llamado de un poder superior se contentan con estudiar minuciosamente las Escrituras en el sofocante ábside de un templo. Elegiste el camino del guerrero santo al unirte a la Orden del Guantelete. Como caballero del Guantelete, ejerces un justo desprecio por las fuerzas del mal, una camaradería inquebrantable hacia tus hermanos de armas y una sincera compasión por los supervivientes de la guerra. Con arma y símbolo sagrado en mano, has jurado no descansar hasta que la luz de la justicia haya vencido la sombra del caos en todo Faerûn.",
+    "url": "https://dnd2024.wikidot.com/background:knight-of-the-gauntlet",
+    "abilityScores": [
+      "STR",
+      "INT",
+      "WIS"
+    ],
+    "feat": "Tyro del guantelete",
+    "featId": "tyro-of-the-gauntlet",
+    "skills": [
+      "athletics",
+      "medicine"
+    ],
+    "tools": "Herramientas de herrero",
+    "equipment": "Elija A o B: (A) Lanza, Herramientas de herrero, Linterna de diana, Símbolo sagrado, Esposas, Aceite (5 frascos), Yesquero, Ropa de viajero, 9 po; o (B) 50 po"
+  },
+  {
+    "id": "lords-alliance-vassal",
+    "type": "background",
+    "name": "Vasallo de la Alianza de los Señores",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Has prometido tu lealtad a una ciudad miembro de la Alianza de los Lores. Como agente de la Alianza, debes defender los principios de la Alianza y buscar aumentar la seguridad y la prosperidad a lo largo de la Costa de la Espada. Has jurado traer honor y gloria a la casa de tu señor, ya sea que eso signifique asegurar rutas comerciales para un señor comerciante de Aguas Profundas o derrotar monstruos río arriba de Vado de la Daga. Te has entrenado en las artes de la espada y el arte de gobernar y eres tan hábil con la espada como con la pluma.",
+    "url": "https://dnd2024.wikidot.com/background:lords-alliance-vassal",
+    "abilityScores": [
+      "STR",
+      "INT",
+      "CHA"
+    ],
+    "feat": "Agente de la Alianza de los Señores",
+    "featId": "lords-alliance-agent",
+    "skills": [
+      "insight",
+      "persuasion"
+    ],
+    "tools": "Utensilios de calígrafo",
+    "equipment": "Elija A o B: (A) 2 jabalinas, Utensilios de calígrafo, ropa fina, tinta, 5 bolígrafos de tinta, pergamino (9 hojas), 13 po; o (B) 50 po"
+  },
+  {
+    "id": "lorwyn-expert",
+    "type": "background",
+    "name": "Experto en Lorwyn",
+    "edition": "2024",
+    "source": "Lorwyn - Primera luz",
+    "description": "Provienes de Lorwyn, una tierra de sol eterno, o has estudiado el lugar con gran intensidad. Consideras a la majestuosa criatura Eirdu como la encarnación viviente del sol y te encanta embarcarte en aventuras fantásticas. Mantienes cerca a tus seres queridos, aunque solo sea emocionalmente, porque has visto a algunos aventurarse en Shadowmoor o más allá y convertirse en versiones descoloridas de ellos mismos. Sin embargo, eres valiente y siempre anhelas nuevas experiencias.",
+    "url": "https://dnd2024.wikidot.com/background:lorwyn-expert",
+    "abilityScores": [
+      "STR",
+      "CON",
+      "WIS"
+    ],
+    "feat": "niño del sol",
+    "featId": "child-of-the-sun",
+    "skills": [
+      "athletics",
+      "nature"
+    ],
+    "tools": "Herramientas de cartógrafo",
+    "equipment": "Elija A o B: (A) Bastón, Herramientas de cartógrafo, Mochila, Cesta, Pergamino (4 hojas), Cuerda, Ropa de viajero, 29 po; o (B) 50 po"
+  },
+  {
+    "id": "merchant",
+    "type": "background",
+    "name": "Comerciante",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Fuiste aprendiz de un comerciante, maestro de caravanas o comerciante y aprendiste los fundamentos del comercio. Viajaste mucho y te ganaste la vida comprando y vendiendo las materias primas que los artesanos necesitan para practicar su oficio o los trabajos terminados de dichos artesanos. Es posible que hayas transportado mercancías de un lugar a otro (en barco, carro o caravana) o que las hayas comprado a comerciantes ambulantes y las hayas vendido en tu propia tienda.",
+    "url": "https://dnd2024.wikidot.com/background:merchant",
+    "abilityScores": [
+      "CON",
+      "INT",
+      "CHA"
+    ],
+    "feat": "suerte",
+    "featId": "lucky",
+    "skills": [
+      "animal-handling",
+      "persuasion"
+    ],
+    "tools": "Herramientas de navegante",
+    "equipment": "Elija A o B: (A) Herramientas de navegante, 2 bolsas, ropa de viajero, 22 po; o (B) 50 po"
+  },
+  {
+    "id": "mist-wanderer",
+    "type": "background",
+    "name": "Vagabundo de la niebla",
+    "edition": "2024",
+    "source": "Ravenloft - Los horrores internos",
+    "description": "Una vez conociste tu hogar. Pero un día, la Niebla se levantó y te atrajo a un Dominio del Terror. Desde entonces, has deambulado entre dominios, desafiando las volubles Nieblas mientras buscas el camino a casa. Tu tiempo en estos reinos malditos te ha cambiado, pero encuentras consuelo en comunidades de compañeros vagabundos a lo largo de la Niebla.",
+    "url": "https://dnd2024.wikidot.com/background:mist-wanderer",
+    "abilityScores": [
+      "DEX",
+      "CON",
+      "WIS"
+    ],
+    "feat": "Una dote de Don oscuro de tu elección (ver \"Dotes\" más adelante en este capítulo; se recomienda Mist Walker)",
+    "featId": null,
+    "skills": [
+      "stealth",
+      "survival"
+    ],
+    "tools": "Elige un tipo de Herramientas de artesano",
+    "equipment": "Elija A o B: (A) Herramientas de artesano (igual que arriba), lámpara, aceite (5 frascos), bolsa, cuerda, yesquero, ropa de viajero y 30 po; o (B) 50 po"
+  },
+  {
+    "id": "moonwell-pilgrim",
+    "type": "background",
+    "name": "Peregrino de la Poza de la Luna",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Como muchos de los que provienen de las Islas Moonshae, creciste reverenciando la tierra bendita, sus dioses únicos y los misteriosos santuarios llamados Pozos de la Luna. Como peregrino de la Fuente de la Luna, emprendiste una misión para visitar y comunicarte con cada fuente de la Luna dentro (o fuera) del mapa. A lo largo de tus idílicos viajes, recopilaste un repertorio de canciones populares de Moonshavian, pintaste paisajes de vistas encantadoras e incluso aprendiste a utilizar un poco de magia primordial.",
+    "url": "https://dnd2024.wikidot.com/background:moonwell-pilgrim",
+    "abilityScores": [
+      "CON",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Iniciado Mágico (Druida)",
+    "featId": "magic-initiate",
+    "skills": [
+      "nature",
+      "performance"
+    ],
+    "tools": "Utensilios de pintor",
+    "equipment": "Elija A o B: (A) Bastón, Utensilios de pintor, petate, campana, bolsa, bata, cordón, ropa de viajero, odre, 34 po; o (B) 50 po"
+  },
+  {
+    "id": "mulhorandi-tomb-raider",
+    "type": "background",
+    "name": "Asaltante de tumbas mulhorandi",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Creciste en una tierra de reyes-dioses vivientes y cuando eras niño te contaron innumerables historias de antiguos imperios y ciudades enterradas. En estos cuentos, Mulhorand era una tierra rebosante de riquezas olvidadas: tesoros invaluables que aguardaban a cualquiera lo suficientemente astuto y valiente como para buscarlos. Te has encargado de explorar las criptas, tumbas y pirámides de tu tierra natal para reclamar las reliquias de tu pueblo.",
+    "url": "https://dnd2024.wikidot.com/background:mulhorandi-tomb-raider",
+    "abilityScores": [
+      "DEX",
+      "CON",
+      "INT"
+    ],
+    "feat": "suerte",
+    "featId": "lucky",
+    "skills": [
+      "investigation",
+      "religion"
+    ],
+    "tools": "Herramientas de albañil",
+    "equipment": "Elige A o B: (A) Daga, Martillo ligero, Herramientas de albañil, Mochila, Petate, Palanca, Escalera, Poste, 2 bolsas, Cuerda, Cordel, Yesquero, 5 Antorchas, Ropa de viajero, Odre de agua, 26 po; o (B) 50 po"
+  },
+  {
+    "id": "mutated-commuter",
+    "type": "background",
+    "name": "Viajero mutado",
+    "edition": "2024",
+    "source": "Proyecto Lamordia",
+    "description": "Una vez, todos los días subías a un tren sombrío para ir a la oficina. Un día, el tren no llegó a tu estación. En cambio, su viaje fue interrumpido por el chirrido de ruedas, el metal plegable y el humo nocivo. De los restos humeantes, emergiste ileso pero sin lugar a dudas cambiado. Tu cuerpo soportó una violencia sobrenatural imposible y fue mutado por la experiencia.\n\nTe encontraste en un parque de oficinas que no reconociste: un edificio imponente llamado Mordenheim Kinetics. Sin nada más a lo largo de kilómetros a la redonda excepto las gimientes olas del océano y un bosque silencioso y envuelto en niebla, no viste otra opción que entrar al campus. Tal vez fuiste a buscar ayuda, un teléfono, algo, cualquier cosa, para darle sentido a la carnicería que acababas de soportar. Sin embargo, cuanto más buscas en los austeros edificios, más temes que tus esfuerzos sean en vano.",
+    "url": "https://dnd2024.wikidot.com/background:mutated-commuter",
+    "abilityScores": [
+      "CON",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Anatomía aberrante o una hazaña de don oscuro de tu elección",
+    "featId": null,
+    "skills": [
+      "arcana",
+      "investigation"
+    ],
+    "tools": "Elige un tipo de Juego",
+    "equipment": "Elija A o B: (A) Juego, Libro (novela de terror), Frasco, Candado, Silbato de señales, Ropa de viajero y 11 po (como 11 dólares); o (B) 50 po (como 50 dólares)"
+  },
+  {
+    "id": "mythalkeeper",
+    "type": "background",
+    "name": "Guardián de mitos",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Los mitos son fuentes de gran poder mágico que pueden alterar el Tejido o incluso la naturaleza misma de la realidad. La mayoría se construyeron en la antigüedad y desde entonces muchos han sufrido daños o han quedado inactivos. Como guardián de mitos de Dalelands, tu primera experiencia con un mito probablemente fue en las ruinas de Myth Drannor. Deambulas por Faerûn en busca de otros lugares de poder en ruinas, con la esperanza de aprender más sobre la historia y los poderes de los mitos, o incluso restaurar uno que funciona mal.",
+    "url": "https://dnd2024.wikidot.com/background:mythalkeeper",
+    "abilityScores": [
+      "INT",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "artesano",
+    "featId": "crafter",
+    "skills": [
+      "arcana",
+      "history"
+    ],
+    "tools": "Herramientas de joyero",
+    "equipment": "Elija A o B: (A) Bastón, Herramientas de joyero, perfume, bolsa, bata, pala, hilo, odre, 16 po; o (B) 50 po"
+  },
+  {
+    "id": "noble",
+    "type": "background",
+    "name": "Nobles",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Creciste en un castillo, rodeado de riqueza, poder y privilegios. Su familia de aristócratas menores se aseguró de que usted recibiera una educación de primera clase, parte de la cual apreciaba y parte de la cual le molestaba. El tiempo que pasó en el castillo, especialmente las muchas horas que pasó observando a su familia en la corte, también le enseñó mucho sobre liderazgo.",
+    "url": "https://dnd2024.wikidot.com/background:noble",
+    "abilityScores": [
+      "STR",
+      "INT",
+      "CHA"
+    ],
+    "feat": "Calificado",
+    "featId": "skilled",
+    "skills": [
+      "history",
+      "persuasion"
+    ],
+    "tools": "Elige un tipo de Juego",
+    "equipment": "Elija A o B: (A) Juego (igual que arriba), Ropa fina, Perfume, 29 po; o (B) 50 po"
+  },
+  {
+    "id": "pact-seeker",
+    "type": "background",
+    "name": "Buscador de pactos",
+    "edition": "2024",
+    "source": "D&D Beyond Drops - Mayo de 2026",
+    "description": "Tenías un propósito en mente. Quizás buscabas conocimiento o poder. O tal vez estabas buscando secretos ocultos. De una forma u otra, tu viaje te llevará a buscar una entidad extraplanar. Una vez que estableciste contacto, se llegó a un acuerdo y tu vida cambió.",
+    "url": "https://dnd2024.wikidot.com/background:pact-seeker",
+    "abilityScores": [
+      "CON",
+      "INT",
+      "CHA"
+    ],
+    "feat": "Elige una dote del Pacto Planar",
+    "featId": null,
+    "skills": [
+      "arcana",
+      "persuasion"
+    ],
+    "tools": "Utensilios de calígrafo",
+    "equipment": "Elija A o B: (A) Libro, Utensilios de calígrafo, Tinta, Bolígrafo, Pergamino (10 hojas), Ropa de viajero, 2 po; o (B) 50 po."
+  },
+  {
+    "id": "phantasmic-circus-trouper",
+    "type": "background",
+    "name": "Compañía de circo fantasmal",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Ya sea como artista o como parte de un circo, encontraste un hogar entre los miembros del Phantasmic Circus. Mientras viajabas por todo el mundo llevando magia y asombro a audiencias entusiasmadas, aprendiste algo de magia de ilusión y perfeccionaste tus talentos para la interpretación y la desorientación.",
+    "url": "https://dnd2024.wikidot.com/background:phantasmic-circus-trouper",
+    "abilityScores": [
+      "DEX",
+      "CON",
+      "CHA"
+    ],
+    "feat": "Artista arcano",
+    "featId": "arcane-artist",
+    "skills": [
+      "deception",
+      "performance"
+    ],
+    "tools": "Útiles para disfrazarse",
+    "equipment": "Elija A o B: (A) Útiles para disfrazarse, Juego (cualquiera), Disfraz, Espejo, Ropa de viajero, 12 po; o (B) 50 po"
+  },
+  {
+    "id": "purple-dragon-squire",
+    "type": "background",
+    "name": "Escudero del Dragón Púrpura",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Prometiste tu vida por la seguridad de Cormyr y buscaste la admisión en la orden de guerreros de élite de ese reino: los Caballeros Dragón Púrpura. Pero antes de tener la oportunidad de unirte oficialmente a las filas, primero debes servir como escudero de un caballero. Has encontrado un señor dispuesto a enfrentarte y enseñarte los métodos de la orden. ¿Defenderás los ideales de gloria, honor y fuerza de los Caballeros del Dragón Púrpura y demostrarás que eres digno de ser nombrado caballero?",
+    "url": "https://dnd2024.wikidot.com/background:purple-dragon-squire",
+    "abilityScores": [
+      "STR",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Torre Dragón Púrpura",
+    "featId": "purple-dragon-rook",
+    "skills": [
+      "animal-handling",
+      "insight"
+    ],
+    "tools": "Herramientas de navegante",
+    "equipment": "Elige A o B: (A) Lanza, Herramientas de navegante, Ropa Fina, 9 po; o (B) 50 po"
+  },
+  {
+    "id": "rashemi-wanderer",
+    "type": "background",
+    "name": "Vagabundo Rashemi",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Pasaste años vagando por las tierras altas de Rashemen, un peligroso páramo azotado por el viento que está salpicado de antiguos obeliscos encantados para encarcelar demonios y hogar de dragones, gnolls y otras criaturas mortales. Es difícil encontrar amistades en una tierra tan aislada y has aprendido a mantener a distancia a los extraños.",
+    "url": "https://dnd2024.wikidot.com/background:rashemi-wanderer",
+    "abilityScores": [
+      "STR",
+      "CON",
+      "CHA"
+    ],
+    "feat": "duro",
+    "featId": "tough",
+    "skills": [
+      "intimidation",
+      "perception"
+    ],
+    "tools": "Herramientas de cartógrafo",
+    "equipment": "Elige A o B: (A) Herramientas de cartógrafo, mochila, petate, linterna con capucha, aceite (3 frascos), cuerda, yesquero, ropa de viajero, odre, 23 po; o (B) 50 po"
+  },
+  {
+    "id": "reconstructed-runaway",
+    "type": "background",
+    "name": "Fugitivo reconstruido",
+    "edition": "2024",
+    "source": "Proyecto Lamordia",
+    "description": "Moriste, o eso creías. Cuando despertaste, ya no eras el mismo. Tu mente está intacta, preservada física o digitalmente como una neuroimpresión perfecta, pero tu cuerpo no es tuyo. Más bien, ha sido reemplazado por un caparazón artificial elaborado en los macabros laboratorios de Mordenheim Kinetics. Usted conoce el precio asociado con esta cirugía experimental y es un precio que no puede (o simplemente no quiere) pagar. Para crear una nueva vida, sea lo que sea que \"vida\" signifique ahora, debes escapar de las garras de la compañía a la que debes tu extraña existencia.",
+    "url": "https://dnd2024.wikidot.com/background:reconstructed-runaway",
+    "abilityScores": [
+      "STR",
+      "CON",
+      "WIS"
+    ],
+    "feat": "Ser simbiótico o una hazaña de don oscuro de tu elección",
+    "featId": null,
+    "skills": [
+      "athletics",
+      "medicine"
+    ],
+    "tools": "Herramientas de herrero (como herramientas de soldadura)",
+    "equipment": "Elija A o B: (A) Herramientas de herrero (como herramientas de soldadura), Bullseye Lantern (como linterna), Abrojos, Cadena, Palanca, Gancho de agarre, Aceite (3 matraces; como 3 baterías de linterna), 9 po (como 9 dólares); o (B) 50 po (como 50 dólares)"
+  },
+  {
+    "id": "sage",
+    "type": "background",
+    "name": "Sabio",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Pasaste tus años de formación viajando entre mansiones y monasterios, realizando diversos trabajos y servicios a cambio de acceso a sus bibliotecas. Pasaste muchas noches largas estudiando libros y pergaminos, aprendiendo la historia del multiverso (incluso los rudimentos de la magia) y tu mente anhela más.",
+    "url": "https://dnd2024.wikidot.com/background:sage",
+    "abilityScores": [
+      "CON",
+      "INT",
+      "WIS"
+    ],
+    "feat": "Iniciado mágico (mago)",
+    "featId": "magic-initiate",
+    "skills": [
+      "arcana",
+      "history"
+    ],
+    "tools": "Utensilios de calígrafo",
+    "equipment": "Elija A o B: (A) Bastón, Utensilios de calígrafo, Libro (historia), Pergamino (8 hojas), Túnica, 8 po; o (B) 50 po"
+  },
+  {
+    "id": "sailor",
+    "type": "background",
+    "name": "Marinero",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Vivías como marinero, con el viento a tus espaldas y las cubiertas balanceándose bajo tus pies. Te has sentado en taburetes de bar en más puertos de escala de los que puedes recordar, has enfrentado tormentas poderosas e intercambiaste historias con personas que viven bajo las olas.",
+    "url": "https://dnd2024.wikidot.com/background:sailor",
+    "abilityScores": [
+      "STR",
+      "DEX",
+      "WIS"
+    ],
+    "feat": "Luchador de taberna",
+    "featId": "tavern-brawler",
+    "skills": [
+      "acrobatics",
+      "perception"
+    ],
+    "tools": "Herramientas de navegante",
+    "equipment": "Elige A o B: (A) Daga, Herramientas de navegante, Cuerda, Ropa de viajero, 20 po; o (B) 50 po"
+  },
+  {
+    "id": "scribe",
+    "type": "background",
+    "name": "Escriba",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Pasaste años de formación en un scriptorium, un monasterio dedicado a la preservación del conocimiento o una agencia gubernamental, donde aprendiste a escribir con letra clara y a producir textos finamente escritos. Quizás escribiste documentos gubernamentales o copiaste tomos de literatura. Es posible que tenga alguna habilidad como escritor de poesía, narrativa o investigación académica. Por encima de todo, presta especial atención a los detalles, lo que le ayuda a evitar introducir errores en los documentos que copia y crea.",
+    "url": "https://dnd2024.wikidot.com/background:scribe",
+    "abilityScores": [
+      "DEX",
+      "INT",
+      "WIS"
+    ],
+    "feat": "Calificado",
+    "featId": "skilled",
+    "skills": [
+      "investigation",
+      "perception"
+    ],
+    "tools": "Utensilios de calígrafo",
+    "equipment": "Elija A o B: (A) Utensilios de calígrafo, Ropa fina, Lámpara, Aceite (3 frascos), Pergamino (12 hojas), 23 po; o (B) 50 po"
+  },
+  {
+    "id": "seer-apprentice",
+    "type": "background",
+    "name": "Aprendiz de vidente",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Como aprendiz entre los Videntes del Mar y el Cielo, aprendiste a interpretar presagios menores de las nubes de arriba y de las brazas de abajo. La rica red de bibliotecas de la organización impulsó su educación y ahora viaja por todo el mundo impartiendo consejos y ayuda a otros.",
+    "url": "https://dnd2024.wikidot.com/background:seer-apprentice",
+    "abilityScores": [
+      "INT",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Presagios arcanos",
+    "featId": "arcane-omens",
+    "skills": [
+      "history",
+      "insight"
+    ],
+    "tools": "Herramientas de navegante",
+    "equipment": "Elija A o B: (A) Herramientas de navegante, 8 velas, tinta, bolígrafo, pergamino (9 hojas), bolsa, yesquero, ropa de viajero, 11 po; o (B) 50 po"
+  },
+  {
+    "id": "shadowmasters-exile",
+    "type": "background",
+    "name": "Exilio de los Maestros de las Sombras",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Entrenaste toda tu vida para convertirte en miembro de Shadowmasters, el misterioso gremio de ladrones que controla el reino de Thesk detrás de escena. El sigilo y los reflejos rápidos fueron solo el comienzo de tu educación como Maestro de las Sombras; También necesitabas perfeccionar tu crueldad para garantizar la seguridad de los secretos del gremio. Pero un movimiento en falso provocó su expulsión de la orden. Ahora debes recorrer tu propio camino.",
+    "url": "https://dnd2024.wikidot.com/background:shadowmasters-exile",
+    "abilityScores": [
+      "DEX",
+      "INT",
+      "CHA"
+    ],
+    "feat": "Atacante salvaje",
+    "featId": "savage-attacker",
+    "skills": [
+      "acrobatics",
+      "stealth"
+    ],
+    "tools": "Herramientas de ladrón",
+    "equipment": "Elija A o B: (A) 2 dagas, Herramientas de ladrón, abrojos, disfraz, gancho de agarre, púas de hierro, espejo, 2 bolsas, cuerda, ropa de viajero, 3 po; o (B) 50 po"
+  },
+  {
+    "id": "shadowmoor-expert",
+    "type": "background",
+    "name": "Experto en Páramo Sombrío",
+    "edition": "2024",
+    "source": "Lorwyn - Primera luz",
+    "description": "Eres de Shadowmoor o lo has estudiado durante años. Es un lugar lúgubre y caótico perpetuamente iluminado por la pálida luz de la luna. Podrías sobrevivir a las despiadadas condiciones de Shadowmoor gracias a tu ingenio y astucia, o podrías mantener a raya las amenazas con tu fuerza y ​​valentía. Independientemente de dónde pises, comprendes perfectamente que la amistad es un bien escaso. Cree que saber en quién confiar y a quién mantener a distancia no sólo es práctico: a menudo es una cuestión de vida o muerte.",
+    "url": "https://dnd2024.wikidot.com/background:shadowmoor-expert",
+    "abilityScores": [
+      "DEX",
+      "INT",
+      "CHA"
+    ],
+    "feat": "Hechizador del Páramo Sombrío",
+    "featId": "shadowmoor-hexer",
+    "skills": [
+      "acrobatics",
+      "deception"
+    ],
+    "tools": "Herramientas de soplador de vidrio",
+    "equipment": "Elija A o B: (A) Daga, Herramientas de soplador de vidrio, mochila, trampa de caza, lámpara, aceite (3 frascos), ropa de viajero, odre, 8 po; o (B) 50 po"
+  },
+  {
+    "id": "soldier",
+    "type": "background",
+    "name": "Soldado",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Comenzaste a entrenarte para la guerra tan pronto como alcanzaste la edad adulta y conservas muy pocos recuerdos de tu vida antes de tomar las armas. La batalla está en tu sangre. A veces te sorprendes realizando reflexivamente los ejercicios básicos de lucha que aprendiste primero. Con el tiempo, utilizas ese entrenamiento en el campo de batalla, protegiendo el reino librando la guerra.",
+    "url": "https://dnd2024.wikidot.com/background:soldier",
+    "abilityScores": [
+      "STR",
+      "DEX",
+      "CON"
+    ],
+    "feat": "Atacante salvaje",
+    "featId": "savage-attacker",
+    "skills": [
+      "athletics",
+      "intimidation"
+    ],
+    "tools": "Elige un tipo de Juego",
+    "equipment": "Elija A o B: (A) Lanza, Arco corto, 20 flechas, Juego (igual que arriba), Kit de sanador, Carcaj, Ropa de viajero, 14 po; o (B) 50 po"
+  },
+  {
+    "id": "spellfire-initiate",
+    "type": "background",
+    "name": "Iniciado de fuego de hechizo",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Tienes el don del fuego mágico: una rara forma de magia que canaliza el poder puro del Tejido. Empuñar fuego de hechizo tiene un alto costo en el cuerpo. Has entrenado tanto la mente como el cuerpo para ejercer eficientemente este poder sagrado.",
+    "url": "https://dnd2024.wikidot.com/background:spellfire-initiate",
+    "abilityScores": [
+      "CON",
+      "INT",
+      "CHA"
+    ],
+    "feat": "Chispa de fuego mágico",
+    "featId": "spellfire-spark",
+    "skills": [
+      "arcana",
+      "perception"
+    ],
+    "tools": "Elige un tipo de Juego",
+    "equipment": "Elige A o B: (A) Juego (igual que arriba), foco arcano (cristal o varita), 2 bolsas, ropa de viajero, 36 po; o (B) 50 po"
+  },
+  {
+    "id": "spirit-medium",
+    "type": "background",
+    "name": "Medio espiritual",
+    "edition": "2024",
+    "source": "Ravenloft - Los horrores internos",
+    "description": "A través de extraños rituales y fatídicos encuentros, has descubierto que tienes una conexión única con los espíritus de los muertos y condenados. Tu cuerpo es un conducto para esos espíritus y te otorga una visión profética del más allá. Pero las intenciones de estos espíritus no siempre son inocentes y sus regalos tienen un costo inquietante.",
+    "url": "https://dnd2024.wikidot.com/background:spirit-medium",
+    "abilityScores": [
+      "CON",
+      "INT",
+      "WIS"
+    ],
+    "feat": "Dote Regalo oscuro de tu elección (ver \"Dotes\"; se recomienda Susurros reunidos)",
+    "featId": null,
+    "skills": [
+      "insight",
+      "religion"
+    ],
+    "tools": "Elige un tipo de Juego",
+    "equipment": "Elija A o B: (A) Daga, Juego (igual que arriba), canasta, campana, 8 velas, tinta, bolígrafo, papel (5 hojas), yesquero, ropa de viajero y 32 po; o (B) 50 po"
+  },
+  {
+    "id": "vampire-devotee",
+    "type": "background",
+    "name": "Devoto vampiro",
+    "edition": "2024",
+    "source": "El libro del hambre de Astarion",
+    "description": "Estabas al servicio de un vampiro o de un pequeño grupo de vampiros que vivían juntos. Los no-muertos bebieron tu sangre más veces de las que puedes contar. Es posible que hayas servido voluntariamente, tal vez con la aspiración de convertirte algún día en vampiro. O puede que hayas sido encantado mágicamente y conserves sólo unos pocos recuerdos confusos de tu época como familiar vampiro. En cualquier caso, tu tiempo en la guarida de los vampiros ha terminado.",
+    "url": "https://dnd2024.wikidot.com/background:vampire-devotee",
+    "abilityScores": [
+      "STR",
+      "CON",
+      "CHA"
+    ],
+    "feat": "El juguete del vampiro",
+    "featId": "vampires-plaything",
+    "skills": [
+      "persuasion",
+      "stealth"
+    ],
+    "tools": "Utensilios de cocinero",
+    "equipment": "Elija A o B: (A) Utensilios de cocinero, ropa fina, 2 botellas de vidrio, kit de curandero, perfume, lámpara, aceite (3 frascos), odre, 19 po; o (B) 50 po"
+  },
+  {
+    "id": "vampire-survivor",
+    "type": "background",
+    "name": "Sobreviviente vampiro",
+    "edition": "2024",
+    "source": "El libro del hambre de Astarion",
+    "description": "Fuiste testigo o sobreviviste a un ataque de vampiro. Es posible que haya estado directamente involucrado en esta confrontación, o tal vez lo que vio lo congeló de terror. De todos modos, permaneces atento a los ataques de monstruos y te enorgulleces de estar preparado para cualquier cosa. Ningún vampiro volverá a sorprenderte a ti o a tus aliados.",
+    "url": "https://dnd2024.wikidot.com/background:vampire-survivor",
+    "abilityScores": [
+      "DEX",
+      "CON",
+      "WIS"
+    ],
+    "feat": "Cazador de vampiros",
+    "featId": "vampire-hunter",
+    "skills": [
+      "insight",
+      "religion"
+    ],
+    "tools": "Herramientas de tallista",
+    "equipment": "Elija A o B: (A) Herramientas de tallista, palanca, linterna con capucha, símbolo sagrado (relicario), agua bendita, espejo, aceite (3 frascos), yesquero, ropa de viajero, odre de agua, 4 po; o (B) 50 po"
+  },
+  {
+    "id": "ward-of-the-sheltering-hands",
+    "type": "background",
+    "name": "Resguardo de las manos protectoras",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Un giro de mala suerte te llevó a Sheltering Hands, una organización altruista dedicada a defender a los oprimidos. La organización te ayudó a recuperar el equilibrio y te enseñó algo de su magia protectora, con la esperanza de que algún día tú también protejas a los menos afortunados en su momento de necesidad.",
+    "url": "https://dnd2024.wikidot.com/background:ward-of-the-sheltering-hands",
+    "abilityScores": [
+      "CON",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "Salvaguardia Arcana",
+    "featId": "arcane-safeguard",
+    "skills": [
+      "insight",
+      "medicine"
+    ],
+    "tools": "Utensilios de cocinero",
+    "equipment": "Elija A o B: (A) Utensilios de cocinero, manta, kit de sanador, lámpara, aceite (3 frascos), yesquero, ropa de viajero, odre, 40 po; o (B) 50 po"
+  },
+  {
+    "id": "wayfarer",
+    "type": "background",
+    "name": "Caminante",
+    "edition": "2024",
+    "source": "Manual del jugador",
+    "description": "Creciste en las calles rodeado de descartes igualmente desafortunados, algunos de ellos amigos y algunos rivales. Dormías donde podías y hacías trabajos ocasionales para conseguir comida. A veces, cuando el hambre se hacía insoportable, recurríais al robo. Aun así, nunca perdiste el orgullo ni abandonaste la esperanza. El destino aún no ha terminado contigo.",
+    "url": "https://dnd2024.wikidot.com/background:wayfarer",
+    "abilityScores": [
+      "DEX",
+      "WIS",
+      "CHA"
+    ],
+    "feat": "suerte",
+    "featId": "lucky",
+    "skills": [
+      "insight",
+      "stealth"
+    ],
+    "tools": "Herramientas de ladrón",
+    "equipment": "Elija A o B: (A) 2 dagas, Herramientas de ladrón, Juego (cualquiera), petate, 2 bolsas, ropa de viajero, 16 po; o (B) 50 po"
+  },
+  {
+    "id": "zhentarim-mercenary",
+    "type": "background",
+    "name": "Mercenario zhentarim",
+    "edition": "2024",
+    "source": "Reinos olvidados - Héroes de Faerun",
+    "description": "Quizás necesitabas el dinero. Quizás anhelabas tener una familia, por dudosa que fuera. O tal vez simplemente eres bueno haciendo el trabajo por cualquier medio necesario. Cualquiera que sea tu motivo, te alistaste en los Zhentarim, el gremio de mercenarios más famoso de los Reinos. Aunque los líderes de los Zhentarim insisten en que la organización se parece más a una familia que a un sindicato oscuro, pocas familias exhiben tanta deshonestidad, nepotismo y corrupción como ésta. Has perfeccionado tu astucia, tus reflejos y tu espada para ascender en las filas del gremio.",
+    "url": "https://dnd2024.wikidot.com/background:zhentarim-mercenary",
+    "abilityScores": [
+      "STR",
+      "DEX",
+      "CHA"
+    ],
+    "feat": "Rufián zhentarim",
+    "featId": "zhentarim-ruffian",
+    "skills": [
+      "intimidation",
+      "perception"
+    ],
+    "tools": "Útiles de falsificación",
+    "equipment": "Elija A o B: (A) Garrote, Daga, Útiles de falsificación, Ropa fina, Linterna con capucha, Aceite (3 frascos), 2 bolsas, Cordel, Yesquero, 11 po; o (B) 50 po"
+  }
+]
