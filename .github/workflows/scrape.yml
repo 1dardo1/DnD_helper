@@ -34,6 +34,31 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      # What a previous run translated but couldn't commit (e.g. it failed) is merged with the repo's.
+      - name: Keep the repo's translation cache aside
+        run: cp translations.es.json "$RUNNER_TEMP/translations.repo.json" 2>/dev/null || true
+
+      - name: Restore translation cache backup
+        uses: actions/cache/restore@v4
+        with:
+          path: tools/scraper/translations.es.json
+          key: translations-es-${{ github.run_id }}
+          restore-keys: translations-es-
+
+      - name: Merge translation caches
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          merged = {}
+          for p in [pathlib.Path(os.environ["RUNNER_TEMP"]) / "translations.repo.json", pathlib.Path("translations.es.json")]:
+              if p.exists():
+                  merged.update(json.loads(p.read_text(encoding="utf-8")))
+          if merged:
+              pathlib.Path("translations.es.json").write_text(
+                  json.dumps(merged, ensure_ascii=False, indent=0, sort_keys=True) + "\n", encoding="utf-8")
+          print(f"{len(merged)} traducciones en caché")
+          PY
+
       # Downloaded pages are cached between runs; only pages changed since (sitemap lastmod) are fetched again.
       - name: Restore page cache
         if: ${{ !inputs.full_refresh }}
@@ -58,6 +83,14 @@ jobs:
           path: tools/scraper/.cache
           key: wiki-pages-${{ github.run_id }}
 
+      # Backup of what's translated, in case the run fails before committing it.
+      - name: Save translation cache
+        if: always() && hashFiles('tools/scraper/translations.es.json') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: tools/scraper/translations.es.json
+          key: translations-es-${{ github.run_id }}
+
       - name: Commit changes
         working-directory: .
         run: |
@@ -69,7 +102,9 @@ jobs:
             echo "Sin cambios en los datos."
           else
             git commit -m "data: actualizar extracción de las wikis"
-            git push
+            # The branch may have moved on while this ran (it takes a while): bring it in first.
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
 
       - name: Summary
