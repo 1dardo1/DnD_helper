@@ -46,9 +46,15 @@ export const MOTIFS = [
   'tree',
   'wave',
   'web',
+  'gears',
+  'axe',
+  'fist',
+  'bow',
+  'scroll',
+  'hat',
+  'stars',
 ] as const;
 export type Motif = (typeof MOTIFS)[number];
-
 
 interface ClassDef {
   /** Base hue (0-359) and saturation (%). */
@@ -62,12 +68,12 @@ export const CLASS_THEMES: Record<string, ClassDef> = {
   artificer: {
     hue: 28,
     sat: 62,
-    motifs: ['gear', 'hammer', 'crystal', 'book', 'bolt'],
+    motifs: ['gears', 'hammer', 'crystal', 'book', 'bolt'],
   },
   barbarian: {
     hue: 12,
     sat: 68,
-    motifs: ['claw', 'flame', 'mountain', 'paw', 'bolt'],
+    motifs: ['axe', 'claw', 'flame', 'mountain', 'paw'],
   },
   bard: {
     hue: 305,
@@ -82,7 +88,7 @@ export const CLASS_THEMES: Record<string, ClassDef> = {
   cleric: {
     hue: 42,
     sat: 72,
-    motifs: ['sun', 'cross', 'crown', 'heart', 'scales'],
+    motifs: ['cross', 'sun', 'crown', 'heart', 'scales'],
   },
   druid: { hue: 118, sat: 42, motifs: ['leaf', 'tree', 'moon', 'paw', 'wave'] },
   fighter: {
@@ -90,7 +96,7 @@ export const CLASS_THEMES: Record<string, ClassDef> = {
     sat: 32,
     motifs: ['sword', 'shield', 'arrow', 'crown', 'hammer'],
   },
-  monk: { hue: 24, sat: 82, motifs: ['enso', 'wave', 'sun', 'leaf', 'spiral'] },
+  monk: { hue: 24, sat: 82, motifs: ['fist', 'enso', 'wave', 'sun', 'leaf'] },
   paladin: {
     hue: 222,
     sat: 62,
@@ -104,7 +110,7 @@ export const CLASS_THEMES: Record<string, ClassDef> = {
   ranger: {
     hue: 88,
     sat: 42,
-    motifs: ['arrow', 'leaf', 'paw', 'tree', 'feather'],
+    motifs: ['bow', 'arrow', 'leaf', 'paw', 'tree'],
   },
   rogue: {
     hue: 192,
@@ -114,17 +120,17 @@ export const CLASS_THEMES: Record<string, ClassDef> = {
   sorcerer: {
     hue: 335,
     sat: 66,
-    motifs: ['spark', 'flame', 'star', 'bolt', 'wave'],
+    motifs: ['stars', 'spark', 'flame', 'bolt', 'wave'],
   },
   warlock: {
     hue: 266,
     sat: 56,
-    motifs: ['eye', 'tentacle', 'skull', 'moon', 'flame'],
+    motifs: ['scroll', 'eye', 'tentacle', 'skull', 'moon'],
   },
   wizard: {
     hue: 236,
     sat: 52,
-    motifs: ['rune', 'book', 'star', 'hourglass', 'crystal'],
+    motifs: ['hat', 'rune', 'book', 'star', 'hourglass'],
   },
 };
 
