@@ -1,0 +1,104 @@
+name: Seguir traduciendo los datos
+
+# El traductor gratuito limita cuánto se puede traducir de una vez. Esta acción retoma la traducción
+# cada pocas horas desde donde se quedó (caché translations.es.json) hasta llegar al 100 %; cuando
+# ya está completa no hace nada. También se puede lanzar a mano.
+on:
+  schedule:
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Mismo grupo que la extracción: nunca escriben los datos a la vez.
+concurrency:
+  group: scrape-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    defaults:
+      run:
+        working-directory: tools/scraper
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Already complete?
+        id: check
+        run: |
+          python3 -c "import json,sys; t=json.load(open('../../data/meta.json')).get('translation',{}).get('es',{}); sys.exit(0 if t.get('complete') else 1)" \
+            && echo "done=true" >> "$GITHUB_OUTPUT" || echo "done=false" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-python@v5
+        if: steps.check.outputs.done != 'true'
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tools/scraper/requirements.txt
+
+      - if: steps.check.outputs.done != 'true'
+        run: pip install -r requirements.txt
+
+      - name: Keep the repo's translation cache aside
+        if: steps.check.outputs.done != 'true'
+        run: cp translations.es.json "$RUNNER_TEMP/translations.repo.json" 2>/dev/null || true
+
+      - name: Restore translation cache backup
+        if: steps.check.outputs.done != 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: tools/scraper/translations.es.json
+          key: translations-es-${{ github.run_id }}
+          restore-keys: translations-es-
+
+      - name: Merge translation caches
+        if: steps.check.outputs.done != 'true'
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          merged = {}
+          for p in [pathlib.Path(os.environ["RUNNER_TEMP"]) / "translations.repo.json", pathlib.Path("translations.es.json")]:
+              if p.exists():
+                  merged.update(json.loads(p.read_text(encoding="utf-8")))
+          if merged:
+              pathlib.Path("translations.es.json").write_text(
+                  json.dumps(merged, ensure_ascii=False, indent=0, sort_keys=True) + "\n", encoding="utf-8")
+          print(f"{len(merged)} traducciones en caché")
+          PY
+
+      - name: Translate what's missing into data/es/*.json
+        if: steps.check.outputs.done != 'true'
+        run: python -m dndscraper.translate --budget 75
+
+      - name: Validate data
+        if: steps.check.outputs.done != 'true'
+        run: python -m dndscraper.validate
+
+      - name: Save translation cache
+        if: always() && steps.check.outputs.done != 'true' && hashFiles('tools/scraper/translations.es.json') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: tools/scraper/translations.es.json
+          key: translations-es-${{ github.run_id }}
+
+      - name: Commit changes
+        if: steps.check.outputs.done != 'true'
+        working-directory: .
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/es data/meta.json tools/scraper/translations.es.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios."
+          else
+            git commit -m "data: seguir traduciendo al español"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+      - name: Summary
+        if: always()
+        run: python3 -m dndscraper.translate --summary >> "$GITHUB_STEP_SUMMARY" || true

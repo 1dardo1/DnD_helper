@@ -56,6 +56,8 @@ categorías, competencias…) no se traduce.
 - Si Google pide ir más despacio, el script espera; si tarda demasiado (`--translate-budget`, 90 minutos
   en la acción) se para, guarda lo traducido y la siguiente ejecución continúa. El resumen de la acción
   dice cuántos textos están traducidos.
+- **Hasta el 100 %:** la acción «Seguir traduciendo los datos» (`translate.yml`) se lanza sola cada
+  3 horas, retoma lo que falte y no hace nada cuando la traducción está completa.
 - `python -m dndscraper --no-translate` extrae sin traducir; `python -m dndscraper.translate` solo traduce.
 
 ## Exclusiones
