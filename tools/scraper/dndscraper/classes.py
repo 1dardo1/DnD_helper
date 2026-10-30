@@ -485,6 +485,63 @@ def parse_options(page: Page, group: str, class_id: str, subclass_id: str | None
     return out, warnings
 
 
+def parse_section_options(page: Page, heading: str, group: str, class_id: str,
+                          subclass_id: str | None) -> tuple[list[dict], list[str]]:
+    """Options listed inside a section of a page, each a paragraph opening with a bold name
+    ("**Ambush.** When you make..."), e.g. the 2024 Battle Master's "Maneuver Options"."""
+    head = next((h for h in page.content.find_all(re.compile(r"^h[1-6]$"))
+                 if clean(text_of(h)).lower() == heading.lower()), None)
+    if head is None:
+        return [], [f"no '{heading}' section"]
+    level = int(head.name[1])
+    page_source, _ = split_source(page)
+    out: list[dict] = []
+    current: dict | None = None
+    nodes: list = []
+
+    def flush():
+        if current is not None:
+            current["description"] = to_markdown(nodes).strip()
+            out.append(current)
+
+    for sib in head.find_next_siblings():
+        if re.fullmatch(r"h[1-6]", sib.name or "") and int(sib.name[1]) <= level:
+            break
+        first = sib.find("strong") if sib.name == "p" else None
+        lead = clean(text_of(first)) if first is not None else ""
+        if first is not None and text_of(sib).strip().startswith(lead) and lead.endswith("."):
+            flush()
+            title = lead.rstrip(".").strip()
+            first.extract()
+            nodes = [sib]
+            current = {
+                "id": f"{group}/{slug(title)}",
+                "type": "option",
+                "name": title,
+                "edition": page.edition,
+                "source": page_source,
+                "description": "",
+                "url": page.url,
+                "group": group,
+                "classId": class_id,
+                "subclassId": subclass_id,
+                "prerequisites": None,
+            }
+        elif current is not None:
+            nodes.append(sib)
+    flush()
+    return out, [] if out else [f"no options in '{heading}'"]
+
+
+# Options listed inside a section of a subclass page: page → (heading, group, class, subclass).
+SECTION_OPTIONS = {
+    "2014": {},
+    "2024": {
+        "fighter:battle-master": ("Maneuver Options", "maneuver", "fighter", "fighter/battle-master"),
+    },
+}
+
+
 # -- discovery -----------------------------------------------------------------------
 
 # Pages under a class prefix that hold options rather than a subclass: page → (group, class, subclass).

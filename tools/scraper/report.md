@@ -1,6 +1,6 @@
 # Informe de extracción
 
-Generado: 2026-10-30T17:21:35+00:00
+Generado: 2026-10-30T17:28:19+00:00
 
 ## Totales
 
@@ -8,7 +8,7 @@ Generado: 2026-10-30T17:21:35+00:00
 |---|---|---|---|
 | classes | 14 | 13 | 1 |
 | subclasses | 205 | 105 | 100 |
-| options | 95 | 40 | 55 |
+| options | 92 | 60 | 32 |
 | spells | 641 | 469 | 172 |
 | feats | 360 | 242 | 118 |
 | species | 89 | 30 | 59 |
@@ -23,7 +23,7 @@ Fallos de descarga: 0 · Páginas que no se pudieron convertir: 1
 
 - **classes**: 13
 - **subclasses**: 68 (renombrados: Aberrant Mind → Aberrant Sorcery, Beast Master Conclave → Beast Master, Bladesinging → Bladesinger, Circle of Stars → Circle of the Stars, Clockwork Soul → Clockwork Sorcery, Draconic Bloodline → Draconic Sorcery, Gloom Stalker Conclave → Gloom Stalker, Hunter Conclave → Hunter, Path of the Totem Warrior → Path of the Wild Heart, School of Abjuration → Abjurer, School of Conjuration → Conjurer, School of Divination → Diviner, School of Enchantment → Enchanter, School of Evocation → Evoker, School of Illusion → Illusionist, School of Necromancy → Necromancer, School of Transmutation → Transmuter, Shadow Magic → Shadow Sorcery, The Archfey → Archfey Patron, The Celestial → Celestial Patron, The Fiend → Fiend Patron, The Great Old One → Great Old One Patron, The Undead → Undead Patron, Way of Mercy → Warrior of Mercy, Way of Shadow → Warrior of Shadow, Way of the Four Elements → Warrior of the Elements, Way of the Open Hand → Warrior of the Open Hand, Wild Magic → Wild Magic Sorcery)
-- **options**: 23
+- **options**: 43
 - **spells**: 394
 - **feats**: 59
 - **species**: 17
@@ -43,9 +43,9 @@ Ambition Domain (Amonkhet), Archivist, Artificer, Brute, Chronurgy Magic, Circle
 
 </details>
 
-<details><summary>options: 138</summary>
+<details><summary>options: 118</summary>
 
-Aether, Alluring, Ambush, Arcane Gunslinger, Arcane Propulsion Armor, Armor of Magical Strength, Armor of Tools, Aspect of the Moon, Bait and Switch, Beast Speech, Beguiling Influence, Bewitching Whispers, Blood Curse of Binding, Blood Curse of Bloated Agony, Blood Curse of Corrosion, Blood Curse of Exposure, Blood Curse of the Anxious, Blood Curse of the Exorcist, Blood Curse of the Eyeless, Blood Curse of the Fallen Puppet, Blood Curse of the Howl, Blood Curse of the Marked, Blood Curse of the Muddled Mind, Blood Curse of the Soul Eater, Bond of the Talisman, Book of Ancient Secrets, Boots of the Winding Path, Brace, Breath of Winter, Burning Hex, Caiphon's Beacon, Celerity, Chains of Carceri, Chilling Hex, Chronicle of the Raven Queen, Claw of Acamar, Clench of the North Wind, Cloak of Flies, Commander's Strike, Commanding Presence, Conversant, Cruelty, Curse Bringer, Deftness, Disarming Attack, Distracting Strike, Dreadful Word, Eldritch Armor, Eldritch Sight, Elemental Attunement, Embers, Enhanced Arcane Focus, Enhanced Defense, Enhanced Weapon, Eternal Mountain Defense, Evasive Footwork, Eyes of the Rune Keeper, Fangs of the Fire Snake, Far Scribe, Feinting Attack, Fist of Four Thunders, Fist of Unbroken Air, Flames of the Phoenix, Gelid, Ghostly Gaze, Gift of the Ever-Living Ones, Goading Attack, Gong of the Summit, Grappling Strike, Grasp of Hadar, Green Lord's Gift, Helm of Awareness, Homunculus Servant, Impermeable, Improved Pact Weapon, Kiss of Mephistopheles, Lance of Lethargy, Lunging Attack, Mace of Dispater, Maddening Hex, Maneuvering Attack, Menacing Attack, Mind Sharpener, Minions of Chaos, Mire the Mind, Mist Stance, Mobility, Moonbow, Nighteye, Parry, Path of the Seeker, Percipient, Potency, Precision, Precision Attack, Protection of the Talisman, Pushing Attack, Quick Toss, Radiant Weapon, Rally, Rapidity, Raven Queen's Blessing, Rebuke of the Talisman, Reconstruction, Relentless Hex, Repeating Shot, Replicate Magic Item, Repulsion Shield, Resistant Armor, Returning Weapon, Ride the Wind, Riposte, River of Hungry Flame, Rush of the Gale Spirits, Sagacity, Sculptor of Flesh, Seeker's Speech, Shape the Flowing River, Shielded, Shroud of Shadow, Shroud of Ulban, Sign of Ill Omen, Spell-Refueling Ring, Superior Pact Weapon, Sweeping Attack, Sweeping Cinder Strike, Tactical Assessment, Thief of Five Fates, Tomb of Levistus, Trickster's Escape, Trip Attack, Ultimate Pact Weapon, Unbreakable, Undying Servitude, Vermillion, Voice of the Chain Master, Water Whip, Wave of Rolling Earth
+Aether, Alluring, Arcane Gunslinger, Arcane Propulsion Armor, Armor of Magical Strength, Armor of Tools, Aspect of the Moon, Beast Speech, Beguiling Influence, Bewitching Whispers, Blood Curse of Binding, Blood Curse of Bloated Agony, Blood Curse of Corrosion, Blood Curse of Exposure, Blood Curse of the Anxious, Blood Curse of the Exorcist, Blood Curse of the Eyeless, Blood Curse of the Fallen Puppet, Blood Curse of the Howl, Blood Curse of the Marked, Blood Curse of the Muddled Mind, Blood Curse of the Soul Eater, Bond of the Talisman, Book of Ancient Secrets, Boots of the Winding Path, Brace, Breath of Winter, Burning Hex, Caiphon's Beacon, Celerity, Chains of Carceri, Chilling Hex, Chronicle of the Raven Queen, Claw of Acamar, Clench of the North Wind, Cloak of Flies, Conversant, Cruelty, Curse Bringer, Deftness, Dreadful Word, Eldritch Armor, Eldritch Sight, Elemental Attunement, Embers, Enhanced Arcane Focus, Enhanced Defense, Enhanced Weapon, Eternal Mountain Defense, Eyes of the Rune Keeper, Fangs of the Fire Snake, Far Scribe, Fist of Four Thunders, Fist of Unbroken Air, Flames of the Phoenix, Gelid, Ghostly Gaze, Gift of the Ever-Living Ones, Gong of the Summit, Grappling Strike, Grasp of Hadar, Green Lord's Gift, Helm of Awareness, Homunculus Servant, Impermeable, Improved Pact Weapon, Kiss of Mephistopheles, Lance of Lethargy, Mace of Dispater, Maddening Hex, Mind Sharpener, Minions of Chaos, Mire the Mind, Mist Stance, Mobility, Moonbow, Nighteye, Path of the Seeker, Percipient, Potency, Precision, Protection of the Talisman, Quick Toss, Radiant Weapon, Rapidity, Raven Queen's Blessing, Rebuke of the Talisman, Reconstruction, Relentless Hex, Repeating Shot, Replicate Magic Item, Repulsion Shield, Resistant Armor, Returning Weapon, Ride the Wind, River of Hungry Flame, Rush of the Gale Spirits, Sagacity, Sculptor of Flesh, Seeker's Speech, Shape the Flowing River, Shielded, Shroud of Shadow, Shroud of Ulban, Sign of Ill Omen, Spell-Refueling Ring, Superior Pact Weapon, Sweeping Cinder Strike, Thief of Five Fates, Tomb of Levistus, Trickster's Escape, Ultimate Pact Weapon, Unbreakable, Undying Servitude, Vermillion, Voice of the Chain Master, Water Whip, Wave of Rolling Earth
 
 </details>
 
@@ -143,7 +143,7 @@ Elementos de 2014 que se han conservado pero se parecen a uno de 2024. Si son la
 
 ## Opciones de clase de 2014 descartadas
 
-Su clase o subclase es la versión de 2024, que tiene su propia lista o ya no usa ese rasgo: artificer-infusion (17), eldritch-invocation (49), elemental-discipline (17)
+Su clase o subclase es la versión de 2024, que tiene su propia lista o ya no usa ese rasgo: artificer-infusion (17), eldritch-invocation (49), elemental-discipline (17), maneuver (3)
 
 
 ## Excluidos (Psion)

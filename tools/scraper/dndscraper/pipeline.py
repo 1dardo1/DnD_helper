@@ -293,6 +293,14 @@ class Run:
                 for o in opts:
                     o["name"] = display_name(o["name"])
                 out.extend(opts)
+        for n, (heading, group, cid, scid) in classes.SECTION_OPTIONS[ed].items():
+            p = self.page(ed, n)
+            if p:
+                opts, warns = classes.parse_section_options(p, heading, group, cid, scid)
+                self.r.warn(p, warns)
+                for o in opts:
+                    o["name"] = display_name(o["name"])
+                out.extend(opts)
         for n, hint in EQUIPMENT_PAGES[ed].items():
             p = self.page(ed, n)
             if p:
