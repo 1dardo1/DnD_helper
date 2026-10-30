@@ -98,24 +98,42 @@
       <summary>{{ 'play.whatIsIt' | t }}</summary>
       <p>{{ 'cond.exhaustion.text' | t }}</p>
     </details>
-    <ul class="condition-list">
-      @for (c of conditions; track c) {
-        @let on = state().conditions.includes(c);
-        <li [class.active]="on">
-          <input
-            type="checkbox"
-            class="pip"
-            [checked]="on"
-            (change)="toggleCondition(c)"
-            [attr.aria-label]="'cond.' + c | t"
-          />
-          <details>
-            <summary>{{ 'cond.' + c | t }}</summary>
-            <p>{{ 'cond.' + c + '.text' | t }}</p>
-          </details>
-        </li>
-      }
-    </ul>
+    @for (c of activeConditions(); track c) {
+      <div class="active-condition">
+        <input
+          type="checkbox"
+          class="pip"
+          checked
+          (change)="toggleCondition(c)"
+          [attr.aria-label]="'cond.' + c | t"
+        />
+        <details>
+          <summary>{{ 'cond.' + c | t }}</summary>
+          <p>{{ 'cond.' + c + '.text' | t }}</p>
+        </details>
+      </div>
+    }
+    <details class="all-conditions">
+      <summary>{{ 'play.allConditions' | t }}</summary>
+      <ul class="condition-list">
+        @for (c of conditions; track c) {
+          @let on = state().conditions.includes(c);
+          <li [class.active]="on">
+            <input
+              type="checkbox"
+              class="pip"
+              [checked]="on"
+              (change)="toggleCondition(c)"
+              [attr.aria-label]="'cond.' + c | t"
+            />
+            <details>
+              <summary>{{ 'cond.' + c | t }}</summary>
+              <p>{{ 'cond.' + c + '.text' | t }}</p>
+            </details>
+          </li>
+        }
+      </ul>
+    </details>
   </fieldset>
 
   @if (slots().length || sheet().spellcasting.pact) {

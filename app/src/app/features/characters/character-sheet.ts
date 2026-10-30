@@ -145,7 +145,8 @@ export class CharacterSheet {
   protected formula(f: string): string {
     return f
       .replace(/\b(STR|DEX|CON|INT|WIS|CHA)\b/g, (a) => this.i18n.t(`abbr.${a}` as never))
-      .replace(/\bshield\b/, this.i18n.t('sheet.shield'));
+      .replace(/\bshield\b/, this.i18n.t('sheet.shield'))
+      .replace(/\(max (\d+)\)/, (_, n) => this.i18n.t('sheet.maxN', { n }));
   }
 
   protected signed(n: number): string {

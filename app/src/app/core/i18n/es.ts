@@ -127,6 +127,7 @@ export const es: Record<keyof typeof en, string> = {
   'sheet.what.background': 'el trasfondo',
   'sheet.what.feat': 'la dote',
   'sheet.what.item': 'la armadura',
+  'sheet.maxN': '(máx. {n})',
   'sheet.shield': 'escudo',
   'sheet.expertise': 'pericia',
   'sheet.feet': '{n} pies',
@@ -323,7 +324,7 @@ export const es: Record<keyof typeof en, string> = {
   'play.short.none': 'se recupera con descanso largo',
   'play.leftOf': 'Quedan',
   'play.res.bardicInspiration': 'Inspiración bárdica',
-  'play.res.actionSurge': 'Acción súbita',
+  'play.res.actionSurge': 'Oleada de acción',
   'play.res.bloodMaledict': 'Maldición de sangre',
   'play.res.flashOfGenius': 'Destello de genialidad',
   'play.res.hybridTransformation': 'Transformación híbrida',
@@ -516,6 +517,7 @@ export const es: Record<keyof typeof en, string> = {
 
   // -- conditions --
   'play.conditions': 'Estados',
+  'play.allConditions': 'Todos los estados',
   'play.whatIsIt': '¿Qué es?',
   'cond.exhaustion': 'Cansancio',
   'cond.exhaustion.now':

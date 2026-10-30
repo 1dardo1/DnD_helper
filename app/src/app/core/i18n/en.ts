@@ -125,6 +125,7 @@ export const en = {
   'sheet.what.background': 'background',
   'sheet.what.feat': 'feat',
   'sheet.what.item': 'armor',
+  'sheet.maxN': '(max {n})',
   'sheet.shield': 'shield',
   'sheet.expertise': 'expertise',
   'sheet.feet': '{n} ft.',
@@ -511,6 +512,7 @@ export const en = {
 
   // -- conditions --
   'play.conditions': 'Conditions',
+  'play.allConditions': 'All conditions',
   'play.whatIsIt': 'What is it?',
   'cond.exhaustion': 'Exhaustion',
   'cond.exhaustion.now': 'Level {level}: {d20} to d20 Tests and {speed} feet less Speed.',

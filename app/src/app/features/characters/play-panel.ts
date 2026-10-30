@@ -68,6 +68,9 @@ export class PlayPanel {
   protected readonly hp = computed(() => currentHp(this.state(), this.maxHp()));
   protected readonly resources = computed(() => playResources(this.sheet()));
   protected readonly exhaustion = computed(() => exhaustionEffects(this.state().exhaustion));
+  protected readonly activeConditions = computed(() =>
+    CONDITIONS.filter((c) => this.state().conditions.includes(c)),
+  );
   protected readonly slots = computed(() =>
     this.sheet()
       .spellcasting.slots.map((max, i) => ({

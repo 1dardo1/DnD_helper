@@ -191,7 +191,8 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     const dex = armor.dexCap === null ? mod('DEX') : Math.min(mod('DEX'), armor.dexCap);
     armorClass = {
       value: armor.baseAC + dex + shield,
-      formula: `${armor.baseAC} + DEX${shield ? ' + shield' : ''}`,
+      // heavy armor adds no Dexterity; medium armor caps it
+      formula: `${armor.baseAC}${armor.dexCap === 0 ? '' : armor.dexCap === null ? ' + DEX' : ` + DEX (max ${armor.dexCap})`}${shield ? ' + shield' : ''}`,
     };
   } else if (has('Unarmored Defense') && classes.some((c) => c.cls.id === 'monk') && !shield) {
     armorClass = { value: 10 + mod('DEX') + mod('WIS'), formula: '10 + DEX + WIS' };
