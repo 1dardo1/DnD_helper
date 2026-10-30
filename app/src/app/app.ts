@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CharacterStore } from './core/characters/character-store.service';
 import { SyncService } from './core/characters/sync.service';
 import { RepositoryService } from './core/data/repository.service';
+import { DevUpdateService } from './core/dev/dev-update.service';
 import { I18nService, TranslatePipe } from './core/i18n/i18n.service';
 import { Language, SettingsService } from './core/settings/settings.service';
 
@@ -26,6 +27,7 @@ export class App {
 
   protected readonly sync = inject(SyncService);
   protected readonly store = inject(CharacterStore);
+  protected readonly update = inject(DevUpdateService);
   private readonly repo = inject(RepositoryService);
   /** Local files can't be written: say so instead of "not saved to the cloud". */
   protected readonly readOnly = computed(() => this.repo.source()?.canWrite === false);
