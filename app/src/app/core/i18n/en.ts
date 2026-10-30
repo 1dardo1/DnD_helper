@@ -558,4 +558,18 @@ export const en = {
   'cond.unconscious': 'Unconscious',
   'cond.unconscious.text':
     "You are Incapacitated and Prone, and you drop whatever you're holding. Your Speed is 0 and you're unaware of your surroundings. You automatically fail Strength and Dexterity saving throws. Attack rolls against you have Advantage, and any attack that hits you from within 5 feet is a Critical Hit.",
+
+  // -- spells --
+  'spells.cantrips': 'Cantrips',
+  'spells.prepared': 'Prepared spells',
+  'spells.swapAny': 'After the Long Rest you can change your prepared spells.',
+  'spells.swapOne': 'After the Long Rest you can change one of your prepared spells.',
+  'spells.change': 'Change spells',
+  'spells.done': 'Done',
+  'spells.notNow': 'Not now',
+  'spells.remove': 'Remove',
+  'spells.add': 'For',
+  'spells.swap': 'Swap',
+  'levelUp.swapOne':
+    'On gaining the level you can replace one of your spells with another from your list (optional).',
 };

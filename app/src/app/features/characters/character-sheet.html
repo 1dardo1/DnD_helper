@@ -171,6 +171,7 @@
       @if (s.spellcasting.pact; as pact) {
         <p>{{ 'sheet.pact' | t: { slots: pact.slots, level: pact.level } }}</p>
       }
+      <app-spell-book [character]="c" (changed)="saveCharacter($event)" />
     </section>
   }
 

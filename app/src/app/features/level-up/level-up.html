@@ -389,6 +389,9 @@
               @if (g.spellLists; as sl) {
                 <fieldset>
                   <legend>{{ 'sheet.spellcasting' | t }}</legend>
+                  @if (canSwapSpell()) {
+                    <p class="sticky">{{ 'levelUp.swapOne' | t }}</p>
+                  }
                   <ul class="gains">
                     @if (sp.cantrips && sp.cantrips.after > sp.cantrips.before) {
                       <li>

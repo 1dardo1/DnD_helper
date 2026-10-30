@@ -79,6 +79,11 @@ export interface Character {
     /** Active conditions (ids from core/play/conditions.ts) and the Exhaustion level (0-6). */
     conditions: string[];
     exhaustion: number;
+    /**
+     * Prepared spells that may be changed now, by class id: after a Long Rest, 'any' (Cleric,
+     * Druid, Wizard...) or 'one' (Paladin, Ranger). Cleared once changed or dismissed.
+     */
+    spellSwap: Record<string, 'any' | 'one'>;
   };
   notes: string;
 }
@@ -151,6 +156,7 @@ export function newCharacter(name: string, device: string): Character {
       heroicInspiration: false,
       conditions: [],
       exhaustion: 0,
+      spellSwap: {},
     },
     notes: '',
   };

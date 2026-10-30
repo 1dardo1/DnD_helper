@@ -565,4 +565,18 @@ export const es: Record<keyof typeof en, string> = {
   'cond.unconscious': 'Inconsciente',
   'cond.unconscious.text':
     'Estás incapacitado y derribado, y sueltas lo que lleves en las manos. Tu velocidad es 0 y no eres consciente de lo que te rodea. Fallas automáticamente las salvaciones de Fuerza y Destreza. Las tiradas de ataque contra ti tienen ventaja, y cualquier ataque que te impacte desde 1,5 m (5 pies) es un golpe crítico.',
+
+  // -- spells --
+  'spells.cantrips': 'Trucos',
+  'spells.prepared': 'Conjuros preparados',
+  'spells.swapAny': 'Tras el descanso largo puedes cambiar tus conjuros preparados.',
+  'spells.swapOne': 'Tras el descanso largo puedes cambiar uno de tus conjuros preparados.',
+  'spells.change': 'Cambiar conjuros',
+  'spells.done': 'Hecho',
+  'spells.notNow': 'Ahora no',
+  'spells.remove': 'Quitar',
+  'spells.add': 'Por',
+  'spells.swap': 'Cambiar',
+  'levelUp.swapOne':
+    'Al subir de nivel puedes cambiar uno de tus conjuros por otro de tu lista (opcional).',
 };

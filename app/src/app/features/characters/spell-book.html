@@ -1,0 +1,94 @@
+@for (c of casters(); track c.classId) {
+  <section class="caster">
+    <h3>{{ c.name | dataName: true }}</h3>
+    @if (c.cantrips.length) {
+      <p>
+        <strong>{{ 'spells.cantrips' | t }}:</strong>
+        @for (s of c.cantrips; track s.id; let last = $last) {
+          <a [routerLink]="['/compendium', 'spell', s.id]">{{ s.name | dataName: true }}</a
+          >{{ last ? '' : ', ' }}
+        }
+      </p>
+    }
+    <p>
+      <strong
+        >{{ 'spells.prepared' | t
+        }}{{
+          c.maxPrepared !== null ? ' (' + c.prepared.length + ' / ' + c.maxPrepared + ')' : ''
+        }}:</strong
+      >
+      @for (s of c.prepared; track s.id; let last = $last) {
+        <a [routerLink]="['/compendium', 'spell', s.id]">{{ s.name | dataName: true }}</a
+        ><small> {{ 'spell.levelShort' | t: { level: s.level } }}</small
+        >{{ last ? '' : ', ' }}
+      } @empty {
+        —
+      }
+    </p>
+
+    @if (c.swap === 'any') {
+      <aside class="sticky">
+        <p>{{ 'spells.swapAny' | t }}</p>
+        @if (editing() === c.classId) {
+          <p [class.issue]="c.maxPrepared !== null && c.prepared.length > c.maxPrepared">
+            {{ c.prepared.length }} / {{ c.maxPrepared ?? '—' }}
+          </p>
+          <ul class="choose">
+            @for (s of c.available; track s.id) {
+              <li>
+                <label>
+                  <input type="checkbox" [checked]="isChosen(s.id)" (change)="toggle(s.id)" />
+                  <small>{{ 'spell.levelShort' | t: { level: s.level } }}</small>
+                  {{ s.name | dataName }}
+                </label>
+              </li>
+            }
+          </ul>
+          <button type="button" class="primary" (click)="finish(c)">{{ 'spells.done' | t }}</button>
+        } @else {
+          <button type="button" (click)="editing.set(c.classId)">{{ 'spells.change' | t }}</button>
+          <button type="button" class="btn-ghost" (click)="finish(c)">
+            {{ 'spells.notNow' | t }}
+          </button>
+        }
+      </aside>
+    } @else if (c.swap === 'one') {
+      <aside class="sticky">
+        <p>{{ 'spells.swapOne' | t }}</p>
+        <label>
+          {{ 'spells.remove' | t }}
+          <select [value]="swapOut()" (change)="swapOut.set(value($event))">
+            <option value="">—</option>
+            @for (s of c.prepared; track s.id) {
+              <option [value]="s.id">{{ s.name | dataName }}</option>
+            }
+          </select>
+        </label>
+        <label>
+          {{ 'spells.add' | t }}
+          <select [value]="swapIn()" (change)="swapIn.set(value($event))">
+            <option value="">—</option>
+            @for (s of c.available; track s.id) {
+              @if (!isChosen(s.id)) {
+                <option [value]="s.id">
+                  {{ 'spell.levelShort' | t: { level: s.level } }} · {{ s.name | dataName }}
+                </option>
+              }
+            }
+          </select>
+        </label>
+        <button
+          type="button"
+          class="primary"
+          [disabled]="!swapOut() || !swapIn()"
+          (click)="swapOne(c)"
+        >
+          {{ 'spells.swap' | t }}
+        </button>
+        <button type="button" class="btn-ghost" (click)="finish(c)">
+          {{ 'spells.notNow' | t }}
+        </button>
+      </aside>
+    }
+  </section>
+}

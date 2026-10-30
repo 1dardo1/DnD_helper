@@ -12,6 +12,7 @@ import { RulesDataService } from '../../core/rules/rules-data.service';
 import { Sheet, SheetFeature, SheetWarning } from '../../core/rules/sheet';
 import { ABILITIES } from '../../core/rules/tables';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
+import { SpellBook } from './spell-book';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
 import { PlayPanel } from './play-panel';
@@ -28,6 +29,7 @@ import { PlayPanel } from './play-panel';
     MarkdownPipe,
     LoadError,
     PlayPanel,
+    SpellBook,
     ClassThemeDirective,
   ],
   templateUrl: './character-sheet.html',
@@ -94,8 +96,13 @@ export class CharacterSheet {
    */
   protected saveState(state: Character['state']): void {
     const v = this.view.value();
+    if (v) this.saveCharacter({ ...v.record.character, state });
+  }
+
+  /** Same as saveState, for other quick changes (prepared spells). */
+  protected saveCharacter(character: Character): void {
+    const v = this.view.value();
     if (!v) return;
-    const character = { ...v.record.character, state };
     this.view.set({
       ...v,
       record: { ...v.record, character },

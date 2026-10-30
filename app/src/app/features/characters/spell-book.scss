@@ -1,0 +1,22 @@
+.caster + .caster {
+  margin-top: 1rem;
+}
+
+.choose {
+  list-style: none;
+  padding: 0;
+  columns: 2 16rem;
+
+  li {
+    break-inside: avoid;
+  }
+}
+
+aside label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+aside select {
+  width: 100%;
+}

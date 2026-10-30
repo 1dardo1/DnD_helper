@@ -42,9 +42,16 @@ export class CharacterStore {
   );
 
   load(): Promise<void> {
-    this.loaded ??= this.db
-      .getAll<CharacterRecord>('characters')
-      .then((rs) => this.records.set(rs));
+    // Records saved by an older version of the app get the fields added since.
+    this.loaded ??= this.db.getAll<CharacterRecord>('characters').then((rs) =>
+      this.records.set(
+        rs.map((r) => ({
+          ...r,
+          character: normalizeCharacter(r.character) ?? r.character,
+          remote: r.remote ? (normalizeCharacter(r.remote) ?? r.remote) : r.remote,
+        })),
+      ),
+    );
     return this.loaded;
   }
 

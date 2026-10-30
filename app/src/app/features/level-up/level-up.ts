@@ -38,6 +38,7 @@ import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, normalizeCharacter } from '../../core/models/character';
 import { Ability, ClassOption, DndClass, Feat, Spell } from '../../core/models/compendium';
+import { swapRule } from '../../core/play/spell-swap';
 import { computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { Sheet } from '../../core/rules/sheet';
@@ -182,7 +183,19 @@ export class LevelUp {
   protected hasChoices(): boolean {
     const g = this.gains();
     if (!g) return false;
-    return g.expertise > 0 || spellsGrow(g.spells) || g.optionGroups.length > 0 || !!g.multiclass;
+    return (
+      g.expertise > 0 ||
+      spellsGrow(g.spells) ||
+      this.canSwapSpell() ||
+      g.optionGroups.length > 0 ||
+      !!g.multiclass
+    );
+  }
+
+  /** Bard, Sorcerer, Warlock and subclass casters may replace one spell when gaining a level. */
+  protected canSwapSpell(): boolean {
+    const g = this.gains();
+    return !!g?.spells && g.level > 1 && swapRule(g.cls.id).levelUp === 'one';
   }
 
   protected readonly changes = computed(() => {

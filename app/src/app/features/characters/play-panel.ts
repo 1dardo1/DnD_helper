@@ -32,6 +32,7 @@ import {
   setExhaustion,
   toggleCondition,
 } from '../../core/play/conditions';
+import { swapsAfterLongRest } from '../../core/play/spell-swap';
 import { Sheet } from '../../core/rules/sheet';
 
 /** Up to this many uses are shown as pips; more (Focus Points, Sorcery Points) as a counter. */
@@ -184,7 +185,7 @@ export class PlayPanel {
 
   protected longRest(): void {
     if (!confirm(this.i18n.t('play.confirmLong'))) return;
-    this.emit(longRest(this.state()));
+    this.emit({ ...longRest(this.state()), spellSwap: swapsAfterLongRest(this.sheet()) });
   }
 
   private emit(next: PlayState): void {
