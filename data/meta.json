@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-30T12:47:04+00:00",
+  "generatedAt": "2026-10-30T12:49:26+00:00",
   "sources": {
     "2014": "https://dnd5e.wikidot.com",
     "2024": "https://dnd2024.wikidot.com"
@@ -52,15 +52,15 @@
       "2014": 45
     }
   },
-  "pagesDownloaded": 0,
+  "pagesDownloaded": 3,
   "downloadFailures": 0,
   "parseFailures": 1,
-  "translatedAt": "2026-10-30T12:47:26+00:00",
+  "translatedAt": "2026-10-30T14:19:51+00:00",
   "translation": {
     "es": {
       "texts": 17505,
-      "untranslated": 10380,
-      "requests": 0,
+      "untranslated": 9060,
+      "requests": 130,
       "complete": false
     }
   }

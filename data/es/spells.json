@@ -10847,7 +10847,7 @@
     "type": "spell",
     "name": "Homunculus Servant",
     "edition": "2024",
-    "source": "Eberron - Forge of the Artificer",
+    "source": "Eberron - Forja del Artífice",
     "description": "You summon a special homunculus in an unoccupied space within range. This creature uses the Homunculus Servant stat block. If you already have a homunculus from this spell, the homunculus is replaced by the new one. You determine the homunculus's appearance, such as a mechanical-looking bird, winged vials, or miniature animate cauldrons.\n\n**Combat**  \nThe homunculus is an ally to you and your allies. In combat, it shares your Initiative count, but it takes its turn immediately after yours. It obeys your commands (no action required by you). If you don't issue any, it takes the Dodge action and uses its movement to avoid danger.",
     "url": "https://dnd2024.wikidot.com/spell:homunculus-servant",
     "level": 2,
@@ -17771,7 +17771,7 @@
   {
     "id": "shield",
     "type": "spell",
-    "name": "Shield",
+    "name": "Escudo",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "An imperceptible barrier of magical force protects you. Until the start of your next turn, you have a +5 bonus to AC, including against the triggering attack, and you take no damage from Magic Missile.",
