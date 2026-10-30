@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test --watch=false",
     "sync-dev-data": "node scripts/sync-dev-data.mjs",
+    "check-glossary": "node scripts/check-glossary.mjs",
     "prestart": "npm run sync-dev-data",
     "pretest": "npm run sync-dev-data",
     "prewatch": "npm run sync-dev-data"

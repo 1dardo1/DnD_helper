@@ -540,6 +540,24 @@ def render_report(meta: dict, r: Report, crawler: Crawler) -> str:
     return "\n".join(L) + "\n"
 
 
+def apply_multiclass_gains(entries: list[dict], path: Path, report: Report) -> None:
+    """multiclass.gains for every class: its 2024 text, else multiclass.yaml, else the estimate
+    the 2024 classes' pattern gives (flagged so the app can warn)."""
+    table = yaml.safe_load(path.read_text(encoding="utf-8")) if path.exists() else {}
+    for e in entries:
+        if e["type"] != "class":
+            continue
+        gains, origin = classes.multiclass_gains_from_text(e["multiclass"].get("proficienciesGained")), "text"
+        if gains is None and e["id"] in (table or {}):
+            t = table[e["id"]] or {}
+            gains, origin = {k: t.get(k, d) for k, d in (("armor", []), ("weapons", []), ("tools", []),
+                                                          ("skill", None), ("instrument", False))}, "table"
+        if gains is None:
+            gains, origin = classes.estimated_multiclass_gains(e), "estimate"
+            report.warn(e["url"], ["no multiclass text nor multiclass.yaml entry: estimated from the 2024 pattern"])
+        e["multiclass"]["gains"] = {**gains, "origin": origin}
+
+
 def run(root: Path, offline: bool = False, delay: float = 0.5) -> dict:
     crawler = Crawler(root / "tools/scraper/.cache", delay=delay, offline=offline)
     report = Report()
@@ -548,4 +566,5 @@ def run(root: Path, offline: bool = False, delay: float = 0.5) -> dict:
     e14 = r.parse_2014()
     successors = load_successors(root / "tools/scraper/successors.yaml")
     merged = merge(e14, e24, successors, report)
+    apply_multiclass_gains(merged, root / "tools/scraper/multiclass.yaml", report)
     return write(merged, root / "data", report, crawler, root / "tools/scraper/report.md")

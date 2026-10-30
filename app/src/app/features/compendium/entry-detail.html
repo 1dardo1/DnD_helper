@@ -32,25 +32,28 @@
       @case ('spell') {
         @let s = asSpell(e);
         <dl class="fields">
-          <dt>Level</dt>
+          <dt>{{ 'spell.level' | t }}</dt>
           <dd>
-            {{ s.level === 0 ? 'Cantrip' : s.level }} · {{ s.school
-            }}{{ s.ritual ? ' (ritual)' : '' }}
+            {{ s.level === 0 ? ('spell.cantrip' | t) : s.level }} · {{ s.school | term: 'school'
+            }}{{ s.ritual ? ' (' + ('spell.ritual' | t) + ')' : '' }}
           </dd>
-          <dt>Casting Time</dt>
-          <dd>{{ s.castingTime.raw }}</dd>
-          <dt>Range</dt>
-          <dd>{{ s.range }}</dd>
-          <dt>Components</dt>
+          <dt>{{ 'spell.castingTime' | t }}</dt>
+          <dd>{{ s.castingTime.raw | phrase }}</dd>
+          <dt>{{ 'spell.range' | t }}</dt>
+          <dd>{{ s.range | phrase }}</dd>
+          <dt>{{ 'spell.components' | t }}</dt>
           <dd>{{ components(s) }}</dd>
-          <dt>Duration</dt>
-          <dd>{{ s.duration }}</dd>
-          <dt>Classes</dt>
-          <dd>{{ s.classes.join(', ') }}</dd>
+          <dt>{{ 'spell.duration' | t }}</dt>
+          <dd>{{ s.duration | phrase }}</dd>
+          <dt>{{ 'spell.classes' | t }}</dt>
+          <dd>{{ classNames(s.classes) }}</dd>
         </dl>
         <div class="md" [innerHTML]="e.description | markdown"></div>
         @if (s.higherLevels) {
-          <div class="md" [innerHTML]="'**Higher levels.** ' + s.higherLevels | markdown"></div>
+          <div
+            class="md"
+            [innerHTML]="'**' + ('spell.higherLevels' | t) + '.** ' + s.higherLevels | markdown"
+          ></div>
         }
       }
 
@@ -61,11 +64,11 @@
           <table>
             <thead>
               <tr>
-                <th>Level</th>
-                <th>PB</th>
-                <th>Features</th>
+                <th>{{ 'table.level' | t }}</th>
+                <th>{{ 'table.pb' | t }}</th>
+                <th>{{ 'table.features' | t }}</th>
                 @for (col of c.progression.columns; track col) {
-                  <th>{{ col }}</th>
+                  <th>{{ col | term: 'column' }}</th>
                 }
               </tr>
             </thead>

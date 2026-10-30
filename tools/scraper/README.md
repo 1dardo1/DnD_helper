@@ -50,6 +50,9 @@ La primera descarga completa son ~4.300 páginas (≈1 h a una petición cada 0,
 - **`successors.yaml`**: cambios de nombre entre 2014 y 2024 que no se pueden deducir
   (p. ej. *Totem Warrior → Wild Heart*). El informe tiene una sección *Posibles sucesores por revisar*
   con candidatos.
+- **`multiclass.yaml`**: lo que da multiclasear en las clases cuyo texto no lo dice (Blood Hunter). Una
+  clase nueva sin texto ni entrada en la tabla recibe una estimación (armaduras salvo pesada, armas
+  marciales si todas sus armas lo son) marcada como `origin: estimate`, que la app avisa.
 - **`report.md`**: totales, qué se sustituyó, qué se conservó de 2014, páginas que fallaron y avisos.
 - Si una wiki cambia su maquetación, el validador (`python -m dndscraper.validate`) falla y la acción
   no hace commit.

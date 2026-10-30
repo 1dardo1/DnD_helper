@@ -7,9 +7,10 @@ import {
   Feat,
   Species,
   Spell,
+  Spellcasting,
   Subclass,
 } from '../models/compendium';
-import { TOOL_CHOICE } from '../rules/engine';
+import { TOOL_CHOICE, castingOf } from '../rules/engine';
 import { multiclassGains } from '../rules/multiclass';
 import { Sheet } from '../rules/sheet';
 import { ABILITIES, SKILL_ABILITY } from '../rules/tables';
@@ -97,27 +98,37 @@ export function subclassesFor(classId: string, subclasses: Subclass[]): Subclass
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-/** Highest spell level the class can cast at a level (0 = cantrips only / no spellcasting). */
-export function maxSpellLevel(cls: DndClass, level: number): number {
-  const row = cls.spellcasting?.slotsByLevel[level - 1] ?? [];
+/** Highest spell level a spellcasting table allows at a class level (0 = cantrips only / none). */
+export function maxSpellLevel(sc: Spellcasting | null | undefined, level: number): number {
+  const row = sc?.slotsByLevel[level - 1] ?? [];
   let max = 0;
   row.forEach((n, i) => n > 0 && (max = i + 1));
   return max;
 }
 
+/**
+ * Spells a caster can pick at a class level: from its list (a subclass caster may use another
+ * class's, e.g. Eldritch Knight → wizard), up to the highest slot level its table gives.
+ */
 export function spellsFor(
-  cls: DndClass,
+  listId: string,
+  sc: Spellcasting,
   level: number,
   spells: Spell[],
 ): { cantrips: Spell[]; leveled: Spell[] } {
-  const max = maxSpellLevel(cls, level);
+  const max = maxSpellLevel(sc, level);
   const mine = spells
-    .filter((s) => s.classes.includes(cls.id))
+    .filter((s) => s.classes.includes(listId))
     .sort((a, b) => a.level - b.level || a.name.localeCompare(b.name));
   return {
     cantrips: mine.filter((s) => s.level === 0),
     leveled: mine.filter((s) => s.level >= 1 && s.level <= max),
   };
+}
+
+/** The class whose spell list a caster uses: its own, or the one its subclass table names. */
+export function spellListOf(cls: DndClass, sc: Spellcasting): string {
+  return cls.spellcasting ? cls.id : (sc.spellList ?? cls.id);
 }
 
 /** Progression column that says how many options of a group the class knows. */
@@ -237,6 +248,8 @@ export interface ToolChoice {
   slot: string;
   /** The text it comes from, e.g. "Choose 3 Musical Instruments". */
   text: string;
+  /** Tool kinds offered (keys of TOOL_GROUPS), for labels. */
+  groups: string[];
   count: number;
   options: string[];
 }
@@ -255,7 +268,7 @@ function parseToolChoice(slot: string, text: string): ToolChoice | null {
     text.match(/choose (\d|one|two|three|four)/i) ??
     text.match(/\b(\d|one|two|three|four) (?:kind|type)/i);
   const count = m ? (NUMBER_WORDS[m[1].toLowerCase()] ?? parseInt(m[1], 10)) : 1;
-  return { slot, text, count, options: groups.flatMap((g) => TOOL_GROUPS[g]) };
+  return { slot, text, groups, count, options: groups.flatMap((g) => TOOL_GROUPS[g]) };
 }
 
 /** Every "choose one kind of ..." tool choice from the background, starting class and later classes. */
@@ -273,6 +286,7 @@ export function toolChoices(classes: DndClass[], background: Background | undefi
       out.push({
         slot: `multiclass:${cls.id}`,
         text: 'Musical Instrument',
+        groups: ['Musical Instrument'],
         count: 1,
         options: TOOL_GROUPS['Musical Instrument'],
       });
@@ -363,6 +377,8 @@ export type StepNotes = Record<Step, Note[]>;
 export interface ReviewContext {
   /** In the same order as ch.classes (undefined when an id isn't in the compendium). */
   classes: (DndClass | undefined)[];
+  /** The chosen subclass of each of those classes. */
+  subclasses?: (Subclass | undefined)[];
   background?: Background;
   species?: Species;
   sheet: Sheet | null;
@@ -397,9 +413,10 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
     out.class.push({ key: 'create.issue.levelCap', params: { total }, kind: 'issue' });
   if (ctx.sheet) out.class.push(...multiclassIssues(classes, ctx.sheet));
   for (const cls of classes.slice(1)) {
-    if (!multiclassGains(cls).known)
+    const g = multiclassGains(cls);
+    if (!g.known || g.estimated)
       out.class.push({
-        key: 'create.issue.multiclassUnknown',
+        key: g.known ? 'create.issue.multiclassEstimated' : 'create.issue.multiclassUnknown',
         params: { cls: cls.name },
         kind: 'issue',
       });
@@ -457,12 +474,13 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
           for (const n of featIssues(feat, ctx.sheet, ch.species?.id ?? null))
             out.choices.push({ ...n, params: { ...n.params, feat: feat.name } });
       }
-      // spell counts per caster class
-      const sc = cls.spellcasting;
+      // spell counts per caster (the class, or a subclass that casts on its own)
+      const sc = castingOf(cls, ctx.subclasses?.[i]);
       if (sc) {
+        const list = spellListOf(cls, sc);
         const mine = ch.choices.spells
           .map((id) => ctx.spells.get(id))
-          .filter((sp): sp is Spell => !!sp && sp.classes.includes(cls.id));
+          .filter((sp): sp is Spell => !!sp && sp.classes.includes(list));
         const cantrips = mine.filter((sp) => sp.level === 0).length;
         const leveled = mine.length - cantrips;
         const maxC = sc.cantripsByLevel?.[c.level - 1];
@@ -487,11 +505,11 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
       const got = ch.choices.toolChoices.find((t) => t.slot === tc.slot)?.tools.length ?? 0;
       const step: Step = tc.slot === 'background' ? 'background' : 'choices';
       if (got < tc.count)
-        miss(step, 'create.missing.tools', { text: tc.text, count: tc.count - got });
+        miss(step, 'create.missing.tools', { group: tc.groups.join(' / '), count: tc.count - got });
       if (got > tc.count)
         out[step].push({
           key: 'create.issue.tooManyTools',
-          params: { text: tc.text, count: tc.count },
+          params: { group: tc.groups.join(' / '), count: tc.count },
           kind: 'issue',
         });
     }

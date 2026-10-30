@@ -1,0 +1,16 @@
+# What a class grants when it isn't the character's starting class, for classes whose page has
+# no "As a Multiclass Character" text (2014-only classes, some UA). 2024 classes don't need an
+# entry: their text is read automatically.
+#
+# A class with neither text nor an entry here gets the rule the 2024 classes follow, marked as an
+# estimate (the app warns): its armor except heavy, Martial weapons if it has them all, and no
+# skill, tool or instrument.
+#
+# Fields: armor, weapons, tools (lists), skill (list | any | null), instrument (true/false).
+
+blood-hunter:
+  armor: [Light armor, Medium armor, Shields]
+  weapons: [Martial weapons]
+  tools: []
+  skill: null
+  instrument: false

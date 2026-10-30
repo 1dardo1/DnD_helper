@@ -70,7 +70,7 @@
       @for (sp of speeds(s); track sp.kind) {
         <strong>{{ 'sheet.feet' | t: { n: sp.value } }}</strong>
         @if (sp.kind !== 'walk') {
-          <small>{{ sp.kind }}</small>
+          <small>{{ sp.kind | term: 'speed' }}</small>
         }
       }
     </div>
@@ -140,7 +140,7 @@
       <h2>{{ 'sheet.spellcasting' | t }}</h2>
       @for (sc of s.spellcasting.classes; track sc.classId) {
         <p>
-          <strong>{{ sc.classId }}</strong> · {{ 'abbr.' + sc.ability | t }} ·
+          <strong>{{ className(s, sc.classId) }}</strong> · {{ 'abbr.' + sc.ability | t }} ·
           {{ 'sheet.saveDc' | t }} {{ sc.saveDc }} · {{ 'sheet.spellAttack' | t }}
           {{ signed(sc.attack) }}
           @if (sc.cantrips !== null) {
@@ -170,7 +170,7 @@
       <h2>{{ 'sheet.resources' | t }}</h2>
       <dl class="pairs">
         @for (r of s.resources; track r.classId + r.name) {
-          <dt>{{ r.name }}</dt>
+          <dt>{{ r.name | term: 'column' }}</dt>
           <dd>{{ r.value }}</dd>
         }
       </dl>
@@ -181,16 +181,16 @@
     <h2>{{ 'sheet.proficiencies' | t }}</h2>
     <dl class="pairs">
       <dt>{{ 'sheet.armor' | t }}</dt>
-      <dd>{{ s.proficiencies.armor.join(', ') || '—' }}</dd>
+      <dd>{{ terms(s.proficiencies.armor, 'armor') || '—' }}</dd>
       <dt>{{ 'sheet.weapons' | t }}</dt>
-      <dd>{{ s.proficiencies.weapons.join(', ') || '—' }}</dd>
+      <dd>{{ terms(s.proficiencies.weapons, 'weapon') || '—' }}</dd>
       <dt>{{ 'sheet.tools' | t }}</dt>
-      <dd>{{ s.proficiencies.tools.join(', ') || '—' }}</dd>
+      <dd>{{ terms(s.proficiencies.tools, 'tool') || '—' }}</dd>
       <dt>{{ 'sheet.languages' | t }}</dt>
-      <dd>{{ s.languages.join(', ') }}</dd>
+      <dd>{{ terms(s.languages, 'language') }}</dd>
       @if (s.size.length) {
         <dt>{{ 'sheet.size' | t }}</dt>
-        <dd>{{ s.size.join(' / ') }}</dd>
+        <dd>{{ terms(s.size, 'size', ' / ') }}</dd>
       }
     </dl>
   </section>

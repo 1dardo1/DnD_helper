@@ -1,5 +1,5 @@
 import { newCharacter } from '../models/character';
-import { Background, DndClass, Feat, Spell } from '../models/compendium';
+import { Background, DndClass, Feat, Spell, Spellcasting } from '../models/compendium';
 import {
   backgroundIncreasesValid,
   expertiseCount,
@@ -11,6 +11,7 @@ import {
   pointBuyCost,
   review,
   skillPicks,
+  spellListOf,
   spellsFor,
   toolChoices,
 } from './creation-rules';
@@ -99,15 +100,12 @@ describe('creation rules', () => {
     expect(expertiseCount(rogue, 6)).toBe(4);
   });
 
-  it('lists the class spells up to the highest slot level', () => {
-    const wizard = {
-      id: 'wizard',
-      spellcasting: {
-        slotsByLevel: Array.from({ length: 20 }, (_, i) =>
-          i < 2 ? [2, 0, 0, 0, 0, 0, 0, 0, 0] : [4, 2, 0, 0, 0, 0, 0, 0, 0],
-        ),
-      },
-    } as unknown as DndClass;
+  it('lists the spells of a list up to the highest slot level, also for subclass casters', () => {
+    const sc = {
+      slotsByLevel: Array.from({ length: 20 }, (_, i) =>
+        i < 2 ? [2, 0, 0, 0, 0, 0, 0, 0, 0] : [4, 2, 0, 0, 0, 0, 0, 0, 0],
+      ),
+    } as unknown as Spellcasting;
     const spell = (id: string, level: number, classes = ['wizard']) =>
       ({ id, name: id, level, classes }) as unknown as Spell;
     const all = [
@@ -117,10 +115,13 @@ describe('creation rules', () => {
       spell('fireball', 3),
       spell('cure-wounds', 1, ['cleric']),
     ];
-    expect(maxSpellLevel(wizard, 3)).toBe(2);
-    const { cantrips, leveled } = spellsFor(wizard, 3, all);
+    expect(maxSpellLevel(sc, 3)).toBe(2);
+    const { cantrips, leveled } = spellsFor('wizard', sc, 3, all);
     expect(cantrips.map((s) => s.id)).toEqual(['light']);
     expect(leveled.map((s) => s.id)).toEqual(['magic-missile', 'misty-step']);
+    // an Eldritch Knight (fighter) uses the wizard list named in its subclass table
+    const ek = { id: 'fighter', spellcasting: null } as unknown as DndClass;
+    expect(spellListOf(ek, { ...sc, spellList: 'wizard' })).toBe('wizard');
   });
 
   it('says what is still missing, step by step', () => {

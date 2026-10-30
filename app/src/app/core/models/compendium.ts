@@ -45,6 +45,10 @@ export interface ProgressionRow {
 
 export interface Spellcasting {
   ability: Ability | null;
+  /** When the caster picks it (Profane Soul: Intelligence or Wisdom); ability is the default. */
+  abilityChoices?: Ability[] | null;
+  /** Whose spell list it uses, for subclass casters (Eldritch Knight → "wizard"). */
+  spellList?: string | null;
   kind: 'full' | 'half' | 'third' | 'pact' | 'other';
   preparation: 'prepared' | 'known';
   cantripsByLevel: number[] | null;
@@ -66,7 +70,19 @@ export interface DndClass extends Entry {
   };
   startingEquipment: string;
   /** Every group is required; any ability within a group satisfies it. */
-  multiclass: { prerequisites: AbilityGroup[]; proficienciesGained: string | null };
+  multiclass: {
+    prerequisites: AbilityGroup[];
+    proficienciesGained: string | null;
+    /** What multiclassing into it grants; origin "estimate" = deduced, not from the source. */
+    gains?: {
+      armor: string[];
+      weapons: string[];
+      tools: string[];
+      skill: 'list' | 'any' | null;
+      instrument: boolean;
+      origin: 'text' | 'table' | 'estimate';
+    };
+  };
   subclassTitle: string;
   subclassLevel: number;
   subclassFeatureLevels: number[];
@@ -81,6 +97,8 @@ export interface Subclass extends Entry {
   shortName: string;
   features: Feature[];
   spells: { classLevel: number; spells: string[] }[] | null;
+  /** Subclasses that cast on their own (Eldritch Knight, Arcane Trickster, Profane Soul...). */
+  spellcasting?: Spellcasting | null;
 }
 
 export interface Prerequisites {

@@ -52,7 +52,21 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the following traits from the Core Artificer Traits table: Hit Point Die, proficiency with Tinker's Tools, proficiency in one skill of your choice from the Artificer's skill list, and training with Light and Medium armor and Shields.\n- Gain the Artificer's level 1 features, which are listed in the Artificer Features table.See the multiclassing rules in the Player's Handbook to determine your available spell slots, adding half your Artificer levels (round up)."
+      "proficienciesGained": "- Gain the following traits from the Core Artificer Traits table: Hit Point Die, proficiency with Tinker's Tools, proficiency in one skill of your choice from the Artificer's skill list, and training with Light and Medium armor and Shields.\n- Gain the Artificer's level 1 features, which are listed in the Artificer Features table.See the multiclassing rules in the Player's Handbook to determine your available spell slots, adding half your Artificer levels (round up).",
+      "gains": {
+        "armor": [
+          "Light armor",
+          "Medium armor",
+          "Shields"
+        ],
+        "weapons": [],
+        "tools": [
+          "Tinker's Tools"
+        ],
+        "skill": "list",
+        "instrument": false,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Artificer Subclass",
     "subclassLevel": 3,
@@ -825,7 +839,19 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the following traits from the Core Barbarian Traits table: Hit Point Die, proficiency with Martial weapons, and training with Shields.\n- Gain the Barbarian's level 1 features, which are listed in the Barbarian Features table."
+      "proficienciesGained": "- Gain the following traits from the Core Barbarian Traits table: Hit Point Die, proficiency with Martial weapons, and training with Shields.\n- Gain the Barbarian's level 1 features, which are listed in the Barbarian Features table.",
+      "gains": {
+        "armor": [
+          "Shields"
+        ],
+        "weapons": [
+          "Martial weapons"
+        ],
+        "tools": [],
+        "skill": null,
+        "instrument": false,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Barbarian Subclass",
     "subclassLevel": 3,
@@ -1257,7 +1283,17 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the following traits from the Core Bard Traits table: Hit Point Die, proficiency in one skill of your choice, proficiency with one Musical Instrument of your choice, and training with Light armor.\n- Gain the Bard's level 1 features, which are listed in the Bard Features table. See the multiclassing rules in multiclassing to determine your available spell slots."
+      "proficienciesGained": "- Gain the following traits from the Core Bard Traits table: Hit Point Die, proficiency in one skill of your choice, proficiency with one Musical Instrument of your choice, and training with Light armor.\n- Gain the Bard's level 1 features, which are listed in the Bard Features table. See the multiclassing rules in multiclassing to determine your available spell slots.",
+      "gains": {
+        "armor": [
+          "Light armor"
+        ],
+        "weapons": [],
+        "tools": [],
+        "skill": "any",
+        "instrument": true,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Bard Subclass",
     "subclassLevel": 3,
@@ -2097,7 +2133,21 @@
           "min": 13
         }
       ],
-      "proficienciesGained": null
+      "proficienciesGained": null,
+      "gains": {
+        "armor": [
+          "Light armor",
+          "Medium armor",
+          "Shields"
+        ],
+        "weapons": [
+          "Martial weapons"
+        ],
+        "tools": [],
+        "skill": null,
+        "instrument": false,
+        "origin": "table"
+      }
     },
     "subclassTitle": "Blood Hunter Order",
     "subclassLevel": 3,
@@ -2458,7 +2508,19 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the following traits from the Core Cleric Traits table: Hit Point Die and training with Light and Medium armor and Shields.\n- Gain the Cleric's level 1 features, which are listed in the Cleric Features table. See the multiclassing rules in multiclassing to determine your available spell slots."
+      "proficienciesGained": "- Gain the following traits from the Core Cleric Traits table: Hit Point Die and training with Light and Medium armor and Shields.\n- Gain the Cleric's level 1 features, which are listed in the Cleric Features table. See the multiclassing rules in multiclassing to determine your available spell slots.",
+      "gains": {
+        "armor": [
+          "Light armor",
+          "Medium armor",
+          "Shields"
+        ],
+        "weapons": [],
+        "tools": [],
+        "skill": null,
+        "instrument": false,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Cleric Subclass",
     "subclassLevel": 3,
@@ -3279,7 +3341,18 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the following traits from the Core Druid Traits table: Hit Point Die and training with Light armor and Shields.\n- Gain the Druid's level 1 features, which are listed in the Druid Features table. See the multiclassing rules in multiclassing to determine your available spell slots."
+      "proficienciesGained": "- Gain the following traits from the Core Druid Traits table: Hit Point Die and training with Light armor and Shields.\n- Gain the Druid's level 1 features, which are listed in the Druid Features table. See the multiclassing rules in multiclassing to determine your available spell slots.",
+      "gains": {
+        "armor": [
+          "Light armor",
+          "Shields"
+        ],
+        "weapons": [],
+        "tools": [],
+        "skill": null,
+        "instrument": false,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Druid Subclass",
     "subclassLevel": 3,
@@ -4119,7 +4192,21 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the following traits from the Core Fighter Traits table: Hit Point Die, proficiency with Martial weapons, and training with Light and Medium armor and Shields.\n- Gain the Fighter's level 1 features, which are listed in the Fighter Features table."
+      "proficienciesGained": "- Gain the following traits from the Core Fighter Traits table: Hit Point Die, proficiency with Martial weapons, and training with Light and Medium armor and Shields.\n- Gain the Fighter's level 1 features, which are listed in the Fighter Features table.",
+      "gains": {
+        "armor": [
+          "Light armor",
+          "Medium armor",
+          "Shields"
+        ],
+        "weapons": [
+          "Martial weapons"
+        ],
+        "tools": [],
+        "skill": null,
+        "instrument": false,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Fighter Subclass",
     "subclassLevel": 3,
@@ -4500,7 +4587,15 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the Hit Point Die trait from the Core Monk Traits table.\n- Gain the Monk's level 1 features, which are listed in the Monk Features table."
+      "proficienciesGained": "- Gain the Hit Point Die trait from the Core Monk Traits table.\n- Gain the Monk's level 1 features, which are listed in the Monk Features table.",
+      "gains": {
+        "armor": [],
+        "weapons": [],
+        "tools": [],
+        "skill": null,
+        "instrument": false,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Monk Subclass",
     "subclassLevel": 3,
@@ -4941,7 +5036,21 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the following traits from the Core Paladin Traits table: Hit Point Die, proficiency with Martial weapons, and training with Light and Medium armor and Shields.\n- Gain the Paladin's level 1 features, which are listed in the Paladin Features table. See the multiclassing rules in multiclassing to determine your available spell slots."
+      "proficienciesGained": "- Gain the following traits from the Core Paladin Traits table: Hit Point Die, proficiency with Martial weapons, and training with Light and Medium armor and Shields.\n- Gain the Paladin's level 1 features, which are listed in the Paladin Features table. See the multiclassing rules in multiclassing to determine your available spell slots.",
+      "gains": {
+        "armor": [
+          "Light armor",
+          "Medium armor",
+          "Shields"
+        ],
+        "weapons": [
+          "Martial weapons"
+        ],
+        "tools": [],
+        "skill": null,
+        "instrument": false,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Paladin Subclass",
     "subclassLevel": 3,
@@ -5671,7 +5780,15 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the Hit Point Die from the Core Psion Traits table.\n- Gain the Psion's level 1 features, which are listed in the Psion Features table. See the multiclassing rules in the Player's Handbook to determine your available spell slots, adding all your Psion levels."
+      "proficienciesGained": "- Gain the Hit Point Die from the Core Psion Traits table.\n- Gain the Psion's level 1 features, which are listed in the Psion Features table. See the multiclassing rules in the Player's Handbook to determine your available spell slots, adding all your Psion levels.",
+      "gains": {
+        "armor": [],
+        "weapons": [],
+        "tools": [],
+        "skill": null,
+        "instrument": false,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Psion Subclass",
     "subclassLevel": 3,
@@ -6504,7 +6621,21 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the following traits from the Core Ranger Traits table: Hit Point Die, proficiency with Martial weapons, proficiency in one skill of your choice from the Ranger's skill list, training with Light and Medium Armor and Shields.\n- Gain the Ranger's level 1 features, which are listed in the Ranger Features table. See the multiclassing rules in multiclassing to determine your available spell slots."
+      "proficienciesGained": "- Gain the following traits from the Core Ranger Traits table: Hit Point Die, proficiency with Martial weapons, proficiency in one skill of your choice from the Ranger's skill list, training with Light and Medium Armor and Shields.\n- Gain the Ranger's level 1 features, which are listed in the Ranger Features table. See the multiclassing rules in multiclassing to determine your available spell slots.",
+      "gains": {
+        "armor": [
+          "Light armor",
+          "Medium armor",
+          "Shields"
+        ],
+        "weapons": [
+          "Martial weapons"
+        ],
+        "tools": [],
+        "skill": "list",
+        "instrument": false,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Ranger Subclass",
     "subclassLevel": 3,
@@ -7243,7 +7374,19 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the following traits from the Core Rogue Traits table: Hit Point Die, proficiency in one skill of your choice from the Rogue's skill list, proficiency with Thieves' Tools, and training with Light Armor.\n- Gain the Rogue's level 1 features, which are listed in the Rogue Features table."
+      "proficienciesGained": "- Gain the following traits from the Core Rogue Traits table: Hit Point Die, proficiency in one skill of your choice from the Rogue's skill list, proficiency with Thieves' Tools, and training with Light Armor.\n- Gain the Rogue's level 1 features, which are listed in the Rogue Features table.",
+      "gains": {
+        "armor": [
+          "Light armor"
+        ],
+        "weapons": [],
+        "tools": [
+          "Thieves' Tools"
+        ],
+        "skill": "list",
+        "instrument": false,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Rogue Subclass",
     "subclassLevel": 3,
@@ -7607,7 +7750,15 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the Hit Point Die from the Core Sorcerer Traits table.\n- Gain the Sorcerer's level 1 features, which are listed in the Sorcerer Features table. See the multiclassing rules in multiclassing to determine your available spell slots."
+      "proficienciesGained": "- Gain the Hit Point Die from the Core Sorcerer Traits table.\n- Gain the Sorcerer's level 1 features, which are listed in the Sorcerer Features table. See the multiclassing rules in multiclassing to determine your available spell slots.",
+      "gains": {
+        "armor": [],
+        "weapons": [],
+        "tools": [],
+        "skill": null,
+        "instrument": false,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Sorcerer Subclass",
     "subclassLevel": 3,
@@ -8423,7 +8574,17 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the following traits from the Core Warlock Traits table: Hit Point Die and training with Light Armor.\n- Gain the Warlock's level 1 features, which are listed in the Warlock Features table. See the multiclassing rules in multiclassing to determine your available spell slots."
+      "proficienciesGained": "- Gain the following traits from the Core Warlock Traits table: Hit Point Die and training with Light Armor.\n- Gain the Warlock's level 1 features, which are listed in the Warlock Features table. See the multiclassing rules in multiclassing to determine your available spell slots.",
+      "gains": {
+        "armor": [
+          "Light armor"
+        ],
+        "weapons": [],
+        "tools": [],
+        "skill": null,
+        "instrument": false,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Warlock Subclass",
     "subclassLevel": 3,
@@ -9086,7 +9247,15 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the Hit Point Die from the Core Wizard Traits table.\n- Gain the Wizard's level 1 features, which are listed in the Wizard Features table. See the multiclassing rules in multiclassing to determine your available spell slots."
+      "proficienciesGained": "- Gain the Hit Point Die from the Core Wizard Traits table.\n- Gain the Wizard's level 1 features, which are listed in the Wizard Features table. See the multiclassing rules in multiclassing to determine your available spell slots.",
+      "gains": {
+        "armor": [],
+        "weapons": [],
+        "tools": [],
+        "skill": null,
+        "instrument": false,
+        "origin": "text"
+      }
     },
     "subclassTitle": "Wizard Subclass",
     "subclassLevel": 3,

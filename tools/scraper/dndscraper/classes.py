@@ -434,6 +434,7 @@ def parse_subclass(page: Page, class_id: str, default_level: int | None = None) 
         "shortName": short_name(name),
         "features": features,
         "spells": subclass_spells(blocks),
+        "spellcasting": subclass_spellcasting(blocks, features),
     })
     return entry, warnings
 
@@ -530,3 +531,98 @@ def subclass_links_2014(home: Page, class_ids: list[str]) -> dict[str, list[str]
         if cls in out and name not in out[cls]:
             out[cls].append(name)
     return out
+
+
+# -- multiclassing --------------------------------------------------------------------
+
+def multiclass_gains_from_text(text: str | None) -> dict | None:
+    """Structured gains from the 2024 "As a Multiclass Character" bullet, e.g. "Gain the following
+    traits from the Core Ranger Traits table: Hit Point Die, proficiency with Martial weapons,
+    proficiency in one skill of your choice from the Ranger's skill list, training with Light and
+    Medium Armor and Shields." None when there's no text."""
+    first = re.split(r"\n|- Gain the [\w ]+'s level 1", text or "")[0]
+    if not first.strip():
+        return None
+    training = (re.search(r"training with ([^.]*?)(?:\.|$)", first, re.I) or [None, ""])[1]
+    armor = [f"{k} armor" for k in ("Light", "Medium", "Heavy") if re.search(rf"\b{k}\b", training, re.I)]
+    if re.search(r"shields?", training, re.I):
+        armor.append("Shields")
+    weapons = ["Martial weapons"] if re.search(r"martial weapons", first, re.I) else []
+    tools = [t for t in ("Thieves' Tools", "Tinker's Tools") if re.search(t.replace("'", "['’]"), first, re.I)]
+    skill = ("list" if re.search(r"one skill of your choice from the [\w ']+ skill list", first, re.I)
+             else "any" if re.search(r"one skill of your choice", first, re.I) else None)
+    return {"armor": armor, "weapons": weapons, "tools": tools, "skill": skill,
+            "instrument": bool(re.search(r"one musical instrument", first, re.I))}
+
+
+def estimated_multiclass_gains(cls: dict) -> dict:
+    """The rule the 2024 classes follow, for a class that says nothing: its armor except heavy,
+    Martial weapons only if it has all of them, no skill, tool or instrument."""
+    armor = []
+    for a in cls["proficiencies"]["armor"]:
+        low = a.lower()
+        if low.startswith("all armor"):
+            armor += ["Light armor", "Medium armor"]
+        elif low.startswith(("light", "medium")):
+            armor.append(f"{a.split()[0].capitalize()} armor")
+        elif low.startswith("shield"):
+            armor.append("Shields")
+    martial = any(re.fullmatch(r"(all )?martial( weapons)?", w.strip(), re.I) for w in cls["proficiencies"]["weapons"])
+    return {"armor": list(dict.fromkeys(armor)), "weapons": ["Martial weapons"] if martial else [],
+            "tools": [], "skill": None, "instrument": False}
+
+
+def subclass_spellcasting(blocks: list, features: list[dict]) -> dict | None:
+    """Subclasses that cast on their own (Eldritch Knight, Arcane Trickster, Profane Soul...):
+    their "<Class> Level | Prepared Spells | 1st..." or Pact Magic table, as 20 rows by class level."""
+    feat = next((f for f in features if re.match(r"^(spellcasting|pact magic)$", f["name"], re.I)), None)
+    if not feat:
+        return None
+    for table in _all_tables(blocks):
+        rows = table_rows(table)
+        if len(rows) > 1 and sum(1 for c in rows[0] if c) == 1:
+            rows = rows[1:]
+        if len(rows) < 5 or not re.search(r"\blevel$", rows[0][0], re.I):
+            continue
+        head = [h.strip().lower() for h in rows[0]]
+        slot_cols = {i: n for i, h in enumerate(head) if (n := _SLOT_COLS.get(h) or (int(h) if h.isdigit() and 1 <= int(h) <= 9 else None))}
+        pact_n = next((i for i, h in enumerate(head) if h == "spell slots"), None)
+        pact_l = next((i for i, h in enumerate(head) if h == "slot level"), None)
+        if not slot_cols and pact_n is None:
+            continue
+        cantrip_i = next((i for i, h in enumerate(head) if "cantrip" in h), None)
+        prep_i = next((i for i, h in enumerate(head) if re.search(r"prepared|spells known", h)), None)
+        slots = [[0] * 9 for _ in range(20)]
+        cantrips = [0] * 20
+        prepared = [0] * 20
+        for r in rows[1:]:
+            lv = number(r[0])
+            if not lv or not 1 <= lv <= 20:
+                continue
+            if slot_cols:
+                for i, n in slot_cols.items():
+                    slots[lv - 1][n - 1] = number(r[i]) or 0
+            elif pact_l is not None:
+                n, sl = number(r[pact_n]), number(r[pact_l])
+                if n and sl:
+                    slots[lv - 1][sl - 1] = n
+            if cantrip_i is not None:
+                cantrips[lv - 1] = number(r[cantrip_i]) or 0
+            if prep_i is not None:
+                prepared[lv - 1] = number(r[prep_i]) or 0
+        # "Intelligence is your spellcasting ability", or a choice: "Your chosen Hemocraft ability
+        # (Intelligence or Wisdom) is your spellcasting ability" → first is the default
+        sentence = re.search(r"[^.]*\bis (?:your|the) spellcasting ability[^.]*", feat["description"], re.I)
+        named = abilities_in(sentence.group(0)) if sentence else []
+        spell_list = re.search(r"spellcasting ability for (?:your |these |the )?(\w+) spells", feat["description"], re.I)
+        return {
+            "ability": named[0] if named else None,
+            "abilityChoices": named if len(named) > 1 else None,
+            "kind": "pact" if pact_n is not None else "third",
+            "preparation": "known" if prep_i is not None and "known" in head[prep_i] else "prepared",
+            "spellList": slug(spell_list.group(1)) if spell_list else None,
+            "cantripsByLevel": cantrips if cantrip_i is not None else None,
+            "preparedByLevel": prepared if prep_i is not None else None,
+            "slotsByLevel": slots,
+        }
+    return None

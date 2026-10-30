@@ -11,6 +11,8 @@ export interface MulticlassGains {
   instrument: boolean;
   /** False when the class has no multiclass text (e.g. 2014 classes): nothing is known. */
   known: boolean;
+  /** True when the data only estimates it (no text nor manual entry in the scraper). */
+  estimated: boolean;
 }
 
 /**
@@ -19,6 +21,17 @@ export interface MulticlassGains {
  * skill of your choice from the Ranger's skill list, training with Light and Medium Armor and Shields."
  */
 export function multiclassGains(cls: DndClass): MulticlassGains {
+  // The scraper already resolves it (text, its multiclass.yaml table, or an estimate).
+  const g = cls.multiclass.gains;
+  if (g) {
+    const { origin, ...rest } = g;
+    return { ...rest, known: true, estimated: origin === 'estimate' };
+  }
+  return fromText(cls);
+}
+
+/** Older data without multiclass.gains: read the text here. */
+function fromText(cls: DndClass): MulticlassGains {
   const text =
     (cls.multiclass.proficienciesGained ?? '').split(/\n|- Gain the \w[\w ]*'s level 1/)[0] ?? '';
   const gains: MulticlassGains = {
@@ -28,6 +41,7 @@ export function multiclassGains(cls: DndClass): MulticlassGains {
     skill: null,
     instrument: false,
     known: !!text.trim(),
+    estimated: false,
   };
   const training = text.match(/training with ([^.]*?)(?:\.|$)/i)?.[1] ?? '';
   for (const kind of ['Light', 'Medium', 'Heavy']) {

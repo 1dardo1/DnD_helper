@@ -3,6 +3,7 @@ import { Component, computed, inject, input, resource } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
+import { PhrasePipe, TermPipe } from '../../core/i18n/glossary';
 import { TranslatePipe } from '../../core/i18n/i18n.service';
 import {
   DndClass,
@@ -19,7 +20,15 @@ import { LoadError } from './load-error';
 /** Detail page for any entry, with extra sections for classes, subclasses and spells. */
 @Component({
   selector: 'app-entry-detail',
-  imports: [RouterLink, NgTemplateOutlet, TranslatePipe, MarkdownPipe, LoadError],
+  imports: [
+    RouterLink,
+    NgTemplateOutlet,
+    TranslatePipe,
+    TermPipe,
+    PhrasePipe,
+    MarkdownPipe,
+    LoadError,
+  ],
   templateUrl: './entry-detail.html',
   styleUrl: './entry-detail.scss',
 })
@@ -67,6 +76,16 @@ export class EntryDetail {
     return [...groups.entries()]
       .sort(([a], [b]) => a - b)
       .map(([level, fs]) => ({ level, features: fs }));
+  }
+
+  /** Class names for the spell's class ids ("blood-hunter" → "Blood Hunter"). */
+  protected readonly classMap = resource({
+    loader: async () => new Map((await this.compendium.all('class')).map((c) => [c.id, c.name])),
+  });
+
+  protected classNames(ids: string[]): string {
+    const map = this.classMap.value();
+    return ids.map((id) => map?.get(id) ?? id).join(', ');
   }
 
   protected components(s: Spell): string {

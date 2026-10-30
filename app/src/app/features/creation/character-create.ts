@@ -21,14 +21,16 @@ import {
   pointBuyCost,
   review,
   skillPicks,
+  spellListOf,
   spellsFor,
   subclassesFor,
   toolChoices,
 } from '../../core/creation/creation-rules';
+import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, newCharacter, normalizeCharacter } from '../../core/models/character';
 import { Ability, ClassOption, DndClass, Feat } from '../../core/models/compendium';
-import { computeSheet } from '../../core/rules/engine';
+import { castingOf, computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { ABILITIES } from '../../core/rules/tables';
 import { SettingsService } from '../../core/settings/settings.service';
@@ -46,7 +48,7 @@ type ClassEntry = Character['classes'][number];
  */
 @Component({
   selector: 'app-character-create',
-  imports: [RouterLink, NgTemplateOutlet, TranslatePipe, MarkdownPipe, LoadError],
+  imports: [RouterLink, NgTemplateOutlet, TranslatePipe, TermPipe, MarkdownPipe, LoadError],
   templateUrl: './character-create.html',
   styleUrl: './character-create.scss',
 })
@@ -114,6 +116,7 @@ export class CharacterCreate {
           index,
           entry,
           cls,
+          sub: undefined,
           subclasses: [],
           slots: [],
           optionGroups: [],
@@ -121,7 +124,9 @@ export class CharacterCreate {
           spells: null,
         };
       }
-      const sl = cls.spellcasting ? spellsFor(cls, entry.level, d.spells) : null;
+      const sub = entry.subclassId ? d.rules.subclasses.get(entry.subclassId) : undefined;
+      const sc = castingOf(cls, sub);
+      const sl = sc ? spellsFor(spellListOf(cls, sc), sc, entry.level, d.spells) : null;
       return {
         index,
         entry,
@@ -130,11 +135,12 @@ export class CharacterCreate {
         slots: featSlots(cls, entry.level),
         optionGroups: optionGroupsFor(cls, entry.level, entry.subclassId, d.options),
         expertise: expertiseCount(cls, entry.level),
+        sub,
         spells: sl && {
           cantrips: sl.cantrips.filter(match),
           leveled: sl.leveled.filter(match),
-          cantripCount: cls.spellcasting!.cantripsByLevel?.[entry.level - 1] ?? null,
-          preparedCount: cls.spellcasting!.preparedByLevel?.[entry.level - 1] ?? null,
+          cantripCount: sc!.cantripsByLevel?.[entry.level - 1] ?? null,
+          preparedCount: sc!.preparedByLevel?.[entry.level - 1] ?? null,
         },
       };
     });
@@ -170,6 +176,7 @@ export class CharacterCreate {
     const d = this.data.value();
     return review(this.draft(), {
       classes: this.rows().map((r) => r.cls),
+      subclasses: this.rows().map((r) => r.sub),
       background: this.background(),
       species: this.species(),
       sheet: this.sheet(),
@@ -231,9 +238,37 @@ export class CharacterCreate {
   protected readonly skillLabel = (s: string) => this.i18n.t(`skill.${s}` as never);
   protected readonly abilityLabel = (a: string) => this.i18n.t(`ability.${a}` as never);
 
-  /** "eldritch-invocation" → "Eldritch Invocation" (option groups are game terms, left in English). */
-  protected groupName(group: string): string {
-    return group.replace(/-/g, ' ').replace(/\b\w/g, (ch) => ch.toUpperCase());
+  /** Option group label: the glossary's, else "eldritch-invocation" → "Eldritch Invocation". */
+  protected groupLabel(group: string): string {
+    const pretty = group.replace(/-/g, ' ').replace(/\b\w/g, (ch) => ch.toUpperCase());
+    const translated = term(this.i18n.language(), 'optionGroup', group);
+    return translated === group ? pretty : translated;
+  }
+
+  /** The background's tool, or the kind of tool it lets you choose, in the current language. */
+  protected backgroundTools(): string {
+    const choice = this.tools().find((t) => t.slot === 'background');
+    if (choice)
+      return `${this.i18n.t('create.chooseOne' as never)} ${this.toolGroupLabel(choice.groups)}`;
+    return term(this.i18n.language(), 'tool', this.background()?.tools);
+  }
+
+  protected toolGroupLabel(groups: string[]): string {
+    return groups.map((g) => term(this.i18n.language(), 'toolGroup', g)).join(' / ');
+  }
+
+  /** A note's text, with tool groups, languages and ability abbreviations translated. */
+  protected noteText(n: Note): string {
+    const params = { ...n.params };
+    if (typeof params['group'] === 'string')
+      params['group'] = this.toolGroupLabel(params['group'].split(' / '));
+    if (n.key === 'create.issue.rareLanguage')
+      params['what'] = term(this.i18n.language(), 'language', String(params['what']));
+    else if (typeof params['what'] === 'string')
+      params['what'] = params['what'].replace(/\b(STR|DEX|CON|INT|WIS|CHA)\b/g, (a) =>
+        this.i18n.t(`abbr.${a}` as never),
+      );
+    return this.i18n.t(n.key as never, params);
   }
 
   // -- steps ---------------------------------------------------------------------------

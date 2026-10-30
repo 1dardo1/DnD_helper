@@ -44,7 +44,7 @@ src/app/
     rules/         motor de reglas: calcula la ficha a partir de las decisiones del personaje
     storage/       IndexedDB
     settings/      ajustes (localStorage)
-    i18n/          textos de la interfaz (es.ts, en.ts)
+    i18n/          textos de la interfaz (es.ts, en.ts) y glosario de términos de juego
   features/
     compendium/    consulta: secciones, listas con buscador, fichas
     characters/    lista de personajes con su estado en la nube y ficha calculada
@@ -87,8 +87,9 @@ superior, que muestra el estado («Todo guardado en la nube», «N sin guardar e
 El fichero del personaje solo guarda decisiones; `core/rules/engine.ts` calcula el resto: puntuaciones
 finales, bonificador de competencia, salvaciones, habilidades (con pericia y *Jack of All Trades*),
 puntos de golpe, CA (armadura equipada, escudo, *Unarmored Defense*), velocidad, visión en la oscuridad,
-lanzamiento de conjuros (CD, ataque, espacios, multiclase y Magia de pacto), la tabla de la clase y los
-rasgos que tiene por nivel. Lo que no encuentra en el compendio aparece como aviso en la ficha.
+lanzamiento de conjuros (CD, ataque, espacios, multiclase y Magia de pacto; también las subclases que
+lanzan conjuros: Eldritch Knight, Arcane Trickster, Warrior of the Mystic Arts y Order of the Profane
+Soul), la tabla de la clase y los rasgos que tiene por nivel. Lo que no encuentra en el compendio aparece como aviso en la ficha.
 
 `characters/ejemplo-thorin.json` es un personaje de ejemplo para probarla; se puede borrar.
 
@@ -105,8 +106,10 @@ Las reglas del asistente están en `core/creation/creation-rules.ts`.
 
 - **Multiclase:** en el paso de clase se añaden más clases, cada una con su nivel, subclase y PG; la
   primera es la clase inicial (sus salvaciones, el máximo del dado a nivel 1). Las demás añaden lo que da
-  multiclasear según el texto de 2024 de cada clase (armaduras, armas, herramientas, una habilidad, un
-  instrumento). Los espacios de conjuro se combinan con la tabla de multiclase.
+  multiclasear (armaduras, armas, herramientas, una habilidad, un instrumento), que el extractor saca del
+  texto de 2024 de cada clase, de una tabla escrita a mano (`tools/scraper/multiclass.yaml`, p. ej.
+  Blood Hunter) o, si no hay ninguna, de una estimación que avisa en «Por revisar». Los espacios de
+  conjuro se combinan con la tabla de multiclase.
 - **Idiomas:** Común + 2 (tabla estándar; las lenguas raras avisan). Los que da un rasgo (Druidic,
   Thieves' Cant) se añaden solos.
 - **Tamaño** cuando la especie deja elegir, y **herramientas** cuando el trasfondo o la clase dicen
@@ -115,6 +118,17 @@ Las reglas del asistente están en `core/creation/creation-rules.ts`.
   multiclase (13 en la característica principal de cada clase), y número de trucos, conjuros, opciones,
   idiomas o herramientas. Lo que no se cumple **se puede elegir igualmente** (por si tu DM lo permite),
   pero se marca en rojo con el motivo y aparece en «Por revisar».
+
+## Idiomas
+
+Toda la interfaz está en español e inglés (`core/i18n/es.ts`, `en.ts`). Los términos de juego que
+vienen de los datos (escuelas, tipos de daño, rarezas, categorías, herramientas, idiomas, tamaños,
+columnas de las tablas…) se traducen con `core/i18n/glossary.es.json`; los nombres propios (clases,
+conjuros, dotes, objetos) y los textos largos se quedan como en las wikis.
+
+`npm run check-glossary` compara el glosario con `data/` y falla si un término nuevo (por ejemplo, tras
+volver a extraer) no tiene traducción; se ejecuta en la integración continua. Para arreglarlo basta con
+añadir la línea que falta en `glossary.es.json`.
 
 ## Pendiente
 

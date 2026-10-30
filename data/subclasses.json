@@ -78,6 +78,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/artificer:alchemist"
     ]
@@ -156,6 +157,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Artificer subclass levels [3, 5, 9, 15] (14→15)"
     ]
@@ -244,6 +246,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/artificer:armorer"
     ]
@@ -327,6 +330,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/artificer:artillerist"
     ]
@@ -415,6 +419,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/artificer:battle-smith"
     ]
@@ -503,7 +508,8 @@
           "Teleportation Circle"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "artificer/reanimator-ua",
@@ -584,7 +590,8 @@
           "Raise Dead"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "barbarian/path-of-lament-ua",
@@ -623,7 +630,8 @@
         "description": "When you activate your Rage, you can empower yourself with undeath. You gain the benefits below for 1 minute or until you drop to 0 Hit Points. Once you use this feature, you can't do so again until you finish a Long Rest.  \n**Immunities.** You have Immunity to the Charmed and Frightened conditions. If you're Charmed or Frightened when you empower yourself, the condition ends on you. In addition, you can't gain Exhaustion levels.  \n**Life-Draining Strike.** When a creature fails its saving throw against your Horrifying Strike, the creature takes 2d10 Necrotic damage. You regain Hit Points equal to the Necrotic damage dealt.  \n**Undead.** Your creature type is Undead."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "barbarian/path-of-the-ancestral-guardian-ua",
@@ -658,6 +666,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/barbarian:ancestral-guardian"
     ]
@@ -699,7 +708,8 @@
         "description": "Starting at 14th level, when a creature within 5 feet of you hits you with a melee attack, the attacker takes 3 piercing damage if you are raging, aren't incapacitated, and are wearing spiked armor."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "barbarian/path-of-the-beast",
@@ -733,7 +743,8 @@
         "description": "At 14th level, the beast within you grows so powerful that you can spread its ferocity to others and gain resilience from them joining your hunt. When you enter your rage, you can choose a number of other willing creatures you can see within 30 feet of you equal to your Constitution modifier (minimum of one creature). You gain 5 temporary hit points for each creature that accepts this feature. Until the rage ends, the chosen creatures can use the following benefit once on each of their turns: when the creature hits a target with an attack roll and deals damage to it, the creature can roll a d6 and gain a bonus to the damage equal to the number rolled.\n\nYou can use this feature a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "barbarian/path-of-the-berserker",
@@ -768,6 +779,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/barbarian:berserker"
     ]
@@ -809,7 +821,8 @@
         "description": "*14th-Level Path of the Giant Feature*\n\nThe primordial power of your rage intensifies. When you rage, your reach increases by 10 feet, your size can increase to Large or Huge (your choice), and you can use your Mighty Impel to move creatures that are Large or smaller.\n\nIn addition, the extra damage dealt by your Elemental Cleaver feature increases to 2d6."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "barbarian/path-of-the-storm-herald-ua",
@@ -844,6 +857,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/barbarian:storm-herald"
     ]
@@ -886,6 +900,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/barbarian:totem-warrior"
     ]
@@ -922,7 +937,8 @@
         "description": "When you activate your Rage and as a Bonus Action while your Rage is active, you can teleport up to 60 feet to an unoccupied space you can see. In addition, once per Rage, you can increase the range of that teleport to 150 feet. When you do so, you can also bring up to six willing creatures who are within 10 feet of you. Each creature teleports to an unoccupied space of your choice within 10 feet of your destination space."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "barbarian/path-of-the-zealot",
@@ -962,6 +978,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/barbarian:zealot"
     ]
@@ -1003,7 +1020,8 @@
         "description": "The aura of your Unlight is bolstered. While your Rage is active, you shed Bright Light in a 30-foot radius.  \nAs a Bonus Action, you unleash blinding brilliance. When you do, each creature of your choice within 30 feet of you makes a Constitution saving throw (DC 8 plus your Strength modifier and Proficiency Bonus).  \nOn a failed save, a creature takes 1d12 Radiant damage and has the Blinded condition until the end of your next turn. On a successful save, a creature takes half damage only.  \nOnce you use this feature, you can't use it again until you finish a Long Rest unless you expend a use of your Rage (no action required) to restore your use of it."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "barbarian/path-of-wild-magic",
@@ -1042,7 +1060,8 @@
         "description": "At 14th level, whenever you roll on the Wild Magic table, you can roll the die twice and choose which of the two effects to unleash. If you roll the same number on both dice, you can ignore the number and choose any effect on the table."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "bard/college-of-creation",
@@ -1076,7 +1095,8 @@
         "description": "At 14th level, when you use your Performance of Creation feature, you can create more than one item at once. The number of items equals your Charisma modifier (minimum of two items). If you create an item that would exceed that number, you choose which of the previously created items disappears. Only one of these items can be of the maximum size you can create; the rest must be Small or Tiny.\n\nYou are no longer limited by gp value when creating items with Performance of Creation."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "bard/college-of-dance",
@@ -1110,7 +1130,8 @@
         "description": "When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw and only half damage if you fail. If any creatures within 5 feet of you are making the same Dexterity saving throw, you can share this benefit with them for that save.\n\nYou can't use this feature if you have the Incapacitated condition."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "bard/college-of-eloquence",
@@ -1149,7 +1170,8 @@
         "description": "At 14th level, when you successfully inspire someone, the power of your eloquence can now spread to someone else. When a creature within 60 feet of you adds one of your Bardic Inspiration dice to its ability check, attack roll, or saving throw and the roll succeeds, you can use your reaction to encourage a different creature (other than yourself) that can hear you within 60 feet of you, giving it a Bardic Inspiration die without expending any of your Bardic Inspiration uses.\n\nYou can use this reaction a number of times equal to your Charisma modifier (minimum of once), and you regain all expended uses when you finish a long rest."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "bard/college-of-glamour",
@@ -1184,6 +1206,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/bard:glamour"
     ]
@@ -1221,6 +1244,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/bard:lore"
     ]
@@ -1257,7 +1281,8 @@
         "description": "Jesters seem to have a knack for pulling themselves out of tight situations, transforming what looks like sure failure into an embarrassing but effective success.\n\nAt 14th level, you can expend one use of Bardic Inspiration after you fail an ability check, fail a saving throw, or miss with an attack roll. Roll a Bardic Inspiration die and add the number rolled to your attack, saving throw, or ability check, using the new result in place of the failed one.\n\nIf using this ability grants you a success on the attack, saving throw, or ability check, note the number you rolled on the Bardic Inspiration die. The DM can then apply that result as a penalty to an attack or check you make, and you cannot use this ability again until you suffer this drawback. When the DM invokes this penalty, describe an embarrassing gaffe or mistake you make as part of the affected die roll."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "bard/college-of-spirits",
@@ -1292,6 +1317,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/bard:spirits"
     ]
@@ -1333,7 +1359,8 @@
         "description": "Starting at 14th level, whenever you use a Blade Flourish option, you can roll a d6 and use it instead of expending a Bardic Inspiration die."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "bard/college-of-the-moon",
@@ -1367,7 +1394,8 @@
         "description": "You become suffused with the might of the moon, improving your Moon's Inspiration in the following ways.\n\n**Shadow of the New Moon.** When you use Inspired Eclipse, the creature who received the Bardic Inspiration die can also have the Invisible condition and immediately take a Reaction to teleport up to 30 feet to an unoccupied space it can see. The creature remains Invisible until the start of its next turn.\n\n**Vibrance of the Full Moon.** When you use Lunar Vitality, you can roll 1d6 and use the number rolled in place of expending a Bardic Inspiration die."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "bard/college-of-valor",
@@ -1402,6 +1430,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/bard:valor"
     ]
@@ -1438,7 +1467,8 @@
         "description": "At 14th level, you gain the ability to weave dark magic into your words and tap into a creature's deepest fears.\n\nAs an action, you magically whisper a phrase that only one creature of your choice within 30 feet of you can hear. The target must make a Wisdom saving throw against your spell save DC. It automatically succeeds if it doesn't share a language with you or if it can't hear you. On a successful saving throw, your whisper sounds like unintelligible mumbling and has no effect.\n\nIf the target fails its saving throw, it is charmed by you for the next 8 hours or until you or your allies attack or damage it. It interprets the whispers as a description of its most mortifying secret.\n\nWhile you gain no knowledge of this secret, the target is convinced you know it. While charmed in this way, the creature obeys your commands for fear that you will reveal its secret. It won't risk its life for you or fight for you, unless it was already inclined to do so. It grants you favors and gifts it would offer to a close friend.\n\nWhen the effect ends, the creature has no understanding of why it held you in such fear.\n\nOnce you use this feature, you can't use it again until you finish a long rest."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "blood-hunter/order-of-the-ghostslayer",
@@ -1482,7 +1512,8 @@
         "description": "Upon reaching 18th level, you learn to protect your fading life by reabsorbing the energy you feed to your weapons. If you have one or more crimson rites active and you are reduced to 0 hit points but don't die outright, you can choose to have all your active crimson rites end and drop to 1 hit point instead."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "blood-hunter/order-of-the-lycan",
@@ -1526,7 +1557,8 @@
         "description": "At 18th level, you have mastered your inner predator. You can use your Hybrid Transformation feature an unlimited number of times, and your hybrid form lasts until you revert to your normal form, fall unconscious, or die.\n\nYou also gain the Blood Curse of the Howl for your Blood Maledict feature. This doesn't count against your number of blood curses known."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "blood-hunter/order-of-the-mutant",
@@ -1570,7 +1602,8 @@
         "description": "At 18th level, your body has adapted to produce mutagens naturally in a moment of need. As a bonus action, choose one mutagen currently affecting you. Its effects and side effects end, and you can immediately have a mutagen you know the formula for take effect in its place.\n\nYou can use this feature a number of times equal to your Hemocraft modifier (minimum of once). You regain all expended uses when you finish a long rest."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "blood-hunter/order-of-the-profane-soul",
@@ -1733,7 +1766,283 @@
           "3 11 2 4th"
         ]
       }
-    ]
+    ],
+    "spellcasting": {
+      "ability": "INT",
+      "abilityChoices": [
+        "INT",
+        "WIS"
+      ],
+      "kind": "pact",
+      "preparation": "known",
+      "spellList": "warlock",
+      "cantripsByLevel": [
+        0,
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "preparedByLevel": [
+        0,
+        0,
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        6,
+        6,
+        7,
+        7,
+        8,
+        8,
+        9,
+        9,
+        10,
+        11
+      ],
+      "slotsByLevel": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
   },
   {
     "id": "cleric/ambition-domain-amonkhet",
@@ -1804,6 +2113,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -1877,6 +2187,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/cleric:arcana"
     ]
@@ -1960,6 +2271,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -2038,6 +2350,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -2116,6 +2429,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -2194,6 +2508,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -2266,7 +2581,8 @@
           "Tree Stride"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "cleric/grave-domain",
@@ -2338,6 +2654,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/cleric:grave"
     ]
@@ -2416,6 +2733,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/cleric:knowledge"
     ]
@@ -2489,6 +2807,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/cleric:life"
     ]
@@ -2562,6 +2881,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/cleric:light"
     ]
@@ -2640,6 +2960,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -2718,6 +3039,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -2796,6 +3118,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -2868,7 +3191,8 @@
           "Insect Plague"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "cleric/protection-domain-ua",
@@ -2944,6 +3268,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -3022,6 +3347,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -3100,6 +3426,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -3178,6 +3505,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -3251,6 +3579,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/cleric:trickery"
     ]
@@ -3334,6 +3663,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -3407,6 +3737,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -3480,6 +3811,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/cleric:war"
     ]
@@ -3558,6 +3890,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Cleric subclass levels [3, 6, 17] (1→3, 2→3, 8→17)"
     ]
@@ -3595,6 +3928,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Druid subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -3672,7 +4006,8 @@
           "Hallow"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "druid/circle-of-spores-ua",
@@ -3744,6 +4079,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/druid:spores"
     ]
@@ -3891,6 +4227,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/druid:land"
     ]
@@ -3960,6 +4297,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/druid:moon"
     ]
@@ -4002,6 +4340,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Druid subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -4074,7 +4413,8 @@
           "Hold Monster"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "druid/circle-of-the-shepherd",
@@ -4114,6 +4454,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Druid subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -4156,6 +4497,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/druid:stars"
     ]
@@ -4224,7 +4566,8 @@
           "Destructive Wave"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "druid/circle-of-twilight-ua",
@@ -4259,6 +4602,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Druid subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -4332,6 +4676,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Druid subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -4384,6 +4729,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/fighter:arcane-archer"
     ]
@@ -4431,6 +4777,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/fighter:banneret"
     ]
@@ -4478,6 +4825,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/fighter:battle-master"
     ]
@@ -4519,7 +4867,8 @@
         "description": "At 18th level, you attain the pinnacle of resilience in battle. At the start of each of your turns in combat, you regain hit points equal to 5 + your Constitution modifier (minimum of 1 hit point). You don't gain this benefit if you have 0 hit points or if you have more than half of your hit points left."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "fighter/cavalier-ua",
@@ -4569,6 +4918,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/fighter:cavalier"
     ]
@@ -4616,6 +4966,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/fighter:champion"
     ]
@@ -4662,7 +5013,8 @@
         "description": "At 18th level, you can use a bonus action to create two echos with your Manifest Echo feature, and these echoes can co-exist. If you try to create a third echo, the previous two echoes are destroyed. Anything you can do from one echo's position can be done from the other's instead.\n\nIn addition, when you roll initiative and have no uses of your Unleash Incarnation feature left, you regain one use of that feature."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "fighter/eldritch-knight",
@@ -4707,6 +5059,258 @@
       }
     ],
     "spells": null,
+    "spellcasting": {
+      "ability": "INT",
+      "abilityChoices": null,
+      "kind": "third",
+      "preparation": "prepared",
+      "spellList": "wizard",
+      "cantripsByLevel": null,
+      "preparedByLevel": [
+        0,
+        0,
+        3,
+        4,
+        4,
+        4,
+        5,
+        6,
+        6,
+        7,
+        8,
+        8,
+        9,
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        13
+      ],
+      "slotsByLevel": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
     "replaced": [
       "https://dnd5e.wikidot.com/fighter:eldritch-knight"
     ]
@@ -4753,7 +5357,8 @@
         "description": "When you hit a Bloodied creature with an attack roll, you can attempt to critically injure it. The target makes a Constitution saving throw (DC 8 plus your Charisma modifier and Proficiency Bonus). On a failed save, the target suffers the following effects:\n\n**Maimed.** If the target takes the Attack action, it can make only one attack.  \n**Sluggish.** The target's Speed is halved, and it has a −2 penalty to its Armor Class.\n\nThese effects last until the target regains Hit Points. Once a target fails its saving throw against this feature, you can't use it again until you finish a Long Rest."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "fighter/hell-knight-ua14-18-06-2026",
@@ -4807,7 +5412,8 @@
         "description": "When you roll a 6 on your Infernal Wound Die three or more times before the start of your next turn, you gain Heroic Inspiration. You can use Heroic Inspiration in the following way.\n\n**Infernal Inspiration.** If a creature you can see within 120 feet of you rolls a d20 for a D20 Test, you can expend your Heroic Inspiration to force the target to reroll the d20.  \nIf the number rolled causes the target to succeed on the D20 Test, you regain an expended use of Indomitable or Second Wind (your choice). If the number rolled causes the target to fail the D20 Test, you lose Hit Points equal to 3d6 plus your Fighter level."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "fighter/knight",
@@ -4851,7 +5457,8 @@
         "description": "At 18th level, you respond to danger with extraordinary vigilance. You can use your reaction for an opportunity attack even if you have already expended your reaction this round, but not if you have already used your reaction this turn. In addition, you gain a +1 bonus to AC while wearing heavy armor."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "fighter/monster-hunter",
@@ -4895,7 +5502,8 @@
         "description": "Starting at 15th level, when you roll initiative and have no superiority dice remaining, you regain one superiority die."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "fighter/psi-knight",
@@ -4939,7 +5547,8 @@
         "description": "When you reach 18th level, your ability to move creatures and objects with your mind is matched by few. If your Psionic Talent die is available, you can cast the telekinesis spell, requiring no components. Your spellcasting ability for the spell is Intelligence. When you cast this spell, your Psionic Talent die decreases by one die size."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "fighter/psi-warrior",
@@ -4979,6 +5588,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/fighter:psi-warrior"
     ]
@@ -5025,7 +5635,8 @@
         "description": "At 18th level, the power of your mind suffuses your entire being, making you a nigh-unstoppable force on the battlefield. Using your reaction when you take damage, you can give yourself the following benefits for 1 minute or until you're incapacitated.\n\n- At the start of each of your turns, you regain 10 hit points.\n\n- Your walking speed increases by 10 feet\n\n- If you're prone, you can stand up by spending 5 feet of movement.\n\nOnce you activate this feature, you can't use it again until you finish a long rest."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "fighter/purple-dragon-knight-ua",
@@ -5069,7 +5680,8 @@
         "description": "You and your purple dragon have Resistance to Force and Psychic damage."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "fighter/rune-knight",
@@ -5118,7 +5730,8 @@
         "description": "At 18th level, you learn how to amplify your rune-powered transformation. As a result, the extra damage you deal with the Giant's Might feature increases to 1d10. Moreover, when you use that feature, your size can increase to Huge, and while you are that size, your reach increases by 5 feet."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "fighter/samurai",
@@ -5162,7 +5775,8 @@
         "description": "Starting at 18th level, your fighting spirit can delay the grasp of death. If you take damage that reduces you to 0 hit points, you can use your reaction to delay falling unconscious, and you can immediately take an extra turn. While you have 0 hit points during that extra turn, taking damage causes death saving throw failures as normal, and three death saving throw failures can still kill you. When the extra turn ends, you fall unconscious if you still have 0 hit points.\n\nOnce you use this feature, you can't use it again until you finish a long rest."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "fighter/scout",
@@ -5201,7 +5815,8 @@
         "description": "Starting at 15th level, when you roll initiative and have no superiority dice remaining, you regain 1 superiority die."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "fighter/sharpshooter",
@@ -5240,7 +5855,8 @@
         "description": "Starting at 18th level, you are ever ready to spring into action. If you take the Attack action on your first turn of a combat, you can make one additional ranged weapon attack as part of that action."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "fighter/sorrow-knight",
@@ -5284,7 +5900,8 @@
         "description": "When you use your Action Surge, you attune yourself to the Shadowfell for 1 minute or until you have the Incapacitated condition. For the duration, you gain the following benefits.\n\n**Shade Form.** When you are hit by an attack roll, you can take a Reaction to become insubstantial for a moment and reduce the attack's total damage against you to 0.\n\n**Unwavering Resolve.** You have Immunity to the Charmed and Frightened conditions. If you're Charmed or Frightened when you activate your Grieving Mantle, the condition ends on you."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "monk/tattooed-warrior-ua8-18-09-25",
@@ -5323,7 +5940,8 @@
         "description": "You gain a magic tattoo depicting a mighty creature. Choose a tattoo from the following options.  \n**Beholder.** At the start of your turn, you can expend 1 Focus Point to gain a Fly Speed equal to your Speed for 10 minutes. While you have this Fly Speed, you can hover.  \nAdditionally, as a Magic action, you can expend 1 Focus Point to fire four rays from your eyes. You can fire them at one target you can see within 120 feet or at several. Make a ranged spell attack for each ray, using Wisdom as your spellcasting ability. On a hit, the attack deals Force damage equal to one roll of your Martial Arts die plus your Wisdom modifier.  \n**Chromatic Dragon.** When you take the Attack action on your turn, you can expend 1 Focus Point to replace one of your attacks with an exhalation of magical energy in a 30-foot Cone. Choose a damage type: Acid, Cold, Fire, Lightning, or Poison. Each creature in that area makes a Dexterity saving throw. On a failed save, a creature takes damage of the chosen type equal to two rolls of your Martial Arts die plus your Wisdom modifier. On a successful save, a creature takes half as much damage.  \n**Displacer Beast.** When you expend a Focus Point to use Flurry of Blows or Step of the Wind, you can expend 1 Focus Point to cast the Mirror Image spell as part of that Bonus Action.  \n**Troll.** At the start of each of your turns, you regain Hit Points equal to 5 plus your Wisdom modifier if you are Bloodied and have at least 1 Hit Point. Any severed body part regrows after you finish a Short or Long Rest."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "monk/warrior-of-intoxication-ua",
@@ -5367,7 +5985,8 @@
         "description": "You make an overwhelming number of attacks against a group of enemies. When you use Flurry of Blows, you can make up to three additional Unarmed Strikes with it (up to a total of six Unarmed Strike), provided that each strike targets a different creature this turn."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "monk/warrior-of-mercy",
@@ -5412,6 +6031,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/monk:mercy"
     ]
@@ -5449,6 +6069,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/monk:shadow"
     ]
@@ -5491,6 +6112,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/monk:four-elements"
     ]
@@ -5532,7 +6154,259 @@
         "description": "When you use Flurry of Blows, you can replace two of the Unarmed Strikes with a casting of one of your level 1 or 2 Sorcerer spells that has a casting time of an action, and you cast it as part of the same Bonus Action you use to activate Flurry of Blows."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": {
+      "ability": "WIS",
+      "abilityChoices": null,
+      "kind": "third",
+      "preparation": "prepared",
+      "spellList": "sorcerer",
+      "cantripsByLevel": null,
+      "preparedByLevel": [
+        0,
+        0,
+        3,
+        4,
+        4,
+        4,
+        5,
+        6,
+        6,
+        7,
+        8,
+        8,
+        9,
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        13
+      ],
+      "slotsByLevel": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
   },
   {
     "id": "monk/warrior-of-the-open-hand",
@@ -5567,6 +6441,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/monk:open-hand"
     ]
@@ -5613,7 +6488,8 @@
         "description": "When you take the Attack action on your turn, you can expend 2 Focus Points and replace one of your attacks with an exhalation of hallucinogenic vapors at one creature you can see within 30 feet. The target must make a Constitution saving throw. On a failed save, the target takes Poison damage equal to three rolls of your Martial Arts die and has the Frightened condition for 1 minute or until the target takes damage. While Frightened, the target takes the Dash action and moves away from you by the safest route on each of its turns unless there is nowhere to move. On a successful save, a creature takes half as much damage only."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "monk/way-of-the-ascendant-dragon",
@@ -5652,7 +6528,8 @@
         "description": "At 17th level, your draconic spirit reaches its peak. You gain the following benefits:\n\n- **Augment Breath.** When you use your Breath of the Dragon, you can spend 1 ki point to augment its shape and power. The exhalation of draconic energy becomes either a 60-foot cone or a 90-foot line that is 5 feet wide (your choice), and each creature in that area takes damage equal to four rolls of your Martial Arts die on a failed save, or half as much damage on a successful one.\n\n- **Blindsight.** You gain blindsight out to 10 feet. Within that range, you can effectively see anything that isn't behind total cover, even if you're blinded or in darkness. Moreover, you can see an invisible creature within that range, unless the creature successfully hides from you.\n\n- **Explosive Fury.** When you activate your Aspect of the Wyrm, draconic fury explodes from you. Choose any number of creatures you can see in your aura. Each of those creatures must succeed on a Dexterity saving throw against your ki save DC or take 3d10 acid, cold, fire, lightning, or poison damage (your choice)."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "monk/way-of-the-astral-self",
@@ -5686,7 +6563,8 @@
         "description": "Starting at 17th level, your connection to your astral self is complete, allowing you to unleash its full potential. As a bonus action, you can spend 5 ki points to summon the arms, visage, and body of your astral self and awaken it for 10 minutes. This awakening ends early if you are incapacitated or die.\n\nWhile your astral self is awakened, you gain the following benefits.\n\n***Armor of the Spirit.*** You gain a +2 bonus to Armor Class.\n\n***Astral Barrage.*** Whenever you use the Extra Attack feature to attack twice, you can instead attack three times if all the attacks are made with your astral arms."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "monk/way-of-the-drunken-master",
@@ -5725,7 +6603,8 @@
         "description": "At 17th level, you gain the ability to make an overwhelming number of attacks against a group of enemies. When you use your Flurry of Blows, you can make up to three additional attacks with it (up to a total of five Flurry of Blows attacks), provided that each Flurry of Blows attack targets a different creature this turn."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "monk/way-of-the-kensei",
@@ -5759,7 +6638,8 @@
         "description": "At 17th level, your mastery of weapons grants you extraordinary accuracy. If you miss with an attack roll using a monk weapon on your turn, you can reroll it. You can use this feature only once on each of your turns."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "monk/way-of-the-long-death",
@@ -5793,7 +6673,8 @@
         "description": "Starting at 17th level, your touch can channel the energy of death into a creature. As an action, you touch one creature within 5 feet of you, and you expend 1 to 10 ki points. The target must make a Constitution saving throw, and it takes 2d10 necrotic damage per ki point spent on a failed save, or half as much damage on a successful one."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "monk/way-of-the-sun-soul",
@@ -5827,7 +6708,8 @@
         "description": "At 17th level, you become wreathed in a luminous, magical aura. You shed bright light in a 30-foot radius and dim light for an additional 30 feet. You can extinguish or restore the light as a bonus action.\n\nIf a creature hits you with a melee attack while this light shines, you can use your reaction to deal radiant damage to the creature. The radiant damage equals 5 + your Wisdom modifier."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "monk/way-of-tranquility",
@@ -5866,7 +6748,8 @@
         "description": "At 17th level, you gain the ability to visit vengeance on someone who fells others. If you see a creature reduce another creature to 0 hit points, you can use your reaction to grant yourself a bonus to all damage rolls against the aggressor until the end of your next turn. The bonus equals your monk level.\n\nOnce you use this ability, you can't use it again until you finish a short or long rest."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "paladin/oath-of-conquest",
@@ -5946,7 +6829,8 @@
           "Dominate Person"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "paladin/oath-of-devotion",
@@ -6022,6 +6906,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/paladin:devotion"
     ]
@@ -6105,6 +6990,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/paladin:glory"
     ]
@@ -6187,7 +7073,8 @@
           "Conjure Volley"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "paladin/oath-of-redemption",
@@ -6267,7 +7154,8 @@
           "Wall of Force"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "paladin/oath-of-the-ancients",
@@ -6343,6 +7231,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/paladin:ancients"
     ]
@@ -6425,7 +7314,8 @@
           "Geas"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "paladin/oath-of-the-noble-genies",
@@ -6506,7 +7396,8 @@
           "Contact Other Plane"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "paladin/oath-of-the-spellguard-ua",
@@ -6586,7 +7477,8 @@
           "Hallow"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "paladin/oath-of-the-watchers",
@@ -6666,7 +7558,8 @@
           "Scrying"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "paladin/oath-of-treachery-ua",
@@ -6746,7 +7639,8 @@
           "Passwall"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "paladin/oath-of-vengeance",
@@ -6822,6 +7716,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/paladin:vengeance"
     ]
@@ -6905,6 +7800,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/paladin:oathbreaker"
     ]
@@ -6987,7 +7883,8 @@
           "Mass Cure Wounds"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "psion/psi-warper-ua",
@@ -7067,7 +7964,8 @@
           "Teleportation Circle"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "psion/psykinetic-ua9-02-10-2025",
@@ -7147,7 +8045,8 @@
           "Wall of Force"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "psion/telepath-ua9-02-10-2025",
@@ -7227,7 +8126,8 @@
           "Yolande's Regal Presence"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "ranger/beast-master",
@@ -7262,6 +8162,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/ranger:beast-master"
     ]
@@ -7334,7 +8235,8 @@
           "Seeming"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "ranger/drakewarden",
@@ -7373,7 +8275,8 @@
         "description": "At 15th level, your bond to your drake reaches the pinnacle of its power. While your drake is summoned, you and the drake gain the following benefits:\n\n**Empowered Bite.** The drake's Bite attack deals an extra 1d6 damage of the type chosen for its Draconic Essence (for a total of 2d6 extra damage).\n\n**Large Drake.** The drake grows to Large size. When you ride your drake, it is no longer prohibited from using the flying speed of Bond of Fang and Scale.\n\n**Reflexive Resistance.** When either you or the drake takes damage while you're within 30 feet of each other, you can use your reaction to give yourself or the drake resistance to that instance of damage. You can use this reaction a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "ranger/fey-wanderer",
@@ -7449,6 +8352,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/ranger:fey-wanderer"
     ]
@@ -7527,6 +8431,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/ranger:gloom-stalker"
     ]
@@ -7599,7 +8504,8 @@
           "Steel Wind Strike"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "ranger/horizon-walker-conclave",
@@ -7674,7 +8580,8 @@
           "Teleportation Circle"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "ranger/hunter",
@@ -7714,6 +8621,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/ranger:hunter"
     ]
@@ -7791,7 +8699,8 @@
           "Hold Monster"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "ranger/primeval-guardian",
@@ -7866,7 +8775,8 @@
           "Insect Plague"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "ranger/swarmkeeper",
@@ -7937,7 +8847,8 @@
           "Insect Plague"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "ranger/winter-walker",
@@ -8012,7 +8923,8 @@
           "Cone of Cold"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "rogue/arcane-trickster",
@@ -8052,6 +8964,258 @@
       }
     ],
     "spells": null,
+    "spellcasting": {
+      "ability": "INT",
+      "abilityChoices": null,
+      "kind": "third",
+      "preparation": "prepared",
+      "spellList": "wizard",
+      "cantripsByLevel": null,
+      "preparedByLevel": [
+        0,
+        0,
+        3,
+        4,
+        4,
+        4,
+        5,
+        6,
+        6,
+        7,
+        8,
+        8,
+        9,
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        13
+      ],
+      "slotsByLevel": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          3,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
     "replaced": [
       "https://dnd5e.wikidot.com/rogue:arcane-trickster"
     ]
@@ -8094,6 +9258,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/rogue:assassin"
     ]
@@ -8159,7 +9324,8 @@
           "Hypnotic Pattern"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "rogue/inquisitive",
@@ -8203,7 +9369,8 @@
         "description": "At 17th level, you learn to exploit a creature's weaknesses by carefully studying its tactics and movement. While your Insightful Fighting feature applies to a creature, your Sneak Attack damage against that creature increases by 3d6."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "rogue/magic-stealer-ua",
@@ -8247,7 +9414,8 @@
         "description": "When you use Empower Sneak Attack, you can force the target to make a Constitution saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus). On a failed save, the spell dissipates with no effect, and the target has the Stunned condition until the start of its next turn."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "rogue/mastermind",
@@ -8286,7 +9454,8 @@
         "description": "Starting at 17th level, your thoughts can't be read by telepathy or other means, unless you allow it. You can present false thoughts by making a Charisma (Deception) check contested by the mind reader's Wisdom (Insight) check.\n\nAdditionally, no matter what you say, magic that would determine if you are telling the truth indicates you are being truthful if you so choose, and you can't be compelled to tell the truth by magic."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "rogue/phantom",
@@ -8331,6 +9500,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/rogue:phantom"
     ]
@@ -8377,7 +9547,8 @@
         "description": "When you reach 17th level, like a ghost, you have the ability to slip in and out of the Ethereal Plane. You can now use your Cunning Action to teleport to an unoccupied space within 30 feet of you. You don't need to see that space to teleport to it, but your teleportation fails, wasting your bonus action, if you attempt to teleport through magical force that is Medium or larger, such as a wall of force. If you appear in a space occupied by another creature or filled by an object, you are immediately shunted to the nearest unoccupied space that you can occupy and take force damage equal to twice the number of feet you are shunted."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "rogue/scion-of-the-three",
@@ -8416,7 +9587,8 @@
         "description": "You gain the following benefits.\n\n**Cutthroat.** You regain one expended use of Bloodthirst when you finish a Short Rest.\n\n**Murderous Intent.** When you roll for your Sneak Attack damage, you can treat a roll of a 1 or 2 on the die as a 3."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "rogue/scout",
@@ -8455,7 +9627,8 @@
         "description": "Starting at 17th level, you can strike with deadly speed. If you take the Attack action on your turn, you can make one additional attack as a bonus action. This attack can benefit from your Sneak Attack even if you have already used it this turn, but you can't use your Sneak Attack against the same target more than once in a turn."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "rogue/soulknife",
@@ -8495,6 +9668,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/rogue:soulknife"
     ]
@@ -8536,7 +9710,8 @@
         "description": "Beginning at 17th level, your mastery of the blade lets you turn failure into success in combat. If you miss with an attack roll, you can roll it again with advantage. Once you do so, you can't use this feature again until you finish a short or long rest."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "rogue/thief",
@@ -8576,6 +9751,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/rogue:thief"
     ]
@@ -8655,6 +9831,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/sorcerer:aberrant-mind"
     ]
@@ -8739,7 +9916,8 @@
           "Yolande's Regal Presence"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "sorcerer/clockwork-sorcery",
@@ -8810,6 +9988,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/sorcerer:clockwork-soul"
     ]
@@ -8882,7 +10061,8 @@
           "Contagion"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "sorcerer/demonic-sorcery-ua14-18-06-2026",
@@ -8952,7 +10132,8 @@
           "Modify Memory"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "sorcerer/divine-soul",
@@ -8992,6 +10173,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Sorcerer subclass levels [3, 6, 14, 18] (1→3)"
     ]
@@ -9065,6 +10247,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/sorcerer:draconic-bloodline"
     ]
@@ -9147,7 +10330,8 @@
           "Scrying"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "sorcerer/favored-soul-revisited-ua",
@@ -9192,6 +10376,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Sorcerer subclass levels [3, 6, 14, 18] (1→3)"
     ]
@@ -9234,6 +10419,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Sorcerer subclass levels [3, 6, 14, 18] (1→3)"
     ]
@@ -9276,6 +10462,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Sorcerer subclass levels [3, 6, 14, 18] (1→3)"
     ]
@@ -9349,6 +10536,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Sorcerer subclass levels [3, 6, 14, 18] (1→3)"
     ]
@@ -9391,6 +10579,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Sorcerer subclass levels [3, 6, 14, 18] (1→3)"
     ]
@@ -9438,6 +10627,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Sorcerer subclass levels [3, 6, 14, 18] (1→3)"
     ]
@@ -9475,6 +10665,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Sorcerer subclass levels [3, 6, 14, 18] (1→3)"
     ]
@@ -9517,6 +10708,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Sorcerer subclass levels [3, 6, 14, 18] (1→3)"
     ]
@@ -9590,6 +10782,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/sorcerer:shadow-magic"
     ]
@@ -9662,7 +10855,8 @@
           "Flame Strike"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "sorcerer/stone-sorcery",
@@ -9727,6 +10921,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Sorcerer subclass levels [3, 6, 14, 18] (1→3, 2→3)"
     ]
@@ -9774,6 +10969,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Sorcerer subclass levels [3, 6, 14, 18] (1→3)"
     ]
@@ -9816,6 +11012,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/sorcerer:wild-magic"
     ]
@@ -9890,6 +11087,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/warlock:archfey"
     ]
@@ -9965,6 +11163,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/warlock:celestial"
     ]
@@ -10038,6 +11237,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/warlock:fiend"
     ]
@@ -10106,6 +11306,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
     ]
@@ -10189,6 +11390,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/warlock:great-old-one"
     ]
@@ -10266,7 +11468,8 @@
           "Steel Wind Strike"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "warlock/lurker-in-the-deep-ua",
@@ -10342,6 +11545,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
     ]
@@ -10413,7 +11617,8 @@
           "Commune with Nature Steel Wind Strike Wall of Stone Flame Strike Cone of Cold"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "warlock/sorcerer-king-patron-ua",
@@ -10484,7 +11689,8 @@
           "Synaptic Static"
         ]
       }
-    ]
+    ],
+    "spellcasting": null
   },
   {
     "id": "warlock/the-fathomless",
@@ -10560,6 +11766,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
     ]
@@ -10629,6 +11836,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
     ]
@@ -10702,6 +11910,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
     ]
@@ -10775,6 +11984,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
     ]
@@ -10843,6 +12053,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
     ]
@@ -10916,6 +12127,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
     ]
@@ -10984,6 +12196,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
     ]
@@ -11047,6 +12260,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
     ]
@@ -11120,6 +12334,7 @@
         ]
       }
     ],
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/warlock:undead"
     ]
@@ -11161,7 +12376,8 @@
         "description": "Your Vestige Companion continues to grow in strength, and with your assistance, it can briefly adopt a more powerful form. Depending on the vestige's type, you can take a Magic action while the vestige is within 90 feet of you to shape-shift it for 1 hour into one of the following forms: **Celestial Spirit** (Celestial vestige; see the Summon Celestial spell in the Player's Handbook), **Fiendish Spirit** (Fiend vestige; see the Summon Fiend spell in the Player's Handbook), or **Undead Spirit** (Undead vestige; see the Summon Undead spell in the Player's Handbook). The vestige's game statistics are replaced by the spirit's stat block, and the spell's level is equal to half your Warlock level (round down; maximum level 9), but the vestige retains its personality, Divine Power Bonus Action, Hit Points, and Hit Point Dice.\n\nThe vestige gains a number of Temporary Hit Points equal to the Hit Points of the spirit form. These Temporary Hit Points vanish if any remain after 1 hour, and the transformation ends early if it has no Temporary Hit Points left.\n\nOnce you use this feature, you can't do so again until you finish a Long Rest."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "wizard/abjurer",
@@ -11201,6 +12417,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/wizard:abjuration"
     ]
@@ -11243,6 +12460,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Wizard subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -11285,6 +12503,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/wizard:bladesinging"
     ]
@@ -11327,6 +12546,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Wizard subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -11374,6 +12594,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/wizard:conjuration"
     ]
@@ -11416,6 +12637,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/wizard:divination"
     ]
@@ -11463,6 +12685,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/wizard:enchantment"
     ]
@@ -11505,6 +12728,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/wizard:evocation"
     ]
@@ -11542,6 +12766,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Wizard subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -11584,6 +12809,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/wizard:illusion"
     ]
@@ -11625,7 +12851,8 @@
         "description": "You can curse your enemies with corrosive Unlight, and the only escape from the curse is physical violence or an explosive death.  \nWhen a creature takes Radiant damage from a spell you cast, you can take a Reaction to curse that creature with Unlight. The creature makes a Constitution save against your spell save DC. On a failure, the creature is cursed. Until the curse ends, the target suffers the following effects:\n\n• The target emits Bright Light in a 20-foot radius.\n\n• Attack rolls against the target have Advantage.\n\n• At the start of each of the target's turns, it takes Radiant damage equal to your character level.\n\n• The target has Advantage on Strength checks and melee attack rolls.\n\n• If the target hits another creature with a melee attack roll, the target can repeat the Constitution save, ending this curse on a success.\n\n• If the target is reduced to 0 Hit Points, it explodes.  \nRoll a number of d8s equal to half your character level. Creatures in a 10-foot Emanation centered on the target take Radiant damage equal to the total rolled.\n\nOnce you have attempted to curse a creature using this feature, you can't do so again until you finish a Long Rest or until you expend a level 6+ spell slot (no action required)."
       }
     ],
-    "spells": null
+    "spells": null,
+    "spellcasting": null
   },
   {
     "id": "wizard/lore-mastery",
@@ -11670,6 +12897,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Wizard subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -11717,6 +12945,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/wizard:necromancy"
     ]
@@ -11764,6 +12993,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Wizard subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -11806,6 +13036,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Wizard subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -11853,6 +13084,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Wizard subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -11900,6 +13132,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Wizard subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -11942,6 +13175,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Wizard subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -11994,6 +13228,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Wizard subclass levels [3, 6, 10, 14] (2→3)"
     ]
@@ -12046,6 +13281,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "replaced": [
       "https://dnd5e.wikidot.com/wizard:transmutation"
     ]
@@ -12088,6 +13324,7 @@
       }
     ],
     "spells": null,
+    "spellcasting": null,
     "adjustments": [
       "Levels moved to the 2024 Wizard subclass levels [3, 6, 10, 14] (2→3)"
     ]

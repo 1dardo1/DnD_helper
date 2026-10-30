@@ -2,7 +2,7 @@ import { Component, computed, inject, input, resource, signal } from '@angular/c
 import { RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
-import { TranslatePipe } from '../../core/i18n/i18n.service';
+import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { ENTRY_TYPES, Entry, EntryType } from '../../core/models/compendium';
 import { LoadError } from './load-error';
 import { entrySummary } from './entry-summary';
@@ -87,8 +87,18 @@ export class EntryList {
     return [...matches].sort((a, b) => a.name.localeCompare(b.name));
   });
 
+  private readonly i18n = inject(I18nService);
+  private readonly classNames = resource({
+    loader: async () => new Map((await this.compendium.all('class')).map((c) => [c.id, c.name])),
+  });
+
   protected summary(e: Entry): string {
-    return entrySummary(e);
+    return entrySummary(
+      e,
+      this.i18n.language(),
+      this.i18n.t('spell.cantrip'),
+      this.classNames.value() ?? new Map(),
+    );
   }
 }
 

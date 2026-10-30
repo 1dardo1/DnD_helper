@@ -467,3 +467,89 @@ describe('computeSheet: multiclass, tools, languages and size', () => {
     expect(sheet.proficiencies.weapons).toEqual(['Simple weapons', 'Martial weapons']);
   });
 });
+
+describe('computeSheet: subclasses that cast spells', () => {
+  const thirdTable = Array.from({ length: 20 }, (_, i) =>
+    i < 2
+      ? [0, 0, 0, 0, 0, 0, 0, 0, 0]
+      : i < 3
+        ? [2, 0, 0, 0, 0, 0, 0, 0, 0]
+        : [3, 0, 0, 0, 0, 0, 0, 0, 0],
+  );
+  const ek: Subclass = {
+    id: 'fighter/eldritch-knight',
+    type: 'subclass',
+    name: 'Eldritch Knight',
+    edition: '2024',
+    source: null,
+    description: '',
+    url: '',
+    classId: 'fighter',
+    shortName: 'Eldritch Knight',
+    features: [],
+    spells: null,
+    spellcasting: {
+      ability: 'INT',
+      kind: 'third',
+      preparation: 'prepared',
+      spellList: 'wizard',
+      cantripsByLevel: null,
+      preparedByLevel: Array(20).fill(3),
+      slotsByLevel: thirdTable,
+    },
+  };
+  const fighter = cls('fighter');
+  const wizard = cls('wizard', {
+    spellcasting: {
+      ability: 'INT',
+      kind: 'full',
+      preparation: 'prepared',
+      cantripsByLevel: null,
+      preparedByLevel: null,
+      slotsByLevel: Array(20).fill([9, 9, 9, 9, 9, 9, 9, 9, 9]),
+    },
+  });
+
+  it('uses the subclass table when it is the only caster', () => {
+    const sheet = computeSheet(
+      character({
+        classes: [{ id: 'fighter', level: 3, subclassId: ek.id, hp: [] }],
+        abilityScores: { method: 'manual', base: { ...scores, INT: 14 } },
+      }),
+      data({ classes: [fighter], subclasses: [ek] }),
+    );
+    expect(sheet.spellcasting.slots).toEqual([2, 0, 0, 0, 0, 0, 0, 0, 0]);
+    expect(sheet.spellcasting.classes).toEqual([
+      {
+        classId: 'fighter',
+        ability: 'INT',
+        saveDc: 8 + 2 + 2,
+        attack: 4,
+        cantrips: null,
+        prepared: 3,
+      },
+    ]);
+  });
+
+  it('counts it as a third caster when multiclassing', () => {
+    const sheet = computeSheet(
+      character({
+        classes: [
+          { id: 'fighter', level: 3, subclassId: ek.id, hp: [] },
+          { id: 'wizard', level: 2, subclassId: null, hp: [] },
+        ],
+      }),
+      data({ classes: [fighter, wizard], subclasses: [ek] }),
+    );
+    // caster level floor(3/3) + 2 = 3 → 4, 2
+    expect(sheet.spellcasting.slots).toEqual([4, 2, 0, 0, 0, 0, 0, 0, 0]);
+  });
+
+  it('casts nothing before the subclass is chosen', () => {
+    const sheet = computeSheet(
+      character({ classes: [{ id: 'fighter', level: 3, subclassId: null, hp: [] }] }),
+      data({ classes: [fighter], subclasses: [ek] }),
+    );
+    expect(sheet.spellcasting.classes).toEqual([]);
+  });
+});

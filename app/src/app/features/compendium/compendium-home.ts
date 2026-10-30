@@ -29,7 +29,7 @@ import { LoadError } from './load-error';
       <p>
         <small>{{ 'compendium.dataVersion' | t: { date: m.generatedAt | localDate } }}</small>
         @if (compendium.offline()) {
-          <small> · offline</small>
+          <small> · {{ 'compendium.offline' | t }}</small>
         }
       </p>
     }

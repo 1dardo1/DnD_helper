@@ -72,7 +72,7 @@ def parse_magic_item(page: Page) -> tuple[dict | None, list[str]]:
     rarity = None
     for r in sorted(RARITIES, key=len, reverse=True):
         if re.search(rf"\b{r}\b", low):
-            rarity = r
+            rarity = "varies" if r == "rarity by" else r   # "rarity by keyrune"
             break
     att = re.search(r"requires attunement(?: by ([^)]*))?", header, re.I)
     category = {"armor": "armor", "shield": "shield", "weapon": "weapon", "ammunition": "weapon"}.get(item_type, "other")
@@ -107,7 +107,7 @@ def _weapon(row: dict, ctx: str) -> dict:
     for m in re.finditer(r"(\d+d\d+(?:\s*\+\s*\d+)?|\b1\b)\s*(\w+)", row.get("damage", "")):
         dmg.append({"dice": m.group(1).replace(" ", ""), "type": m.group(2).lower()})
     props_raw = row.get("properties", "")
-    props = [clean(p) for p in re.split(r",\s*(?![^()]*\))", props_raw) if clean(p) and clean(p) != "-"]
+    props = [clean(p) for p in re.split(r",\s*(?![^()]*\))", props_raw) if clean(p) not in ("", "-", "—")]
     rng = re.search(r"range\s*(\d+/\d+)|(\d+/\d+)", props_raw, re.I)
     return {
         "kind": "martial" if "martial" in ctx else "simple" if "simple" in ctx else None,
@@ -157,6 +157,8 @@ def parse_equipment_page(page: Page, hint: str) -> tuple[list[dict], list[str]]:
         ctx = _context(table)
         for r in rows[1:]:
             if len(r) < 2 or not r[0] or r[0] in ("-", "—"):
+                continue
+            if [clean(c).lower() for c in r] == head:   # header repeated inside the table
                 continue
             if not any(c for c in r[1:]):   # sub-caption row inside the table, e.g. "Martial Ranged Weapons"
                 ctx = r[0].lower() + " | " + ctx

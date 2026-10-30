@@ -19,6 +19,8 @@ export function describeDifferences(
   mine: Character,
   theirs: Character,
   data: RulesData,
+  /** Skill id → name in the current language. */
+  skillName: (id: string) => string = (id) => id,
 ): Difference[] {
   const a = computeSheet(mine, data);
   const b = computeSheet(theirs, data);
@@ -53,8 +55,8 @@ export function describeDifferences(
   add('conflict.field.armorClass', String(a.armorClass.value), String(b.armorClass.value));
   add(
     'conflict.field.skills',
-    [...mine.choices.skills].sort().join(', '),
-    [...theirs.choices.skills].sort().join(', '),
+    mine.choices.skills.map(skillName).sort().join(', '),
+    theirs.choices.skills.map(skillName).sort().join(', '),
   );
   add(
     'conflict.field.feats',

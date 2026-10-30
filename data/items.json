@@ -9065,9 +9065,7 @@
           "type": "bludgeoning"
         }
       ],
-      "properties": [
-        "—"
-      ],
+      "properties": [],
       "range": null,
       "mastery": "Sap"
     },
@@ -10411,7 +10409,7 @@
     "cost": null,
     "weight": null,
     "magic": {
-      "rarity": "rarity by",
+      "rarity": "varies",
       "type": "wondrous item",
       "subtype": null,
       "attunement": true,
@@ -13896,9 +13894,7 @@
           "type": "bludgeoning"
         }
       ],
-      "properties": [
-        "—"
-      ],
+      "properties": [],
       "range": null,
       "mastery": "Sap"
     },
@@ -15406,9 +15402,7 @@
           "type": "piercing"
         }
       ],
-      "properties": [
-        "—"
-      ],
+      "properties": [],
       "range": null,
       "mastery": "Sap"
     },
@@ -15607,28 +15601,6 @@
       "attunement": true,
       "attunementBy": "a bard",
       "raw": "Weapon (longsword), legendary (requires attunement by a bard)"
-    }
-  },
-  {
-    "id": "name",
-    "type": "item",
-    "name": "Name",
-    "edition": "2014",
-    "source": "Tomb of Annihilation",
-    "description": "",
-    "url": "https://dnd5e.wikidot.com/weapons",
-    "category": "weapon",
-    "cost": null,
-    "weight": null,
-    "weapon": {
-      "kind": "simple",
-      "ranged": true,
-      "damage": [],
-      "properties": [
-        "Properties"
-      ],
-      "range": null,
-      "mastery": null
     }
   },
   {

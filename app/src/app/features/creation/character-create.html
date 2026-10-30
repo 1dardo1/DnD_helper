@@ -28,7 +28,17 @@
 
   <ng-template #toolPicker let-tc>
     <fieldset>
-      <legend>{{ tc.text }} ({{ toolsIn(tc.slot).length }} / {{ tc.count }})</legend>
+      <legend>
+        {{
+          'create.toolChoice'
+            | t
+              : {
+                  group: toolGroupLabel(tc.groups),
+                  chosen: toolsIn(tc.slot).length,
+                  count: tc.count,
+                }
+        }}
+      </legend>
       @for (tool of tc.options; track tool) {
         <label class="inline">
           <input
@@ -36,7 +46,7 @@
             [checked]="toolsIn(tc.slot).includes(tool)"
             (change)="setTool(tc.slot, tool, checked($event))"
           />
-          {{ tool }}
+          {{ tool | term: 'tool' }}
         </label>
       }
     </fieldset>
@@ -160,7 +170,7 @@
               {{ 'create.backgroundGives' | t }}: {{ b.feat }} ·
               {{ b.skills.map(skillLabel).join(', ') }}
               @if (b.tools) {
-                · {{ b.tools }}
+                · {{ backgroundTools() }}
               }
             </p>
             <fieldset>
@@ -247,7 +257,7 @@
                 <select [value]="c.size ?? ''" (change)="setSize(value($event))">
                   <option value="">—</option>
                   @for (z of s.size; track z) {
-                    <option [value]="z">{{ z }}</option>
+                    <option [value]="z">{{ z | term: 'size' }}</option>
                   }
                 </select>
               </label>
@@ -267,7 +277,7 @@
                   [checked]="c.choices.languages.includes(l)"
                   (change)="setLanguage(l, checked($event))"
                 />
-                {{ l }}
+                {{ l | term: 'language' }}
                 @if (rareLanguages.includes(l)) {
                   <small>({{ 'create.rare' | t }})</small>
                 }
@@ -399,7 +409,7 @@
                       }
                     </select>
                     @for (n of problems; track n.key) {
-                      <p class="issue">⚠ {{ n.key | t: n.params }}</p>
+                      <p class="issue">⚠ {{ noteText(n) }}</p>
                     }
                     @for (n of range(fp.picks); track n) {
                       <label>
@@ -428,7 +438,7 @@
                   @let taken = chosenCount(c.choices.options, g.options);
                   <fieldset>
                     <legend [class.issue]="g.count !== null && taken > g.count">
-                      {{ groupName(g.group) }}
+                      {{ groupLabel(g.group) }}
                       @if (g.count !== null) {
                         ({{ taken }} / {{ g.count }})
                       }
@@ -523,7 +533,7 @@
             <select [value]="c.equipped.armorId ?? ''" (change)="patch(withArmor(value($event)))">
               <option value="">{{ 'create.noArmor' | t }}</option>
               @for (a of d.armor; track a.id) {
-                <option [value]="a.id">{{ a.name }} ({{ a.armor?.kind }})</option>
+                <option [value]="a.id">{{ a.name }} ({{ a.armor?.kind | term: 'armor' }})</option>
               }
             </select>
           </label>
@@ -557,7 +567,7 @@
               <ul>
                 @for (m of allNotes(); track $index) {
                   <li [class.issue]="m.kind === 'issue'">
-                    {{ m.kind === 'issue' ? '⚠ ' : '' }}{{ m.key | t: m.params }}
+                    {{ m.kind === 'issue' ? '⚠ ' : '' }}{{ noteText(m) }}
                   </li>
                 }
               </ul>
@@ -579,7 +589,7 @@
         <ul class="missing">
           @for (m of notes()[step()]; track $index) {
             <li [class.issue]="m.kind === 'issue'">
-              {{ m.kind === 'issue' ? '⚠ ' : '' }}{{ m.key | t: m.params }}
+              {{ m.kind === 'issue' ? '⚠ ' : '' }}{{ noteText(m) }}
             </li>
           }
         </ul>

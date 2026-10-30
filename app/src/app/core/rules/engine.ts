@@ -7,6 +7,7 @@ import {
   Feature,
   Item,
   Species,
+  Spellcasting,
   Subclass,
 } from '../models/compendium';
 import { multiclassGains } from './multiclass';
@@ -215,27 +216,30 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   }
 
   // -- spellcasting --------------------------------------------------------------------
-  const casters = classes.filter((c) => c.cls.spellcasting);
+  // A class casts through its own table, or through its subclass's (Eldritch Knight, Profane Soul...).
+  const casters = classes
+    .map((c) => ({ ...c, sc: castingOf(c.cls, c.sub) }))
+    .filter((c): c is typeof c & { sc: Spellcasting } => !!c.sc);
   const spellClasses = casters.map((c) => {
-    const sc = c.cls.spellcasting!;
-    const ability = sc.ability ?? c.cls.primaryAbility[0] ?? 'INT';
+    const ability = c.sc.ability ?? c.cls.primaryAbility[0] ?? 'INT';
     return {
       classId: c.cls.id,
       ability,
       saveDc: 8 + pb + mod(ability),
       attack: pb + mod(ability),
-      cantrips: sc.cantripsByLevel?.[c.level - 1] ?? null,
-      prepared: sc.preparedByLevel?.[c.level - 1] ?? null,
+      cantrips: c.sc.cantripsByLevel?.[c.level - 1] ?? null,
+      prepared: c.sc.preparedByLevel?.[c.level - 1] ?? null,
     };
   });
-  const slotCasters = casters.filter((c) => c.cls.spellcasting!.kind !== 'pact');
+  const slotCasters = casters.filter((c) => c.sc.kind !== 'pact');
   let slots = Array(9).fill(0);
   if (slotCasters.length === 1) {
     const c = slotCasters[0];
-    slots = [...(c.cls.spellcasting!.slotsByLevel[c.level - 1] ?? slots)];
+    slots = [...(c.sc.slotsByLevel[c.level - 1] ?? slots)];
   } else if (slotCasters.length > 1) {
+    // Multiclass Spellcaster: full levels + half (rounded up) + a third (rounded down)
     const casterLevel = slotCasters.reduce((n, c) => {
-      const kind = c.cls.spellcasting!.kind;
+      const kind = c.sc.kind;
       return (
         n +
         (kind === 'full'
@@ -249,13 +253,15 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     }, 0);
     if (casterLevel > 0) slots = [...MULTICLASS_SLOTS[Math.min(casterLevel, 20) - 1]];
   }
-  const pactClass = casters.find((c) => c.cls.spellcasting!.kind === 'pact');
+  const pactCasters = casters.filter((c) => c.sc.kind === 'pact');
   let pact: Sheet['spellcasting']['pact'] = null;
-  if (pactClass) {
-    const row = pactClass.cls.spellcasting!.slotsByLevel[pactClass.level - 1] ?? [];
+  for (const c of pactCasters) {
+    const row = c.sc.slotsByLevel[c.level - 1] ?? [];
     const idx = row.findIndex((n) => n > 0);
-    if (idx >= 0) pact = { slots: row[idx], level: idx + 1 };
+    // with two Pact Magic sources keep the better one (combining them isn't computed)
+    if (idx >= 0 && (!pact || idx + 1 > pact.level)) pact = { slots: row[idx], level: idx + 1 };
   }
+  if (pactCasters.length > 1) warnings.push('Two Pact Magic sources: only the best one is shown');
 
   // -- class resources -----------------------------------------------------------------
   const resources = classes.flatMap((c) =>
@@ -368,6 +374,11 @@ function weaponName(raw: string): string {
   const s = raw.trim();
   const kind = s.match(/^(all )?(simple|martial)( weapons)?$/i)?.[2];
   return kind ? `${kind[0].toUpperCase()}${kind.slice(1).toLowerCase()} weapons` : s;
+}
+
+/** The class's own spellcasting, or else its subclass's (only once the subclass is chosen). */
+export function castingOf(cls: DndClass, sub: Subclass | undefined): Spellcasting | null {
+  return cls.spellcasting ?? sub?.spellcasting ?? null;
 }
 
 function gained(list: Feature[], level: number, source: SheetFeature['source']): SheetFeature[] {

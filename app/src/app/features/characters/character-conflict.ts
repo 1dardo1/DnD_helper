@@ -38,7 +38,9 @@ export class CharacterConflict {
         record,
         mine: record.character,
         theirs: record.remote,
-        differences: describeDifferences(record.character, record.remote, data),
+        differences: describeDifferences(record.character, record.remote, data, (id) =>
+          this.i18n.t(`skill.${id}` as never),
+        ),
       };
     },
   });

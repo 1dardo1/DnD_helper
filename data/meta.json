@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T20:18:54+00:00",
+  "generatedAt": "2026-10-30T06:20:57+00:00",
   "sources": {
     "2014": "https://dnd5e.wikidot.com",
     "2024": "https://dnd2024.wikidot.com"
@@ -12,7 +12,7 @@
     "feat": 360,
     "species": 89,
     "background": 75,
-    "item": 1347,
+    "item": 1346,
     "rule": 84
   },
   "byEdition": {
@@ -45,7 +45,7 @@
     },
     "item": {
       "2024": 707,
-      "2014": 640
+      "2014": 639
     },
     "rule": {
       "2024": 39,

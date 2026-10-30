@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { CharacterStore } from '../../core/characters/character-store.service';
 import { SyncService } from '../../core/characters/sync.service';
+import { TermDomain, TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
@@ -14,7 +15,7 @@ import { LoadError } from '../compendium/load-error';
 /** The character sheet: everything computed by the rules engine from the character's choices. */
 @Component({
   selector: 'app-character-sheet',
-  imports: [RouterLink, TranslatePipe, MarkdownPipe, LoadError],
+  imports: [RouterLink, TranslatePipe, TermPipe, MarkdownPipe, LoadError],
   templateUrl: './character-sheet.html',
   styleUrl: './character-sheet.scss',
 })
@@ -71,6 +72,15 @@ export class CharacterSheet {
     if (!confirm(this.i18n.t('sheet.confirmDelete', { name: record.character.name }))) return;
     await this.sync.remove(record.character.id);
     await this.router.navigate(['/characters']);
+  }
+
+  /** A list of game terms in the current language. */
+  protected terms(values: string[], domain: TermDomain, sep = ', '): string {
+    return values.map((v) => term(this.i18n.language(), domain, v)).join(sep);
+  }
+
+  protected className(sheet: Sheet, id: string): string {
+    return sheet.classes.find((c) => c.id === id)?.name ?? id;
   }
 
   protected signed(n: number): string {
