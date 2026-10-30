@@ -4,21 +4,30 @@ import { RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
-import { PhrasePipe, TermPipe } from '../../core/i18n/glossary';
-import { TranslatePipe } from '../../core/i18n/i18n.service';
+import { PhrasePipe, TermDomain, TermPipe, term } from '../../core/i18n/glossary';
+import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import {
+  AbilityGroup,
+  Background,
+  ClassOption,
   DndClass,
   ENTRY_TYPES,
   Entry,
   EntryType,
+  Feat,
   Feature,
+  Item,
+  Rule,
+  Species,
   Spell,
+  Spellcasting,
   Subclass,
 } from '../../core/models/compendium';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
+import { armorDex, prerequisitesText, slotsText, weaponProperty } from './entry-format';
 import { LoadError } from './load-error';
 
-/** Detail page for any entry, with extra sections for classes, subclasses and spells. */
+/** Detail page for any entry, with the fields of its type and links to related entries. */
 @Component({
   selector: 'app-entry-detail',
   imports: [
@@ -41,6 +50,7 @@ export class EntryDetail {
   readonly id = input.required<string>();
   private readonly compendium = inject(CompendiumService);
   private readonly data = inject(DataTextService);
+  private readonly i18n = inject(I18nService);
 
   protected readonly entryType = computed<EntryType>(() =>
     ENTRY_TYPES.includes(this.type() as EntryType) ? (this.type() as EntryType) : 'class',
@@ -65,16 +75,50 @@ export class EntryDetail {
     ),
   );
 
+  /** Names of the entries linked from here: class and subclass by id, spell id by name. */
+  private readonly lookups = resource({
+    loader: async () => {
+      const [classes, subclasses, spells] = await Promise.all([
+        this.compendium.all('class'),
+        this.compendium.all('subclass'),
+        this.compendium.all('spell'),
+      ]);
+      return {
+        classes: new Map(classes.map((c) => [c.id, c.name])),
+        subclasses: new Map(subclasses.map((s) => [s.id, s.name])),
+        spells: new Map(spells.map((s) => [s.name.toLowerCase(), s.id])),
+      };
+    },
+  });
+
+  protected readonly levels = Array.from({ length: 20 }, (_, i) => i + 1);
+
   protected asClass(e: Entry): DndClass {
     return e as DndClass;
   }
-
   protected asSubclass(e: Entry): Subclass {
     return e as Subclass;
   }
-
   protected asSpell(e: Entry): Spell {
     return e as Spell;
+  }
+  protected asFeat(e: Entry): Feat {
+    return e as Feat;
+  }
+  protected asItem(e: Entry): Item {
+    return e as Item;
+  }
+  protected asSpecies(e: Entry): Species {
+    return e as Species;
+  }
+  protected asBackground(e: Entry): Background {
+    return e as Background;
+  }
+  protected asOption(e: Entry): ClassOption {
+    return e as ClassOption;
+  }
+  protected asRule(e: Entry): Rule {
+    return e as Rule;
   }
 
   /** Features grouped by level, in level order. */
@@ -86,18 +130,92 @@ export class EntryDetail {
       .map(([level, fs]) => ({ level, features: fs }));
   }
 
-  /** Class names for the spell's class ids ("blood-hunter" → "Blood Hunter"). */
-  protected readonly classMap = resource({
-    loader: async () => new Map((await this.compendium.all('class')).map((c) => [c.id, c.name])),
-  });
+  /** "Mago (Wizard)" for a class id; the id itself while loading or if unknown. */
+  protected className(id: string): string {
+    return this.data.name(this.lookups.value()?.classes.get(id) ?? id);
+  }
 
-  protected classNames(ids: string[]): string {
-    const map = this.classMap.value();
-    return this.names(ids.map((id) => map?.get(id) ?? id));
+  protected subclassName(id: string): string {
+    return this.data.name(this.lookups.value()?.subclasses.get(id) ?? id);
+  }
+
+  /** The spell's id for a name in the data ("Faerie Fire" → "faerie-fire"), if it's in the compendium. */
+  protected spellId(name: string): string | undefined {
+    return this.lookups.value()?.spells.get(name.toLowerCase());
   }
 
   protected names(list: string[]): string {
     return list.map((n) => this.data.name(n)).join(', ');
+  }
+
+  /** "FUE, DES" in the current language. */
+  protected abilities(list: readonly (string | null)[]): string {
+    return list
+      .filter(Boolean)
+      .map((a) => this.i18n.t(`abbr.${a}` as never))
+      .join(', ');
+  }
+
+  protected skills(list: string[]): string {
+    return list.map((s) => this.i18n.t(`skill.${s}` as never)).join(', ');
+  }
+
+  /** A glossary term when there is one ("Thieves' Tools"), otherwise the data text. */
+  protected termOrText(domain: TermDomain, value: string | null | undefined): string {
+    if (!value) return '';
+    const translated = term(this.i18n.language(), domain, value);
+    return translated !== value ? translated : this.data.text(value);
+  }
+
+  protected termList(domain: TermDomain, list: string[]): string {
+    return list.map((v) => this.termOrText(domain, v)).join(', ');
+  }
+
+  protected feet(n: number): string {
+    return this.i18n.t('compendium.feet', { n });
+  }
+
+  protected speeds(s: Species): { kind: string; feet: number }[] {
+    return Object.entries(s.speed)
+      .filter(([, v]) => typeof v === 'number')
+      .map(([kind, feet]) => ({ kind, feet: feet as number }));
+  }
+
+  protected cost(c: NonNullable<Item['cost']>): string {
+    return this.i18n.t('compendium.cost', {
+      amount: c.amount.toLocaleString(this.i18n.language()),
+      unit: this.i18n.t(`compendium.coin.${c.unit}` as never),
+    });
+  }
+
+  protected weight(w: number): string {
+    return this.i18n.t('compendium.pounds', { n: w.toLocaleString(this.i18n.language()) });
+  }
+
+  protected property(p: string): string {
+    return weaponProperty(this.i18n.language(), p);
+  }
+
+  protected armorDex = armorDex;
+  protected slots = slotsText;
+
+  protected multiclassPrerequisites(groups: AbilityGroup[]): string {
+    return prerequisitesText(
+      groups,
+      (a) => this.i18n.t(`abbr.${a}` as never),
+      this.i18n.t('compendium.or'),
+      this.i18n.t('compendium.and'),
+    );
+  }
+
+  /** Level rows of a spellcasting table worth showing: from the first one that casts anything. */
+  protected castingLevels(sc: Spellcasting): number[] {
+    const casts = (l: number) =>
+      (sc.cantripsByLevel?.[l - 1] ?? 0) > 0 ||
+      (sc.preparedByLevel?.[l - 1] ?? 0) > 0 ||
+      slotsText(sc, l) !== '—';
+    const first = this.levels.find(casts);
+    return first ? this.levels.filter((l) => l >= first) : [];
   }
 
   protected components(s: Spell): string {

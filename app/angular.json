@@ -59,7 +59,7 @@
                   "input": "public"
                 },
                 {
-                  "glob": "*.json",
+                  "glob": "**/*.json",
                   "input": ".dev-data/data",
                   "output": "data"
                 },

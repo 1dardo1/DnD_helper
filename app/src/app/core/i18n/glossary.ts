@@ -38,8 +38,16 @@ export function term(
   value: string | null | undefined,
 ): string {
   if (!value) return '';
-  if (language !== 'es') return value;
+  if (language !== 'es') return SLUG_DOMAINS.has(domain) ? humanise(value) : value;
   return ES[domain][value.trim().toLowerCase()] ?? value;
+}
+
+/** Domains whose values are ids ("fighting-style"): shown as words in English. */
+const SLUG_DOMAINS = new Set<TermDomain>(['featCategory', 'optionGroup', 'ruleCategory']);
+
+function humanise(slug: string): string {
+  const words = slug.replace(/-/g, ' ');
+  return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
 /**

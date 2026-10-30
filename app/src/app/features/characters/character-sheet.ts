@@ -51,10 +51,15 @@ export class CharacterSheet {
 
   protected readonly abilities = ABILITIES;
 
+  /** Changes when the character shows up (a first visit can arrive before the pull brings it). */
+  private readonly present = computed(() =>
+    this.store.all().some((r) => r.character.id === this.id()),
+  );
+
   protected readonly view = resource({
-    params: () => this.id(),
+    params: () => ({ id: this.id(), present: this.present() }),
     loader: async ({ params }) => {
-      const [record, data] = await Promise.all([this.store.get(params), this.rules.load()]);
+      const [record, data] = await Promise.all([this.store.get(params.id), this.rules.load()]);
       return record ? { record, data, sheet: computeSheet(record.character, data) } : null;
     },
   });
