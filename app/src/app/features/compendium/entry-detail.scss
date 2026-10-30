@@ -21,6 +21,26 @@
   dd {
     margin: 0;
   }
+
+  // Phones: each value under its label
+  @media (max-width: 36rem) {
+    grid-template-columns: 1fr;
+    gap: 0;
+
+    dd {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  // Glossary terms come in lower case ("medium", "legendario")
+  dd:not(.raw)::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.variant {
+  border-left: 3px solid #ccc;
+  padding-left: 0.75rem;
 }
 
 .table-scroll {
@@ -38,9 +58,12 @@ table {
   }
 }
 
-// Tables inside Markdown descriptions
+// Tables inside Markdown descriptions; wide ones scroll instead of widening the page
 .md ::ng-deep table {
   border-collapse: collapse;
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
 
   th,
   td {

@@ -1,5 +1,5 @@
 import { Component, inject, resource } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
@@ -12,6 +12,17 @@ import { LoadError } from './load-error';
   template: `
     <h1>{{ 'compendium.title' | t }}</h1>
     <p>{{ 'compendium.intro' | t }}</p>
+
+    <form class="search" role="search" (submit)="search($event, q.value)">
+      <input
+        #q
+        type="search"
+        name="q"
+        [placeholder]="'search.placeholder' | t"
+        [attr.aria-label]="'search.placeholder' | t"
+      />
+      <button type="submit">{{ 'common.search' | t }}</button>
+    </form>
 
     @if (meta.isLoading()) {
       <p>{{ 'common.loading' | t }}</p>
@@ -35,6 +46,15 @@ import { LoadError } from './load-error';
     }
   `,
   styles: `
+    .search {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 30rem;
+    }
+    .search input {
+      flex: 1;
+      min-width: 0;
+    }
     .sections {
       list-style: none;
       padding: 0;
@@ -52,6 +72,12 @@ import { LoadError } from './load-error';
 })
 export class CompendiumHome {
   protected readonly compendium = inject(CompendiumService);
+  private readonly router = inject(Router);
   protected readonly types = ENTRY_TYPES;
   protected readonly meta = resource({ loader: () => this.compendium.getMeta() });
+
+  protected search(event: Event, q: string): void {
+    event.preventDefault();
+    this.router.navigate(['/compendium/search'], { queryParams: q.trim() ? { q } : {} });
+  }
 }

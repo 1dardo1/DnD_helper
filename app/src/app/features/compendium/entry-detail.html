@@ -34,8 +34,11 @@
         <dl class="fields">
           <dt>{{ 'spell.level' | t }}</dt>
           <dd>
-            {{ s.level === 0 ? ('spell.cantrip' | t) : s.level }} · {{ s.school | term: 'school'
-            }}{{ s.ritual ? ' (' + ('spell.ritual' | t) + ')' : '' }}
+            {{ s.level === 0 ? ('spell.cantrip' | t) : s.level }} ·
+            <a [routerLink]="['/compendium', 'spell']" [queryParams]="{ school: s.school }">{{
+              s.school | term: 'school'
+            }}</a
+            >{{ s.ritual ? ' (' + ('spell.ritual' | t) + ')' : '' }}
           </dd>
           <dt>{{ 'spell.castingTime' | t }}</dt>
           <dd>{{ s.castingTime.raw | dataText | phrase }}</dd>
@@ -46,7 +49,12 @@
           <dt>{{ 'spell.duration' | t }}</dt>
           <dd>{{ s.duration | dataText | phrase }}</dd>
           <dt>{{ 'spell.classes' | t }}</dt>
-          <dd>{{ classNames(s.classes) }}</dd>
+          <dd>
+            @for (c of s.classes; track c; let last = $last) {
+              <a [routerLink]="['/compendium', 'class', c]">{{ className(c) }}</a
+              >{{ last ? '' : ', ' }}
+            }
+          </dd>
         </dl>
         <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
         @if (s.higherLevels) {
@@ -61,6 +69,52 @@
 
       @case ('class') {
         @let c = asClass(e);
+        <dl class="fields">
+          <dt>{{ 'compendium.hitDie' | t }}</dt>
+          <dd class="raw">d{{ c.hitDie }}</dd>
+          <dt>{{ 'compendium.primaryAbility' | t }}</dt>
+          <dd>{{ abilities(c.primaryAbility) }}</dd>
+          <dt>{{ 'compendium.savingThrows' | t }}</dt>
+          <dd>{{ abilities(c.savingThrows) }}</dd>
+          @if (c.proficiencies.armor.length) {
+            <dt>{{ 'compendium.armorTraining' | t }}</dt>
+            <dd>{{ termList('armor', c.proficiencies.armor) }}</dd>
+          }
+          @if (c.proficiencies.weapons.length) {
+            <dt>{{ 'compendium.weaponProficiencies' | t }}</dt>
+            <dd>{{ termList('weapon', c.proficiencies.weapons) }}</dd>
+          }
+          @if (c.proficiencies.tools.length) {
+            <dt>{{ 'compendium.tools' | t }}</dt>
+            <dd>{{ termList('tool', c.proficiencies.tools) }}</dd>
+          }
+          <dt>{{ 'compendium.skills' | t }}</dt>
+          <dd>
+            {{
+              'compendium.chooseFrom'
+                | t
+                  : {
+                      count: c.proficiencies.skills.choose,
+                      list: skills(c.proficiencies.skills.from),
+                    }
+            }}
+          </dd>
+          @if (c.startingEquipment) {
+            <dt>{{ 'compendium.startingEquipment' | t }}</dt>
+            <dd>{{ c.startingEquipment | dataText }}</dd>
+          }
+        </dl>
+
+        @if (c.spellcasting) {
+          <h2>{{ 'compendium.spellcasting' | t }}</h2>
+          <ng-container
+            *ngTemplateOutlet="
+              spellcasting;
+              context: { $implicit: c.spellcasting, classId: c.id, table: false }
+            "
+          />
+        }
+
         <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
         <div class="table-scroll">
           <table>
@@ -89,6 +143,49 @@
           </table>
         </div>
 
+        <h2>{{ 'compendium.multiclass' | t }}</h2>
+        <dl class="fields">
+          @if (c.multiclass.prerequisites.length) {
+            <dt>{{ 'compendium.prerequisites' | t }}</dt>
+            <dd>{{ multiclassPrerequisites(c.multiclass.prerequisites) }}</dd>
+          }
+          @if (c.multiclass.gains; as g) {
+            @if (g.armor.length) {
+              <dt>{{ 'compendium.armorTraining' | t }}</dt>
+              <dd>{{ termList('armor', g.armor) }}</dd>
+            }
+            @if (g.weapons.length) {
+              <dt>{{ 'compendium.weaponProficiencies' | t }}</dt>
+              <dd>{{ termList('weapon', g.weapons) }}</dd>
+            }
+            @if (g.tools.length || g.instrument) {
+              <dt>{{ 'compendium.tools' | t }}</dt>
+              <dd>
+                {{ termList('tool', g.tools) }}{{ g.tools.length && g.instrument ? ', ' : ''
+                }}{{ g.instrument ? ('compendium.gainInstrument' | t) : '' }}
+              </dd>
+            }
+            @if (g.skill) {
+              <dt>{{ 'compendium.skills' | t }}</dt>
+              <dd>{{ 'compendium.gainSkill.' + g.skill | t }}</dd>
+            }
+          }
+        </dl>
+        @if (c.multiclass.gains?.origin === 'estimate') {
+          <p>
+            <small>{{ 'compendium.gainsEstimated' | t }}</small>
+          </p>
+        }
+        @if (c.multiclass.proficienciesGained) {
+          <details>
+            <summary>{{ 'compendium.multiclassText' | t }}</summary>
+            <div
+              class="md"
+              [innerHTML]="c.multiclass.proficienciesGained | dataText | markdown"
+            ></div>
+          </details>
+        }
+
         <h2>{{ 'compendium.subclasses' | t }} ({{ c.subclassTitle | dataText }})</h2>
         <ul>
           @for (s of sortedSubclasses(); track s.id) {
@@ -107,17 +204,40 @@
 
       @case ('subclass') {
         @let sc = asSubclass(e);
-        <p>
-          <a [routerLink]="['/compendium', 'class', sc.classId]">{{ classNames([sc.classId]) }}</a>
-        </p>
+        <dl class="fields">
+          <dt>{{ 'compendium.class' | t }}</dt>
+          <dd>
+            <a [routerLink]="['/compendium', 'class', sc.classId]">{{ className(sc.classId) }}</a>
+          </dd>
+        </dl>
         <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
+        @if (sc.spellcasting) {
+          <h2>{{ 'compendium.spellcasting' | t }}</h2>
+          <ng-container
+            *ngTemplateOutlet="
+              spellcasting;
+              context: { $implicit: sc.spellcasting, classId: sc.classId, table: true }
+            "
+          />
+        }
         @if (sc.spells?.length) {
+          <h2>{{ 'compendium.subclassSpells' | t }}</h2>
           <table>
+            <thead>
+              <tr>
+                <th>{{ 'compendium.classLevel' | t }}</th>
+                <th>{{ 'compendium.spells' | t }}</th>
+              </tr>
+            </thead>
             <tbody>
               @for (row of sc.spells; track row.classLevel) {
                 <tr>
                   <td>{{ row.classLevel }}</td>
-                  <td>{{ names(row.spells) }}</td>
+                  <td>
+                    <ng-container
+                      *ngTemplateOutlet="spellLinks; context: { $implicit: row.spells }"
+                    />
+                  </td>
                 </tr>
               }
             </tbody>
@@ -125,6 +245,297 @@
         }
         <h2>{{ 'compendium.features' | t }}</h2>
         <ng-container *ngTemplateOutlet="features; context: { $implicit: sc.features }" />
+      }
+
+      @case ('feat') {
+        @let f = asFeat(e);
+        <dl class="fields">
+          <dt>{{ 'compendium.category' | t }}</dt>
+          <dd>
+            <a [routerLink]="['/compendium', 'feat']" [queryParams]="{ category: f.category }">{{
+              f.category | term: 'featCategory'
+            }}</a>
+          </dd>
+          <dt>{{ 'compendium.prerequisites' | t }}</dt>
+          <dd>
+            {{ f.prerequisites ? (f.prerequisites.raw | dataText) : ('compendium.none' | t) }}
+          </dd>
+          <dt>{{ 'compendium.repeatable' | t }}</dt>
+          <dd>{{ (f.repeatable ? 'compendium.yes' : 'compendium.no') | t }}</dd>
+          @if (f.abilityIncrease; as ai) {
+            <dt>{{ 'compendium.abilityIncrease' | t }}</dt>
+            <dd>
+              {{
+                (ai.from.length > ai.choose
+                  ? 'compendium.abilityIncreaseChoose'
+                  : 'compendium.abilityIncreaseAll'
+                )
+                  | t
+                    : {
+                        amount: ai.amount,
+                        choose: ai.choose,
+                        list: abilities(ai.from),
+                        max: ai.max,
+                      }
+              }}
+            </dd>
+          }
+        </dl>
+        <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
+      }
+
+      @case ('item') {
+        @let i = asItem(e);
+        <dl class="fields">
+          <dt>{{ 'compendium.category' | t }}</dt>
+          <dd>
+            <a [routerLink]="['/compendium', 'item']" [queryParams]="{ category: i.category }">{{
+              i.category | term: 'itemCategory'
+            }}</a>
+          </dd>
+          @if (i.cost) {
+            <dt>{{ 'compendium.costLabel' | t }}</dt>
+            <dd>{{ cost(i.cost) }}</dd>
+          }
+          @if (i.weight) {
+            <dt>{{ 'compendium.weight' | t }}</dt>
+            <dd>{{ weight(i.weight) }}</dd>
+          }
+          @if (i.magic; as m) {
+            @if (m.rarity) {
+              <dt>{{ 'compendium.rarity' | t }}</dt>
+              <dd>
+                <a [routerLink]="['/compendium', 'item']" [queryParams]="{ rarity: m.rarity }">{{
+                  m.rarity | term: 'rarity'
+                }}</a>
+              </dd>
+            }
+            @if (m.type) {
+              <dt>{{ 'compendium.magicType' | t }}</dt>
+              <dd>
+                {{ m.type | term: 'magicType'
+                }}{{ m.subtype ? ' (' + (m.subtype | dataText) + ')' : '' }}
+              </dd>
+            }
+            <dt>{{ 'compendium.attunement' | t }}</dt>
+            <dd>
+              @if (!m.attunement) {
+                {{ 'compendium.no' | t }}
+              } @else if (m.attunementBy) {
+                {{ 'compendium.attunementBy' | t: { who: (m.attunementBy | dataText) } }}
+              } @else {
+                {{ 'compendium.yes' | t }}
+              }
+            </dd>
+          }
+          @if (i.armor; as a) {
+            <dt>{{ 'compendium.armorKind' | t }}</dt>
+            <dd>{{ a.kind | term: 'armor' }}</dd>
+            @if (a.baseAC !== null) {
+              <dt>{{ 'compendium.armorClass' | t }}</dt>
+              <dd>
+                @switch (armorDex(a)) {
+                  @case ('full') {
+                    {{ 'compendium.acDex' | t: { ac: a.baseAC, dex: 'abbr.DEX' | t } }}
+                  }
+                  @case ('cap') {
+                    {{
+                      'compendium.acDexCap'
+                        | t: { ac: a.baseAC, dex: 'abbr.DEX' | t, max: a.dexCap! }
+                    }}
+                  }
+                  @case ('none') {
+                    {{ a.baseAC }}
+                  }
+                  @default {
+                    +{{ a.baseAC }}
+                  }
+                }
+              </dd>
+            }
+            @if (a.strength) {
+              <dt>{{ 'compendium.strength' | t }}</dt>
+              <dd>{{ 'abbr.STR' | t }} {{ a.strength }}</dd>
+            }
+            <dt>{{ 'compendium.stealth' | t }}</dt>
+            <dd>
+              {{ (a.stealthDisadvantage ? 'compendium.disadvantage' : 'compendium.noPenalty') | t }}
+            </dd>
+          }
+          @if (i.weapon; as w) {
+            <dt>{{ 'compendium.weaponKind' | t }}</dt>
+            <dd>
+              {{ w.kind ? (w.kind | term: 'weapon') + ', ' : ''
+              }}{{ (w.ranged ? 'compendium.ranged' : 'compendium.melee') | t }}
+            </dd>
+            @if (w.damage.length) {
+              <dt>{{ 'compendium.damage' | t }}</dt>
+              <dd>
+                @for (d of w.damage; track $index; let last = $last) {
+                  {{ d.dice }} {{ d.type | term: 'damage' }}{{ last ? '' : ' + ' }}
+                }
+              </dd>
+            }
+            @if (w.properties.length) {
+              <dt>{{ 'compendium.properties' | t }}</dt>
+              <dd>
+                @for (p of w.properties; track p; let last = $last) {
+                  {{ property(p) }}{{ last ? '' : ', ' }}
+                }
+              </dd>
+            }
+            @if (w.range) {
+              <dt>{{ 'compendium.weaponRange' | t }}</dt>
+              <dd>{{ 'compendium.rangeFeet' | t: { range: w.range } }}</dd>
+            }
+            @if (w.mastery) {
+              <dt>{{ 'compendium.mastery' | t }}</dt>
+              <dd>{{ w.mastery | term: 'mastery' }}</dd>
+            }
+          }
+        </dl>
+        <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
+      }
+
+      @case ('species') {
+        @let sp = asSpecies(e);
+        <dl class="fields">
+          <dt>{{ 'compendium.creatureType' | t }}</dt>
+          <dd>{{ sp.creatureType | term: 'creatureType' }}</dd>
+          <dt>{{ 'compendium.size' | t }}</dt>
+          <dd>
+            @for (z of sp.size; track z; let last = $last) {
+              {{ z | term: 'size' }}{{ last ? '' : ' ' + ('compendium.or' | t) + ' ' }}
+            }
+          </dd>
+          <dt>{{ 'compendium.speed' | t }}</dt>
+          <dd>
+            @for (s of speeds(sp); track s.kind; let last = $last) {
+              {{
+                s.kind === 'walk'
+                  ? feet(s.feet)
+                  : ('compendium.speedKind'
+                    | t: { kind: s.kind | term: 'speed', feet: feet(s.feet) })
+              }}{{ last ? '' : ', ' }}
+            }
+          </dd>
+          <dt>{{ 'compendium.darkvision' | t }}</dt>
+          <dd>{{ sp.darkvision ? feet(sp.darkvision) : ('compendium.none' | t) }}</dd>
+        </dl>
+        <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
+        @if (sp.traits.length) {
+          <h2>{{ 'compendium.traits' | t }}</h2>
+          <ng-container *ngTemplateOutlet="traits; context: { $implicit: sp.traits }" />
+        }
+        @if (sp.variants.length) {
+          <h2>{{ 'compendium.variants' | t }}</h2>
+          @for (v of sp.variants; track v.name) {
+            <section class="variant">
+              <h3>{{ v.name | dataName }}</h3>
+              @if (v.description) {
+                <div class="md" [innerHTML]="v.description | dataText | markdown"></div>
+              }
+              @if (v.spells?.length) {
+                <table>
+                  <thead>
+                    <tr>
+                      <th>{{ 'table.level' | t }}</th>
+                      <th>{{ 'compendium.spells' | t }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (row of v.spells; track row.level) {
+                      <tr>
+                        <td>{{ row.level }}</td>
+                        <td>
+                          <ng-container
+                            *ngTemplateOutlet="spellLinks; context: { $implicit: row.spells }"
+                          />
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              }
+              <ng-container *ngTemplateOutlet="traits; context: { $implicit: v.traits }" />
+            </section>
+          }
+        }
+      }
+
+      @case ('background') {
+        @let b = asBackground(e);
+        <dl class="fields">
+          <dt>{{ 'compendium.abilityScores' | t }}</dt>
+          <dd>{{ abilities(b.abilityScores) }}</dd>
+          @if (b.feat) {
+            <dt>{{ 'compendium.originFeat' | t }}</dt>
+            <dd>
+              @if (b.featId) {
+                <a [routerLink]="['/compendium', 'feat', b.featId]">{{ b.feat | dataName }}</a>
+              } @else {
+                {{ b.feat | dataName }}
+              }
+            </dd>
+          }
+          @if (b.skills.length) {
+            <dt>{{ 'compendium.skills' | t }}</dt>
+            <dd>{{ skills(b.skills) }}</dd>
+          }
+          @if (b.tools) {
+            <dt>{{ 'compendium.tools' | t }}</dt>
+            <dd>{{ termOrText('tool', b.tools) }}</dd>
+          }
+          @if (b.equipment) {
+            <dt>{{ 'compendium.equipment' | t }}</dt>
+            <dd>{{ b.equipment | dataText }}</dd>
+          }
+        </dl>
+        <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
+      }
+
+      @case ('option') {
+        @let o = asOption(e);
+        <dl class="fields">
+          <dt>{{ 'compendium.group' | t }}</dt>
+          <dd>
+            <a [routerLink]="['/compendium', 'option']" [queryParams]="{ group: o.group }">{{
+              o.group | term: 'optionGroup'
+            }}</a>
+          </dd>
+          @if (o.classId) {
+            <dt>{{ 'compendium.class' | t }}</dt>
+            <dd>
+              <a [routerLink]="['/compendium', 'class', o.classId]">{{ className(o.classId) }}</a>
+            </dd>
+          }
+          @if (o.subclassId) {
+            <dt>{{ 'compendium.subclass' | t }}</dt>
+            <dd>
+              <a [routerLink]="['/compendium', 'subclass', o.subclassId]">{{
+                subclassName(o.subclassId)
+              }}</a>
+            </dd>
+          }
+          <dt>{{ 'compendium.prerequisites' | t }}</dt>
+          <dd>
+            {{ o.prerequisites ? (o.prerequisites.raw | dataText) : ('compendium.none' | t) }}
+          </dd>
+        </dl>
+        <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
+      }
+
+      @case ('rule') {
+        @let r = asRule(e);
+        <dl class="fields">
+          <dt>{{ 'compendium.category' | t }}</dt>
+          <dd>
+            <a [routerLink]="['/compendium', 'rule']" [queryParams]="{ category: r.category }">{{
+              r.category | term: 'ruleCategory'
+            }}</a>
+          </dd>
+        </dl>
+        <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
       }
 
       @default {
@@ -141,6 +552,86 @@
           <div class="md" [innerHTML]="f.description | dataText | markdown"></div>
         </section>
       }
+    }
+  </ng-template>
+
+  <ng-template #traits let-list>
+    @for (t of list; track t.name) {
+      <section class="feature">
+        <h3>{{ t.name | dataName }}</h3>
+        <div class="md" [innerHTML]="t.description | dataText | markdown"></div>
+      </section>
+    }
+  </ng-template>
+
+  <ng-template #spellLinks let-list>
+    @for (name of list; track name; let last = $last) {
+      @if (spellId(name); as sid) {
+        <a [routerLink]="['/compendium', 'spell', sid]">{{ name | dataName }}</a>
+      } @else {
+        {{ name | dataName }}
+      }
+      {{ last ? '' : ', ' }}
+    }
+  </ng-template>
+
+  <ng-template #spellcasting let-sc let-classId="classId" let-table="table">
+    <dl class="fields">
+      <dt>{{ 'compendium.castingAbility' | t }}</dt>
+      <dd>
+        {{ abilities(sc.abilityChoices?.length ? sc.abilityChoices : [sc.ability]) }}
+      </dd>
+      <dt>{{ 'compendium.casterKind' | t }}</dt>
+      <dd>{{ 'compendium.caster.' + sc.kind | t }}</dd>
+      <dt>{{ 'compendium.preparation' | t }}</dt>
+      <dd>{{ 'compendium.preparation.' + sc.preparation | t }}</dd>
+      <dt>{{ 'compendium.spellList' | t }}</dt>
+      <dd>
+        <a
+          [routerLink]="['/compendium', 'spell']"
+          [queryParams]="{ class: sc.spellList ?? classId }"
+          >{{ 'compendium.spellListOf' | t: { cls: className(sc.spellList ?? classId) } }}</a
+        >
+      </dd>
+    </dl>
+    @if (table) {
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'compendium.classLevel' | t }}</th>
+              @if (sc.cantripsByLevel) {
+                <th>{{ 'compendium.cantrips' | t }}</th>
+              }
+              @if (sc.preparedByLevel) {
+                <th>
+                  {{
+                    (sc.preparation === 'known'
+                      ? 'compendium.spellsKnown'
+                      : 'compendium.spellsPrepared'
+                    ) | t
+                  }}
+                </th>
+              }
+              <th>{{ 'compendium.slots' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (level of castingLevels(sc); track level) {
+              <tr>
+                <td>{{ level }}</td>
+                @if (sc.cantripsByLevel) {
+                  <td>{{ sc.cantripsByLevel[level - 1] }}</td>
+                }
+                @if (sc.preparedByLevel) {
+                  <td>{{ sc.preparedByLevel[level - 1] }}</td>
+                }
+                <td>{{ slots(sc, level) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     }
   </ng-template>
 } @else {

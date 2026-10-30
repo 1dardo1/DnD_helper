@@ -8,6 +8,11 @@ export const routes: Routes = [
       import('./features/compendium/compendium-home').then((m) => m.CompendiumHome),
   },
   {
+    path: 'compendium/search',
+    loadComponent: () =>
+      import('./features/compendium/compendium-search-page').then((m) => m.CompendiumSearchPage),
+  },
+  {
     path: 'compendium/:type',
     loadComponent: () => import('./features/compendium/entry-list').then((m) => m.EntryList),
   },
