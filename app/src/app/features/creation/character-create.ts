@@ -26,6 +26,7 @@ import {
   subclassesFor,
   toolChoices,
 } from '../../core/creation/creation-rules';
+import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, newCharacter, normalizeCharacter } from '../../core/models/character';
@@ -48,7 +49,16 @@ type ClassEntry = Character['classes'][number];
  */
 @Component({
   selector: 'app-character-create',
-  imports: [RouterLink, NgTemplateOutlet, TranslatePipe, TermPipe, MarkdownPipe, LoadError],
+  imports: [
+    RouterLink,
+    NgTemplateOutlet,
+    TranslatePipe,
+    TermPipe,
+    DataNamePipe,
+    DataTextPipe,
+    MarkdownPipe,
+    LoadError,
+  ],
   templateUrl: './character-create.html',
   styleUrl: './character-create.scss',
 })
@@ -62,6 +72,7 @@ export class CharacterCreate {
   private readonly router = inject(Router);
   private readonly settings = inject(SettingsService);
   private readonly i18n = inject(I18nService);
+  private readonly dataText = inject(DataTextService);
 
   protected readonly steps = STEPS;
   protected readonly abilities = ABILITIES;
@@ -262,6 +273,8 @@ export class CharacterCreate {
     const params = { ...n.params };
     if (typeof params['group'] === 'string')
       params['group'] = this.toolGroupLabel(params['group'].split(' / '));
+    for (const k of ['feat', 'cls'])
+      if (typeof params[k] === 'string') params[k] = this.dataText.shortName(params[k] as string);
     if (n.key === 'create.issue.rareLanguage')
       params['what'] = term(this.i18n.language(), 'language', String(params['what']));
     else if (typeof params['what'] === 'string')
@@ -626,9 +639,9 @@ export class CharacterCreate {
   /** First time on this step, start from the class and background starting equipment. */
   protected prefillEquipment(): void {
     if (this.draft().equipment) return;
-    const parts = [this.classList()[0]?.startingEquipment, this.background()?.equipment].filter(
-      Boolean,
-    );
+    const parts = [this.classList()[0]?.startingEquipment, this.background()?.equipment]
+      .filter(Boolean)
+      .map((p) => this.dataText.text(p));
     if (parts.length) this.patch((c) => ({ ...c, equipment: parts.join('\n\n') }));
   }
 

@@ -2,6 +2,7 @@ import { Component, computed, inject, input, resource, signal } from '@angular/c
 import { RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
+import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { ENTRY_TYPES, Entry, EntryType } from '../../core/models/compendium';
 import { LoadError } from './load-error';
@@ -9,7 +10,7 @@ import { entrySummary } from './entry-summary';
 
 @Component({
   selector: 'app-entry-list',
-  imports: [RouterLink, TranslatePipe, LoadError],
+  imports: [RouterLink, TranslatePipe, DataNamePipe, LoadError],
   template: `
     <p>
       <a routerLink="/compendium">← {{ 'compendium.title' | t }}</a>
@@ -32,7 +33,7 @@ import { entrySummary } from './entry-summary';
       <ul class="entries">
         @for (e of filtered(); track e.id) {
           <li>
-            <a [routerLink]="['/compendium', entryType(), e.id]">{{ e.name }}</a>
+            <a [routerLink]="['/compendium', entryType(), e.id]">{{ e.name | dataName }}</a>
             <small>{{ summary(e) }}</small>
             @if (e.edition === '2014') {
               <small class="edition">2014</small>
@@ -80,11 +81,16 @@ export class EntryList {
     params: () => this.entryType(),
     loader: ({ params }) => this.compendium.all(params) as Promise<Entry[]>,
   });
+  private readonly data = inject(DataTextService);
+  /** Searches the name shown and the English one; sorted by the name shown. */
   protected readonly filtered = computed(() => {
     const q = normalise(this.query());
     const list = this.entries.value() ?? [];
-    const matches = q ? list.filter((e) => normalise(e.name).includes(q)) : list;
-    return [...matches].sort((a, b) => a.name.localeCompare(b.name));
+    const matches = q
+      ? list.filter((e) => normalise(this.data.searchText(e.name)).includes(q))
+      : list;
+    const shown = (e: Entry) => this.data.shortName(e.name);
+    return [...matches].sort((a, b) => shown(a).localeCompare(shown(b)));
   });
 
   private readonly i18n = inject(I18nService);
@@ -97,7 +103,9 @@ export class EntryList {
       e,
       this.i18n.language(),
       this.i18n.t('spell.cantrip'),
-      this.classNames.value() ?? new Map(),
+      new Map(
+        [...(this.classNames.value() ?? new Map())].map(([id, n]) => [id, this.data.shortName(n)]),
+      ),
     );
   }
 }

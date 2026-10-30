@@ -5,6 +5,8 @@ import { CharacterStore } from '../../core/characters/character-store.service';
 import { describeDifferences } from '../../core/characters/differences';
 import { SyncService } from '../../core/characters/sync.service';
 import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
+import { CompendiumService } from '../../core/compendium/compendium.service';
+import { DataTextService } from '../../core/i18n/data-text.service';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { LoadError } from '../compendium/load-error';
 
@@ -25,22 +27,31 @@ export class CharacterConflict {
   private readonly sync = inject(SyncService);
   private readonly rules = inject(RulesDataService);
   private readonly i18n = inject(I18nService);
+  private readonly dataText = inject(DataTextService);
+  private readonly compendium = inject(CompendiumService);
   private readonly router = inject(Router);
 
   protected readonly busy = signal(false);
 
   protected readonly view = resource({
-    params: () => this.id(),
+    params: () => ({ id: this.id(), shown: this.dataText.shownLanguage() }),
     loader: async ({ params }) => {
-      const [record, data] = await Promise.all([this.store.get(params), this.rules.load()]);
+      const [record, data, spells] = await Promise.all([
+        this.store.get(params.id),
+        this.rules.load(),
+        this.compendium.all('spell'),
+      ]);
+      const spellNames = new Map(spells.map((s) => [s.id, s.name]));
       if (!record || record.status !== 'conflict' || !record.remote) return null;
       return {
         record,
         mine: record.character,
         theirs: record.remote,
-        differences: describeDifferences(record.character, record.remote, data, (id) =>
-          this.i18n.t(`skill.${id}` as never),
-        ),
+        differences: describeDifferences(record.character, record.remote, data, {
+          skill: (id) => this.i18n.t(`skill.${id}` as never),
+          data: (name) => this.dataText.shortName(name),
+          spell: (id) => this.dataText.shortName(spellNames.get(id) ?? id),
+        }),
       };
     },
   });

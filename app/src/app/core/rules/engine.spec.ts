@@ -194,7 +194,9 @@ describe('computeSheet', () => {
       { classId: 'barbarian', name: 'Rages', value: '3' },
       { classId: 'barbarian', name: 'Rage Damage', value: '+2' },
     ]);
-    expect(sheet.warnings).toEqual(['Barbarian: no barbarian Subclass chosen']);
+    expect(sheet.warnings).toEqual([
+      { key: 'sheet.warn.noSubclass', params: { cls: 'Barbarian', title: 'barbarian Subclass' } },
+    ]);
   });
 
   it('uses rolled hit points when given and never less than 1 per level', () => {
@@ -320,9 +322,9 @@ describe('computeSheet', () => {
     );
     expect(sheet.totalLevel).toBe(0);
     expect(sheet.warnings).toEqual([
-      'Class "mystic" is not in the compendium',
-      'Species "unknown" is not in the compendium',
-      'Feat "ghost-feat" is not in the compendium',
+      { key: 'sheet.warn.notFound', params: { what: 'class', id: 'mystic' } },
+      { key: 'sheet.warn.notFound', params: { what: 'species', id: 'unknown' } },
+      { key: 'sheet.warn.notFound', params: { what: 'feat', id: 'ghost-feat' } },
     ]);
   });
 

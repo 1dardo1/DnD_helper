@@ -8,11 +8,11 @@
   <app-load-error [error]="entry.error()" />
 } @else if (entry.value(); as e) {
   <article>
-    <h1>{{ e.name }}</h1>
+    <h1>{{ e.name | dataName }}</h1>
     <p class="meta">
       <span class="edition">{{ 'common.edition' | t: { edition: e.edition } }}</span>
       @if (e.source) {
-        <span>{{ 'common.source' | t }}: {{ e.source }}</span>
+        <span>{{ 'common.source' | t }}: {{ e.source | dataText }}</span>
       }
       <a [href]="e.url" target="_blank" rel="noopener">{{ 'compendium.originalPage' | t }}</a>
     </p>
@@ -22,7 +22,7 @@
         <strong>{{ 'compendium.adjustments' | t }}</strong>
         <ul>
           @for (a of e.adjustments; track a) {
-            <li>{{ a }}</li>
+            <li>{{ a | dataText }}</li>
           }
         </ul>
       </aside>
@@ -38,28 +38,30 @@
             }}{{ s.ritual ? ' (' + ('spell.ritual' | t) + ')' : '' }}
           </dd>
           <dt>{{ 'spell.castingTime' | t }}</dt>
-          <dd>{{ s.castingTime.raw | phrase }}</dd>
+          <dd>{{ s.castingTime.raw | dataText | phrase }}</dd>
           <dt>{{ 'spell.range' | t }}</dt>
-          <dd>{{ s.range | phrase }}</dd>
+          <dd>{{ s.range | dataText | phrase }}</dd>
           <dt>{{ 'spell.components' | t }}</dt>
           <dd>{{ components(s) }}</dd>
           <dt>{{ 'spell.duration' | t }}</dt>
-          <dd>{{ s.duration | phrase }}</dd>
+          <dd>{{ s.duration | dataText | phrase }}</dd>
           <dt>{{ 'spell.classes' | t }}</dt>
           <dd>{{ classNames(s.classes) }}</dd>
         </dl>
-        <div class="md" [innerHTML]="e.description | markdown"></div>
+        <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
         @if (s.higherLevels) {
           <div
             class="md"
-            [innerHTML]="'**' + ('spell.higherLevels' | t) + '.** ' + s.higherLevels | markdown"
+            [innerHTML]="
+              '**' + ('spell.higherLevels' | t) + '.** ' + (s.higherLevels | dataText) | markdown
+            "
           ></div>
         }
       }
 
       @case ('class') {
         @let c = asClass(e);
-        <div class="md" [innerHTML]="e.description | markdown"></div>
+        <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
         <div class="table-scroll">
           <table>
             <thead>
@@ -77,7 +79,7 @@
                 <tr>
                   <td>{{ row.level }}</td>
                   <td>+{{ row.proficiencyBonus }}</td>
-                  <td>{{ row.features.join(', ') }}</td>
+                  <td>{{ names(row.features) }}</td>
                   @for (col of c.progression.columns; track col) {
                     <td>{{ row.values[col] }}</td>
                   }
@@ -87,11 +89,11 @@
           </table>
         </div>
 
-        <h2>{{ 'compendium.subclasses' | t }} ({{ c.subclassTitle }})</h2>
+        <h2>{{ 'compendium.subclasses' | t }} ({{ c.subclassTitle | dataText }})</h2>
         <ul>
-          @for (s of subclasses.value() ?? []; track s.id) {
+          @for (s of sortedSubclasses(); track s.id) {
             <li>
-              <a [routerLink]="['/compendium', 'subclass', s.id]">{{ s.name }}</a>
+              <a [routerLink]="['/compendium', 'subclass', s.id]">{{ s.name | dataName }}</a>
               @if (s.edition === '2014') {
                 <small> (2014)</small>
               }
@@ -106,16 +108,16 @@
       @case ('subclass') {
         @let sc = asSubclass(e);
         <p>
-          <a [routerLink]="['/compendium', 'class', sc.classId]">{{ sc.classId }}</a>
+          <a [routerLink]="['/compendium', 'class', sc.classId]">{{ classNames([sc.classId]) }}</a>
         </p>
-        <div class="md" [innerHTML]="e.description | markdown"></div>
+        <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
         @if (sc.spells?.length) {
           <table>
             <tbody>
               @for (row of sc.spells; track row.classLevel) {
                 <tr>
                   <td>{{ row.classLevel }}</td>
-                  <td>{{ row.spells.join(', ') }}</td>
+                  <td>{{ names(row.spells) }}</td>
                 </tr>
               }
             </tbody>
@@ -126,7 +128,7 @@
       }
 
       @default {
-        <div class="md" [innerHTML]="e.description | markdown"></div>
+        <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
       }
     }
   </article>
@@ -135,8 +137,8 @@
     @for (group of byLevel(list); track group.level) {
       @for (f of group.features; track f.name) {
         <section class="feature">
-          <h3>{{ 'compendium.level' | t: { level: group.level } }}: {{ f.name }}</h3>
-          <div class="md" [innerHTML]="f.description | markdown"></div>
+          <h3>{{ 'compendium.level' | t: { level: group.level } }}: {{ f.name | dataName }}</h3>
+          <div class="md" [innerHTML]="f.description | dataText | markdown"></div>
         </section>
       }
     }

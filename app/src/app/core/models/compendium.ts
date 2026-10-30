@@ -239,5 +239,7 @@ export const ENTRY_TYPES = Object.keys(DATA_FILES) as EntryType[];
 
 export interface DataMeta {
   generatedAt: string;
+  /** Last run of the translator (data/es/*.json). */
+  translatedAt?: string;
   counts: Partial<Record<EntryType, number>>;
 }

@@ -14,10 +14,10 @@
     <p>
       {{ classLine(s) }}
       @if (s.species) {
-        · {{ s.species }}
+        · {{ s.species | dataName }}
       }
       @if (s.background) {
-        · {{ s.background }}
+        · {{ s.background | dataName }}
       }
     </p>
     <p>
@@ -38,7 +38,7 @@
       <strong>{{ 'sheet.warnings' | t }}</strong>
       <ul>
         @for (w of s.warnings; track w) {
-          <li>{{ w }}</li>
+          <li>{{ warning(w) }}</li>
         }
       </ul>
     </aside>
@@ -48,7 +48,7 @@
     <div>
       <small>{{ 'sheet.armorClass' | t }}</small
       ><strong>{{ s.armorClass.value }}</strong
-      ><small>{{ s.armorClass.formula }}</small>
+      ><small>{{ formula(s.armorClass.formula) }}</small>
     </div>
     <div>
       <small>{{ 'sheet.hitPoints' | t }}</small
@@ -155,7 +155,9 @@
         <p>
           {{ 'sheet.slots' | t }}:
           @for (sl of slotLevels(s); track sl.level) {
-            <span class="slot">{{ sl.level }}º × {{ sl.count }}</span>
+            <span class="slot"
+              >{{ 'spell.levelShort' | t: { level: sl.level } }} × {{ sl.count }}</span
+            >
           }
         </p>
       }
@@ -198,16 +200,16 @@
   <section>
     <h2>{{ 'sheet.features' | t }}</h2>
     @for (group of featureGroups(); track group.source.type + group.source.id + group.source.name) {
-      <h3>{{ group.source.name }}</h3>
+      <h3>{{ group.source.name | dataName }}</h3>
       @for (f of group.features; track $index) {
         <details class="feature">
           <summary>
             @if (group.source.type === 'class' || group.source.type === 'subclass') {
               <small>{{ 'compendium.level' | t: { level: f.level } }}</small>
             }
-            {{ f.name }}
+            {{ f.name | dataName }}
           </summary>
-          <div class="md" [innerHTML]="f.description | markdown"></div>
+          <div class="md" [innerHTML]="f.description | dataText | markdown"></div>
         </details>
       }
     }

@@ -3,6 +3,7 @@ import { Component, computed, inject, input, resource } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
+import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
 import { PhrasePipe, TermPipe } from '../../core/i18n/glossary';
 import { TranslatePipe } from '../../core/i18n/i18n.service';
 import {
@@ -26,6 +27,8 @@ import { LoadError } from './load-error';
     TranslatePipe,
     TermPipe,
     PhrasePipe,
+    DataNamePipe,
+    DataTextPipe,
     MarkdownPipe,
     LoadError,
   ],
@@ -37,6 +40,7 @@ export class EntryDetail {
   readonly type = input.required<string>();
   readonly id = input.required<string>();
   private readonly compendium = inject(CompendiumService);
+  private readonly data = inject(DataTextService);
 
   protected readonly entryType = computed<EntryType>(() =>
     ENTRY_TYPES.includes(this.type() as EntryType) ? (this.type() as EntryType) : 'class',
@@ -52,10 +56,14 @@ export class EntryDetail {
   protected readonly subclasses = resource({
     params: () => (this.entryType() === 'class' ? this.id() : undefined),
     loader: async ({ params }) =>
-      (await this.compendium.all('subclass'))
-        .filter((s) => s.classId === params)
-        .sort((a, b) => a.name.localeCompare(b.name)),
+      (await this.compendium.all('subclass')).filter((s) => s.classId === params),
   });
+  /** In alphabetical order of the names shown. */
+  protected readonly sortedSubclasses = computed(() =>
+    [...(this.subclasses.value() ?? [])].sort((a, b) =>
+      this.data.shortName(a.name).localeCompare(this.data.shortName(b.name)),
+    ),
+  );
 
   protected asClass(e: Entry): DndClass {
     return e as DndClass;
@@ -85,13 +93,18 @@ export class EntryDetail {
 
   protected classNames(ids: string[]): string {
     const map = this.classMap.value();
-    return ids.map((id) => map?.get(id) ?? id).join(', ');
+    return this.names(ids.map((id) => map?.get(id) ?? id));
+  }
+
+  protected names(list: string[]): string {
+    return list.map((n) => this.data.name(n)).join(', ');
   }
 
   protected components(s: Spell): string {
     const parts = [s.components.v && 'V', s.components.s && 'S', s.components.m && 'M']
       .filter(Boolean)
       .join(', ');
-    return s.components.material ? `${parts} (${s.components.material})` : parts;
+    const material = this.data.text(s.components.material);
+    return material ? `${parts} (${material})` : parts;
   }
 }

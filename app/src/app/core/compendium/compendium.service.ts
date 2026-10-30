@@ -19,7 +19,7 @@ export class CompendiumService {
   private readonly db = inject(LocalDb);
 
   private meta?: Promise<DataMeta>;
-  private readonly files = new Map<EntryType, Promise<unknown[]>>();
+  private readonly files = new Map<string, Promise<unknown[]>>();
 
   /** True when the data shown comes from the device cache because the repo couldn't be reached. */
   readonly offline = signal(false);
@@ -32,15 +32,29 @@ export class CompendiumService {
     return this.meta;
   }
 
+  /** The entries in English: what the rules use. */
   all<T extends EntryType>(type: T): Promise<EntryByType[T][]> {
-    if (!this.files.has(type)) {
-      const p = this.loadFile(type).catch((e) => {
-        this.files.delete(type);
+    return this.file(type, '') as Promise<EntryByType[T][]>;
+  }
+
+  /**
+   * The same entries translated (data/es/*.json): same ids and structure, only the texts people
+   * read change. Only for showing them; see DataTextService.
+   */
+  translated<T extends EntryType>(type: T, language: string): Promise<EntryByType[T][]> {
+    return this.file(type, `${language}/`) as Promise<EntryByType[T][]>;
+  }
+
+  private file(type: EntryType, folder: string): Promise<unknown[]> {
+    const key = folder + type;
+    if (!this.files.has(key)) {
+      const p = this.loadFile(type, folder).catch((e) => {
+        this.files.delete(key);
         throw e;
       });
-      this.files.set(type, p);
+      this.files.set(key, p);
     }
-    return this.files.get(type) as Promise<EntryByType[T][]>;
+    return this.files.get(key)!;
   }
 
   async get<T extends EntryType>(type: T, id: string): Promise<EntryByType[T] | undefined> {
@@ -81,19 +95,21 @@ export class CompendiumService {
     throw new Error('no data source configured');
   }
 
-  private async loadFile(type: EntryType): Promise<unknown[]> {
+  private async loadFile(type: EntryType, folder: string): Promise<unknown[]> {
     const meta = await this.getMeta();
-    const key = `file:${type}`;
+    const key = `file:${folder}${type}`;
     const cached = await this.db.get<CachedFile<unknown>>('compendium', key);
-    if (cached && cached.generatedAt === meta.generatedAt) return cached.entries;
+    // A new extraction or a new translation run downloads the files again.
+    const version = `${meta.generatedAt}|${meta.translatedAt ?? ''}`;
+    if (cached && cached.generatedAt === version) return cached.entries;
     const source = this.repo.source();
     if (!source) {
       if (cached) return cached.entries;
       throw new Error('no data source configured');
     }
     try {
-      const entries = await source.readJson<unknown[]>(`data/${DATA_FILES[type]}.json`);
-      await this.db.put('compendium', key, { generatedAt: meta.generatedAt, entries });
+      const entries = await source.readJson<unknown[]>(`data/${folder}${DATA_FILES[type]}.json`);
+      await this.db.put('compendium', key, { generatedAt: version, entries });
       return entries;
     } catch (e) {
       if (cached) {

@@ -54,7 +54,7 @@ export interface Sheet {
   resources: { classId: string; name: string; value: string }[];
   features: SheetFeature[];
   /** Things the engine couldn't resolve (ids not in the compendium, missing choices...). */
-  warnings: string[];
+  warnings: SheetWarning[];
 }
 
 export interface Bonus {
@@ -72,4 +72,10 @@ export interface SheetFeature {
     name: string;
   };
   description: string;
+}
+
+/** Something the engine couldn't work out; key is a UI text (sheet.warn.*), params fill it in. */
+export interface SheetWarning {
+  key: 'sheet.warn.notFound' | 'sheet.warn.noSubclass' | 'sheet.warn.twoPacts';
+  params?: Record<string, string>;
 }

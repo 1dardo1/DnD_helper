@@ -1,0 +1,93 @@
+# Términos de juego que el traductor automático suele traducir mal. Antes de traducir, cada aparición
+# (sin distinguir mayúsculas, la más larga primero) se sustituye por un marcador; después se pone el
+# texto de aquí. Si cambias solo el español de un término no hace falta volver a traducir nada; si
+# añades un término nuevo, se vuelven a traducir los textos que lo contienen.
+#
+# Ojo: el término se inserta tal cual, así que el artículo que lo rodee lo decide el traductor.
+# Mejor términos de varias palabras y poco ambiguos.
+
+# Reglas básicas
+Ability Score Improvement: Mejora de característica
+Ability Scores: puntuaciones de característica
+Ability Score: puntuación de característica
+Ability Checks: pruebas de característica
+Ability Check: prueba de característica
+Armor Class: Clase de Armadura
+Bonus Actions: acciones adicionales
+Bonus Action: acción adicional
+Hit Point Maximum: máximo de puntos de golpe
+Temporary Hit Points: puntos de golpe temporales
+Hit Points: puntos de golpe
+Hit Point: punto de golpe
+Hit Dice: dados de golpe
+Hit Die: dado de golpe
+Proficiency Bonus: bonificador de competencia
+Saving Throws: tiradas de salvación
+Saving Throw: tirada de salvación
+Spell Save DC: CD de salvación de conjuros
+Spell Attack Modifier: modificador de ataque de conjuros
+Spellcasting Ability: aptitud mágica
+Spell Slots: espacios de conjuro
+Spell Slot: espacio de conjuro
+Pact Magic: Magia de pacto
+Short Rest: descanso corto
+Long Rest: descanso largo
+Opportunity Attacks: ataques de oportunidad
+Opportunity Attack: ataque de oportunidad
+Difficult Terrain: terreno difícil
+Heroic Inspiration: inspiración heroica
+Extra Attack: Ataque extra
+Unarmed Strike: ataque sin armas
+Darkvision: visión en la oscuridad
+Blindsight: vista ciega
+Truesight: visión verdadera
+Tremorsense: sentido de la vibración
+Spellcasting Focus: canalizador mágico
+Weapon Mastery: Maestría con armas
+
+# Rasgos de clase frecuentes
+Hemocraft Die: dado de hemocracia
+Hemocraft: hemocracia
+Blood Curses: maldiciones de sangre
+Blood Curse: maldición de sangre
+Crimson Rite: Rito carmesí
+Eldritch Invocations: invocaciones sobrenaturales
+Eldritch Invocation: invocación sobrenatural
+Channel Divinity: Canalizar divinidad
+Wild Shape: Forma salvaje
+Sneak Attack: Ataque furtivo
+Sorcery Points: puntos de hechicería
+Focus Points: puntos de concentración
+Bardic Inspiration: Inspiración bárdica
+Lay On Hands: Imposición de manos
+Divine Smite: Castigo divino
+Second Wind: Nuevo aliento
+Action Surge: Oleada de acción
+Fighting Style: Estilo de combate
+Unarmored Defense: Defensa sin armadura
+Expertise: Pericia
+d20 Tests: pruebas de d20
+d20 Test: prueba de d20
+DC: CD
+AC: CA
+
+# Acciones (2024)
+Attack action: acción de Atacar
+Dash action: acción de Correr
+Disengage action: acción de Destrabarse
+Dodge action: acción de Esquivar
+Help action: acción de Ayudar
+Hide action: acción de Esconderse
+Influence action: acción de Influir
+Magic action: acción de Magia
+Ready action: acción de Preparar
+Search action: acción de Buscar
+Study action: acción de Estudiar
+Utilize action: acción de Usar
+
+# Monedas
+GP: po
+SP: pp
+CP: pc
+EP: pe
+PP: ppt

@@ -19,16 +19,32 @@ export function describeDifferences(
   mine: Character,
   theirs: Character,
   data: RulesData,
-  /** Skill id → name in the current language. */
-  skillName: (id: string) => string = (id) => id,
+  labels: {
+    /** Skill id → name in the current language. */
+    skill?: (id: string) => string;
+    /** English name from the data → name shown. */
+    data?: (name: string) => string;
+    /** Spell id → name shown. */
+    spell?: (id: string) => string;
+  } = {},
 ): Difference[] {
+  const skillName = labels.skill ?? ((id: string) => id);
+  const shown = labels.data ?? ((n: string) => n);
+  const spellName = labels.spell ?? ((id: string) => id);
   const a = computeSheet(mine, data);
   const b = computeSheet(theirs, data);
   const out: Difference[] = [];
   const add = (label: string, x: string, y: string) => {
     if (x !== y) out.push({ label, mine: x || '—', theirs: y || '—' });
   };
-  const name = (map: Map<string, { name: string }>, id: string) => map.get(id)?.name ?? id;
+  const name = (map: Map<string, { name: string }>, id: string) => {
+    const n = map.get(id)?.name;
+    return n ? shown(n) : id;
+  };
+  const classLine = (sheet: typeof a) =>
+    sheet.classes
+      .map((c) => `${shown(c.name)} ${c.level}${c.subclass ? ` (${shown(c.subclass)})` : ''}`)
+      .join(' / ');
   const names = (map: Map<string, { name: string }>, ids: string[]) =>
     ids
       .map((id) => name(map, id))
@@ -37,13 +53,9 @@ export function describeDifferences(
   const optionName = (id: string) => id.split('/').pop()!.replace(/-/g, ' ');
 
   add('conflict.field.name', mine.name, theirs.name);
-  add(
-    'conflict.field.classes',
-    a.classes.map((c) => `${c.name} ${c.level}${c.subclass ? ` (${c.subclass})` : ''}`).join(' / '),
-    b.classes.map((c) => `${c.name} ${c.level}${c.subclass ? ` (${c.subclass})` : ''}`).join(' / '),
-  );
-  add('conflict.field.species', a.species ?? '', b.species ?? '');
-  add('conflict.field.background', a.background ?? '', b.background ?? '');
+  add('conflict.field.classes', classLine(a), classLine(b));
+  add('conflict.field.species', shown(a.species ?? ''), shown(b.species ?? ''));
+  add('conflict.field.background', shown(a.background ?? ''), shown(b.background ?? ''));
   for (const ab of ABILITIES as Ability[]) {
     add(`ability.${ab}`, String(a.abilities[ab].score), String(b.abilities[ab].score));
   }
@@ -70,8 +82,8 @@ export function describeDifferences(
   );
   add(
     'conflict.field.spells',
-    [...mine.choices.spells].sort().join(', '),
-    [...theirs.choices.spells].sort().join(', '),
+    mine.choices.spells.map(spellName).sort().join(', '),
+    theirs.choices.spells.map(spellName).sort().join(', '),
   );
   add(
     'conflict.field.armor',

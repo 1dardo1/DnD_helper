@@ -11,7 +11,7 @@ import {
   Subclass,
 } from '../models/compendium';
 import { multiclassGains } from './multiclass';
-import { Bonus, Sheet, SheetFeature } from './sheet';
+import { Bonus, Sheet, SheetFeature, SheetWarning } from './sheet';
 import { ABILITIES, MULTICLASS_SLOTS, SKILL_ABILITY, modifier, proficiencyBonus } from './tables';
 
 /** The compendium entries the engine looks things up in, by id. */
@@ -33,7 +33,7 @@ const SPELL_COLUMNS =
  * The data is already adapted to the 2024 rules by the scraper, so no edition logic here.
  */
 export function computeSheet(ch: Character, data: RulesData): Sheet {
-  const warnings: string[] = [];
+  const warnings: SheetWarning[] = [];
   const find = <T>(
     map: Map<string, T>,
     id: string | null | undefined,
@@ -41,7 +41,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   ): T | undefined => {
     if (!id) return undefined;
     const found = map.get(id);
-    if (!found) warnings.push(`${what} "${id}" is not in the compendium`);
+    if (!found) warnings.push({ key: 'sheet.warn.notFound', params: { what, id } });
     return found;
   };
 
@@ -49,14 +49,14 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   const classes = ch.classes
     .map((c) => ({
       ...c,
-      cls: find(data.classes, c.id, 'Class'),
-      sub: find(data.subclasses, c.subclassId, 'Subclass'),
+      cls: find(data.classes, c.id, 'class'),
+      sub: find(data.subclasses, c.subclassId, 'subclass'),
     }))
     .filter((c): c is typeof c & { cls: DndClass } => !!c.cls);
   const totalLevel = classes.reduce((n, c) => n + c.level, 0);
   const pb = proficiencyBonus(totalLevel);
-  const species = find(data.species, ch.species?.id, 'Species');
-  const background = find(data.backgrounds, ch.background?.id, 'Background');
+  const species = find(data.species, ch.species?.id, 'species');
+  const background = find(data.backgrounds, ch.background?.id, 'background');
   // background origin feat + feats taken at ASI / Fighting Style / Epic Boon levels + any other
   const slotFeats = (ch.choices.featSlots ?? [])
     .map((s) => s.featId)
@@ -68,7 +68,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       ...ch.choices.feats,
     ]),
   ];
-  const feats = featIds.map((id) => find(data.feats, id, 'Feat')).filter((f): f is Feat => !!f);
+  const feats = featIds.map((id) => find(data.feats, id, 'feat')).filter((f): f is Feat => !!f);
 
   // -- features ------------------------------------------------------------------------
   const features: SheetFeature[] = [];
@@ -81,7 +81,10 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
         ...gained(c.sub.features, c.level, { type: 'subclass', id: c.sub.id, name: c.sub.name }),
       );
     if (!c.sub && c.level >= c.cls.subclassLevel)
-      warnings.push(`${c.cls.name}: no ${c.cls.subclassTitle} chosen`);
+      warnings.push({
+        key: 'sheet.warn.noSubclass',
+        params: { cls: c.cls.name, title: c.cls.subclassTitle },
+      });
   }
   if (species) {
     features.push(
@@ -181,7 +184,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   for (const c of classes) dice.set(c.cls.hitDie, (dice.get(c.cls.hitDie) ?? 0) + c.level);
 
   // -- armor class and speed -------------------------------------------------------------
-  const armor = find(data.items, ch.equipped.armorId, 'Armor')?.armor;
+  const armor = find(data.items, ch.equipped.armorId, 'item')?.armor;
   const shield = ch.equipped.shield ? 2 : 0;
   let armorClass: Sheet['armorClass'];
   if (armor && armor.kind !== 'shield' && armor.baseAC !== null) {
@@ -261,7 +264,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     // with two Pact Magic sources keep the better one (combining them isn't computed)
     if (idx >= 0 && (!pact || idx + 1 > pact.level)) pact = { slots: row[idx], level: idx + 1 };
   }
-  if (pactCasters.length > 1) warnings.push('Two Pact Magic sources: only the best one is shown');
+  if (pactCasters.length > 1) warnings.push({ key: 'sheet.warn.twoPacts' });
 
   // -- class resources -----------------------------------------------------------------
   const resources = classes.flatMap((c) =>
