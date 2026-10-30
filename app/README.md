@@ -129,14 +129,15 @@ Las reglas del asistente están en `core/creation/creation-rules.ts`.
 
 ## Idiomas
 
-Toda la interfaz está en español e inglés (`core/i18n/es.ts`, `en.ts`). Los términos de juego que
-vienen de los datos (escuelas, tipos de daño, rarezas, categorías, herramientas, idiomas, tamaños,
-columnas de las tablas…) se traducen con `core/i18n/glossary.es.json`; los nombres propios (clases,
-conjuros, dotes, objetos) y los textos largos se quedan como en las wikis.
+Al cambiar el idioma en Ajustes cambia todo. La interfaz está en `core/i18n/es.ts` y `en.ts`; los
+términos de juego (escuelas, rarezas, herramientas, idiomas, tamaños, columnas…) en
+`core/i18n/glossary.es.json`, y `npm run check-glossary` (en la integración continua) falla si aparece uno
+nuevo sin traducir.
 
-`npm run check-glossary` compara el glosario con `data/` y falla si un término nuevo (por ejemplo, tras
-volver a extraer) no tiene traducción; se ejecuta en la integración continua. Para arreglarlo basta con
-añadir la línea que falta en `glossary.es.json`.
+El contenido de las wikis en español viene de `data/es/*.json`, que el extractor genera al traducir.
+Las reglas siempre calculan con los datos en inglés; `core/i18n/data-text.service.ts` empareja cada texto
+inglés con su traducción para mostrarlo. Los nombres salen como «Bola de fuego (Fireball)», el buscador
+encuentra por cualquiera de los dos y lo que todavía no esté traducido sale en inglés.
 
 ## Pendiente
 

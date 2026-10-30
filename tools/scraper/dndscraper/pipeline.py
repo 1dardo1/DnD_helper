@@ -558,7 +558,8 @@ def apply_multiclass_gains(entries: list[dict], path: Path, report: Report) -> N
         e["multiclass"]["gains"] = {**gains, "origin": origin}
 
 
-def run(root: Path, offline: bool = False, delay: float = 0.5) -> dict:
+def run(root: Path, offline: bool = False, delay: float = 0.5, translate: bool = True,
+        translate_budget: float = 60) -> dict:
     crawler = Crawler(root / "tools/scraper/.cache", delay=delay, offline=offline)
     report = Report()
     r = Run(crawler, report)
@@ -567,4 +568,9 @@ def run(root: Path, offline: bool = False, delay: float = 0.5) -> dict:
     successors = load_successors(root / "tools/scraper/successors.yaml")
     merged = merge(e14, e24, successors, report)
     apply_multiclass_gains(merged, root / "tools/scraper/multiclass.yaml", report)
-    return write(merged, root / "data", report, crawler, root / "tools/scraper/report.md")
+    meta = write(merged, root / "data", report, crawler, root / "tools/scraper/report.md")
+    if translate:
+        # Spanish texts (data/es) always follow the English ones: only new or changed texts are sent.
+        from .translate import run as translate_run
+        meta["translation"] = {"es": translate_run(root, offline=offline, budget_minutes=translate_budget)}
+    return meta

@@ -43,8 +43,10 @@ jobs:
           key: wiki-pages-${{ github.run_id }}
           restore-keys: wiki-pages-
 
-      - name: Scrape and build data/*.json
-        run: python -m dndscraper --delay 0.5
+      # Extracts data/*.json and then translates what's new or changed into data/es/*.json.
+      # If the translator asks to slow down for too long, what's done is kept and the next run goes on.
+      - name: Scrape, build data/*.json and translate to data/es/*.json
+        run: python -m dndscraper --delay 0.5 --translate-budget 90
 
       - name: Validate data
         run: python -m dndscraper.validate
@@ -62,6 +64,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data tools/scraper/report.md
+          if [ -f tools/scraper/translations.es.json ]; then git add tools/scraper/translations.es.json; fi
           if git diff --cached --quiet; then
             echo "Sin cambios en los datos."
           else
@@ -76,3 +79,4 @@ jobs:
           if [ -f tools/scraper/report.md ]; then
             sed -n '1,/## Conservados/p' tools/scraper/report.md >> "$GITHUB_STEP_SUMMARY"
           fi
+          (cd tools/scraper && python -m dndscraper.translate --summary) >> "$GITHUB_STEP_SUMMARY"

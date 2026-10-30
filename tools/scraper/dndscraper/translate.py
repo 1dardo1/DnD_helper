@@ -1,4 +1,6 @@
-"""python -m dndscraper.translate [--offline] [--limit N]
+"""python -m dndscraper.translate [--offline] [--limit N] [--budget MINUTES]
+
+Runs on its own or as the last step of `python -m dndscraper` (the extraction).
 
 Builds data/es/*.json: the same files as data/*.json with the texts people read (names,
 descriptions, traits, ranges...) machine-translated to Spanish. Ids, enums and every field the
@@ -18,6 +20,7 @@ import hashlib
 import json
 import re
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
@@ -99,8 +102,12 @@ def restore(text: str, values: list[str]) -> str:
 
 # -- translation ----------------------------------------------------------------------------------
 
+class Throttled(Exception):
+    """The translator kept refusing requests for longer than the waiting budget."""
+
+
 class Translator:
-    def __init__(self, cache_path: Path, offline: bool, delay: float = 0.3):
+    def __init__(self, cache_path: Path, offline: bool, delay: float = 1.0, budget_minutes: float = 60):
         self.cache_path = cache_path
         self.cache: dict[str, str] = json.loads(cache_path.read_text(encoding="utf-8")) if cache_path.exists() else {}
         self.offline = offline
@@ -108,6 +115,9 @@ class Translator:
         self.session = requests.Session()
         self.requests = 0
         self.dirty = 0
+        self.waited = 0.0
+        self.stopped = False
+        self.budget = budget_minutes * 60
 
     @staticmethod
     def key(text: str) -> str:
@@ -119,8 +129,8 @@ class Translator:
         self.dirty = 0
 
     def _call(self, text: str) -> str:
-        wait = 5.0
-        for attempt in range(8):
+        wait = 30.0
+        while True:
             try:
                 r = self.session.post(URL, data={"client": "gtx", "sl": "en", "tl": "es", "dt": "t", "q": text},
                                       timeout=60)
@@ -128,12 +138,15 @@ class Translator:
                     self.requests += 1
                     time.sleep(self.delay)
                     return "".join(seg[0] for seg in r.json()[0] if seg[0])
-                print(f"  HTTP {r.status_code}, reintento en {wait:.0f}s")
+                problem = f"HTTP {r.status_code}"
             except requests.RequestException as e:
-                print(f"  {e.__class__.__name__}, reintento en {wait:.0f}s")
+                problem = e.__class__.__name__
+            if self.waited + wait > self.budget:
+                raise Throttled(problem)
+            print(f"  {problem}: espero {wait:.0f}s (el traductor pide ir más despacio)")
             time.sleep(wait)
-            wait = min(wait * 2, 300)
-        raise RuntimeError("el traductor no responde; vuelve a lanzarlo más tarde (la caché se conserva)")
+            self.waited += wait
+            wait = min(wait * 2, 600)
 
     def _chunks(self, text: str) -> list[str]:
         """Split a long text by paragraphs (then lines) so each piece fits in a request."""
@@ -156,40 +169,44 @@ class Translator:
         todo = list(dict.fromkeys(t for t in texts if self.key(t) not in self.cache and t.strip()))
         if self.offline or not todo:
             return
+        print(f"Traduciendo {len(todo)} textos ({sum(len(t) for t in todo):,} caracteres)...")
+        try:
+            self._translate(todo)
+        except Throttled as e:
+            self.stopped = True
+            print(f"El traductor sigue rechazando peticiones ({e}). Se guarda lo traducido; "
+                  "la próxima ejecución continúa desde aquí.")
+        self.save()
+
+    def _send(self, batch: list[str]) -> None:
+        parts = self._call(SEP.join(batch)).split("⟦#⟧")
+        if len(parts) == len(batch):
+            for src, es in zip(batch, parts):
+                self.cache[self.key(src)] = es.strip("\n ")
+        else:   # the separator got lost: one text per request
+            for src in batch:
+                self.cache[self.key(src)] = self._call(src)
+        self.dirty += len(batch)
+
+    def _translate(self, todo: list[str]) -> None:
         total = sum(len(t) for t in todo)
-        print(f"Traduciendo {len(todo)} textos ({total:,} caracteres)...")
-        batch: list[str] = []
         done = 0
-
-        def flush():
-            nonlocal batch
-            if not batch:
-                return
-            parts = self._call(SEP.join(batch)).split("⟦#⟧")
-            if len(parts) == len(batch):
-                for src, es in zip(batch, parts):
-                    self.cache[self.key(src)] = es.strip("\n ") if not src.startswith(("\n", " ")) else es
-            else:   # the separator got lost: one text per request
-                for src in batch:
-                    self.cache[self.key(src)] = self._call(src)
-            self.dirty += len(batch)
-            batch = []
-
+        batch: list[str] = []
         for t in todo:
             if len(t) > MAX_CHARS:
-                flush()
                 self.cache[self.key(t)] = "".join(self._call(c) for c in self._chunks(t))
                 self.dirty += 1
             else:
-                if sum(len(b) + len(SEP) for b in batch) + len(t) > MAX_CHARS:
-                    flush()
+                if batch and sum(len(b) + len(SEP) for b in batch) + len(t) > MAX_CHARS:
+                    self._send(batch)
+                    batch = []
                 batch.append(t)
             done += len(t)
             if self.dirty >= 200:
                 self.save()
                 print(f"  {done:,}/{total:,} caracteres ({self.requests} peticiones)")
-        flush()
-        self.save()
+        if batch:
+            self._send(batch)
 
     def get(self, protected: str) -> str | None:
         return self.cache.get(self.key(protected))
@@ -229,9 +246,11 @@ def strings_of(entry: dict, paths: list[str]):
     return out
 
 
-def run(root: Path, offline: bool = False, limit: int | None = None) -> dict:
+def run(root: Path, offline: bool = False, limit: int | None = None, budget_minutes: float = 60) -> dict:
+    """Translate data/*.json into data/es/*.json. budget_minutes: how long to keep waiting when the
+    translator asks to slow down before stopping (what's done is kept for the next run)."""
     terms = load_terms(HERE / "terms.es.yaml", root / "app/src/app/core/i18n/glossary.es.json")
-    tr = Translator(HERE / "translations.es.json", offline)
+    tr = Translator(HERE / "translations.es.json", offline, budget_minutes=budget_minutes)
     data = {f: json.loads((root / "data" / f"{f}.json").read_text(encoding="utf-8")) for f in FILES}
 
     # 1. Collect every text (protected) and translate what's missing.
@@ -259,7 +278,14 @@ def run(root: Path, offline: bool = False, limit: int | None = None) -> dict:
                     es = restore(es, values)
                     c[k] = es[:1].upper() + es[1:] if k in ("name", "shortName") else es
         (out_dir / f"{f}.json").write_text(json.dumps(entries, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    stats = {"texts": len(protected_texts), "untranslated": missing, "requests": tr.requests}
+    stats = {"texts": len(protected_texts), "untranslated": missing, "requests": tr.requests,
+             "complete": missing == 0}
+    # The app downloads data/es again when this changes.
+    meta_path = root / "data" / "meta.json"
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    meta["translatedAt"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    meta["translation"] = {"es": stats}
+    meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(stats))
     return stats
 
@@ -268,9 +294,19 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--offline", action="store_true", help="only use translations.es.json, translate nothing new")
     ap.add_argument("--limit", type=int, help="translate at most N texts (for testing)")
+    ap.add_argument("--budget", type=float, default=60,
+                    help="minutes to keep waiting when the translator asks to slow down (default 60)")
+    ap.add_argument("--summary", action="store_true", help="only print how much is translated (Markdown)")
     ap.add_argument("--root", type=Path, default=ROOT)
     args = ap.parse_args()
-    run(args.root, offline=args.offline, limit=args.limit)
+    if args.summary:
+        meta = json.loads((args.root / "data" / "meta.json").read_text(encoding="utf-8"))
+        t = meta.get("translation", {}).get("es", {})
+        done = t.get("texts", 0) - t.get("untranslated", 0)
+        more = "" if t.get("complete") else " (lanza otra vez la acción para seguir traduciendo)"
+        print(f"\n**Traducción al español:** {done} de {t.get('texts', 0)} textos{more}")
+        return
+    run(args.root, offline=args.offline, limit=args.limit, budget_minutes=args.budget)
 
 
 if __name__ == "__main__":

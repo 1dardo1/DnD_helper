@@ -39,6 +39,22 @@ La primera descarga completa son ~4.300 páginas (≈1 h a una petición cada 0,
    versión UA, y la UA más reciente a las anteriores.
 6. **Escribe** `data/<tipo>.json`, `data/meta.json` y el informe `tools/scraper/report.md`.
 
+## Traducción al español
+
+Al final de cada extracción, `dndscraper.translate` traduce al español los textos que se leen (nombres,
+descripciones, rasgos, alcances, duraciones…) y escribe `data/es/*.json`, con la misma estructura e ids
+que `data/*.json`. Así inglés y español siempre van alineados. Lo que usan las reglas de la app (ids,
+categorías, competencias…) no se traduce.
+
+- Usa el traductor público y gratuito de Google, sin cuenta. Solo se envía lo nuevo o lo que ha
+  cambiado: cada traducción se guarda en `translations.es.json` (se sube al repo con los datos).
+- **`terms.es.yaml`**: términos de juego que se respetan siempre (puntos de golpe, acción adicional,
+  po…). Puedes añadir los que salgan mal. Los nombres de herramientas se toman del glosario de la app.
+- Si Google pide ir más despacio, el script espera; si tarda demasiado (`--translate-budget`, 90 minutos
+  en la acción) se para, guarda lo traducido y la siguiente ejecución continúa. El resumen de la acción
+  dice cuántos textos están traducidos.
+- `python -m dndscraper --no-translate` extrae sin traducir; `python -m dndscraper.translate` solo traduce.
+
 ## Exclusiones
 
 - La clase Mystic y sus disciplinas.
