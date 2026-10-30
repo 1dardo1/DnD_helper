@@ -63,17 +63,6 @@
   }
 }
 
-.spells {
-  max-height: 16rem;
-  overflow-y: auto;
-  border: 3px double var(--line-strong);
-  padding: 0.5rem;
-
-  .new {
-    font-weight: bold;
-  }
-}
-
 .changes {
   border-collapse: collapse;
   width: 100%;
