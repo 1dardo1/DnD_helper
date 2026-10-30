@@ -349,6 +349,14 @@ export class LevelUp {
   }
 
   // -- 3. subclass ---------------------------------------------------------------------------
+  protected setSpellAbility(ability: string): void {
+    this.patch((c) => {
+      const k = c.classes[this.index()];
+      if (k) k.spellAbility = (ability || null) as Ability | null;
+      return c;
+    });
+  }
+
   protected setSubclass(id: string): void {
     const opts = this.data.value()?.options ?? [];
     const original = this.data.value()?.original;

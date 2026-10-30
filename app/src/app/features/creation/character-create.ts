@@ -375,6 +375,13 @@ export class CharacterCreate {
     });
   }
 
+  protected setSpellAbility(index: number, ability: string): void {
+    this.patch((c) => {
+      if (c.classes[index]) c.classes[index].spellAbility = (ability || null) as Ability | null;
+      return c;
+    });
+  }
+
   protected setHp(index: number, levelIndex: number, raw: string): void {
     const n = parseInt(raw, 10);
     this.patch((c) => {

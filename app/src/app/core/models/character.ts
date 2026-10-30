@@ -20,8 +20,16 @@ export interface Character {
   /**
    * In the order they were taken; the first one is the starting class (its saving throws,
    * full HP die at level 1). hp: hit points gained at each level of that class (null = average).
+   * spellAbility: the spellcasting ability picked when the subclass lets you choose (Profane Soul:
+   * INT or WIS); absent = the default one.
    */
-  classes: { id: string; level: number; subclassId: string | null; hp: (number | null)[] }[];
+  classes: {
+    id: string;
+    level: number;
+    subclassId: string | null;
+    hp: (number | null)[];
+    spellAbility?: Ability | null;
+  }[];
   abilityScores: {
     method: 'standard' | 'point-buy' | 'roll' | 'manual';
     base: Record<Ability, number>;

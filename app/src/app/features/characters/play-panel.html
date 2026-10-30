@@ -142,6 +142,16 @@
               >
                 −
               </button>
+              <input
+                type="number"
+                inputmode="numeric"
+                class="left"
+                min="0"
+                [max]="r.max"
+                [value]="r.max - used"
+                (change)="setUsed(r, r.max - toNumber($event))"
+                [attr.aria-label]="('play.leftOf' | t) + ': ' + name"
+              />
               <button
                 type="button"
                 (click)="setUsed(r, used - 1)"

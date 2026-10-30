@@ -224,7 +224,8 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     .map((c) => ({ ...c, sc: castingOf(c.cls, c.sub) }))
     .filter((c): c is typeof c & { sc: Spellcasting } => !!c.sc);
   const spellClasses = casters.map((c) => {
-    const ability = c.sc.ability ?? c.cls.primaryAbility[0] ?? 'INT';
+    const chosen = c.spellAbility && c.sc.abilityChoices?.includes(c.spellAbility);
+    const ability = (chosen ? c.spellAbility : c.sc.ability) ?? c.cls.primaryAbility[0] ?? 'INT';
     return {
       classId: c.cls.id,
       ability,
@@ -287,6 +288,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       name: c.cls.name,
       level: c.level,
       subclass: c.sub?.name ?? null,
+      subclassId: c.sub?.id ?? null,
     })),
     species: species?.name ?? null,
     background: background?.name ?? null,

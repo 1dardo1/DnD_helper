@@ -122,6 +122,10 @@ export class PlayPanel {
     this.emit(setPactSpent(this.state(), tapPip(this.state().pactSlotsSpent, index), max));
   }
 
+  protected toNumber(e: Event): number {
+    return Number((e.target as HTMLInputElement).value) || 0;
+  }
+
   protected setUsed(r: PlayResource, used: number): void {
     this.emit(setResourceUsed(this.state(), r.key, used, r.max));
   }

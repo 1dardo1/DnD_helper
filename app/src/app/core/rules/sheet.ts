@@ -6,7 +6,13 @@ export interface Sheet {
   totalLevel: number;
   proficiencyBonus: number;
   /** "Blood Hunter 5 (Order of the Lycan) / Fighter 1" pieces. */
-  classes: { id: string; name: string; level: number; subclass: string | null }[];
+  classes: {
+    id: string;
+    name: string;
+    level: number;
+    subclass: string | null;
+    subclassId?: string | null;
+  }[];
   species: string | null;
   background: string | null;
 

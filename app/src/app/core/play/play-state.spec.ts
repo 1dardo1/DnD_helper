@@ -22,14 +22,14 @@ const fresh = (): PlayState => newCharacter('Test', 'test').state;
 
 /** Only what playResources reads. */
 function sheet(
-  classes: { id: string; level: number }[],
+  classes: { id: string; level: number; subclassId?: string }[],
   resources: { classId: string; name: string; value: string }[],
   cha = 0,
 ): Sheet {
   return {
-    classes: classes.map((c) => ({ ...c, name: c.id, subclass: null })),
+    classes: classes.map((c) => ({ subclassId: null, ...c, name: c.id, subclass: null })),
     resources,
-    abilities: { CHA: { modifier: cha } },
+    abilities: { CHA: { modifier: cha }, INT: { modifier: 0 }, WIS: { modifier: 2 } },
   } as unknown as Sheet;
 }
 
@@ -182,11 +182,32 @@ describe('playResources', () => {
     );
     expect(rs.map((r) => [r.key, r.max, r.short])).toEqual([
       ['bard:bardic inspiration', 3, 0], // Font of Inspiration comes at level 5
-      ['fighter:action surge', 2, 'all'],
       ['blood-hunter:blood maledict', 2, 'all'],
+      ['fighter:action surge', 2, 'all'],
+      ['fighter:indomitable', 3, 0],
     ]);
     const bard5 = playResources(sheet([{ id: 'bard', level: 5 }], [], -1));
     expect([bard5[0].max, bard5[0].short]).toEqual([1, 'all']);
+  });
+
+  it('counts Lay on Hands as a pool of hit points and Hybrid Transformation for the Lycan only', () => {
+    const paladin = playResources(sheet([{ id: 'paladin', level: 6 }], []));
+    expect(paladin.map((r) => [r.key, r.max])).toEqual([
+      ['paladin:lay on hands', 30],
+      ['paladin:faithful steed', 1],
+    ]);
+    const lycan = (subclassId: string) =>
+      playResources(sheet([{ id: 'blood-hunter', level: 3, subclassId }], [])).map((r) => r.key);
+    expect(lycan('blood-hunter/order-of-the-lycan')).toContain(
+      'blood-hunter:hybrid transformation',
+    );
+    expect(lycan('blood-hunter/order-of-the-mutant')).not.toContain(
+      'blood-hunter:hybrid transformation',
+    );
+    const t = playResources(
+      sheet([{ id: 'blood-hunter', level: 3, subclassId: 'blood-hunter/order-of-the-lycan' }], []),
+    ).find((r) => r.name === 'Hybrid Transformation');
+    expect(t?.short).toBe('all');
   });
 });
 

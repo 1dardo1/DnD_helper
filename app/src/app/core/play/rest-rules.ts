@@ -34,6 +34,8 @@ export const REST_RULES: Record<string, RestRule> = {
   'bardic inspiration': { short: 'all', shortFromLevel: 5 },
   'action surge': { short: 'all' },
   'blood maledict': { short: 'all' },
+  'stroke of luck': { short: 'all' },
+  'hybrid transformation': { short: 'all' }, // Blood Hunter, Order of the Lycan
   // -- numbers in the class tables that are not spent --
   'weapon mastery': { short: 0, passive: true },
   'plans known': { short: 0, passive: true },

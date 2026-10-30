@@ -23,6 +23,148 @@ export interface PlayResource {
 }
 
 /**
+ * Uses that a feature's text gives instead of a class table column. from: class level;
+ * subclassId: only for that subclass. What a Short Rest recovers is in rest-rules.ts.
+ */
+const FEATURE_USES: {
+  classId: string;
+  subclassId?: string;
+  name: string;
+  labelKey: string;
+  from: number;
+  uses: (level: number, mod: (a: 'INT' | 'WIS' | 'CHA') => number) => number;
+}[] = [
+  {
+    classId: 'artificer',
+    name: 'Flash of Genius',
+    labelKey: 'play.res.flashOfGenius',
+    from: 7,
+    uses: (_, m) => m('INT'),
+  },
+  {
+    classId: 'bard',
+    name: 'Bardic Inspiration',
+    labelKey: 'play.res.bardicInspiration',
+    from: 1,
+    uses: (_, m) => m('CHA'),
+  },
+  {
+    classId: 'blood-hunter',
+    name: 'Blood Maledict',
+    labelKey: 'play.res.bloodMaledict',
+    from: 1,
+    uses: (l) => (l >= 17 ? 4 : l >= 13 ? 3 : l >= 6 ? 2 : 1),
+  },
+  {
+    classId: 'blood-hunter',
+    subclassId: 'blood-hunter/order-of-the-lycan',
+    name: 'Hybrid Transformation',
+    labelKey: 'play.res.hybridTransformation',
+    from: 3,
+    uses: () => 1,
+  },
+  {
+    classId: 'cleric',
+    name: 'Divine Intervention',
+    labelKey: 'play.res.divineIntervention',
+    from: 10,
+    uses: () => 1,
+  },
+  {
+    classId: 'druid',
+    name: 'Wild Resurgence',
+    labelKey: 'play.res.wildResurgence',
+    from: 5,
+    uses: () => 1,
+  },
+  {
+    classId: 'fighter',
+    name: 'Action Surge',
+    labelKey: 'play.res.actionSurge',
+    from: 2,
+    uses: (l) => (l >= 17 ? 2 : 1),
+  },
+  {
+    classId: 'fighter',
+    name: 'Indomitable',
+    labelKey: 'play.res.indomitable',
+    from: 9,
+    uses: (l) => (l >= 17 ? 3 : l >= 13 ? 2 : 1),
+  },
+  {
+    classId: 'monk',
+    name: 'Uncanny Metabolism',
+    labelKey: 'play.res.uncannyMetabolism',
+    from: 2,
+    uses: () => 1,
+  },
+  {
+    classId: 'paladin',
+    name: 'Lay On Hands',
+    labelKey: 'play.res.layOnHands',
+    from: 1,
+    uses: (l) => 5 * l,
+  },
+  {
+    classId: 'paladin',
+    name: 'Faithful Steed',
+    labelKey: 'play.res.faithfulSteed',
+    from: 5,
+    uses: () => 1,
+  },
+  {
+    classId: 'ranger',
+    name: 'Tireless',
+    labelKey: 'play.res.tireless',
+    from: 10,
+    uses: (_, m) => m('WIS'),
+  },
+  {
+    classId: 'ranger',
+    name: "Nature's Veil",
+    labelKey: 'play.res.naturesVeil',
+    from: 14,
+    uses: (_, m) => m('WIS'),
+  },
+  {
+    classId: 'rogue',
+    name: 'Stroke of Luck',
+    labelKey: 'play.res.strokeOfLuck',
+    from: 20,
+    uses: () => 1,
+  },
+  {
+    classId: 'sorcerer',
+    name: 'Innate Sorcery',
+    labelKey: 'play.res.innateSorcery',
+    from: 1,
+    uses: () => 2,
+  },
+  {
+    classId: 'warlock',
+    name: 'Magical Cunning',
+    labelKey: 'play.res.magicalCunning',
+    from: 2,
+    uses: () => 1,
+  },
+  // one use of each arcanum (levels 6, 7, 8 and 9 spells at warlock 11, 13, 15, 17)
+  {
+    classId: 'warlock',
+    name: 'Mystic Arcanum',
+    labelKey: 'play.res.mysticArcanum',
+    from: 11,
+    uses: (l) => (l >= 17 ? 4 : l >= 15 ? 3 : l >= 13 ? 2 : 1),
+  },
+  {
+    classId: 'wizard',
+    name: 'Arcane Recovery',
+    labelKey: 'play.res.arcaneRecovery',
+    from: 1,
+    uses: () => 1,
+  },
+];
+
+/**
  * The countable resources of a sheet: the class table columns with a number of uses (Rages,
  * Channel Divinity, Focus Points...) plus a few uses defined only in a feature's text.
  */
@@ -47,19 +189,13 @@ export function playResources(sheet: Sheet): PlayResource[] {
     if (count > 0) resources.push(make(r.classId, r.name, count, null));
   }
 
-  const bard = level('bard');
-  if (bard) {
-    const uses = Math.max(1, sheet.abilities.CHA.modifier);
-    resources.push(make('bard', 'Bardic Inspiration', uses, 'play.res.bardicInspiration'));
-  }
-  const fighter = level('fighter');
-  if (fighter >= 2) {
-    resources.push(make('fighter', 'Action Surge', fighter >= 17 ? 2 : 1, 'play.res.actionSurge'));
-  }
-  const hunter = level('blood-hunter');
-  if (hunter) {
-    const uses = hunter >= 17 ? 4 : hunter >= 13 ? 3 : hunter >= 6 ? 2 : 1;
-    resources.push(make('blood-hunter', 'Blood Maledict', uses, 'play.res.bloodMaledict'));
+  const mod = (a: 'INT' | 'WIS' | 'CHA') => Math.max(1, sheet.abilities[a].modifier);
+  const subclass = (id: string) => sheet.classes.find((c) => c.id === id)?.subclassId ?? null;
+  for (const f of FEATURE_USES) {
+    const lvl = level(f.classId);
+    if (!lvl || lvl < f.from || (f.subclassId && subclass(f.classId) !== f.subclassId)) continue;
+    const max = f.uses(lvl, mod);
+    if (max > 0) resources.push(make(f.classId, f.name, max, f.labelKey));
   }
   return resources;
 }

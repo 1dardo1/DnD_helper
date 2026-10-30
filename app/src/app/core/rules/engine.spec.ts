@@ -351,7 +351,13 @@ describe('computeSheet', () => {
       .map((f) => f.name);
     expect(subFeatures).toEqual(['Divine Fury']);
     expect(sheet.classes).toEqual([
-      { id: 'barbarian', name: 'Barbarian', level: 5, subclass: 'Path of the Zealot' },
+      {
+        id: 'barbarian',
+        name: 'Barbarian',
+        level: 5,
+        subclass: 'Path of the Zealot',
+        subclassId: sub.id,
+      },
     ]);
     expect(sheet.warnings).toEqual([]);
   });
@@ -545,6 +551,26 @@ describe('computeSheet: subclasses that cast spells', () => {
     );
     // caster level floor(3/3) + 2 = 3 → 4, 2
     expect(sheet.spellcasting.slots).toEqual([4, 2, 0, 0, 0, 0, 0, 0, 0]);
+  });
+
+  it('uses the spellcasting ability picked when the subclass offers a choice', () => {
+    const choosy: Subclass = {
+      ...ek,
+      spellcasting: { ...ek.spellcasting!, abilityChoices: ['INT', 'WIS'] },
+    };
+    const base = { ...scores, INT: 10, WIS: 16 };
+    const sheetWith = (spellAbility?: 'INT' | 'WIS' | 'CHA') =>
+      computeSheet(
+        character({
+          classes: [{ id: 'fighter', level: 3, subclassId: ek.id, hp: [], spellAbility }],
+          abilityScores: { method: 'manual', base },
+        }),
+        data({ classes: [fighter], subclasses: [choosy] }),
+      ).spellcasting.classes[0];
+    expect(sheetWith().ability).toBe('INT');
+    expect(sheetWith('WIS')).toMatchObject({ ability: 'WIS', saveDc: 8 + 2 + 3 });
+    // not one of the choices: the default
+    expect(sheetWith('CHA').ability).toBe('INT');
   });
 
   it('casts nothing before the subclass is chosen', () => {

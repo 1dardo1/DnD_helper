@@ -186,6 +186,19 @@
                 }
               </select>
             </label>
+            @if (g.sub?.spellcasting?.abilityChoices; as choices) {
+              <label>
+                {{ 'create.spellAbility' | t }}
+                <select
+                  [value]="g.entry.spellAbility ?? g.sub?.spellcasting?.ability ?? ''"
+                  (change)="setSpellAbility(value($event))"
+                >
+                  @for (a of choices; track a) {
+                    <option [value]="a">{{ 'ability.' + a | t }}</option>
+                  }
+                </select>
+              </label>
+            }
             @if (g.sub; as s) {
               <details>
                 <summary>{{ s.name | dataName }}</summary>

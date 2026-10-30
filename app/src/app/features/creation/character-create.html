@@ -106,6 +106,19 @@
                       }
                     </select>
                   </label>
+                  @if (r.sub?.spellcasting?.abilityChoices; as choices) {
+                    <label>
+                      {{ 'create.spellAbility' | t }}
+                      <select
+                        [value]="r.entry.spellAbility ?? r.sub?.spellcasting?.ability ?? ''"
+                        (change)="setSpellAbility(r.index, value($event))"
+                      >
+                        @for (a of choices; track a) {
+                          <option [value]="a">{{ 'ability.' + a | t }}</option>
+                        }
+                      </select>
+                    </label>
+                  }
                 } @else {
                   <p>
                     <small>{{
