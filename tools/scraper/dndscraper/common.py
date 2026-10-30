@@ -24,6 +24,9 @@ CLASSES_2024 = [
 ]
 CLASSES_2014_ONLY = ["blood-hunter"]
 ALL_CLASSES = CLASSES_2024 + CLASSES_2014_ONLY
+# Excluded by decision (never extracted): their pages are skipped by the crawler, they are removed
+# from spell class lists, and spells listed only for them are dropped.
+EXCLUDED_CLASSES = ["mystic", "psion"]
 
 # Publication year of 2014-era books, to pick the most recent printing of a page.
 _SOURCE_YEARS = [
@@ -66,10 +69,10 @@ def skills_in(text: str) -> list[str]:
     return out
 
 
-def classes_in(text: str) -> list[str]:
+def classes_in(text: str, among: list[str] = ALL_CLASSES) -> list[str]:
     out = []
     low = slug(text)
-    for c in ALL_CLASSES:
+    for c in among:
         if re.search(rf"(^|-){c}s?(-|$)", low) and c not in out:
             out.append(c)
     return out

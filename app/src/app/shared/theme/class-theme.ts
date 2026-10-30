@@ -99,7 +99,6 @@ export const CLASS_THEMES: Record<string, ClassDef> = {
     decoContrast: 2.5,
     motifs: ['shield', 'cross', 'sun', 'crown', 'sword'],
   },
-  psion: { hue: 282, sat: 48, motifs: ['spiral', 'crystal', 'eye', 'star', 'bolt'] },
   ranger: { hue: 140, sat: 50, light: 24, motifs: ['bow', 'arrow', 'leaf', 'paw', 'tree'] },
   rogue: { hue: 0, sat: 0, light: 16, motifs: ['dagger', 'mask', 'eye', 'web', 'moon'] },
   sorcerer: { hue: 30, sat: 100, motifs: ['stars', 'spark', 'flame', 'bolt', 'wave'] },
@@ -118,7 +117,6 @@ export const CLASS_HUE2: Record<string, number> = {
   fighter: 8,
   monk: 24,
   paladin: 44,
-  psion: 185,
   ranger: 28,
   rogue: 355,
   sorcerer: 42,
@@ -250,11 +248,6 @@ export const SUBCLASS_THEMES: Record<string, SubclassDef> = {
   'paladin/oathbreaker-ua': { hue: 290, motif: 'skull' },
   'paladin/oath-of-treachery-ua': { hue: 310, motif: 'dagger' },
   'paladin/oath-of-heroism-ua': { hue: 25, motif: 'sun' },
-  // psion
-  'psion/telepath-ua9-02-10-2025': { hue: 260, motif: 'eye' },
-  'psion/psykinetic-ua9-02-10-2025': { hue: 300, motif: 'bolt' },
-  'psion/metamorph-ua9-02-10-2025': { hue: 150, motif: 'paw' },
-  'psion/psi-warper-ua': { hue: 210, motif: 'spiral' },
   // ranger
   'ranger/hunter': { hue: 70, motif: 'arrow', hue2: 25 },
   'ranger/beast-master': { hue: 35, motif: 'paw' },

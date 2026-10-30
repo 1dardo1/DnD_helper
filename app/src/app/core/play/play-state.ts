@@ -181,11 +181,7 @@ export function playResources(sheet: Sheet): PlayResource[] {
     const rule = restRule(r.name);
     if (rule.passive) continue;
     const value = r.value.trim();
-    const count = /^\d+$/.test(value)
-      ? Number(value)
-      : rule.countDice
-        ? Number(/^(\d+)d\d+$/i.exec(value)?.[1] ?? 0)
-        : 0;
+    const count = /^\d+$/.test(value) ? Number(value) : 0;
     if (count > 0) resources.push(make(r.classId, r.name, count, null));
   }
 

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 
-from .common import base_entry, classes_in, number, split_source
+from .common import ALL_CLASSES, EXCLUDED_CLASSES, base_entry, classes_in, number, split_source
 from .html import Page, clean, labeled_fields, slug, to_markdown
 
 SCHOOLS = ["abjuration", "conjuration", "divination", "enchantment", "evocation",
@@ -70,7 +70,8 @@ def parse_spell(page: Page) -> tuple[dict | None, list[str]]:
 
     # 2024 puts the class list in the header parenthesis; 2014 in a trailing "Spell Lists." line.
     paren = " ".join(re.findall(r"\(([^)]*)\)", header))
-    classes = classes_in(lists_text or paren)
+    listed = classes_in(lists_text or paren, ALL_CLASSES + EXCLUDED_CLASSES)
+    classes = [c for c in listed if c not in EXCLUDED_CLASSES]
 
     casting_raw = fields.get("casting time", "")
     if "ritual" in casting_raw.lower():
@@ -92,7 +93,9 @@ def parse_spell(page: Page) -> tuple[dict | None, list[str]]:
         "classes": classes,
         "higherLevels": "\n\n".join(higher) or None,
     })
-    if not classes:
+    if listed and not classes:
+        entry["_excluded"] = True   # only for an excluded class (Psion): the pipeline drops it
+    elif not classes:
         warnings.append("no class lists")
     return entry, warnings
 

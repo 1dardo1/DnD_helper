@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-10-30T11:13:33+00:00",
+  "generatedAt": "2026-10-30T12:47:04+00:00",
   "sources": {
     "2014": "https://dnd5e.wikidot.com",
     "2024": "https://dnd2024.wikidot.com"
   },
   "counts": {
-    "class": 15,
-    "subclass": 209,
-    "option": 192,
-    "spell": 645,
+    "class": 14,
+    "subclass": 205,
+    "option": 178,
+    "spell": 641,
     "feat": 360,
     "species": 89,
     "background": 75,
@@ -17,20 +17,20 @@
   },
   "byEdition": {
     "class": {
-      "2024": 14,
+      "2024": 13,
       "2014": 1
     },
     "subclass": {
-      "2024": 109,
+      "2024": 105,
       "2014": 100
     },
     "option": {
-      "2024": 54,
+      "2024": 40,
       "2014": 138
     },
     "spell": {
-      "2024": 474,
-      "2014": 171
+      "2024": 469,
+      "2014": 172
     },
     "feat": {
       "2024": 242,
@@ -52,15 +52,15 @@
       "2014": 45
     }
   },
-  "pagesDownloaded": 3,
+  "pagesDownloaded": 0,
   "downloadFailures": 0,
   "parseFailures": 1,
-  "translatedAt": "2026-10-30T12:44:04+00:00",
+  "translatedAt": "2026-10-30T12:47:26+00:00",
   "translation": {
     "es": {
-      "texts": 17695,
-      "untranslated": 10081,
-      "requests": 124,
+      "texts": 17505,
+      "untranslated": 10380,
+      "requests": 0,
       "complete": false
     }
   }

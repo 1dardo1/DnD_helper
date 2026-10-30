@@ -4,7 +4,7 @@
     "type": "background",
     "name": "Heredero aberrante",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Tu aberrante marca del dragón ha dificultado la vida desde que se manifestó. Es posible que lo hayas ocultado con éxito durante la mayor parte de tu vida o que hayas logrado pasar desapercibido. Alternativamente, es posible que hayas encontrado sospechas y miedo, quizás junto con el antagonismo absoluto de una o más casas marcadas por el dragón. Es posible que hayas formado una asociación con la organización criminal Casa Tarkanan (llamada así por uno de los líderes más notorios de los aberrantes dragones marcados en la Guerra de la Marca hace veinticinco siglos). O puede que tengas dificultades para encontrar tu propio camino en el mundo, confiando en tu ingenio y el poder de tu marca.",
     "url": "https://dnd2024.wikidot.com/background:aberrant-heir",
     "abilityScores": [
@@ -34,7 +34,7 @@
       "WIS",
       "CHA"
     ],
-    "feat": "Iniciado Mágico (Clérigo)",
+    "feat": "Magic Initiate (Cleric)",
     "featId": "magic-initiate",
     "skills": [
       "insight",
@@ -70,7 +70,7 @@
     "type": "background",
     "name": "Arqueólogo",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Has realizado un estudio de por vida de las culturas perdidas y caídas del pasado, visitando sus ruinas, descifrando sus registros escritos y examinando sus obras maestras supervivientes. Quizás estudiaste en la Universidad de Morgrave o en una institución similar, complementando tu tiempo en la biblioteca con trabajo de campo en medio de ruinas antiguas en lugares remotos. Algunos arqueólogos saquean los tesoros del pasado en busca de riqueza o fama, pero la mayoría considera que su vocación es aprender del pasado. En cualquier caso, los arqueólogos de Eberron combinan las cualidades de los historiadores eruditos con el valor de los cazadores de tesoros.",
     "url": "https://dnd2024.wikidot.com/background:archaeologist",
     "abilityScores": [
@@ -496,7 +496,7 @@
       "WIS",
       "CHA"
     ],
-    "feat": "Iniciado mágico (mago)",
+    "feat": "Magic Initiate (Wizard)",
     "featId": "magic-initiate",
     "skills": [
       "perception",
@@ -540,7 +540,7 @@
       "CON",
       "WIS"
     ],
-    "feat": "Iniciado Mágico (Druida)",
+    "feat": "Magic Initiate (Druid)",
     "featId": "magic-initiate",
     "skills": [
       "stealth",
@@ -642,7 +642,7 @@
     "type": "background",
     "name": "Agente de la casa",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Estás conectado a una de las casas marcadas por el dragón, pero (todavía) no has manifestado una marca del dragón. Puede ser un miembro de la familia por nacimiento o un empleado de la casa sin conexión familiar. Usted se ha ganado la vida haciendo los negocios de la casa, sirviendo como las manos, los pies y los ojos del liderazgo de la casa en el mundo. Es posible que tengas muchos viejos amigos, mentores y rivales en la casa a la que sirves, además de aliados o enemigos en otras casas.",
     "url": "https://dnd2024.wikidot.com/background:house-agent",
     "abilityScores": [
@@ -664,7 +664,7 @@
     "type": "background",
     "name": "Heredero de la Casa Cannith",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Como descendiente de la Casa Cannith, llevas un legado de orgullo. Cannith crea maravillas del mundo moderno y se espera que usted contribuya al éxito continuo de la casa a través de inventos, becas, negocios o diplomacia. Lo único que puede interponerse en su camino es la profunda brecha dentro de su propia casa. Cuanto antes los tres barones decidan cuál de ellos es el verdadero jefe de la casa (y tú, sin duda, tienes tu preferencia), antes la Casa Cannith podrá reclamar su legítima posición de liderazgo entre todas las casas marcadas por el dragón.",
     "url": "https://dnd2024.wikidot.com/background:house-cannith-heir",
     "abilityScores": [
@@ -686,7 +686,7 @@
     "type": "background",
     "name": "Heredero de la casa Deneith",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Como heredero de la Casa Deneith, has sido entrenado para el combate, no para buscarlo, pero tampoco para rehuirlo. Ha aprendido la importancia del deber, el honor y las leyes que se utilizan para gobernar la sociedad cuando el deber y el honor fallan. Cuando estableciste tu nombre en la casa, podrías haber trabajado como guardaespaldas de algún dignatario menor, como mercenario o como mariscal cazando fugitivos. Ahora estás preparado para reclamar la posición que te corresponde en la más poderosa de las casas marcadas por el dragón.",
     "url": "https://dnd2024.wikidot.com/background:house-deneith-heir",
     "abilityScores": [
@@ -708,7 +708,7 @@
     "type": "background",
     "name": "Heredero de la Casa Ghallanda",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Gracias a tus conexiones con la Casa Ghallanda, creciste acostumbrado a las comodidades, las conversaciones animadas, la buena bebida y la comida deliciosa. Podrías ser un vástago encantador e ingenioso de la casa al que nada le gusta más que una agradable velada junto a un cálido hogar. O podrías ser un intrigante que explota los lazos de confianza y amistad para doblegar a los demás a su voluntad. Podrías seguir una carrera aventurera para dominar las cocinas de otras culturas y épocas, ampliar tu red de contactos útiles o ganar suficiente dinero para abrir tu propia posada.",
     "url": "https://dnd2024.wikidot.com/background:house-ghallanda-heir",
     "abilityScores": [
@@ -730,7 +730,7 @@
     "type": "background",
     "name": "Heredero de la Casa Jorasco",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "La Casa Jorasco enseña que las enfermedades y las lesiones acechan a los vivos como fantasmas, robándoles la salud y la longevidad. Te han enseñado formas de combatir estos flagelos, tanto mágica como médicamente. Estás capacitado para utilizar esas habilidades al servicio de los demás y para asegurarte de que siempre recibas una compensación adecuada por este servicio, asegurando la salud y la longevidad de la Casa Jorasco. Podrías ser un sanador amable sin estómago para el combate o un especialista desapasionado que sabe exactamente cómo incapacitar o matar a un enemigo con golpes precisos.",
     "url": "https://dnd2024.wikidot.com/background:house-jorasco-heir",
     "abilityScores": [
@@ -752,7 +752,7 @@
     "type": "background",
     "name": "Heredero de la Casa Kundarak",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Como heredero de la Casa Kundarak, estás muy orgulloso de tu familia y de su trabajo de salvaguardar los objetos de valor de Khorvaire. Tu casa siempre ha sido líder entre los clanes de Mror Holds. Aunque nunca ha ostentado la corona, tiene reputación de profesionalismo, honor y orden. Podrías esforzarte por mantener esa reputación, podrías anteponer tu propio sentido del honor al de tu familia, o podrías rebelarte contra las expectativas de la casa y burlarte de las exigencias del honor.",
     "url": "https://dnd2024.wikidot.com/background:house-kundarak-heir",
     "abilityScores": [
@@ -774,7 +774,7 @@
     "type": "background",
     "name": "Heredero de la Casa Lyrandar",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Como heredero de la Casa Lyrandar, el viento es tu aliado, el mar y el cielo tu dominio. A pesar de la devastación de la Última Guerra, tu casa está en ascenso, impulsada por su dominio de la nueva tecnología de aeronaves. Es posible que haya pasado los inicios de su carrera en el mar como marinero o navegante; como carpintero de barcos; o como miembro del Raincallers' Guild, manipulando el clima y ayudando con el riego y obras públicas similares. O quizás hayas sido uno de los primeros en tu casa en surcar los cielos como parte de la tripulación de un dirigible. El servicio a la casa puede requerir que caces piratas en el mar de Lhazaar, explores ruinas antiguas en busca de tecnología mágica para unir fuerzas elementales o salves una aeronave naufragada en Mournland.",
     "url": "https://dnd2024.wikidot.com/background:house-lyrandar-heir",
     "abilityScores": [
@@ -796,7 +796,7 @@
     "type": "background",
     "name": "Heredero de la casa Medani",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Como miembro de la Casa Medani, tu vida gira en torno al subterfugio: no participar en él, sino impedir que otros lo hagan. Ves el mundo que te rodea como una intrincada red de esquemas, tramas y contratramas. Al evaluar la gama de posibilidades, utiliza el instinto para predecir las amenazas a sus clientes y defenderse de ellas mucho antes de que esas amenazas se conviertan en peligro. Defenderse de la espada de un asesino es un trabajo que cualquier mercenario Deneith o ejecutor Tharashk puede hacer; asegurarse de que nadie desenvaine esa espada es el estilo Medani.",
     "url": "https://dnd2024.wikidot.com/background:house-medani-heir",
     "abilityScores": [
@@ -818,7 +818,7 @@
     "type": "background",
     "name": "Heredero de la Casa Orien",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Antes de la Última Guerra, la influencia de Orien cubría Khorvaire, y sus rutas comerciales y raíles relámpago eran el alma de un reino vibrante. Pero la guerra cortó esas arterias, dejando a Galifar muerto y a la Casa Orien ensangrentada. Si bien los mensajeros y transportistas de la casa aún mantienen las mercancías en movimiento en ambos lados del continente, encontrar una manera de restablecer rutas a través de Mournland sigue siendo la principal prioridad de la casa. Mientras tanto, los aventureros de Orien pueden servir a su casa investigando a los mensajeros desaparecidos, recuperando bienes robados de las caravanas y solucionando problemas en el rayo.",
     "url": "https://dnd2024.wikidot.com/background:house-orien-heir",
     "abilityScores": [
@@ -840,7 +840,7 @@
     "type": "background",
     "name": "Heredero de la Casa Phiarlan",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Aunque has visto riqueza, fama y belleza como hijo de la Casa Phiarlan, consideras el conocimiento (y el poder que aporta) el mayor tesoro de todos. Podrías perseguir ese poder como artista o intérprete, siempre alerta a los secretos incluso mientras deleitas al mundo con historias, canciones, acrobacias o arte. O podrías fomentar vínculos con el brazo secreto de espionaje de tu casa: la Mesa Serpentina.",
     "url": "https://dnd2024.wikidot.com/background:house-phiarlan-heir",
     "abilityScores": [
@@ -862,7 +862,7 @@
     "type": "background",
     "name": "Heredero de la Casa Sivis",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Durante casi treinta siglos, su familia ha trabajado para mantener el orden. La comunicación es el cordón que une a la civilización, y tus ancestros resolvieron las disputas de soberanos y ayudaron a las casas marcadas por el dragón a encontrar un lugar en el mundo. Pocas personas se dan cuenta de la influencia que ha tenido la Casa Sivis en la configuración de la era moderna, del mismo modo que pocos saben con qué frecuencia un consejero real tiene más poder que el gobernante real. Mientras las otras casas marcadas por el dragón luchan por la fama y el reconocimiento, la Casa Sivis juega un largo juego de influencia sutil detrás de escena, manteniendo el orden en medio del caos de la intriga interminable.",
     "url": "https://dnd2024.wikidot.com/background:house-sivis-heir",
     "abilityScores": [
@@ -884,7 +884,7 @@
     "type": "background",
     "name": "Heredero de la Casa Tharashk",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Los herederos de otras casas llevan vidas lujosas, pero en la Casa Tharashk aprendiste la autosuficiencia desde una edad temprana. Lo que a tu joven casa le falta en recursos, lo compensa en espíritu y determinación. Tharashk tiene un destino que cumplir y tú tienes parte en él. Ya sea en combate o en interacción social, has aprendido a desempeñar el papel del cazador: estudia a tus enemigos, explota sus debilidades y haz lo que sea necesario para lograr la victoria.",
     "url": "https://dnd2024.wikidot.com/background:house-tharashk-heir",
     "abilityScores": [
@@ -906,7 +906,7 @@
     "type": "background",
     "name": "Heredero de la Casa Thuranni",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Dada la corta historia de la Casa Thuranni y su enfoque en el espionaje, sus líderes esperan que usted promueva los intereses de la casa en cada oportunidad. Durante los años de formación de la casa como entidad independiente, cada movimiento que usted realiza ha sido observado de cerca. Esto no quiere decir que cada heredero Thuranni deba espiar activamente a instancias de los ancianos de la casa. Pero incluso los artistas y artesanos más aislados de la casa deben mantenerse al día con los acontecimientos políticos actuales y transmitir o recopilar información cuando se les solicita.",
     "url": "https://dnd2024.wikidot.com/background:house-thuranni-heir",
     "abilityScores": [
@@ -928,7 +928,7 @@
     "type": "background",
     "name": "Heredero de la Casa Vadalis",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Has crecido respetando tanto la familia como la naturaleza. Entiendes la cultura de las Cinco Naciones, pero no te dejas arrastrar por los juegos de ambición y estatus que juegan otros. Conoces la belleza y el poder inherentes a la vida, los misterios del nacimiento y la muerte, y los milagros que suceden en el medio. Tus conocimientos sobre el mundo natural te permiten ver más allá de las mentiras y engaños de la gente de la ciudad, y nunca dejar ver hasta qué punto reconoces sus subterfugios.",
     "url": "https://dnd2024.wikidot.com/background:house-vadalis-heir",
     "abilityScores": [
@@ -972,7 +972,7 @@
     "type": "background",
     "name": "Curioso",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "Has perfeccionado tus talentos de investigación y deducción, impulsados por una curiosidad ilimitada, para explorar misterios, encontrar personas desaparecidas, recuperar bienes robados, desenterrar corrupción y conspiraciones, y resolver crímenes. Como curioso, es posible que haya trabajado por cuenta propia, haya firmado con una agencia de curiosos (quizás una con licencia de una casa con la marca del dragón como Medani o Tharashk), haya trabajado para un periódico de gran formato o haya trabajado para una fuerza policial.",
     "url": "https://dnd2024.wikidot.com/background:inquisitive",
     "abilityScores": [
@@ -1134,7 +1134,7 @@
       "WIS",
       "CHA"
     ],
-    "feat": "Iniciado Mágico (Druida)",
+    "feat": "Magic Initiate (Druid)",
     "featId": "magic-initiate",
     "skills": [
       "nature",
@@ -1354,7 +1354,7 @@
       "INT",
       "WIS"
     ],
-    "feat": "Iniciado mágico (mago)",
+    "feat": "Magic Initiate (Wizard)",
     "featId": "magic-initiate",
     "skills": [
       "arcana",
@@ -1376,7 +1376,7 @@
       "DEX",
       "WIS"
     ],
-    "feat": "Luchador de taberna",
+    "feat": "Guerrero de taberna",
     "featId": "tavern-brawler",
     "skills": [
       "acrobatics",
@@ -1498,10 +1498,10 @@
   {
     "id": "spellfire-initiate",
     "type": "background",
-    "name": "Iniciado de fuego de hechizo",
+    "name": "Iniciado de fuego de conjuro",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
-    "description": "Tienes el don del fuego mágico: una rara forma de magia que canaliza el poder puro del Tejido. Empuñar fuego de hechizo tiene un alto costo en el cuerpo. Has entrenado tanto la mente como el cuerpo para ejercer eficientemente este poder sagrado.",
+    "description": "Tienes el don del fuego mágico: una rara forma de magia que canaliza el poder puro del Tejido. Empuñar fuego de conjuro tiene un alto costo en el cuerpo. Has entrenado tanto la mente como el cuerpo para ejercer eficientemente este poder sagrado.",
     "url": "https://dnd2024.wikidot.com/background:spellfire-initiate",
     "abilityScores": [
       "CON",

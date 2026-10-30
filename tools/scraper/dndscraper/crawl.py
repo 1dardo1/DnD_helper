@@ -26,6 +26,10 @@ _SKIP_PREFIXES = {
     # Excluded by decision: homebrew.
     "homebrew", "homebrew-spell", "homebrew-spells", "hb",
 }
+# Whole page names excluded by decision: the Psion class (UA) with its disciplines and subclasses.
+# Psion-only spells live on ordinary ua:spell-* pages and are dropped by their class list
+# (see common.EXCLUDED_CLASSES).
+_SKIP_PAGES = re.compile(r"^ua:(class-psion|subclass-psion-)")
 
 
 def _prefix(page: str) -> str:
@@ -113,4 +117,5 @@ class Crawler:
             for loc, lastmod in re.findall(r"<loc>([^<]+)</loc>(?:<lastmod>([^<]+)</lastmod>)?", xml):
                 if loc.startswith(base) and not loc.endswith(".xml"):
                     pages[loc[len(base):]] = lastmod or None
-        return {p: m for p, m in sorted(pages.items()) if p and _prefix(p) not in _SKIP_PREFIXES}
+        return {p: m for p, m in sorted(pages.items()) if p and _prefix(p) not in _SKIP_PREFIXES
+                and not _SKIP_PAGES.match(p)}

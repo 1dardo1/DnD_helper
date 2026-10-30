@@ -6642,20 +6642,20 @@
     "id": "ego-whip-ua",
     "type": "spell",
     "name": "Ego Whip",
-    "edition": "2024",
-    "source": "UA9 - Actualización de Psion (10.02.2025)",
-    "description": "The creature makes Charisma saving throw. On a failed save, the target must subtract 1d8 from the ability check or saving throw.",
-    "url": "https://dnd2024.wikidot.com/ua:spell-ego-whip",
-    "level": 2,
+    "edition": "2014",
+    "source": "Unearthed Arcana 66 - Fighter, Rogue, and Wizard",
+    "description": "You lash the mind of one creature you can see within range, filling it with despair. The target must succeed on an Intelligence saving throw or suffer disadvantage on attack rolls, ability checks, and saving throws, and it can't cast spells. At the end of each of its turns, the target can make another Intelligence saving throw. On a success, the spell ends on the target.",
+    "url": "https://dnd5e.wikidot.com/spell:ego-whip",
+    "level": 4,
     "school": "enchantment",
     "ritual": false,
     "castingTime": {
-      "raw": "Reaction, which you take when a creature you can see within 30 feet of yourself makes a Charisma-based ability check or saving throw",
-      "amount": 30,
-      "unit": "reaction"
+      "raw": "1 action",
+      "amount": 1,
+      "unit": "action"
     },
-    "reactionTrigger": "when a creature you can see within 30 feet of yourself makes a Charisma-based ability check or saving throw",
-    "range": "120 feet",
+    "reactionTrigger": null,
+    "range": "30 feet",
     "components": {
       "v": true,
       "s": false,
@@ -6664,13 +6664,15 @@
       "cost": null,
       "consumed": false
     },
-    "duration": "Instantaneous",
-    "concentration": false,
-    "classes": [],
-    "higherLevels": null,
-    "replaced": [
-      "https://dnd5e.wikidot.com/spell:ego-whip"
-    ]
+    "duration": "Concentration, up to 1 minute",
+    "concentration": true,
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "higherLevels": null
   },
   {
     "id": "eldritch-blast",
@@ -10845,7 +10847,7 @@
     "type": "spell",
     "name": "Homunculus Servant",
     "edition": "2024",
-    "source": "Eberron - Forja del Artífice",
+    "source": "Eberron - Forge of the Artificer",
     "description": "You summon a special homunculus in an unoccupied space within range. This creature uses the Homunculus Servant stat block. If you already have a homunculus from this spell, the homunculus is replaced by the new one. You determine the homunculus's appearance, such as a mechanical-looking bird, winged vials, or miniature animate cauldrons.\n\n**Combat**  \nThe homunculus is an ally to you and your allies. In combat, it shares your Initiative count, but it takes its turn immediately after yours. It obeys your commands (no action required by you). If you don't issue any, it takes the Dodge action and uses its movement to avoid danger.",
     "url": "https://dnd2024.wikidot.com/spell:homunculus-servant",
     "level": 2,
@@ -12543,37 +12545,6 @@
     "higherLevels": null
   },
   {
-    "id": "life-siphon-ua",
-    "type": "spell",
-    "name": "Life Siphon",
-    "edition": "2024",
-    "source": "UA9 - Actualización de Psion (10.02.2025)",
-    "description": "You fire an orb of psionic energy fueled by your life force at a creature you can see within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 Psychic damage and you can expend one Hit Point Die to increase the damage by 1d10.  \n**Using a Higher-Level Spell Slot.** The damage increases by 1d10 and the number of Hit Dice you can expend increases by one for each spell slot level above 1.",
-    "url": "https://dnd2024.wikidot.com/ua:spell-life-siphon",
-    "level": 1,
-    "school": "evocation",
-    "ritual": false,
-    "castingTime": {
-      "raw": "Action",
-      "amount": 1,
-      "unit": "action"
-    },
-    "reactionTrigger": null,
-    "range": "120 feet",
-    "components": {
-      "v": false,
-      "s": true,
-      "m": false,
-      "material": null,
-      "cost": null,
-      "consumed": false
-    },
-    "duration": "Instantaneous",
-    "concentration": false,
-    "classes": [],
-    "higherLevels": null
-  },
-  {
     "id": "life-transference",
     "type": "spell",
     "name": "Life Transference",
@@ -14011,37 +13982,6 @@
     "replaced": [
       "https://dnd5e.wikidot.com/spell:mind-blank"
     ]
-  },
-  {
-    "id": "mind-blast-ua",
-    "type": "spell",
-    "name": "Mind Blast",
-    "edition": "2024",
-    "source": "UA15 - Opciones de la Infraoscuridad (20.08.2026)",
-    "description": "You unleash a concussive burst of psionic energy. Each creature in a 60-foot Cone originating from you makes an Intelligence saving throw. On a failed save, the creature takes 6d8 Psychic damage and has the Stunned condition until the start of your next turn. On a successful save, the creature takes half as much damage only.",
-    "url": "https://dnd2024.wikidot.com/ua:spell-mind-blast",
-    "level": 6,
-    "school": "evocation",
-    "ritual": false,
-    "castingTime": {
-      "raw": "Action",
-      "amount": 1,
-      "unit": "action"
-    },
-    "reactionTrigger": null,
-    "range": "Self",
-    "components": {
-      "v": false,
-      "s": true,
-      "m": false,
-      "material": null,
-      "cost": null,
-      "consumed": false
-    },
-    "duration": "Instantaneous",
-    "concentration": false,
-    "classes": [],
-    "higherLevels": "The damage increases by 1d8 for each spell slot level above 6."
   },
   {
     "id": "mind-sliver",
@@ -20723,37 +20663,6 @@
     "higherLevels": null
   },
   {
-    "id": "telekinetic-fling-ua9-02-10-2025",
-    "type": "spell",
-    "name": "Telekinetic Fling",
-    "edition": "2024",
-    "source": "UA9 - Actualización de Psion (10.02.2025)",
-    "description": "Choose one nonmagical object weighing 1 to 5 pounds within 10 feet of you that isn't being worn or carried to wreathe in psionic energy and fire at a creature within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 Force damage. On a hit or miss, the object falls to the ground undamaged.  \n**Cantrip Upgrade.** The damage increases by 1d10 when you reach levels 5 (2d10), 11 (3d10), and 17 (4d10).",
-    "url": "https://dnd2024.wikidot.com/ua:spell-telekinetic-fling2",
-    "level": 0,
-    "school": "evocation",
-    "ritual": false,
-    "castingTime": {
-      "raw": "Action",
-      "amount": 1,
-      "unit": "action"
-    },
-    "reactionTrigger": null,
-    "range": "60 feet",
-    "components": {
-      "v": false,
-      "s": true,
-      "m": false,
-      "material": null,
-      "cost": null,
-      "consumed": false
-    },
-    "duration": "Instantaneous",
-    "concentration": false,
-    "classes": [],
-    "higherLevels": null
-  },
-  {
     "id": "telepathy",
     "type": "spell",
     "name": "Telepathy",
@@ -21106,37 +21015,6 @@
     "replaced": [
       "https://dnd5e.wikidot.com/spell:thorn-whip"
     ]
-  },
-  {
-    "id": "thought-form-ua",
-    "type": "spell",
-    "name": "Thought Form",
-    "edition": "2024",
-    "source": "UA9 - Actualización de Psion (10.02.2025)",
-    "description": "You briefly transform into a psionic spirit. You gain the following benefits until the spell ends.  \n**Ghostly Form.** You have Immunity to Poison and Psychic damage, and you have Immunity to the Exhaustion condition.  \n**Incorporeal Movement.** You have a Fly Speed of 60 feet and can hover. You can move through occupied spaces as if they were Difficult Terrain. If you end your turn in such a space, you take 1d10 Force damage. If the spell ends in such a space, you are returned to the last unoccupied space you were in.  \n**Psionic Recharge.** As a Magic action, you can touch a creature (which can be yourself) and roll 1d6. The creature regains one expended spell slot, the level of which equals half the number rolled (round up) or lower. Once a creature regains a spell slot from this spell, that creature can't do so again until it finishes a Long Rest.",
-    "url": "https://dnd2024.wikidot.com/ua:spell-thought-form",
-    "level": 6,
-    "school": "transmutation",
-    "ritual": false,
-    "castingTime": {
-      "raw": "Acción adicional",
-      "amount": 1,
-      "unit": "bonus-action"
-    },
-    "reactionTrigger": null,
-    "range": "Self",
-    "components": {
-      "v": true,
-      "s": false,
-      "m": true,
-      "material": "brain matter in a vessel worth 500+ GP",
-      "cost": 500,
-      "consumed": false
-    },
-    "duration": "Concentration, up to 1 minute",
-    "concentration": true,
-    "classes": [],
-    "higherLevels": null
   },
   {
     "id": "thought-shield-ua",

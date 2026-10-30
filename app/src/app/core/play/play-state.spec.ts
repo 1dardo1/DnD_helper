@@ -158,14 +158,10 @@ describe('playResources', () => {
           { classId: 'fighter', name: 'Second Wind', value: '2' },
           { classId: 'fighter', name: 'Weapon Mastery', value: '3' },
           { classId: 'rogue', name: 'Sneak Attack', value: '3d6' },
-          { classId: 'psion', name: 'Energy Dice', value: '4D6' },
         ],
       ),
     );
-    expect(rs.map((r) => [r.key, r.max, r.short])).toEqual([
-      ['fighter:second wind', 2, 1],
-      ['psion:energy dice', 4, 1],
-    ]);
+    expect(rs.map((r) => [r.key, r.max, r.short])).toEqual([['fighter:second wind', 2, 1]]);
   });
 
   it('adds the uses defined in feature texts', () => {

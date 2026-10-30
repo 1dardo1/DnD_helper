@@ -1,22 +1,22 @@
 # Informe de extracción
 
-Generado: 2026-10-30T11:13:33+00:00
+Generado: 2026-10-30T12:47:04+00:00
 
 ## Totales
 
 | Tipo | Total | De 2024 | De 2014 |
 |---|---|---|---|
-| classes | 15 | 14 | 1 |
-| subclasses | 209 | 109 | 100 |
-| options | 192 | 54 | 138 |
-| spells | 645 | 474 | 171 |
+| classes | 14 | 13 | 1 |
+| subclasses | 205 | 105 | 100 |
+| options | 178 | 40 | 138 |
+| spells | 641 | 469 | 172 |
 | feats | 360 | 242 | 118 |
 | species | 89 | 30 | 59 |
 | backgrounds | 75 | 75 | 0 |
 | items | 1346 | 707 | 639 |
 | rules | 84 | 39 | 45 |
 
-Páginas descargadas en esta ejecución: 3  
+Páginas descargadas en esta ejecución: 0  
 Fallos de descarga: 0 · Páginas que no se pudieron convertir: 1
 
 ## Sustituidos por la versión de 2024
@@ -24,7 +24,7 @@ Fallos de descarga: 0 · Páginas que no se pudieron convertir: 1
 - **classes**: 13
 - **subclasses**: 68 (renombrados: Aberrant Mind → Aberrant Sorcery, Beast Master Conclave → Beast Master, Bladesinging → Bladesinger, Circle of Stars → Circle of the Stars, Clockwork Soul → Clockwork Sorcery, Draconic Bloodline → Draconic Sorcery, Gloom Stalker Conclave → Gloom Stalker, Hunter Conclave → Hunter, Path of the Totem Warrior → Path of the Wild Heart, School of Abjuration → Abjurer, School of Conjuration → Conjurer, School of Divination → Diviner, School of Enchantment → Enchanter, School of Evocation → Evoker, School of Illusion → Illusionist, School of Necromancy → Necromancer, School of Transmutation → Transmuter, Shadow Magic → Shadow Sorcery, The Archfey → Archfey Patron, The Celestial → Celestial Patron, The Fiend → Fiend Patron, The Great Old One → Great Old One Patron, The Undead → Undead Patron, Way of Mercy → Warrior of Mercy, Way of Shadow → Warrior of Shadow, Way of the Four Elements → Warrior of the Elements, Way of the Open Hand → Warrior of the Open Hand, Wild Magic → Wild Magic Sorcery)
 - **options**: 23
-- **spells**: 395
+- **spells**: 394
 - **feats**: 59
 - **species**: 17
 - **items**: 522 (renombrados: Acid (vial) → Acid, Alchemist's Fire (flask) → Alchemist's Fire, Antitoxin (vial) → Antitoxin, Arrows (20) → Arrows, Ball Bearings (bag of 1,000) → Ball Bearings, Caltrops (bag of 20) → Caltrops, Case, Map/Scroll → Case, Map or Scroll, Chain (10 ft) → Chain, Dice set → Dice, Dragonchess set → Dragonchess, Halfplate → Half Plate Armor, Hide → Hide Armor, Holy Water (flask) → Holy Water, Ink (1 oz) → Ink, Ladder (10 ft) → Ladder, Leather → Leather Armor, Oil (flask) → Oil, Padded → Padded Armor, Paper (1 sheet) → Paper, Parchment (1 sheet) → Parchment, Perfume (vial) → Perfume, Plate → Plate Armor, Playing card set → Playing Cards, Poison, basic (vial) → Poison, Basic, Pole (10 ft) → Pole, Rations (1 day) → Rations, Robes → Robe, Spikes, Iron (10) → Spikes, Iron, Splint → Splint Armor, Studded Leather → Studded Leather Armor, Three-Dragon Ante set → Three-dragon Ante)
@@ -49,9 +49,9 @@ Aether, Alluring, Ambush, Arcane Gunslinger, Arcane Propulsion Armor, Armor of M
 
 </details>
 
-<details><summary>spells: 171</summary>
+<details><summary>spells: 172</summary>
 
-Absorb Elements, Acid Stream, Aganazzar's Scorcher, Air Bubble, Antagonize, Arcane Hacking, Arcane Weapon, Ashardalon's Stride, Beast Bond, Bones of the Earth, Booming Blade, Borrowed Knowledge, Branding Smite, Catapult, Cause Fear, Ceremony, Chaos Bolt, Commune with City, Conjure Barlgura, Conjure Hezrou, Conjure Knowbot, Conjure Lesser Demon, Conjure Shadow Demon, Conjure Vrock, Control Flames, Control Winds, Create Bonfire, Create Homunculus, Create Magen, Create Spelljamming Helm, Crown of Stars, Danse Macabre, Dark Star, Dawn, Digital Phantom, Distort Value, Draconic Transformation, Dream of the Blue Veil, Druid Grove, Dust Devil, Earth Tremor, Earthbind, Elemental Bane, Encode Thoughts, Erupting Earth, Far Step, Fast Friends, Feeblemind, Find Greater Steed, Find Vehicle, Fizban's Platinum Shield, Flame Arrows, Flame Stride, Flock of Familiars, Fortune's Favor, Frost Fingers, Frostbite, Galder's Speedy Courier, Galder's Tower, Gate Seal, Gift of Alacrity, Gift of Gab, Gravity Fissure, Gravity Sinkhole, Green-Flame Blade, Guardian of Nature, Guiding Hand, Gust, Hand of Radiance, Haywire, Healing Elixir, Healing Spirit, Holy Weapon, House of Cards, Icingdeath's Frost, Id Insinuation, Immolation, Immovable Object, Incite Greed, Infallible Relay, Infernal Calling, Infestation, Investiture of Flame, Investiture of Ice, Investiture of Stone, Investiture of Wind, Invisibility To Cameras, Jim's Glowing Coin, Jim's Magic Missile, Kinetic Jaunt, Life Transference, Lightning Lure, Maddening Darkness, Maelstrom, Magic Stone, Magnify Gravity, Mass Polymorph, Maximillian's Earthen Grasp, Melf's Minute Meteors, Mental Barrier, Mighty Fortress, Mind Thrust, Mold Earth, Motivational Speech, Nathair's Mischief, On/Off, Otherworldly Form, Primal Savagery, Primordial Ward, Protection from Ballistics, Psychic Crush, Pulse Wave, Puppet, Pyrotechnics, Ravenous Void, Reality Break, Remote Access, Rime's Binding Ice, Sapping Sting, Scatter, Sense Emotion, Shadow Blade, Shadow Of Moil, Shape Water, Shutdown, Sickening Radiance, Silvery Barbs, Skill Empowerment, Skywrite, Snare, Snilloc's Snowball Swarm, Soul Cage, Spirit Of Death, Spirit Shroud, Spray Of Cards, Storm Sphere, Sudden Awakening, Summon Draconic Spirit, Summon Greater Demon, Summon Lesser Demons, Summon Shadowspawn, Summon Warrior Spirit, Sword Burst, Synchronicity, System Backdoor, Tasha's Caustic Brew, Tasha's Otherworldly Guise, Temple of the Gods, Temporal Shunt, Tenser's Transformation, Tether Essence, Thought Shield, Thunder Step, Tidal Wave, Time Ravage, Tiny Servant, Transmute Rock, Unearthly Chorus, Virtue, Vortex Warp, Wall of Light, Wall of Sand, Wall of Water, Warding Wind, Warp Sense, Watery Sphere, Whirlwind, Wild Cunning, Wrath Of Nature, Wristpocket, Zephyr Strike
+Absorb Elements, Acid Stream, Aganazzar's Scorcher, Air Bubble, Antagonize, Arcane Hacking, Arcane Weapon, Ashardalon's Stride, Beast Bond, Bones of the Earth, Booming Blade, Borrowed Knowledge, Branding Smite, Catapult, Cause Fear, Ceremony, Chaos Bolt, Commune with City, Conjure Barlgura, Conjure Hezrou, Conjure Knowbot, Conjure Lesser Demon, Conjure Shadow Demon, Conjure Vrock, Control Flames, Control Winds, Create Bonfire, Create Homunculus, Create Magen, Create Spelljamming Helm, Crown of Stars, Danse Macabre, Dark Star, Dawn, Digital Phantom, Distort Value, Draconic Transformation, Dream of the Blue Veil, Druid Grove, Dust Devil, Earth Tremor, Earthbind, Ego Whip, Elemental Bane, Encode Thoughts, Erupting Earth, Far Step, Fast Friends, Feeblemind, Find Greater Steed, Find Vehicle, Fizban's Platinum Shield, Flame Arrows, Flame Stride, Flock of Familiars, Fortune's Favor, Frost Fingers, Frostbite, Galder's Speedy Courier, Galder's Tower, Gate Seal, Gift of Alacrity, Gift of Gab, Gravity Fissure, Gravity Sinkhole, Green-Flame Blade, Guardian of Nature, Guiding Hand, Gust, Hand of Radiance, Haywire, Healing Elixir, Healing Spirit, Holy Weapon, House of Cards, Icingdeath's Frost, Id Insinuation, Immolation, Immovable Object, Incite Greed, Infallible Relay, Infernal Calling, Infestation, Investiture of Flame, Investiture of Ice, Investiture of Stone, Investiture of Wind, Invisibility To Cameras, Jim's Glowing Coin, Jim's Magic Missile, Kinetic Jaunt, Life Transference, Lightning Lure, Maddening Darkness, Maelstrom, Magic Stone, Magnify Gravity, Mass Polymorph, Maximillian's Earthen Grasp, Melf's Minute Meteors, Mental Barrier, Mighty Fortress, Mind Thrust, Mold Earth, Motivational Speech, Nathair's Mischief, On/Off, Otherworldly Form, Primal Savagery, Primordial Ward, Protection from Ballistics, Psychic Crush, Pulse Wave, Puppet, Pyrotechnics, Ravenous Void, Reality Break, Remote Access, Rime's Binding Ice, Sapping Sting, Scatter, Sense Emotion, Shadow Blade, Shadow Of Moil, Shape Water, Shutdown, Sickening Radiance, Silvery Barbs, Skill Empowerment, Skywrite, Snare, Snilloc's Snowball Swarm, Soul Cage, Spirit Of Death, Spirit Shroud, Spray Of Cards, Storm Sphere, Sudden Awakening, Summon Draconic Spirit, Summon Greater Demon, Summon Lesser Demons, Summon Shadowspawn, Summon Warrior Spirit, Sword Burst, Synchronicity, System Backdoor, Tasha's Caustic Brew, Tasha's Otherworldly Guise, Temple of the Gods, Temporal Shunt, Tenser's Transformation, Tether Essence, Thought Shield, Thunder Step, Tidal Wave, Time Ravage, Tiny Servant, Transmute Rock, Unearthly Chorus, Virtue, Vortex Warp, Wall of Light, Wall of Sand, Wall of Water, Warding Wind, Warp Sense, Watery Sphere, Whirlwind, Wild Cunning, Wrath Of Nature, Wristpocket, Zephyr Strike
 
 </details>
 
@@ -141,20 +141,19 @@ Elementos de 2014 que se han conservado pero se parecen a uno de 2024. Si son la
 34 páginas: secciones *Homebrew* de las wikis y páginas marcadas «(HB)».
 
 
+## Excluidos (Psion)
+
+6 páginas solo de la clase Psion (sus páginas de clase, disciplinas y subclases ni se descargan).
+
+
 ## Páginas que fallaron
 
 - https://dnd5e.wikidot.com/artifact-properties: empty page
 
 ## Avisos (datos dudosos, revisar)
 
-<details><summary>13 páginas</summary>
+<details><summary>7 páginas</summary>
 
-- https://dnd2024.wikidot.com/ua:spell-ego-whip: no class lists
-- https://dnd2024.wikidot.com/ua:spell-life-siphon: no class lists
-- https://dnd2024.wikidot.com/ua:spell-mind-blast: no class lists
-- https://dnd2024.wikidot.com/ua:spell-telekinetic-fling: no class lists
-- https://dnd2024.wikidot.com/ua:spell-telekinetic-fling2: no class lists
-- https://dnd2024.wikidot.com/ua:spell-thought-form: no class lists
 - https://dnd5e.wikidot.com/ranger: subclass level for 'Ranger Archetype' not in table, using 3
 - https://dnd5e.wikidot.com/spell:encode-thoughts: no class lists
 - https://dnd5e.wikidot.com/spell:fast-friends: no class lists
@@ -167,5 +166,5 @@ Elementos de 2014 que se han conservado pero se parecen a uno de 2024. Si son la
 
 ## Duplicados dentro de una misma wiki
 
-165 páginas eran alias o versiones anteriores (p. ej. UA ya publicado) y se descartaron.
+153 páginas eran alias o versiones anteriores (p. ej. UA ya publicado) y se descartaron.
 
