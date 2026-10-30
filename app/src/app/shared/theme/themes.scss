@@ -146,7 +146,7 @@ $initial-frame: nb.svg(
     position: absolute;
     inset: 0.55rem 0.4rem auto;
     height: 1.25rem;
-    background-color: var(--accent-2);
+    background-color: var(--accent);
     opacity: 0.75;
     mask: var(--th-motif) left center / 1.25rem 1.25rem space no-repeat;
     pointer-events: none;
@@ -168,13 +168,14 @@ $initial-frame: nb.svg(
     pointer-events: none;
   }
 
-  h1,
   h3 {
     color: var(--accent);
   }
 
+  // The title stays in plain ink; the class colour goes to its initial, flourish and the band.
   h1 {
     margin-right: clamp(0rem, 14vw - 3rem, 7rem);
+    color: var(--ink-soft);
 
     // illuminated initial: the motif in a gilded frame
     &::before {
@@ -184,14 +185,14 @@ $initial-frame: nb.svg(
       height: 1.05em;
       margin-right: 0.3em;
       vertical-align: -0.12em;
-      background-color: var(--accent-2);
+      background-color: var(--accent);
       mask:
         $initial-frame center / contain no-repeat,
         var(--th-motif) center / 58% no-repeat;
     }
 
     &::after {
-      background-color: var(--accent-2);
+      background-color: var(--accent);
     }
   }
 

@@ -96,7 +96,7 @@ export const CLASS_THEMES: Record<string, ClassDef> = {
     sat: 32,
     motifs: ['sword', 'shield', 'arrow', 'crown', 'hammer'],
   },
-  monk: { hue: 24, sat: 82, motifs: ['fist', 'enso', 'wave', 'sun', 'leaf'] },
+  monk: { hue: 190, sat: 60, motifs: ['fist', 'enso', 'wave', 'sun', 'leaf'] },
   paladin: {
     hue: 222,
     sat: 62,
@@ -143,7 +143,7 @@ export const CLASS_HUE2: Record<string, number> = {
   cleric: 210,
   druid: 32,
   fighter: 8,
-  monk: 190,
+  monk: 24,
   paladin: 44,
   psion: 185,
   ranger: 28,
