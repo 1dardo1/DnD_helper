@@ -23,6 +23,7 @@
     <p>
       <span class="status">{{ 'characters.status.' + (status() ?? v.record.status) | t }}</span>
       <a [routerLink]="['/characters', c.id, 'edit']">{{ 'sheet.edit' | t }}</a>
+      <a [routerLink]="['/characters', c.id, 'level-up']">{{ 'levelUp.link' | t }}</a>
     </p>
   </header>
 
