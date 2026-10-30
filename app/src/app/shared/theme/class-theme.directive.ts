@@ -43,7 +43,6 @@ export class ClassThemeDirective {
       el.classList.add('class-theme');
       el.dataset['classTheme'] = t.classId;
       el.dataset['motif'] = t.motif;
-      el.dataset['heading'] = t.heading;
       this.applied = { el, vars: Object.keys(vars) };
       onCleanup(() => this.clear());
     });
@@ -56,7 +55,6 @@ export class ClassThemeDirective {
     el.classList.remove('class-theme');
     delete el.dataset['classTheme'];
     delete el.dataset['motif'];
-    delete el.dataset['heading'];
     this.applied = null;
   }
 }

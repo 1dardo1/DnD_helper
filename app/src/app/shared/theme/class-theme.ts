@@ -1,10 +1,10 @@
 /**
- * Class and subclass themes: every class has a hand-made theme (colour, motif, heading style)
+ * Class and subclass themes: every class has a hand-made theme (colour, motif)
  * and every subclass gets its own variation of it: hand-picked where the name suggests a clear
  * motif, otherwise derived deterministically from the subclass id.
  *
  * Pure data → CSS custom properties; `ClassThemeDirective` applies them and `themes.scss`
- * draws the motifs and heading styles.
+ * draws the motifs.
  */
 
 /** Ornaments drawn by themes.scss (one small SVG each). */
@@ -49,9 +49,6 @@ export const MOTIFS = [
 ] as const;
 export type Motif = (typeof MOTIFS)[number];
 
-/** How h1/h2 are decorated inside a themed page. */
-export const HEADING_STYLES = ['wavy', 'highlight', 'box', 'double', 'brush'] as const;
-export type HeadingStyle = (typeof HEADING_STYLES)[number];
 
 interface ClassDef {
   /** Base hue (0-359) and saturation (%). */
@@ -59,7 +56,6 @@ interface ClassDef {
   sat: number;
   /** First motif is the class's own; the rest are used for derived subclass variations. */
   motifs: readonly Motif[];
-  heading: HeadingStyle;
 }
 
 export const CLASS_THEMES: Record<string, ClassDef> = {
@@ -67,85 +63,72 @@ export const CLASS_THEMES: Record<string, ClassDef> = {
     hue: 28,
     sat: 62,
     motifs: ['gear', 'hammer', 'crystal', 'book', 'bolt'],
-    heading: 'double',
   },
   barbarian: {
     hue: 12,
     sat: 68,
     motifs: ['claw', 'flame', 'mountain', 'paw', 'bolt'],
-    heading: 'brush',
   },
   bard: {
     hue: 305,
     sat: 52,
     motifs: ['note', 'mask', 'star', 'feather', 'heart'],
-    heading: 'highlight',
   },
   'blood-hunter': {
     hue: 352,
     sat: 78,
     motifs: ['drop', 'skull', 'eye', 'paw', 'flame'],
-    heading: 'double',
   },
   cleric: {
     hue: 42,
     sat: 72,
     motifs: ['sun', 'cross', 'crown', 'heart', 'scales'],
-    heading: 'box',
   },
-  druid: { hue: 118, sat: 42, motifs: ['leaf', 'tree', 'moon', 'paw', 'wave'], heading: 'wavy' },
+  druid: { hue: 118, sat: 42, motifs: ['leaf', 'tree', 'moon', 'paw', 'wave'] },
   fighter: {
     hue: 212,
     sat: 32,
     motifs: ['sword', 'shield', 'arrow', 'crown', 'hammer'],
-    heading: 'double',
   },
-  monk: { hue: 24, sat: 82, motifs: ['enso', 'wave', 'sun', 'leaf', 'spiral'], heading: 'brush' },
+  monk: { hue: 24, sat: 82, motifs: ['enso', 'wave', 'sun', 'leaf', 'spiral'] },
   paladin: {
     hue: 222,
     sat: 62,
     motifs: ['shield', 'cross', 'sun', 'crown', 'sword'],
-    heading: 'box',
   },
   psion: {
     hue: 282,
     sat: 48,
     motifs: ['spiral', 'crystal', 'eye', 'star', 'bolt'],
-    heading: 'wavy',
   },
   ranger: {
     hue: 88,
     sat: 42,
     motifs: ['arrow', 'leaf', 'paw', 'tree', 'feather'],
-    heading: 'double',
   },
   rogue: {
     hue: 192,
     sat: 24,
     motifs: ['dagger', 'mask', 'eye', 'web', 'moon'],
-    heading: 'highlight',
   },
   sorcerer: {
     hue: 335,
     sat: 66,
     motifs: ['spark', 'flame', 'star', 'bolt', 'wave'],
-    heading: 'wavy',
   },
   warlock: {
     hue: 266,
     sat: 56,
     motifs: ['eye', 'tentacle', 'skull', 'moon', 'flame'],
-    heading: 'box',
   },
   wizard: {
     hue: 236,
     sat: 52,
     motifs: ['rune', 'book', 'star', 'hourglass', 'crystal'],
-    heading: 'double',
   },
 };
 
-/** Secondary hue of each class (ornaments, heading decoration). */
+/** Secondary hue of each class (ornaments). */
 export const CLASS_HUE2: Record<string, number> = {
   artificer: 200,
   barbarian: 38,
@@ -167,7 +150,7 @@ export const CLASS_HUE2: Record<string, number> = {
 interface SubclassDef {
   hue: number;
   motif: Motif;
-  /** Secondary hue (ornament band / heading decoration); derived from the id when absent. */
+  /** Secondary hue (ornament band); derived from the id when absent. */
   hue2?: number;
 }
 
@@ -377,7 +360,6 @@ export interface ClassTheme {
   sat: number;
   hue2: number;
   motif: Motif;
-  heading: HeadingStyle;
   /** Accent (text, ≥ 4.5:1) and decoration (≥ 3:1) colours on the light / dark paper. */
   accentLight: string;
   accentDark: string;
@@ -395,7 +377,7 @@ export function themeFor(classId: string, subclassId?: string | null): ClassThem
   const known = classId in CLASS_THEMES;
   const base: ClassDef = known
     ? CLASS_THEMES[classId]
-    : { hue: hash(classId) % 360, sat: 45, motifs: ['star', 'book', 'rune'], heading: 'double' };
+    : { hue: hash(classId) % 360, sat: 45, motifs: ['star', 'book', 'rune'] };
   let hue = base.hue;
   let motif = base.motifs[0];
   let hue2 = CLASS_HUE2[classId] ?? (base.hue + 180) % 360;
@@ -428,7 +410,6 @@ export function themeFor(classId: string, subclassId?: string | null): ClassThem
     sat,
     hue2,
     motif,
-    heading: base.heading,
     accentLight: readable(hue, ink, PAPER_LIGHT, 'darker'),
     accentDark: readable(hue, ink, PAPER_DARK, 'lighter'),
     // decoration only (not text): 3:1 is enough (WCAG 1.4.11)
