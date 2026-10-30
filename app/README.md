@@ -16,6 +16,12 @@ npm start
 Abre <http://localhost:4200>. `npm start` copia antes `../data` y `../characters` a `.dev-data/`, que la
 app lee mientras no haya un token de GitHub configurado (solo en desarrollo).
 
+Con `npm start`, el botón **Actualizar** de la barra superior trae los commits nuevos (`git pull --ff-only`)
+y recarga la app. Si cambian las dependencias o los datos, además ejecuta `npm ci` o vuelve a copiar
+`.dev-data/` y reinicia el servidor. Lo hace `scripts/dev.mjs`, un pequeño ayudante que solo escucha en este
+PC (puerto 4201) y solo atiende a la propia app. Nunca pisa cambios sin guardar: si el pull choca con ellos,
+falla y la app muestra el motivo. El botón no aparece en la app publicada.
+
 ```bash
 npm test         # tests unitarios (Vitest)
 npm run build    # compilación de producción en dist/ (no incluye los datos de D&D)
