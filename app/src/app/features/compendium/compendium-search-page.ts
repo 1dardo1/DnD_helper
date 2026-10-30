@@ -103,28 +103,47 @@ const PREVIEW = 20;
     }
     input[type='search'] {
       width: 100%;
-      max-width: 24rem;
+      max-width: 28rem;
     }
     .jump {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.25rem 0.75rem;
+      gap: 0.5rem;
     }
     .entries {
-      list-style: none;
+      columns: 2 22rem;
+      column-gap: var(--space-6);
       padding: 0;
+      list-style: none;
     }
     .entries li {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0 0.5rem;
       align-items: baseline;
-      padding: 0.25rem 0;
+      margin: 0;
+      padding: 0.4rem 0.25rem;
+      border-bottom: 1px dashed var(--line);
+      break-inside: avoid;
+    }
+    .entries a {
+      font-weight: 600;
     }
     .edition,
     .in-text {
+      padding: 0 0.5em;
+      font-family: var(--font-title);
       border: 1px solid currentColor;
-      padding: 0 0.25rem;
+      border-radius: 0.8em;
+      box-shadow:
+        inset 0 0 0 2px var(--paper),
+        inset 0 0 0 3px var(--line);
+    }
+    @media (pointer: coarse) {
+      .entries li {
+        min-height: var(--tap);
+        align-items: center;
+      }
     }
   `,
 })

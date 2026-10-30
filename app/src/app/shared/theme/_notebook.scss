@@ -1,4 +1,5 @@
-// Notebook mixins, shared by styles.scss and component styles:
+// Journal mixins (a medieval adventurer's leather-bound journal), shared by styles.scss and
+// component styles:
 //   @use '../../shared/theme/notebook' as nb;   then   @include nb.sticky-note;
 // They only use the design tokens defined on :root in styles.scss.
 
@@ -14,22 +15,44 @@
   @return $s;
 }
 
-/// A 24×24 line icon as a data URI; meant for `mask-image` (colour comes from background).
-/// `$stretch: true` lets a line drawing stretch to any width (underlines, rules).
+/// Any SVG markup as a data URI.
+@function svg-uri($svg) {
+  $svg: str-replace($svg, '<', '%3C');
+  $svg: str-replace($svg, '>', '%3E');
+  $svg: str-replace($svg, '#', '%23');
+  $svg: str-replace($svg, '"', "'");
+  @return url('data:image/svg+xml,#{$svg}');
+}
+
+/// A 24×24 line drawing as a data URI; meant for `mask-image` (colour comes from background).
+/// `$stretch: true` lets a line drawing stretch to any width (rules, underlines).
 @function svg($body, $view: '0 0 24 24', $stroke: 1.8, $stretch: false) {
   $par: '';
   @if $stretch {
     $par: " preserveAspectRatio='none'";
   }
-  $svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='#{$view}'#{$par} fill='none' stroke='black' stroke-width='#{$stroke}' stroke-linecap='round' stroke-linejoin='round'>#{$body}</svg>";
-  $svg: str-replace($svg, '<', '%3C');
-  $svg: str-replace($svg, '>', '%3E');
-  $svg: str-replace($svg, '#', '%23');
-  @return url('data:image/svg+xml,#{$svg}');
+  @return svg-uri(
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='#{$view}'#{$par} fill='none' stroke='black' stroke-width='#{$stroke}' stroke-linecap='round' stroke-linejoin='round'>#{$body}</svg>"
+  );
 }
 
-/// Hand-drawn wobbly box corners.
-$hand-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+/// Parchment fibres: fractal noise tinted brown, as a tiling background.
+/// $alpha: strength (keep it low behind text), $freq: grain size.
+@function fibres($alpha: 0.08, $freq: 0.75, $size: 220) {
+  @return svg-uri(
+    "<svg xmlns='http://www.w3.org/2000/svg' width='#{$size}' height='#{$size}'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='#{$freq}' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.33 0 0 0 0 0.21 0 0 0 0 0.09 0 0 0 #{$alpha} 0'/></filter><rect width='100%' height='100%' filter='url(#f)'/></svg>"
+  );
+}
+
+/// Leather grain: darker, coarser noise.
+@function grain($alpha: 0.35, $freq: 0.9) {
+  @return svg-uri(
+    "<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='turbulence' baseFrequency='#{$freq}' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08 0 0 0 0 0.04 0 0 0 0 0.02 0 0 0 #{$alpha} 0'/></filter><rect width='100%' height='100%' filter='url(#g)'/></svg>"
+  );
+}
+
+/// Slightly uneven corners, like a hand-cut card.
+$hand-radius: 3px 6px 4px 7px / 6px 3px 7px 4px;
 
 /// An icon drawn with the current accent (or `$color`) through a mask.
 @mixin icon($url, $size: 1.25em, $color: currentColor) {
@@ -42,30 +65,40 @@ $hand-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
   mask: $url center / contain no-repeat;
 }
 
-/// Yellow sticky note with a strip of tape: warnings, "to review", notes.
-@mixin sticky-note($tilt: -0.6deg) {
+/// A scrap of parchment pinned to the page with a wax seal: warnings, "to review", notes.
+@mixin sticky-note($tilt: -0.5deg) {
   position: relative;
-  margin: 1.25rem 0.25rem;
-  padding: 1rem 1rem 0.75rem;
-  background: var(--sticky);
-  color: var(--sticky-ink);
+  margin: 1.5rem 0.25rem 1.25rem;
+  padding: 1.1rem 1.1rem 0.8rem 1.25rem;
+  color: var(--scrap-ink);
+  background-color: var(--scrap);
+  background-image:
+    radial-gradient(ellipse at 50% 40%, transparent 55%, var(--scrap-edge) 100%), fibres(0.07);
   border: 0;
-  border-radius: 2px 2px 2px 14px / 2px 2px 2px 6px;
-  box-shadow: var(--shadow-note);
+  border-radius: 2px 9px 3px 12px / 9px 3px 10px 3px;
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-note);
   transform: rotate($tilt);
 
   &::before {
-    // tape
+    // wax seal holding the scrap
     content: '';
     position: absolute;
-    top: -0.6rem;
-    left: 50%;
-    width: 5.5rem;
-    height: 1.25rem;
-    transform: translateX(-50%) rotate(2deg);
-    background: var(--tape);
-    border-left: 1px dashed rgb(0 0 0 / 0.08);
-    border-right: 1px dashed rgb(0 0 0 / 0.08);
+    top: -0.75rem;
+    left: 1rem;
+    width: 1.6rem;
+    height: 1.5rem;
+    border-radius: 48% 52% 45% 55% / 55% 45% 52% 48%;
+    background: radial-gradient(
+      circle at 35% 30%,
+      color-mix(in srgb, var(--seal, var(--wax)) 60%, white) 0,
+      var(--seal, var(--wax)) 35%,
+      color-mix(in srgb, var(--seal, var(--wax)) 70%, black) 100%
+    );
+    box-shadow:
+      inset 0 0 0 3px color-mix(in srgb, var(--seal, var(--wax)) 80%, black),
+      0 1px 2px rgb(0 0 0 / 0.4);
   }
 
   a {
@@ -74,8 +107,10 @@ $hand-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
   }
 
   strong:first-child {
-    font-family: var(--font-note);
-    font-size: 1.1rem;
+    font-family: var(--font-title);
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--accent);
   }
 
   @media (max-width: 40rem), (prefers-reduced-motion: reduce) {
@@ -83,42 +118,129 @@ $hand-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
   }
 }
 
-/// Paper card glued on the page.
+/// A card of thicker vellum laid on the page.
 @mixin card {
-  background: var(--card);
+  background-color: var(--card);
+  background-image: fibres(0.05);
   border: 1px solid var(--line);
-  border-radius: var(--radius-md);
+  border-radius: $hand-radius;
   box-shadow: var(--shadow-1);
   padding: var(--space-4);
 }
 
-/// Ink stamp / pencil-circled label.
+/// Small inked cartouche (a label with a double ruled frame).
 @mixin stamp {
   display: inline-flex;
   align-items: center;
   gap: 0.3em;
-  padding: 0.05em 0.6em;
-  font-family: var(--font-note);
+  padding: 0.05em 0.65em;
+  font-family: var(--font-title);
   font-size: var(--fs-sm);
-  line-height: 1.6;
+  line-height: 1.5;
   color: var(--stamp, var(--ink-soft));
-  border: 1.5px solid currentColor;
-  border-radius: $hand-radius;
+  border: 1px solid currentColor;
+  border-radius: 0.8em;
+  box-shadow:
+    inset 0 0 0 2px var(--paper),
+    inset 0 0 0 3px color-mix(in srgb, currentColor 45%, transparent);
   white-space: nowrap;
 }
 
-/// Yellow highlighter behind inline text.
-@mixin highlighter($color: var(--highlight)) {
-  background: linear-gradient(
-    100deg,
-    transparent 0.2em,
-    $color 0.3em,
-    $color calc(100% - 0.4em),
-    transparent calc(100% - 0.2em)
+/// A wax seal with text (sync status, primary marks). Colour: --seal.
+@mixin wax-seal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.1em 0.75em;
+  font-family: var(--font-title);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: #fff4dc;
+  white-space: nowrap;
+  border-radius: 1.1em 0.9em 1em 0.95em / 0.95em 1.1em 0.9em 1em;
+  background: radial-gradient(
+    ellipse at 35% 25%,
+    color-mix(in srgb, var(--seal) 75%, white) 0,
+    var(--seal) 40%,
+    color-mix(in srgb, var(--seal) 72%, black) 100%
   );
-  background-size: 100% 0.75em;
-  background-position: 0 85%;
-  background-repeat: no-repeat;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+  box-shadow:
+    inset 0 0 0 2px color-mix(in srgb, var(--seal) 70%, black),
+    inset 0 0 0 3px rgb(255 255 255 / 0.15),
+    0 1px 2px rgb(0 0 0 / 0.35);
+  text-shadow: 0 1px 0 rgb(0 0 0 / 0.35);
+}
+
+/// Underlined in red ink (the journal's "highlighter").
+@mixin highlighter($color: var(--rubric-line)) {
+  text-decoration: underline;
+  text-decoration-color: $color;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+  text-decoration-skip-ink: none;
+}
+
+/// Wizard steps as a row of bookmark ribbons. Use on the buttons; states: .current, .done,
+/// .flagged (⚠).
+@mixin step-ribbon {
+  --ribbon: var(--paper-2);
+  --ribbon-ink: var(--ink-soft);
+  @include ribbon(right);
+  flex: none;
+  min-height: var(--tap);
+  margin: 0;
+  padding-left: 0.75rem;
+  font-family: var(--font-title);
+  font-size: var(--fs-sm);
+  border-radius: 0;
+  text-shadow: none;
+  box-shadow: none;
+
+  &:hover:not(:disabled, .current) {
+    filter: brightness(0.93);
+  }
+
+  &.done {
+    --ribbon: color-mix(in srgb, var(--ok) 22%, var(--paper-2));
+    --ribbon-ink: var(--ink);
+  }
+
+  &.flagged {
+    --ribbon: color-mix(in srgb, var(--warn) 30%, var(--paper-2));
+    --ribbon-ink: var(--ink);
+  }
+
+  &.current {
+    --ribbon: var(--wax);
+    --ribbon-ink: #fff4dc;
+    text-shadow: 0 1px 0 rgb(0 0 0 / 0.35);
+  }
+}
+
+/// A silk bookmark ribbon with a swallowtail end. Colour: --ribbon. $dir: down | right.
+@mixin ribbon($dir: down) {
+  color: var(--ribbon-ink, #fff4dc);
+  background:
+    linear-gradient(
+      to right,
+      rgb(0 0 0 / 0.18),
+      transparent 18%,
+      rgb(255 255 255 / 0.12) 50%,
+      transparent 82%,
+      rgb(0 0 0 / 0.18)
+    ),
+    var(--ribbon);
+  border: 0;
+  box-shadow: none;
+  text-shadow: 0 1px 0 rgb(0 0 0 / 0.35);
+  @if $dir == down {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 0.55rem), 0 100%);
+    padding-bottom: 0.85rem;
+  } @else {
+    background:
+      linear-gradient(to bottom, rgb(255 255 255 / 0.12), transparent 45%, rgb(0 0 0 / 0.15)),
+      var(--ribbon);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 0.6rem) 50%, 100% 100%, 0 100%);
+    padding-right: 1.3rem;
+  }
 }

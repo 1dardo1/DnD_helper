@@ -80,7 +80,7 @@ import { LoadError } from './load-error';
       inset: -1px auto -1px -1px;
       width: 0.5rem;
       border-radius: 3px 0 0 3px;
-      background: hsl(calc(var(--i, 0) * 40) 45% 55%);
+      background: hsl(calc(var(--i, 0) * 40) 38% 38%);
     }
     .sections a {
       font-family: var(--font-hand);

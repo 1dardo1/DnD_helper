@@ -61,7 +61,7 @@ import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
       gap: var(--space-2) var(--space-3);
       align-items: center;
       margin: 0;
-      padding: 2rem var(--space-4) var(--space-3);
+      padding: 2.6rem var(--space-4) var(--space-3);
       background-color: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--radius-md);

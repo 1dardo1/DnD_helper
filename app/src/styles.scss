@@ -1,20 +1,26 @@
-// D&D Helper — "adventurer's notebook" design.
+// D&D Helper — "a medieval adventurer's journal".
 //
-// Design tokens live on :root (light) and are redefined for dark mode ("the notebook at
-// night"). Plain semantic HTML (headings, p, a, button, input, select, textarea, table,
-// details, fieldset, dl, ul) looks right without classes; the utilities below are optional.
+// Aged vellum pages in a worn leather binding, iron-gall ink, red rubrication, silk bookmark
+// ribbons and wax seals. Dark mode is the same journal read by candlelight.
+//
+// Design tokens live on :root (light) and are redefined for dark mode. Plain semantic HTML
+// (headings, p, a, button, input, select, textarea, table, details, fieldset, dl, ul) looks
+// right without classes; the utilities below are optional.
 //
 // Utilities:
 //   Layout   .stack (vertical, gap)  .cluster (wrapping row)  .grid (auto-fill cards)
-//            .page (a notebook page; <main> already is one)  .table-scroll (wide tables)
-//   Surfaces .card (paper card)  .sticky / .warning (sticky note)  .tabs (divider tabs)
-//   Buttons  .btn  .btn-primary  .btn-danger  .btn-ghost  (button.primary / button.danger too)
-//   Text     .muted  .issue (red ink)  .hand (handwriting)  .highlight (marker)
-//            .chip (pencil-circled label)  .status[data-status] (sync stamp)
-//            .visually-hidden
+//            .page (a journal page; <main> already is one)  .table-scroll (wide tables)
+//   Surfaces .card (vellum card)  .sticky / .warning (pinned parchment scrap with a wax seal)
+//            .tabs (bookmark ribbons)
+//   Buttons  .btn  .btn-primary (wax seal)  .btn-danger  .btn-ghost
+//            (button.primary / button.danger too)
+//   Text     .muted  .issue (red ink)  .hand (display face)  .highlight (red-ink underline)
+//            .chip (inked cartouche)  .status[data-status] (wax seal)  .seal (wax seal)
+//            .dropcap (illuminated initial on its first letter)  .visually-hidden
 //   Themes   [appClassTheme] (shared/theme/class-theme.directive.ts) → themes.scss
 //
-// Mixins for component styles: shared/theme/_notebook.scss (sticky-note, card, stamp...).
+// Mixins for component styles: shared/theme/_notebook.scss (sticky-note, card, stamp,
+// wax-seal, ribbon, highlighter, icon, fibres...).
 
 @use 'app/shared/theme/notebook' as nb;
 @use 'app/shared/theme/themes';
@@ -24,19 +30,22 @@
 :root {
   color-scheme: light;
 
-  --font-body:
-    'Source Serif 4', 'Iowan Old Style', 'Palatino Linotype', Georgia, 'Noto Serif', serif;
-  --font-hand: 'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
-  --font-note: 'Kalam', 'Segoe Print', 'Bradley Hand', cursive;
+  --font-body: 'EB Garamond', Garamond, 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-title: 'IM Fell English', 'EB Garamond', Garamond, Georgia, serif;
+  --font-display: 'Pirata One', 'UnifrakturMaguntia', 'IM Fell English', Georgia, serif;
+  --font-initial: 'UnifrakturMaguntia', 'Pirata One', Georgia, serif;
+  // kept for components written for the previous design
+  --font-hand: var(--font-title);
+  --font-note: var(--font-title);
 
-  --fs-xs: 0.8125rem;
-  --fs-sm: 0.9rem;
-  --fs-md: 1.0625rem;
-  --fs-lg: 1.2rem;
+  --fs-xs: 0.85rem;
+  --fs-sm: 0.95rem;
+  --fs-md: 1.15rem;
+  --fs-lg: 1.3rem;
   --fs-xl: 1.6rem;
-  --fs-2xl: 2.1rem;
-  --fs-3xl: 2.8rem;
-  --lh: 1.6;
+  --fs-2xl: 1.9rem;
+  --fs-3xl: 2.7rem;
+  --lh: 1.55;
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -45,85 +54,92 @@
   --space-5: 1.5rem;
   --space-6: 2.5rem;
 
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 14px;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
   --radius-hand: #{nb.$hand-radius};
 
   --tap: 2.75rem; // 44px touch target
-  --grid-size: 1.5rem;
   --content-width: 72rem;
-  --margin-x: 2.75rem; // distance of the red margin line from the page edge
+  --measure: 70ch;
 
-  // paper & ink
-  --desk: #d7cbb3;
-  --desk-2: #c9bb9f;
-  --paper: #fbf7ec;
-  --card: #fffdf6;
-  --paper-2: #f3ecda;
-  --grid: rgb(66 112 168 / 0.13);
-  --margin-line: rgb(214 92 92 / 0.55);
-  --ink: #26221d;
-  --ink-soft: #5f574d;
-  --ink-blue: #1d4a86;
-  --accent: #8b1e2d;
-  --accent-2: #b0602a;
-  --on-accent: #fffaf0;
-  --line: rgb(60 45 30 / 0.22);
-  --line-strong: rgb(60 45 30 / 0.5);
-  --highlight: rgb(255 214 64 / 0.6);
-  --sticky: #fff1a1;
-  --sticky-ink: #3a3214;
-  --tape: rgb(240 235 215 / 0.75);
-  --focus: #1f6feb;
-  --danger: #a3172b;
-  --ok: #2b6a37;
-  --warn: #8a5300;
-  --info: #1d4a86;
-  --wire: #8a8f98;
-  --cover: #4a1d24;
-  --cover-ink: #f7ecd8;
+  // vellum & ink
+  --desk: #4a2e1c; // the leather cover around the page
+  --desk-2: #2e1b10;
+  --leather-line: rgb(222 180 105 / 0.55); // gold tooling
+  --thread: #d8c39a;
+  --paper: #f1e3c2;
+  --paper-edge: rgb(120 72 25 / 0.32);
+  --card: #f6ead0;
+  --paper-2: #e9d8b2;
+  --ink: #2b1d12;
+  --ink-soft: #5c4430;
+  --ink-blue: #1f4a7a; // lapis, for links
+  --accent: #8e1b14; // rubric red
+  --accent-2: #9a6b18; // gold leaf (decoration)
+  --rubric-line: rgb(142 27 20 / 0.75);
+  --on-accent: #fff4dc;
+  --line: rgb(90 55 20 / 0.25);
+  --line-strong: rgb(90 55 20 / 0.55);
+  --highlight: rgb(142 27 20 / 0.12);
+  --scrap: #ecdcb6;
+  --scrap-edge: rgb(110 65 20 / 0.28);
+  --scrap-ink: #2b1d12;
+  --wax: #9c1c1c;
+  --focus: #1f5fbf;
+  --danger: #9c1c1c;
+  --ok: #2f6a33;
+  --warn: #8a5414;
+  --info: #2b4f86;
+  --brass: #b88a3c;
+  --cover: #3b2416;
+  --cover-ink: #f1e2c0;
+  --glow: transparent;
 
-  --shadow-1: 0 1px 2px rgb(60 40 20 / 0.12), 0 2px 6px rgb(60 40 20 / 0.06);
-  --shadow-2: 0 4px 14px rgb(60 40 20 / 0.16);
-  --shadow-note: 0 6px 12px -6px rgb(60 40 20 / 0.45), 0 1px 1px rgb(60 40 20 / 0.12);
-  --shadow-page: 0 1px 1px rgb(60 40 20 / 0.15), 0 10px 30px -10px rgb(60 40 20 / 0.45);
+  --shadow-1: 0 1px 2px rgb(60 35 10 / 0.18), 0 2px 6px rgb(60 35 10 / 0.08);
+  --shadow-2: 0 4px 14px rgb(60 35 10 / 0.22);
+  --shadow-note: 0 6px 12px -6px rgb(60 35 10 / 0.55), 0 1px 1px rgb(60 35 10 / 0.15);
+  --shadow-page: 0 18px 40px -12px rgb(0 0 0 / 0.65);
 }
 
 @mixin dark-tokens {
   color-scheme: dark;
-  --desk: #121316;
-  --desk-2: #0b0c0e;
-  --paper: #24272d;
-  --card: #2b2f36;
-  --paper-2: #2f333b;
-  --grid: rgb(150 180 230 / 0.07);
-  --margin-line: rgb(220 110 110 / 0.4);
-  --ink: #ece5d6;
-  --ink-soft: #b3aa9b;
-  --ink-blue: #93b9f2;
-  --accent: #f08a96;
-  --accent-2: #e9a46a;
-  --on-accent: #1d1012;
-  --line: rgb(230 220 200 / 0.16);
-  --line-strong: rgb(230 220 200 / 0.4);
-  --highlight: rgb(255 205 60 / 0.28);
-  --sticky: #4b4322;
-  --sticky-ink: #f6edcd;
-  --tape: rgb(220 215 190 / 0.18);
-  --focus: #79b0ff;
-  --danger: #ff8c9a;
-  --ok: #7fd18e;
+  --desk: #1f140d;
+  --desk-2: #0c0805;
+  --leather-line: rgb(205 160 90 / 0.35);
+  --thread: #8c7655;
+  --paper: #2a2119;
+  --paper-edge: rgb(0 0 0 / 0.55);
+  --card: #33281e;
+  --paper-2: #3a2d21;
+  --ink: #ecdcbc;
+  --ink-soft: #c2ab88;
+  --ink-blue: #9dbbe6;
+  --accent: #e58a73;
+  --accent-2: #d9b25a;
+  --rubric-line: rgb(229 138 115 / 0.8);
+  --on-accent: #1e120b;
+  --line: rgb(236 220 188 / 0.16);
+  --line-strong: rgb(236 220 188 / 0.4);
+  --highlight: rgb(229 138 115 / 0.14);
+  --scrap: #3d3022;
+  --scrap-edge: rgb(0 0 0 / 0.45);
+  --scrap-ink: #f0e2c2;
+  --wax: #a42828;
+  --focus: #8fb8ff;
+  --danger: #ff9a8a;
+  --ok: #8fd197;
   --warn: #f0b860;
-  --info: #93b9f2;
-  --wire: #6b7079;
-  --cover: #17181c;
-  --cover-ink: #ece5d6;
+  --info: #9dbbe6;
+  --brass: #8f6a2c;
+  --cover: #1a110b;
+  --cover-ink: #ecdcbc;
+  --glow: rgb(255 170 80 / 0.1); // candlelight
 
-  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
-  --shadow-2: 0 4px 14px rgb(0 0 0 / 0.5);
-  --shadow-note: 0 6px 14px -6px rgb(0 0 0 / 0.8);
-  --shadow-page: 0 10px 30px -8px rgb(0 0 0 / 0.8);
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.45);
+  --shadow-2: 0 4px 14px rgb(0 0 0 / 0.55);
+  --shadow-note: 0 6px 14px -6px rgb(0 0 0 / 0.85);
+  --shadow-page: 0 18px 40px -10px rgb(0 0 0 / 0.9);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -146,7 +162,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scroll-padding-top: 4rem;
+  scroll-padding-top: 5rem;
 }
 
 body {
@@ -156,21 +172,20 @@ body {
   font-size: var(--fs-md);
   line-height: var(--lh);
   color: var(--ink);
+  // worn leather
   background-color: var(--desk);
-  background-image: radial-gradient(
-    ellipse at 50% 0,
-    color-mix(in srgb, var(--desk) 70%, white) 0,
-    var(--desk) 45%,
-    var(--desk-2) 100%
-  );
+  background-image:
+    radial-gradient(ellipse at 50% 30%, rgb(255 220 160 / 0.08), transparent 60%),
+    radial-gradient(ellipse at 50% 50%, transparent 40%, rgb(0 0 0 / 0.45) 100%), nb.grain(0.4),
+    linear-gradient(var(--desk), var(--desk-2));
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
-  font-optical-sizing: auto;
+  font-variant-ligatures: common-ligatures;
   overflow-wrap: break-word;
 }
 
 ::selection {
-  background: var(--highlight);
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
   color: inherit;
 }
 
@@ -180,45 +195,62 @@ h3,
 h4 {
   line-height: 1.15;
   margin: 1.4em 0 0.5em;
+  font-weight: 400;
   text-wrap: balance;
 }
 
+// Page titles: a blackletter-flavoured display face in red ink, with a pen flourish below.
 h1 {
-  width: fit-content;
   max-width: 100%;
   margin-top: 0.2em;
-  font-family: var(--font-hand);
-  font-weight: 700;
+  font-family: var(--font-display);
   font-size: var(--fs-3xl);
   letter-spacing: 0.01em;
-  color: var(--ink);
+  color: var(--accent);
 
-  // hand-drawn underline in the accent colour
   &::after {
     content: '';
     display: block;
-    height: 0.3em;
-    margin-top: -0.05em;
-    background-color: var(--accent);
-    mask: nb.svg("<path d='M2 7c40-5 90-6 130-3s50 2 66-1'/>", '0 0 200 10', 3, true) 0 0 / 100%
-      100% no-repeat;
+    width: min(100%, 9em);
+    height: 0.42em;
+    margin-top: 0.1em;
+    background-color: var(--ink-soft);
+    mask: nb.svg(
+        "<path d='M4 10c18-6 40-6 62-1M136 10c-18-6-40-6-62-1'/><path d='M70 4l4 6-4 6-4-6z' fill='black'/><circle cx='3' cy='10.5' r='1.6' fill='black'/><circle cx='137' cy='10.5' r='1.6' fill='black'/>",
+        '0 0 140 20',
+        1.6
+      )
+      left center / contain no-repeat;
   }
 }
 
 h2 {
-  font-family: var(--font-hand);
-  font-weight: 700;
+  font-family: var(--font-title);
   font-size: var(--fs-2xl);
-  color: var(--accent);
+  color: var(--ink);
+
+  // a red fleuron before the heading
+  &::before {
+    @include nb.icon(
+      nb.svg(
+        "<path d='M4 12c4-7 12-8 16-4-3 0-6 1-7 4 1 3 4 4 7 4-4 4-12 3-16-4z' fill='black'/><path d='M2 12h4'/>"
+      ),
+      0.7em,
+      var(--accent)
+    );
+    margin-right: 0.3em;
+    vertical-align: -0.02em;
+  }
 }
 
 h3 {
-  font-family: var(--font-note);
-  font-weight: 700;
+  font-family: var(--font-title);
   font-size: var(--fs-lg);
+  color: var(--accent);
 }
 
 h4 {
+  font-family: var(--font-title);
   font-size: var(--fs-md);
 }
 
@@ -248,7 +280,7 @@ li::marker {
 }
 
 dt {
-  font-weight: 700;
+  font-family: var(--font-title);
 }
 
 dd {
@@ -256,7 +288,7 @@ dd {
 }
 
 small {
-  font-size: 0.875em;
+  font-size: 0.88em;
   color: var(--ink-soft);
 }
 
@@ -267,31 +299,36 @@ b {
 
 mark {
   @include nb.highlighter;
+  background: var(--highlight);
   color: inherit;
 }
 
 hr {
-  height: 6px;
-  margin: var(--space-5) 0;
+  height: 14px;
+  margin: var(--space-5) auto;
+  max-width: 20rem;
   border: 0;
-  background-color: var(--line-strong);
-  mask: nb.svg("<path d='M2 3c50 2 120-2 196 0'/>", '0 0 200 6', 1.5, true) 0 0 / 100% 100%
-    no-repeat;
+  background-color: var(--ink-soft);
+  mask: nb.svg(
+      "<path d='M2 7h80M118 7h80'/><path d='M100 1l6 6-6 6-6-6z' fill='black'/><circle cx='88' cy='7' r='1.5' fill='black'/><circle cx='112' cy='7' r='1.5' fill='black'/>",
+      '0 0 200 14',
+      1.2
+    )
+    center / contain no-repeat;
 }
 
 blockquote {
   margin-inline: 0;
   padding: var(--space-2) var(--space-4);
-  border-left: 3px solid var(--accent-2);
-  background: var(--paper-2);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-style: italic;
+  border-left: 3px double var(--accent);
 }
 
 code,
 kbd,
 pre {
   font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 0.9em;
+  font-size: 0.85em;
 }
 
 code {
@@ -307,7 +344,7 @@ video {
   height: auto;
 }
 
-// links: blue ink
+// links: lapis ink
 a {
   color: var(--ink-blue);
   text-decoration: underline;
@@ -332,8 +369,25 @@ a {
   font-weight: 600;
 }
 
+// Illuminated initial: the first paragraph of a description (and .dropcap anywhere).
+article > .md:first-of-type > p:first-child::first-letter,
+.dropcap::first-letter {
+  float: left;
+  margin: 0.06em 0.14em 0 0;
+  padding: 0.04em 0.12em 0;
+  font-family: var(--font-initial);
+  font-size: 3.6em;
+  line-height: 0.82;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent-2) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-2) 70%, transparent);
+  box-shadow: inset 0 0 0 2px var(--paper);
+  text-shadow: 1px 1px 0 color-mix(in srgb, var(--accent-2) 45%, transparent);
+}
+
 // -- buttons -------------------------------------------------------------------------------
 
+// An inked label pressed into the page.
 button,
 .btn {
   display: inline-flex;
@@ -341,32 +395,33 @@ button,
   justify-content: center;
   gap: 0.4em;
   min-height: 2.5rem;
-  padding: 0.3rem 1rem;
+  padding: 0.25rem 1rem;
   font: inherit;
-  font-family: var(--font-note);
-  font-weight: 700;
+  font-family: var(--font-title);
   font-size: var(--fs-md);
   line-height: 1.2;
   color: var(--ink);
-  background: var(--card);
-  border: 1.5px solid var(--line-strong);
-  border-radius: var(--radius-hand);
-  box-shadow: 0 2px 0 var(--line);
+  background-color: var(--card);
+  background-image: linear-gradient(rgb(255 255 255 / 0.12), rgb(0 0 0 / 0.04));
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  box-shadow:
+    inset 0 0 0 2px var(--card),
+    inset 0 0 0 3px var(--line),
+    0 1px 0 var(--line);
   text-decoration: none;
   cursor: pointer;
   transition:
     transform 0.08s,
-    box-shadow 0.08s,
     background-color 0.15s;
 
   &:hover:not(:disabled) {
-    background: var(--paper-2);
+    background-color: var(--paper-2);
     border-color: var(--ink-soft);
   }
 
   &:active:not(:disabled) {
     transform: translateY(1px);
-    box-shadow: 0 1px 0 var(--line);
   }
 
   &:disabled {
@@ -375,17 +430,33 @@ button,
   }
 }
 
+// Primary actions: a red wax seal.
 button.primary,
 .btn-primary {
-  color: var(--on-accent);
-  background: var(--accent);
-  border-color: var(--accent);
-  box-shadow: 0 2px 0 color-mix(in srgb, var(--accent) 55%, black);
+  --seal: var(--wax);
+  color: #fff4dc;
+  background: radial-gradient(
+    ellipse at 35% 25%,
+    color-mix(in srgb, var(--seal) 75%, white) 0,
+    var(--seal) 45%,
+    color-mix(in srgb, var(--seal) 70%, black) 100%
+  );
+  border: 0;
+  border-radius: 1.3rem 1.1rem 1.25rem 1.05rem / 1.1rem 1.3rem 1.05rem 1.25rem;
+  box-shadow:
+    inset 0 0 0 2px color-mix(in srgb, var(--seal) 65%, black),
+    inset 0 0 0 4px rgb(255 255 255 / 0.12),
+    0 2px 3px rgb(0 0 0 / 0.35);
+  text-shadow: 0 1px 0 rgb(0 0 0 / 0.4);
 
   &:hover:not(:disabled) {
-    color: var(--on-accent);
-    background: color-mix(in srgb, var(--accent) 88%, black);
-    border-color: var(--accent);
+    color: #fff4dc;
+    background: radial-gradient(
+      ellipse at 35% 25%,
+      color-mix(in srgb, var(--seal) 70%, white) 0,
+      color-mix(in srgb, var(--seal) 90%, black) 50%,
+      color-mix(in srgb, var(--seal) 60%, black) 100%
+    );
   }
 }
 
@@ -394,6 +465,7 @@ button.danger,
   color: var(--danger);
   border-color: currentColor;
   background: transparent;
+  box-shadow: none;
 
   &:hover:not(:disabled) {
     background: color-mix(in srgb, var(--danger) 10%, transparent);
@@ -414,34 +486,35 @@ button.danger,
   }
 }
 
-// -- form controls -------------------------------------------------------------------------
+// -- form controls: writing lines on the parchment -----------------------------------------
 
 input:not([type='checkbox'], [type='radio'], [type='range'], [type='color']),
 select,
 textarea {
   min-height: 2.5rem;
   max-width: 100%;
-  padding: 0.35rem 0.65rem;
+  padding: 0.3rem 0.5rem 0.2rem;
   font: inherit;
-  font-size: max(16px, 1rem); // no zoom on iOS
+  font-size: max(16px, 1.1rem); // no zoom on iOS
   color: var(--ink);
-  background: var(--card);
-  border: 1.5px solid var(--line-strong);
-  border-radius: var(--radius-md);
-  box-shadow: inset 0 1px 2px var(--line);
+  background: color-mix(in srgb, var(--card) 65%, transparent);
+  border: 0;
+  border-bottom: 2px solid var(--ink-soft);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
 
   &::placeholder {
     color: var(--ink-soft);
-    opacity: 0.8;
+    font-style: italic;
+    opacity: 0.85;
   }
 
   &:hover:not(:disabled) {
-    border-color: var(--ink-soft);
+    background: var(--card);
   }
 
   &:focus-visible {
-    outline-offset: 0;
-    border-color: var(--focus);
+    outline-offset: 1px;
+    border-bottom-color: var(--accent);
   }
 
   &:disabled {
@@ -452,14 +525,16 @@ textarea {
 textarea {
   width: 100%;
   line-height: var(--lh);
-  // writing on lines
+  border: 1px solid var(--line-strong);
+  border-bottom-width: 2px;
+  // faint pencilled guide lines
   background-image: linear-gradient(
     to bottom,
     transparent calc(var(--lh) * 1em - 1px),
-    var(--grid) calc(var(--lh) * 1em - 1px)
+    var(--line) calc(var(--lh) * 1em - 1px)
   );
   background-size: 100% calc(var(--lh) * 1em);
-  background-position: 0 0.35rem;
+  background-position: 0 0.3rem;
   background-attachment: local;
   resize: vertical;
 }
@@ -471,23 +546,23 @@ input[type='number'] {
 select {
   appearance: none;
   padding-right: 2rem;
-  background-image: nb.svg("<path d='M6 9l6 6 6-6' stroke='%235f574d'/>");
+  background-image: nb.svg("<path d='M6 9l6 6 6-6' stroke='#5c4430'/>");
   background-repeat: no-repeat;
-  background-position: right 0.5rem center;
+  background-position: right 0.4rem center;
   background-size: 1.1rem;
   cursor: pointer;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) select {
-    background-image: nb.svg("<path d='M6 9l6 6 6-6' stroke='%23b3aa9b'/>");
+    background-image: nb.svg("<path d='M6 9l6 6 6-6' stroke='#c2ab88'/>");
   }
 }
 
 input[type='checkbox'],
 input[type='radio'] {
-  width: 1.15rem;
-  height: 1.15rem;
+  width: 1.2rem;
+  height: 1.2rem;
   margin: 0;
   flex: none;
   accent-color: var(--accent);
@@ -506,7 +581,7 @@ label:has(> input[type='radio']) {
   cursor: pointer;
 
   &:hover {
-    background: color-mix(in srgb, var(--accent) 7%, transparent);
+    background: var(--highlight);
   }
 
   @media (pointer: coarse) {
@@ -517,17 +592,16 @@ label:has(> input[type='radio']) {
 fieldset {
   min-width: 0;
   padding: var(--space-3) var(--space-4) var(--space-4);
-  border: 1.5px dashed var(--line-strong);
+  border: 3px double var(--line-strong);
   border-radius: var(--radius-md);
-  background: color-mix(in srgb, var(--card) 55%, transparent);
+  background: color-mix(in srgb, var(--card) 40%, transparent);
 }
 
 legend {
-  padding: 0 0.4rem;
-  font-family: var(--font-note);
-  font-weight: 700;
+  padding: 0 0.45rem;
+  font-family: var(--font-title);
   font-size: var(--fs-md);
-  @include nb.highlighter;
+  color: var(--accent);
 }
 
 // -- tables --------------------------------------------------------------------------------
@@ -535,24 +609,24 @@ legend {
 table {
   border-collapse: collapse;
   font-size: var(--fs-sm);
-  font-variant-numeric: tabular-nums;
-  background: color-mix(in srgb, var(--card) 70%, transparent);
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 th,
 td {
-  padding: 0.4rem 0.65rem;
+  padding: 0.35rem 0.65rem;
   text-align: left;
   vertical-align: top;
   border-bottom: 1px solid var(--line);
 }
 
 th {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 thead th {
-  font-family: var(--font-note);
+  font-family: var(--font-title);
+  font-weight: 400;
   font-size: var(--fs-md);
   color: var(--accent);
   border-bottom: 3px double var(--line-strong);
@@ -560,12 +634,12 @@ thead th {
 }
 
 tbody tr:nth-child(even) {
-  background: color-mix(in srgb, var(--paper-2) 60%, transparent);
+  background: color-mix(in srgb, var(--paper-2) 45%, transparent);
 }
 
 caption {
   padding-bottom: var(--space-2);
-  font-family: var(--font-note);
+  font-family: var(--font-title);
   text-align: left;
 }
 
@@ -573,8 +647,8 @@ caption {
   max-width: 100%;
   overflow-x: auto;
   margin-bottom: var(--space-4);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
+  border-top: 3px double var(--line-strong);
+  border-bottom: 3px double var(--line-strong);
   -webkit-overflow-scrolling: touch;
 
   > table {
@@ -590,7 +664,7 @@ caption {
 // -- details / summary ---------------------------------------------------------------------
 
 details {
-  border-left: 3px solid var(--line-strong);
+  border-left: 2px solid var(--line-strong);
   padding-left: var(--space-3);
   margin-bottom: var(--space-2);
 
@@ -606,8 +680,7 @@ summary {
   gap: 0.5rem;
   min-height: 2.5rem;
   padding: 0.2rem 0;
-  font-family: var(--font-note);
-  font-weight: 700;
+  font-family: var(--font-title);
   cursor: pointer;
   list-style: none;
 
@@ -620,14 +693,14 @@ summary {
     flex: none;
     width: 0.55rem;
     height: 0.55rem;
-    border-right: 2px solid var(--accent);
-    border-bottom: 2px solid var(--accent);
-    transform: rotate(-45deg);
+    background: var(--accent);
+    transform: rotate(45deg) scale(0.85);
     transition: transform 0.15s;
   }
 
   details[open] > &::before {
-    transform: rotate(45deg) translate(-2px, -2px);
+    transform: rotate(45deg) scale(0.85) translate(1px, 1px);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
   }
 
   @media (pointer: coarse) {
@@ -642,18 +715,19 @@ summary {
   > ul,
   > ol,
   > blockquote {
-    max-width: 75ch;
+    max-width: var(--measure);
   }
 
   h1,
   h2,
   h3,
   h4 {
-    font-family: var(--font-note);
+    font-family: var(--font-title);
     font-size: var(--fs-lg);
     color: var(--accent);
     margin-top: 1.2em;
 
+    &::before,
     &::after {
       display: none;
     }
@@ -664,8 +738,8 @@ summary {
     max-width: 100%;
     width: max-content;
     overflow-x: auto;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
+    border-top: 3px double var(--line-strong);
+    border-bottom: 3px double var(--line-strong);
   }
 
   > :last-child {
@@ -718,8 +792,8 @@ summary {
 }
 
 .hand {
-  font-family: var(--font-hand);
-  font-size: 1.3em;
+  font-family: var(--font-display);
+  font-size: 1.2em;
 }
 
 .highlight {
@@ -728,6 +802,11 @@ summary {
 
 .chip {
   @include nb.stamp;
+}
+
+.seal {
+  --seal: var(--wax);
+  @include nb.wax-seal;
 }
 
 .visually-hidden {
@@ -739,86 +818,77 @@ summary {
   white-space: nowrap;
 }
 
-// Notebook divider tabs: <nav class="tabs"><a|button aria-current / .current>…</nav>
+// Bookmark ribbons: <nav class="tabs"><a|button aria-current / .current>…</nav>
 .tabs {
   display: flex;
-  gap: 0.2rem;
-  overflow-x: auto;
-  border-bottom: 2px solid var(--line-strong);
-  scrollbar-width: thin;
+  flex-wrap: wrap;
+  gap: 0.35rem;
 
   > a,
   > button {
+    --ribbon: color-mix(in srgb, var(--ink-soft) 70%, var(--paper));
+    @include nb.ribbon(right);
     flex: none;
     min-height: var(--tap);
-    margin-bottom: -2px;
-    padding: 0.35rem 0.9rem;
-    font-family: var(--font-note);
-    font-weight: 700;
-    color: var(--ink-soft);
+    padding-left: 0.8rem;
+    font-family: var(--font-title);
     text-decoration: none;
-    background: var(--paper-2);
-    border: 2px solid var(--line-strong);
-    border-radius: 10px 10px 0 0;
-    box-shadow: none;
+    border-radius: 0;
 
     &:is(.current, .active, [aria-current='page'], [aria-current='step']) {
-      color: var(--accent);
-      background: var(--paper);
-      border-bottom-color: var(--paper);
+      --ribbon: var(--wax);
     }
   }
 }
 
-// Sync status stamps: <span class="status" data-status="local|sent|synced|conflict|...">
+// Sync status as wax seals: <span class="status" data-status="local|sent|synced|conflict|...">
 .status {
-  @include nb.stamp;
+  --seal: #6b5a48;
+  @include nb.wax-seal;
 
   &[data-status='local'] {
-    --stamp: var(--warn);
+    --seal: #8a5414;
   }
   &[data-status='sent'] {
-    --stamp: var(--info);
+    --seal: #2b4f86;
   }
   &[data-status='synced'] {
-    --stamp: var(--ok);
+    --seal: #2f6a33;
   }
   &[data-status='conflict'] {
-    --stamp: var(--danger);
-    border-width: 2px;
+    --seal: #9c1c1c;
   }
   &[data-status='pending-delete'] {
-    --stamp: var(--ink-soft);
+    --seal: #4a4440;
     text-decoration: line-through;
   }
 }
 
-// A notebook page (squared paper with a red margin line). <main> in the app shell is one.
+// A journal page: aged vellum with fibres, uneven tone, burnt edges and a few ink specks.
+// <main> in the app shell is one.
 .page {
   position: relative;
   background-color: var(--paper);
   background-image:
-    linear-gradient(
-      to right,
-      transparent calc(var(--margin-x) - 3px),
-      var(--margin-line) calc(var(--margin-x) - 3px),
-      var(--margin-line) calc(var(--margin-x) - 2px),
-      transparent calc(var(--margin-x) - 2px),
-      transparent var(--margin-x),
-      var(--margin-line) var(--margin-x),
-      var(--margin-line) calc(var(--margin-x) + 1px),
-      transparent calc(var(--margin-x) + 1px)
-    ),
-    linear-gradient(to bottom, var(--grid) 1px, transparent 1px),
-    linear-gradient(to right, var(--grid) 1px, transparent 1px);
-  background-size:
-    100% 100%,
-    var(--grid-size) var(--grid-size),
-    var(--grid-size) var(--grid-size);
-  background-position:
-    0 0,
-    0 -1px,
-    -1px 0;
+    // candle glow (dark mode only)
+    radial-gradient(ellipse 70% 50% at 50% 18%, var(--glow), transparent 75%),
+    // burnt, darker edges
+    radial-gradient(ellipse at 50% 45%, transparent 58%, var(--paper-edge) 100%),
+    // a few faint ink specks
+    radial-gradient(circle at 93% 7%, rgb(43 29 18 / 0.16) 0 2px, transparent 3px),
+    radial-gradient(circle at 95.5% 9.5%, rgb(43 29 18 / 0.12) 0 1px, transparent 2px),
+    radial-gradient(circle at 91% 10.5%, rgb(43 29 18 / 0.1) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 6% 96%, rgb(43 29 18 / 0.1) 0 2.5px, transparent 3.5px),
+    // uneven tone
+    radial-gradient(ellipse 40% 30% at 20% 25%, rgb(255 250 230 / 0.25), transparent),
+    radial-gradient(ellipse 35% 25% at 80% 70%, rgb(150 100 40 / 0.07), transparent),
+    radial-gradient(ellipse 30% 40% at 65% 15%, rgb(150 100 40 / 0.05), transparent),
+    // fibres
+    nb.fibres(0.09, 0.7),
+    nb.fibres(0.06, 0.03, 400);
+  box-shadow:
+    inset 0 0 2.5rem var(--paper-edge),
+    inset 0 0 0.4rem var(--paper-edge);
 }
 
 @media (prefers-reduced-motion: reduce) {
