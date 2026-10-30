@@ -118,8 +118,7 @@ $initial-frame: nb.svg(
   // a marginalia band at the top: two rules with the motif repeated between them, over a faint
   // wash; all in the class colour
   background-image:
-    linear-gradient(var(--accent), var(--accent)),
-    linear-gradient(var(--accent), var(--accent)),
+    linear-gradient(var(--accent), var(--accent)), linear-gradient(var(--accent), var(--accent)),
     radial-gradient(ellipse 60% 12rem at 100% 0, var(--th-tint-2), transparent 70%),
     linear-gradient(to bottom, var(--th-tint), transparent 16rem);
   background-size:
