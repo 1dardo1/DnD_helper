@@ -12,6 +12,7 @@ import { RulesDataService } from '../../core/rules/rules-data.service';
 import { Sheet, SheetFeature, SheetWarning } from '../../core/rules/sheet';
 import { ABILITIES } from '../../core/rules/tables';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
+import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
 import { PlayPanel } from './play-panel';
 
@@ -27,6 +28,7 @@ import { PlayPanel } from './play-panel';
     MarkdownPipe,
     LoadError,
     PlayPanel,
+    ClassThemeDirective,
   ],
   templateUrl: './character-sheet.html',
   styleUrl: './character-sheet.scss',

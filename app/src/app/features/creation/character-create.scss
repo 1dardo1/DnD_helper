@@ -1,121 +1,288 @@
-// Structural layout only; the visual design comes later.
+// Creation wizard: steps as notebook divider tabs, the form on the page, and the live preview
+// as a themed index card (side panel on desktop, below the form on phones).
+@use '../../shared/theme/notebook' as nb;
+
 .steps {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  margin-bottom: 1rem;
+  gap: 0.2rem;
+  margin: 0 0 var(--space-5);
+  padding: 0 0.25rem;
+  overflow-x: auto;
+  border-bottom: 2px solid var(--line-strong);
+  scrollbar-width: thin;
 
-  button.current {
-    font-weight: bold;
-    outline: 2px solid currentColor;
+  button {
+    flex: none;
+    min-height: var(--tap);
+    margin-bottom: -2px;
+    padding: 0.3rem 0.85rem;
+    font-size: var(--fs-sm);
+    color: var(--ink-soft);
+    background: var(--paper-2);
+    border: 2px solid var(--line);
+    border-bottom-color: var(--line-strong);
+    border-radius: 10px 10px 0 0;
+    box-shadow: none;
+
+    &:hover:not(:disabled) {
+      color: var(--ink);
+      background: var(--card);
+    }
+
+    &.done {
+      color: var(--ok);
+    }
+
+    &.flagged {
+      color: var(--danger);
+      background: color-mix(in srgb, var(--sticky) 70%, var(--paper-2));
+    }
+
+    &.current {
+      color: var(--accent);
+      background: var(--paper);
+      border-color: var(--line-strong);
+      border-bottom-color: var(--paper);
+      transform: none;
+    }
+  }
+
+  @media (max-width: 44.99rem) {
+    margin-inline: -0.5rem;
+    // a scrollable strip; hint that there's more
+    mask-image: linear-gradient(to right, black calc(100% - 1.5rem), transparent);
+    padding-right: 1.5rem;
   }
 }
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 16rem;
-  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr) 17rem;
+  gap: var(--space-6);
   align-items: start;
-}
 
-@media (max-width: 48rem) {
-  .layout {
-    grid-template-columns: 1fr;
+  @media (max-width: 52rem) {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 .step {
   display: grid;
-  gap: 0.75rem;
+  gap: var(--space-4);
+  min-width: 0;
+
+  > * {
+    margin-block: 0;
+  }
 
   label:not(.inline) {
     display: grid;
-    gap: 0.25rem;
+    gap: 0.3rem;
+    font-family: var(--font-note);
+    font-weight: 700;
+
+    > :is(select, input, textarea) {
+      font-family: var(--font-body);
+      font-weight: 400;
+    }
   }
 
-  label.inline {
-    display: inline-flex;
-    gap: 0.25rem;
-    align-items: center;
-    margin-right: 0.75rem;
+  select,
+  input:not([type='checkbox'], [type='radio'], [type='number']) {
+    width: min(100%, 28rem);
   }
 
   textarea,
   input[type='search'] {
     width: 100%;
-    box-sizing: border-box;
-  }
-}
-
-.hp {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-
-  input {
-    width: 4rem;
-  }
-}
-
-.spells {
-  max-height: 16rem;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-}
-
-.scores th {
-  text-align: left;
-  padding-right: 1rem;
-}
-
-.missing {
-  border-left: 3px solid #c90;
-  padding-left: 1.5rem;
-}
-
-.nav,
-.actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-
-.preview {
-  position: sticky;
-  top: 1rem;
-  border: 1px solid #ccc;
-  padding: 0.75rem;
-
-  dl {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 0.25rem;
   }
 
-  dd {
-    margin: 0;
-    font-weight: bold;
-  }
-
-  .mini-abilities {
+  fieldset {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+
+    > :is(p, details, h3, .spells, select, input[type='search'], label:not(.inline)) {
+      flex: 1 1 100%;
+      margin: 0;
+    }
   }
-}
 
-.issue {
-  color: #b00020;
-}
+  label.inline {
+    margin-right: var(--space-2);
+  }
 
-.steps button.flagged {
-  border-color: #b00020;
+  h2 {
+    margin: var(--space-3) 0 0;
+  }
+
+  h3 {
+    margin: var(--space-2) 0 0;
+    font-size: var(--fs-md);
+  }
 }
 
 .class-row .row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: var(--space-3);
   align-items: end;
+  flex: 1 1 100%;
+}
+
+.hp {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+
+  label:not(.inline) {
+    font-size: var(--fs-sm);
+  }
+
+  input {
+    width: 4.5rem;
+  }
+}
+
+.spells {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  max-height: 18rem;
+  overflow-y: auto;
+  padding: var(--space-2);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+
+  label.inline {
+    margin: 0;
+  }
+}
+
+.scores {
+  width: auto;
+  font-size: var(--fs-md);
+  background: transparent;
+
+  th {
+    padding-right: var(--space-4);
+    font-family: var(--font-note);
+    vertical-align: middle;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+
+  tr {
+    background: transparent;
+  }
+
+  strong {
+    font-family: var(--font-hand);
+    font-size: 1.6rem;
+    color: var(--accent);
+  }
+}
+
+.missing {
+  @include nb.sticky-note(-0.4deg);
+  padding-left: 2rem;
+  list-style: none;
+
+  ul {
+    margin: var(--space-2) 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  li {
+    margin-bottom: 0.25rem;
+  }
+}
+
+ul.missing {
+  padding-left: 1rem;
+}
+
+.nav,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px dashed var(--line-strong);
+}
+
+.preview {
+  position: sticky;
+  top: 4.75rem;
+  padding: 2rem var(--space-4) var(--space-4);
+  background-color: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+
+  h2 {
+    margin: 0 0 var(--space-1);
+    font-size: var(--fs-xl);
+  }
+
+  > p:first-of-type {
+    font-family: var(--font-note);
+    font-size: var(--fs-sm);
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.2rem var(--space-2);
+  }
+
+  dt {
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+
+  dd {
+    margin: 0;
+    font-family: var(--font-hand);
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--accent);
+  }
+
+  .mini-abilities {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-1);
+    margin: 0;
+
+    span {
+      padding: 0.1rem;
+      font-size: var(--fs-sm);
+      text-align: center;
+      border: 1px solid var(--line-strong);
+      border-radius: nb.$hand-radius;
+    }
+  }
+
+  @media (max-width: 52rem) {
+    position: relative; // keeps the theme ornaments inside the card
+    top: 0;
+  }
+}
+
+.issue {
+  color: var(--danger);
+}
+
+legend.issue,
+h3.issue {
+  color: var(--danger);
 }

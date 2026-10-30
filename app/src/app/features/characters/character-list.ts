@@ -4,15 +4,16 @@ import { RouterLink } from '@angular/router';
 import { CharacterStore } from '../../core/characters/character-store.service';
 import { SyncService } from '../../core/characters/sync.service';
 import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
+import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 
 /** Characters on this device (plus any new ones in the repo), with their cloud status. */
 @Component({
   selector: 'app-character-list',
-  imports: [RouterLink, TranslatePipe, LocalDatePipe],
+  imports: [RouterLink, TranslatePipe, LocalDatePipe, ClassThemeDirective],
   template: `
     <h1>{{ 'characters.title' | t }}</h1>
     <p>
-      <a routerLink="/characters/new">+ {{ 'nav.create' | t }}</a>
+      <a class="btn btn-primary new" routerLink="/characters/new">+ {{ 'nav.create' | t }}</a>
     </p>
 
     @if (sync.lastError()) {
@@ -21,7 +22,12 @@ import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 
     <ul class="characters">
       @for (r of store.all(); track r.character.id) {
-        <li>
+        <li
+          [appClassTheme]="{
+            classId: r.character.classes[0]?.id,
+            subclassId: r.character.classes[0]?.subclassId,
+          }"
+        >
           <a [routerLink]="['/characters', r.character.id]"
             ><strong>{{ r.character.name }}</strong></a
           >
@@ -42,20 +48,64 @@ import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
   `,
   styles: `
     .characters {
-      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+      gap: var(--space-4);
       padding: 0;
+      list-style: none;
     }
     .characters li {
+      position: relative;
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: baseline;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid #eee;
+      gap: var(--space-2) var(--space-3);
+      align-items: center;
+      margin: 0;
+      padding: 2rem var(--space-4) var(--space-3);
+      background-color: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-1);
     }
-    .status {
-      border: 1px solid currentColor;
-      padding: 0 0.25rem;
+    .characters li.class-theme::after {
+      top: 1.5rem;
+      width: 4.5rem;
+    }
+    .characters li > a:first-child {
+      flex: 1 1 100%;
+      font-family: var(--font-hand);
+      font-size: var(--fs-2xl);
+      line-height: 1.1;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .characters li > a:first-child::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+    .characters li > a:first-child strong {
+      font-weight: 700;
+    }
+    .characters li:focus-within {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+    .characters li > a:first-child:focus-visible {
+      outline: none;
+    }
+    .characters li > a:not(:first-child) {
+      position: relative;
+      z-index: 1;
+      font-weight: 700;
+      color: var(--danger);
+    }
+    .characters small {
+      flex: 1 1 100%;
+    }
+    .new {
+      font-family: var(--font-note);
+      font-weight: 700;
     }
   `,
 })

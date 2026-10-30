@@ -4,6 +4,7 @@
     @for (item of nav; track item.path) {
       <a
         [routerLink]="item.path"
+        [attr.data-icon]="item.path"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: item.path === '/characters' }"
       >
@@ -54,6 +55,6 @@
   </select>
 </header>
 
-<main>
+<main class="page">
   <router-outlet />
 </main>

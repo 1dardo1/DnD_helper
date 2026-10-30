@@ -84,11 +84,16 @@ export class LevelUp {
   protected readonly spellFilter = signal('');
   protected readonly saving = signal(false);
 
+  /** Changes when the character shows up (a first visit can arrive before the pull brings it). */
+  private readonly present = computed(() =>
+    this.store.all().some((r) => r.character.id === this.id()),
+  );
+
   protected readonly data = resource({
-    params: () => this.id(),
+    params: () => ({ id: this.id(), present: this.present() }),
     loader: async ({ params }) => {
       const [record, rules, spells, options, meta] = await Promise.all([
-        this.store.get(params),
+        this.store.get(params.id),
         this.rules.load(),
         this.compendium.all('spell'),
         this.compendium.all('option'),

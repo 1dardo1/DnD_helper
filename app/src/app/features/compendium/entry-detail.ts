@@ -25,6 +25,7 @@ import {
 } from '../../core/models/compendium';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { armorDex, prerequisitesText, slotsText, weaponProperty } from './entry-format';
+import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from './load-error';
 
 /** Detail page for any entry, with the fields of its type and links to related entries. */
@@ -40,6 +41,7 @@ import { LoadError } from './load-error';
     DataTextPipe,
     MarkdownPipe,
     LoadError,
+    ClassThemeDirective,
   ],
   templateUrl: './entry-detail.html',
   styleUrl: './entry-detail.scss',

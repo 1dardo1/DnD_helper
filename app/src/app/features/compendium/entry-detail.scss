@@ -1,73 +1,83 @@
+// Compendium entry: long rules text on the notebook page. Class and subclass entries are
+// themed through [appClassTheme] on <article> (see shared/theme/themes.scss).
+@use '../../shared/theme/notebook' as nb;
+
 .meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}
+
+.edition {
+  @include nb.stamp;
 }
 
 .adjustments {
-  border-left: 3px solid #999;
-  padding-left: 0.75rem;
+  @include nb.sticky-note(0.5deg);
+  max-width: 48rem;
+
+  ul {
+    margin: var(--space-2) 0 0;
+  }
 }
 
 .fields {
   display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 0.25rem 1rem;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-1) var(--space-4);
+  max-width: 48rem;
+  padding: var(--space-3) var(--space-4);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
 
   dt {
-    font-weight: bold;
+    font-family: var(--font-note);
+    color: var(--ink-soft);
   }
 
   dd {
     margin: 0;
   }
 
-  // Phones: each value under its label
-  @media (max-width: 36rem) {
-    grid-template-columns: 1fr;
-    gap: 0;
-
-    dd {
-      margin-bottom: 0.5rem;
-    }
-  }
-
   // Glossary terms come in lower case ("medium", "legendario")
   dd:not(.raw)::first-letter {
     text-transform: uppercase;
   }
-}
 
-.variant {
-  border-left: 3px solid #ccc;
-  padding-left: 0.75rem;
-}
+  @media (max-width: 30rem) {
+    grid-template-columns: 1fr;
+    gap: 0;
 
-.table-scroll {
-  overflow-x: auto;
-}
-
-table {
-  border-collapse: collapse;
-
-  th,
-  td {
-    border: 1px solid #ccc;
-    padding: 0.25rem 0.5rem;
-    text-align: left;
+    dd {
+      margin-bottom: var(--space-2);
+    }
   }
 }
 
 // Tables inside Markdown descriptions; wide ones scroll instead of widening the page
 .md ::ng-deep table {
-  border-collapse: collapse;
   display: block;
   max-width: 100%;
   overflow-x: auto;
+}
 
-  th,
-  td {
-    border: 1px solid #ccc;
-    padding: 0.25rem 0.5rem;
+.variant {
+  border-left: 3px solid var(--line-strong);
+  padding-left: var(--space-3);
+}
+
+.feature {
+  margin-top: var(--space-5);
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--line-strong);
+
+  h3 {
+    margin-top: 0;
   }
 }

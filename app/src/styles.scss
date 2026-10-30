@@ -1,1 +1,830 @@
-/* You can add global styles to this file, and also import other style files */
+// D&D Helper — "adventurer's notebook" design.
+//
+// Design tokens live on :root (light) and are redefined for dark mode ("the notebook at
+// night"). Plain semantic HTML (headings, p, a, button, input, select, textarea, table,
+// details, fieldset, dl, ul) looks right without classes; the utilities below are optional.
+//
+// Utilities:
+//   Layout   .stack (vertical, gap)  .cluster (wrapping row)  .grid (auto-fill cards)
+//            .page (a notebook page; <main> already is one)  .table-scroll (wide tables)
+//   Surfaces .card (paper card)  .sticky / .warning (sticky note)  .tabs (divider tabs)
+//   Buttons  .btn  .btn-primary  .btn-danger  .btn-ghost  (button.primary / button.danger too)
+//   Text     .muted  .issue (red ink)  .hand (handwriting)  .highlight (marker)
+//            .chip (pencil-circled label)  .status[data-status] (sync stamp)
+//            .visually-hidden
+//   Themes   [appClassTheme] (shared/theme/class-theme.directive.ts) → themes.scss
+//
+// Mixins for component styles: shared/theme/_notebook.scss (sticky-note, card, stamp...).
+
+@use 'app/shared/theme/notebook' as nb;
+@use 'app/shared/theme/themes';
+
+// -- tokens --------------------------------------------------------------------------------
+
+:root {
+  color-scheme: light;
+
+  --font-body:
+    'Source Serif 4', 'Iowan Old Style', 'Palatino Linotype', Georgia, 'Noto Serif', serif;
+  --font-hand: 'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
+  --font-note: 'Kalam', 'Segoe Print', 'Bradley Hand', cursive;
+
+  --fs-xs: 0.8125rem;
+  --fs-sm: 0.9rem;
+  --fs-md: 1.0625rem;
+  --fs-lg: 1.2rem;
+  --fs-xl: 1.6rem;
+  --fs-2xl: 2.1rem;
+  --fs-3xl: 2.8rem;
+  --lh: 1.6;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2.5rem;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-hand: #{nb.$hand-radius};
+
+  --tap: 2.75rem; // 44px touch target
+  --grid-size: 1.5rem;
+  --content-width: 72rem;
+  --margin-x: 2.75rem; // distance of the red margin line from the page edge
+
+  // paper & ink
+  --desk: #d7cbb3;
+  --desk-2: #c9bb9f;
+  --paper: #fbf7ec;
+  --card: #fffdf6;
+  --paper-2: #f3ecda;
+  --grid: rgb(66 112 168 / 0.13);
+  --margin-line: rgb(214 92 92 / 0.55);
+  --ink: #26221d;
+  --ink-soft: #5f574d;
+  --ink-blue: #1d4a86;
+  --accent: #8b1e2d;
+  --accent-2: #b0602a;
+  --on-accent: #fffaf0;
+  --line: rgb(60 45 30 / 0.22);
+  --line-strong: rgb(60 45 30 / 0.5);
+  --highlight: rgb(255 214 64 / 0.6);
+  --sticky: #fff1a1;
+  --sticky-ink: #3a3214;
+  --tape: rgb(240 235 215 / 0.75);
+  --focus: #1f6feb;
+  --danger: #a3172b;
+  --ok: #2b6a37;
+  --warn: #8a5300;
+  --info: #1d4a86;
+  --wire: #8a8f98;
+  --cover: #4a1d24;
+  --cover-ink: #f7ecd8;
+
+  --shadow-1: 0 1px 2px rgb(60 40 20 / 0.12), 0 2px 6px rgb(60 40 20 / 0.06);
+  --shadow-2: 0 4px 14px rgb(60 40 20 / 0.16);
+  --shadow-note: 0 6px 12px -6px rgb(60 40 20 / 0.45), 0 1px 1px rgb(60 40 20 / 0.12);
+  --shadow-page: 0 1px 1px rgb(60 40 20 / 0.15), 0 10px 30px -10px rgb(60 40 20 / 0.45);
+}
+
+@mixin dark-tokens {
+  color-scheme: dark;
+  --desk: #121316;
+  --desk-2: #0b0c0e;
+  --paper: #24272d;
+  --card: #2b2f36;
+  --paper-2: #2f333b;
+  --grid: rgb(150 180 230 / 0.07);
+  --margin-line: rgb(220 110 110 / 0.4);
+  --ink: #ece5d6;
+  --ink-soft: #b3aa9b;
+  --ink-blue: #93b9f2;
+  --accent: #f08a96;
+  --accent-2: #e9a46a;
+  --on-accent: #1d1012;
+  --line: rgb(230 220 200 / 0.16);
+  --line-strong: rgb(230 220 200 / 0.4);
+  --highlight: rgb(255 205 60 / 0.28);
+  --sticky: #4b4322;
+  --sticky-ink: #f6edcd;
+  --tape: rgb(220 215 190 / 0.18);
+  --focus: #79b0ff;
+  --danger: #ff8c9a;
+  --ok: #7fd18e;
+  --warn: #f0b860;
+  --info: #93b9f2;
+  --wire: #6b7079;
+  --cover: #17181c;
+  --cover-ink: #ece5d6;
+
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-2: 0 4px 14px rgb(0 0 0 / 0.5);
+  --shadow-note: 0 6px 14px -6px rgb(0 0 0 / 0.8);
+  --shadow-page: 0 10px 30px -8px rgb(0 0 0 / 0.8);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include dark-tokens;
+  }
+}
+:root[data-theme='dark'] {
+  @include dark-tokens;
+}
+
+// -- base ----------------------------------------------------------------------------------
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 4rem;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  line-height: var(--lh);
+  color: var(--ink);
+  background-color: var(--desk);
+  background-image: radial-gradient(
+    ellipse at 50% 0,
+    color-mix(in srgb, var(--desk) 70%, white) 0,
+    var(--desk) 45%,
+    var(--desk-2) 100%
+  );
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  font-optical-sizing: auto;
+  overflow-wrap: break-word;
+}
+
+::selection {
+  background: var(--highlight);
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.15;
+  margin: 1.4em 0 0.5em;
+  text-wrap: balance;
+}
+
+h1 {
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 0.2em;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: var(--fs-3xl);
+  letter-spacing: 0.01em;
+  color: var(--ink);
+
+  // hand-drawn underline in the accent colour
+  &::after {
+    content: '';
+    display: block;
+    height: 0.3em;
+    margin-top: -0.05em;
+    background-color: var(--accent);
+    mask: nb.svg("<path d='M2 7c40-5 90-6 130-3s50 2 66-1'/>", '0 0 200 10', 3, true) 0 0 / 100%
+      100% no-repeat;
+  }
+}
+
+h2 {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: var(--fs-2xl);
+  color: var(--accent);
+}
+
+h3 {
+  font-family: var(--font-note);
+  font-weight: 700;
+  font-size: var(--fs-lg);
+}
+
+h4 {
+  font-size: var(--fs-md);
+}
+
+p,
+ul,
+ol,
+dl,
+blockquote,
+pre,
+table,
+details,
+fieldset {
+  margin: 0 0 var(--space-4);
+}
+
+ul,
+ol {
+  padding-left: 1.4rem;
+}
+
+li {
+  margin-bottom: 0.2em;
+}
+
+li::marker {
+  color: var(--accent);
+}
+
+dt {
+  font-weight: 700;
+}
+
+dd {
+  margin: 0 0 var(--space-2) var(--space-4);
+}
+
+small {
+  font-size: 0.875em;
+  color: var(--ink-soft);
+}
+
+strong,
+b {
+  font-weight: 700;
+}
+
+mark {
+  @include nb.highlighter;
+  color: inherit;
+}
+
+hr {
+  height: 6px;
+  margin: var(--space-5) 0;
+  border: 0;
+  background-color: var(--line-strong);
+  mask: nb.svg("<path d='M2 3c50 2 120-2 196 0'/>", '0 0 200 6', 1.5, true) 0 0 / 100% 100%
+    no-repeat;
+}
+
+blockquote {
+  margin-inline: 0;
+  padding: var(--space-2) var(--space-4);
+  border-left: 3px solid var(--accent-2);
+  background: var(--paper-2);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+code,
+kbd,
+pre {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+code {
+  padding: 0.05em 0.3em;
+  background: var(--paper-2);
+  border-radius: var(--radius-sm);
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+// links: blue ink
+a {
+  color: var(--ink-blue);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+
+  &:hover {
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 2px;
+  }
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+[role='alert'] {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+// -- buttons -------------------------------------------------------------------------------
+
+button,
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  min-height: 2.5rem;
+  padding: 0.3rem 1rem;
+  font: inherit;
+  font-family: var(--font-note);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  line-height: 1.2;
+  color: var(--ink);
+  background: var(--card);
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--radius-hand);
+  box-shadow: 0 2px 0 var(--line);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.08s,
+    box-shadow 0.08s,
+    background-color 0.15s;
+
+  &:hover:not(:disabled) {
+    background: var(--paper-2);
+    border-color: var(--ink-soft);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 var(--line);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+button.primary,
+.btn-primary {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--accent) 55%, black);
+
+  &:hover:not(:disabled) {
+    color: var(--on-accent);
+    background: color-mix(in srgb, var(--accent) 88%, black);
+    border-color: var(--accent);
+  }
+}
+
+button.danger,
+.btn-danger {
+  color: var(--danger);
+  border-color: currentColor;
+  background: transparent;
+
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--danger) 10%, transparent);
+    border-color: currentColor;
+  }
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+@media (pointer: coarse) {
+  button,
+  .btn {
+    min-height: var(--tap);
+  }
+}
+
+// -- form controls -------------------------------------------------------------------------
+
+input:not([type='checkbox'], [type='radio'], [type='range'], [type='color']),
+select,
+textarea {
+  min-height: 2.5rem;
+  max-width: 100%;
+  padding: 0.35rem 0.65rem;
+  font: inherit;
+  font-size: max(16px, 1rem); // no zoom on iOS
+  color: var(--ink);
+  background: var(--card);
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 1px 2px var(--line);
+
+  &::placeholder {
+    color: var(--ink-soft);
+    opacity: 0.8;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--ink-soft);
+  }
+
+  &:focus-visible {
+    outline-offset: 0;
+    border-color: var(--focus);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+textarea {
+  width: 100%;
+  line-height: var(--lh);
+  // writing on lines
+  background-image: linear-gradient(
+    to bottom,
+    transparent calc(var(--lh) * 1em - 1px),
+    var(--grid) calc(var(--lh) * 1em - 1px)
+  );
+  background-size: 100% calc(var(--lh) * 1em);
+  background-position: 0 0.35rem;
+  background-attachment: local;
+  resize: vertical;
+}
+
+input[type='number'] {
+  width: 6rem;
+}
+
+select {
+  appearance: none;
+  padding-right: 2rem;
+  background-image: nb.svg("<path d='M6 9l6 6 6-6' stroke='%235f574d'/>");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.1rem;
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) select {
+    background-image: nb.svg("<path d='M6 9l6 6 6-6' stroke='%23b3aa9b'/>");
+  }
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  flex: none;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+// labels that wrap a checkbox/radio are comfortable touch targets
+label:has(> input[type='checkbox']),
+label:has(> input[type='radio']) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.25rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  &:hover {
+    background: color-mix(in srgb, var(--accent) 7%, transparent);
+  }
+
+  @media (pointer: coarse) {
+    min-height: var(--tap);
+  }
+}
+
+fieldset {
+  min-width: 0;
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  border: 1.5px dashed var(--line-strong);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--card) 55%, transparent);
+}
+
+legend {
+  padding: 0 0.4rem;
+  font-family: var(--font-note);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  @include nb.highlighter;
+}
+
+// -- tables --------------------------------------------------------------------------------
+
+table {
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  background: color-mix(in srgb, var(--card) 70%, transparent);
+}
+
+th,
+td {
+  padding: 0.4rem 0.65rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  font-weight: 700;
+}
+
+thead th {
+  font-family: var(--font-note);
+  font-size: var(--fs-md);
+  color: var(--accent);
+  border-bottom: 3px double var(--line-strong);
+  white-space: nowrap;
+}
+
+tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--paper-2) 60%, transparent);
+}
+
+caption {
+  padding-bottom: var(--space-2);
+  font-family: var(--font-note);
+  text-align: left;
+}
+
+.table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  margin-bottom: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  -webkit-overflow-scrolling: touch;
+
+  > table {
+    width: 100%;
+    margin: 0;
+  }
+
+  tr:last-child > * {
+    border-bottom: 0;
+  }
+}
+
+// -- details / summary ---------------------------------------------------------------------
+
+details {
+  border-left: 3px solid var(--line-strong);
+  padding-left: var(--space-3);
+  margin-bottom: var(--space-2);
+
+  &[open] {
+    border-left-color: var(--accent);
+    padding-bottom: var(--space-2);
+  }
+}
+
+summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  padding: 0.2rem 0;
+  font-family: var(--font-note);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &::before {
+    content: '';
+    flex: none;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-right: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    transform: rotate(-45deg);
+    transition: transform 0.15s;
+  }
+
+  details[open] > &::before {
+    transform: rotate(45deg) translate(-2px, -2px);
+  }
+
+  @media (pointer: coarse) {
+    min-height: var(--tap);
+  }
+}
+
+// -- long rules texts (Markdown) -----------------------------------------------------------
+
+.md {
+  > p,
+  > ul,
+  > ol,
+  > blockquote {
+    max-width: 75ch;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-note);
+    font-size: var(--fs-lg);
+    color: var(--accent);
+    margin-top: 1.2em;
+
+    &::after {
+      display: none;
+    }
+  }
+
+  table {
+    display: block;
+    max-width: 100%;
+    width: max-content;
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+// -- utilities -----------------------------------------------------------------------------
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap, var(--space-3));
+
+  > * {
+    margin-block: 0;
+  }
+}
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cluster-gap, var(--space-2));
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--grid-min, 15rem)), 1fr));
+  gap: var(--grid-gap, var(--space-3));
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  @include nb.card;
+}
+
+.sticky,
+.warning {
+  @include nb.sticky-note;
+}
+
+.muted {
+  color: var(--ink-soft);
+}
+
+.issue {
+  color: var(--danger);
+}
+
+.hand {
+  font-family: var(--font-hand);
+  font-size: 1.3em;
+}
+
+.highlight {
+  @include nb.highlighter;
+}
+
+.chip {
+  @include nb.stamp;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+// Notebook divider tabs: <nav class="tabs"><a|button aria-current / .current>…</nav>
+.tabs {
+  display: flex;
+  gap: 0.2rem;
+  overflow-x: auto;
+  border-bottom: 2px solid var(--line-strong);
+  scrollbar-width: thin;
+
+  > a,
+  > button {
+    flex: none;
+    min-height: var(--tap);
+    margin-bottom: -2px;
+    padding: 0.35rem 0.9rem;
+    font-family: var(--font-note);
+    font-weight: 700;
+    color: var(--ink-soft);
+    text-decoration: none;
+    background: var(--paper-2);
+    border: 2px solid var(--line-strong);
+    border-radius: 10px 10px 0 0;
+    box-shadow: none;
+
+    &:is(.current, .active, [aria-current='page'], [aria-current='step']) {
+      color: var(--accent);
+      background: var(--paper);
+      border-bottom-color: var(--paper);
+    }
+  }
+}
+
+// Sync status stamps: <span class="status" data-status="local|sent|synced|conflict|...">
+.status {
+  @include nb.stamp;
+
+  &[data-status='local'] {
+    --stamp: var(--warn);
+  }
+  &[data-status='sent'] {
+    --stamp: var(--info);
+  }
+  &[data-status='synced'] {
+    --stamp: var(--ok);
+  }
+  &[data-status='conflict'] {
+    --stamp: var(--danger);
+    border-width: 2px;
+  }
+  &[data-status='pending-delete'] {
+    --stamp: var(--ink-soft);
+    text-decoration: line-through;
+  }
+}
+
+// A notebook page (squared paper with a red margin line). <main> in the app shell is one.
+.page {
+  position: relative;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(
+      to right,
+      transparent calc(var(--margin-x) - 3px),
+      var(--margin-line) calc(var(--margin-x) - 3px),
+      var(--margin-line) calc(var(--margin-x) - 2px),
+      transparent calc(var(--margin-x) - 2px),
+      transparent var(--margin-x),
+      var(--margin-line) var(--margin-x),
+      var(--margin-line) calc(var(--margin-x) + 1px),
+      transparent calc(var(--margin-x) + 1px)
+    ),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px),
+    linear-gradient(to right, var(--grid) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    var(--grid-size) var(--grid-size),
+    var(--grid-size) var(--grid-size);
+  background-position:
+    0 0,
+    0 -1px,
+    -1px 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
