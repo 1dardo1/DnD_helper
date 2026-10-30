@@ -14,7 +14,7 @@ export type ClassThemeTarget =
 
 /**
  * Applies a class/subclass theme (see class-theme.ts and themes.scss) as CSS variables and
- * data attributes:
+ * data attributes, and adds the class's illuminated frame (class-ornaments.ts, loaded lazily):
  *
  *   <article [appClassTheme]="entry">…
  *   <aside [appClassTheme]="{ classId: 'wizard', subclassId: 'wizard/evoker' }">…
@@ -28,7 +28,7 @@ export class ClassThemeDirective {
   readonly appClassThemeScope = input<'self' | 'parent'>('self');
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
-  private applied: { el: HTMLElement; vars: string[] } | null = null;
+  private applied: { el: HTMLElement; vars: string[]; frame?: HTMLElement } | null = null;
 
   constructor() {
     effect((onCleanup) => {
@@ -43,18 +43,32 @@ export class ClassThemeDirective {
       el.classList.add('class-theme');
       el.dataset['classTheme'] = t.classId;
       el.dataset['motif'] = t.motif;
-      this.applied = { el, vars: Object.keys(vars) };
+      const applied: NonNullable<typeof this.applied> = { el, vars: Object.keys(vars) };
+      this.applied = applied;
+      void import('./class-ornaments').then(({ ornamentMarkup }) => {
+        if (this.applied !== applied) return;
+        const frame = el.ownerDocument.createElement('div');
+        frame.className = 'th-orn';
+        frame.setAttribute('aria-hidden', 'true');
+        const { html, cw } = ornamentMarkup(t.classId);
+        frame.style.setProperty('--orn-cw', String(cw));
+        // static markup built by class-ornaments.ts from constants (no user data)
+        frame.innerHTML = html;
+        el.append(frame);
+        applied.frame = frame;
+      });
       onCleanup(() => this.clear());
     });
   }
 
   private clear(): void {
     if (!this.applied) return;
-    const { el, vars } = this.applied;
+    const { el, vars, frame } = this.applied;
     for (const k of vars) el.style.removeProperty(k);
     el.classList.remove('class-theme');
     delete el.dataset['classTheme'];
     delete el.dataset['motif'];
+    frame?.remove();
     this.applied = null;
   }
 }

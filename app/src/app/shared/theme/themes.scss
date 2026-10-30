@@ -2,9 +2,9 @@
 // The directive puts on the themed element:
 //   class="class-theme" data-class-theme="wizard" data-motif="rune"
 //   style="--th-hue; --th-sat; --th-hue2; --th-accent-light/-dark (text); --th-accent2-light/-dark (decoration)"
-// This file renders the motif as manuscript ornaments (a marginalia band between gilded rules,
-// an illuminated initial before h1, a faint engraving)
-// and swaps the page accent for the class accent inside the themed element.
+// This file renders the motif as manuscript ornaments (an illuminated initial before h1, a faint
+// engraving), lays out the class's illuminated frame (.th-orn, added by the directive, drawn by
+// class-ornaments.ts) and swaps the page accent for the class accent inside the themed element.
 
 @use 'notebook' as nb;
 
@@ -88,6 +88,12 @@ $motifs: (
   .class-theme {
     --accent: var(--th-accent-#{$mode});
     --accent-2: var(--th-accent2-#{$mode});
+    // second hue of the ornaments (stems, gems, seals…), muted like an earth pigment
+    @if $mode == light {
+      --th-alt: hsl(var(--th-hue2) 42% 36%);
+    } @else {
+      --th-alt: hsl(var(--th-hue2) 42% 66%);
+    }
   }
 }
 
@@ -111,27 +117,20 @@ $initial-frame: nb.svg(
 .class-theme {
   --th-tint: hsl(var(--th-hue) var(--th-sat) 45% / 0.08);
   --th-tint-2: hsl(var(--th-hue) var(--th-sat) 45% / 0.1);
+  // the frame (see .th-orn below): scale, band thickness, corner size, how far the margins
+  // stick out of the box
+  --orn-s: 0.6;
+  --orn-t: calc(48px * var(--orn-s));
+  --orn-c: calc(128px * var(--orn-s));
+  --orn-out: 0px;
   display: block;
   position: relative;
   isolation: isolate;
-  padding-top: 2.6rem;
-  // a marginalia band at the top: two rules with the motif repeated between them, over a faint
-  // wash; all in the class colour
+  padding-top: calc(var(--orn-t) + 0.85rem);
+  // a faint wash of the class colour under the top of the frame
   background-image:
-    linear-gradient(var(--accent-2), var(--accent-2)),
-    linear-gradient(var(--accent-2), var(--accent-2)),
     radial-gradient(ellipse 60% 12rem at 100% 0, var(--th-tint-2), transparent 70%),
     linear-gradient(to bottom, var(--th-tint), transparent 16rem);
-  background-size:
-    100% 1px,
-    100% 1px,
-    auto,
-    auto;
-  background-position:
-    0 0.3rem,
-    0 2.05rem,
-    0 0,
-    0 0;
   background-repeat: no-repeat;
   border-radius: var(--radius-sm);
 
@@ -142,25 +141,13 @@ $initial-frame: nb.svg(
     padding-bottom: 0.75rem;
   }
 
-  // the motif band between the rules
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0.55rem 0.4rem auto;
-    height: 1.25rem;
-    background-color: var(--accent-2);
-    opacity: 0.75;
-    mask: var(--th-motif) left center / 1.25rem 1.25rem space no-repeat;
-    pointer-events: none;
-  }
-
   // a large faint engraving of the motif
   &::after {
     content: '';
     position: absolute;
     z-index: -1;
-    top: 2.75rem;
-    right: 0.25rem;
+    top: calc(var(--orn-t) + 0.9rem);
+    right: calc(var(--orn-wide, 0) * 1.5rem + 0.25rem);
     width: clamp(5rem, 24vw, 11rem);
     aspect-ratio: 1;
     background-color: var(--accent-2);
@@ -202,5 +189,175 @@ $initial-frame: nb.svg(
   h2::before {
     background-color: var(--accent-2);
     mask-image: var(--th-motif);
+  }
+}
+
+// -- the illuminated frame ----------------------------------------------------------------
+// .th-orn (added by the directive) holds inline SVG pieces drawn in the theme's colours:
+// a top band (two halves fading into a centre piece), corners, and, on full pages of wide
+// screens, the margins down both sides and the same band at the bottom. Phones and small
+// themed boxes (cards, list items, asides) only keep a slim top band with its corners.
+
+.th-orn {
+  // colour roles of the drawings (see ornament-kit.ts)
+  --o1: var(--accent-2);
+  --o2: var(--th-alt);
+  position: absolute;
+  z-index: -1;
+  inset: 0 calc(-1 * var(--orn-out));
+  pointer-events: none;
+
+  > svg {
+    position: absolute;
+    overflow: visible;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  --o-a: var(--o1);
+  --o-b: color-mix(in srgb, var(--o1) 32%, var(--paper));
+  --o-c: color-mix(in srgb, var(--o1) 55%, #000);
+  --o-d: var(--o2);
+  --o-e: color-mix(in srgb, var(--o2) 35%, var(--paper));
+  --o-l: color-mix(in srgb, var(--paper) 80%, #fff);
+}
+
+.th-orn-defs {
+  width: 0;
+  height: 0;
+}
+
+.th-orn-corner {
+  width: var(--orn-c);
+  height: var(--orn-c);
+
+  &.tl {
+    top: 0;
+    left: 0;
+  }
+  &.tr {
+    top: 0;
+    right: 0;
+    transform: scaleX(-1);
+  }
+  &.bl {
+    bottom: 0;
+    left: 0;
+    transform: scaleY(-1);
+  }
+  &.br {
+    right: 0;
+    bottom: 0;
+    transform: scale(-1);
+  }
+}
+
+// the band: two halves from the corners, fading out under the centre piece
+.th-orn-band {
+  --half: calc(var(--orn-cw) * var(--orn-s) * 0.5px - 0.5rem);
+  height: var(--orn-t);
+  mask: linear-gradient(to left, transparent, #000 1.25rem);
+
+  width: calc(50% - var(--half) - var(--orn-c));
+
+  &.tl,
+  &.bl {
+    left: var(--orn-c);
+  }
+  &.tr,
+  &.br {
+    right: var(--orn-c);
+    transform: scaleX(-1);
+  }
+  &.tl,
+  &.tr {
+    top: 0;
+  }
+  &.bl,
+  &.br {
+    bottom: 0;
+  }
+  &.bl {
+    transform: scaleY(-1);
+  }
+  &.br {
+    transform: scale(-1);
+  }
+}
+
+.th-orn-centre {
+  left: 50%;
+  width: calc(var(--orn-cw) * var(--orn-s) * 1px);
+  height: var(--orn-t);
+  translate: -50% 0;
+
+  &.t {
+    top: 0;
+  }
+  &.b {
+    bottom: 0;
+    transform: scaleY(-1);
+  }
+}
+
+.th-orn-side {
+  top: var(--orn-c);
+  width: var(--orn-t);
+  height: calc(100% - 2 * var(--orn-c));
+  // starts cleanly at the top corner, fades where it is cut off above the bottom one
+  mask: linear-gradient(#000 calc(100% - 1.5rem), transparent);
+
+  &.l {
+    left: 0;
+  }
+  &.r {
+    right: 0;
+    transform: scaleX(-1);
+  }
+}
+
+// Only full pages get the whole frame, and only where the page has margins for it.
+.th-orn-side,
+.th-orn-band.bl,
+.th-orn-band.br,
+.th-orn-centre.b,
+.th-orn-corner.bl,
+.th-orn-corner.br {
+  display: none;
+}
+
+// phones and small boxes: the corners only show the part that lies in the band
+.th-orn-corner {
+  clip-path: inset(-2px -2px calc(100% - var(--orn-t) - 2px) -2px);
+}
+
+@media (min-width: 45rem) {
+  .class-theme:where(:not(aside, .card, fieldset, li)) {
+    --orn-s: 0.58;
+    --orn-out: 1.1rem;
+    --orn-wide: 1;
+    padding-inline: 2rem;
+    padding-bottom: calc(var(--orn-t) + 1rem);
+
+    > .th-orn {
+      .th-orn-side,
+      .th-orn-band.bl,
+      .th-orn-band.br,
+      .th-orn-centre.b,
+      .th-orn-corner.bl,
+      .th-orn-corner.br {
+        display: block;
+      }
+      .th-orn-corner {
+        clip-path: none;
+      }
+    }
+  }
+}
+
+@media (min-width: 60rem) {
+  .class-theme:where(:not(aside, .card, fieldset, li)) {
+    --orn-s: 1;
+    --orn-out: 2.15rem;
   }
 }
