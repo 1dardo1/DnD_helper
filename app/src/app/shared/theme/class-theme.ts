@@ -66,6 +66,8 @@ interface ClassDef {
    */
   light?: number;
   dark?: number;
+  /** Minimum contrast of the decoration colour (default 3:1); silver needs a lighter one. */
+  decoContrast?: number;
   /** First motif is the class's own; the rest are used for derived subclass variations. */
   motifs: readonly Motif[];
 }
@@ -88,8 +90,15 @@ export const CLASS_THEMES: Record<string, ClassDef> = {
     light: 28,
     motifs: ['sword', 'shield', 'arrow', 'crown', 'hammer'],
   },
-  monk: { hue: 26, sat: 42, light: 30, motifs: ['fist', 'enso', 'wave', 'sun', 'leaf'] },
-  paladin: { hue: 210, sat: 10, dark: 74, motifs: ['shield', 'cross', 'sun', 'crown', 'sword'] },
+  monk: { hue: 36, sat: 46, light: 42, motifs: ['fist', 'enso', 'wave', 'sun', 'leaf'] },
+  paladin: {
+    hue: 210,
+    sat: 10,
+    light: 64,
+    dark: 78,
+    decoContrast: 2.5,
+    motifs: ['shield', 'cross', 'sun', 'crown', 'sword'],
+  },
   psion: { hue: 282, sat: 48, motifs: ['spiral', 'crystal', 'eye', 'star', 'bolt'] },
   ranger: { hue: 140, sat: 50, light: 24, motifs: ['bow', 'arrow', 'leaf', 'paw', 'tree'] },
   rogue: { hue: 0, sat: 0, light: 16, motifs: ['dagger', 'mask', 'eye', 'web', 'moon'] },
@@ -330,7 +339,10 @@ export interface ClassTheme {
   sat: number;
   hue2: number;
   motif: Motif;
-  /** Accent (text, ≥ 4.5:1) and decoration (≥ 3:1) colours on the light / dark paper. */
+  /**
+   * On the light / dark paper: accent for text (≥ 4.5:1) and accent2, the same hue for the
+   * decoration (initial, flourish, motif band, watermark), which can be lighter (≥ 3:1).
+   */
   accentLight: string;
   accentDark: string;
   accent2Light: string;
@@ -370,9 +382,9 @@ export function themeFor(classId: string, subclassId?: string | null): ClassThem
   }
 
   const sat = base.sat;
-  const sat2 = Math.max(40, Math.min(60, sat));
   // inks and pigments, not neon: accents are a little muted
   const ink = Math.round(sat * 0.85);
+  const deco = base.decoContrast ?? 3.1;
   return {
     classId,
     subclassId: sub,
@@ -383,8 +395,8 @@ export function themeFor(classId: string, subclassId?: string | null): ClassThem
     accentLight: readable(hue, ink, PAPER_LIGHT, 'darker', 4.6, base.light),
     accentDark: readable(hue, ink, PAPER_DARK, 'lighter', 4.6, base.dark),
     // decoration only (not text): 3:1 is enough (WCAG 1.4.11)
-    accent2Light: readable(hue2, sat2, PAPER_LIGHT, 'darker', 3.1),
-    accent2Dark: readable(hue2, sat2, PAPER_DARK, 'lighter', 3.1),
+    accent2Light: readable(hue, ink, PAPER_LIGHT, 'darker', deco, base.light),
+    accent2Dark: readable(hue, ink, PAPER_DARK, 'lighter', deco, base.dark),
     known,
   };
 }

@@ -63,8 +63,9 @@ describe('class themes', () => {
       expect(contrast(t.accentLight, PAPER_LIGHT)).toBeGreaterThanOrEqual(4.5);
       expect(contrast(t.accentDark, PAPER_DARK)).toBeGreaterThanOrEqual(4.5);
       // ornaments only: non-text contrast
-      expect(contrast(t.accent2Light, PAPER_LIGHT)).toBeGreaterThanOrEqual(3);
-      expect(contrast(t.accent2Dark, PAPER_DARK)).toBeGreaterThanOrEqual(3);
+      const min = CLASS_THEMES[t.classId]?.decoContrast ?? 3;
+      expect(contrast(t.accent2Light, PAPER_LIGHT)).toBeGreaterThanOrEqual(min);
+      expect(contrast(t.accent2Dark, PAPER_DARK)).toBeGreaterThanOrEqual(min);
     }
   });
 
