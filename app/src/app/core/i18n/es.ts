@@ -513,4 +513,56 @@ export const es: Record<keyof typeof en, string> = {
   'search.types': 'Resultados por tipo',
   'search.matchInText': 'en la descripción',
   'search.showAll': 'Ver los {count}',
+
+  // -- conditions --
+  'play.conditions': 'Estados',
+  'play.whatIsIt': '¿Qué es?',
+  'cond.exhaustion': 'Cansancio',
+  'cond.exhaustion.now':
+    'Nivel {level}: {d20} a las pruebas de d20 y {speed} pies menos de velocidad.',
+  'cond.exhaustion.dead': 'Nivel 6: mueres.',
+  'cond.exhaustion.text':
+    'Es acumulable por niveles (1 a 6). Por cada nivel restas 2 a todas tus pruebas de d20 (ataques, pruebas de característica y tiradas de salvación) y tu velocidad baja 5 pies. Al llegar al nivel 6 mueres. Terminar un descanso largo quita un nivel.',
+  'cond.blinded': 'Cegado',
+  'cond.blinded.text':
+    'No puedes ver y fallas automáticamente cualquier prueba que requiera la vista. Las tiradas de ataque contra ti tienen ventaja y las tuyas tienen desventaja.',
+  'cond.charmed': 'Hechizado',
+  'cond.charmed.text':
+    'No puedes atacar a quien te ha hechizado ni elegirlo como objetivo de capacidades o efectos mágicos dañinos. Quien te hechizó tiene ventaja en las pruebas de característica para interactuar socialmente contigo.',
+  'cond.deafened': 'Ensordecido',
+  'cond.deafened.text':
+    'No puedes oír y fallas automáticamente cualquier prueba que requiera el oído.',
+  'cond.frightened': 'Asustado',
+  'cond.frightened.text':
+    'Tienes desventaja en las pruebas de característica y en las tiradas de ataque mientras la fuente de tu miedo esté a la vista. No puedes acercarte a ella voluntariamente.',
+  'cond.grappled': 'Agarrado',
+  'cond.grappled.text':
+    'Tu velocidad es 0 y no puede aumentar. Tienes desventaja en las tiradas de ataque contra cualquier objetivo que no sea quien te agarra. Quien te agarra puede arrastrarte o llevarte al moverse, gastando movimiento extra. Termina si quien te agarra queda incapacitado o te saca de su alcance.',
+  'cond.incapacitated': 'Incapacitado',
+  'cond.incapacitated.text':
+    'No puedes realizar acciones, acciones adicionales ni reacciones, y pierdes la concentración. No puedes hablar. Si tiras iniciativa estando incapacitado, tienes desventaja.',
+  'cond.invisible': 'Invisible',
+  'cond.invisible.text':
+    'Tienes ventaja en la tirada de iniciativa. No te afectan los efectos que requieren que el objetivo sea visto, salvo que quien los crea pueda verte; lo que llevas encima también queda oculto. Las tiradas de ataque contra ti tienen desventaja y las tuyas ventaja, salvo contra quien pueda verte.',
+  'cond.paralyzed': 'Paralizado',
+  'cond.paralyzed.text':
+    'Estás incapacitado y tu velocidad es 0. Fallas automáticamente las tiradas de salvación de Fuerza y Destreza. Las tiradas de ataque contra ti tienen ventaja, y cualquier ataque que te impacte desde 1,5 m (5 pies) es un golpe crítico.',
+  'cond.petrified': 'Petrificado',
+  'cond.petrified.text':
+    'Te conviertes, con lo que llevas, en una sustancia inanimada (normalmente piedra); tu peso se multiplica por diez y dejas de envejecer. Estás incapacitado, tu velocidad es 0, las tiradas de ataque contra ti tienen ventaja, fallas automáticamente las salvaciones de Fuerza y Destreza, tienes resistencia a todo el daño y eres inmune al estado envenenado.',
+  'cond.poisoned': 'Envenenado',
+  'cond.poisoned.text':
+    'Tienes desventaja en las tiradas de ataque y en las pruebas de característica.',
+  'cond.prone': 'Derribado',
+  'cond.prone.text':
+    'Solo puedes moverte arrastrándote, o levantarte gastando la mitad de tu velocidad. Tienes desventaja en las tiradas de ataque. Las tiradas de ataque contra ti tienen ventaja si el atacante está a 1,5 m (5 pies) o menos; si no, desventaja.',
+  'cond.restrained': 'Apresado',
+  'cond.restrained.text':
+    'Tu velocidad es 0 y no puede aumentar. Las tiradas de ataque contra ti tienen ventaja y las tuyas desventaja. Tienes desventaja en las tiradas de salvación de Destreza.',
+  'cond.stunned': 'Aturdido',
+  'cond.stunned.text':
+    'Estás incapacitado. Fallas automáticamente las tiradas de salvación de Fuerza y Destreza. Las tiradas de ataque contra ti tienen ventaja.',
+  'cond.unconscious': 'Inconsciente',
+  'cond.unconscious.text':
+    'Estás incapacitado y derribado, y sueltas lo que lleves en las manos. Tu velocidad es 0 y no eres consciente de lo que te rodea. Fallas automáticamente las salvaciones de Fuerza y Destreza. Las tiradas de ataque contra ti tienen ventaja, y cualquier ataque que te impacte desde 1,5 m (5 pies) es un golpe crítico.',
 };

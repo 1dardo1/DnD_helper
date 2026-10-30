@@ -319,7 +319,7 @@ export function shortRest(state: PlayState, resources: PlayResource[]): PlayStat
 
 /**
  * All hit points, all spell slots, all spent Hit Dice and every resource come back; temporary
- * HP are lost. Heroic Inspiration is kept.
+ * HP are lost and Exhaustion goes down one level. Heroic Inspiration and conditions are kept.
  */
 export function longRest(state: PlayState): PlayState {
   return {
@@ -331,6 +331,7 @@ export function longRest(state: PlayState): PlayState {
     resources: {},
     hitDiceSpent: {},
     deathSaves: { successes: 0, failures: 0 },
+    exhaustion: Math.max(0, (state.exhaustion ?? 0) - 1),
   };
 }
 

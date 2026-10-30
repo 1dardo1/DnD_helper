@@ -16,6 +16,7 @@ import {
   spendHitDie,
   tapPip,
 } from './play-state';
+import { exhaustionEffects, setExhaustion, toggleCondition } from './conditions';
 import { recover, restRule } from './rest-rules';
 
 const fresh = (): PlayState => newCharacter('Test', 'test').state;
@@ -146,6 +147,25 @@ describe('rests', () => {
     };
     s = setResourceUsed(setSpentSlots(s, 2, 1, 3), 'unknown:thing', 1, 1);
     expect(longRest(s)).toEqual({ ...fresh(), heroicInspiration: true });
+  });
+});
+
+describe('conditions', () => {
+  it('toggles conditions and keeps them through a long rest', () => {
+    let s = toggleCondition(fresh(), 'prone');
+    s = toggleCondition(s, 'poisoned');
+    expect(s.conditions).toEqual(['prone', 'poisoned']);
+    s = toggleCondition(s, 'prone');
+    expect(longRest(s).conditions).toEqual(['poisoned']);
+  });
+
+  it('keeps Exhaustion between 0 and 6, a long rest removes one level', () => {
+    expect(setExhaustion(fresh(), 9).exhaustion).toBe(6);
+    expect(setExhaustion(fresh(), -1).exhaustion).toBe(0);
+    expect(longRest(setExhaustion(fresh(), 3)).exhaustion).toBe(2);
+    expect(longRest(fresh()).exhaustion).toBe(0);
+    expect(exhaustionEffects(3)).toEqual({ d20: -6, speed: -15, dead: false });
+    expect(exhaustionEffects(6).dead).toBe(true);
   });
 });
 

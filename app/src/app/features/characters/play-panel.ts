@@ -24,6 +24,14 @@ import {
   spendHitDie,
   tapPip,
 } from '../../core/play/play-state';
+import {
+  CONDITIONS,
+  Condition,
+  MAX_EXHAUSTION,
+  exhaustionEffects,
+  setExhaustion,
+  toggleCondition,
+} from '../../core/play/conditions';
 import { Sheet } from '../../core/rules/sheet';
 
 /** Up to this many uses are shown as pips; more (Focus Points, Sorcery Points) as a counter. */
@@ -47,6 +55,8 @@ export class PlayPanel {
 
   protected readonly maxPips = MAX_PIPS;
   protected readonly tapPip = tapPip;
+  protected readonly conditions = CONDITIONS;
+  protected readonly maxExhaustion = MAX_EXHAUSTION;
   protected readonly deathKinds = ['successes', 'failures'] as const;
   /** What's typed in the hit points box. */
   protected readonly amount = signal<number | null>(null);
@@ -56,6 +66,7 @@ export class PlayPanel {
   protected readonly maxHp = computed(() => this.sheet().hitPoints.max);
   protected readonly hp = computed(() => currentHp(this.state(), this.maxHp()));
   protected readonly resources = computed(() => playResources(this.sheet()));
+  protected readonly exhaustion = computed(() => exhaustionEffects(this.state().exhaustion));
   protected readonly slots = computed(() =>
     this.sheet()
       .spellcasting.slots.map((max, i) => ({
@@ -154,6 +165,14 @@ export class PlayPanel {
 
   protected toggleInspiration(on: boolean): void {
     this.emit(setHeroicInspiration(this.state(), on));
+  }
+
+  protected toggleCondition(id: Condition): void {
+    this.emit(toggleCondition(this.state(), id));
+  }
+
+  protected setExhaustion(level: number): void {
+    this.emit(setExhaustion(this.state(), level));
   }
 
   // -- rests --

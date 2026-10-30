@@ -65,6 +65,59 @@
     {{ 'play.heroicInspiration' | t }}
   </label>
 
+  <fieldset class="conditions">
+    <legend>{{ 'play.conditions' | t }}</legend>
+    @let ex = state().exhaustion;
+    <div class="row">
+      <span class="label">{{ 'cond.exhaustion' | t }}</span>
+      <span class="pips">
+        @for (i of range(maxExhaustion); track i) {
+          <input
+            type="checkbox"
+            class="pip"
+            [checked]="i < ex"
+            (change)="setExhaustion(tapPip(ex, i))"
+            [attr.aria-label]="('cond.exhaustion' | t) + ' ' + (i + 1)"
+          />
+        }
+      </span>
+      @if (ex) {
+        <small class="issue">
+          @if (exhaustion().dead) {
+            {{ 'cond.exhaustion.dead' | t }}
+          } @else {
+            {{
+              'cond.exhaustion.now'
+                | t: { level: ex, d20: exhaustion().d20, speed: -exhaustion().speed }
+            }}
+          }
+        </small>
+      }
+    </div>
+    <details class="explain">
+      <summary>{{ 'play.whatIsIt' | t }}</summary>
+      <p>{{ 'cond.exhaustion.text' | t }}</p>
+    </details>
+    <ul class="condition-list">
+      @for (c of conditions; track c) {
+        @let on = state().conditions.includes(c);
+        <li [class.active]="on">
+          <input
+            type="checkbox"
+            class="pip"
+            [checked]="on"
+            (change)="toggleCondition(c)"
+            [attr.aria-label]="'cond.' + c | t"
+          />
+          <details>
+            <summary>{{ 'cond.' + c | t }}</summary>
+            <p>{{ 'cond.' + c + '.text' | t }}</p>
+          </details>
+        </li>
+      }
+    </ul>
+  </fieldset>
+
   @if (slots().length || sheet().spellcasting.pact) {
     <fieldset>
       <legend>{{ 'play.slots' | t }}</legend>

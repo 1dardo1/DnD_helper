@@ -76,6 +76,9 @@ export interface Character {
     hitDiceSpent: Record<string, number>;
     deathSaves: { successes: number; failures: number };
     heroicInspiration: boolean;
+    /** Active conditions (ids from core/play/conditions.ts) and the Exhaustion level (0-6). */
+    conditions: string[];
+    exhaustion: number;
   };
   notes: string;
 }
@@ -146,6 +149,8 @@ export function newCharacter(name: string, device: string): Character {
       hitDiceSpent: {},
       deathSaves: { successes: 0, failures: 0 },
       heroicInspiration: false,
+      conditions: [],
+      exhaustion: 0,
     },
     notes: '',
   };

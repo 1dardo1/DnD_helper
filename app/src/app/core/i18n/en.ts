@@ -508,4 +508,54 @@ export const en = {
   'search.types': 'Results by type',
   'search.matchInText': 'in the description',
   'search.showAll': 'Show all {count}',
+
+  // -- conditions --
+  'play.conditions': 'Conditions',
+  'play.whatIsIt': 'What is it?',
+  'cond.exhaustion': 'Exhaustion',
+  'cond.exhaustion.now': 'Level {level}: {d20} to d20 Tests and {speed} feet less Speed.',
+  'cond.exhaustion.dead': 'Level 6: you die.',
+  'cond.exhaustion.text':
+    'It stacks in levels (1 to 6). Each level subtracts 2 from all your d20 Tests (attacks, ability checks and saving throws) and reduces your Speed by 5 feet. At level 6 you die. Finishing a Long Rest removes one level.',
+  'cond.blinded': 'Blinded',
+  'cond.blinded.text':
+    "You can't see and automatically fail any ability check that requires sight. Attack rolls against you have Advantage, and yours have Disadvantage.",
+  'cond.charmed': 'Charmed',
+  'cond.charmed.text':
+    "You can't attack the charmer or target it with damaging abilities or magical effects. The charmer has Advantage on ability checks to interact with you socially.",
+  'cond.deafened': 'Deafened',
+  'cond.deafened.text':
+    "You can't hear and automatically fail any ability check that requires hearing.",
+  'cond.frightened': 'Frightened',
+  'cond.frightened.text':
+    "You have Disadvantage on ability checks and attack rolls while the source of fear is within line of sight. You can't willingly move closer to it.",
+  'cond.grappled': 'Grappled',
+  'cond.grappled.text':
+    "Your Speed is 0 and can't increase. You have Disadvantage on attack rolls against any target other than the grappler. The grappler can drag or carry you when it moves, spending extra movement. It ends if the grappler is Incapacitated or you leave its reach.",
+  'cond.incapacitated': 'Incapacitated',
+  'cond.incapacitated.text':
+    "You can't take any action, Bonus Action or Reaction, and your Concentration is broken. You can't speak. If you're Incapacitated when you roll Initiative, you have Disadvantage on the roll.",
+  'cond.invisible': 'Invisible',
+  'cond.invisible.text':
+    "You have Advantage on your Initiative roll. You aren't affected by effects that require their target to be seen unless their creator can see you; what you wear or carry is concealed too. Attack rolls against you have Disadvantage and yours have Advantage, unless the other creature can see you.",
+  'cond.paralyzed': 'Paralyzed',
+  'cond.paralyzed.text':
+    'You are Incapacitated and your Speed is 0. You automatically fail Strength and Dexterity saving throws. Attack rolls against you have Advantage, and any attack that hits you from within 5 feet is a Critical Hit.',
+  'cond.petrified': 'Petrified',
+  'cond.petrified.text':
+    'You and what you wear or carry turn into a solid inanimate substance (usually stone); your weight increases tenfold and you stop aging. You are Incapacitated, your Speed is 0, attack rolls against you have Advantage, you automatically fail Strength and Dexterity saving throws, you have Resistance to all damage and Immunity to the Poisoned condition.',
+  'cond.poisoned': 'Poisoned',
+  'cond.poisoned.text': 'You have Disadvantage on attack rolls and ability checks.',
+  'cond.prone': 'Prone',
+  'cond.prone.text':
+    'You can only crawl, or stand up by spending half your Speed. You have Disadvantage on attack rolls. Attack rolls against you have Advantage if the attacker is within 5 feet, otherwise Disadvantage.',
+  'cond.restrained': 'Restrained',
+  'cond.restrained.text':
+    "Your Speed is 0 and can't increase. Attack rolls against you have Advantage and yours have Disadvantage. You have Disadvantage on Dexterity saving throws.",
+  'cond.stunned': 'Stunned',
+  'cond.stunned.text':
+    'You are Incapacitated. You automatically fail Strength and Dexterity saving throws. Attack rolls against you have Advantage.',
+  'cond.unconscious': 'Unconscious',
+  'cond.unconscious.text':
+    "You are Incapacitated and Prone, and you drop whatever you're holding. Your Speed is 0 and you're unaware of your surroundings. You automatically fail Strength and Dexterity saving throws. Attack rolls against you have Advantage, and any attack that hits you from within 5 feet is a Critical Hit.",
 };
