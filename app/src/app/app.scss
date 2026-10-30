@@ -184,6 +184,14 @@ nav {
     line-height: 1.2;
   }
 
+  // Git's reasons can be long: one line here, the rest on hover.
+  .update-message {
+    overflow: hidden;
+    max-width: 14rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   a {
     color: #f3c46b;
     font-weight: 700;
@@ -284,6 +292,17 @@ main {
       filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.5));
       pointer-events: none;
     }
+  }
+}
+
+// Wide: everything on one row. The ribbons keep their width and the status wraps in what's left.
+@media (min-width: 75rem) {
+  .topbar {
+    grid-template-columns: auto 1fr minmax(0, auto) auto;
+  }
+
+  nav {
+    min-width: max-content;
   }
 }
 

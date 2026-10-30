@@ -45,7 +45,7 @@
     }
     @if (update.available()) {
       @if (update.message()) {
-        <small>{{ update.message() }}</small>
+        <small class="update-message" [title]="update.message()">{{ update.message() }}</small>
       }
       <button type="button" (click)="update.run()" [disabled]="update.updating()">
         {{ (update.updating() ? 'update.running' : 'update.button') | t }}
