@@ -1,0 +1,533 @@
+<p>
+  <a [routerLink]="['/characters', id()]">← {{ 'common.back' | t }}</a>
+</p>
+
+@if (data.isLoading()) {
+  <p>{{ 'common.loading' | t }}</p>
+} @else if (data.error()) {
+  <app-load-error [error]="data.error()" />
+} @else if (data.value(); as d) {
+  @if (!d.original || !d.before) {
+    <p>{{ 'sheet.notFound' | t }}</p>
+  } @else if (!d.original.classes.length) {
+    <h1>{{ 'levelUp.title' | t: { name: d.original.name } }}</h1>
+    <p>
+      {{ 'levelUp.noClass' | t }}
+      <a [routerLink]="['/characters', id(), 'edit']">{{ 'sheet.edit' | t }}</a>
+    </p>
+  } @else {
+    @let before = d.before;
+    @let g = gains();
+    @let c = draft();
+    <h1>{{ 'levelUp.title' | t: { name: d.original.name } }}</h1>
+    <p>
+      {{ 'levelUp.reaches' | t: { from: before.totalLevel, to: before.totalLevel + 1 } }}
+    </p>
+
+    <nav class="steps" [attr.aria-label]="'levelUp.steps' | t">
+      <ol>
+        @for (s of steps(); track s; let i = $index) {
+          <li>
+            <button
+              type="button"
+              [class.current]="step() === s"
+              [attr.aria-current]="step() === s ? 'step' : null"
+              [disabled]="!g && s !== 'class'"
+              (click)="step.set(s)"
+            >
+              {{ i + 1 }}. {{ 'levelUp.step.' + s | t }}
+            </button>
+          </li>
+        }
+      </ol>
+    </nav>
+
+    <section class="step">
+      @switch (step()) {
+        <!-- 1. Which class --------------------------------------------------------------- -->
+        @case ('class') {
+          @let ch = choices()!;
+          <fieldset>
+            <legend>{{ 'levelUp.which' | t }}</legend>
+            @for (m of ch.mine; track m.entry.id) {
+              <label class="option" [class.disabled]="m.entry.level >= 20 || !m.cls">
+                <input
+                  type="radio"
+                  name="class"
+                  [checked]="classId() === m.entry.id"
+                  [disabled]="m.entry.level >= 20 || !m.cls"
+                  (change)="chooseClass(m.entry.id)"
+                />
+                <span>
+                  <strong>{{ m.cls?.name ?? m.entry.id | dataName }}</strong>
+                  {{ m.entry.level }} → {{ m.entry.level + 1 }}
+                  @if (m.entry.level >= 20) {
+                    <small>({{ 'levelUp.maxClassLevel' | t }})</small>
+                  }
+                </span>
+              </label>
+            }
+          </fieldset>
+
+          <label>
+            {{ 'levelUp.newClass' | t }}
+            <select
+              [value]="ch.mine.some((m) => m.entry.id === classId()) ? '' : classId()"
+              (change)="chooseClass(value($event))"
+            >
+              <option value="">—</option>
+              @for (o of ch.others; track o.cls.id) {
+                <option [value]="o.cls.id">
+                  {{ o.cls.name | dataName }}{{ o.cls.edition === '2014' ? ' (2014)' : ''
+                  }}{{ o.notes.length ? ' ⚠' : '' }}
+                </option>
+              }
+            </select>
+          </label>
+
+          @if (g?.isNewClass) {
+            @let mc = ch.others.find((o) => o.cls.id === classId());
+            @if (mc?.notes?.length) {
+              <ul class="notes" role="note">
+                @for (n of mc!.notes; track $index) {
+                  <li class="issue">⚠ {{ noteText(n) }}</li>
+                }
+              </ul>
+              <p>
+                <small>{{ 'levelUp.warnOnly' | t }}</small>
+              </p>
+            } @else {
+              <p>{{ 'levelUp.multiclassOk' | t }}</p>
+            }
+          }
+          @if (before.totalLevel >= 20) {
+            <p class="issue">⚠ {{ 'levelUp.overTwenty' | t }}</p>
+          }
+        }
+
+        <!-- 2. Hit points ----------------------------------------------------------------- -->
+        @case ('hp') {
+          @if (g) {
+            @let die = g.cls.hitDie;
+            <fieldset>
+              <legend>{{ 'levelUp.hpHow' | t: { die: die } }}</legend>
+              <label class="option">
+                <input
+                  type="radio"
+                  name="hp"
+                  [checked]="hpMode() === 'average'"
+                  (change)="setHpMode('average')"
+                />
+                <span>{{ 'levelUp.hpAverage' | t: { avg: avg(die) } }}</span>
+              </label>
+              <label class="option">
+                <input
+                  type="radio"
+                  name="hp"
+                  [checked]="hpMode() === 'roll'"
+                  (change)="setHpMode('roll')"
+                />
+                <span>{{ 'levelUp.hpRoll' | t: { die: die } }}</span>
+              </label>
+              @if (hpMode() === 'roll') {
+                <label>
+                  {{ 'levelUp.hpResult' | t: { die: die } }}
+                  <input
+                    type="number"
+                    inputmode="numeric"
+                    min="1"
+                    [max]="die"
+                    [value]="rolledHp() ?? ''"
+                    (input)="setRolled(value($event))"
+                  />
+                </label>
+                @if (rolledHp() === null) {
+                  <p>
+                    <small>{{ 'levelUp.hpEmpty' | t: { avg: avg(die) } }}</small>
+                  </p>
+                } @else if (rolledHp()! < 1 || rolledHp()! > die) {
+                  <p class="issue">⚠ {{ 'levelUp.hpOutOfRange' | t: { die: die } }}</p>
+                }
+              }
+            </fieldset>
+            <p>
+              {{
+                'levelUp.hpGained'
+                  | t
+                    : {
+                        n: hpGained(),
+                        before: before.hitPoints.max,
+                        after: after()?.hitPoints?.max ?? 0,
+                      }
+              }}
+            </p>
+          }
+        }
+
+        <!-- 3. Subclass ------------------------------------------------------------------- -->
+        @case ('subclass') {
+          @if (g) {
+            <label>
+              {{
+                'levelUp.subclassNow'
+                  | t
+                    : {
+                        cls: g.cls.name | dataName: true,
+                        level: g.level,
+                        title: g.cls.subclassTitle | dataText,
+                      }
+              }}
+              <select [value]="g.entry.subclassId ?? ''" (change)="setSubclass(value($event))">
+                <option value="">—</option>
+                @for (s of g.subclasses; track s.id) {
+                  <option [value]="s.id">
+                    {{ s.name | dataName }}{{ s.edition === '2014' ? ' (2014)' : '' }}
+                  </option>
+                }
+              </select>
+            </label>
+            @if (g.sub; as s) {
+              <details>
+                <summary>{{ s.name | dataName }}</summary>
+                <div class="md" [innerHTML]="s.description | dataText | markdown"></div>
+              </details>
+            }
+          }
+        }
+
+        <!-- 4. Feat slots ----------------------------------------------------------------- -->
+        @case ('feats') {
+          @for (s of g?.featSlots ?? []; track s.slot) {
+            @let feat = slotFeatEntry(s.slot);
+            @let fp = slotPicks(feat);
+            @let problems = featProblems(feat);
+            <fieldset>
+              <legend>{{ 'create.slot.' + s.kind | t: { level: s.level } }}</legend>
+              <select [value]="slotFeat(s.slot)" (change)="setSlotFeat(s.slot, value($event))">
+                <option value="">—</option>
+                @for (f of featsFor(s.kind); track f.id) {
+                  <option [value]="f.id">
+                    {{ f.name | dataName }}{{ f.edition === '2014' ? ' (2014)' : ''
+                    }}{{ featProblems(f).length ? ' ⚠' : '' }}
+                  </option>
+                }
+              </select>
+              @for (n of problems; track n.key) {
+                <p class="issue">⚠ {{ noteText(n) }}</p>
+              }
+              @for (n of range(fp.picks); track n) {
+                <label>
+                  +1
+                  <select
+                    [value]="slotAbility(s.slot, n)"
+                    (change)="setSlotAbility(s.slot, n, value($event), fp.picks)"
+                  >
+                    <option value="">—</option>
+                    @for (a of fp.from; track a) {
+                      <option [value]="a">
+                        {{ 'ability.' + a | t }} ({{ after()?.abilities?.[a]?.score }})
+                      </option>
+                    }
+                  </select>
+                </label>
+              }
+              @if (feat) {
+                <details>
+                  <summary>{{ feat.name | dataName }}</summary>
+                  <div class="md" [innerHTML]="feat.description | dataText | markdown"></div>
+                </details>
+              }
+            </fieldset>
+          }
+        }
+
+        <!-- 5. Spells, options, expertise, multiclass ---------------------------------- -->
+        @case ('choices') {
+          @if (g && c) {
+            @if (g.multiclass; as mc) {
+              <fieldset>
+                <legend>
+                  {{ 'levelUp.multiclassGains' | t: { cls: g.cls.name | dataName: true } }}
+                </legend>
+                @if (mc.armor.length || mc.weapons.length || mc.tools.length) {
+                  <ul>
+                    @if (mc.armor.length) {
+                      <li>
+                        {{ 'sheet.armor' | t }}:
+                        @for (a of mc.armor; track a; let last = $last) {
+                          {{ a | term: 'armor' }}{{ last ? '' : ', ' }}
+                        }
+                      </li>
+                    }
+                    @if (mc.weapons.length) {
+                      <li>
+                        {{ 'sheet.weapons' | t }}:
+                        @for (w of mc.weapons; track w; let last = $last) {
+                          {{ w | term: 'weapon' }}{{ last ? '' : ', ' }}
+                        }
+                      </li>
+                    }
+                    @if (mc.tools.length) {
+                      <li>
+                        {{ 'sheet.tools' | t }}:
+                        @for (x of mc.tools; track x; let last = $last) {
+                          {{ x | term: 'tool' }}{{ last ? '' : ', ' }}
+                        }
+                      </li>
+                    }
+                  </ul>
+                } @else {
+                  <p>{{ 'levelUp.noProficiencies' | t }}</p>
+                }
+                @if (g.skillOptions.length) {
+                  <label>
+                    {{ 'levelUp.multiclassSkill' | t }}
+                    <select
+                      [value]="multiclassSkill()"
+                      (change)="setMulticlassSkill(value($event))"
+                    >
+                      <option value="">—</option>
+                      @for (s of g.skillOptions; track s) {
+                        <option
+                          [value]="s"
+                          [disabled]="proficientSkills().includes(s) && s !== multiclassSkill()"
+                        >
+                          {{ 'skill.' + s | t }}
+                        </option>
+                      }
+                    </select>
+                  </label>
+                }
+                @if (g.instruments.length) {
+                  @let slot = 'multiclass:' + g.cls.id;
+                  <label>
+                    {{ 'levelUp.multiclassInstrument' | t }}
+                    <select [value]="toolIn(slot)" (change)="setTool(slot, value($event))">
+                      <option value="">—</option>
+                      @for (x of g.instruments; track x) {
+                        <option [value]="x">{{ x | term: 'tool' }}</option>
+                      }
+                    </select>
+                  </label>
+                }
+              </fieldset>
+            }
+
+            @if (g.expertise) {
+              @let nE = newPicks('expertise').length;
+              <fieldset>
+                <legend [class.issue]="nE > g.expertise">
+                  {{ 'levelUp.expertise' | t: { chosen: nE, count: g.expertise } }}
+                </legend>
+                @for (s of proficientSkills(); track s) {
+                  <label class="inline">
+                    <input
+                      type="checkbox"
+                      [checked]="c.choices.expertise.includes(s)"
+                      [disabled]="d.original.choices.expertise.includes(s)"
+                      (change)="setExpertise(s, checked($event))"
+                    />
+                    {{ 'skill.' + s | t }}
+                  </label>
+                }
+              </fieldset>
+            }
+
+            @for (og of g.optionGroups; track og.group) {
+              @let taken = chosenCount(c.choices.options, og.options);
+              <fieldset>
+                <legend [class.issue]="og.count !== null && taken > og.count">
+                  {{ groupLabel(og.group) }}
+                  @if (og.count !== null) {
+                    ({{ taken }} / {{ og.count }}) ·
+                    {{ 'levelUp.gain' | t: { n: og.count - og.before } }}
+                  }
+                </legend>
+                @if (og.uncounted) {
+                  <p>
+                    <small>{{ 'levelUp.uncounted' | t }}</small>
+                  </p>
+                }
+                <details [open]="!og.uncounted">
+                  <summary>{{ 'levelUp.showOptions' | t: { count: og.options.length } }}</summary>
+                  @for (o of og.options; track o.id) {
+                    <label class="inline" [class.issue]="optionTooHigh(o, g.level)">
+                      <input
+                        type="checkbox"
+                        [checked]="c.choices.options.includes(o.id)"
+                        (change)="setOption(o.id, checked($event))"
+                      />
+                      {{ o.name | dataName }}
+                      @if (optionTooHigh(o, g.level)) {
+                        <small
+                          >⚠
+                          {{
+                            'levelUp.optionLevel' | t: { level: o.prerequisites?.level ?? '' }
+                          }}</small
+                        >
+                      }
+                    </label>
+                  }
+                </details>
+              </fieldset>
+            }
+
+            @if (g.spells; as sp) {
+              @if (g.spellLists; as sl) {
+                <fieldset>
+                  <legend>{{ 'sheet.spellcasting' | t }}</legend>
+                  <ul class="gains">
+                    @if (sp.cantrips && sp.cantrips.after > sp.cantrips.before) {
+                      <li>
+                        {{
+                          'levelUp.gainCantrips' | t: { n: sp.cantrips.after - sp.cantrips.before }
+                        }}
+                      </li>
+                    }
+                    @if (sp.prepared && sp.prepared.after > sp.prepared.before) {
+                      <li>
+                        {{
+                          'levelUp.gainPrepared' | t: { n: sp.prepared.after - sp.prepared.before }
+                        }}
+                      </li>
+                    }
+                    @if (sp.maxLevel.after > sp.maxLevel.before) {
+                      <li>{{ 'levelUp.newSpellLevel' | t: { level: sp.maxLevel.after } }}</li>
+                    }
+                  </ul>
+                  <input
+                    type="search"
+                    [placeholder]="'common.search' | t"
+                    [value]="spellFilter()"
+                    (input)="spellFilter.set(value($event))"
+                  />
+                  @if (sp.cantrips) {
+                    @let takenC = chosenCount(c.choices.spells, cantripsOf(sl.all));
+                    <h3 [class.issue]="takenC > sp.cantrips.after">
+                      {{ 'sheet.cantrips' | t }} ({{ takenC }} / {{ sp.cantrips.after }})
+                    </h3>
+                    <div class="spells">
+                      @for (s of sl.cantrips; track s.id) {
+                        <label class="inline">
+                          <input
+                            type="checkbox"
+                            [checked]="c.choices.spells.includes(s.id)"
+                            (change)="setSpell(s.id, checked($event))"
+                          />
+                          {{ s.name | dataName }}
+                        </label>
+                      }
+                    </div>
+                  }
+                  @let takenP = chosenCount(c.choices.spells, leveledOf(sl.all));
+                  <h3 [class.issue]="sp.prepared !== null && takenP > sp.prepared.after">
+                    {{ 'sheet.prepared' | t }}
+                    @if (sp.prepared) {
+                      ({{ takenP }} / {{ sp.prepared.after }})
+                    }
+                  </h3>
+                  <div class="spells">
+                    @for (s of sl.leveled; track s.id) {
+                      <label class="inline" [class.new]="s.level > sp.maxLevel.before">
+                        <input
+                          type="checkbox"
+                          [checked]="c.choices.spells.includes(s.id)"
+                          (change)="setSpell(s.id, checked($event))"
+                        />
+                        <small>{{ 'spell.levelShort' | t: { level: s.level } }}</small>
+                        {{ s.name | dataName }}
+                      </label>
+                    }
+                  </div>
+                </fieldset>
+              }
+            }
+          }
+        }
+
+        <!-- 6. Summary -------------------------------------------------------------------- -->
+        @case ('summary') {
+          @if (g) {
+            <h2>
+              {{ g.cls.name | dataName: true }} {{ g.level }}
+              @if (g.sub) {
+                ({{ g.sub.name | dataName: true }})
+              }
+            </h2>
+
+            <h3>{{ 'levelUp.changes' | t }}</h3>
+            <table class="changes">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">{{ 'levelUp.before' | t }}</th>
+                  <th scope="col">{{ 'levelUp.after' | t }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (ch of changes(); track $index) {
+                  <tr [class.changed]="ch.before !== ch.after">
+                    <th scope="row">{{ changeLabel(ch) }}</th>
+                    <td>{{ ch.before }}</td>
+                    <td>{{ ch.after }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+
+            <h3>{{ 'levelUp.features' | t }}</h3>
+            @if (g.tableFeatures.length) {
+              <p>
+                {{ 'levelUp.tableRow' | t: { cls: g.cls.name | dataName: true, level: g.level } }}:
+                @for (x of g.tableFeatures; track $index; let last = $last) {
+                  {{ x | dataName }}{{ last ? '' : ', ' }}
+                }
+              </p>
+            }
+            @for (f of features(); track $index) {
+              <details>
+                <summary>
+                  {{ f.name | dataName }}
+                  <small>· {{ f.source.name | dataName: true }}</small>
+                </summary>
+                <div class="md" [innerHTML]="f.description | dataText | markdown"></div>
+              </details>
+            } @empty {
+              <p>{{ 'levelUp.noFeatures' | t }}</p>
+            }
+
+            @if (notes().length) {
+              <aside class="notes" role="note">
+                <strong>{{ 'sheet.warnings' | t }}</strong>
+                <ul>
+                  @for (m of notes(); track $index) {
+                    <li [class.issue]="m.kind === 'issue'">
+                      {{ m.kind === 'issue' ? '⚠ ' : '' }}{{ noteText(m) }}
+                    </li>
+                  }
+                </ul>
+                <small>{{ 'create.canFinishLater' | t }}</small>
+              </aside>
+            }
+
+            <p class="actions">
+              <button type="button" class="primary" [disabled]="saving()" (click)="save()">
+                {{ 'levelUp.save' | t }}
+              </button>
+              <a [routerLink]="['/characters', id()]">{{ 'levelUp.cancel' | t }}</a>
+            </p>
+          }
+        }
+      }
+
+      <p class="nav">
+        <button type="button" (click)="go(-1)" [disabled]="stepIndex() <= 0">
+          ← {{ 'create.prev' | t }}
+        </button>
+        @if (stepIndex() < steps().length - 1) {
+          <button type="button" (click)="go(1)" [disabled]="!g">{{ 'create.next' | t }} →</button>
+        }
+      </p>
+    </section>
+  }
+}
