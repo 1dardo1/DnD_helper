@@ -256,12 +256,14 @@
               f.category | term: 'featCategory'
             }}</a>
           </dd>
-          <dt>{{ 'compendium.prerequisites' | t }}</dt>
-          <dd>
-            {{ f.prerequisites ? (f.prerequisites.raw | dataText) : ('compendium.none' | t) }}
-          </dd>
-          <dt>{{ 'compendium.repeatable' | t }}</dt>
-          <dd>{{ (f.repeatable ? 'compendium.yes' : 'compendium.no') | t }}</dd>
+          @if (f.prerequisites) {
+            <dt>{{ 'compendium.prerequisites' | t }}</dt>
+            <dd>{{ f.prerequisites.raw | dataText }}</dd>
+          }
+          @if (f.repeatable) {
+            <dt>{{ 'compendium.repeatable' | t }}</dt>
+            <dd>{{ 'compendium.yes' | t }}</dd>
+          }
           @if (f.abilityIncrease; as ai) {
             <dt>{{ 'compendium.abilityIncrease' | t }}</dt>
             <dd>
@@ -317,16 +319,16 @@
                 }}{{ m.subtype ? ' (' + (m.subtype | dataText) + ')' : '' }}
               </dd>
             }
-            <dt>{{ 'compendium.attunement' | t }}</dt>
-            <dd>
-              @if (!m.attunement) {
-                {{ 'compendium.no' | t }}
-              } @else if (m.attunementBy) {
-                {{ 'compendium.attunementBy' | t: { who: (m.attunementBy | dataText) } }}
-              } @else {
-                {{ 'compendium.yes' | t }}
-              }
-            </dd>
+            @if (m.attunement) {
+              <dt>{{ 'compendium.attunement' | t }}</dt>
+              <dd>
+                @if (m.attunementBy) {
+                  {{ 'compendium.attunementBy' | t: { who: (m.attunementBy | dataText) } }}
+                } @else {
+                  {{ 'compendium.yes' | t }}
+                }
+              </dd>
+            }
           }
           @if (i.armor; as a) {
             <dt>{{ 'compendium.armorKind' | t }}</dt>
@@ -419,8 +421,10 @@
               }}{{ last ? '' : ', ' }}
             }
           </dd>
-          <dt>{{ 'compendium.darkvision' | t }}</dt>
-          <dd>{{ sp.darkvision ? feet(sp.darkvision) : ('compendium.none' | t) }}</dd>
+          @if (sp.darkvision) {
+            <dt>{{ 'compendium.darkvision' | t }}</dt>
+            <dd>{{ feet(sp.darkvision) }}</dd>
+          }
         </dl>
         <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
         @if (sp.traits.length) {
@@ -517,10 +521,10 @@
               }}</a>
             </dd>
           }
-          <dt>{{ 'compendium.prerequisites' | t }}</dt>
-          <dd>
-            {{ o.prerequisites ? (o.prerequisites.raw | dataText) : ('compendium.none' | t) }}
-          </dd>
+          @if (o.prerequisites) {
+            <dt>{{ 'compendium.prerequisites' | t }}</dt>
+            <dd>{{ o.prerequisites.raw | dataText }}</dd>
+          }
         </dl>
         <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
       }
