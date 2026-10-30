@@ -1,0 +1,148 @@
+@if (part() === 'attacks') {
+  <section>
+    <h2>{{ 'sheet.attacks' | t }}</h2>
+    <div class="table-scroll">
+      <table class="attacks">
+        <thead>
+          <tr>
+            <th>{{ 'sheet.weapon' | t }}</th>
+            <th>{{ 'sheet.toHit' | t }}</th>
+            <th>{{ 'sheet.damage' | t }}</th>
+            <th>{{ 'sheet.reach' | t }}</th>
+            <th>{{ 'sheet.properties' | t }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (a of attacks(); track a.entryId + a.name) {
+            <tr [class.stowed]="!a.equipped">
+              <td>
+                <strong>{{
+                  a.entryId ? (a.name | dataName: true) : ('sheet.unarmedStrike' | t)
+                }}</strong>
+                @if (!a.equipped) {
+                  <small> · {{ 'sheet.notEquipped' | t }}</small>
+                }
+              </td>
+              <td>
+                <strong>{{ signed(a.bonus) }}</strong>
+                <small> {{ 'abbr.' + a.ability | t }}</small>
+                @if (!a.proficient) {
+                  <small class="issue"> · {{ 'sheet.notProficient' | t }}</small>
+                }
+              </td>
+              <td>
+                {{ a.damage }} {{ a.damageType | term: 'damage' }}
+                @if (a.versatile) {
+                  <small>({{ 'sheet.twoHanded' | t: { damage: a.versatile } }})</small>
+                }
+              </td>
+              <td>
+                @if (a.reach) {
+                  {{ 'sheet.feet' | t: { n: a.reach } }}
+                }
+                @if (a.range) {
+                  @if (a.reach) {
+                    ·
+                  }
+                  {{ 'sheet.rangeFeet' | t: { range: a.range } }}
+                }
+              </td>
+              <td>
+                @for (p of a.properties; track p; let last = $last) {
+                  {{ p | term: 'property' }}{{ last ? '' : ', ' }}
+                }
+                @if (a.mastery) {
+                  <small
+                    >{{ a.properties.length ? ' · ' : '' }}{{ 'sheet.mastery' | t }}:
+                    {{ a.mastery | term: 'mastery' }}</small
+                  >
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+} @else {
+  <section>
+    <h2>{{ 'sheet.equipment' | t }}</h2>
+    <ul class="inventory">
+      @for (r of entries(); track r.entry.id) {
+        <li [class.equipped]="r.entry.equipped">
+          @if (canEquip(r.item)) {
+            <button
+              type="button"
+              class="equip"
+              [class.on]="r.entry.equipped"
+              [attr.aria-pressed]="r.entry.equipped"
+              (click)="equip(r.entry)"
+            >
+              {{ (r.entry.equipped ? 'sheet.equipped' : 'sheet.equip') | t }}
+            </button>
+          } @else {
+            <span class="equip-spacer"></span>
+          }
+          <span class="name">
+            @if (r.item) {
+              <a [routerLink]="['/compendium', 'item', r.item.id]">{{
+                r.item.name | dataName: true
+              }}</a>
+            } @else {
+              {{ r.entry.name || r.entry.itemId }}
+            }
+          </span>
+          <input
+            type="number"
+            min="1"
+            class="qty"
+            [value]="r.entry.qty"
+            (change)="qty(r.entry, $event)"
+            [attr.aria-label]="'sheet.quantity' | t"
+          />
+          <button
+            type="button"
+            class="btn-ghost remove"
+            (click)="remove(r.entry)"
+            [attr.aria-label]="('sheet.removeItem' | t) + ': ' + (r.item?.name ?? r.entry.name)"
+          >
+            ✕
+          </button>
+        </li>
+      } @empty {
+        <li class="muted">{{ 'sheet.noItems' | t }}</li>
+      }
+    </ul>
+
+    <div class="add">
+      <input
+        type="search"
+        [placeholder]="'sheet.addItem' | t"
+        [value]="query()"
+        (input)="query.set(text($event))"
+        [attr.aria-label]="'sheet.addItem' | t"
+      />
+      @if (query().trim().length >= 2) {
+        <ul class="results">
+          @for (i of results(); track i.id) {
+            <li>
+              <button type="button" (click)="add(i)">+ {{ i.name | dataName }}</button>
+            </li>
+          }
+          <li>
+            <button type="button" class="btn-ghost" (click)="add(null)">
+              + {{ 'sheet.addAsText' | t: { name: query().trim() } }}
+            </button>
+          </li>
+        </ul>
+      }
+    </div>
+
+    @if (character().equipment) {
+      <details class="fold">
+        <summary>{{ 'sheet.startingEquipment' | t }}</summary>
+        <p>{{ character().equipment }}</p>
+      </details>
+    }
+  </section>
+}

@@ -61,9 +61,12 @@ export interface Character {
      */
     toolChoices: { slot: string; tools: string[] }[];
   };
-  /** Item ids from data/items.json, used for Armor Class. */
+  /** Item ids from data/items.json, used for Armor Class (kept in step with the inventory). */
   equipped: { armorId: string | null; shield: boolean };
+  /** Free text (starting equipment written by the wizard). */
   equipment: string;
+  /** Carried items: from the compendium (itemId) or written by hand (itemId null). */
+  inventory: InventoryEntry[];
   state: {
     hpCurrent: number | null;
     hpTemp: number;
@@ -86,6 +89,14 @@ export interface Character {
     spellSwap: Record<string, 'any' | 'one'>;
   };
   notes: string;
+}
+
+export interface InventoryEntry {
+  id: string;
+  itemId: string | null;
+  name: string;
+  qty: number;
+  equipped: boolean;
 }
 
 /**
@@ -145,6 +156,7 @@ export function newCharacter(name: string, device: string): Character {
     },
     equipped: { armorId: null, shield: false },
     equipment: '',
+    inventory: [],
     state: {
       hpCurrent: null,
       hpTemp: 0,
@@ -166,6 +178,16 @@ export function newCharacter(name: string, device: string): Character {
  * Fills in what an older or hand-written character file may lack, so the rest of the app can
  * rely on every field. Returns null if the JSON isn't a character at all.
  */
+/** Characters from before the inventory: their worn armor and shield become its first entries. */
+function inventoryFromEquipped(equipped: Character['equipped'] | undefined): InventoryEntry[] {
+  const out: InventoryEntry[] = [];
+  if (equipped?.armorId)
+    out.push({ id: equipped.armorId, itemId: equipped.armorId, name: '', qty: 1, equipped: true });
+  if (equipped?.shield)
+    out.push({ id: 'shield', itemId: 'shield', name: '', qty: 1, equipped: true });
+  return out;
+}
+
 export function normalizeCharacter(raw: unknown): Character | null {
   if (!raw || typeof raw !== 'object') return null;
   const c = raw as Partial<Character>;
@@ -178,6 +200,7 @@ export function normalizeCharacter(raw: unknown): Character | null {
     schemaVersion: 1,
     choices: { ...base.choices, ...(c.choices ?? {}) },
     equipped: { ...base.equipped, ...(c.equipped ?? {}) },
+    inventory: c.inventory ?? inventoryFromEquipped(c.equipped),
     state: { ...base.state, ...(c.state ?? {}) },
     classes: (c.classes ?? []).map((k) => ({
       ...k,

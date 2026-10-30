@@ -3,6 +3,7 @@ import { Component, computed, effect, inject, input, resource, signal } from '@a
 import { Router, RouterLink } from '@angular/router';
 
 import { CharacterStore } from '../../core/characters/character-store.service';
+import { wearArmor, wearShield } from '../../core/characters/inventory';
 import { SyncService } from '../../core/characters/sync.service';
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import {
@@ -670,11 +671,12 @@ export class CharacterCreate {
   }
 
   protected withArmor(armorId: string) {
-    return (c: Character) => ({ ...c, equipped: { ...c.equipped, armorId: armorId || null } });
+    return (c: Character) =>
+      wearArmor(c, armorId || null, this.data.value()?.rules.items ?? new Map());
   }
 
   protected withShield(shield: boolean) {
-    return (c: Character) => ({ ...c, equipped: { ...c.equipped, shield } });
+    return (c: Character) => wearShield(c, shield, this.data.value()?.rules.items ?? new Map());
   }
 
   // -- save ------------------------------------------------------------------------------

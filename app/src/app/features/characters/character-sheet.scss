@@ -91,21 +91,34 @@
   align-items: center;
 }
 
+// Each ability with its saving throw and skills: score on the left, list on the right.
+// One column on phones, two on tablets, three on wide screens.
 .abilities {
-  // 3 + 3 on phones, one row of 6 from tablets up
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-2);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
 
-  @media (min-width: 46rem) {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: var(--space-3);
+  @media (min-width: 40rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .ability {
-    position: relative;
-    padding-bottom: var(--space-2);
+  @media (min-width: 64rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 
-    > small:first-child {
+  > .ability {
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--space-3);
+    text-align: left;
+  }
+
+  .score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 4.5rem;
+
+    small {
       font-size: var(--fs-md);
       font-weight: 700;
       letter-spacing: 0.06em;
@@ -113,29 +126,25 @@
     }
 
     strong {
-      font-size: 2.6rem;
+      font-size: 2.4rem;
     }
 
     // score in a little oval
-    > span {
+    span {
       min-width: 3rem;
-      margin: -0.1rem 0 0.35rem;
       padding: 0 0.6rem;
       font-weight: 700;
+      text-align: center;
       border: 1.5px solid var(--line-strong);
       border-radius: 999px;
       background: var(--paper);
-    }
-
-    > small:last-child {
-      color: var(--ink-soft);
     }
   }
 }
 
 .skills {
-  columns: 2 15rem;
-  column-gap: var(--space-5);
+  flex: 1;
+  margin: 0;
   padding: 0;
   list-style: none;
 
@@ -144,9 +153,13 @@
     gap: 0.45rem;
     align-items: baseline;
     margin: 0;
-    padding: 0.3rem 0.25rem;
-    break-inside: avoid;
+    padding: 0.2rem 0.15rem;
     border-bottom: 1px dashed var(--line);
+  }
+
+  // the saving throw first, set apart
+  li:first-child {
+    font-style: italic;
   }
 
   .mark {
@@ -167,7 +180,24 @@
 
   strong {
     margin-left: auto;
+    font-size: var(--fs-md);
     font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+}
+
+// Sections folded to their title (class table, proficiencies)
+details.fold {
+  margin: var(--space-4) 0;
+
+  > summary {
+    cursor: pointer;
+    list-style: none;
+
+    h2 {
+      display: inline;
+      margin: 0;
+    }
   }
 }
 

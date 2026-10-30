@@ -12,6 +12,7 @@ import { RulesDataService } from '../../core/rules/rules-data.service';
 import { Sheet, SheetFeature, SheetWarning } from '../../core/rules/sheet';
 import { ABILITIES } from '../../core/rules/tables';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
+import { EquipmentPanel } from './equipment-panel';
 import { SpellBook } from './spell-book';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
@@ -30,6 +31,7 @@ import { PlayPanel } from './play-panel';
     LoadError,
     PlayPanel,
     SpellBook,
+    EquipmentPanel,
     ClassThemeDirective,
   ],
   templateUrl: './character-sheet.html',
@@ -147,6 +149,10 @@ export class CharacterSheet {
       .replace(/\b(STR|DEX|CON|INT|WIS|CHA)\b/g, (a) => this.i18n.t(`abbr.${a}` as never))
       .replace(/\bshield\b/, this.i18n.t('sheet.shield'))
       .replace(/\(max (\d+)\)/, (_, n) => this.i18n.t('sheet.maxN', { n }));
+  }
+
+  protected skillsOf(sheet: Sheet, ability: string) {
+    return sheet.skills.filter((sk) => sk.ability === ability);
   }
 
   protected signed(n: number): string {

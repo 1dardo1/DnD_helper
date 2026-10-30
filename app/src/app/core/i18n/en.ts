@@ -574,4 +574,27 @@ export const en = {
   'spells.swap': 'Swap',
   'levelUp.swapOne':
     'On gaining the level you can replace one of your spells with another from your list (optional).',
+
+  // -- attacks and inventory --
+  "sheet.attacks": "Attacks",
+  "sheet.weapon": "Weapon",
+  "sheet.toHit": "To hit",
+  "sheet.damage": "Damage",
+  "sheet.reach": "Reach",
+  "sheet.properties": "Properties",
+  "sheet.unarmedStrike": "Unarmed Strike",
+  "sheet.notEquipped": "not equipped",
+  "sheet.notProficient": "not proficient",
+  "sheet.twoHanded": "{damage} two-handed",
+  "sheet.rangeFeet": "{range} ft",
+  "sheet.mastery": "Mastery",
+  "sheet.equipped": "Equipped",
+  "sheet.equip": "Equip",
+  "sheet.quantity": "Quantity",
+  "sheet.removeItem": "Remove",
+  "sheet.noItems": "Nothing in the inventory.",
+  "sheet.addItem": "Add an item (search the compendium)…",
+  "sheet.addAsText": "\"{name}\" as text",
+  "sheet.startingEquipment": "Starting equipment (text)",
+  "sheet.savingThrow": "Saving throw",
 };

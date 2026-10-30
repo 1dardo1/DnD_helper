@@ -68,6 +68,10 @@ export class PlayPanel {
   protected readonly hp = computed(() => currentHp(this.state(), this.maxHp()));
   protected readonly resources = computed(() => playResources(this.sheet()));
   protected readonly exhaustion = computed(() => exhaustionEffects(this.state().exhaustion));
+  /** Shown next to the folded "Conditions": active conditions plus Exhaustion, if any. */
+  protected readonly conditionCount = computed(
+    () => this.state().conditions.length + (this.state().exhaustion ? 1 : 0),
+  );
   protected readonly activeConditions = computed(() =>
     CONDITIONS.filter((c) => this.state().conditions.includes(c)),
   );

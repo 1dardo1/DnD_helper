@@ -192,3 +192,33 @@ input[type='number'] {
 .all-conditions > summary {
   margin-top: 0.5rem;
 }
+
+// Two columns on wide screens (hit points | conditions, slots | resources)
+.cols {
+  display: grid;
+  gap: 0 1rem;
+  align-items: start;
+
+  @media (min-width: 52rem) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.conditions > summary {
+  font-family: var(--font-title, inherit);
+  font-size: 1.1rem;
+  padding: 0.5rem 0;
+  cursor: pointer;
+}
+
+.badge {
+  display: inline-block;
+  min-width: 1.5em;
+  padding: 0 0.4em;
+  margin-left: 0.4em;
+  border-radius: 1em;
+  background: var(--accent);
+  color: var(--paper);
+  font-size: 0.85em;
+  text-align: center;
+}

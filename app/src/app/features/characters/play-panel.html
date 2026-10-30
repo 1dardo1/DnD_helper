@@ -1,128 +1,117 @@
 <section class="play" [attr.aria-label]="'play.title' | t">
   <h2>{{ 'play.title' | t }}</h2>
 
-  <fieldset class="hp">
-    <legend>{{ 'play.hp' | t }}</legend>
-    <p class="hp-now" aria-live="polite">
-      <strong>{{ hp() }}</strong> / {{ maxHp() }}
-      @if (state().hpTemp) {
-        <span class="temp">+{{ state().hpTemp }} {{ 'play.temp' | t }}</span>
-      }
-    </p>
-    <label class="amount">
-      <span>{{ 'play.amount' | t }}</span>
-      <input
-        type="number"
-        inputmode="numeric"
-        min="0"
-        [value]="amount() ?? ''"
-        (input)="amount.set(num($event))"
-      />
-    </label>
-    <div class="buttons">
-      <button type="button" (click)="damage()">{{ 'play.damage' | t }}</button>
-      <button type="button" (click)="heal()">{{ 'play.heal' | t }}</button>
-      <button type="button" (click)="setTemp()">{{ 'play.setTemp' | t }}</button>
-      <button type="button" (click)="setHp()">{{ 'play.setHp' | t }}</button>
-    </div>
-  </fieldset>
-
-  @if (hp() === 0) {
-    <fieldset class="death">
-      <legend>{{ 'play.deathSaves' | t }}</legend>
-      @for (kind of deathKinds; track kind) {
-        <div class="row">
-          <span class="label">{{ 'play.' + kind | t }}</span>
-          <span class="pips">
-            @for (i of range(3); track i) {
-              <input
-                type="checkbox"
-                class="pip"
-                [class.bad]="kind === 'failures'"
-                [checked]="i < state().deathSaves[kind]"
-                (change)="tapDeathSave(kind, i)"
-                [attr.aria-label]="('play.' + kind | t) + ' ' + (i + 1)"
-              />
-            }
-          </span>
-        </div>
-      }
-      @if (state().deathSaves.failures >= 3) {
-        <p class="note">{{ 'play.dead' | t }}</p>
-      } @else if (state().deathSaves.successes >= 3) {
-        <p class="note">{{ 'play.stable' | t }}</p>
-      }
-    </fieldset>
-  }
-
-  <label class="toggle">
-    <input
-      type="checkbox"
-      class="pip"
-      [checked]="state().heroicInspiration"
-      (change)="toggleInspiration($any($event.target).checked)"
-    />
-    {{ 'play.heroicInspiration' | t }}
-  </label>
-
-  <fieldset class="conditions">
-    <legend>{{ 'play.conditions' | t }}</legend>
-    @let ex = state().exhaustion;
-    <div class="row">
-      <span class="label">{{ 'cond.exhaustion' | t }}</span>
-      <span class="pips">
-        @for (i of range(maxExhaustion); track i) {
-          <input
-            type="checkbox"
-            class="pip"
-            [checked]="i < ex"
-            (change)="setExhaustion(tapPip(ex, i))"
-            [attr.aria-label]="('cond.exhaustion' | t) + ' ' + (i + 1)"
-          />
-        }
-      </span>
-      @if (ex) {
-        <small class="issue">
-          @if (exhaustion().dead) {
-            {{ 'cond.exhaustion.dead' | t }}
-          } @else {
-            {{
-              'cond.exhaustion.now'
-                | t: { level: ex, d20: exhaustion().d20, speed: -exhaustion().speed }
-            }}
+  <div class="cols">
+    <div class="col">
+      <fieldset class="hp">
+        <legend>{{ 'play.hp' | t }}</legend>
+        <p class="hp-now" aria-live="polite">
+          <strong>{{ hp() }}</strong> / {{ maxHp() }}
+          @if (state().hpTemp) {
+            <span class="temp">+{{ state().hpTemp }} {{ 'play.temp' | t }}</span>
           }
-        </small>
+        </p>
+        <label class="amount">
+          <span>{{ 'play.amount' | t }}</span>
+          <input
+            type="number"
+            inputmode="numeric"
+            min="0"
+            [value]="amount() ?? ''"
+            (input)="amount.set(num($event))"
+          />
+        </label>
+        <div class="buttons">
+          <button type="button" (click)="damage()">{{ 'play.damage' | t }}</button>
+          <button type="button" (click)="heal()">{{ 'play.heal' | t }}</button>
+          <button type="button" (click)="setTemp()">{{ 'play.setTemp' | t }}</button>
+          <button type="button" (click)="setHp()">{{ 'play.setHp' | t }}</button>
+        </div>
+      </fieldset>
+
+      @if (hp() === 0) {
+        <fieldset class="death">
+          <legend>{{ 'play.deathSaves' | t }}</legend>
+          @for (kind of deathKinds; track kind) {
+            <div class="row">
+              <span class="label">{{ 'play.' + kind | t }}</span>
+              <span class="pips">
+                @for (i of range(3); track i) {
+                  <input
+                    type="checkbox"
+                    class="pip"
+                    [class.bad]="kind === 'failures'"
+                    [checked]="i < state().deathSaves[kind]"
+                    (change)="tapDeathSave(kind, i)"
+                    [attr.aria-label]="('play.' + kind | t) + ' ' + (i + 1)"
+                  />
+                }
+              </span>
+            </div>
+          }
+          @if (state().deathSaves.failures >= 3) {
+            <p class="note">{{ 'play.dead' | t }}</p>
+          } @else if (state().deathSaves.successes >= 3) {
+            <p class="note">{{ 'play.stable' | t }}</p>
+          }
+        </fieldset>
       }
-    </div>
-    <details class="explain">
-      <summary>{{ 'play.whatIsIt' | t }}</summary>
-      <p>{{ 'cond.exhaustion.text' | t }}</p>
-    </details>
-    @for (c of activeConditions(); track c) {
-      <div class="active-condition">
+
+      <label class="toggle">
         <input
           type="checkbox"
           class="pip"
-          checked
-          (change)="toggleCondition(c)"
-          [attr.aria-label]="'cond.' + c | t"
+          [checked]="state().heroicInspiration"
+          (change)="toggleInspiration($any($event.target).checked)"
         />
-        <details>
-          <summary>{{ 'cond.' + c | t }}</summary>
-          <p>{{ 'cond.' + c + '.text' | t }}</p>
+        {{ 'play.heroicInspiration' | t }}
+      </label>
+    </div>
+    <div class="col">
+      <details class="fold conditions">
+        <summary>
+          {{ 'play.conditions' | t }}
+          @if (conditionCount(); as n) {
+            <span class="badge">{{ n }}</span>
+          }
+        </summary>
+        @let ex = state().exhaustion;
+        <div class="row">
+          <span class="label">{{ 'cond.exhaustion' | t }}</span>
+          <span class="pips">
+            @for (i of range(maxExhaustion); track i) {
+              <input
+                type="checkbox"
+                class="pip"
+                [checked]="i < ex"
+                (change)="setExhaustion(tapPip(ex, i))"
+                [attr.aria-label]="('cond.exhaustion' | t) + ' ' + (i + 1)"
+              />
+            }
+          </span>
+          @if (ex) {
+            <small class="issue">
+              @if (exhaustion().dead) {
+                {{ 'cond.exhaustion.dead' | t }}
+              } @else {
+                {{
+                  'cond.exhaustion.now'
+                    | t: { level: ex, d20: exhaustion().d20, speed: -exhaustion().speed }
+                }}
+              }
+            </small>
+          }
+        </div>
+        <details class="explain">
+          <summary>{{ 'play.whatIsIt' | t }}</summary>
+          <p>{{ 'cond.exhaustion.text' | t }}</p>
         </details>
-      </div>
-    }
-    <details class="all-conditions">
-      <summary>{{ 'play.allConditions' | t }}</summary>
-      <ul class="condition-list">
-        @for (c of conditions; track c) {
-          @let on = state().conditions.includes(c);
-          <li [class.active]="on">
+        @for (c of activeConditions(); track c) {
+          <div class="active-condition">
             <input
               type="checkbox"
               class="pip"
-              [checked]="on"
+              checked
               (change)="toggleCondition(c)"
               [attr.aria-label]="'cond.' + c | t"
             />
@@ -130,179 +119,201 @@
               <summary>{{ 'cond.' + c | t }}</summary>
               <p>{{ 'cond.' + c + '.text' | t }}</p>
             </details>
-          </li>
+          </div>
         }
-      </ul>
-    </details>
-  </fieldset>
-
-  @if (slots().length || sheet().spellcasting.pact) {
-    <fieldset>
-      <legend>{{ 'play.slots' | t }}</legend>
-      @for (sl of slots(); track sl.level) {
-        <div class="row">
-          <span class="label">{{ 'play.slotLevel' | t: { level: sl.level } }}</span>
-          <span class="pips">
-            @for (i of range(sl.max); track i) {
-              <input
-                type="checkbox"
-                class="pip"
-                [checked]="i < sl.spent"
-                (change)="tapSlot(sl.level, sl.max, sl.spent, i)"
-                [attr.aria-label]="'play.slotPip' | t: { level: sl.level, n: i + 1 }"
-              />
-            }
-          </span>
-          <small>{{ 'play.left' | t: { left: sl.max - sl.spent, max: sl.max } }}</small>
-        </div>
-      }
-      @if (sheet().spellcasting.pact; as pact) {
-        <div class="row">
-          <span class="label">{{ 'play.pact' | t: { level: pact.level } }}</span>
-          <span class="pips">
-            @for (i of range(pact.slots); track i) {
-              <input
-                type="checkbox"
-                class="pip"
-                [checked]="i < state().pactSlotsSpent"
-                (change)="tapPact(pact.slots, i)"
-                [attr.aria-label]="'play.slotPip' | t: { level: pact.level, n: i + 1 }"
-              />
-            }
-          </span>
-          <small>{{
-            'play.left' | t: { left: pact.slots - state().pactSlotsSpent, max: pact.slots }
-          }}</small>
-        </div>
-      }
-    </fieldset>
-  }
-
-  @if (resources().length) {
-    <fieldset>
-      <legend>{{ 'play.resources' | t }}</legend>
-      @for (r of resources(); track r.key) {
-        @let used = usedOf(r);
-        @let name = r.labelKey ? (r.labelKey | t) : (r.name | term: 'column');
-        <div class="row">
-          <span class="label">
-            {{ name }}
-            @if (className(r.classId); as cls) {
-              <small>({{ cls | dataName: true }})</small>
-            }
-          </span>
-          @if (r.max <= maxPips) {
-            <span class="pips">
-              @for (i of range(r.max); track i) {
+        <details class="all-conditions">
+          <summary>{{ 'play.allConditions' | t }}</summary>
+          <ul class="condition-list">
+            @for (c of conditions; track c) {
+              @let on = state().conditions.includes(c);
+              <li [class.active]="on">
                 <input
                   type="checkbox"
                   class="pip"
-                  [checked]="i < used"
-                  (change)="setUsed(r, tapPip(used, i))"
-                  [attr.aria-label]="'play.usePip' | t: { name, n: i + 1 }"
+                  [checked]="on"
+                  (change)="toggleCondition(c)"
+                  [attr.aria-label]="'cond.' + c | t"
+                />
+                <details>
+                  <summary>{{ 'cond.' + c | t }}</summary>
+                  <p>{{ 'cond.' + c + '.text' | t }}</p>
+                </details>
+              </li>
+            }
+          </ul>
+        </details>
+      </details>
+    </div>
+  </div>
+
+  <div class="cols">
+    @if (slots().length || sheet().spellcasting.pact) {
+      <fieldset>
+        <legend>{{ 'play.slots' | t }}</legend>
+        @for (sl of slots(); track sl.level) {
+          <div class="row">
+            <span class="label">{{ 'play.slotLevel' | t: { level: sl.level } }}</span>
+            <span class="pips">
+              @for (i of range(sl.max); track i) {
+                <input
+                  type="checkbox"
+                  class="pip"
+                  [checked]="i < sl.spent"
+                  (change)="tapSlot(sl.level, sl.max, sl.spent, i)"
+                  [attr.aria-label]="'play.slotPip' | t: { level: sl.level, n: i + 1 }"
                 />
               }
             </span>
-          } @else {
-            <span class="counter">
-              <button
-                type="button"
-                (click)="setUsed(r, used + 1)"
-                [disabled]="used >= r.max"
-                [attr.aria-label]="('play.spendOne' | t) + ': ' + name"
-              >
-                −
-              </button>
+            <small>{{ 'play.left' | t: { left: sl.max - sl.spent, max: sl.max } }}</small>
+          </div>
+        }
+        @if (sheet().spellcasting.pact; as pact) {
+          <div class="row">
+            <span class="label">{{ 'play.pact' | t: { level: pact.level } }}</span>
+            <span class="pips">
+              @for (i of range(pact.slots); track i) {
+                <input
+                  type="checkbox"
+                  class="pip"
+                  [checked]="i < state().pactSlotsSpent"
+                  (change)="tapPact(pact.slots, i)"
+                  [attr.aria-label]="'play.slotPip' | t: { level: pact.level, n: i + 1 }"
+                />
+              }
+            </span>
+            <small>{{
+              'play.left' | t: { left: pact.slots - state().pactSlotsSpent, max: pact.slots }
+            }}</small>
+          </div>
+        }
+      </fieldset>
+    }
+
+    @if (resources().length) {
+      <fieldset>
+        <legend>{{ 'play.resources' | t }}</legend>
+        @for (r of resources(); track r.key) {
+          @let used = usedOf(r);
+          @let name = r.labelKey ? (r.labelKey | t) : (r.name | term: 'column');
+          <div class="row">
+            <span class="label">
+              {{ name }}
+              @if (className(r.classId); as cls) {
+                <small>({{ cls | dataName: true }})</small>
+              }
+            </span>
+            @if (r.max <= maxPips) {
+              <span class="pips">
+                @for (i of range(r.max); track i) {
+                  <input
+                    type="checkbox"
+                    class="pip"
+                    [checked]="i < used"
+                    (change)="setUsed(r, tapPip(used, i))"
+                    [attr.aria-label]="'play.usePip' | t: { name, n: i + 1 }"
+                  />
+                }
+              </span>
+            } @else {
+              <span class="counter">
+                <button
+                  type="button"
+                  (click)="setUsed(r, used + 1)"
+                  [disabled]="used >= r.max"
+                  [attr.aria-label]="('play.spendOne' | t) + ': ' + name"
+                >
+                  −
+                </button>
+                <input
+                  type="number"
+                  inputmode="numeric"
+                  class="left"
+                  min="0"
+                  [max]="r.max"
+                  [value]="r.max - used"
+                  (change)="setUsed(r, r.max - toNumber($event))"
+                  [attr.aria-label]="('play.leftOf' | t) + ': ' + name"
+                />
+                <button
+                  type="button"
+                  (click)="setUsed(r, used - 1)"
+                  [disabled]="used === 0"
+                  [attr.aria-label]="('play.recoverOne' | t) + ': ' + name"
+                >
+                  +
+                </button>
+              </span>
+            }
+            <small
+              >{{ 'play.left' | t: { left: r.max - used, max: r.max } }} ·
+              {{
+                r.short === 'all'
+                  ? ('play.short.all' | t)
+                  : r.short
+                    ? ('play.short.some' | t: { n: r.short })
+                    : ('play.short.none' | t)
+              }}</small
+            >
+          </div>
+        }
+      </fieldset>
+    }
+    <fieldset>
+      <legend>{{ 'play.hitDice' | t }}</legend>
+      @for (d of hitDice(); track d.die) {
+        <div class="row">
+          <span class="label">d{{ d.die }}</span>
+          <span class="counter">
+            <button
+              type="button"
+              (click)="setHitDiceSpent(d, d.spent + 1)"
+              [disabled]="d.spent >= d.count"
+              [attr.aria-label]="('play.spendOne' | t) + ': d' + d.die"
+            >
+              −
+            </button>
+            <button
+              type="button"
+              (click)="setHitDiceSpent(d, d.spent - 1)"
+              [disabled]="d.spent === 0"
+              [attr.aria-label]="('play.recoverOne' | t) + ': d' + d.die"
+            >
+              +
+            </button>
+          </span>
+          <small>{{ 'play.left' | t: { left: d.count - d.spent, max: d.count } }}</small>
+        </div>
+        @if (d.spent < d.count) {
+          <div class="spend">
+            <label class="amount">
+              <span>{{ 'play.roll' | t: { die: d.die } }}</span>
               <input
                 type="number"
                 inputmode="numeric"
-                class="left"
-                min="0"
-                [max]="r.max"
-                [value]="r.max - used"
-                (change)="setUsed(r, r.max - toNumber($event))"
-                [attr.aria-label]="('play.leftOf' | t) + ': ' + name"
+                min="1"
+                [max]="d.die"
+                [value]="rolls()[d.die] ?? ''"
+                (input)="setRoll(d.die, num($event))"
               />
+            </label>
+            <div class="buttons">
               <button
                 type="button"
-                (click)="setUsed(r, used - 1)"
-                [disabled]="used === 0"
-                [attr.aria-label]="('play.recoverOne' | t) + ': ' + name"
+                (click)="spendHitDie(d, rolls()[d.die])"
+                [disabled]="!rolls()[d.die]"
               >
-                +
+                {{ 'play.spendRoll' | t }}
               </button>
-            </span>
-          }
-          <small
-            >{{ 'play.left' | t: { left: r.max - used, max: r.max } }} ·
-            {{
-              r.short === 'all'
-                ? ('play.short.all' | t)
-                : r.short
-                  ? ('play.short.some' | t: { n: r.short })
-                  : ('play.short.none' | t)
-            }}</small
-          >
-        </div>
-      }
-    </fieldset>
-  }
-
-  <fieldset>
-    <legend>{{ 'play.hitDice' | t }}</legend>
-    @for (d of hitDice(); track d.die) {
-      <div class="row">
-        <span class="label">d{{ d.die }}</span>
-        <span class="counter">
-          <button
-            type="button"
-            (click)="setHitDiceSpent(d, d.spent + 1)"
-            [disabled]="d.spent >= d.count"
-            [attr.aria-label]="('play.spendOne' | t) + ': d' + d.die"
-          >
-            −
-          </button>
-          <button
-            type="button"
-            (click)="setHitDiceSpent(d, d.spent - 1)"
-            [disabled]="d.spent === 0"
-            [attr.aria-label]="('play.recoverOne' | t) + ': d' + d.die"
-          >
-            +
-          </button>
-        </span>
-        <small>{{ 'play.left' | t: { left: d.count - d.spent, max: d.count } }}</small>
-      </div>
-      @if (d.spent < d.count) {
-        <div class="spend">
-          <label class="amount">
-            <span>{{ 'play.roll' | t: { die: d.die } }}</span>
-            <input
-              type="number"
-              inputmode="numeric"
-              min="1"
-              [max]="d.die"
-              [value]="rolls()[d.die] ?? ''"
-              (input)="setRoll(d.die, num($event))"
-            />
-          </label>
-          <div class="buttons">
-            <button
-              type="button"
-              (click)="spendHitDie(d, rolls()[d.die])"
-              [disabled]="!rolls()[d.die]"
-            >
-              {{ 'play.spendRoll' | t }}
-            </button>
-            <button type="button" (click)="spendHitDie(d)">
-              {{ 'play.spendAverage' | t: { n: d.average } }}
-            </button>
+              <button type="button" (click)="spendHitDie(d)">
+                {{ 'play.spendAverage' | t: { n: d.average } }}
+              </button>
+            </div>
           </div>
-        </div>
+        }
       }
-    }
-    <small class="note">{{ 'play.hitDieHint' | t: { con: signed(conModifier()) } }}</small>
-  </fieldset>
+      <small class="note">{{ 'play.hitDieHint' | t: { con: signed(conModifier()) } }}</small>
+    </fieldset>
+  </div>
 
   <div class="buttons rests">
     <button type="button" (click)="shortRest()">{{ 'play.shortRest' | t }}</button>
