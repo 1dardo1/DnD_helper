@@ -2,7 +2,8 @@
 // The directive puts on the themed element:
 //   class="class-theme" data-class-theme="wizard" data-motif="rune" data-heading="double"
 //   style="--th-hue; --th-sat; --th-hue2; --th-accent-light/-dark; --th-accent2-light/-dark"
-// This file draws the motif (top ornament band, heading icon, watermark) and the heading style,
+// This file renders the motif as manuscript ornaments (a marginalia band between gilded rules,
+// an illuminated initial before h1, a faint engraving) and the heading style,
 // and swaps the page accent for the class accent inside the themed element.
 
 @use 'notebook' as nb;
@@ -83,104 +84,121 @@ $motifs: (
   @include accents(dark);
 }
 
+// Frame of the illuminated initial (a gilded double square); the motif is drawn inside it.
+$initial-frame: nb.svg(
+  "<rect x='1.5' y='1.5' width='21' height='21' rx='1'/><rect x='4' y='4' width='16' height='16' stroke-width='.8'/><path d='M1.5 1.5 4 4M22.5 1.5 20 4M1.5 22.5 4 20M22.5 22.5 20 20' stroke-width='.8'/>",
+  '0 0 24 24',
+  1.4
+);
+
 .class-theme {
-  --th-tint: hsl(var(--th-hue) var(--th-sat) 50% / 0.1);
-  --th-tint-2: hsl(var(--th-hue2) 60% 50% / 0.12);
+  --th-tint: hsl(var(--th-hue) var(--th-sat) 45% / 0.08);
+  --th-tint-2: hsl(var(--th-hue2) 60% 45% / 0.1);
   display: block;
   position: relative;
   isolation: isolate;
-  padding-top: 2rem;
+  padding-top: 2.6rem;
+  // a marginalia band at the top: two gilded rules with the motif repeated between them,
+  // over a faint wash of the class colour
   background-image:
+    linear-gradient(var(--accent-2), var(--accent-2)),
+    linear-gradient(var(--accent-2), var(--accent-2)),
     radial-gradient(ellipse 60% 12rem at 100% 0, var(--th-tint-2), transparent 70%),
     linear-gradient(to bottom, var(--th-tint), transparent 16rem);
-  border-radius: var(--radius-md);
+  background-size:
+    100% 1px,
+    100% 1px,
+    auto,
+    auto;
+  background-position:
+    0 0.3rem,
+    0 2.05rem,
+    0 0,
+    0 0;
+  background-repeat: no-repeat;
+  border-radius: var(--radius-sm);
 
   // full-page themed blocks bleed a little so the wash doesn't start at the text edge
-  &:where(:not(aside, .card, fieldset)) {
+  &:where(:not(aside, .card, fieldset, li)) {
     margin-inline: -0.75rem;
     padding-inline: 0.75rem;
     padding-bottom: 0.75rem;
   }
 
-  // Ornament band along the top, made of the motif.
+  // the motif band between the rules
   &::before {
     content: '';
     position: absolute;
-    inset: 0.35rem 0.5rem auto;
-    height: 1.15rem;
+    inset: 0.55rem 0.4rem auto;
+    height: 1.25rem;
     background-color: var(--accent-2);
-    opacity: 0.55;
-    mask: var(--th-motif) left center / 1.15rem 1.15rem space no-repeat;
-    mask-repeat: space no-repeat;
+    opacity: 0.75;
+    mask: var(--th-motif) left center / 1.25rem 1.25rem space no-repeat;
     pointer-events: none;
   }
 
-  // Large faint watermark of the motif.
+  // a large faint engraving of the motif
   &::after {
     content: '';
     position: absolute;
     z-index: -1;
-    top: 2.25rem;
+    top: 2.75rem;
     right: 0.25rem;
     width: clamp(5rem, 24vw, 11rem);
     aspect-ratio: 1;
     background-color: var(--accent);
-    opacity: 0.08;
+    opacity: 0.07;
     mask: var(--th-motif) center / contain no-repeat;
-    transform: rotate(-8deg);
+    transform: rotate(-6deg);
     pointer-events: none;
   }
 
   h1,
-  h2 {
+  h3 {
     color: var(--accent);
   }
 
   h1 {
     margin-right: clamp(0rem, 14vw - 3rem, 7rem);
 
+    // illuminated initial: the motif in a gilded frame
     &::before {
-      @include nb.icon(var(--th-motif), 0.8em, var(--accent-2));
+      content: '';
+      display: inline-block;
+      width: 1.05em;
+      height: 1.05em;
       margin-right: 0.3em;
-      vertical-align: -0.08em;
+      vertical-align: -0.12em;
+      background-color: var(--accent-2);
+      mask:
+        $initial-frame center / contain no-repeat,
+        var(--th-motif) center / 58% no-repeat;
     }
-  }
 
-  h3 {
-    color: var(--accent);
+    &::after {
+      background-color: var(--accent-2);
+    }
   }
 
   // Heading treatments (one per class) ----------------------------------------------------
-  &[data-heading='wavy'] h1 {
-    text-decoration: underline wavy var(--accent-2);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.22em;
-
-    &::after {
-      display: none;
-    }
+  &[data-heading='wavy'] h1::after {
+    width: min(100%, 12em);
   }
 
   &[data-heading='highlight'] h1 {
+    text-decoration: underline double var(--accent-2);
+    text-underline-offset: 0.18em;
+
     &::after {
       display: none;
     }
-
-    background: linear-gradient(
-        100deg,
-        transparent 0.2em,
-        color-mix(in srgb, var(--accent-2) 26%, transparent) 0.4em,
-        color-mix(in srgb, var(--accent-2) 26%, transparent) calc(100% - 0.4em),
-        transparent calc(100% - 0.1em)
-      )
-      0 88% / 100% 0.55em no-repeat;
   }
 
   &[data-heading='box'] h1 {
     width: fit-content;
-    padding: 0.05em 0.5em 0.1em;
-    border: 2px solid var(--accent-2);
-    border-radius: nb.$hand-radius;
+    padding: 0.05em 0.45em 0.1em;
+    border: 4px double var(--accent-2);
+    border-radius: 0.5em;
 
     &::after {
       display: none;
@@ -188,8 +206,10 @@ $motifs: (
   }
 
   &[data-heading='double'] h1 {
+    width: fit-content;
+    max-width: 100%;
     padding-bottom: 0.1em;
-    border-bottom: 5px double var(--accent-2);
+    border-bottom: 4px double var(--accent-2);
 
     &::after {
       display: none;
@@ -197,14 +217,13 @@ $motifs: (
   }
 
   &[data-heading='brush'] h1::after {
-    background-color: var(--accent-2);
-    height: 0.4em;
+    height: 0.55em;
+    width: min(100%, 11em);
   }
 
-  // h2 gets a small motif bullet
+  // h2 fleuron becomes the motif
   h2::before {
-    @include nb.icon(var(--th-motif), 0.7em, var(--accent-2));
-    margin-right: 0.3em;
-    vertical-align: -0.05em;
+    background-color: var(--accent);
+    mask-image: var(--th-motif);
   }
 }

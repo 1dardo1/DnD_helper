@@ -387,9 +387,9 @@ export interface ClassTheme {
   known: boolean;
 }
 
-/** Paper colours of the notebook (keep in sync with --paper in styles.scss). */
-export const PAPER_LIGHT = '#fbf7ec';
-export const PAPER_DARK = '#24272d';
+/** Paper colours of the journal (keep in sync with --paper in styles.scss). */
+export const PAPER_LIGHT = '#f1e3c2';
+export const PAPER_DARK = '#2a2119';
 
 export function themeFor(classId: string, subclassId?: string | null): ClassTheme {
   const known = classId in CLASS_THEMES;
@@ -418,7 +418,9 @@ export function themeFor(classId: string, subclassId?: string | null): ClassThem
   }
 
   const sat = base.sat;
-  const sat2 = Math.max(55, Math.min(75, sat + 10));
+  const sat2 = Math.max(40, Math.min(60, sat));
+  // inks and pigments, not neon: accents are a little muted and deep
+  const ink = Math.round(Math.min(50, sat) * 0.8);
   return {
     classId,
     subclassId: sub,
@@ -427,8 +429,8 @@ export function themeFor(classId: string, subclassId?: string | null): ClassThem
     hue2,
     motif,
     heading: base.heading,
-    accentLight: readable(hue, sat, PAPER_LIGHT, 'darker'),
-    accentDark: readable(hue, sat, PAPER_DARK, 'lighter'),
+    accentLight: readable(hue, ink, PAPER_LIGHT, 'darker'),
+    accentDark: readable(hue, ink, PAPER_DARK, 'lighter'),
     // decoration only (not text): 3:1 is enough (WCAG 1.4.11)
     accent2Light: readable(hue2, sat2, PAPER_LIGHT, 'darker', 3.1),
     accent2Dark: readable(hue2, sat2, PAPER_DARK, 'lighter', 3.1),
@@ -469,7 +471,7 @@ function readable(
   dir: 'darker' | 'lighter',
   min = 4.6,
 ): string {
-  const start = dir === 'darker' ? 50 : 55;
+  const start = dir === 'darker' ? 42 : 58;
   const step = dir === 'darker' ? -1 : 1;
   for (let l = start; l >= 5 && l <= 95; l += step) {
     const c = hslToHex(hue, sat, l);

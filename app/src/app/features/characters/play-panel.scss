@@ -1,20 +1,14 @@
-// Layout and touch sizes only (≥ 44px targets); colours come from the global design.
+// Layout and touch sizes (≥ 44px targets); look from the global journal design.
 fieldset {
   margin: 0 0 0.75rem;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #ccc;
+  padding: 0.5rem 0.75rem 0.75rem;
   min-width: 0;
-}
-
-legend {
-  font-weight: bold;
 }
 
 button {
   min-height: 2.75rem;
   min-width: 2.75rem;
   padding: 0 0.9rem;
-  font-size: 1rem;
 }
 
 input[type='number'] {
@@ -29,7 +23,10 @@ input[type='number'] {
   font-size: 1.4rem;
 
   strong {
-    font-size: 2rem;
+    font-size: 2.2rem;
+    font-weight: 600;
+    font-variant-numeric: lining-nums;
+    color: var(--accent);
   }
 
   .temp {
@@ -78,25 +75,39 @@ input[type='number'] {
   gap: 0.35rem;
 }
 
-// A spent use / slot is a filled circle.
+// A spent use / slot is a circle inked over; failed death saves are red wax.
 .pip {
   appearance: none;
   margin: 0;
   width: 2.75rem;
   height: 2.75rem;
-  border: 2px solid currentColor;
-  border-radius: 50%;
+  border: 2px solid var(--ink-soft);
+  border-radius: 48% 52% 50% 50% / 52% 48% 50% 50%;
+  background: color-mix(in srgb, var(--card) 60%, transparent);
+  box-shadow: inset 0 0 0 3px var(--paper);
   cursor: pointer;
   flex: none;
 
   &:checked {
-    background: currentColor;
+    background: radial-gradient(circle at 40% 35%, var(--ink-soft), var(--ink) 70%);
+    border-color: var(--ink);
   }
 
   &.bad:checked {
-    background: #b00;
-    border-color: #b00;
+    background: radial-gradient(
+      circle at 35% 30%,
+      color-mix(in srgb, var(--wax) 65%, white),
+      var(--wax) 45%,
+      color-mix(in srgb, var(--wax) 70%, black)
+    );
+    border-color: color-mix(in srgb, var(--wax) 70%, black);
   }
+}
+
+// heroic inspiration: a gilded mark
+.toggle .pip:checked {
+  background: radial-gradient(circle at 35% 30%, #f3d98a, #b88a3c 50%, #6b4a17);
+  border-color: #6b4a17;
 }
 
 .toggle {

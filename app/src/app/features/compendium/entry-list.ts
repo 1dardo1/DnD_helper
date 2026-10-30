@@ -126,9 +126,12 @@ const CATEGORY_DOMAIN: Partial<Record<EntryType, TermDomain>> = {
     .entries .edition {
       margin-left: 0;
       padding: 0 0.4em;
-      font-family: var(--font-note);
-      border: 1.5px solid currentColor;
-      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      font-family: var(--font-title);
+      border: 1px solid currentColor;
+      border-radius: 0.8em;
+      box-shadow:
+        inset 0 0 0 2px var(--paper),
+        inset 0 0 0 3px var(--line);
     }
     @media (pointer: coarse) {
       .entries li {
