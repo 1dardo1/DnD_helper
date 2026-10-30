@@ -21,7 +21,12 @@
     @for (g of groups(); track g.value) {
       <li [appClassTheme]="groupKey() === 'class' ? { classId: g.value } : null">
         <a class="group" [routerLink]="[]" [queryParams]="g.params">
-          <span class="name">{{ g.label }}</span>
+          <span class="name">
+            @if (groupKey() === 'class') {
+              <span class="class-icon" aria-hidden="true"></span>
+            }
+            {{ g.label }}
+          </span>
           @if (g.info) {
             <span class="info">{{ g.info }}</span>
           }

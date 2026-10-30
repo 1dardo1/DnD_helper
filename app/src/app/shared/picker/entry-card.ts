@@ -14,6 +14,9 @@ import { EntryLabels } from './entry-labels.service';
   template: `
     @let s = summary();
     <span class="head">
+      @if (entry().type === 'class' || entry().type === 'subclass') {
+        <span class="class-icon" aria-hidden="true"></span>
+      }
       <span class="name">{{ entry().name | dataName }}</span>
       @for (m of s.marks; track m.text) {
         <abbr class="mark" [title]="m.title">{{ m.text }}</abbr>

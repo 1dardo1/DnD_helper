@@ -492,8 +492,9 @@ textarea {
     opacity: 0.85;
   }
 
+  // only the colour: the shorthand would reset the select arrow's no-repeat and position
   &:hover:not(:disabled) {
-    background: var(--card);
+    background-color: var(--card);
   }
 
   &:focus-visible {

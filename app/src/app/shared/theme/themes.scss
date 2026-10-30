@@ -361,3 +361,18 @@ $initial-frame: nb.svg(
     --orn-out: 2.15rem;
   }
 }
+
+// The class icon in its gilded frame, for small places inside a themed element (cards, lists):
+// <span class="class-icon"></span> before a class or subclass name.
+.class-icon {
+  display: inline-block;
+  flex: none;
+  width: 1.35em;
+  height: 1.35em;
+  margin-right: 0.4em;
+  vertical-align: -0.25em;
+  background-color: var(--accent-2, var(--accent));
+  mask:
+    $initial-frame center / contain no-repeat,
+    var(--th-motif) center / 58% no-repeat;
+}

@@ -226,6 +226,12 @@ nav {
   border: 1px solid rgb(232 207 150 / 0.5);
   border-radius: var(--radius-sm);
 
+  // on the leather cover: lighten a little instead of turning to paper
+  &:hover:not(:disabled) {
+    background-color: rgb(255 255 255 / 0.14);
+    border-color: rgb(232 207 150 / 0.8);
+  }
+
   option {
     color: var(--ink);
     background: var(--card);
