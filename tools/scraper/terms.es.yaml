@@ -91,3 +91,19 @@ SP: pp
 CP: pc
 EP: pe
 PP: ppt
+
+# Clases (nombres oficiales; sin esto el traductor pone "Asistente", "Luchador"...)
+Blood Hunter: Cazador de sangre
+Artificer: Artífice
+Barbarian: Bárbaro
+Bard: Bardo
+Cleric: Clérigo
+Druid: Druida
+Fighter: Guerrero
+Monk: Monje
+Paladin: Paladín
+Ranger: Explorador
+Rogue: Pícaro
+Sorcerer: Hechicero
+Warlock: Brujo
+Wizard: Mago
