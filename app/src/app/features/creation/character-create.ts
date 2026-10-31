@@ -707,9 +707,20 @@ export class CharacterCreate {
     await this.router.navigate(['/characters', ch.id]);
   }
 
+  /** Throws away the new character's draft and starts from the first step. */
   protected restart(): void {
+    if (!confirm(this.i18n.t('create.confirmRestart'))) return;
     clearDraft();
     this.draft.set(this.blank());
+    this.step.set('class');
+  }
+
+  /** Editing: forgets the changes not saved yet and goes back to the saved character. */
+  protected async discard(): Promise<void> {
+    const id = this.id();
+    if (!id || !confirm(this.i18n.t('create.confirmDiscard'))) return;
+    const r = await this.store.get(id);
+    if (r) this.draft.set(normalizeCharacter(r.character)!);
     this.step.set('class');
   }
 }

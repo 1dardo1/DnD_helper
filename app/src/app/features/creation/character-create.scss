@@ -1,7 +1,20 @@
-// Creation wizard: steps as bookmark ribbons, the form on the page, and the live preview
-// as a themed index card (side panel on desktop, below the form on phones).
 @use '../../shared/theme/notebook' as nb;
 @use '../../shared/picker/cards';
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+
+  .reset {
+    min-height: var(--tap, 2.75rem);
+  }
+}
+
+// Creation wizard: steps as bookmark ribbons, the form on the page, and the live preview
+// as a themed index card (side panel on desktop, below the form on phones).
 
 .steps {
   display: flex;

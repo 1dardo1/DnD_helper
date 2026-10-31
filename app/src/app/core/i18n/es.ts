@@ -787,4 +787,7 @@ export const es: Record<keyof typeof en, string> = {
   'picker.damage.any': 'Cualquier daño',
   'picker.exclude': 'Excluir',
   'picker.excludeHint': 'Excluir: quita los que tengan esto',
+  'create.discard': 'Descartar cambios',
+  'create.confirmRestart': '¿Borrar todo lo elegido y empezar el personaje desde cero?',
+  'create.confirmDiscard': '¿Descartar los cambios sin guardar y volver al personaje guardado?',
 };

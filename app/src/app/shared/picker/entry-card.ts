@@ -1,7 +1,8 @@
 import { Component, computed, inject, input } from '@angular/core';
 
 import { DataNamePipe } from '../../core/i18n/data-text.service';
-import { Entry } from '../../core/models/compendium';
+import { Entry, Subclass } from '../../core/models/compendium';
+import { themeFor } from '../theme/class-theme';
 import { EntryLabels } from './entry-labels.service';
 
 /**
@@ -14,8 +15,14 @@ import { EntryLabels } from './entry-labels.service';
   template: `
     @let s = summary();
     <span class="head">
-      @if (entry().type === 'class' || entry().type === 'subclass') {
-        <span class="class-icon" aria-hidden="true"></span>
+      @if (icon(); as i) {
+        <span
+          class="class-icon"
+          aria-hidden="true"
+          [attr.data-motif]="i.motif"
+          [style.--icon-light]="i.light"
+          [style.--icon-dark]="i.dark"
+        ></span>
       }
       <span class="name">{{ entry().name | dataName }}</span>
       @for (m of s.marks; track m.text) {
@@ -49,6 +56,14 @@ import { EntryLabels } from './entry-labels.service';
 })
 export class EntryCard {
   readonly entry = input.required<Entry>();
+
+  /** Class and subclass cards: the class icon in its own colours (also outside a themed list). */
+  protected readonly icon = computed(() => {
+    const e = this.entry();
+    if (e.type !== 'class' && e.type !== 'subclass') return null;
+    const t = e.type === 'class' ? themeFor(e.id) : themeFor((e as Subclass).classId, e.id);
+    return { motif: t.motif, light: t.accent2Light, dark: t.accent2Dark };
+  });
   private readonly labels = inject(EntryLabels);
 
   protected readonly summary = computed(() => this.labels.summary(this.entry()));

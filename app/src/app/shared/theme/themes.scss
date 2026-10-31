@@ -85,6 +85,11 @@ $motifs: (
 }
 
 @mixin accents($mode) {
+  // a class icon carrying its own colours (outside any themed element)
+  .class-icon {
+    --icon: var(--icon-#{$mode});
+  }
+
   .class-theme {
     --accent: var(--th-accent-#{$mode});
     --accent-2: var(--th-accent2-#{$mode});
@@ -371,7 +376,7 @@ $initial-frame: nb.svg(
   height: 1.35em;
   margin-right: 0.4em;
   vertical-align: -0.25em;
-  background-color: var(--accent-2, var(--accent));
+  background-color: var(--icon, var(--accent-2, var(--accent)));
   mask:
     $initial-frame center / contain no-repeat,
     var(--th-motif) center / 58% no-repeat;

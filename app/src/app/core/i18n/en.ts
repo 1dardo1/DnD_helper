@@ -774,4 +774,7 @@ export const en = {
   'picker.damage.any': 'Any damage',
   'picker.exclude': 'Exclude',
   'picker.excludeHint': 'Exclude: leave out those with this',
+  'create.discard': 'Discard changes',
+  'create.confirmRestart': 'Clear everything chosen and start the character from scratch?',
+  'create.confirmDiscard': 'Discard the unsaved changes and go back to the saved character?',
 };

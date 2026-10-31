@@ -1,4 +1,11 @@
-<h1>{{ (id() ? 'create.editTitle' : 'create.title') | t }}</h1>
+<header class="top">
+  <h1>{{ (id() ? 'create.editTitle' : 'create.title') | t }}</h1>
+  @if (data.value()) {
+    <button type="button" class="btn-ghost reset" (click)="id() ? discard() : restart()">
+      ↺ {{ (id() ? 'create.discard' : 'create.restart') | t }}
+    </button>
+  }
+</header>
 
 @if (data.isLoading()) {
   <p>{{ 'common.loading' | t }}</p>
@@ -567,9 +574,7 @@
           }
           <p class="actions">
             <button type="button" class="primary" (click)="save()">{{ 'common.save' | t }}</button>
-            @if (!id()) {
-              <button type="button" (click)="restart()">{{ 'create.restart' | t }}</button>
-            } @else {
+            @if (id()) {
               <a [routerLink]="['/characters', id()]">{{ 'common.back' | t }}</a>
             }
           </p>
