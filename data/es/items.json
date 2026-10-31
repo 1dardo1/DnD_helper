@@ -26507,7 +26507,7 @@
     "name": "Varita de misiles mágicos",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "This wand has 7 charges. While holding it, you can expend no more than 3 charges to cast Magic Missile from it. For 1 charge, you cast the level 1 version of the spell. You can increase the spell's level by 1 for each additional charge you expend.\n\n**Regaining Charges.** The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll 1d20. On a 1, the wand crumbles into ashes and is destroyed.",
+    "description": "Esta varita tiene 7 cargas. Mientras lo sostienes, no puedes gastar más de 3 cargas para lanzar Magic Missile desde él. Por 1 carga, lanzas la versión de nivel 1 del conjuro. Puedes aumentar el nivel del conjuro en 1 por cada carga adicional que gastes.\n\n**Recuperación de cargas.** La varita recupera 1d6 + 1 cargas gastadas diariamente al amanecer. Si gastas la última carga de la varita, tira 1d20. Con un 1, la varita se convierte en cenizas y se destruye.",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-magic-missiles",
     "category": "other",
     "cost": null,
@@ -26527,10 +26527,10 @@
   {
     "id": "wand-of-misdirection",
     "type": "item",
-    "name": "Wand of Misdirection",
+    "name": "Varita de mala dirección",
     "edition": "2024",
     "source": "DND Beyond Drops - Agosto de 2026",
-    "description": "This wand has 4 charges and regains 1d4 expended charges daily at dawn. While holding the wand, you can expend 1 charge to cast Mislead from it.",
+    "description": "Esta varita tiene 4 cargas y recupera 1d4 cargas gastadas diariamente al amanecer. Mientras sostienes la varita, puedes gastar 1 carga para lanzar Engañar desde ella.",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-misdirection",
     "category": "other",
     "cost": null,
@@ -26541,16 +26541,16 @@
       "subtype": null,
       "attunement": true,
       "attunementBy": "un lanzador de conjuros",
-      "raw": "Wand, rare (requires attunement by a Spellcaster)"
+      "raw": "Varita, rara (requiere sintonía por parte de un lanzador de conjuros)"
     }
   },
   {
     "id": "wand-of-orcus",
     "type": "item",
-    "name": "Wand of Orcus",
+    "name": "Varita de Orcus",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "Crafted and wielded by Orcus, this ghastly wand slips from the demon lord's grasp from time to time. When it does, it magically appears wherever the demon lord senses an opportunity to achieve some fell goal.\n\nThe wand is topped with a skull that once belonged to a human hero slain by Orcus. The wand can magically change in size to better conform to the grip of its user. All Holy Water within 10 feet of the wand is destroyed.\n\nAny creature besides Orcus that tries to attune to the wand makes a DC 17 Constitution saving throw. On a successful save, the creature takes 10d6 Necrotic damage. On a failed save, the creature dies and, if it is a Humanoid, turns into a Zombie.\n\n**Magic Weapon.** You can wield the wand as a magic Mace that grants a +3 bonus to attack rolls and damage rolls made with it. The wand deals an extra 2d12 Necrotic damage on a hit.\n\n**Random Properties.** The Wand of Orcus has the following random properties (see \"Artifacts\"):\n\n- 2 minor beneficial properties\n- 1 major beneficial property\n- 2 minor detrimental properties\n- 1 major detrimental property\n\nThe detrimental properties of the Wand of Orcus are suppressed while the wand is attuned to Orcus.\n\n**Protection.** You gain a +3 bonus to Armor Class while holding the wand.\n\n**Spells.** The wand has 7 charges and regains 1d4 + 3 expended charges daily at dawn. While holding the wand, you can cast one of the spells on the following table from it (save DC 18). The table indicates how many charges you must expend to cast the spell.\n\n| Spell | Charge Cost |\n|---|---|\n| Animate Dead | 1 |\n| Blight | 2 |\n| Circle of Death | 3 |\n| Finger of Death | 3 |\n| Power Word Kill | 4 |\n| Speak with Dead | 1 |\n\nWhile attuned to the wand, Orcus or a follower blessed by him can cast each of the wand's spells using 2 fewer charges (minimum of 0).\n\n**Call Undead.** While holding the wand, you can take a Magic action to conjure 15 Skeletons and 15 Zombies. These Undead magically rise up from the ground or otherwise form in unoccupied spaces within 300 feet of you and obey your commands until they are destroyed or until the next dawn, when they collapse into inanimate piles of bones and rotting corpses. Once you use this property, you can't use it again until the next dawn.\n\nWhile holding the wand, Orcus can summon any kind of Undead, not just skeletons and zombies. These Undead don't perish at dawn the following day, remaining until Orcus dismisses them.\n\n**Sentience.** The *Wand of Orcus* is a sentient Chaotic Evil item with an Intelligence of 16, a Wisdom of 12, and a Charisma of 16. It has hearing and Darkvision out to 120 feet.\n\nThe wand communicates telepathically with its wielder and speaks Abyssal and Common.\n\n**Personality.** The wand's purpose is to help satisfy Orcus's desire to slay everything in the multiverse. The wand is cruel, nihilistic, and bereft of humor.\n\nTo further Orcus's goals, the wand feigns devotion to its current user and makes grandiose promises that it has no intention of fulfilling, such as vowing to help its user overthrow Orcus.\n\n**Destroying the Wand.** Destroying the *Wand of Orcus* requires that it be taken to the Positive Plane by the ancient hero whose skull surmounts it. For this to happen, the long-lost hero must first be restored to life—no easy task, given the fact that Orcus has imprisoned the hero's soul and keeps it hidden and well guarded.\n\nBathing the wand in positive energy (such as that which permeates the Positive Plane) causes it to crack and explode, but unless the above conditions are met, the wand instantly re-forms on Orcus's layer of the Abyss.",
+    "description": "Creada y empuñada por Orcus, esta espantosa varita se escapa del alcance del señor demonio de vez en cuando. Cuando lo hace, aparece mágicamente dondequiera que el señor demonio sienta una oportunidad para lograr algún objetivo.\n\nLa varita está rematada con una calavera que alguna vez perteneció a un héroe humano asesinado por Orcus. La varita puede cambiar mágicamente de tamaño para adaptarse mejor al agarre de su usuario. Toda el agua bendita a 10 pies de la varita se destruye.\n\nCualquier criatura además de Orcus que intente sintonizarse con la varita obtiene una Constitución CD 17 tirada de salvación. Con una salvación exitosa, la criatura sufre 10d6 de daño necrótico. Si falla la salvación, la criatura muere y, si es un humanoide, se convierte en un zombi.\n\n**Arma mágica.** Puedes empuñar la varita como una maza mágica que otorga una bonificación de +3 a las tiradas de ataque y daño realizadas con ella. La varita inflige 2d12 de daño necrótico adicional con un golpe.\n\n**Propiedades aleatorias.** La Varita de Orcus tiene las siguientes propiedades aleatorias (ver \"Artefactos\"):\n\n- 2 propiedades beneficiosas menores\n- 1 propiedad beneficiosa importante\n- 2 propiedades perjudiciales menores\n- 1 propiedad perjudicial importante\n\nLas propiedades perjudiciales de la Varita de Orcus se suprimen mientras la varita está en sintonía con Orcus.\n\n**Protección.** Obtienes una bonificación de +3 a Clase de Armadura mientras sostienes la varita.\n\n**Conjuros.** La varita tiene 7 cargas y recupera 1d4 + 3 cargas gastadas diariamente al amanecer. Mientras sostienes la varita, puedes lanzar uno de los conjuros de la siguiente tabla (guarda CD 18). La tabla indica cuántas cargas debes gastar para lanzar el conjuro.\n\n| Conjuro | Costo de cargo |\n|---|---|\n| Animar muertos | 1 |\n| Plaga | 2 |\n| Círculo de la Muerte | 3 |\n| Dedo de la Muerte | 3 |\n| Palabra de poder matar | 4 |\n| Habla con los muertos | 1 |\n\nMientras está en sintonía con la varita, Orcus o un seguidor bendecido por él puede lanzar cada uno de los conjuros de la varita usando 2 cargas menos (mínimo de 0).\n\n**Llama a los no-muertos.** Mientras sostienes la varita, puedes tomar un acción de Magia para conjurar 15 esqueletos y 15 zombis. Estos no-muertos se levantan mágicamente del suelo o se forman en espacios desocupados a menos de 300 pies de ti y obedecen tus órdenes hasta que son destruidos o hasta el siguiente amanecer, cuando colapsan en montones inanimados de huesos y cadáveres en descomposición. Una vez que uses esta propiedad, no podrás volver a usarla hasta el siguiente amanecer.\n\nMientras sostiene la varita, Orcus puede convocar a cualquier tipo de no-muerto, no sólo esqueletos y zombis. Estos No-muertos no mueren al amanecer del día siguiente y permanecen hasta que Orcus los despide.\n\n**Sentiencia.** La *Varita de Orcus* es un objeto caótico maligno sensible con una Inteligencia de 16, una Sabiduría de 12 y un Carisma de 16. Tiene audición y visión en la oscuridad hasta 120 pies.\n\nLa varita se comunica telepáticamente con su portador y habla Abisal y Común.\n\n**Personalidad.** El propósito de la varita es ayudar a satisfacer el deseo de Orcus de matar todo en el multiverso. La varita es cruel, nihilista y carente de humor.\n\nPara promover los objetivos de Orcus, la varita finge devoción hacia su usuario actual y hace promesas grandiosas que no tiene intención de cumplir, como prometer ayudar a su usuario a derrocar a Orcus.\n\n**Destruir la Varita.** Destruir la *Varita de Orcus* requiere que el antiguo héroe cuyo cráneo la corona la lleve al Plano Positivo. Para que esto suceda, primero se debe devolver la vida al héroe perdido hace mucho tiempo, lo que no es una tarea fácil, dado que Orcus ha aprisionado el alma del héroe y la mantiene oculta y bien custodiada.\n\nBañar la varita en energía positiva (como la que impregna el Plano Positivo) hace que se agriete y explote, pero a menos que se cumplan las condiciones anteriores, la varita se vuelve a formar instantáneamente en la capa del Abismo de Orcus.",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-orcus",
     "category": "other",
     "cost": null,
@@ -26561,7 +26561,7 @@
       "subtype": null,
       "attunement": true,
       "attunementBy": null,
-      "raw": "Wand, Artifact (Requires Attunement)"
+      "raw": "Varita, artefacto (requiere sintonía)"
     },
     "replaced": [
       "https://dnd5e.wikidot.com/wondrous-items:wand-of-orcus"
@@ -26570,10 +26570,10 @@
   {
     "id": "wand-of-paralysis",
     "type": "item",
-    "name": "Wand of Paralysis",
+    "name": "Varita de parálisis",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "This wand has 7 charges. While holding it, you can take a Magic action to expend 1 charge to cause a thin blue ray to streak from the tip toward a creature you can see within 60 feet of yourself. The target must succeed on a DC 15 Constitution saving throw or have the Paralyzed condition for 1 minute. At the end of each of the target's turns, it repeats the save, ending the effect on itself on a success.\n\n**Regaining Charges.** The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll 1d20. On a 1, the wand crumbles into ashes and is destroyed.",
+    "description": "Esta varita tiene 7 cargas. Mientras lo sostienes, puedes tomar acción de Magia para gastar 1 carga y provocar que un delgado rayo azul salga desde la punta hacia una criatura que puedas ver a 60 pies de ti. El objetivo debe tener éxito con CD 15 Constitución tirada de salvación o tener la condición de Paralizado durante 1 minuto. Al final de cada uno de los turnos del objetivo, repite la salvación, finalizando el efecto sobre sí mismo si tiene éxito.\n\n**Recuperación de cargas.** La varita recupera 1d6 + 1 cargas gastadas diariamente al amanecer. Si gastas la última carga de la varita, tira 1d20. Con un 1, la varita se convierte en cenizas y se destruye.",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-paralysis",
     "category": "other",
     "cost": null,
@@ -26593,10 +26593,10 @@
   {
     "id": "wand-of-polymorph",
     "type": "item",
-    "name": "Wand of Polymorph",
+    "name": "Varita de polimorfo",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "This wand has 7 charges. While holding it, you can expend 1 charge to cast Polymorph (save DC 15) from it.\n\n**Regaining Charges.** The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll 1d20. On a 1, the wand crumbles into ashes and is destroyed.",
+    "description": "Esta varita tiene 7 cargas. Mientras lo sostienes, puedes gastar 1 carga para lanzar Polymorph (ahorra CD 15) desde él.\n\n**Recuperación de cargas.** La varita recupera 1d6 + 1 cargas gastadas diariamente al amanecer. Si gastas la última carga de la varita, tira 1d20. Con un 1, la varita se convierte en cenizas y se destruye.",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-polymorph",
     "category": "other",
     "cost": null,
@@ -26607,7 +26607,7 @@
       "subtype": null,
       "attunement": true,
       "attunementBy": "un lanzador de conjuros",
-      "raw": "Wand, Very Rare (Requires Attunement by a Spellcaster)"
+      "raw": "Varita, muy rara (requiere sintonía por parte de un lanzador de conjuros)"
     },
     "replaced": [
       "https://dnd5e.wikidot.com/wondrous-items:wand-of-polymorph"
@@ -26616,10 +26616,10 @@
   {
     "id": "wand-of-pyrotechnics",
     "type": "item",
-    "name": "Wand of Pyrotechnics",
+    "name": "Varita de pirotecnia",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "This wand has 7 charges. While holding it, you can take a Magic action to expend 1 charge and create a harmless burst of multicolored light at a point you can see up to 120 feet away. The burst of light is accompanied by a crackling noise that can be heard up to 300 feet away. The light is as bright as a torch flame but lasts only a second.\n\n**Regaining Charges.** The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll 1d20. On a 1, the wand erupts in a harmless pyrotechnic display and is destroyed.",
+    "description": "Esta varita tiene 7 cargas. Mientras lo sostienes, puedes tomar un acción de Magia para gastar 1 carga y crear una explosión inofensiva de luz multicolor en un punto que puedas ver hasta a 120 pies de distancia. El estallido de luz va acompañado de un crujido que se puede escuchar hasta a 300 pies de distancia. La luz es tan brillante como la llama de una antorcha pero dura sólo un segundo.\n\n**Recuperación de cargas.** La varita recupera 1d6 + 1 cargas gastadas diariamente al amanecer. Si gastas la última carga de la varita, tira 1d20. Con un 1, la varita estalla en un despliegue pirotécnico inofensivo y es destruida.",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-pyrotechnics",
     "category": "other",
     "cost": null,
@@ -26639,10 +26639,10 @@
   {
     "id": "wand-of-scowls",
     "type": "item",
-    "name": "Wand of Scowls",
+    "name": "Varita de ceños fruncidos",
     "edition": "2014",
     "source": "La guía de Xanathar para todo",
-    "description": "This wand has 3 charges. While holding it, you can use an action to expend 1 of its charges and target a humanoid you can see within 30 feet of you. The target must succeed on a DC 10 Charisma saving throw or be forced to scowl for 1 minute.\n\nThe wand regains all expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand transforms into a *Wand of Smiles*.",
+    "description": "Esta varita tiene 3 cargas. Mientras lo sostienes, puedes usar una acción para gastar 1 de sus cargas y apuntar a un humanoide que puedas ver a 30 pies de ti. El objetivo debe tener éxito con un CD 10 Carisma tirada de salvación o verse obligado a fruncir el ceño durante 1 minuto.\n\nLa varita recupera todas las cargas gastadas diariamente al amanecer. Si gastas la última carga de la varita, tira un d20. Con un 1, la varita se transforma en una *Varita de Sonrisas*.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wand-of-scowls",
     "category": "other",
     "cost": null,
@@ -26653,16 +26653,16 @@
       "subtype": null,
       "attunement": false,
       "attunementBy": null,
-      "raw": "Wand, common"
+      "raw": "Varita, común"
     }
   },
   {
     "id": "wand-of-secrets",
     "type": "item",
-    "name": "Wand of Secrets",
+    "name": "Varita de secretos",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "This wand has 3 charges and regains 1d3 expended charges daily at dawn. While holding it, you can take a Magic action to expend 1 charge, and if a secret door or trap is within 60 feet of you, the wand pulses and points at the one nearest to you.",
+    "description": "Esta varita tiene 3 cargas y recupera 1d3 cargas gastadas diariamente al amanecer. Mientras la sostienes, puedes tomar un acción de Magia para gastar 1 carga, y si hay una puerta secreta o trampa a 60 pies de ti, la varita pulsa y apunta a la más cercana a ti.",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-secrets",
     "category": "other",
     "cost": null,
@@ -26682,10 +26682,10 @@
   {
     "id": "wand-of-slumber",
     "type": "item",
-    "name": "Wand of Slumber",
+    "name": "Varita del sueño",
     "edition": "2024",
     "source": "Arcanos desatados",
-    "description": "This wand has 7 charges. While holding it, you can cast one of the spells on the following table from it. The table indicates how many charges you must expend to cast the spell.\n\n| Spell | Charge Cost |\n|---|---|\n| Catnap | 3 |\n| Sleep (save DC 15) | 1 |\n\n**Regaining Charges.** The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll 1d20. On a 1, the wand crumbles into sand and is destroyed.",
+    "description": "Esta varita tiene 7 cargas. Mientras lo sostienes, puedes lanzar uno de los conjuros de la siguiente tabla desde él. La tabla indica cuántas cargas debes gastar para lanzar el conjuro.\n\n| Conjuro | Costo de cargo |\n|---|---|\n| Siesta | 3 |\n| Dormir (guardar CD 15) | 1 |\n\n**Recuperación de cargas.** La varita recupera 1d6 + 1 cargas gastadas diariamente al amanecer. Si gastas la última carga de la varita, tira 1d20. Con un 1, la varita se convierte en arena y se destruye.",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-slumber",
     "category": "other",
     "cost": null,
@@ -26702,10 +26702,10 @@
   {
     "id": "wand-of-smiles",
     "type": "item",
-    "name": "Wand of Smiles",
+    "name": "Varita de sonrisas",
     "edition": "2014",
     "source": "La guía de Xanathar para todo",
-    "description": "This wand has 3 charges. While holding it, you can use an action to expend 1 of its charges and target a humanoid you can see within 30 feet of you. The target must succeed on a DC 10 Charisma saving throw or be forced to smile for 1 minute.\n\nThe wand regains all expended charges daily at dawn. If you expend the wand's last charge, roll a d20. On a 1, the wand transforms into a *Wand of Scowls*.",
+    "description": "Esta varita tiene 3 cargas. Mientras lo sostienes, puedes usar una acción para gastar 1 de sus cargas y apuntar a un humanoide que puedas ver a 30 pies de ti. El objetivo debe tener éxito con un CD 10 Carisma tirada de salvación o verse obligado a sonreír durante 1 minuto.\n\nLa varita recupera todas las cargas gastadas diariamente al amanecer. Si gastas la última carga de la varita, tira un d20. Con un 1, la varita se transforma en una *Varita de ceños fruncidos*.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wand-of-smiles",
     "category": "other",
     "cost": null,
@@ -26716,16 +26716,16 @@
       "subtype": null,
       "attunement": false,
       "attunementBy": null,
-      "raw": "Wand, common"
+      "raw": "Varita, común"
     }
   },
   {
     "id": "wand-of-teeth",
     "type": "item",
-    "name": "Wand of Teeth",
+    "name": "Varita de dientes",
     "edition": "2024",
     "source": "Arcanos desatados",
-    "description": "This wand has 10 charges. While holding it, you can take a Magic action to expend up to 3 charges to spray a wave of sharp, spectral teeth in the direction you point it. Each creature in a 30-foot Cone makes a DC 15 Dexterity saving throw. Roll a number of d8s equal to the number of charges expended. On a failed save, a creature takes Piercing damage equal to the total rolled and has the Poisoned condition until the start of your next turn; on a successful save, a creature takes half as much damage only.\n\n**Regaining Charges.** The wand regains 1d10 expended charges daily at dawn. If you expend the wand's last charge, roll 1d20. On a 1, the wand explodes into harmless splinters and is destroyed.",
+    "description": "Esta varita tiene 10 cargas. Mientras lo sostienes, puedes tomar un acción de Magia para gastar hasta 3 cargas y rociar una ola de dientes espectrales y afilados en la dirección en la que apuntas. Cada criatura en un cono de 30 pies genera CD 15 de destreza tirada de salvación. Tira un número de d8 igual al número de cargas gastadas. En una salvación fallida, una criatura recibe un daño perforante igual al total obtenido y tiene la condición de Envenenado hasta el comienzo de tu siguiente turno; con una salvación exitosa, una criatura sufre sólo la mitad de daño.\n\n**Recuperación de cargas.** La varita recupera 1d10 cargas gastadas diariamente al amanecer. Si gastas la última carga de la varita, tira 1d20. Con un 1, la varita explota en astillas inofensivas y es destruida.",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-teeth",
     "category": "other",
     "cost": null,
@@ -26736,16 +26736,16 @@
       "subtype": null,
       "attunement": false,
       "attunementBy": null,
-      "raw": "Wand, Rare"
+      "raw": "Varita, rara"
     }
   },
   {
     "id": "wand-of-the-war-mage",
     "type": "item",
-    "name": "Wand of the War Mage",
+    "name": "Varita del mago de guerra",
     "edition": "2014",
     "source": "Guía del Dungeon Master",
-    "description": "While holding this wand, you gain a bonus to spell attack rolls determined by the wand's rarity. In addition, you ignore half cover when making a spell attack.",
+    "description": "Mientras sostienes esta varita, obtienes una bonificación a las tiradas de ataque con conjuros determinadas por la rareza de la varita. Además, ignoras la mitad de la cobertura cuando realizas un ataque con conjuros.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wand-of-the-war-mage",
     "category": "other",
     "cost": null,
@@ -26756,16 +26756,16 @@
       "subtype": null,
       "attunement": true,
       "attunementBy": "un lanzador de conjuros",
-      "raw": "Wand, uncommon (+1), rare (+2), or very rare (+3) (requires attunement by a spellcaster)"
+      "raw": "Varita, poco común (+1), rara (+2) o muy rara (+3) (requiere sintonía por parte de un lanzador de conjuros)"
     }
   },
   {
     "id": "wand-of-the-war-mage-1-2-or-3",
     "type": "item",
-    "name": "Wand of the War Mage, +1, +2 or +3",
+    "name": "Varita del mago de guerra, +1, +2 o +3",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "While holding this wand, you gain a bonus to spell attack rolls determined by the wand's rarity. In addition, you ignore Half Cover when making a spell attack roll.",
+    "description": "Mientras sostienes esta varita, obtienes una bonificación a las tiradas de ataque con conjuros determinadas por la rareza de la varita. Además, ignoras la Media Cobertura cuando haces una tirada de ataque con conjuros.",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-the-war-mage-1-2-or-3",
     "category": "other",
     "cost": null,
@@ -26776,16 +26776,16 @@
       "subtype": null,
       "attunement": true,
       "attunementBy": "un lanzador de conjuros",
-      "raw": "Wand, Uncommon (+1), Rare (+2), or Very Rare (+3) (Requires Attunement by a Spellcaster)"
+      "raw": "Varita, poco común (+1), rara (+2) o muy rara (+3) (requiere sintonía por parte de un lanzador de conjuros)"
     }
   },
   {
     "id": "wand-of-viscid-globs",
     "type": "item",
-    "name": "Wand of Viscid Globs",
+    "name": "Varita de globos viscosos",
     "edition": "2014",
     "source": "Fuera del abismo",
-    "description": "Crafted by the drow, this slim black wand has 7 charges. While holding it, you can use an action to expend 1 of its charges to cause a small glob of viscous material to launch from the tip at one creature within 60 feet of you. Make a ranged attack roll against the target, with a bonus equal to your spellcasting modifier (or your Intelligence modifier, if you don't have a spellcasting ability) plus your proficiency bonus. On a hit, the glob expands and dries on the target, which is restrained for 1 hour. After that time, the viscous material cracks and falls away.\n\nApplying a pint or more of alcohol to the restrained creature dissolves the glob instantly, as does the application of Oil of Etherealness or Universal Solvent. The glob also dissolves instantly if exposed to sunlight. No other nonmagical processes can remove the viscous material until it deteriorates on its own.\n\nThe wand regains 1d6 + 1 expended charges daily at midnight. If you expend the wand's last charge, roll a d20. On a 1, the wand melts into harmless slime and is destroyed.\n\nA *Wand of Viscid Globs* is destroyed if exposed to sunlight for 1 hour without interruption.",
+    "description": "Fabricada por los drow, esta delgada varita negra tiene 7 cargas. Mientras lo sostienes, puedes usar una acción para gastar 1 de sus cargas y provocar que una pequeña masa de material viscoso se lance desde la punta hacia una criatura a 60 pies de ti. Haz una tirada de ataque a distancia contra el objetivo, con una bonificación igual a tu modificador de lanzamiento de conjuros (o tu modificador de Inteligencia, si no tienes un aptitud mágica) más tu bonificador de competencia. Con un impacto, la masa se expande y se seca sobre el objetivo, que queda inmovilizado durante 1 hora. Pasado ese tiempo, el material viscoso se agrieta y se desprende.\n\nLa aplicación de medio litro o más de alcohol a la criatura inmovilizada disuelve la masa instantáneamente, al igual que la aplicación de Aceite de Etérea o Solvente Universal. La masa también se disuelve instantáneamente si se expone a la luz solar. Ningún otro proceso no mágico puede eliminar el material viscoso hasta que se deteriore por sí solo.\n\nLa varita recupera 1d6 + 1 cargas gastadas diariamente a medianoche. Si gastas la última carga de la varita, tira un d20. Con un 1, la varita se derrite en una baba inofensiva y se destruye.\n\nUna *Varita de globos viscosos* se destruye si se expone a la luz solar durante 1 hora sin interrupción.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wand-of-viscid-globs",
     "category": "other",
     "cost": null,
@@ -26796,16 +26796,16 @@
       "subtype": null,
       "attunement": true,
       "attunementBy": null,
-      "raw": "Wand, rare (requires attunement)"
+      "raw": "Varita, rara (requiere sintonía)"
     }
   },
   {
     "id": "wand-of-web",
     "type": "item",
-    "name": "Wand of Web",
+    "name": "Varita de telaraña",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "This wand has 7 charges. While holding it, you can expend 1 charge to cast Web (save DC 13) from it.\n\n**Regaining Charges.** The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll 1d20. On a 1, the wand crumbles into ashes and is destroyed.",
+    "description": "Esta varita tiene 7 cargas. Mientras lo sostienes, puedes gastar 1 carga para lanzar Web (guarda CD 13) desde él.\n\n**Recuperación de cargas.** La varita recupera 1d6 + 1 cargas gastadas diariamente al amanecer. Si gastas la última carga de la varita, tira 1d20. Con un 1, la varita se convierte en cenizas y se destruye.",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-web",
     "category": "other",
     "cost": null,
@@ -26825,10 +26825,10 @@
   {
     "id": "wand-of-winter",
     "type": "item",
-    "name": "Wand of Winter",
+    "name": "Varita de invierno",
     "edition": "2014",
     "source": "Tiranía de los dragones",
-    "description": "This wand looks and feels like an icicle.\n\nThe wand has 7 charges, which are used to fuel the spells within it. With the wand in hand, you can use your action to cast one of the following spells from the wand, even if you are incapable of casting spells: Ray of Frost (no charges, or 1 charge to cast at 5th level; +5 to hit with ranged spell attack), Sleet Storm (3 charges; spell save DC 15), or Ice Storm (4 charges; spell save DC 15). No other components are required.\n\nThe wand regains 1d6 + 1 expended charges each day at dawn. If you expend the wand's last charge, roll a d20. On a 20, the wand melts away, forever destroyed.",
+    "description": "Esta varita se ve y se siente como un carámbano.\n\nLa varita tiene 7 cargas, que se utilizan para alimentar los conjuros que contiene. Con la varita en la mano, puedes usar tu acción para lanzar uno de los siguientes conjuros desde la varita, incluso si no eres capaz de lanzar conjuros: Rayo de Escarcha (sin cargas, o 1 carga para lanzar en el nivel 5; +5 para golpear con ataque de conjuro a distancia), Tormenta de aguanieve (3 cargas; CD de salvación de conjuros 15) o Tormenta de hielo (4 cargas; CD de salvación de conjuros 15). No se requieren otros componentes.\n\nLa varita recupera 1d6 + 1 cargas gastadas cada día al amanecer. Si gastas la última carga de la varita, tira un d20. Con un 20, la varita se derrite, destruida para siempre.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wand-of-winter",
     "category": "other",
     "cost": null,
@@ -26839,16 +26839,16 @@
       "subtype": null,
       "attunement": true,
       "attunementBy": null,
-      "raw": "Wand, rare (requires attunement)"
+      "raw": "Varita, rara (requiere sintonía)"
     }
   },
   {
     "id": "wand-of-wonder",
     "type": "item",
-    "name": "Wand of Wonder",
+    "name": "Varita de maravilla",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "This wand has 7 charges. While holding it, you can take a Magic action to expend 1 charge while choosing a point within 120 feet of yourself. That location becomes the point of origin of a spell or other magical effect determined by rolling on the Wand of Wonder Effects table. Spells cast from the wand have a save DC of 15. If a spell's maximum range is normally less than 120 feet, it becomes 120 feet when cast from the wand. If an effect has multiple possible subjects, the DM determines randomly which among them are affected.\n\n**Regaining Charges.** The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand's last charge, roll 1d20. On a 1, the wand crumbles into dust and is destroyed.\n\n**Wand of Wonder Effects**\n\n| 1d100 | Effect |\n|---|---|\n| 01-20 | You cast a spell originating from the chosen point. Roll 1d10 to determine the spell: on a 1-2, Darkness; on a 3-4, Faerie Fire; on a 5-6, Fireball; on a 7-8, Slow; on a 9-10, Stinking Cloud. |\n| 21-25 | Nothing happens at the chosen point of origin. Instead, you have the Stunned condition until the start of your next turn, believing something awesome just happened. |\n| 26-30 | You cast Gust of Wind. The Line created by the spell extends from you to the chosen point of origin. |\n| 31-35 | Nothing happens at the chosen point of origin. Instead, you take 1d6 Psychic damage. |\n| 36-40 | Heavy rain falls for 1 minute in a 120-foot-high, 60-foot-radius Cylinder centered on the chosen point of origin. During that time, the area of effect is Lightly Obscured. |\n| 41-45 | A cloud of 600 oversized butterflies fills a 60-foot-high, 30-foot-radius Cylinder centered on the chosen point of origin. The butterflies remain for 10 minutes, during which time the area of effect is Heavily Obscured. |\n| 46-50 | You cast Lightning Bolt. The Line created by the spell extends from you to the chosen point of origin. |\n| 51-55 | The creature closest to the chosen point of origin is enlarged as if you had cast Enlarge/Reduce on it. If the target isn't you and can't be affected by that spell, you become the target instead. |\n| 56-60 | A magically formed creature appears in an unoccupied space as close to the chosen point of origin as possible. The creature isn't under your control, acts as it normally would, and disappears after 1 hour or when it drops to 0 Hit Points. Roll 1d4 to determine which creature appears. On a 1, a Rhinoceros appears; on a 2, an Elephant appears; and on a 3-4, a Rat appears. |\n| 61-64 | Grass covers a 60-foot-radius circle of ground, with the center of that circle as close to the chosen point of origin as possible. Grass that's already there grows to ten times its normal size and remains overgrown for 1 minute. |\n| 65-68 | An object of the DM's choice disappears into the Ethereal Plane. The object must be neither worn nor carried, within 120 feet of the chosen point of origin, and no larger than 10 feet in any dimension. If there are no such objects in range, nothing happens. |\n| 69-72 | Nothing happens at the chosen point of origin. Instead, you shrink as if you had cast Enlarge/Reduce on yourself and remain in that state for 1 minute. |\n| 73-77 | Leaves grow from the creature nearest to the chosen point of origin. Unless they are picked off, the leaves turn brown and fall off after 24 hours. |\n| 78-82 | Nothing happens at the chosen point of origin. Instead, a burst of colorful, shimmering light extends from you in a 30-foot Emanation. Each creature in the area must succeed on a DC 15 Constitution saving throw or have the Blinded condition for 1 minute. A creature repeats the save at the end of each of its turns, ending the effect on itself on a success. |\n| 83-87 | Nothing happens at the chosen point of origin. Instead, you cast Invisibility on yourself. |\n| 88-92 | Nothing happens at the chosen point of origin. Instead, a stream of 1d4 × 10 gems, each worth 1 GP, shoots from the wand's tip in a Line 30 feet long and 5 feet wide toward the chosen point of origin. Each gem deals 1 Bludgeoning damage, and the total damage of the gems is divided equally among all creatures in the Line. |\n| 93-97 | You cast Polymorph, targeting the creature closest to the chosen point of origin. Roll 1d4 to determine the target's new form. On a 1, the new form is a Black Bear; on a 2, the new form is a Giant Wasp; on a 3-4, the new form is a Frog. |\n| 98-00 | The creature closest to the chosen point of origin makes a DC 15 Constitution saving throw. On a failed save, the creature has the Restrained condition and begins to turn to stone. While Restrained in this way, the creature repeats the save at the end of its next turn. On a successful save, the effect ends. On a failed save, the creature has the Petrified condition instead of the Restrained condition. The petrification lasts until the creature is freed by the Greater Restoration spell or similar magic. |",
+    "description": "Esta varita tiene 7 cargas. Mientras lo sostienes, puedes tomar acción de Magia para gastar 1 carga mientras eliges un punto dentro de 120 pies de ti. Esa ubicación se convierte en el punto de origen de un conjuro u otro efecto mágico determinado al tirar en la tabla de Efectos de la Varita de las Maravillas. Los conjuros lanzados con la varita tienen una salvación CD de 15. Si el alcance máximo de un conjuro normalmente es inferior a 120 pies, se convierte en 120 pies cuando se lanza con la varita. Si un efecto tiene múltiples sujetos posibles, el DM determina aleatoriamente cuáles de ellos están afectados.\n\n**Recuperación de cargas.** La varita recupera 1d6 + 1 cargas gastadas diariamente al amanecer. Si gastas la última carga de la varita, tira 1d20. Con un 1, la varita se convierte en polvo y se destruye.\n\n**Efectos de la Varita de las Maravillas**| 1d100 | Efecto |\n|---|---|\n| 01-20 | Lanzas un conjuro que se origina en el punto elegido. Tira 1d10 para determinar el conjuro: con un 1-2, Oscuridad; con un 3-4, Fuego de hadas; con 5-6, Bola de fuego; con 7-8, Lento; con un 9-10, Nube Apestosa. |\n| 21-25 | No ocurre nada en el punto de origen elegido. En cambio, tienes la condición de Aturdido hasta el comienzo de tu siguiente turno, creyendo que algo asombroso acaba de suceder. |\n| 26-30 | Lanzas Ráfaga de viento. La Línea creada por el conjuro se extiende desde ti hasta el punto de origen elegido. |\n| 31-35 | No ocurre nada en el punto de origen elegido. En cambio, recibes 1d6 de daño psíquico. |\n| 36-40 | Llueve intensamente durante 1 minuto en un cilindro de 120 pies de altura y 60 pies de radio centrado en el punto de origen elegido. Durante ese tiempo, el área de efecto está ligeramente oscurecida. |\n| 41-45 | Una nube de 600 mariposas de gran tamaño llena un cilindro de 60 pies de alto y 30 pies de radio centrado en el punto de origen elegido. Las mariposas permanecen durante 10 minutos, tiempo durante el cual el área de efecto queda muy oscurecida. |\n| 46-50 | Lanzas Lightning Bolt. La Línea creada por el conjuro se extiende desde ti hasta el punto de origen elegido. |\n| 51-55 | La criatura más cercana al punto de origen elegido se amplía como si le hubieras lanzado Ampliar/Reducir. Si el objetivo no eres tú y no puedes ser afectado por ese conjuro, tú te conviertes en el objetivo. |\n| 56-60 | Una criatura formada mágicamente aparece en un espacio desocupado lo más cerca posible del punto de origen elegido. La criatura no está bajo tu control, actúa como lo haría normalmente y desaparece después de 1 hora o cuando baja a 0 puntos de golpe. Tira 1d4 para determinar qué criatura aparece. Con un 1, aparece un rinoceronte; con un 2, aparece un elefante; y con 3-4, aparece una Rata. |\n| 61-64 | La hierba cubre un círculo de terreno de 60 pies de radio, con el centro de ese círculo lo más cerca posible del punto de origen elegido. La hierba que ya está allí crece hasta diez veces su tamaño normal y permanece cubierta de maleza durante 1 minuto. |\n| 65-68 | Un objeto elegido por el DM desaparece en el Plano Etéreo. El objeto no debe usarse ni transportarse, dentro de los 120 pies del punto de origen elegido y no debe exceder los 10 pies en ninguna dimensión. Si no hay tales objetos dentro del alcance, no pasa nada. |\n| 69-72 | No ocurre nada en el punto de origen elegido. En lugar de eso, te encoges como si te hubieras lanzado Ampliar/Reducir y permaneces en ese estado durante 1 minuto. |\n| 73-77 | Las hojas crecen de la criatura más cercana al punto de origen elegido. A menos que se arranquen, las hojas se vuelven marrones y se caen después de 24 horas. |\n| 78-82 | No ocurre nada en el punto de origen elegido. En cambio, una explosión de luz colorida y brillante se extiende desde ti en una emanación de 30 pies. Cada criatura en el área debe tener éxito en una Constitución de CD 15 tirada de salvación o tener la condición de Ceguera durante 1 minuto. Una criatura repite la salvación al final de cada uno de sus turnos, finalizando el efecto sobre sí misma si tiene éxito. |\n| 83-87 | No ocurre nada en el punto de origen elegido. En lugar de eso, te lanzas Invisibilidad a ti mismo. |\n| 88-92 | No ocurre nada en el punto de origen elegido. En cambio, una corriente de 1d4 × 10 gemas, cada una con un valor de 1 po, se dispara desde la punta de la varita en una línea de 30 pies de largo y 5 pies de ancho hacia el punto de origen elegido. Cada gema causa 1 daño contundente y el daño total de las gemas se divide equitativamente entre todas las criaturas de la Línea. |\n| 93-97 | Lanzas Polymorph, apuntando a la criatura más cercana al punto de origen elegido. Tira 1d4 para determinar la nueva forma del objetivo. Con un 1, la nueva forma es un Oso Negro; con un 2, la nueva forma es una Avispa Gigante; con un 3-4, la nueva forma es una Rana. |\n| 98-00 | La criatura más cercana al punto de origen elegido hace una Constitución CD 15 tirada de salvación. Si falla la salvación, la criatura tiene la condición Restringida y comienza a convertirse en piedra. Mientras está restringida de esta manera, la criatura repite la salvación al final de su siguiente turno. Con una salvación exitosa, el efecto termina. Si falla la salvación, la criatura tiene la condición Petrificada en lugar de la condición Restringida. La petrificación dura hasta que la criatura es liberada por el conjuro de Restauración Mayor o magia similar. |",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-wonder",
     "category": "other",
     "cost": null,
@@ -26868,10 +26868,10 @@
   {
     "id": "wand-sheath",
     "type": "item",
-    "name": "Wand Sheath",
+    "name": "Vaina de varita",
     "edition": "2014",
     "source": "Eberron - Resurgiendo de la última guerra",
-    "description": "A *wand sheath* clamps onto your arm and imparts the following benefits:\n\n- The *wand sheath* can't be removed from you while you're attuned to it.\n- You can insert a wand into the sheath as an action. The sheath can hold only one wand at a time.\n- You can retract or extend a wand from the sheath as a bonus action. While the wand is extended, you can use it as if you were holding it, but your hand remains free.\n\nIf a sheathed wand requires attunement, you must attune to the wand before you can use it. However, the *wand sheath* and the attached wand count as a single magic item with regard to the number of magic items you can attune to. If you remove the wand from the sheath, your attunement to the wand ends.",
+    "description": "Una *funda de varita* se sujeta a su brazo e imparte los siguientes beneficios:\n\n- La *funda de la varita* no se te puede quitar mientras estés en sintonía con ella.\n- Puedes insertar una varita en la funda como acción. La funda sólo puede contener una varita a la vez.\n- Puedes retraer o extender una varita desde la funda como un acción adicional. Mientras la varita está extendida, puedes usarla como si la estuvieras sosteniendo, pero tu mano permanece libre.\n\nSi una varita enfundada requiere sintonización, debes sintonizarte con la varita antes de poder usarla. Sin embargo, la *funda de varita* y la varita adjunta cuentan como un solo objeto mágico con respecto a la cantidad de objetos mágicos con los que puedes sintonizarte. Si sacas la varita de la funda, tu sintonía con la varita termina.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wand-sheath",
     "category": "other",
     "cost": null,
@@ -26882,16 +26882,16 @@
       "subtype": null,
       "attunement": true,
       "attunementBy": "un forjado",
-      "raw": "Wondrous item, common (requires attunement by a warforged)"
+      "raw": "Objeto maravilloso, común (requiere sintonía por parte de un forjado)"
     }
   },
   {
     "id": "war-horn-of-valor",
     "type": "item",
-    "name": "War Horn of Valor",
+    "name": "Cuerno de guerra del valor",
     "edition": "2014",
     "source": "Bigby presenta - Gloria de los gigantes",
-    "description": "This brass war horn is engraved with the war rune, which glows purple when the horn is blown.\n\nYou can blow the horn as a bonus action. When you do, if you have the frightened condition, you immediately end that condition on yourself. You also have advantage on saving throws against being frightened until the start of your next turn.\n\n**Invoking the Rune.** When you blow the horn, you can also invoke the rune, imbuing the horn's deep call with protective magic that affects creatures of your choice within 30 feet of yourself. You and all affected creatures gain a +1 bonus to AC until the start of your next turn.\n\nOnce the rune has been invoked, it can't be invoked again until the next dawn.",
+    "description": "Este cuerno de guerra de latón está grabado con la runa de guerra, que brilla de color púrpura cuando se toca el cuerno.\n\nPuedes tocar la bocina como un acción adicional. Cuando lo haces, si tienes la condición de miedo, inmediatamente terminas esa condición en ti mismo. También tienes ventaja en tiradas de salvación contra estar asustado hasta el comienzo de tu próximo turno.\n\n**Invocar la Runa.** Cuando tocas el cuerno, también puedes invocar la runa, imbuyendo la profunda llamada del cuerno con magia protectora que afecta a las criaturas de tu elección dentro de 30 pies de ti. Tú y todas las criaturas afectadas obtienen una bonificación de +1 a CA hasta el comienzo de tu siguiente turno.\n\nUna vez que la runa ha sido invocada, no se puede volver a invocar hasta el siguiente amanecer.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:war-horn-of-valor",
     "category": "other",
     "cost": null,
@@ -26908,7 +26908,7 @@
   {
     "id": "war-pick",
     "type": "item",
-    "name": "War Pick",
+    "name": "Selección de guerra",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -26941,7 +26941,7 @@
   {
     "id": "warhammer",
     "type": "item",
-    "name": "Warhammer",
+    "name": "Martillo de guerra",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -26974,7 +26974,7 @@
   {
     "id": "warhorse",
     "type": "item",
-    "name": "Warhorse",
+    "name": "Caballo de guerra",
     "edition": "2024",
     "source": null,
     "description": "**Capacidad de carga:** 540 lb.",
@@ -26992,10 +26992,10 @@
   {
     "id": "warm-fungal-clothing",
     "type": "item",
-    "name": "Warm Fungal Clothing",
+    "name": "Ropa cálida para hongos",
     "edition": "2024",
     "source": null,
-    "description": "When you're wearing Warm Fungal Clothing, you automatically succeed on saving throws against the effects of extreme cold. See chapter 3 of the Dungeon Master's Guide for rules on extreme cold. One pound of fungus is sewn into Fungal Clothing. This fungus can be eaten as food. Once all the fungus is consumed, this becomes a mundane set of Traveler's Clothes.",
+    "description": "Cuando usas ropa abrigada contra hongos, automáticamente obtienes un éxito en tiradas de salvación contra los efectos del frío extremo. Consulte el capítulo 3 de la Guía del Dungeon Master para conocer las reglas sobre el frío extremo. Se cose medio kilo de hongos en Fungal Clothing. Este hongo se puede consumir como alimento. Una vez que se consume todo el hongo, se convierte en un conjunto mundano de ropa de viajero.",
     "url": "https://dnd2024.wikidot.com/equipment:adventuring-gear",
     "category": "gear",
     "cost": {
@@ -27007,10 +27007,10 @@
   {
     "id": "warriors-passkey",
     "type": "item",
-    "name": "Warrior's Passkey",
+    "name": "Clave de paso del guerrero",
     "edition": "2014",
     "source": "El libro de muchas cosas",
-    "description": "This silver skeleton key is warm to the touch. While holding the key in its key form, you can use an action to cast the Knock spell from the key.\n\n**Transforming the Key.** While holding the key, you can use a bonus action to transform it into a magic longsword. You are considered proficient with the sword, and you have a +1 bonus to attack and damage rolls made with it. On a hit, the sword deals 1d10 force damage. The item remains in its sword form until it leaves your grasp or you use another bonus action to revert it to its key form.\n\nIf you end your attunement to the item while it's in its sword form, it automatically reverts to its key form.",
+    "description": "Esta llave maestra plateada es cálida al tacto. Mientras sostienes la llave en su forma de llave, puedes usar una acción para lanzar el conjuro Knock desde la llave.\n\n**Transformando la llave.** Mientras sostienes la llave, puedes usar un acción adicional para transformarla en una espada larga mágica. Se te considera competente con la espada y tienes una bonificación de +1 a las tiradas de ataque y daño realizadas con ella. Con un golpe, la espada causa 1d10 de daño de fuerza. El objeto permanece en su forma de espada hasta que lo sueltas o usas otro acción adicional para revertirlo a su forma clave.\n\nSi finalizas tu sintonía con el objeto mientras está en su forma de espada, automáticamente vuelve a su forma clave.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:warriors-passkey",
     "category": "other",
     "cost": null,
@@ -27027,10 +27027,10 @@
   {
     "id": "warship",
     "type": "item",
-    "name": "Warship",
+    "name": "Buque de guerra",
     "edition": "2024",
     "source": null,
-    "description": "**Speed:** 2½\n**Crew:** 60\n**Passengers:** 60\n**Cargo (Tons):** 200\n**Ac:** 15\n**Hp:** 500\n**Damage Threshold:** 20",
+    "description": "**Velocidad:** 2½\n**Tripulación:** 60\n**Pasajeros:** 60\n**Carga (Toneladas):** 200\n**CA:** 15\n**CV:** 500\n**Umbral de daño:** 20",
     "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
     "category": "mount",
     "cost": {
@@ -27045,10 +27045,10 @@
   {
     "id": "waste-hunter-blade",
     "type": "item",
-    "name": "Waste Hunter Blade",
+    "name": "Hoja de cazador de residuos",
     "edition": "2014",
     "source": "Papel crítico",
-    "description": "This longsword is a dark graphite-color with several hooks across its form, giving it a jagged appearance.\n\nThe *Waste Hunter Blade* is especially useful against certain types of creatures: monstrosities and beasts, dealing an additional 1d6 necrotic damage against those types of creatures.",
+    "description": "Esta espada larga es de color grafito oscuro con varios ganchos en su forma, lo que le da una apariencia irregular.\n\nLa *Waste Hunter Blade* es especialmente útil contra ciertos tipos de criaturas: monstruosidades y bestias, causando 1d6 de daño necrótico adicional contra ese tipo de criaturas.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:waste-hunter-blade",
     "category": "weapon",
     "cost": null,
@@ -27059,16 +27059,16 @@
       "subtype": "longsword",
       "attunement": true,
       "attunementBy": null,
-      "raw": "Weapon (longsword), ??? (requires attunement)"
+      "raw": "Arma (espada larga), ??? (requiere sintonía)"
     }
   },
   {
     "id": "watchful-helm",
     "type": "item",
-    "name": "Watchful Helm",
+    "name": "Yelmo vigilante",
     "edition": "2014",
     "source": "Misterios del candelero",
-    "description": "While you wear this helm, you gain a +1 bonus to AC and remain aware of your surroundings even while you're asleep, and you have advantage on Wisdom (Perception) checks that rely on sight.\n\nAs a bonus action, you can cast the See Invisibility spell from the helm. Once this property of the helm is used, it can't be used again until the next dawn.",
+    "description": "Mientras usas este yelmo, obtienes una bonificación de +1 a CA y permaneces consciente de tu entorno incluso mientras duermes, y tienes ventaja en las pruebas de Sabiduría (Percepción) que dependen de la vista.\n\nComo acción adicional, puedes lanzar el conjuro Ver invisibilidad desde el timón. Una vez que se utiliza esta propiedad del timón, no se puede volver a utilizar hasta el siguiente amanecer.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:watchful-helm",
     "category": "other",
     "cost": null,
@@ -27085,10 +27085,10 @@
   {
     "id": "waterskin",
     "type": "item",
-    "name": "Waterskin",
+    "name": "Odre",
     "edition": "2024",
     "source": null,
-    "description": "A Waterskin holds up to 4 pints. If you don't drink sufficient water, you risk dehydration (see the rules glossary).",
+    "description": "Un Waterskin tiene capacidad para 4 pintas. Si no bebe suficiente agua, corre el riesgo de deshidratarse (consulte el glosario de reglas).",
     "url": "https://dnd2024.wikidot.com/equipment:adventuring-gear",
     "category": "gear",
     "cost": {
@@ -27103,10 +27103,10 @@
   {
     "id": "wave",
     "type": "item",
-    "name": "Wave",
+    "name": "Ola",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "Held in the dungeon of White Plume Mountain, *Wave* is engraved with images of waves, shells, and sea creatures.\n\nYou gain a +3 bonus to attack rolls and damage rolls made with this magic weapon. When you roll a 20 on the d20 for an attack roll with this weapon, the target takes an extra 21 Necrotic damage.\n\nWhile holding *Wave*, you gain the following benefits:\n\n**Combat Ready.** You have Advantage on Initiative rolls.\n\n**Underwater Adaptation.** A bubble of air forms around your head while you are underwater, allowing you to breathe normally in that environment.\n\n**Aquatic Command.** *Wave* has 3 charges and regains 1d3 expended charges daily at dawn. While you carry it, you can expend 1 charge to cast Dominate Beast (save DC 20) from it on a Beast that has a Swim Speed.\n\n**Globe of Invulnerability.** While holding *Wave*, you can cast the level 9 version of Globe of Invulnerability from it. Once used, this property can't be used again until the next dawn.\n\n**Sentience.** *Wave* is a sentient weapon of Neutral alignment, with an Intelligence of 14, a Wisdom of 10, and a Charisma of 18. It has hearing and Darkvision out to 120 feet.\n\nThe weapon communicates telepathically with its wielder and speaks Aquan.\n\n**Personality.** *Wave* zealously encourages mortals to worship sea gods and has a habit of humming sea chanteys. Conflict arises if the wielder fails to further the weapon's objectives in the world.\n\n**Destroying Wave.** *Wave* can be destroyed only on the island of Thunderforge, where it was forged. The weapon must be melted down by a storm giant or someone imbued with a storm giant's strength. Destroying *Wave* angers a god of the sea, who sends powerful agents to attack the island and punish the destroyers.",
+    "description": "Celebrado en la mazmorra de White Plume Mountain, *Wave* está grabado con imágenes de olas, conchas y criaturas marinas.\n\nObtienes una bonificación de +3 a las tiradas de ataque y de daño realizadas con esta arma mágica. Cuando obtienes un 20 en el d20 para una tirada de ataque con esta arma, el objetivo sufre 21 de daño necrótico adicional.\n\nMientras mantienes *Wave*, obtienes los siguientes beneficios:\n\n**Listo para el combate.** Tienes ventaja en las tiradas de iniciativa.\n\n**Adaptación bajo el agua.** Se forma una burbuja de aire alrededor de tu cabeza mientras estás bajo el agua, lo que te permite respirar normalmente en ese ambiente.\n\n**Comando Acuático.** *Ola* tiene 3 cargas y recupera 1d3 cargas gastadas diariamente al amanecer. Mientras lo llevas, puedes gastar 1 carga para lanzar Dominar Bestia (ahorra CD 20) sobre una Bestia que tenga Velocidad de Natación.\n\n**Globo de Invulnerabilidad.** Mientras sostienes *Ola*, puedes lanzar la versión de nivel 9 de Globo de Invulnerabilidad desde él. Una vez utilizada, esta propiedad no podrá volver a utilizarse hasta el siguiente amanecer.\n\n**Sentiencia.** *Wave* es un arma sensible de alineación Neutral, con una Inteligencia de 14, una Sabiduría de 10 y un Carisma de 18. Tiene audición y visión en la oscuridad hasta 120 pies.\n\nEl arma se comunica telepáticamente con su portador y habla Aquan.\n\n**Personalidad.** *Wave* anima celosamente a los mortales a adorar a los dioses del mar y tiene la costumbre de tararear canciones marinas. El conflicto surge si el portador no logra promover los objetivos del arma en el mundo.\n\n**Destroying Wave.** *Wave* solo se puede destruir en la isla de Thunderforge, donde se forjó. El arma debe ser fundida por un gigante de la tormenta o alguien imbuido de la fuerza de un gigante de la tormenta. La destrucción de *Ola* enfurece a un dios del mar, que envía agentes poderosos para atacar la isla y castigar a los destructores.",
     "url": "https://dnd2024.wikidot.com/magic-item:wave",
     "category": "weapon",
     "cost": null,
@@ -27117,7 +27117,7 @@
       "subtype": "Trident",
       "attunement": true,
       "attunementBy": null,
-      "raw": "Weapon (Trident), Artifact (Requires Attunement)"
+      "raw": "Arma (Tridente), Artefacto (Requiere Sintonización)"
     },
     "replaced": [
       "https://dnd5e.wikidot.com/wondrous-items:wave"
@@ -27126,10 +27126,10 @@
   {
     "id": "wave-swept-weapon",
     "type": "item",
-    "name": "Wave-Swept Weapon",
+    "name": "Arma barrida por olas",
     "edition": "2024",
     "source": "Arcanos desatados",
-    "description": "This weapon is covered in oceanic motifs, from wavelike etchings on its blade to stylized sea monsters embroidered onto its leather hilt.\n\n**Barnacled (Uncommon).** Barnacles dot this blade's guard and the flat sides of its etched blade.\n\nYou have a +1 bonus to attack rolls and damage rolls made with this magic weapon. While holding this weapon, you can take a Magic action to touch up to a gallon of liquid and infuse it with brine, turning fresh water into saltwater, for instance.\n\n**Aquatic (Rare).** The wavelike etchings on this weapon's blade glow with light, shedding Bright Light in a 5-foot radius and Dim Light for an additional 5 feet.\n\nYour bonus to attack rolls and damage rolls made with this magic weapon increases to +2. While you hold the weapon, you can breathe underwater, and you have a Swim Speed of 30 feet.\n\n**Ascendant (Very Rare).** The sea monsters embroidered on this weapon's hilt are studded with chips of colorful gemstones.\n\nYour bonus to attack rolls and damage rolls made with this magic weapon increases to +3. While you hold this weapon, you have a Fly Speed of 30 feet; when you use this Fly Speed, a salty sea breeze carries you through the air.",
+    "description": "Esta arma está cubierta de motivos oceánicos, desde grabados en forma de olas en su hoja hasta monstruos marinos estilizados bordados en su empuñadura de cuero.\n\n**Percebes (poco común).** Los percebes salpican la protección de esta hoja y los lados planos de su hoja grabada.\n\nTienes una bonificación de +1 a las tiradas de ataque y de daño realizadas con esta arma mágica. Mientras sostienes esta arma, puedes tomar un acción de Magia para retocar hasta un galón de líquido e infundirlo con salmuera, convirtiendo el agua dulce en agua salada, por ejemplo.\n\n**Acuático (raro).** Los grabados en forma de ondas en la hoja de esta arma brillan con luz, arrojando luz brillante en un radio de 5 pies y luz tenue en 5 pies adicionales.\n\nTu bonificación a las tiradas de ataque y de daño realizadas con esta arma mágica aumenta a +2. Mientras sostienes el arma, puedes respirar bajo el agua y tienes una velocidad de natación de 30 pies.\n\n**Ascendente (muy raro).** Los monstruos marinos bordados en la empuñadura de esta arma están tachonados con fragmentos de piedras preciosas de colores.\n\nTu bonificación a las tiradas de ataque y de daño realizadas con esta arma mágica aumenta a +3. Mientras sostienes esta arma, tienes una velocidad de vuelo de 30 pies; Cuando usas este Fly Speed, una brisa marina salada te lleva por el aire.",
     "url": "https://dnd2024.wikidot.com/magic-item:wave-swept-weapon",
     "category": "weapon",
     "cost": null,
@@ -27140,16 +27140,16 @@
       "subtype": "Greatsword, Longsword, Rapier, Scimitar, or Shortsword",
       "attunement": true,
       "attunementBy": null,
-      "raw": "Weapon (Greatsword, Longsword, Rapier, Scimitar, or Shortsword), Rarity Varies (Requires Attunement)"
+      "raw": "Arma (espada grande, espada larga, estoque, cimitarra o espada corta), la rareza varía (requiere sintonía)"
     }
   },
   {
     "id": "wayfarers-boots",
     "type": "item",
-    "name": "Wayfarer's Boots",
+    "name": "Botas de caminante",
     "edition": "2014",
     "source": "Bigby presenta - Gloria de los gigantes",
-    "description": "This pair of boots is made of durable cloth, with the journey rune stitched in golden thread above each heel. While you are wearing this item, your walking speed increases by 10 feet, and you have advantage on Wisdom (Survival) checks.\n\n**Invoking the Runes.** As a bonus action, you can invoke the boots' runes to cast the Expeditious Retreat spell with them. Once the runes have been invoked, they can't be invoked again until the next dawn.",
+    "description": "Este par de botas está hecho de tela duradera, con la runa del viaje cosida con hilo dorado encima de cada talón. Mientras llevas este objeto, tu velocidad al caminar aumenta en 10 pies y tienes ventaja en las pruebas de Sabiduría (Supervivencia).\n\n**Invocar las Runas.** Como acción adicional, puedes invocar las runas de las botas para lanzar el conjuro Retiro Expeditivo con ellas. Una vez que las runas han sido invocadas, no se pueden volver a invocar hasta el siguiente amanecer.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wayfarers-boots",
     "category": "other",
     "cost": null,
@@ -27166,10 +27166,10 @@
   {
     "id": "waythe",
     "type": "item",
-    "name": "Waythe",
+    "name": "Camino",
     "edition": "2014",
     "source": "Cuentos del portal que bosteza",
-    "description": "*Waythe* is a unique greatsword most recently in the possession of a high-ranking cloud giant ambassador.\n\nYou gain a +1 bonus to attack and damage rolls made with this magic weapon. When you hit a creature of the giant type with it, the giant takes an extra 2d6 slashing damage, and it must succeed on a DC 15 Strength saving throw or fall prone.\n\nThe sword also functions as a Wand of Enemy Detecetion. It regains all of its expended charges at dawn and isn't at risk of crumbling if its last charge is used.\n\n***Sentience.*** *Waythe* is a sentient weapon of neutral good alignment, with an Intelligence of 12, a Wisdom of 2, and a Charisma of 14. It has hearing and darkvision out to a range of 120 feet.\n\nThe weapon can speak and understand Giant and Common, and it can communicate telepathically with its wielder.\n\n***Personality.*** This sword believes in freedom and allowing others to live as they see fit. It is protective of its friends, and wants to be friends with a like-minded wielder. (It takes only 1 minute for a good-aligned character to gain attunement with the sword.) *Waythe* is courageous to the point of foolhardiness, however, and vocally urges bold action. It is likely to come into conflict with an evil or a timid wielder.",
+    "description": "*Waythe* es una gran espada única que recientemente estuvo en posesión de un embajador gigante de la nube de alto rango.\n\nObtienes una bonificación de +1 a las tiradas de ataque y daño realizadas con esta arma mágica. Cuando golpeas a una criatura del tipo gigante con él, el gigante sufre 2d6 de daño cortante adicional y debe tener éxito con una Fuerza de CD 15 tirada de salvación o caer boca abajo.\n\nLa espada también funciona como varita de detección de enemigos. Recupera todas sus cargas gastadas al amanecer y no corre riesgo de desmoronarse si se utiliza su última carga.\n\n***Sentiencia.*** *Waythe* es un arma sensible de alineación neutral buena, con una Inteligencia de 12, una Sabiduría de 2 y un Carisma de 14. Tiene audición y visión en la oscuridad en un alcance de 120 pies.\n\nEl arma puede hablar y entender a Gigante y Común, y puede comunicarse telepáticamente con su portador.\n\n***Personalidad.*** Esta espada cree en la libertad y en permitir que otros vivan como mejor les parezca. Es protector con sus amigos y quiere ser amigo de un portador de ideas afines. (Un personaje bien alineado tarda sólo 1 minuto en sintonizarse con la espada). Sin embargo, *Waythe* es valiente hasta el punto de la temeridad e insta abiertamente a actuar con audacia. Es probable que entre en conflicto con un portador malvado o tímido.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:waythe",
     "category": "weapon",
     "cost": null,
@@ -27186,10 +27186,10 @@
   {
     "id": "weapon-1-2-or-3",
     "type": "item",
-    "name": "Weapon, +1, +2 or +3",
+    "name": "Arma, +1, +2 o +3",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "You have a bonus to attack rolls and damage rolls made with this magic weapon. The bonus is determined by the weapon's rarity.",
+    "description": "Tienes una bonificación a las tiradas de ataque y de daño realizadas con esta arma mágica. La bonificación está determinada por la rareza del arma.",
     "url": "https://dnd2024.wikidot.com/magic-item:weapon-1-2-or-3",
     "category": "weapon",
     "cost": null,
@@ -27200,7 +27200,7 @@
       "subtype": "Any Simple or Martial",
       "attunement": false,
       "attunementBy": null,
-      "raw": "Weapon (Any Simple or Martial), Uncommon (+1), Rare (+2), or Very Rare (+3)"
+      "raw": "Arma (cualquiera simple o marcial), poco común (+1), rara (+2) o muy rara (+3)"
     },
     "replaced": [
       "https://dnd5e.wikidot.com/wondrous-items:weapon-1-2-3"
@@ -27209,10 +27209,10 @@
   {
     "id": "weapon-of-certain-death",
     "type": "item",
-    "name": "Weapon of Certain Death",
+    "name": "Arma de muerte segura",
     "edition": "2014",
     "source": "Guía del explorador de Wildemount",
-    "description": "When you damage a creature with an attack using this magic weapon, the target can't regain hit points until the start of your next turn.",
+    "description": "Cuando dañas a una criatura con un ataque usando esta arma mágica, el objetivo no puede recuperar puntos de golpe hasta el comienzo de tu siguiente turno.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:weapon-of-certain-death",
     "category": "weapon",
     "cost": null,
@@ -27223,16 +27223,16 @@
       "subtype": "any",
       "attunement": false,
       "attunementBy": null,
-      "raw": "Weapon (any), rare"
+      "raw": "Arma (cualquiera), rara"
     }
   },
   {
     "id": "weapon-of-thrones-command",
     "type": "item",
-    "name": "Weapon of Throne's Command",
+    "name": "Arma de mando del trono",
     "edition": "2014",
     "source": "El libro de muchas cosas",
-    "description": "This weapon is bedecked in ornate gold filigree and deep-blue and maroon jewels. You gain a +1 bonus to attack and damage rolls made with this weapon. Additionally, you gain proficiency in the Intimidation and Persuasion skills if you don't already have it.\n\nSpellcasting. The weapon has 5 charges. You can use a bonus action and expend 1 or more of its charges to cast one of the following spells (save DC 16): Command (1 charge), Zone of Truth (2 charges), Compulsion (4 charges), Banishment (4 charges), or Dominate Person (5 charges).\n\nThe weapon regains 1d4 expended charges daily at dawn.",
+    "description": "Esta arma está adornada con filigranas doradas ornamentadas y joyas de color azul oscuro y granate. Obtienes una bonificación de +1 a las tiradas de ataque y daño realizadas con esta arma. Además, adquieres competencia en las habilidades de Intimidación y Persuasión si aún no las tienes.\n\nLanzamiento de conjuros. El arma tiene 5 cargas. Puedes usar un acción adicional y gastar 1 o más de sus cargas para lanzar uno de los siguientes conjuros (ahorra CD 16): Comando (1 carga), Zona de la Verdad (2 cargas), Compulsión (4 cargas), Destierro (4 cargas) o Dominar Persona (5 cargas).\n\nEl arma recupera 1d4 cargas gastadas diariamente al amanecer.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:weapon-of-thrones-command",
     "category": "weapon",
     "cost": null,
@@ -27243,16 +27243,16 @@
       "subtype": "any martial weapon",
       "attunement": true,
       "attunementBy": null,
-      "raw": "Weapon (any martial weapon), very rare (requires attunement)"
+      "raw": "Arma (cualquier arma marcial), muy rara (requiere sintonía)"
     }
   },
   {
     "id": "weapon-of-warning",
     "type": "item",
-    "name": "Weapon of Warning",
+    "name": "Arma de advertencia",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "As long as this weapon is within your reach and you are attuned to it, you and allies within 30 feet of you gain the following benefits.\n\n**Alarm.** The weapon magically awakens each subject who is sleeping naturally when combat begins. This benefit doesn't wake a subject from magically induced sleep.\n\n**Supernatural Readiness.** Each subject has Advantage on its Initiative rolls.",
+    "description": "Siempre que esta arma esté a tu alcance y estés en sintonía con ella, tú y tus aliados dentro de un radio de 30 pies obtendréis los siguientes beneficios.\n\n**Alarma.** El arma despierta mágicamente a cada sujeto que está durmiendo de forma natural cuando comienza el combate. Este beneficio no despierta al sujeto del sueño inducido mágicamente.\n\n**Preparación sobrenatural.** Cada sujeto tiene Ventaja en sus tiradas de Iniciativa.",
     "url": "https://dnd2024.wikidot.com/magic-item:weapon-of-warning",
     "category": "weapon",
     "cost": null,
@@ -27263,7 +27263,7 @@
       "subtype": "Any Simple or Martial",
       "attunement": true,
       "attunementBy": null,
-      "raw": "Weapon (Any Simple or Martial), Uncommon (Requires Attunement)"
+      "raw": "Arma (cualquiera simple o marcial), poco común (requiere sintonía)"
     },
     "replaced": [
       "https://dnd5e.wikidot.com/wondrous-items:weapon-of-warning"
@@ -27290,10 +27290,10 @@
   {
     "id": "weird-tank",
     "type": "item",
-    "name": "Weird Tank",
+    "name": "Tanque extraño",
     "edition": "2014",
     "source": "Príncipes del Apocalipsis",
-    "description": "A *Weird Tank* is a ten-gallon tank of blown glass and sculpted bronze with a backpack-like carrying harness fashioned from tough leather. A **water weird** (see the *Monster Manual* for statistics) is contained within the tank. While wearing the tank, you can use an action to open it, allowing the water weird to emerge. The water weird acts immediately after you in the initiative order, and it is bound to the tank.\n\nYou can command the water weird telepathically (no action required) while you wear the tank. You can close the tank as an action only if you have first commanded the water weird to retract into it or if the water weird is dead.\n\nIf the water weird is killed, the tank loses its magical containment property until it spends at least 24 hours inside an elemental water node. When the tank is recharged, a new water weird forms inside it.\n\nThe tank has AC 15, 50 hit points, vulnerability to bludgeoning damage, and immunity to poison and psychic damage. Reducing the tank to 0 hit points destroys it and the water weird contained within it.",
+    "description": "Un *Weird Tank* es un tanque de diez galones de vidrio soplado y bronce esculpido con un arnés de transporte similar a una mochila hecho de cuero resistente. Dentro del tanque hay un **raro de agua** (consulte el *Manual de monstruos* para obtener estadísticas). Mientras usas el tanque, puedes usar una acción para abrirlo, permitiendo que el agua extraña emerja. El monstruo del agua actúa inmediatamente después de ti en el orden de iniciativa y está vinculado al tanque.\n\nPuedes controlar el agua de forma telepática (no se requiere ninguna acción) mientras usas el tanque. Puedes cerrar el tanque como acción sólo si primero le has ordenado al bicho de agua que se retraiga dentro de él o si el bicho de agua está muerto.\n\nSi el monstruo del agua muere, el tanque pierde su propiedad mágica de contención hasta que pasa al menos 24 horas dentro de un nodo de agua elemental. Cuando se recarga el tanque, se forma una nueva burbuja de agua en su interior.\n\nEl tanque tiene CA 15, 50 puntos de golpe, vulnerabilidad al daño contundente e inmunidad al veneno y al daño psíquico. Reducir el tanque a 0 puntos de golpe lo destruye y el agua extraña que contiene.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:weird-tank",
     "category": "other",
     "cost": null,
@@ -27310,10 +27310,10 @@
   {
     "id": "well-of-many-worlds",
     "type": "item",
-    "name": "Well of Many Worlds",
+    "name": "Pozo de muchos mundos",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "This fine black cloth, soft as silk, is folded up to the dimensions of a handkerchief. It unfolds into a circular sheet 6 feet in diameter.\n\nYou can take a Magic action to unfold the *Well of Many Worlds* and place it on a solid surface, whereupon it forms a two-way, 6-foot-diameter, circular portal to another world or plane of existence. Each time the item opens a portal, the DM decides where it leads. The portal remains open until a creature within 5 feet of it takes a Magic action to close it by taking hold of the edges of the cloth and folding it up.\n\nOnce the *Well of Many Worlds* has opened a portal, it can't do so again for 1d8 hours.",
+    "description": "Esta fina tela negra, suave como la seda, está doblada hasta alcanzar las dimensiones de un pañuelo. Se despliega formando una hoja circular de 6 pies de diámetro.\n\nPuedes tomar un acción de Magia para desplegar el *Pozo de Muchos Mundos* y colocarlo sobre una superficie sólida, después de lo cual forma un portal circular de dos vías y 6 pies de diámetro a otro mundo o plano de existencia. Cada vez que el objeto abre un portal, el DM decide a dónde conduce. El portal permanece abierto hasta que una criatura a 5 pies de él necesita un acción de Magia para cerrarlo agarrando los bordes de la tela y doblándola.\n\nUna vez que el *Pozo de Muchos Mundos* ha abierto un portal, no puede volver a hacerlo durante 1d8 horas.",
     "url": "https://dnd2024.wikidot.com/magic-item:well-of-many-worlds",
     "category": "other",
     "cost": null,
@@ -27333,10 +27333,10 @@
   {
     "id": "wheel-of-stars",
     "type": "item",
-    "name": "Wheel of Stars",
+    "name": "Rueda de estrellas",
     "edition": "2014",
     "source": "Adquisiciones incorporadas",
-    "description": "While attuned to this device, you have a +1 bonus to Wisdom saving throws, and you can use an action to cast the Dancing Lights, Guidance, or Message cantrips.\n\n***Portent of the Stars.*** As a reaction when a creature you can see within 60 feet of you makes an attack roll, saving throw, or ability check, you make that creature roll a d10 and add or subtract the number rolled (your choice) from the roll. Once you use this feature of the *wheel of stars*, it cannot be used again until the next dawn.\n\n***Alter Gravity.*** As an action, you can cast Fly on yourself or you can cast Levitate (save DC 15). Once you use this feature of the *wheel of stars*, it cannot be used again until the next dawn.\n\n***Part of a Whole.*** While this component is not installed in the *Orrery of the Wanderer*, its magic might function sporadically or with unpredictable side effects, as determined by the DM.",
+    "description": "Mientras estás en sintonía con este dispositivo, tienes una bonificación de +1 a Sabiduría tiradas de salvación y puedes usar una acción para lanzar los trucos Luces danzantes, Orientación o Mensaje.\n\n***Portento de las estrellas.*** Como reacción, cuando una criatura que puedes ver a 60 pies de ti realiza una tirada de ataque, tirada de salvación o prueba de característica, haces que esa criatura tire un d10 y suma o resta el número obtenido (tu elección) de la tirada. Una vez que uses esta característica de la *rueda de estrellas*, no podrás volver a usarla hasta el siguiente amanecer.\n\n***Alter Gravity.*** Como acción, puedes lanzar Volar sobre ti mismo o puedes lanzar Levitar (guarda CD 15). Una vez que uses esta característica de la *rueda de estrellas*, no podrás volver a usarla hasta el siguiente amanecer.\n\n***Parte de un todo.*** Si bien este componente no está instalado en el *Planeta del Errante*, su magia puede funcionar esporádicamente o con efectos secundarios impredecibles, según lo determine el DM.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wheel-of-stars",
     "category": "other",
     "cost": null,
@@ -27353,10 +27353,10 @@
   {
     "id": "wheel-of-wind-and-water",
     "type": "item",
-    "name": "Wheel of Wind and Water",
+    "name": "Rueda de viento y agua",
     "edition": "2014",
     "source": "Eberron - Resurgiendo de la última guerra",
-    "description": "When mounted at the helm of an elemental galleon or airship, this wheel allows a creature that possesses the Mark of Storm to telepathically control the elemental bound inside the vessel.\n\nIf a *wheel of wind and water* is mounted on a mundane sailing ship, a creature with the Mark of Storm who is using the wheel can create an area of ideal conditions around the vessel, increasing its speed by 5 miles per hour.",
+    "description": "Cuando se monta al timón de un galeón elemental o una aeronave, esta rueda permite que una criatura que posee la Marca de la Tormenta controle telepáticamente el elemental atrapado dentro de la nave.\n\nSi se monta una *rueda de viento y agua* en un velero mundano, una criatura con la Marca de la Tormenta que esté usando la rueda puede crear un área de condiciones ideales alrededor del barco, aumentando su velocidad en 5 millas por hora.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wheel-of-wind-and-water",
     "category": "other",
     "cost": null,
@@ -27373,10 +27373,10 @@
   {
     "id": "whelm",
     "type": "item",
-    "name": "Whelm",
+    "name": "Timón",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "*Whelm* is a powerful weapon forged by dwarves and lost in the dungeon of White Plume Mountain.\n\nYou gain a +3 bonus to attack rolls and damage rolls made with this magic weapon.\n\n**Hurl.** *Whelm* has the Thrown property with a normal range of 60 feet and a long range of 180 feet. When you hit with a ranged attack roll using *Whelm*, the target takes an extra 1d8 Force damage, or an extra 4d8 Force damage if the target is a Construct, an Elemental, or a Giant. Immediately after hitting or missing, the weapon flies back to your hand.\n\n**Shock Wave.** You can take a Magic action to strike the ground with *Whelm* and send a shock wave out from the point of impact. Each creature of your choice on the ground within 60 feet of that point must succeed on a DC 20 Constitution saving throw or have the Stunned condition for 1 minute. A creature repeats the save at the end of each of its turns, ending the effect on itself on a success. Once used, this property can't be used again until the next dawn.\n\n**Supernatural Awareness.** While you are holding the weapon, it alerts you to the location of any secret or concealed doors within 30 feet of you. In addition, you can cast Detect Evil and Good or Locate Object from the weapon. Once you cast either spell, you can't cast it from the weapon again until the next dawn.\n\n**Sentience.** *Whelm* is a sentient, Lawful Neutral weapon with an Intelligence of 15, a Wisdom of 12, and a Charisma of 15. It has hearing and Darkvision out to 120 feet.\n\nThe weapon communicates telepathically with its wielder and speaks Dwarvish, Giant, and Goblin.\n\n**Personality.** *Whelm* has ties to the dwarf clan that created it, called the Dankil or the Mightyhammer clan. It longs to be returned to that clan. *Whelm's* purpose is to protect dwarves. Conflict arises if the wielder doesn't share this goal.\n\n**Destroying Whelm.** *Whelm* can be dissolved in the acidic bile of a recently slain ancient black dragon. It can also be melted down in the forges of the Mightyhammer dwarf clan, but only by the rightful leader of that clan.",
+    "description": "*Whelm* es un arma poderosa forjada por enanos y perdida en la mazmorra de White Plume Mountain.\n\nObtienes una bonificación de +3 a las tiradas de ataque y de daño realizadas con esta arma mágica.\n\n**Lanzar.** *Whelm* tiene la propiedad Lanzado con un alcance normal de 60 pies y un alcance largo de 180 pies. Cuando golpeas con una tirada de ataque a distancia usando *Whelm*, el objetivo recibe 1d8 de daño de Fuerza adicional, o 4d8 de daño de Fuerza adicional si el objetivo es un Constructo, un Elemental o un Gigante. Inmediatamente después de acertar o fallar, el arma vuelve a tu mano.\n\n**Onda de choque.** Puedes tomar acción de Magia para golpear el suelo con *Whelm* y enviar una onda de choque desde el punto de impacto. Cada criatura de tu elección en el suelo a 60 pies de ese punto debe tener éxito en una Constitución CD 20 tirada de salvación o tener la condición de Aturdido durante 1 minuto. Una criatura repite la salvación al final de cada uno de sus turnos, finalizando el efecto sobre sí misma si tiene éxito. Una vez utilizada, esta propiedad no podrá volver a utilizarse hasta el siguiente amanecer.\n\n**Conciencia sobrenatural.** Mientras sostienes el arma, te alerta sobre la ubicación de cualquier puerta secreta u oculta dentro de 30 pies de ti. Además, puedes lanzar Detectar el bien y el mal o localizar objetos desde el arma. Una vez que lanzas cualquiera de los conjuros, no podrás volver a lanzarlo desde el arma hasta el siguiente amanecer.\n\n**Sentiencia.** *Whelm* es un arma inteligente y neutral legal con una Inteligencia de 15, una Sabiduría de 12 y un Carisma de 15. Tiene audición y visión en la oscuridad hasta 120 pies.\n\nEl arma se comunica telepáticamente con su portador y habla enano, gigante y duende.\n\n**Personalidad.** *Whelm* tiene vínculos con el clan enano que lo creó, llamado Dankil o clan Mightyhammer. Anhela ser devuelto a ese clan. El propósito de *Whelm* es proteger a los enanos. El conflicto surge si el portador no comparte este objetivo.\n\n**Destroying Whelm.** *Whelm* se puede disolver en la bilis ácida de un antiguo dragón negro recientemente asesinado. También puede fundirse en las forjas del clan enano Mightyhammer, pero sólo por el líder legítimo de ese clan.",
     "url": "https://dnd2024.wikidot.com/magic-item:whelm",
     "category": "weapon",
     "cost": null,
@@ -27387,7 +27387,7 @@
       "subtype": "Warhammer",
       "attunement": true,
       "attunementBy": "un enano o una criatura en sintonía con un cinturón de enanos",
-      "raw": "Weapon (Warhammer), Artifact (Requires Attunement by a Dwarf or a Creature Attuned to a Belt of Dwarvenkind)"
+      "raw": "Arma (Warhammer), artefacto (requiere sintonía por parte de un enano o una criatura en sintonía con un cinturón de enanos)"
     },
     "replaced": [
       "https://dnd5e.wikidot.com/wondrous-items:whelm"
@@ -27396,7 +27396,7 @@
   {
     "id": "whetstone",
     "type": "item",
-    "name": "Whetstone",
+    "name": "Piedra de afilar",
     "edition": "2014",
     "source": "Dragonlance: Sombra de la Reina Dragón",
     "description": "",
@@ -27411,7 +27411,7 @@
   {
     "id": "whip",
     "type": "item",
-    "name": "Whip",
+    "name": "Látigo",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -27445,10 +27445,10 @@
   {
     "id": "whisper",
     "type": "item",
-    "name": "Whisper",
+    "name": "Susurro",
     "edition": "2014",
     "source": "El escenario de campaña de Tal'Dorei renace",
-    "description": "Forged with a mercurial metal accidentally drawn from the Realms Beyond, this dagger shimmers with an unsettling sourceless light. It was once wielded by Vax'ildan, a legendary champion of the Matron of Ravens. Two raven feathers are linked to its pommel as a memento of its former bearer.\n\n***Dormant.*** While *Whisper* is in a dormant state, you gain a +1 bonus to attack and damage rolls made with this magic weapon.\n\nAdditionally, when you score a critical hit with this dagger, the target must succeed on a DC 13 Wisdom saving throw or become frightened of you for 1 minute. On a success, the target is immune to this effect for 24 hours.\n\n***Awakened.*** When *Whisper* reaches an awakened state, you gain the following benefits:\n\n- The weapon's bonus to attack and damage rolls increases to +2. Additionally, when you hit with an attack using this dagger, the target takes an extra 1d6 psychic damage.\n- The DC to resist being frightened from a critical hit increases to 15.\n\n***Exalted.*** When *Whisper* reaches an exalted state, you gain the following benefits:\n\n- The weapon's bonus to attack and damage rolls increases to +3, and the extra psychic damage it deals increases to 1d8.\n- The DC to resist being frightened from a critical hit increases to 17.\n- When this dagger is used to make a ranged attack, you can choose to transform into shadow and merge with the blade as part of the action used to attack, teleporting to another location. If the attack hits, you appear in an unoccupied space of your choice within 5 feet of the target. If the attack misses, you appear where the GM determines the dagger lands (typically within 1d6 × 5 feet of the target). In either case, you appear with the dagger in your hand.",
+    "description": "Forjada con un metal mercurial extraído accidentalmente de los Reinos del Más Allá, esta daga brilla con una inquietante luz sin fuente. Una vez lo empuñó Vax'ildan, un campeón legendario de la Matrona de los Cuervos. Dos plumas de cuervo están unidas a su pomo como recuerdo de su antiguo portador.\n\n***Inactivo.*** Mientras *Whisper* está en estado inactivo, obtienes una bonificación de +1 a las tiradas de ataque y daño realizadas con esta arma mágica.\n\nAdemás, cuando consigues un golpe crítico con esta daga, el objetivo debe tener éxito con CD 13 de Sabiduría tirada de salvación o te tendrá miedo durante 1 minuto. Si tiene éxito, el objetivo es inmune a este efecto durante 24 horas.\n\n***Despertado.*** Cuando *Whisper* alcanza un estado despierto, obtienes los siguientes beneficios:\n\n- La bonificación del arma a las tiradas de ataque y daño aumenta a +2. Además, cuando golpeas con un ataque con esta daga, el objetivo sufre 1d6 de daño psíquico adicional.\n- El CD para resistir el miedo ante un golpe crítico aumenta a 15.\n\n***Exaltado.*** Cuando *Susurro* alcanza un estado exaltado, obtienes los siguientes beneficios:\n\n- La bonificación del arma a las tiradas de ataque y daño aumenta a +3, y el daño psíquico adicional que inflige aumenta a 1d8.\n- El CD para resistir el miedo a un golpe crítico aumenta a 17.\n- Cuando esta daga se usa para realizar un ataque a distancia, puedes elegir transformarte en sombra y fusionarte con la espada como parte de la acción utilizada para atacar, teletransportándote a otra ubicación. Si el ataque impacta, apareces en un espacio desocupado de tu elección a 5 pies del objetivo. Si el ataque falla, apareces donde el DJ determina que la daga aterriza (normalmente a 1d6 × 5 pies del objetivo). En cualquier caso, apareces con la daga en la mano.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:whisper",
     "category": "weapon",
     "cost": null,
@@ -27465,10 +27465,10 @@
   {
     "id": "wildspace-orrery",
     "type": "item",
-    "name": "Wildspace Orrery",
+    "name": "Planetario del espacio salvaje",
     "edition": "2014",
     "source": "Spelljammer: Aventuras en el espacio - Guía del aventurero astral",
-    "description": "Inside a Wildspace system, this portable arcane device automatically tracks the positions and movements of all suns, planets, moons, and comets within that system, projecting a display of all these bodies in the space above its current location. In that display, a white, pulsating pinprick of light marks the orrery's location.",
+    "description": "Dentro de un sistema Wildspace, este dispositivo arcano portátil rastrea automáticamente las posiciones y movimientos de todos los soles, planetas, lunas y cometas dentro de ese sistema, proyectando una visualización de todos estos cuerpos en el espacio sobre su ubicación actual. En esa visualización, un puntito de luz blanca y pulsante marca la ubicación del planetario.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wildspace-orrery",
     "category": "other",
     "cost": null,
@@ -27485,10 +27485,10 @@
   {
     "id": "will-of-the-talon",
     "type": "item",
-    "name": "Will of the Talon",
+    "name": "Voluntad de la garra",
     "edition": "2014",
     "source": "Guía del explorador de Wildemount",
-    "description": "Black, blue, green, red, and white gems carved in the form of dragon heads cover this ostentatious gold war pick, marking it as a weapon channeling the power of Tiamat.\n\n***Sentience.*** *Will of the Talon* is a sentient lawful evil weapon with an Intelligence of 14, a Wisdom of 15, and a Charisma of 19. It has hearing and darkvision out to a range of 120 feet.\n\nThe weapon communicates telepathically with its wielder and can speak, read, and understand Common, Draconic, and Infernal.\n\n***Personality.*** A short-tempered bone devil named Ashtyrlon lives within *Will of the Talon*. The weapon is greedy and values strong leadership. It demands that its wielder take decisive action to keep order in high-pressure situations — and to always take a fair share of treasure in return.\n\n***Dormant.*** The war pick grants the following benefits in its dormant state:\n\n- You can speak, read, and write Draconic and Infernal.\n- You gain a +1 bonus to attack and damage rolls made with this magic weapon.\n- As a bonus action while holding the war pick, you can cause the following effect: each creature of your choice that is within 30 feet of you and is aware of you must succeed on a DC 13 Wisdom saving throw or become frightened of you for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to your Frightful Presence for the next 24 hours. This property can't be used again until the next dawn.\n- While holding the war pick, you can use your action to exhale destructive energy. Pick a damage type from the Will of the Talon Breath Weapons table. Each creature in the area of the exhalation must make a DC 13 saving throw, the type of which is specified in the table. A creature takes 3d6 damage on a failed save, or half as much damage on a successful one.\n\n**Will of the Talon Breath Weapons**\n\n| Damage Type | Area | Saving Throw |\n|---|---|---|\n| Acid | 5 ft. wide, 30 ft. long line | Dexterity |\n| Cold | 15 ft. cone | Constitution |\n| Fire | 15 ft. cone | Dexterity |\n| Lightning | 5 ft. wide, 30 ft. long line | Dexterity |\n| Poison | 15 ft. cone | Constitution |\n\n***Awakened.*** When the war pick reaches an awakened state, it gains the following properties:\n\n- The weapon's bonus to attack and damage rolls increases to +2.\n- The saving throw DC for the war pick's Breath Weapon property increases to 15, and that property deals 4d6 damage on a failed save, or half as much damage on a successful one.\n- The saving throw DC for the war pick's Frightful Presence property increases to 15.\n- While carrying the weapon, you have resistance to acid, cold, fire, lightning, and poison damage.\n\n***Exalted.*** When the war pick reaches an exalted state, it gains the following properties:\n\n- The weapon's bonus to attack and damage rolls increases to +3.\n- The saving throw DC for the war pick's Breath Weapon property increases to 17, and that property deals 5d6 damage on a failed save, or half as much damage on a successful one.\n- The saving throw DC for the war pick's Frightful Presence property increases to 17.",
+    "description": "Gemas negras, azules, verdes, rojas y blancas talladas en forma de cabezas de dragón cubren esta ostentosa púa de guerra dorada, marcándola como un arma que canaliza el poder de Tiamat.\n\n***Sentiencia.*** *Will of the Talon* es un arma inteligente y malvada legal con una Inteligencia de 14, una Sabiduría de 15 y un Carisma de 19. Tiene audición y visión en la oscuridad en un alcance de 120 pies.\n\nEl arma se comunica telepáticamente con su portador y puede hablar, leer y comprender lo común, lo dracónico y lo infernal.\n\n***Personalidad.*** Un demonio óseo de mal genio llamado Ashtyrlon vive dentro de *Will of the Talon*. El arma es codiciosa y valora un liderazgo fuerte. Exige que su portador tome medidas decisivas para mantener el orden en situaciones de alta presión y que siempre reciba a cambio una parte justa del tesoro.\n\n***Inactivo.*** La selección de guerra otorga los siguientes beneficios en su estado inactivo:\n\n- Puedes hablar, leer y escribir dracónico e infernal.\n- Obtienes una bonificación de +1 a las tiradas de ataque y daño realizadas con esta arma mágica.\n- Como acción adicional mientras sostienes el pico de guerra, puedes causar el siguiente efecto: cada criatura de tu elección que esté a 30 pies de ti y sea consciente de ti debe tener éxito en un CD 13 de Sabiduría tirada de salvación o te tendrá miedo durante 1 minuto. Una criatura puede repetir el tirada de salvación al final de cada uno de sus turnos, finalizando el efecto sobre sí misma si tiene éxito. Si el tirada de salvación de una criatura tiene éxito o el efecto termina, la criatura es inmune a tu presencia aterradora durante las próximas 24 horas. Esta propiedad no podrá volver a utilizarse hasta el próximo amanecer.\n- Mientras sostienes el pico de guerra, puedes usar tu acción para exhalar energía destructiva. Elige un tipo de daño de la tabla de armas de aliento de la Voluntad de la Garra. Cada criatura en el área de la exhalación debe hacer un CD 13 tirada de salvación, cuyo tipo se especifica en la tabla. Una criatura sufre 3d6 de daño si falla una salvación, o la mitad de daño si tiene éxito.\n\n**Voluntad de las armas de aliento de la garra**\n\n| Tipo de daño | Área | Tirada de salvación |\n|---|---|---|\n| Ácido | Línea de 5 pies de ancho, 30 pies de largo | Destreza |\n| Frío | Cono de 15 pies | Constitución |\n| Fuego | Cono de 15 pies | Destreza |\n| Rayo | Línea de 5 pies de ancho, 30 pies de largo | Destreza |\n| Veneno | Cono de 15 pies | Constitución |\n\n***Despertado.*** Cuando la selección de guerra alcanza un estado despierto, obtiene las siguientes propiedades:\n\n- La bonificación del arma a las tiradas de ataque y daño aumenta a +2.\n- El tirada de salvación CD para la propiedad Arma de aliento de la selección de guerra aumenta a 15, y esa propiedad causa 4d6 de daño en una salvación fallida, o la mitad de daño en una exitosa.\n- El tirada de salvación CD de la propiedad Presencia aterradora de la elección de guerra aumenta a 15.\n- Mientras portas el arma, tienes resistencia al daño por ácido, frío, fuego, rayos y veneno.\n\n***Exaltado.*** Cuando la selección de guerra alcanza un estado exaltado, obtiene las siguientes propiedades:\n\n- La bonificación del arma a las tiradas de ataque y daño aumenta a +3.\n- El tirada de salvación CD para la propiedad Arma de aliento de la elección de guerra aumenta a 17, y esa propiedad causa 5d6 de daño en una salvación fallida, o la mitad de daño en una exitosa.\n- El tirada de salvación CD de la propiedad Presencia aterradora de la selección de guerra aumenta a 17.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:will-of-the-talon",
     "category": "weapon",
     "cost": null,
@@ -27499,16 +27499,16 @@
       "subtype": "war pick",
       "attunement": true,
       "attunementBy": null,
-      "raw": "Weapon (war pick), artifact (requires attunement)"
+      "raw": "Arma (elección de guerra), artefacto (requiere sintonía)"
     }
   },
   {
     "id": "wind-fan",
     "type": "item",
-    "name": "Wind Fan",
+    "name": "Ventilador de viento",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "While holding this fan, you can cast Gust of Wind (save DC 13) from it. Each subsequent time the fan is used before the next dawn, it has a cumulative 20 percent chance of not working; if the fan fails to work, it tears into useless, nonmagical tatters.",
+    "description": "Mientras sostienes este abanico, puedes lanzar Gust of Wind (salvación CD 13) desde él. Cada vez que se utiliza el ventilador antes del siguiente amanecer, tiene una probabilidad acumulativa del 20 por ciento de no funcionar; si el ventilador no funciona, se hace jirones inútiles y no mágicos.",
     "url": "https://dnd2024.wikidot.com/magic-item:wind-fan",
     "category": "other",
     "cost": null,
@@ -27531,7 +27531,7 @@
     "name": "Windskiff",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
-    "description": "This small piece of jewelry has 3 charges and regains all expended charges daily at dawn. While you are holding it, you can take a Magic action to expend 1 charge, which causes the jewelry to transform into a sail-powered personal vehicle. The vehicle is roughly the size and shape of a household door with a 10-foot-tall sail extending from one side. After 1 hour or until you use the item's command word (no action required), the transformation ends and the Windskiff reverts to its jewelry form.\n\nIn vehicle form, a Windskiff is a Medium object with the following statistics: AC 12, HP 30, and Speed 40 ft. The Windskiff hovers a few inches above whatever surface it's on and can glide; it moves 5 feet horizontally for every 1 foot it descends in the air. A Windskiff and its riders take no damage from falling.",
+    "description": "Esta pequeña joya tiene 3 cargas y recupera todas las cargas gastadas diariamente al amanecer. Mientras la sostienes, puedes tomar un acción de Magia para gastar 1 carga, lo que hace que la joya se transforme en un vehículo personal propulsado por una vela. El vehículo tiene aproximadamente el tamaño y la forma de una puerta doméstica con una vela de 10 pies de alto que se extiende desde un lado. Después de 1 hora o hasta que uses la palabra de comando del objeto (no se requiere ninguna acción), la transformación finaliza y el Windskiff vuelve a su forma de joyería.\n\nEn forma de vehículo, un Windskiff es un objeto mediano con las siguientes estadísticas: CA 12, HP 30 y velocidad 40 pies. El Windskiff flota unos centímetros por encima de cualquier superficie en la que se encuentre y puede deslizarse; se mueve 5 pies horizontalmente por cada 1 pie que desciende en el aire. Un Windskiff y sus ocupantes no sufren daños por caída.",
     "url": "https://dnd2024.wikidot.com/magic-item:windskiff",
     "category": "other",
     "cost": null,
@@ -27548,10 +27548,10 @@
   {
     "id": "windvane",
     "type": "item",
-    "name": "Windvane",
+    "name": "Veleta",
     "edition": "2014",
     "source": "Príncipes del Apocalipsis",
-    "description": "A silver spear, *Windvane* has dark sapphires on the filigreed surface of its polished head. Held by its shining haft, the weapon feels insubstantial, as if clutching a cool, gently flowing breeze. The spear contains a spark of Yan-C-Bin, the Prince of Evil Air.\n\nYou have a +2 bonus to attack rolls and damage rolls you make with this magic weapon, which has the finesse weapon property. When you hit with it, the target takes an extra 1d6 lightning damage.\n\n***Air Mastery.*** You gain the following benefits while you hold *Windvane*:\n\n- You can speak Auran fluently.\n- You have resistance to lightning damage.\n- You can cast Dominate Monster (save DC 17) on an air elemental. Once you have done so, *Windvane* can't be used this way again until the next dawn.\n\n***Song of the Four Winds.*** While inside an air node, you can perform a ritual called the Song of the Four Winds, using *Windvane* to create a *devastation orb of air* (see the Devastation Orb description for the time and cost of the ritual). Once you perform the ritual, *Windvane* can't be used to perform the ritual again until the next dawn.\n\n***Flaw.*** *Windvane* makes its wielder mercurial and unreliable. While attuned to the weapon, you gain the following flaw: \"I break my vows and plans. Duty and honor mean nothing to me.\"",
+    "description": "*Windvane*, una lanza plateada, tiene zafiros oscuros en la superficie de filigrana de su cabeza pulida. Sostenida por su brillante mango, el arma parece insustancial, como si aferrara una brisa fresca que fluye suavemente. La lanza contiene una chispa de Yan-C-Bin, el Príncipe del Mal Aire.\n\nTienes una bonificación de +2 a las tiradas de ataque y de daño que realices con esta arma mágica, que tiene la propiedad de arma de delicadeza. Cuando lo golpeas, el objetivo sufre 1d6 daños adicionales por rayo.\n\n***Maestría en el aire.*** Obtienes los siguientes beneficios mientras mantienes *Windvane*:\n\n- Puedes hablar Auran con fluidez.\n- Tienes resistencia al daño del rayo.\n- Puedes lanzar Dominar Monstruo (guarda CD 17) en un elemental de aire. Una vez que lo hayas hecho, *Windvane* no podrá volver a usarse de esta manera hasta el siguiente amanecer.\n\n***Canción de los cuatro vientos.*** Mientras estés dentro de un nodo de aire, puedes realizar un ritual llamado Canción de los cuatro vientos, usando *Veleta* para crear un *orbe de aire de devastación* (consulta la descripción del Orbe de devastación para conocer el tiempo y el costo del ritual). Una vez que realizas el ritual, *Windvane* no se puede usar para realizar el ritual nuevamente hasta el siguiente amanecer.\n\n***Defecto.*** *Veleta* hace que su portador sea voluble y poco confiable. Mientras estás en sintonía con el arma, obtienes el siguiente defecto: \"Rompo mis votos y planes. El deber y el honor no significan nada para mí\".",
     "url": "https://dnd5e.wikidot.com/wondrous-items:windvane",
     "category": "weapon",
     "cost": null,
@@ -27562,16 +27562,16 @@
       "subtype": "spear",
       "attunement": true,
       "attunementBy": null,
-      "raw": "Weapon (spear), legendary (requires attunement)"
+      "raw": "Arma (lanza), legendaria (requiere sintonía)"
     }
   },
   {
     "id": "winged-ammunition",
     "type": "item",
-    "name": "Winged Ammunition",
+    "name": "Municiones aladas",
     "edition": "2014",
     "source": "El libro de muchas cosas",
-    "description": "Ranged weapon attack rolls made with this ammunition ignore half and three-quarters cover. In addition, attacking at long range doesn't impose disadvantage on ranged weapon attack rolls made with this ammunition.",
+    "description": "Las tiradas de ataque con armas a distancia realizadas con esta munición ignoran la cobertura de media y tres cuartas partes. Además, atacar a larga distancia no impone desventajas en las tiradas de ataque con armas a distancia realizadas con esta munición.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:winged-ammunition",
     "category": "weapon",
     "cost": null,
@@ -27588,10 +27588,10 @@
   {
     "id": "winged-boots",
     "type": "item",
-    "name": "Winged Boots",
+    "name": "Botas aladas",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "These boots have 4 charges and regain 1d4 expended charges daily at dawn. While wearing the boots, you can take a Magic action to expend 1 charge, gaining a Fly Speed of 30 feet for 1 hour. If you are flying when the duration expires, you descend at a rate of 30 feet per round until you land.",
+    "description": "Estas botas tienen 4 cargas y recuperan 1d4 cargas gastadas diariamente al amanecer. Mientras usas las botas, puedes tomar un acción de Magia para gastar 1 carga, ganando una velocidad de vuelo de 30 pies durante 1 hora. Si estás volando cuando expira la duración, desciendes a un ritmo de 30 pies por ronda hasta aterrizar.",
     "url": "https://dnd2024.wikidot.com/magic-item:winged-boots",
     "category": "other",
     "cost": null,
@@ -27611,10 +27611,10 @@
   {
     "id": "wings-of-flying",
     "type": "item",
-    "name": "Wings of Flying",
+    "name": "Alas de volar",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "While wearing this cloak, you can take a Magic action to turn the cloak into a pair of wings on your back. The wings last for 1 hour or until you end the effect early as a Magic action. The wings give you a Fly Speed of 60 feet. If you are aloft when the wings disappear, you fall. When the wings disappear, you can't use them again for 1d12 hours",
+    "description": "Mientras usas esta capa, puedes tomar un acción de Magia para convertir la capa en un par de alas en tu espalda. Las alitas duran 1 hora o hasta que termines el efecto antes de tiempo como un acción de Magia. Las alas te dan una velocidad de vuelo de 60 pies. Si estás en lo alto cuando las alas desaparecen, caes. Cuando las alas desaparezcan, no podrás volver a usarlas durante 1d12 horas.",
     "url": "https://dnd2024.wikidot.com/magic-item:wings-of-flying",
     "category": "other",
     "cost": null,
@@ -27634,10 +27634,10 @@
   {
     "id": "wingwear",
     "type": "item",
-    "name": "Wingwear",
+    "name": "Ropa de alas",
     "edition": "2014",
     "source": "Príncipes del Apocalipsis",
-    "description": "This snug uniform has symbols of air stitched into it and leathery flaps that stretch along the arms, waist, and legs to create wings for gliding. A suit of *Wingwear* has 3 charges. While you wear the suit, you can use a bonus action and expend 1 charge to gain a flying speed of 30 feet until you land. At the end of each of your turns, your altitude drops by 5 feet. Your altitude drops instantly to 0 feet at the end of your turn if you didn't fly at least 30 feet horizontally on that turn. When your altitude drops to 0 feet, you land (or fall), and you must expend another charge to use the suit again.\n\nThe suit regains all of its expended charges after spending at least 1 hour in an elemental air node.",
+    "description": "Este cómodo uniforme tiene símbolos de aire cosidos y solapas de cuero que se extienden a lo largo de los brazos, la cintura y las piernas para crear alas para deslizarse. Un traje de *Wingwear* tiene 3 cargas. Mientras usas el traje, puedes usar un acción adicional y gastar 1 carga para ganar una velocidad de vuelo de 30 pies hasta aterrizar. Al final de cada uno de tus turnos, tu altitud cae 5 pies. Tu altitud cae instantáneamente a 0 pies al final de tu turno si no volaste al menos 30 pies horizontalmente en ese turno. Cuando tu altitud cae a 0 pies, aterrizas (o caes) y debes gastar otra carga para usar el traje nuevamente.\n\nEl traje recupera todas sus cargas gastadas después de pasar al menos 1 hora en un nodo de aire elemental.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wingwear",
     "category": "other",
     "cost": null,
@@ -27654,10 +27654,10 @@
   {
     "id": "winter-camouflage",
     "type": "item",
-    "name": "Winter Camouflage",
+    "name": "Camuflaje de invierno",
     "edition": "2024",
     "source": null,
-    "description": "While you wear Winter Camouflage in an appropriate environment, you have Advantage on Dexterity (Stealth) checks.",
+    "description": "Mientras usas camuflaje de invierno en un entorno apropiado, tienes ventaja en las pruebas de destreza (sigilo).",
     "url": "https://dnd2024.wikidot.com/equipment:adventuring-gear",
     "category": "gear",
     "cost": {
@@ -27669,10 +27669,10 @@
   {
     "id": "witchlight-vane",
     "type": "item",
-    "name": "Witchlight Vane",
+    "name": "Veleta de luz mágica",
     "edition": "2014",
     "source": "Lo salvaje más allá de la luz mágica",
-    "description": "This ornate rod is topped by a pair of butterfly wings and incorporates bits of red glass into its length. It weighs 3 pounds.\n\n**Magic Weapon.** In the hands of one who is attuned to it, the vane can be wielded as a magic mace that grants a +3 bonus to attack and damage rolls made with it. In addition, the vane deals an extra 1d8 radiant damage on a hit.\n\n**Sense Mood.** While the vane is inside the perimeter of the Witchlight Carnival, it can sense the mood of every creature in the carnival that has an Intelligence of 4 or higher. As an action, a creature attuned to the vane can use it to pinpoint the location of the happiest creature in the carnival.\n\nThe butterfly shape at the top of the vane spins slowly clockwise when spirits in the carnival are generally high; if the general mood in the carnival is dour, the top of the vane spins slowly counterclockwise.\n\n**Sentience.** The vane is a sentient, chaotic good wondrous item with an Intelligence of 11, a Wisdom of 14, and a Charisma of 14. It has hearing and normal vision out to a range of 30 feet, and it communicates by transmitting emotion to the creature attuned to it. Its purpose is to make sure everyone in the Witchlight Carnival is having a good time.\n\n**Additional Properties.** The vane has the following additional properties:\n\n- The creature holding the vane has vulnerability to lightning damage.\n- The creature attuned to the vane can't be blinded, deafened, petrified, or stunned.\n- While carrying the vane, the creature attuned to it can cast the Dancing Lights, Polymorph, or Ray of Frost spell as an action, requiring no spell components and using Charisma as the spellcasting ability. After the vane's Polymorph spell is cast, roll a d8; on a roll of 3 or 8, the vane can't be used to cast this spell again until the next dawn.",
+    "description": "Esta varilla adornada está rematada por un par de alas de mariposa e incorpora trozos de vidrio rojo en su longitud. Pesa 3 libras.\n\n**Arma mágica.** En manos de alguien que esté en sintonía con ella, la veleta se puede manejar como una maza mágica que otorga una bonificación de +3 a las tiradas de ataque y daño realizadas con ella. Además, la veleta inflige 1d8 de daño radiante adicional con cada golpe.\n\n**Sentir el estado de ánimo.** Mientras la veleta esté dentro del perímetro del Carnaval de Luz Bruja, puede detectar el estado de ánimo de cada criatura en el carnaval que tenga una Inteligencia de 4 o más. Como acción, una criatura en sintonía con la veleta puede usarla para señalar la ubicación de la criatura más feliz del carnaval.\n\nLa forma de mariposa en la parte superior de la paleta gira lentamente en el sentido de las agujas del reloj cuando el ánimo en el carnaval está generalmente alto; Si el ambiente general en el carnaval es adusto, la parte superior de la veleta gira lentamente en sentido antihorario.\n\n**Sentiencia.** La veleta es un objeto sensible, caótico, bueno y maravilloso con una Inteligencia de 11, una Sabiduría de 14 y un Carisma de 14. Tiene audición y visión normal en un rango de 30 pies y se comunica transmitiendo emociones a la criatura en sintonía con ella. Su propósito es asegurarse de que todos en Witchlight Carnival se lo pasen bien.\n\n**Propiedades adicionales.** La paleta tiene las siguientes propiedades adicionales:\n\n- La criatura que sostiene la veleta es vulnerable al daño del rayo.\n- La criatura sintonizada con la veleta no puede quedar cegada, ensordecedora, petrificada ni aturdida.\n- Mientras lleva la veleta, la criatura sintonizada con ella puede lanzar el conjuro Luces danzantes, Polimorfia o Rayo de escarcha como acción, sin requerir componentes del conjuro y usando Carisma como aptitud mágica. Después de lanzar el conjuro Polimorfismo de la veleta, tira un d8; con una tirada de 3 u 8, la veleta no se puede usar para lanzar este conjuro nuevamente hasta el siguiente amanecer.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:witchlight-vane",
     "category": "other",
     "cost": null,
@@ -27682,17 +27682,17 @@
       "type": "wondrous item",
       "subtype": null,
       "attunement": true,
-      "attunementBy": "Mister Light or His Handpicked Successor",
-      "raw": "Wondrous Item, Legendary (Requires Attunement by Mister Light or His Handpicked Successor)"
+      "attunementBy": "Mister Light o su sucesor cuidadosamente elegido",
+      "raw": "Objeto maravilloso, legendario (requiere sintonía por parte de Mister Light o su sucesor cuidadosamente elegido)"
     }
   },
   {
     "id": "witchlight-watch",
     "type": "item",
-    "name": "Witchlight Watch",
+    "name": "Reloj de luz mágica",
     "edition": "2014",
     "source": "Lo salvaje más allá de la luz mágica",
-    "description": "This ornate pocket watch is fastened to the end of a gold chain. It glows with a faint golden light when opened, and it makes a soft ticking noise that can be heard only by the creature holding it. The face of the watch shows a miniature painting of the Witchlight Carnival ringed by a tiny henge, orbited at night by a mote of light small enough to slip through the eye of a needle. This light causes the henge to cast shadows, and these shadows allow the watch's owner to track the passage of time.\n\n**Carnival Setup and Takedown.** The creature attuned to the watch can use an action to initiate the packing up or the unpacking of the Witchlight Carnival, provided the creature and the carnival are on the same plane of existence. In the span of 1 hour, all objects that are elements of the carnival are magically whisked about until everything is packed up and ready for travel, or unpacked and assembled. The watch has no effect on creatures, which can move about freely and safely while the carnival is being set up or taken down. Once the process of packing up or unpacking the carnival begins, it can't be stopped until the task is complete. When the watch is used to pack up or unpack the carnival, this property cannot be used again until 8 hours have elapsed.\n\n**Additional Properties.** The pocket watch has the following additional properties:\n\n- While carrying the watch, the creature attuned to it can cast the Fire Bolt, Invisibility, or Message spell as an action, requiring no spell components and using Intelligence as the spellcasting ability. After the watch's Invisibility spell is cast, roll a d8; on a roll of 3 or 8, the watch can't be used to cast this spell again until the next dawn.\n- The creature attuned to the watch gains 30 pounds. This extra weight vanishes when the attunement ends.\n- The creature attuned to the watch must eat and drink eight times the normal amount each day.",
+    "description": "Este ornamentado reloj de bolsillo está sujeto al final de una cadena de oro. Brilla con una tenue luz dorada cuando se abre y emite un suave tictac que sólo puede oír la criatura que lo sostiene. La esfera del reloj muestra una pintura en miniatura del Carnaval de la Luz Bruja rodeada por un pequeño henge, orbitado por la noche por una mota de luz lo suficientemente pequeña como para deslizarse por el ojo de una aguja. Esta luz hace que el henge proyecte sombras, y estas sombras permiten al propietario del reloj seguir el paso del tiempo.\n\n**Preparación y eliminación del Carnaval.** La criatura sintonizada con el reloj puede usar una acción para iniciar el empaque o desempaque del Carnaval de Luz Bruja, siempre que la criatura y el carnaval estén en el mismo plano de existencia. En el lapso de 1 hora, todos los objetos que son elementos del carnaval se mueven mágicamente hasta que todo está empacado y listo para viajar, o desempacado y armado. La vigilancia no tiene ningún efecto sobre las criaturas, que pueden moverse libremente y con seguridad mientras se monta o desmonta el carnaval. Una vez que comienza el proceso de empacar o desempacar el carnaval, no se puede detener hasta que se complete la tarea. Cuando el reloj se utilice para empacar o desempacar el carnaval, esta propiedad no podrá volver a usarse hasta que transcurran 8 horas.\n\n**Propiedades adicionales.** El reloj de bolsillo tiene las siguientes propiedades adicionales:\n\n- Mientras lleva el reloj, la criatura sintonizada con él puede lanzar el conjuro Descarga de fuego, Invisibilidad o Mensaje como acción, sin requerir componentes del conjuro y usando Inteligencia como aptitud mágica. Después de lanzar el conjuro de Invisibilidad del reloj, tira un d8; con una tirada de 3 u 8, el reloj no se puede utilizar para lanzar este conjuro nuevamente hasta el siguiente amanecer.\n- La criatura en sintonía con el reloj gana 30 libras. Este peso extra desaparece cuando finaliza la sintonía.\n- La criatura en sintonía con el reloj debe comer y beber ocho veces la cantidad normal cada día.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:witchlight-watch",
     "category": "other",
     "cost": null,
@@ -27702,17 +27702,17 @@
       "type": "wondrous item",
       "subtype": null,
       "attunement": true,
-      "attunementBy": "Mister Witch or His Handpicked Successor",
-      "raw": "Wondrous Item, Legendary (Requires Attunement by Mister Witch or His Handpicked Successor)"
+      "attunementBy": "El señor Brujo o su sucesor cuidadosamente elegido",
+      "raw": "Objeto maravilloso, legendario (requiere sintonía por parte del señor Brujo o su sucesor cuidadosamente elegido)"
     }
   },
   {
     "id": "witherbloom-primer",
     "type": "item",
-    "name": "Witherbloom Primer",
+    "name": "Imprimación de marchitez",
     "edition": "2014",
     "source": "Strixhaven: un plan de estudios del caos",
-    "description": "The *Witherbloom Primer* is a magic textbook created at Strixhaven's Witherbloom College. The primer has 3 charges, and it regains 1d3 expended charges daily at dawn. If you make an Intelligence (Nature) or Wisdom (Survival) check while holding the primer, you can expend 1 charge to give yourself a 1d4 bonus to the check, immediately after you roll the d20.\n\nIn addition, if you study the primer at the end of a long rest, you can choose one 1st-level spell from the Druid or Wizard spell list. Before you finish your next long rest, you can cast the chosen spell once without a spell slot if you are holding the primer. Your spellcasting ability for this spell is your choice of Intelligence, Wisdom, or Charisma.",
+    "description": "El *Witherbloom Primer* es un libro de texto de magia creado en el Witherbloom College de Strixhaven. El cebador tiene 3 cargas y recupera 1d3 cargas gastadas diariamente al amanecer. Si realizas una prueba de Inteligencia (Naturaleza) o Sabiduría (Supervivencia) mientras sostienes el cebador, puedes gastar 1 carga para obtener una bonificación de 1d4 a la prueba, inmediatamente después de tirar el d20.\n\nAdemás, si estudias el manual al final de un descanso largo, puedes elegir un conjuro de primer nivel de la lista de conjuros Druida o Mago. Antes de terminar tu siguiente descanso largo, puedes lanzar el conjuro elegido una vez sin un espacio de conjuro si tienes la cartilla en la mano. Tu aptitud mágica para este conjuro es tu elección entre Inteligencia, Sabiduría o Carisma.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:witherbloom-primer",
     "category": "other",
     "cost": null,
@@ -27747,10 +27747,10 @@
   {
     "id": "woodcutters-axe",
     "type": "item",
-    "name": "Woodcutter's Axe",
+    "name": "Hacha de leñador",
     "edition": "2014",
     "source": "Lo salvaje más allá de la luz mágica",
-    "description": "You have a +1 bonus to attack and damage rolls made with this magic weapon.\n\nWhen you use this axe to make an attack against a plant (an ordinary plant or a creature with the Plant type) or a wooden object that isn't being worn or carried, the attack deals an extra 2d6 slashing damage on a hit.",
+    "description": "Tienes una bonificación de +1 a las tiradas de ataque y daño realizadas con esta arma mágica.\n\nCuando usas esta hacha para realizar un ataque contra una planta (una planta ordinaria o una criatura del tipo Planta) o un objeto de madera que no está siendo usado o transportado, el ataque causa 2d6 de daño cortante adicional con un golpe.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:woodcutter-s-axe",
     "category": "weapon",
     "cost": null,
@@ -27761,13 +27761,13 @@
       "subtype": "Greataxe",
       "attunement": false,
       "attunementBy": null,
-      "raw": "Weapon (Greataxe), Rare"
+      "raw": "Arma (Gran Hacha), Rara"
     }
   },
   {
     "id": "wooden-staff",
     "type": "item",
-    "name": "Wooden Staff",
+    "name": "Bastón de madera",
     "edition": "2014",
     "source": "Dragonlance: Sombra de la Reina Dragón",
     "description": "",
@@ -27782,10 +27782,10 @@
   {
     "id": "workshop-wrecker",
     "type": "item",
-    "name": "Workshop Wrecker",
+    "name": "Destructor de talleres",
     "edition": "2024",
     "source": "Arcanos desatados",
-    "description": "When this 3-inch-diameter metal ball is activated as a Magic action, it moves at a rapid speed, bouncing off walls and defying any attempts to capture it. The ball remains active for 1 minute or until you deactivate it by using a command word while within 30 feet of it (no action required). Once the ball is used, it can't be used again until the next dawn.\n\nWhen you activate the ball and at the beginning of each of your turns while the ball is active, each creature in the area makes a Dexterity saving throw, taking Bludgeoning damage on a failed save. The save DC and amount of damage dealt depend on the approximate size of the area in which the ball is active, as shown on the following table.\n\n| Area | Save DC | Bludgeoning Damage |\n|---|---|---|\n| 15-foot Cube | 18 | 6d6+5 |\n| 30-foot Cube | 17 | 4d6+4 |\n| 50-foot Cube | 15 | 2d6+2 |\n| 100-foot Cube | 14 | 1d6+1 |\n\nA nonmagical object that isn't being worn or carried also takes the damage if it is in the area. In confined areas larger than a 100-foot Cube, the amount of damage caused by the ball is negligible. If the ball is activated in an unconfined area, it flies off in a random direction at a rate of 300 feet per round.",
+    "description": "Cuando esta bola de metal de 3 pulgadas de diámetro se activa como acción de Magia, se mueve a gran velocidad, rebotando en las paredes y desafiando cualquier intento de capturarla. La pelota permanece activa durante 1 minuto o hasta que la desactives usando una palabra de comando mientras estés a 30 pies de ella (no se requiere ninguna acción). Una vez utilizada la pelota, no se podrá volver a utilizar hasta el siguiente amanecer.\n\nCuando activas la pelota y al comienzo de cada uno de tus turnos mientras la pelota está activa, cada criatura en el área hace una Destreza tirada de salvación, recibiendo daño contundente en una salvación fallida. La salvación CD y la cantidad de daño infligido dependen del tamaño aproximado del área en la que está activa la pelota, como se muestra en la siguiente tabla.\n\n| Área | Guardar CD | Daño contundente |\n|---|---|---|\n| Cubo de 15 pies | 18 | 6d6+5 |\n| Cubo de 30 pies | 17 | 4d6+4 |\n| Cubo de 50 pies | 15 | 2d6+2 |\n| Cubo de 100 pies | 14 | 1d6+1 |\n\nUn objeto no mágico que no está siendo usado o transportado también sufre daño si está en el área. En áreas confinadas de más de 100 pies de cubo, la cantidad de daño causado por la pelota es insignificante. Si la pelota se activa en un área no confinada, sale volando en una dirección aleatoria a una velocidad de 300 pies por ronda.",
     "url": "https://dnd2024.wikidot.com/magic-item:workshop-wrecker",
     "category": "other",
     "cost": null,
@@ -27802,10 +27802,10 @@
   {
     "id": "wraps-of-dyamak",
     "type": "item",
-    "name": "Wraps of Dyamak",
+    "name": "Envolturas de Dyamak",
     "edition": "2014",
     "source": "El escenario de campaña de Tal'Dorei renace",
-    "description": "Created and wielded by the ancient warrior-monk Dyamak, these thick strips of enchanted cloth are stained to appear dark crimson with blood of unknown origin. The current resting place of the wraps is unknown.\n\n***Dormant.*** When the *Wraps of Dyamak* are in a dormant state, you gain a +1 bonus to attack and damage rolls made with your unarmed strike while wearing them.\n\nIn addition, when you finish a short or long rest, you gain a number of temporary hit points equal to your total number of ki points.\n\n***Awakened.*** When the *Wraps of Dyamak* reach an awakened state, they gain the following properties:\n\n- The bonus to attack and damage rolls with your unarmed strike increases to +2.\n- You can cast the Misty Step spell from the wraps as a bonus action, vanishing in a cloud of crimson mist. This property of the wraps can't be used again until you finish a short or long rest, or until you score a critical hit with an unarmed strike against a hostile creature.\n\n***Exalted.*** When the *Wraps of Dyamak* reach an exalted state, they gain the following properties:\n\n- The bonus to attack and damage rolls with your unarmed strike increases to +3.\n- When you hit with an unarmed strike, you can choose to make the attack a ravenous strike. The target takes an extra 6d6 necrotic damage, and you regain hit points equal to the amount of necrotic damage dealt. This property of the wraps can't be used again until you finish a long rest, or until you score a critical hit with an unarmed strike against a hostile creature.",
+    "description": "Creadas y manejadas por el antiguo monje guerrero Dyamak, estas gruesas tiras de tela encantada están teñidas para que parezcan de color carmesí oscuro con sangre de origen desconocido. Se desconoce el lugar de descanso actual de las envolturas.\n\n***Inactivo.*** Cuando las *Envolturas de Dyamak* están en estado inactivo, obtienes una bonificación de +1 a las tiradas de ataque y daño realizadas con tu ataque sin armas mientras las usas.\n\nAdemás, cuando terminas un corto o descanso largo, ganas una cantidad de puntos de golpe temporales igual a tu número total de puntos de ki.\n\n***Despertado.*** Cuando las *Envolturas de Dyamak* alcanzan un estado despierto, obtienen las siguientes propiedades:\n\n- La bonificación a las tiradas de ataque y daño con tu ataque sin armas aumenta a +2.\n- Puedes lanzar el conjuro Misty Step desde las envolturas como un acción adicional, que desaparece en una nube de niebla carmesí. Esta propiedad de las envolturas no se puede volver a utilizar hasta que termines un corto o descanso largo, o hasta que consigas un golpe crítico con un ataque sin armas contra una criatura hostil.\n\n***Exaltado.*** Cuando las *Envolturas de Dyamak* alcanzan un estado exaltado, obtienen las siguientes propiedades:\n\n- La bonificación a las tiradas de ataque y daño con tu ataque sin armas aumenta a +3.\n- Cuando golpeas con un ataque sin armas, puedes elegir que el ataque sea un golpe voraz. El objetivo sufre 6d6 de daño necrótico adicional y tú recuperas puntos de golpe igual a la cantidad de daño necrótico infligido. Esta propiedad de las envolturas no se puede volver a utilizar hasta que termines con un descanso largo, o hasta que consigas un golpe crítico con un ataque sin armas contra una criatura hostil.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wraps-of-dyamak",
     "category": "other",
     "cost": null,
@@ -27822,10 +27822,10 @@
   {
     "id": "wraps-of-unarmed-power",
     "type": "item",
-    "name": "Wraps of Unarmed Power",
+    "name": "Envolturas de poder desarmado",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "While wearing these wraps, you have a bonus to attack rolls and damage rolls made with your Unarmed Strikes. The bonus is determined by the wraps' rarity, and those strikes deal your choice of Force damage or their normal damage type.",
+    "description": "Mientras usas estas envolturas, tienes una bonificación a las tiradas de ataque y de daño realizadas con tus golpes desarmados. La bonificación está determinada por la rareza de las envolturas, y esos golpes causan tu elección de daño de Fuerza o su tipo de daño normal.",
     "url": "https://dnd2024.wikidot.com/magic-item:wraps-of-unarmed-power",
     "category": "other",
     "cost": null,
@@ -27836,16 +27836,16 @@
       "subtype": null,
       "attunement": false,
       "attunementBy": null,
-      "raw": "Wondrous Item, Uncommon (+1), Rare (+2), or Very Rare (+3)"
+      "raw": "Objeto maravilloso, poco común (+1), raro (+2) o muy raro (+3)"
     }
   },
   {
     "id": "wraps-of-unarmed-prowess",
     "type": "item",
-    "name": "Wraps Of Unarmed Prowess",
+    "name": "Envolturas de destreza desarmada",
     "edition": "2014",
     "source": "El libro de muchas cosas",
-    "description": "While you're wearing these cloth wraps, your unarmed strikes are considered magical for the purpose of overcoming immunity and resistance to nonmagical attacks and damage, and you gain a bonus to the attack and damage rolls of your unarmed strikes, determined by the wraps' rarity.\n\n| Rarity | Bonus |\n|---|---|\n| Uncommon | +1 |\n| Rare | +2 |\n| Very Rare | +3 |",
+    "description": "Mientras usas estas envolturas de tela, tus ataques desarmados se consideran mágicos con el fin de superar la inmunidad y la resistencia a ataques y daños no mágicos, y obtienes una bonificación a las tiradas de ataque y daño de tus ataques desarmados, determinada por la rareza de las envolturas.\n\n| Rareza | Bonificación |\n|---|---|\n| Poco común | +1 |\n| Raro | +2 |\n| Muy raro | +3 |",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wraps-of-unarmed-prowess",
     "category": "other",
     "cost": null,
@@ -27862,10 +27862,10 @@
   {
     "id": "wreath-of-the-prism",
     "type": "item",
-    "name": "Wreath of the Prism",
+    "name": "Corona del Prisma",
     "edition": "2014",
     "source": "Guía del explorador de Wildemount",
-    "description": "This loop of golden thorns is inset with dozens of gems representing the five colors of Tiamat.\n\n***Dormant.*** While wearing the wreath in its dormant state, you have darkvision out to a range of 60 feet. If you already have darkvision, wearing the wreath increases the range of your darkvision by 60 feet.\n\nWhen you hit a beast, dragon, or monstrosity of challenge rating 5 or lower with an attack, or when you grapple it, you can use the wreath to cast Dominate Monster on the creature (save DC 13). On a successful save, the target is immune to the power of the wreath for 24 hours. On a failure, a shimmering, golden image of the wreath appears as a collar around the target's neck or as a crown on its head (your choice) until it is no longer charmed by the spell. If you use the wreath to charm a second creature, the first spell immediately ends. When the spell ends, the target knows it was charmed by you.\n\n***Awakened.*** Once the *Wreath of the Prism* reaches an awakened state, it gains the following benefits:\n\n- You can affect creatures of challenge rating 10 or lower with the wreath.\n- The save DC of the wreath's spell increases to 15.\n\n***Exalted.*** Once the *Wreath of the Prism* reaches an exalted state, it gains the following benefits:\n\n- You can affect creatures of challenge rating 15 or lower with the wreath.\n- The save DC of the wreath's spell increases to 17.",
+    "description": "Este bucle de espinas doradas tiene incrustadas docenas de gemas que representan los cinco colores de Tiamat.\n\n***Inactivo.*** Mientras usas la corona en su estado inactivo, tienes visión en la oscuridad en un rango de 60 pies. Si ya tienes visión en la oscuridad, usar la corona aumenta el alcance de tu visión en la oscuridad en 60 pies.\n\nCuando golpeas a una bestia, un dragón o una monstruosidad con un índice de desafío de 5 o menos con un ataque, o cuando lo agarras, puedes usar la corona para lanzar Dominar Monstruo sobre la criatura (guarda CD 13). Con una salvación exitosa, el objetivo es inmune al poder de la corona durante 24 horas. Si falla, una imagen dorada y brillante de la corona aparece como un collar alrededor del cuello del objetivo o como una corona en su cabeza (a su elección) hasta que ya no esté hechizado por el conjuro. Si usas la corona para encantar a una segunda criatura, el primer conjuro termina inmediatamente. Cuando termina el conjuro, el objetivo sabe que fue hechizado por ti.\n\n***Despertado.*** Una vez que la *Corona del Prisma* alcanza un estado despierto, obtiene los siguientes beneficios:\n\n- Puedes afectar a criaturas con un nivel de desafío de 10 o inferior con la corona.\n- La salvación CD del conjuro de la corona aumenta a 15.\n\n***Exaltado.*** Una vez que la *Corona del Prisma* alcanza un estado exaltado, obtiene los siguientes beneficios:\n\n- Puedes afectar a criaturas con un índice de desafío de 15 o inferior con la corona.\n- La salvación CD del conjuro de la corona aumenta a 17.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wreath-of-the-prism",
     "category": "other",
     "cost": null,
@@ -27882,10 +27882,10 @@
   {
     "id": "wyrmreaver-gauntlets",
     "type": "item",
-    "name": "Wyrmreaver Gauntlets",
+    "name": "Guanteletes de Atracador del Wyrm",
     "edition": "2014",
     "source": "Bigby presenta - Gloria de los gigantes",
-    "description": "Originally crafted for ground-bound giant brawlers to fight against dragons and other enormous predators of the sky, these studded gauntlets are engraved with the dragon rune.\n\nWhile you are wearing these gauntlets, your unarmed strike deals an additional 1d6 force damage on a hit. Additionally, whenever you finish a long rest, choose one of the following damage types: acid, cold, fire, lightning, or poison. You have resistance to the chosen damage type until you finish another long rest.\n\n**Invoking the Runes.** As a bonus action, you can invoke the gauntlets' runes and summon two enormous spectral fists that envelop the gauntlets and mimic your hand motions. The fists can also launch themselves to strike distant opponents, returning immediately to your space after they hit or miss.\n\nThe fists last for 1 minute or until you are incapacitated. While the spectral fists are active, unarmed strikes you make on your turn have a reach of 30 feet, and when you hit a creature with an opportunity attack made with your unarmed strike, the creature must succeed on a Strength saving throw (DC equals 8 + your proficiency bonus + your Strength modifier) or have the prone condition.\n\nOnce the runes have been invoked, they can't be invoked again until the next dawn.",
+    "description": "Originalmente diseñados para guerreros gigantes terrestres que luchaban contra dragones y otros enormes depredadores del cielo, estos guanteletes tachonados están grabados con la runa del dragón.\n\nMientras llevas estos guanteletes, tu ataque sin armas inflige 1d6 de daño de fuerza adicional con un golpe. Además, cada vez que termines un descanso largo, elige uno de los siguientes tipos de daño: ácido, frío, fuego, rayo o veneno. Tienes resistencia al tipo de daño elegido hasta que termines otro descanso largo.\n\n**Invocar las Runas.** Como acción adicional, puedes invocar las runas de los guanteletes y convocar dos enormes puños espectrales que envuelven los guanteletes e imitan los movimientos de tus manos. Los puños también pueden lanzarse para golpear a oponentes distantes y regresar inmediatamente a tu espacio después de que acierten o fallen.\n\nLos puños duran 1 minuto o hasta que quedes incapacitado. Mientras los puños espectrales están activos, los golpes desarmados que realizas en tu turno tienen un alcance de 30 pies, y cuando golpeas a una criatura con un ataque de oportunidad hecho con tu ataque sin armas, la criatura debe tener éxito en una Fuerza tirada de salvación (CD es igual a 8 + tu bonificador de competencia + tu modificador de Fuerza) o tener la condición boca abajo.\n\nUna vez que las runas han sido invocadas, no se pueden volver a invocar hasta el siguiente amanecer.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wyrmreaver-gauntlets",
     "category": "other",
     "cost": null,
@@ -27902,10 +27902,10 @@
   {
     "id": "wyrmskull-throne",
     "type": "item",
-    "name": "Wyrmskull Throne",
+    "name": "Trono del cráneo del Wyrm",
     "edition": "2014",
     "source": "Trueno del Rey Tormenta",
-    "description": "Built by dwarven gods and entrusted to the rulers of Shanatar, an ancient dwarven empire, the *Wyrmskull Throne* was a symbol of dwarven power and pride for ages untold. The throne hovers a foot off the ground and is a massive thing made of polished obsidian with oversized feet — the impaled skulls of four ancient blue dragons. Runes glisten in the carved obsidian, winking to life with blue energy when the throne's powers are activated.\n\nAfter the fall of Shanatar, the *Wyrmskull Throne* fell into the clutches of less honorable creatures. A band of adventurers wrested the throne from the aquatic elf tyrant Gantar Kraok and sold it to the storm giant Neri for a considerable fortune. Neri had the throne magically enlarged and gave it to her husband, King Hekaton, as a gift, along with one of the Ruling Scepters of Shanatar, which she had found in a wreck at the bottom of the Trackless Sea. Only a creature attuned to a Ruling Scepter and in possession of it can harness the powers of the *Wyrmskull Throne*, which has become the centerpiece of King Hekaton's throne room in the undersea citadel of Maelstrom. Fear of the throne's power has helped prevent evil giants from challenging or threatening Hekaton's leadership.\n\nAny creature not attuned to a Ruling Scepter who sits on the throne is paralyzed and encased in a magical force field. While encased, the creature can't be touched or moved from the throne. Touching a Ruling Scepter to the force field dispels the field, though the creature remains paralyzed until it is separated from the throne.\n\nAny creature seated on the throne can hear faint whispers in Draconic — the whisperings of the four blue dragons whose skulls adorn the throne. Although powerless, these spirits try to influence the decisions of the throne's master.\n\n***Properties of the Throne.*** The throne has 9 charges and regains all expended charges daily at dawn. A creature that sits on the throne while attuned to a Ruling Scepter in its possession can harness the throne's properties, which are as follows:\n\n- The throne gains a flying speed of 30 feet and can hover and flies where the creature wills. This property doesn't expend any charges.\n- Both the throne and the creature sitting on it can move through earth and stone without disturbing the material they move through. This property doesn't expend any charges.\n- As an action, the creature can expend 1 charge to cast Lightning Bolt (spell save DC 19) from the throne. The spell is cast as though using a 9th-level spell slot and deals 49 (14d6) lightning damage. The bolt discharges from the mouth of one of the throne's blue dragon skulls.\n- As an action, the creature can expend 2 charges to cast the Globe of Invulnerability spell from the throne. The globe encloses both the creature and the throne.\n- As an action, the creature can expend 3 charges to create a spectral image of an ancient blue dragon that surrounds both it and the throne. The spectral dragon lasts for 1 minute. At the end of each of the creature's turns, the spectral dragon makes one bite attack and two claw attacks against targets of the creature's choice. These attacks have the same attack bonus, reach, and damage as an ancient blue dragon's bite and claw attacks.\n\n***Destroying the Throne.*** The *Wyrmskull Throne* can be destroyed by breaking at least five Ruling Scepters of Shanatar simultaneously on it. This fact has never been recorded or sung of among the dwarves or any bards or storytellers, and it can't be discovered with an ability check. Characters who want to destroy the throne must go on a quest to learn the method for doing so. The throne's destruction triggers an explosion, as shards of obsidian fly out in all directions. Each creature and object within a 30-foot-radius sphere centered on the throne must succeed on a DC 21 Dexterity saving throw, taking 70 (20d6) slashing damage on a failed save, or half as much damage on a successful one.",
+    "description": "Construido por dioses enanos y confiado a los gobernantes de Shanatar, un antiguo imperio enano, el *Trono Wyrmskull* fue un símbolo del poder y orgullo de los enanos durante siglos incalculables. El trono se eleva a un pie del suelo y es una cosa enorme hecha de obsidiana pulida con pies de gran tamaño: los cráneos empalados de cuatro antiguos dragones azules. Las runas brillan en la obsidiana tallada y cobran vida con energía azul cuando se activan los poderes del trono.\n\nDespués de la caída de Shanatar, el *Trono Wyrmskull* cayó en las garras de criaturas menos honorables. Un grupo de aventureros arrebató el trono al tirano elfo acuático Gantar Kraok y se lo vendió al gigante de las tormentas Neri por una fortuna considerable. Neri hizo agrandar el trono mágicamente y se lo dio a su marido, el rey Hekatón, como regalo, junto con uno de los cetros gobernantes de Shanatar, que había encontrado en un naufragio en el fondo del Mar Sin Huellas. Sólo una criatura sintonizada con un Cetro Regente y en posesión de él puede aprovechar los poderes del *Trono Wyrmskull*, que se ha convertido en la pieza central de la sala del trono del Rey Hekaton en la ciudadela submarina de Maelstrom. El miedo al poder del trono ha ayudado a evitar que gigantes malvados desafíen o amenacen el liderazgo de Hekaton.\n\nCualquier criatura que no esté en sintonía con un Cetro Regente y que se siente en el trono queda paralizada y encerrada en un campo de fuerza mágico. Mientras está encerrada, la criatura no puede ser tocada ni movida del trono. Tocar el campo de fuerza con un cetro gobernante disipa el campo, aunque la criatura permanece paralizada hasta que se separa del trono.\n\nCualquier criatura sentada en el trono puede escuchar débiles susurros en dracónico: los susurros de los cuatro dragones azules cuyos cráneos adornan el trono. Aunque impotentes, estos espíritus intentan influir en las decisiones del amo del trono.\n\n***Propiedades del Trono.*** El trono tiene 9 cargas y recupera todas las cargas gastadas diariamente al amanecer. Una criatura que se sienta en el trono mientras está en sintonía con un Cetro Regente que posee puede aprovechar las propiedades del trono, que son las siguientes:\n\n- El trono gana una velocidad de vuelo de 30 pies y puede flotar y volar donde la criatura quiera. Esta propiedad no gasta ningún cargo.\n- Tanto el trono como la criatura sentada en él pueden moverse a través de la tierra y la piedra sin alterar el material por el que se mueven. Esta propiedad no gasta ningún cargo.\n- Como acción, la criatura puede gastar 1 carga para lanzar Lightning Bolt (CD de salvación de conjuros 19) desde el trono. El conjuro se lanza como si usara un espacio de conjuro de nivel 9 e inflige 49 (14d6) de daño por rayo. El rayo se descarga de la boca de uno de los cráneos de dragón azul del trono.\n- Como acción, la criatura puede gastar 2 cargas para lanzar el conjuro Globo de Invulnerabilidad desde el trono. El globo encierra tanto a la criatura como al trono.\n- Como acción, la criatura puede gastar 3 cargas para crear una imagen espectral de un antiguo dragón azul que lo rodea tanto a él como al trono. El dragón espectral dura 1 minuto. Al final de cada uno de los turnos de la criatura, el dragón espectral realiza un ataque de mordisco y dos ataques de garra contra objetivos elegidos por la criatura. Estos ataques tienen la misma bonificación de ataque, alcance y daño que los ataques de mordedura y garra de un antiguo dragón azul.\n\n***Destruyendo el Trono.*** El *Trono Wyrmskull* puede ser destruido rompiendo al menos cinco Cetros Gobernantes de Shanatar simultáneamente sobre él. Este hecho nunca ha sido registrado ni cantado entre los enanos ni entre los bardos o narradores, y no se puede descubrir con un prueba de característica. Los personajes que quieran destruir el trono deben emprender una búsqueda para aprender el método para hacerlo. La destrucción del trono desencadena una explosión, mientras fragmentos de obsidiana vuelan en todas direcciones. Cada criatura y objeto dentro de una esfera de 30 pies de radio centrada en el trono debe tener éxito en una Destreza CD 21 tirada de salvación, recibiendo 70 (20d6) de daño cortante en una salvación fallida, o la mitad de daño en una exitosa.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:wyrmskull-throne",
     "category": "other",
     "cost": null,
@@ -27922,10 +27922,10 @@
   {
     "id": "wyvern-poison",
     "type": "item",
-    "name": "Wyvern Poison",
+    "name": "Veneno de wyvern",
     "edition": "2024",
     "source": null,
-    "description": "A creature subjected to Wyvern Poison makes a DC 14 Constitution saving throw, taking 24 (7d6) Poison damage on a failed save or half as much damage on a successful one.\n\n**Type:** Injury Poison",
+    "description": "Una criatura sometida a Wyvern Poison obtiene una Constitución de CD 14 tirada de salvación, recibiendo 24 (7d6) de daño de Veneno en una salvación fallida o la mitad de daño en una exitosa.\n\n**Tipo:** Veneno para lesiones",
     "url": "https://dnd2024.wikidot.com/equipment:poison",
     "category": "poison",
     "cost": {
@@ -27940,10 +27940,10 @@
   {
     "id": "yester-hill-axe",
     "type": "item",
-    "name": "Yester Hill Axe",
+    "name": "Hacha de Yester Hill",
     "edition": "2014",
     "source": "Maldición de Strahd",
-    "description": "Its handle is carved with leaves and vines, and the weapon weighs half as much as a normal battleaxe. When the axe hits a plant, whether an ordinary plant or a plant creature, the target takes an extra 1d8 slashing damage. When a creature of non-good alignment wields the axe, it sprouts thorns whenever its wielder makes an attack with it. These thorns prick the wielder for 1 piercing damage after the attack is made, and this damage is considered magical.",
+    "description": "Su mango está tallado con hojas y enredaderas, y el arma pesa la mitad que un hacha de batalla normal. Cuando el hacha golpea una planta, ya sea una planta ordinaria o una criatura vegetal, el objetivo sufre 1d8 de daño cortante adicional. Cuando una criatura de alineación no buena empuña el hacha, le brotan espinas cada vez que su portador realiza un ataque con ella. Estas espinas pinchan al portador y le causan 1 daño perforante después de realizar el ataque, y este daño se considera mágico.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:yester-hill-axe",
     "category": "weapon",
     "cost": null,
@@ -27954,13 +27954,13 @@
       "subtype": "battleaxe",
       "attunement": false,
       "attunementBy": null,
-      "raw": "Weapon (battleaxe), unknown rarity"
+      "raw": "Arma (hacha de batalla), rareza desconocida"
     }
   },
   {
     "id": "yew-wand",
     "type": "item",
-    "name": "Yew Wand",
+    "name": "Varita de tejo",
     "edition": "2014",
     "source": "Dragonlance: Sombra de la Reina Dragón",
     "description": "",
@@ -28008,7 +28008,7 @@
     "name": "Ythryn Mythallar",
     "edition": "2014",
     "source": "Valle del Viento Helado - Escarcha de la Doncella de Escarcha",
-    "description": "A *mythallar* looks like an enormous crystal ball held in an ornate cradle. The globe sheds bright light in a 300-foot radius and dim light for an additional 300 feet. The globe draws magic from the Weave that can be harnessed for various purposes. For example, Netherese mages used *mythallars* to keep their cities aloft and empower their magic items. The bigger the *mythallar*, the more magic it can hold. The largest *mythallars* are 150 feet in diameter.\n\nThe *Ythryn mythallar* is a relatively small device — a mere 50 feet in diameter. To attune to this *mythallar*, a creature must finish a short rest within 30 feet of it, meditating on the *mythallar*. Up to eight creatures can be attuned to it at one time; otherwise, the *Ythryn mythallar* follows the attunement rules in the *Dungeon Master's Guide*. If a ninth creature tries to attune to the *mythallar*, nothing happens.\n\nAll creatures attuned to the *Ythryn mythallar* can sense when the device is being used. A creature attuned to the device can use any of its properties, but only if all other creatures attuned to the device agree to allow it. The *Ythryn mythallar's* properties are as follows:\n\n- While you're on the same plane of existence as the *Ythryn mythallar*, you can use an action to cause it to fly in any direction you choose at a speed of 30 feet. All matter within 500 feet of the device moves with it. The *Ythryn mythallar* and all structures held aloft by it hover in place when not in motion.\n- As an action, you can cause one magic item you are holding within 30 feet of the *Ythryn mythallar* to immediately regain all its expended charges or uses. A magic item recharged in this manner can't be recharged by the *Ythryn mythallar* again until after the item regains expended charges or uses on its own.\n- You can use the *Ythryn mythallar* to cast the Control Weather spell without requiring any components and without the need for you to be outdoors. This casting of the spell has a 50-mile radius. For the duration of the spell's casting time, you must be within 30 feet of the *Ythryn mythallar* or the spell fails.\n\n***Touching the Mythallar***. Any creature that touches the globe of the *mythallar* must make a DC 22 Constitution saving throw, taking 180 (20d10 + 70) radiant damage on a failed save, or half as much damage on a successful one. Undead have disadvantage on this saving throw. Any object that touches the globe, other than an artifact or the *mythallar's* cradle, is disintegrated instantly (no save).",
+    "description": "Un *mythallar* parece una enorme bola de cristal sostenida en una cuna ornamentada. El globo arroja luz brillante en un radio de 300 pies y luz tenue en 300 pies adicionales. El globo extrae magia del Tejido que puede aprovecharse para diversos fines. Por ejemplo, los magos netherneses usaban *mythallars* para mantener sus ciudades en alto y potenciar sus objetos mágicos. Cuanto más grande es el *mythallar*, más magia puede contener. Los *mythallars* más grandes tienen 150 pies de diámetro.\n\nEl *Ythryn Mytallar* es un dispositivo relativamente pequeño: apenas 50 pies de diámetro. Para sintonizarse con este *mythallar*, una criatura debe terminar un descanso corto a 30 pies de él, meditando en el *mythallar*. Se pueden sintonizar hasta ocho criaturas a la vez; de lo contrario, el *Ythryn Mytallar* sigue las reglas de sintonía de la *Guía del Dungeon Master*. Si una novena criatura intenta sintonizarse con el *mythallar*, no pasa nada.\n\nTodas las criaturas sintonizadas con el *Ythryn Mytallar* pueden sentir cuando se está utilizando el dispositivo. Una criatura en sintonía con el dispositivo puede usar cualquiera de sus propiedades, pero sólo si todas las demás criaturas en sintonía con el dispositivo aceptan permitírselo. Las propiedades del *Ythryn mytallar* son las siguientes:\n\n- Mientras estés en el mismo plano de existencia que el *Ythryn Mytallar*, puedes usar una acción para hacer que vuele en cualquier dirección que elijas a una velocidad de 30 pies. Toda la materia dentro de un radio de 500 pies alrededor del dispositivo se mueve con él. El *Ythryn Mytallar* y todas las estructuras que sostiene en el aire flotan en su lugar cuando no están en movimiento.\n- Como acción, puedes hacer que un objeto mágico que tengas dentro de 30 pies del *Ythryn Mytallar* recupere inmediatamente todas sus cargas o usos gastados. Un objeto mágico recargado de esta manera no puede ser recargado nuevamente por el *Ythryn Mytallar* hasta que el objeto recupere las cargas gastadas o se use por sí solo.\n- Puedes usar el *Ythryn Mytallar* para lanzar el conjuro Control del clima sin necesidad de ningún componente y sin necesidad de estar al aire libre. Este lanzamiento del conjuro tiene un radio de 50 millas. Mientras dure el tiempo de lanzamiento del conjuro, debes estar a menos de 30 pies del *Ythryn Mytallar* o el conjuro fallará.\n\n***Tocando el Mythallar***. Cualquier criatura que toque el globo del *mythallar* debe hacer una Constitución CD 22 tirada de salvación, recibiendo 180 (20d10 + 70) de daño radiante en una salvación fallida, o la mitad de daño en una exitosa. Los no-muertos tienen desventaja en esto tirada de salvación. Cualquier objeto que toque el globo, que no sea un artefacto o la cuna del *mythallar*, se desintegra instantáneamente (sin salvación).",
     "url": "https://dnd5e.wikidot.com/wondrous-items:ythryn-mythallar",
     "category": "other",
     "cost": null,
@@ -28019,16 +28019,16 @@
       "subtype": null,
       "attunement": true,
       "attunementBy": "un lanzador de conjuros",
-      "raw": "Wondrous item, legendary (requires attunement by a spellcaster)"
+      "raw": "Objeto maravilloso, legendario (requiere sintonía por parte de un lanzador de conjuros)"
     }
   },
   {
     "id": "zephyr-armor",
     "type": "item",
-    "name": "Zephyr Armor",
+    "name": "Armadura de céfiro",
     "edition": "2014",
     "source": "Bigby presenta - Gloria de los gigantes",
-    "description": "This fine set of white-and-silver armor bears the wind rune upon its chest.\n\nWhile wearing this armor, you have advantage on Dexterity (Acrobatics) checks and Dexterity saving throws as your movements are bolstered by gentle currents of wind.\n\n**Invoking the Rune.** As an action, you can invoke the armor's rune to cast the Wind Wall spell (save DC 15) with it. Once the rune has been invoked, it can't be invoked again until the next dawn.",
+    "description": "Esta fina armadura blanca y plateada lleva la runa del viento en el pecho.\n\nMientras usas esta armadura, tienes ventaja en las pruebas de Destreza (Acrobacia) y Destreza tiradas de salvación ya que tus movimientos se ven reforzados por suaves corrientes de viento.\n\n**Invocar la Runa.** Como acción, puedes invocar la runa de la armadura para lanzar el conjuro Muro de Viento (guarda CD 15) con ella. Una vez que la runa ha sido invocada, no se puede volver a invocar hasta el siguiente amanecer.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:zephyr-armor",
     "category": "armor",
     "cost": null,
@@ -28039,7 +28039,7 @@
       "subtype": "Light",
       "attunement": true,
       "attunementBy": null,
-      "raw": "Armor (Light), Rare (Requires Attunement)"
+      "raw": "Armadura (ligera), rara (requiere sintonía)"
     }
   }
 ]

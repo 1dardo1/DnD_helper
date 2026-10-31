@@ -11,7 +11,7 @@
     "shortName": "Alquimista",
     "features": [
       {
-        "name": "Tool Proficiency",
+        "name": "Competencia con la herramienta",
         "level": 3,
         "description": "You gain proficiency with Alchemist's Supplies. If you already have this proficiency, you gain proficiency with one other type of Artisan's Tools of your choice.  \nIn addition, when you brew a potion using the crafting rules in the Dungeon Master's Guide, the amount of time required to craft it is halved."
       },
@@ -263,7 +263,7 @@
     "shortName": "Artillerist",
     "features": [
       {
-        "name": "Tool Proficiency",
+        "name": "Competencia con la herramienta",
         "level": 3,
         "description": "You gain proficiency with Woodcarver's Tools. If you already have this proficiency, you gain proficiency with one other type of Artisan's Tools of your choice.  \nIn addition, when you craft a magic Wand, the amount of time required to craft it is halved."
       },
@@ -347,7 +347,7 @@
     "shortName": "Battle Smith",
     "features": [
       {
-        "name": "Tool Proficiency",
+        "name": "Competencia con la herramienta",
         "level": 3,
         "description": "You gain proficiency with Smith's Tools. If you already have this proficiency, you gain proficiency with one other type of Artisan's Tools of your choice.  \nIn addition, when you craft an ordinary or magic weapon, the amount of time required to craft it is halved."
       },
@@ -1012,7 +1012,7 @@
       {
         "name": "Harbinger of Unlight",
         "level": 10,
-        "description": "You have Resistance to Radiant damage."
+        "description": "Tienes Resistencia al daño Radiante."
       },
       {
         "name": "Brilliant Rage",
@@ -1502,7 +1502,7 @@
         "description": "Starting at 11th level, your Brand of Castigation exposes a fragment of your foe's essence, leaving them vulnerable to your Crimson Rite feature. Whenever you hit a creature with a weapon for which you have an active crimson rite, you roll an additional hemocraft die when determining the extra damage from the rite. Additionally, if a branded creature has the Incorporeal Movement trait or a similar feature, it can't move through creatures or objects while branded."
       },
       {
-        "name": "Blood Curse of the Exorcist",
+        "name": "Maldición de sangre del Exorcista",
         "level": 15,
         "description": "At 15th level, you hone your hemocraft to tear corruption from the minds and bodies of your allies — and to punish those responsible for it. You gain the Blood Curse of the Exorcist for your Blood Maledict feature. This doesn't count against your number of blood curses known."
       },
@@ -1592,7 +1592,7 @@
         "description": "At 11th level, your mutagenic hemocraft lets your Brand of Castigation reveal a foe's true nature. Any illusion or invisibility in effect on a creature when you brand it ends, and the creature can't benefit from invisibility or illusion effects while branded by you. If a creature branded by you is in an alternative form (by way of the Polymorph spell, the Change Shape action or Shapechanger trait, the Wild Shape feature, and similar effects), it must succeed on a Wisdom saving throw or revert to its true form and be stunned until the end of your next turn. Whenever a branded creature attempts to alter its form, it must succeed on a Wisdom saving throw or have the attempt fail, and it is stunned until the end of your next turn."
       },
       {
-        "name": "Blood Curse of Corrosion",
+        "name": "Maldición de sangre de Corrosión",
         "level": 15,
         "description": "Starting at 15th level, your blood curse can infuse a creature's body with terrible toxins. You gain the Blood Curse of Corrosion for your Blood Maledict feature. This doesn't count against your number of blood curses known."
       },
@@ -2049,7 +2049,7 @@
     "type": "subclass",
     "name": "Ambition Domain (Amonkhet)",
     "edition": "2014",
-    "source": "Plane Shift - Amonkhet",
+    "source": "Cambio de avión - Amonkhet",
     "description": "***Clerics of Ambition act as cunning viziers who subtly plant the seeds that flower into the ambition their gods desire. Through insinuation, they remind acolytes, initiates, and veterans alike that achieving one's place (in life or the afterlife) at the expense of others is not shameful, but is proof of determination and drive. Nothing is more important than that drive, they suggest - not the bonds of a family, not friendship or love. Not even devotion to a deity..***\n\n**Ambition Domain Spells**\n\n| Cleric Level | Spells |\n|---|---|\n| 1st | Bane, Disguise Self |\n| 3rd | Mirror Image, Ray of Enfeeblement |\n| 5th | Bestow Curse, Vampiric Touch |\n| 7th | Death Ward, Dimension Door |\n| 9th | Dominate Person, Modify Memory |",
     "url": "https://dnd5e.wikidot.com/cleric:ambition",
     "classId": "cleric",
@@ -2518,7 +2518,7 @@
     "type": "subclass",
     "name": "Freedom Domain",
     "edition": "2024",
-    "source": "UA16 - Underdark Options 2 (10.09.2026)",
+    "source": "UA16 - Opciones de la Infraoscuridad 2 (10.09.2026)",
     "description": "*Spread Liberty and Break Chains*  \nThe Freedom Domain provides magic of liberation, movement, and free thought. Clerics use this magic to inspire hope among the oppressed, to help prisoners break free from their cages, and to lead revolutions in which toiling laborers throw off the chains of oppressive rule.  \nGods of freedom embody free will, choice, and rebellion against tyrannical regimes or stifling traditions. These deities protect everyone's right to determine their own destiny. In the Underdark, Eilistraee and Sehanine Moonbow both stand for freedom. Surface dwellers devoted to the cause of freedom might worship Ilmater or Meilikki instead.",
     "url": "https://dnd2024.wikidot.com/ua:subclass-cleric-freedom-domain",
     "classId": "cleric",
@@ -3278,7 +3278,7 @@
     "type": "subclass",
     "name": "Solidarity Domain (Amonkhet)",
     "edition": "2014",
-    "source": "Plane Shift - Amonkhet",
+    "source": "Cambio de avión - Amonkhet",
     "description": "***Solidarity is the first virtue of Amonkhet's society. Oketra is charged with expounding upon this teaching of the God-Pharaoh, instilling in every initiate the virtue of solidarity. She forges each group of children into a crop of acolytes with just one purpose: to be judged worthy of a glorious afterlife. And she instills in each crop the ability to unite in a single action in pursuit of that purpose. She is fond of poetic imagery to communicate her ideals.***\n\n**Solidarity Domain Spells**\n\n| Cleric Level | Spells |\n|---|---|\n| 1st | Bless, Guiding Bolt |\n| 3rd | Aid, Warding Bond |\n| 5th | Beacon of Hope, Crusader's Mantle |\n| 7th | Aura of Life, Guardian of Faith |\n| 9th | Circle of Power, Mass Cure Wounds |",
     "url": "https://dnd5e.wikidot.com/cleric:solidarity",
     "classId": "cleric",
@@ -3357,7 +3357,7 @@
     "type": "subclass",
     "name": "Strength Domain (Amonkhet)",
     "edition": "2014",
-    "source": "Plane Shift - Amonkhet",
+    "source": "Cambio de avión - Amonkhet",
     "description": "***Strength is the third virtue of Amonkhet's society. It falls to Rhonas to instill this teaching in those who would enter the afterlife—but to his mind, the words themselves don't matter. Strength can't be taught. It must be built through practice and training. Rhonas demonstrates his teachings by his example, rather than by giving his students any kind of academic instruction. He welcomes the people of Naktamun to stand by the Hekma and watch him as he storms into the desert to battle the greatest horrors. He encourages them to observe his indomitable strength, for though they will never equal it, they can aspire to mimicry. He invites them to scrutinize every move and practice what they see.***\n\n**Strength Domain Spells**\n\n| Cleric Level | Spells |\n|---|---|\n| 1st | Divine Favor, Shield of Faith |\n| 3rd | Enhance Ability, Protection from Poison |\n| 5th | Haste, Protection from Energy |\n| 7th | Dominate Beast, Stoneskin |\n| 9th | Destructive Wave, Insect Plague |",
     "url": "https://dnd5e.wikidot.com/cleric:strength",
     "classId": "cleric",
@@ -3821,7 +3821,7 @@
     "type": "subclass",
     "name": "Zeal Domain (Amonkhet)",
     "edition": "2014",
-    "source": "Plane Shift - Amonkhet",
+    "source": "Cambio de avión - Amonkhet",
     "description": "***Zeal is the fifth and final virtue of Amonkhet's society. The God-Pharaoh expects those he welcomes into the afterlife to desire it above all other pleasures and achievements, and for them to show their dedication, passion, and fervor through their actions. Hazoret is charged with cultivating this zeal in the initiates who come under her care, and she has undertaken the task with appropriate enthusiasm. She recognizes, however, that the best way to teach zeal is by demonstrating it.***\n\n**Zeal Domain Spells**\n\n| Cleric Level | Spells |\n|---|---|\n| 1st | Searing Smite, Thunderous Smite |\n| 3rd | Magic Weapon, Shatter |\n| 5th | Haste, Fireball |\n| 7th | Fire Shield (warm shield only), Freedom of Movement |\n| 9th | Destructive Wave, Flame Strike |",
     "url": "https://dnd5e.wikidot.com/cleric:zeal",
     "classId": "cleric",
@@ -4014,7 +4014,7 @@
     "type": "subclass",
     "name": "Circle of Spores",
     "edition": "2024",
-    "source": "UA16 - Underdark Options 2 (10.09.2026)",
+    "source": "UA16 - Opciones de la Infraoscuridad 2 (10.09.2026)",
     "description": "*Steward the Cycle of Life, Death, and Decay*  \nDruids of the Circle of Spores find beauty in decay. They revere the ability of mold and other fungi to grow from and transform lifeless material. These Druids believe that life and death are parts of a grand cycle, where each stage feeds into the next.  \nDruids of the Circle of Spores also see undeath as a part of this grand cycle so long as it's temporary. But all things must eventually decompose to make room for new life. Undead that seek to replace all life with undeath or that try to avoid passing to a final rest violate the cycle and must be thwarted.",
     "url": "https://dnd2024.wikidot.com/ua:subclass-druid-circle-of-spores",
     "classId": "druid",
@@ -6728,7 +6728,7 @@
         "description": "When you choose this tradition at 3rd level, you can become an island of calm in even the most chaotic of situations. With this feature, you can cast the *sanctuary* spell on yourself, no material component required, and it lasts up to 8 hours. Its saving throw DC equals 8 + your proficiency bonus + your Wisdom modifier. A creature that succeeds on the save is immune to this effect for 1 hour.\n\nOnce you cast the spell in this way, you can't do so again for 1 minute."
       },
       {
-        "name": "Healing Hands",
+        "name": "Manos curativas",
         "level": 3,
         "description": "Your mystical touch can heal wounds. Starting at 3rd level, you have a pool of magical healing power that replenishes when you take a long rest. With that pool, you can restore a total number of hit points equal to your monk level × 10.\n\nAs an action, you can touch a creature and draw power from the pool to restore a number of hit points to that creature, up to the maximum amount remaining in the pool.\n\nInstead of healing the creature, you can expend 5 hit points from your pool of healing to cure the target of one disease or neutralize one poison affecting it. You can cure multiple diseases and neutralize multiple poisons with a single use of Healing Hands, expending hit points separately for each one.\n\nWhen you use your Flurry of Blows, you can replace one of the unarmed strikes with a use of this feature.\n\nThis feature has no effect on undead and constructs."
       },
@@ -9933,7 +9933,7 @@
     "type": "subclass",
     "name": "Faerzress Sorcery",
     "edition": "2024",
-    "source": "UA16 - Underdark Options 2 (10.09.2026)",
+    "source": "UA16 - Opciones de la Infraoscuridad 2 (10.09.2026)",
     "description": "*Wield the Weird Radiation of the Underdark.*  \nYou have been mutated by faerzress, the uncanny radiation Lolth used to shape the Underdark eons ago. Perhaps you or one of your ancestors was born within a region of the Underdark saturated by faerzress, or you spent many years in such a place.  \nRegardless, your body has now adapted to faerzress, which sizzles within your body like fluid electricity. Your senses penetrate the magical static faerzress creates, and you can find pathways through faerzress that allow you to scry and teleport. You are unhindered by faerzress's detrimental effects, and you can throw faerzress at enemies or fill entire chambers with lingering radiation.",
     "url": "https://dnd2024.wikidot.com/ua:subclass-sorcerer-faerzress-sorcery",
     "classId": "sorcerer",
@@ -12125,7 +12125,7 @@
         "description": "Beginning at 6th level, you can produce magic weapons and armor. You spend 10 minutes focusing your magic on a mundane weapon, suit of armor, shield, or bundle of twenty pieces of ammunition, and expend a spell slot to infuse it with magical energy. The magic item retains its enhancement for 8 hours or until used (in the case of magic ammunition). You can infuse only one item at a time; if you infuse a second one, the first immediately loses its potency. Once you have expended a spell slot to create such an item, you cannot regain that slot until the item becomes nonmagical.\n\nThe spell slot you expend determines the type of weapon, armor, or shield you can create.\n\n| Spell Slot | Item Created |\n|---|---|\n| 2nd | +1 ammunition (20 pieces) |\n| 3rd | +1 weapon or +1 shield |\n| 4th | +1 armor |\n| 5th | +2 weapon or +2 ammunition (20 pieces) |\n| 6th | +2 armor |"
       },
       {
-        "name": "Superior Artificer",
+        "name": "Superior Artífice",
         "level": 10,
         "description": "Starting at 10th level, you can create a second magic weapon, suit of armor, shield, or bundle of ammunition using your Infuse Weapons and Armor ability. Attempting to infuse a third item causes the oldest one to immediately lose its potency.\n\nYou can also create one additional potion or scroll using Infuse Potions or Infuse Scrolls."
       },
@@ -12749,7 +12749,7 @@
         "description": "At 10th level, when you deal psychic or force damage with a wizard spell, you can add your Intelligence modifier to the damage against one of the spell's targets."
       },
       {
-        "name": "Mental Discipline",
+        "name": "Disciplina mental",
         "level": 10,
         "description": "Starting at 10th level, your mind's power expands to greater heights. When you gain this feature, choose one of the following spells: Dominate Person, Scrying, or Telekinesis. You can add the spell to your spellbook, and you can cast it without components. You can also cast the chosen spell once without expending a spell slot. After you do so, you regain the ability to cast the spell without a slot when you finish a long rest."
       },
@@ -12946,7 +12946,7 @@
         "description": "Your Transmuter's Stone is more versatile. When you create your Transmuter's Stone, you can choose up to two benefits. You can choose each option other than Resistance only once. If you choose Resistance twice, you must choose different damage types. You can change either or both benefits when you cast a Transmutation spell using a spell slot.\n\nIn addition, the following are now among your benefit options for Transmuter's Stone.\n\n**Mighty Build.** The bearer has Advantage on Strength saving throws. The bearer also counts as one size larger when determining its carrying capacity.\n\n**Tremorsense.** The bearer gains Tremorsense with a range of 30 feet."
       },
       {
-        "name": "Shape-Shifter",
+        "name": "Cambiador de forma",
         "level": 10,
         "description": "You always have the Polymorph spell prepared and can cast it once without expending a spell slot. You regain the ability to cast it in this way when you finish a Long Rest.\n\nIn addition, when you target yourself with the spell, you can modify the spell to gain the benefits below. Once you modify the spell using this feature, you can't do so again until you finish a Long Rest.\n\n**Game Statistics.** In addition to retaining the features specified in the spell, you retain your memories and ability to communicate. You also retain your Intelligence, Wisdom, and Charisma scores; proficiencies; class features; and feats.\n\n**Transmute Spells.** While shape-shifted, you can cast spells, but only Transmutation spells that don't have a Material component that has a specified cost or that is consumed by the spell."
       },
