@@ -10,9 +10,9 @@ import { normalise } from '../../features/compendium/compendium-search';
 export type FacetSelection = Record<string, string>;
 
 /**
- * How the values ticked in one facet are used: any of them (default), all at once ("and"), or
- * none of them ("not": everything except those). Stored next to the facet as "<key>Mode", so it
- * travels in the URL like the values.
+ * How the values included in one facet combine: any of them (default) or all at once ("and").
+ * Stored next to the facet as "<key>Mode", so it travels in the URL like the values. Values can
+ * also be excluded one by one ("!fire"), which combines with either mode.
  */
 export function modeKey(key: string): string {
   return `${key}Mode`;
@@ -34,22 +34,36 @@ export function matchesQuery(searchText: string, query: string): boolean {
   return q.split(' ').every((word) => searchText.includes(word));
 }
 
-/** The values selected in a facet: several are joined with commas ("fire,healing"). */
+/** The values selected in a facet, joined with commas; excluded ones start with "!" ("fire,!cold"). */
 export function selectedValues(value: string | undefined): string[] {
   return value ? value.split(',').filter(Boolean) : [];
 }
 
-/** Adds or removes one value of a multiple-choice facet. */
+const NOT = '!';
+
+/** Includes or un-includes one value (an excluded one becomes included). */
 export function toggleValue(value: string | undefined, toggled: string): string {
-  const now = selectedValues(value);
+  const now = selectedValues(value).filter((v) => v !== NOT + toggled);
   const next = now.includes(toggled) ? now.filter((v) => v !== toggled) : [...now, toggled];
   return next.join(',');
 }
 
+/** Excludes or un-excludes one value (an included one becomes excluded). */
+export function toggleExcluded(value: string | undefined, toggled: string): string {
+  const now = selectedValues(value).filter((v) => v !== toggled);
+  const off = NOT + toggled;
+  const next = now.includes(off) ? now.filter((v) => v !== off) : [...now, off];
+  return next.join(',');
+}
+
+export function isExcluded(value: string | undefined, v: string): boolean {
+  return selectedValues(value).includes(NOT + v);
+}
+
 /**
- * The items matching the query and every facet with values chosen: any of the values ("fire" or
- * "healing"), all of them when the facet's mode is "and" (fire and healing at once), or none of
- * them when it is "not" (everything but fire and healing).
+ * The items matching the query and every facet with values chosen: any of the included values
+ * ("fire" or "cold"), or all of them when the facet's mode is "and" (fire and cold at once); and
+ * in either case none of the excluded ones ("!healing").
  * `texts[i]` is the normalised search text of items[i]; `values(i, key)` its values for a facet.
  */
 export function applyFacets<T>(
@@ -61,16 +75,24 @@ export function applyFacets<T>(
 ): T[] {
   const active = Object.entries(selection)
     .filter(([k, v]) => v && !isModeKey(k))
-    .map(([k, v]) => ({ key: k, wanted: selectedValues(v), mode: selection[modeKey(k)] ?? '' }));
+    .map(([k, v]) => {
+      const all = selectedValues(v);
+      return {
+        key: k,
+        wanted: all.filter((x) => !x.startsWith(NOT)),
+        unwanted: all.filter((x) => x.startsWith(NOT)).map((x) => x.slice(1)),
+        and: selection[modeKey(k)] === 'and',
+      };
+    });
   const q = normalise(query);
   return items.filter(
     (_, i) =>
       (!q || matchesQuery(texts[i], q)) &&
-      active.every(({ key, wanted, mode }) => {
+      active.every(({ key, wanted, unwanted, and }) => {
         const has = values(i, key);
-        if (mode === 'and') return wanted.every((w) => has.includes(w));
-        const any = wanted.some((w) => has.includes(w));
-        return mode === 'not' ? !any : any;
+        if (unwanted.some((u) => has.includes(u))) return false;
+        if (!wanted.length) return true;
+        return and ? wanted.every((w) => has.includes(w)) : wanted.some((w) => has.includes(w));
       }),
   );
 }

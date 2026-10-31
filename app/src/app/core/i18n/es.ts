@@ -785,4 +785,6 @@ export const es: Record<keyof typeof en, string> = {
   'picker.modeNot': 'No',
   'picker.modeNotHint': 'Todo menos lo marcado',
   'picker.damage.any': 'Cualquier daño',
+  'picker.exclude': 'Excluir',
+  'picker.excludeHint': 'Excluir: quita los que tengan esto',
 };

@@ -2,7 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, linkedSignal, output, signal } from '@angular/core';
 
 import { TranslatePipe } from '../../core/i18n/i18n.service';
-import { modeKey, selectedValues, toggleValue } from './picker-filters';
+import { isExcluded, modeKey, selectedValues, toggleExcluded, toggleValue } from './picker-filters';
 
 /** A facet ready to show: its label, its options (value + label) and the value selected. */
 export interface FacetView {
@@ -12,8 +12,8 @@ export interface FacetView {
   selected: string;
   /** Less used: shown under "Más filtros". */
   more?: boolean;
-  /** How ticked values are used: any of them, all at once (only when `canAnd`), or none of them. */
-  mode: 'or' | 'and' | 'not';
+  /** How included values combine: any of them, or all at once (only when `canAnd`). */
+  mode: 'or' | 'and';
   /** Whether an entry can have several values of this facet, so "all at once" means something. */
   canAnd: boolean;
 }
@@ -28,7 +28,7 @@ function wideScreen(): boolean {
 }
 
 /**
- * Search box, filters (one foldable column of checkboxes per facet, with "O" / "Y", folded on phones), "N de M" and "Quitar filtros".
+ * Search box, filters (one foldable column per facet: tick to include, ⊘ to exclude, "O" / "Y"; folded on phones), "N de M" and "Quitar filtros".
  * Holds no state of its own: the wizard pickers keep it in signals, the compendium in the URL.
  */
 @Component({
@@ -43,16 +43,16 @@ function wideScreen(): boolean {
             <span class="chip">{{ n }}</span>
           }
         </summary>
-        <div class="mode" role="group" [attr.aria-label]="'picker.mode' | t">
-          <button
-            type="button"
-            [attr.aria-pressed]="f.mode === 'or'"
-            [title]="'picker.modeOrHint' | t"
-            (click)="facetChange.emit({ key: modeKey(f.key), value: '' })"
-          >
-            {{ 'picker.modeOr' | t }}
-          </button>
-          @if (f.canAnd) {
+        @if (f.canAnd) {
+          <div class="mode" role="group" [attr.aria-label]="'picker.mode' | t">
+            <button
+              type="button"
+              [attr.aria-pressed]="f.mode === 'or'"
+              [title]="'picker.modeOrHint' | t"
+              (click)="facetChange.emit({ key: modeKey(f.key), value: '' })"
+            >
+              {{ 'picker.modeOr' | t }}
+            </button>
             <button
               type="button"
               [attr.aria-pressed]="f.mode === 'and'"
@@ -61,19 +61,11 @@ function wideScreen(): boolean {
             >
               {{ 'picker.modeAnd' | t }}
             </button>
-          }
-          <button
-            type="button"
-            [attr.aria-pressed]="f.mode === 'not'"
-            [title]="'picker.modeNotHint' | t"
-            (click)="facetChange.emit({ key: modeKey(f.key), value: 'not' })"
-          >
-            {{ 'picker.modeNot' | t }}
-          </button>
-        </div>
+          </div>
+        }
         <ul>
           @for (o of f.options; track o.value) {
-            <li>
+            <li [class.excluded]="isOff(f, o.value)">
               <label>
                 <input
                   type="checkbox"
@@ -82,6 +74,16 @@ function wideScreen(): boolean {
                 />
                 {{ o.label }}
               </label>
+              <button
+                type="button"
+                class="exclude"
+                [attr.aria-pressed]="isOff(f, o.value)"
+                [attr.aria-label]="('picker.exclude' | t) + ': ' + o.label"
+                [title]="'picker.excludeHint' | t"
+                (click)="facetChange.emit({ key: f.key, value: excluded(f, o.value) })"
+              >
+                ⊘
+              </button>
             </li>
           }
         </ul>
@@ -177,6 +179,40 @@ function wideScreen(): boolean {
         margin: var(--space-1) 0 0;
         padding: 0;
         list-style: none;
+      }
+
+      li {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      li.excluded label {
+        text-decoration: line-through;
+        color: var(--ink-soft);
+      }
+
+      .exclude {
+        min-height: 2rem;
+        min-width: 2rem;
+        padding: 0;
+        margin-left: auto;
+        font-size: 1rem;
+        line-height: 1;
+        color: var(--ink-soft);
+        background: none;
+        border: 0;
+        box-shadow: none;
+        opacity: 0.55;
+
+        &:hover,
+        &[aria-pressed='true'] {
+          opacity: 1;
+        }
+
+        &[aria-pressed='true'] {
+          color: var(--danger, var(--accent));
+        }
       }
 
       li label {
@@ -290,6 +326,14 @@ export class FilterBar {
 
   protected toggled(f: FacetView, value: string): string {
     return toggleValue(f.selected, value);
+  }
+
+  protected isOff(f: FacetView, value: string): boolean {
+    return isExcluded(f.selected, value);
+  }
+
+  protected excluded(f: FacetView, value: string): string {
+    return toggleExcluded(f.selected, value);
   }
 
   protected readonly primary = computed(() => this.facets().filter((f) => !f.more));

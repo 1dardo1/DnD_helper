@@ -4,6 +4,7 @@ import {
   matchesQuery,
   modeKey,
   selectedValues,
+  toggleExcluded,
   toggleValue,
 } from './picker-filters';
 
@@ -51,9 +52,19 @@ describe('picker filters', () => {
     expect(
       applyFacets(items, texts, effect, { effect: 'fire,healing', [modeKey('effect')]: 'and' }, ''),
     ).toEqual(['bola-de-fuego']);
+    // excluded values combine with either mode
+    expect(applyFacets(items, texts, effect, { effect: '!fire,!healing' }, '')).toEqual([
+      'mage-armor',
+    ]);
+    expect(applyFacets(items, texts, effect, { effect: 'fire,!healing' }, '')).toEqual([
+      'fireball',
+    ]);
     expect(
-      applyFacets(items, texts, effect, { effect: 'fire,healing', [modeKey('effect')]: 'not' }, ''),
-    ).toEqual(['mage-armor']);
+      applyFacets(items, texts, effect, { effect: 'fire,healing,!other', effectMode: 'and' }, ''),
+    ).toEqual(['bola-de-fuego']);
+    expect(toggleValue('!fire', 'fire')).toBe('fire');
+    expect(toggleExcluded('fire,cold', 'fire')).toBe('cold,!fire');
+    expect(toggleExcluded('cold,!fire', 'fire')).toBe('cold');
     expect(selectedValues('fire,,healing')).toEqual(['fire', 'healing']);
     expect(selectedValues('')).toEqual([]);
     expect(toggleValue('fire', 'healing')).toBe('fire,healing');

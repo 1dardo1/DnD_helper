@@ -772,4 +772,6 @@ export const en = {
   'picker.modeNot': 'Not',
   'picker.modeNotHint': 'Everything except the ticked values',
   'picker.damage.any': 'Any damage',
+  'picker.exclude': 'Exclude',
+  'picker.excludeHint': 'Exclude: leave out those with this',
 };

@@ -264,9 +264,7 @@ export class EntryLabels {
         label: this.facetLabel(key),
         selected: selection[key] ?? '',
         more: !primary.includes(key),
-        mode: (['and', 'not'].includes(selection[modeKey(key)] ?? '')
-          ? selection[modeKey(key)]
-          : 'or') as 'or' | 'and' | 'not',
+        mode: selection[modeKey(key)] === 'and' ? ('and' as const) : ('or' as const),
         // "all at once" only makes sense where an entry can have several values
         canAnd: items.some((i) => facetValues(i, key).length > 1),
         options: facetOptionsFor(items, key, (v) => this.optionLabel(type, key, v)),
