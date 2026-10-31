@@ -28,7 +28,7 @@ function wideScreen(): boolean {
 }
 
 /**
- * Search box, filters (one foldable column per facet: tick to include, ⊘ to exclude, "O" / "Y"; folded on phones), "N de M" and "Quitar filtros".
+ * Search box, filters (one foldable column per facet: tick to include, ✕ to exclude, "O" / "Y"; folded on phones), "N de M" and "Quitar filtros".
  * Holds no state of its own: the wizard pickers keep it in signals, the compendium in the URL.
  */
 @Component({
@@ -82,7 +82,7 @@ function wideScreen(): boolean {
                 [title]="'picker.excludeHint' | t"
                 (click)="facetChange.emit({ key: f.key, value: excluded(f, o.value) })"
               >
-                ⊘
+                ✕
               </button>
             </li>
           }
