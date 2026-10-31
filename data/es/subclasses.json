@@ -1072,7 +1072,7 @@
     "description": "***Bards believe the cosmos is a work of art - the creation of the first dragons and gods. That creative work included harmonies that continue to resound through existence today, a power known as the Song of Creation. The bards of the College of Creation draw on that primeval song through dance, music, and poetry, and their teachers share this lesson: \"Before the sun and the moon, there was the Song, and its music awoke the first dawn. Its melodies so delighted the stones and trees that some of them gained a voice of their own. And now they sing too. Learn the Song, students, and you too can teach the mountains to sing and dance.\"***\n\n***Dwarves and gnomes often encourage their bards to become students of the Song of Creation. And among dragonborn, the Song of Creation is revered, for legends portray Bahamut and Tiamat-the greatest of dragons -as two of the song's first singers.***",
     "url": "https://dnd5e.wikidot.com/bard:creation",
     "classId": "bard",
-    "shortName": "Creation",
+    "shortName": "Creación",
     "features": [
       {
         "name": "Mote of Potential",
@@ -1414,7 +1414,7 @@
         "description": "You can use your wit to turn the tide of battle. A creature that has a Bardic Inspiration die from you can use it for one of the following effects.\n\n**Defense.** When the creature is hit by an attack roll, that creature can use its Reaction to roll the Bardic Inspiration die and add the number rolled to its AC against that attack, potentially causing the attack to miss.\n\n**Offense.** Immediately after the creature hits a target with an attack roll, the creature can roll the Bardic Inspiration die and add the number rolled to the attack's damage against the target."
       },
       {
-        "name": "Martial Training",
+        "name": "Entrenamiento marcial",
         "level": 3,
         "description": "You gain proficiency with Martial weapons and training with Medium armor and Shields.\n\nIn addition, you can use a Simple or Martial weapon as a Spellcasting Focus to cast spells from your Bard spell list."
       },
@@ -2197,7 +2197,7 @@
     "type": "subclass",
     "name": "City Domain",
     "edition": "2014",
-    "source": "Unearthed Arcana 7 - Modern Magic",
+    "source": "Arcanos 7 desenterrados - Magia moderna",
     "description": "***The City domain is concerned with the citizenry, commerce, traffic, and even architecture of modern civilization. In the eyes of a cleric of the city, the center of modern life is a sense and spirit of community, and the gravest enemies of the city are those who seek to harm the common weal of its citizens.***\n\nSpells marked with an asterisk can be found in Unearthed Arcana: Modern Magic.\n\n**City Domain Spells**\n\n| Cleric Level | Spells |\n|---|---|\n| 1st | Comprehend Languages, Remote Access |\n| 3rd | Find Vehicle, Heat Metal |\n| 5th | Lightning Bolt, Protection from Ballistics |\n| 7th | Locate Creature, Synchronicity |\n| 9th | Commune with City, Shutdown |",
     "url": "https://dnd5e.wikidot.com/cleric:city-ua",
     "classId": "cleric",
@@ -2821,7 +2821,7 @@
     "description": "*Bring Light to Banish Darkness*\n\nThe Light Domain emphasizes the divine power to bring about blazing fire and revelation. Clerics who wield this power are enlightened souls infused with radiance and the power of their deities' discerning vision, charged with chasing away lies and burning away darkness.\n\nThe Light Domain is associated with gods of truth, vigilance, beauty, insight, and renewal. Some of these gods are identified with the sun or as charioteers who guide the sun across the sky. Others are sentinels who pierce deception. Some are deities of beauty and artistry who teach that art is a vehicle for the soul's improvement.",
     "url": "https://dnd2024.wikidot.com/cleric:light-domain",
     "classId": "cleric",
-    "shortName": "Light",
+    "shortName": "Luz",
     "features": [
       {
         "name": "Light Domain Spells",
@@ -7004,7 +7004,7 @@
     "description": "***The Oath of Heroism is an affirmation of a destined path, one laid out for you by divine hands. For whatever reason, a god or a group of gods has included you in their machinations. You are not a reluctant hero, but one who fully embraces the idea that great deeds are yours to achieve. You train diligently, sculpting your body and refining your skills so you're ready when destiny calls.***",
     "url": "https://dnd5e.wikidot.com/paladin:heroism-ua",
     "classId": "paladin",
-    "shortName": "Heroism",
+    "shortName": "Heroísmo",
     "features": [
       {
         "name": "Tenets of Heroism",
@@ -8271,7 +8271,7 @@
     "shortName": "Hunter",
     "features": [
       {
-        "name": "Hunter's Lore",
+        "name": "La tradición del cazador",
         "level": 3,
         "description": "You can call upon the forces of nature to reveal certain strengths and weaknesses of your prey. While a creature is marked by your Hunter's Mark, you know whether the creature has any Immunities, Resistances, or Vulnerabilities, and if the creature has any, you know what they are."
       },
@@ -9238,7 +9238,7 @@
     "shortName": "Scion of the Three",
     "features": [
       {
-        "name": "Bloodthirst",
+        "name": "Sed de sangre",
         "level": 3,
         "description": "When an enemy you can see within 30 feet of yourself takes damage and is Bloodied after taking that damage but not killed outright, you can take a Reaction and teleport to an unoccupied space you can see within 5 feet of that enemy. You can then make one melee attack. You can use this feature a number of times equal to your Intelligence modifier (minimum of once), and you regain all expended uses when you finish a Long Rest."
       },
@@ -10923,7 +10923,7 @@
     "type": "subclass",
     "name": "Ghost In The Machine",
     "edition": "2014",
-    "source": "Unearthed Arcana 7 - Modern Magic",
+    "source": "Arcanos 7 desenterrados - Magia moderna",
     "description": "***You have made a bargain for power granted by an entity that you believe to be completely digital. Whether it is a rogue AI or the spirit of a deceased hacker, the Ghost in the Machine is capable of feats that defy explanation.***",
     "url": "https://dnd5e.wikidot.com/warlock:ghost-in-the-machine-ua",
     "classId": "warlock",
@@ -12818,7 +12818,7 @@
     "type": "subclass",
     "name": "Technomancy",
     "edition": "2014",
-    "source": "Unearthed Arcana 7 - Modern Magic",
+    "source": "Arcanos 7 desenterrados - Magia moderna",
     "description": "***Unlike the more common arcane traditions based around the schools of magic, the tradition of Technomancy does not focus on a singular type of spellcraft or magical energy. Rather, students of Technomancy concern themselves with how their spells interact with modern technology.***\n\n***Technomancers can make use of technology as both a conduit and a storage space for magic. In a campaign using the optional rules for magic item creation (see the Dungeon Master's Guide), a technomancer might craft disposable electronic devices and smartphone apps in lieu of potions and scrolls.***",
     "url": "https://dnd5e.wikidot.com/wizard:technomancy-ua",
     "classId": "wizard",

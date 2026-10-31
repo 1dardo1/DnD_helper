@@ -55,12 +55,12 @@
   "pagesDownloaded": 0,
   "downloadFailures": 0,
   "parseFailures": 1,
-  "translatedAt": "2026-10-31T01:57:11+00:00",
+  "translatedAt": "2026-10-31T10:46:47+00:00",
   "translation": {
     "es": {
       "texts": 17244,
-      "untranslated": 7519,
-      "requests": 127,
+      "untranslated": 3284,
+      "requests": 132,
       "complete": false
     }
   }
