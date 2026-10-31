@@ -41,6 +41,9 @@ import { EntryLabels } from './entry-labels.service';
         >{{ f.value }}</span
       >
     }
+    @if (s.preview) {
+      <span class="preview">{{ s.preview }}</span>
+    }
   `,
   styles: `
     @use './cards';
@@ -51,6 +54,17 @@ import { EntryLabels } from './entry-labels.service';
 
     abbr {
       text-decoration: none;
+    }
+
+    .preview {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      overflow: hidden;
+      margin-top: 0.2rem;
+      font-size: 0.9em;
+      line-height: 1.35;
+      color: var(--ink-soft);
     }
   `,
 })

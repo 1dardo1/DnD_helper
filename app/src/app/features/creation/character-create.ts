@@ -91,6 +91,8 @@ export class CharacterCreate {
   protected readonly subclassFacets = ENTRY_FACETS.subclass.filter((k) => k !== 'class');
   protected readonly backgroundFacets = ENTRY_FACETS.background;
   protected readonly speciesFacets = ENTRY_FACETS.species;
+  /** Feats for a slot are already of its kind (Fighting Style, general...): no category filter. */
+  protected readonly featFacets = ENTRY_FACETS.feat.filter((k) => k !== 'category');
   /** All from the class's own list, so no class filter. */
   protected readonly spellFacets = ENTRY_FACETS.spell.filter((k) => k !== 'class');
 

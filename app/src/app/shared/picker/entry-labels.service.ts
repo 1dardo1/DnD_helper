@@ -38,6 +38,8 @@ export interface CardSummary {
   facts: { label: string; value: string }[];
   /** Short marks next to the name (C = concentration, R = ritual...), with their meaning. */
   marks: { text: string; title: string }[];
+  /** The start of the description, as plain text (feats: what they do at a glance). */
+  preview?: string;
 }
 
 /** Glossary domain of the "category" facet for each type that has one. */
@@ -58,6 +60,20 @@ const FILTER_LABELS = new Set<FacetKey>([
   'group',
   'edition',
 ]);
+
+/** The first ~200 characters of a markdown text, as plain text cut at a word. */
+export function plainPreview(md: string, max = 200): string {
+  const text = md
+    .replace(/^\s*\|.*$/gm, ' ') // tables
+    .replace(/^#+\s*/gm, '')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/[*_`>]/g, '')
+    .replace(/^\s*[-+]\s+/gm, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (text.length <= max) return text;
+  return `${text.slice(0, max).replace(/\s+\S*$/, '')}…`;
+}
 
 const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -433,7 +449,8 @@ export class EntryLabels {
     return {
       kicker: capitalise(this.term('featCategory', f.category)),
       facts: [
-        ...(f.prerequisites
+        // every fighting style needs the Fighting Style feature: nothing to tell apart
+        ...(f.prerequisites && f.category !== 'fighting-style'
           ? [{ label: this.t('picker.prerequisite'), value: this.data.text(f.prerequisites.raw) }]
           : []),
         ...(f.repeatable
@@ -441,6 +458,7 @@ export class EntryLabels {
           : []),
       ],
       marks: [],
+      preview: plainPreview(this.data.text(f.description)),
     };
   }
 

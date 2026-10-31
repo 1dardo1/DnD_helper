@@ -406,18 +406,14 @@
                   @let problems = featProblems(feat);
                   <fieldset>
                     <legend>{{ 'create.slot.' + s.kind | t: { level: s.level } }}</legend>
-                    <select
-                      [value]="slotFeat(s.slot)"
-                      (change)="setSlotFeat(s.slot, value($event))"
-                    >
-                      <option value="">—</option>
-                      @for (f of featsFor(s.kind); track f.id) {
-                        <option [value]="f.id">
-                          {{ f.name | dataName }}{{ f.edition === '2014' ? ' (2014)' : ''
-                          }}{{ featProblems(f).length ? ' ⚠' : '' }}
-                        </option>
-                      }
-                    </select>
+                    <app-picker
+                      [items]="featsFor(s.kind)"
+                      [facets]="featFacets"
+                      [selected]="slotFeat(s.slot) ? [slotFeat(s.slot)] : []"
+                      [label]="'create.slot.' + s.kind | t: { level: s.level }"
+                      [pageSize]="12"
+                      (picked)="setSlotFeat(s.slot, $event.id)"
+                    />
                     @for (n of problems; track n.key) {
                       <p class="issue">⚠ {{ noteText(n) }}</p>
                     }
@@ -434,12 +430,6 @@
                           }
                         </select>
                       </label>
-                    }
-                    @if (feat) {
-                      <details>
-                        <summary>{{ feat.name | dataName }}</summary>
-                        <div class="md" [innerHTML]="feat.description | dataText | markdown"></div>
-                      </details>
                     }
                   </fieldset>
                 }
