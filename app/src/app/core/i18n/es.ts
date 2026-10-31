@@ -782,4 +782,7 @@ export const es: Record<keyof typeof en, string> = {
   'picker.modeAnd': 'Y',
   'picker.modeOrHint': 'Cualquiera de lo marcado',
   'picker.modeAndHint': 'Todo lo marcado a la vez',
+  'picker.modeNot': 'No',
+  'picker.modeNotHint': 'Todo menos lo marcado',
+  'picker.damage.any': 'Cualquier daño',
 };

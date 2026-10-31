@@ -10,8 +10,9 @@ import { normalise } from '../../features/compendium/compendium-search';
 export type FacetSelection = Record<string, string>;
 
 /**
- * How several values chosen in one facet combine: any of them (default) or all at once. Stored
- * next to the facet as "<key>Mode" = "and", so it travels in the URL like the values.
+ * How the values ticked in one facet are used: any of them (default), all at once ("and"), or
+ * none of them ("not": everything except those). Stored next to the facet as "<key>Mode", so it
+ * travels in the URL like the values.
  */
 export function modeKey(key: string): string {
   return `${key}Mode`;
@@ -47,7 +48,8 @@ export function toggleValue(value: string | undefined, toggled: string): string 
 
 /**
  * The items matching the query and every facet with values chosen: any of the values ("fire" or
- * "healing"), or all of them when the facet's mode is "and" (fire and healing at once).
+ * "healing"), all of them when the facet's mode is "and" (fire and healing at once), or none of
+ * them when it is "not" (everything but fire and healing).
  * `texts[i]` is the normalised search text of items[i]; `values(i, key)` its values for a facet.
  */
 export function applyFacets<T>(
@@ -59,14 +61,16 @@ export function applyFacets<T>(
 ): T[] {
   const active = Object.entries(selection)
     .filter(([k, v]) => v && !isModeKey(k))
-    .map(([k, v]) => ({ key: k, wanted: selectedValues(v), all: selection[modeKey(k)] === 'and' }));
+    .map(([k, v]) => ({ key: k, wanted: selectedValues(v), mode: selection[modeKey(k)] ?? '' }));
   const q = normalise(query);
   return items.filter(
     (_, i) =>
       (!q || matchesQuery(texts[i], q)) &&
-      active.every(({ key, wanted, all }) => {
+      active.every(({ key, wanted, mode }) => {
         const has = values(i, key);
-        return all ? wanted.every((w) => has.includes(w)) : wanted.some((w) => has.includes(w));
+        if (mode === 'and') return wanted.every((w) => has.includes(w));
+        const any = wanted.some((w) => has.includes(w));
+        return mode === 'not' ? !any : any;
       }),
   );
 }

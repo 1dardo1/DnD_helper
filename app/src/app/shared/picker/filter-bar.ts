@@ -12,8 +12,8 @@ export interface FacetView {
   selected: string;
   /** Less used: shown under "Más filtros". */
   more?: boolean;
-  /** How several ticked values combine: any of them, or all at once (only when `canAnd`). */
-  mode: 'or' | 'and';
+  /** How ticked values are used: any of them, all at once (only when `canAnd`), or none of them. */
+  mode: 'or' | 'and' | 'not';
   /** Whether an entry can have several values of this facet, so "all at once" means something. */
   canAnd: boolean;
 }
@@ -43,16 +43,16 @@ function wideScreen(): boolean {
             <span class="chip">{{ n }}</span>
           }
         </summary>
-        @if (f.canAnd) {
-          <div class="mode" role="group" [attr.aria-label]="'picker.mode' | t">
-            <button
-              type="button"
-              [attr.aria-pressed]="f.mode === 'or'"
-              [title]="'picker.modeOrHint' | t"
-              (click)="facetChange.emit({ key: modeKey(f.key), value: '' })"
-            >
-              {{ 'picker.modeOr' | t }}
-            </button>
+        <div class="mode" role="group" [attr.aria-label]="'picker.mode' | t">
+          <button
+            type="button"
+            [attr.aria-pressed]="f.mode === 'or'"
+            [title]="'picker.modeOrHint' | t"
+            (click)="facetChange.emit({ key: modeKey(f.key), value: '' })"
+          >
+            {{ 'picker.modeOr' | t }}
+          </button>
+          @if (f.canAnd) {
             <button
               type="button"
               [attr.aria-pressed]="f.mode === 'and'"
@@ -61,8 +61,16 @@ function wideScreen(): boolean {
             >
               {{ 'picker.modeAnd' | t }}
             </button>
-          </div>
-        }
+          }
+          <button
+            type="button"
+            [attr.aria-pressed]="f.mode === 'not'"
+            [title]="'picker.modeNotHint' | t"
+            (click)="facetChange.emit({ key: modeKey(f.key), value: 'not' })"
+          >
+            {{ 'picker.modeNot' | t }}
+          </button>
+        </div>
         <ul>
           @for (o of f.options; track o.value) {
             <li>
@@ -198,9 +206,12 @@ function wideScreen(): boolean {
         border-radius: 1rem 0 0 1rem;
       }
 
+      button + button {
+        border-left: 0;
+      }
+
       button:last-child {
         border-radius: 0 1rem 1rem 0;
-        border-left: 0;
       }
 
       [aria-pressed='true'] {

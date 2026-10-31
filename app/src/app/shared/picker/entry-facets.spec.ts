@@ -291,12 +291,15 @@ describe('spell area and effect facets', () => {
     expect(facetValues(spell('action'), 'area')).toEqual(['none']);
   });
 
-  it('marks spells without damage or healing as "other"', () => {
+  it('marks spells without damage or healing as "other", and damaging ones as "any"', () => {
     expect(facetValues(spell('action', { description: 'You turn invisible.' }), 'damage')).toEqual([
       'other',
     ]);
     expect(
       facetValues(spell('action', { description: 'It takes 1d10 Fire damage.' }), 'damage'),
-    ).toEqual(['fire']);
+    ).toEqual(['any', 'fire']);
+    expect(
+      facetValues(spell('action', { description: 'A creature regains 2d8 Hit Points.' }), 'damage'),
+    ).toEqual(['healing']);
   });
 });

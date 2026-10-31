@@ -411,8 +411,10 @@ export function facetValues(e: Entry, key: FacetKey): string[] {
         case 'resolve':
           return resolveValues(s);
         case 'damage': {
+          // "any" = deals some damage, so "No" + "any" leaves the spells that don't
           const d = spellDamage(s);
-          return d.length ? d : ['other'];
+          const types = d.filter((v) => v !== 'healing');
+          return d.length ? (types.length ? ['any', ...d] : d) : ['other'];
         }
       }
       break;
@@ -574,7 +576,7 @@ export function facetRank(key: FacetKey, value: string): number | null {
     case 'speed':
       return value.startsWith('walk:') ? Number(value.slice(5)) : 1000;
     case 'damage':
-      return value === 'healing' ? 1 : value === 'other' ? 2 : 0;
+      return value === 'any' ? -1 : value === 'healing' ? 1 : value === 'other' ? 2 : 0;
     case 'concentration':
     case 'ritual':
     case 'repeatable':

@@ -51,6 +51,9 @@ describe('picker filters', () => {
     expect(
       applyFacets(items, texts, effect, { effect: 'fire,healing', [modeKey('effect')]: 'and' }, ''),
     ).toEqual(['bola-de-fuego']);
+    expect(
+      applyFacets(items, texts, effect, { effect: 'fire,healing', [modeKey('effect')]: 'not' }, ''),
+    ).toEqual(['mage-armor']);
     expect(selectedValues('fire,,healing')).toEqual(['fire', 'healing']);
     expect(selectedValues('')).toEqual([]);
     expect(toggleValue('fire', 'healing')).toBe('fire,healing');

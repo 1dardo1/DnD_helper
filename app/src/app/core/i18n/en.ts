@@ -769,4 +769,7 @@ export const en = {
   'picker.modeAnd': 'And',
   'picker.modeOrHint': 'Any of the ticked values',
   'picker.modeAndHint': 'All the ticked values at once',
+  'picker.modeNot': 'Not',
+  'picker.modeNotHint': 'Everything except the ticked values',
+  'picker.damage.any': 'Any damage',
 };
