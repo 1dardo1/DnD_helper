@@ -506,14 +506,137 @@
 
         <!-- 6. Equipment ----------------------------------------------------------------- -->
         @case ('equipment') {
-          <label>
-            {{ 'sheet.equipment' | t }}
-            <textarea
-              rows="8"
-              [value]="c.equipment"
-              (change)="patch(withEquipment(value($event)))"
-            ></textarea>
-          </label>
+          @let pk = packages();
+          @let sc = startChoice();
+          @for (kind of equipKinds; track kind) {
+            @let list = pk[kind];
+            @let src = kind === 'class' ? classList()[0] : background();
+            @if (src) {
+              <fieldset class="start-packages">
+                <legend>
+                  {{ 'create.equip.from.' + kind | t: { name: (src.name | dataName) } }}
+                </legend>
+                @if (list) {
+                  <ul class="packages">
+                    @for (p of list; track p.letter) {
+                      @let chosen = sc[kind] === p.letter;
+                      <li>
+                        <button
+                          type="button"
+                          class="package"
+                          [class.chosen]="chosen"
+                          [attr.aria-pressed]="chosen"
+                          (click)="choosePackage(kind, p.letter)"
+                        >
+                          <span class="letter">{{ p.letter }}</span>
+                          @if (p.lines.length) {
+                            <span class="lines">
+                              @for (l of p.lines; track $index) {
+                                <span class="line">
+                                  @if (l.qty > 1) {
+                                    <b>{{ l.qty }} ×</b>
+                                  }
+                                  @if (l.chosenTool) {
+                                    {{ 'create.equip.chosenTool' | t }}
+                                  } @else if (l.itemId) {
+                                    {{ l.name | dataName: true }}
+                                  } @else {
+                                    {{ l.text | dataText }}
+                                  }
+                                </span>
+                              }
+                            </span>
+                          } @else {
+                            <span class="only-gold">{{ 'create.equip.onlyGold' | t }}</span>
+                          }
+                          <span class="gold">{{ p.gold }} {{ 'compendium.coin.gp' | t }}</span>
+                        </button>
+                      </li>
+                    }
+                  </ul>
+                } @else {
+                  <p class="book-text">
+                    {{
+                      (kind === 'class'
+                        ? classList()[0]?.startingEquipment
+                        : background()?.equipment
+                      ) | dataText
+                    }}
+                  </p>
+                }
+              </fieldset>
+            }
+          }
+
+          <section class="shop-bar">
+            <p class="purse">
+              {{ 'create.equip.goldLeft' | t }}
+              <strong>{{ coins(goldLeft()) }}</strong>
+            </p>
+            <button
+              type="button"
+              (click)="shopOpen.set(!shopOpen())"
+              [attr.aria-expanded]="shopOpen()"
+            >
+              {{ (shopOpen() ? 'create.equip.closeShop' : 'create.equip.openShop') | t }}
+            </button>
+          </section>
+          @if (bought().length) {
+            <ul class="basket" [attr.aria-label]="'create.equip.bought' | t">
+              @for (b of bought(); track b.itemId) {
+                <li>
+                  <span class="name">{{ b.item.name | dataName: true }}</span>
+                  <span class="qty">× {{ b.qty }}</span>
+                  <span class="price">{{ coins(b.price * b.qty) }}</span>
+                  <button
+                    type="button"
+                    class="btn-ghost"
+                    (click)="unbuy(b.itemId)"
+                    [attr.aria-label]="'create.equip.giveBack' | t"
+                  >
+                    −
+                  </button>
+                  <button
+                    type="button"
+                    class="btn-ghost"
+                    (click)="buy(b.itemId)"
+                    [disabled]="b.price > goldLeft()"
+                    [attr.aria-label]="'create.equip.buy' | t"
+                  >
+                    +
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+          @if (shopOpen()) {
+            <section class="shop">
+              <h3>{{ 'create.equip.shop' | t }}</h3>
+              <p class="hint">{{ 'create.equip.shopHint' | t }}</p>
+              <app-picker
+                [items]="shopItems()"
+                [facets]="itemFacets"
+                multiple
+                [pageSize]="24"
+                [label]="'create.equip.shop' | t"
+                (picked)="buy($event.id)"
+              >
+                <ng-template #card let-item>
+                  @let price = shopPrice(item) ?? 0;
+                  <span class="shop-card">
+                    <app-entry-card [entry]="item" />
+                    <span class="shop-price" [class.dear]="price > goldLeft()">
+                      {{ coins(price) }}
+                      @if (!item.cost) {
+                        <small>{{ 'create.equip.estimated' | t }}</small>
+                      }
+                    </span>
+                  </span>
+                </ng-template>
+              </app-picker>
+            </section>
+          }
+
           <label>
             {{ 'create.armorWorn' | t }}
             <select [value]="c.equipped.armorId ?? ''" (change)="patch(withArmor(value($event)))">
@@ -533,6 +656,14 @@
             />
             {{ 'create.shield' | t }}
           </label>
+          <details class="equip-notes" [open]="!!c.equipment">
+            <summary>{{ 'create.equip.notes' | t }}</summary>
+            <textarea
+              rows="4"
+              [value]="c.equipment"
+              (change)="patch(withEquipment(value($event)))"
+            ></textarea>
+          </details>
         }
 
         <!-- 7. Details & summary --------------------------------------------------------- -->

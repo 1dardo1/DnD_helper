@@ -31,13 +31,22 @@ import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/dat
 import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, newCharacter, normalizeCharacter } from '../../core/models/character';
-import { Ability, ClassOption, DndClass, Feat, Feature } from '../../core/models/compendium';
+import { Ability, ClassOption, DndClass, Feat, Feature, Item } from '../../core/models/compendium';
 import { castingOf, computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
+import {
+  StartingChoice,
+  applyStartingEquipment,
+  goldLeftCp,
+  itemIndex,
+  parseStartingEquipment,
+  shopPriceCp,
+} from '../../core/rules/starting-equipment';
 import { ABILITIES } from '../../core/rules/tables';
 import { SettingsService } from '../../core/settings/settings.service';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { ENTRY_FACETS } from '../../shared/picker/entry-facets';
+import { EntryCard } from '../../shared/picker/entry-card';
 import { Picker } from '../../shared/picker/picker';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
@@ -64,6 +73,7 @@ type ClassEntry = Character['classes'][number];
     LoadError,
     ClassThemeDirective,
     Picker,
+    EntryCard,
   ],
   templateUrl: './character-create.html',
   styleUrl: './character-create.scss',
@@ -193,6 +203,42 @@ export class CharacterCreate {
     this.rows().reduce((n, r) => n + r.expertise, 0),
   );
   protected readonly tools = computed(() => toolChoices(this.classList(), this.background()));
+
+  // -- starting equipment ----------------------------------------------------------------
+  private readonly itemIdx = computed(() =>
+    itemIndex(this.data.value()?.rules.items.values() ?? []),
+  );
+  private get items(): Map<string, Item> {
+    return this.data.value()?.rules.items ?? new Map();
+  }
+  /** The book's packages (A, B, C) of the starting class and of the background. */
+  protected readonly packages = computed(() => ({
+    class: parseStartingEquipment(this.classList()[0]?.startingEquipment, this.itemIdx()),
+    background: parseStartingEquipment(this.background()?.equipment, this.itemIdx()),
+  }));
+  protected readonly startChoice = computed<StartingChoice>(
+    () => this.draft().choices.startingEquipment ?? { class: null, background: null, bought: [] },
+  );
+  /** Gold left to spend, in copper pieces. */
+  protected readonly goldLeft = computed(() =>
+    goldLeftCp(this.startChoice(), this.packages(), this.items),
+  );
+  protected readonly bought = computed(() =>
+    this.startChoice()
+      .bought.map((b) => ({ ...b, item: this.items.get(b.itemId)!, price: 0 }))
+      .filter((b) => b.item)
+      .map((b) => ({ ...b, price: shopPriceCp(b.item) ?? 0 })),
+  );
+  /** Everything that can be bought: items with a price, magic ones at the DMG price. */
+  protected readonly shopItems = computed(() =>
+    [...this.items.values()]
+      .filter((i) => shopPriceCp(i) !== null)
+      .sort((a, b) => a.name.localeCompare(b.name)),
+  );
+  protected readonly shopOpen = signal(false);
+  protected readonly equipKinds = ['class', 'background'] as const;
+  protected readonly itemFacets = ENTRY_FACETS.item;
+  protected readonly shopPrice = shopPriceCp;
 
   /** The sheet as it stands, recomputed on every change. */
   protected readonly sheet = computed(() => {
@@ -667,12 +713,65 @@ export class CharacterCreate {
 
   // -- equipment and details -----------------------------------------------------------
   /** First time on this step, start from the class and background starting equipment. */
+  /** Entering the step: the packages may have changed with the class, background or tools. */
   protected prefillEquipment(): void {
-    if (this.draft().equipment) return;
-    const parts = [this.classList()[0]?.startingEquipment, this.background()?.equipment]
-      .filter(Boolean)
-      .map((p) => this.dataText.text(p));
-    if (parts.length) this.patch((c) => ({ ...c, equipment: parts.join('\n\n') }));
+    if (this.draft().choices.startingEquipment) this.applyStart(this.startChoice());
+  }
+
+  private applyStart(choice: StartingChoice): void {
+    const first = this.classList()[0];
+    const tools = {
+      class: first ? this.toolsIn(`class:${first.id}`) : [],
+      background: this.toolsIn('background'),
+    };
+    // a letter the new class or background doesn't have is forgotten
+    const p = this.packages();
+    const fixed: StartingChoice = {
+      ...choice,
+      class: p.class?.some((x) => x.letter === choice.class) ? choice.class : null,
+      background: p.background?.some((x) => x.letter === choice.background)
+        ? choice.background
+        : null,
+    };
+    this.patch((c) => applyStartingEquipment(c, fixed, p, this.items, tools, this.itemIdx()));
+  }
+
+  protected choosePackage(kind: 'class' | 'background', letter: string): void {
+    this.applyStart({ ...this.startChoice(), [kind]: letter });
+  }
+
+  /** Buys one more (if the gold left is enough). */
+  protected buy(itemId: string): void {
+    const item = this.items.get(itemId);
+    const price = item ? shopPriceCp(item) : null;
+    if (price === null || price > this.goldLeft()) return;
+    const bought = [...this.startChoice().bought];
+    const i = bought.findIndex((b) => b.itemId === itemId);
+    if (i >= 0) bought[i] = { ...bought[i], qty: bought[i].qty + 1 };
+    else bought.push({ itemId, qty: 1 });
+    this.applyStart({ ...this.startChoice(), bought });
+  }
+
+  /** Gives one back. */
+  protected unbuy(itemId: string): void {
+    const bought = this.startChoice()
+      .bought.map((b) => (b.itemId === itemId ? { ...b, qty: b.qty - 1 } : b))
+      .filter((b) => b.qty > 0);
+    this.applyStart({ ...this.startChoice(), bought });
+  }
+
+  /** 1234 cp → "12 po, 3 pp, 4 pc". */
+  protected coins(cp: number): string {
+    const n = Math.max(0, Math.round(cp));
+    const parts: string[] = [];
+    const lang = this.i18n.language();
+    const gp = Math.floor(n / 100);
+    if (gp || n === 0)
+      parts.push(`${gp.toLocaleString(lang)} ${this.i18n.t('compendium.coin.gp')}`);
+    if (Math.floor((n % 100) / 10))
+      parts.push(`${Math.floor((n % 100) / 10)} ${this.i18n.t('compendium.coin.sp')}`);
+    if (n % 10) parts.push(`${n % 10} ${this.i18n.t('compendium.coin.cp')}`);
+    return parts.join(', ');
   }
 
   protected withName(name: string) {

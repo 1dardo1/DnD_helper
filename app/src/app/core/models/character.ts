@@ -60,6 +60,12 @@ export interface Character {
      * slot: "background", "class:<id>" or "multiclass:<id>".
      */
     toolChoices: { slot: string; tools: string[] }[];
+    /** Starting equipment package letters (class, background) and what was bought with gold. */
+    startingEquipment?: {
+      class: string | null;
+      background: string | null;
+      bought: { itemId: string; qty: number }[];
+    };
   };
   /** Item ids from data/items.json, used for Armor Class (kept in step with the inventory). */
   equipped: { armorId: string | null; shield: boolean };
@@ -67,6 +73,8 @@ export interface Character {
   equipment: string;
   /** Carried items: from the compendium (itemId) or written by hand (itemId null). */
   inventory: InventoryEntry[];
+  /** Coins carried (absent in older files: none). */
+  money?: Coins;
   state: {
     hpCurrent: number | null;
     hpTemp: number;
@@ -97,6 +105,16 @@ export interface InventoryEntry {
   name: string;
   qty: number;
   equipped: boolean;
+  /** 'start': put there by the wizard's starting equipment (rebuilt when that choice changes). */
+  source?: 'start';
+}
+
+export interface Coins {
+  cp: number;
+  sp: number;
+  ep: number;
+  gp: number;
+  pp: number;
 }
 
 /**

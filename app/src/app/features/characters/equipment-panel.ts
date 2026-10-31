@@ -12,7 +12,7 @@ import { CompendiumService } from '../../core/compendium/compendium.service';
 import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TermPipe } from '../../core/i18n/glossary';
 import { TranslatePipe } from '../../core/i18n/i18n.service';
-import { Character, InventoryEntry } from '../../core/models/character';
+import { Character, Coins, InventoryEntry } from '../../core/models/character';
 import { Item } from '../../core/models/compendium';
 import { WeaponEntry, attacksFor } from '../../core/rules/attacks';
 import { Sheet } from '../../core/rules/sheet';
@@ -91,6 +91,14 @@ export class EquipmentPanel {
     this.changed.emit(
       setQty(this.character(), e.id, Number((ev.target as HTMLInputElement).value)),
     );
+  }
+
+  protected readonly coinKeys = ['pp', 'gp', 'ep', 'sp', 'cp'] as const;
+
+  protected setCoin(k: keyof Coins, ev: Event): void {
+    const n = Math.max(0, Math.floor(Number((ev.target as HTMLInputElement).value)) || 0);
+    const money: Coins = { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0, ...this.character().money, [k]: n };
+    this.changed.emit({ ...this.character(), money });
   }
 
   protected signed(n: number): string {

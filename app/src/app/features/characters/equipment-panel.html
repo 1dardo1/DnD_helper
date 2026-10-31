@@ -67,6 +67,20 @@
 } @else {
   <section>
     <h2>{{ 'sheet.equipment' | t }}</h2>
+    <div class="purse" role="group" [attr.aria-label]="'sheet.money' | t">
+      @for (k of coinKeys; track k) {
+        <label>
+          <input
+            type="number"
+            min="0"
+            inputmode="numeric"
+            [value]="character().money?.[k] ?? 0"
+            (change)="setCoin(k, $event)"
+          />
+          <span>{{ 'compendium.coin.' + k | t }}</span>
+        </label>
+      }
+    </div>
     <ul class="inventory">
       @for (r of entries(); track r.entry.id) {
         <li [class.equipped]="r.entry.equipped">

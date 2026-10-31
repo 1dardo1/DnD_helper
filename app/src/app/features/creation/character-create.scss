@@ -257,3 +257,140 @@ legend.issue,
 h3.issue {
   color: var(--danger);
 }
+
+// -- starting equipment: the book's packages as cards, the purse and the shop ------------------
+.start-packages ul.packages {
+  @include cards.grid(13rem);
+  flex: 1 1 100%;
+}
+
+.package {
+  @include cards.frame;
+  width: 100%;
+  height: 100%;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  padding-left: 3rem;
+  color: inherit;
+  font: inherit;
+  align-items: stretch;
+  justify-content: flex-start;
+  text-align: left;
+  cursor: pointer;
+
+  .letter {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    display: grid;
+    place-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    font-family: var(--font-display, inherit);
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  &.chosen .letter {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--card);
+  }
+
+  .lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    font-size: 0.95em;
+  }
+
+  .only-gold {
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  .gold {
+    margin-top: auto;
+    font-weight: 700;
+    color: var(--gold-ink, var(--accent));
+  }
+}
+
+.book-text {
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.shop-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-3);
+
+  .purse {
+    margin: 0;
+    font-size: 1.1em;
+  }
+}
+
+.basket {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px dashed var(--line);
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) 0;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  .name {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .qty,
+  .price {
+    white-space: nowrap;
+    color: var(--ink-soft);
+  }
+
+  button {
+    min-width: 2.2rem;
+  }
+}
+
+.shop {
+  .hint {
+    font-size: 0.9em;
+    color: var(--ink-soft);
+  }
+
+  .shop-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .shop-price {
+    display: block;
+    margin-top: 0.2rem;
+    font-weight: 700;
+
+    &.dear {
+      color: var(--danger, #a12);
+    }
+
+    small {
+      font-weight: 400;
+      color: var(--ink-soft);
+    }
+  }
+}
