@@ -381,9 +381,6 @@ export function sortByPrice<T extends Pick<Item, 'cost'>>(items: readonly T[], d
   });
 }
 
-/** Facets where several values can be chosen at once (any of them matches). */
-export const MULTI_FACETS = new Set<FacetKey>(['damage']);
-
 // -- every facet -------------------------------------------------------------------------------
 
 const yesNo = (b: boolean) => [b ? 'yes' : 'no'];

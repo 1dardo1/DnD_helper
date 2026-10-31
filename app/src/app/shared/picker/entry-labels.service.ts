@@ -20,16 +20,17 @@ import {
 import {
   ENTRY_FACETS,
   FacetKey,
-  MULTI_FACETS,
   PRIMARY_FACETS,
   armorTraining,
   facetOptionsFor,
+  facetValues,
   backgroundFeat,
   backgroundTool,
   isFeatKind,
   weaponTraining,
 } from './entry-facets';
 import { FacetView } from './filter-bar';
+import { modeKey } from './picker-filters';
 
 /** What a summary card shows: a one-line kicker, a few labelled facts and small marks. */
 export interface CardSummary {
@@ -263,7 +264,9 @@ export class EntryLabels {
         label: this.facetLabel(key),
         selected: selection[key] ?? '',
         more: !primary.includes(key),
-        multi: MULTI_FACETS.has(key),
+        mode: selection[modeKey(key)] === 'and' ? ('and' as const) : ('or' as const),
+        // "all at once" only makes sense where an entry can have several values
+        canAnd: items.some((i) => facetValues(i, key).length > 1),
         options: facetOptionsFor(items, key, (v) => this.optionLabel(type, key, v)),
       }))
       .filter((f) => f.options.length > 1 || f.selected);

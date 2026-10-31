@@ -2,7 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, linkedSignal, output, signal } from '@angular/core';
 
 import { TranslatePipe } from '../../core/i18n/i18n.service';
-import { selectedValues, toggleValue } from './picker-filters';
+import { modeKey, selectedValues, toggleValue } from './picker-filters';
 
 /** A facet ready to show: its label, its options (value + label) and the value selected. */
 export interface FacetView {
@@ -12,8 +12,10 @@ export interface FacetView {
   selected: string;
   /** Less used: shown under "Más filtros". */
   more?: boolean;
-  /** Several values at once (comma-separated in `selected`): shown as toggle chips. */
-  multi?: boolean;
+  /** How several ticked values combine: any of them, or all at once (only when `canAnd`). */
+  mode: 'or' | 'and';
+  /** Whether an entry can have several values of this facet, so "all at once" means something. */
+  canAnd: boolean;
 }
 
 /** Wider screens show the filters open; phones start with them folded under "Filtros". */
@@ -26,7 +28,7 @@ function wideScreen(): boolean {
 }
 
 /**
- * Search box, filters (one select per facet, folded on phones), "N de M" and "Quitar filtros".
+ * Search box, filters (one foldable column of checkboxes per facet, with "O" / "Y", folded on phones), "N de M" and "Quitar filtros".
  * Holds no state of its own: the wizard pickers keep it in signals, the compendium in the URL.
  */
 @Component({
@@ -34,36 +36,48 @@ function wideScreen(): boolean {
   imports: [NgTemplateOutlet, TranslatePipe],
   template: `
     <ng-template #facet let-f>
-      @if (f.multi) {
-        <fieldset class="multi" [class.on]="!!f.selected">
-          <legend>{{ f.label }}</legend>
-          @for (o of f.options; track o.value) {
+      <details class="col" [class.on]="!!f.selected" [open]="startOpen(f)">
+        <summary>
+          {{ f.label }}
+          @if (count(f); as n) {
+            <span class="chip">{{ n }}</span>
+          }
+        </summary>
+        @if (f.canAnd) {
+          <div class="mode" role="group" [attr.aria-label]="'picker.mode' | t">
             <button
               type="button"
-              class="toggle"
-              [attr.aria-pressed]="isOn(f, o.value)"
-              (click)="facetChange.emit({ key: f.key, value: toggled(f, o.value) })"
+              [attr.aria-pressed]="f.mode === 'or'"
+              [title]="'picker.modeOrHint' | t"
+              (click)="facetChange.emit({ key: modeKey(f.key), value: '' })"
             >
-              {{ o.label }}
+              {{ 'picker.modeOr' | t }}
             </button>
-          }
-        </fieldset>
-      } @else {
-        <label [class.on]="!!f.selected">
-          <span>{{ f.label }}</span>
-          <select
-            [value]="f.selected"
-            (change)="facetChange.emit({ key: f.key, value: $any($event.target).value })"
-          >
-            <option value="">{{ 'filter.all' | t }}</option>
-            @for (o of f.options; track o.value) {
-              <option [value]="o.value" [selected]="o.value === f.selected">
+            <button
+              type="button"
+              [attr.aria-pressed]="f.mode === 'and'"
+              [title]="'picker.modeAndHint' | t"
+              (click)="facetChange.emit({ key: modeKey(f.key), value: 'and' })"
+            >
+              {{ 'picker.modeAnd' | t }}
+            </button>
+          </div>
+        }
+        <ul>
+          @for (o of f.options; track o.value) {
+            <li>
+              <label>
+                <input
+                  type="checkbox"
+                  [checked]="isOn(f, o.value)"
+                  (change)="facetChange.emit({ key: f.key, value: toggled(f, o.value) })"
+                />
                 {{ o.label }}
-              </option>
-            }
-          </select>
-        </label>
-      }
+              </label>
+            </li>
+          }
+        </ul>
+      </details>
     </ng-template>
     <input
       type="search"
@@ -131,37 +145,68 @@ function wideScreen(): boolean {
       margin: 0;
     }
 
-    .multi {
-      grid-column: 1 / -1;
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-1);
+    .col {
+      align-self: start;
       margin: 0;
-      padding: var(--space-1) var(--space-2) var(--space-2);
+      padding: var(--space-1) var(--space-2);
       border: 1px dashed var(--line-strong);
+      border-radius: var(--radius-sm);
 
-      legend {
-        padding: 0 0.3rem;
+      > summary {
+        font-family: var(--font-title);
         font-size: var(--fs-sm);
         color: var(--ink-soft);
+        cursor: pointer;
       }
 
-      &.on legend {
+      &.on > summary {
         color: var(--accent);
+      }
+
+      ul {
+        max-height: 15rem;
+        overflow-y: auto;
+        margin: var(--space-1) 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      li label {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        min-height: 2rem;
+        font-size: var(--fs-sm);
+        cursor: pointer;
       }
     }
 
-    .toggle {
-      min-height: var(--tap);
-      padding: 0.1rem 0.7rem;
-      font-size: var(--fs-sm);
-      border-radius: 1.2rem;
+    // "O" / "Y": any of the ticked values, or all of them at once
+    .mode {
+      display: inline-flex;
+      margin-top: var(--space-1);
 
-      &[aria-pressed='true'] {
+      button {
+        min-height: 2rem;
+        padding: 0 0.7rem;
+        font-size: var(--fs-xs);
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      button:first-child {
+        border-radius: 1rem 0 0 1rem;
+      }
+
+      button:last-child {
+        border-radius: 0 1rem 1rem 0;
+        border-left: 0;
+      }
+
+      [aria-pressed='true'] {
         color: var(--on-accent);
         background: var(--accent);
         border-color: var(--accent);
-        box-shadow: none;
       }
     }
 
@@ -184,27 +229,9 @@ function wideScreen(): boolean {
 
     .facets {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr));
+      align-items: start;
       gap: var(--space-2) var(--space-3);
-    }
-
-    label {
-      display: grid;
-      gap: 0.1rem;
-      font-family: var(--font-title);
-      font-size: var(--fs-sm);
-      color: var(--ink-soft);
-
-      &.on {
-        color: var(--accent);
-      }
-
-      select {
-        width: 100%;
-        min-height: var(--tap);
-        font-family: var(--font-body);
-        color: var(--ink);
-      }
     }
 
     .count {
@@ -233,6 +260,18 @@ export class FilterBar {
   readonly clear = output<void>();
 
   protected readonly open = signal(wideScreen());
+
+  protected readonly modeKey = modeKey;
+
+  /** Ticked values of a column. */
+  protected count(f: FacetView): number {
+    return selectedValues(f.selected).length;
+  }
+
+  /** Columns in use start open; the main ones too on wide screens; the rest folded. */
+  protected startOpen(f: FacetView): boolean {
+    return !!f.selected || (!f.more && wideScreen());
+  }
 
   protected isOn(f: FacetView, value: string): boolean {
     return selectedValues(f.selected).includes(value);

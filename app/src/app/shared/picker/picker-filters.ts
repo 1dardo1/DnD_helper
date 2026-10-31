@@ -9,9 +9,21 @@ import { normalise } from '../../features/compendium/compendium-search';
 /** Selected value per facet key; an empty value doesn't filter. */
 export type FacetSelection = Record<string, string>;
 
+/**
+ * How several values chosen in one facet combine: any of them (default) or all at once. Stored
+ * next to the facet as "<key>Mode" = "and", so it travels in the URL like the values.
+ */
+export function modeKey(key: string): string {
+  return `${key}Mode`;
+}
+
+function isModeKey(key: string): boolean {
+  return key.endsWith('Mode');
+}
+
 /** How many facets have a value selected. */
 export function activeFacets(selection: FacetSelection): number {
-  return Object.values(selection).filter(Boolean).length;
+  return Object.entries(selection).filter(([k, v]) => v && !isModeKey(k)).length;
 }
 
 /** True when every word of the query appears in the (already normalised) search text. */
@@ -34,8 +46,8 @@ export function toggleValue(value: string | undefined, toggled: string): string 
 }
 
 /**
- * The items (by index) matching the query and every selected facet; in the `multi` facets, any
- * of the values selected ("fire,healing").
+ * The items matching the query and every facet with values chosen: any of the values ("fire" or
+ * "healing"), or all of them when the facet's mode is "and" (fire and healing at once).
  * `texts[i]` is the normalised search text of items[i]; `values(i, key)` its values for a facet.
  */
 export function applyFacets<T>(
@@ -44,15 +56,17 @@ export function applyFacets<T>(
   values: (index: number, key: string) => string[],
   selection: FacetSelection,
   query: string,
-  multi: ReadonlySet<string> = new Set(),
 ): T[] {
   const active = Object.entries(selection)
-    .map(([k, v]) => [k, multi.has(k) ? selectedValues(v) : v ? [v] : []] as const)
-    .filter(([, v]) => v.length);
+    .filter(([k, v]) => v && !isModeKey(k))
+    .map(([k, v]) => ({ key: k, wanted: selectedValues(v), all: selection[modeKey(k)] === 'and' }));
   const q = normalise(query);
   return items.filter(
     (_, i) =>
       (!q || matchesQuery(texts[i], q)) &&
-      active.every(([k, wanted]) => values(i, k).some((v) => wanted.includes(v))),
+      active.every(({ key, wanted, all }) => {
+        const has = values(i, key);
+        return all ? wanted.every((w) => has.includes(w)) : wanted.some((w) => has.includes(w));
+      }),
   );
 }

@@ -2,6 +2,7 @@ import {
   activeFacets,
   applyFacets,
   matchesQuery,
+  modeKey,
   selectedValues,
   toggleValue,
 } from './picker-filters';
@@ -37,12 +38,19 @@ describe('picker filters', () => {
     expect(applyFacets(items, texts, values, { school: 'abjuration' }, 'fuego')).toEqual([]);
   });
 
-  it('matches any of several values chosen in one facet', () => {
-    expect(applyFacets(items, texts, values, { level: '0,1' }, '', new Set(['level']))).toEqual([
+  it('matches any of several values chosen in one facet, or all of them in "and" mode', () => {
+    expect(applyFacets(items, texts, values, { level: '0,1' }, '')).toEqual([
       'light',
       'mage-armor',
     ]);
-    expect(applyFacets(items, texts, values, { level: '0,1' }, '')).toEqual([]);
+    const effects = [['fire'], ['fire', 'healing'], ['healing'], ['other']];
+    const effect = (i: number) => effects[i];
+    expect(applyFacets(items, texts, effect, { effect: 'fire,healing' }, '')).toEqual(
+      items.slice(0, 3),
+    );
+    expect(
+      applyFacets(items, texts, effect, { effect: 'fire,healing', [modeKey('effect')]: 'and' }, ''),
+    ).toEqual(['bola-de-fuego']);
     expect(selectedValues('fire,,healing')).toEqual(['fire', 'healing']);
     expect(selectedValues('')).toEqual([]);
     expect(toggleValue('fire', 'healing')).toBe('fire,healing');
@@ -51,7 +59,7 @@ describe('picker filters', () => {
   });
 
   it('counts the facets with a value', () => {
-    expect(activeFacets({ level: '3', school: '', ritual: 'yes' })).toBe(2);
+    expect(activeFacets({ level: '3', school: '', ritual: 'yes', levelMode: 'and' })).toBe(2);
     expect(activeFacets({})).toBe(0);
   });
 });

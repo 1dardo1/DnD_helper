@@ -18,7 +18,7 @@ import { TranslatePipe } from '../../core/i18n/i18n.service';
 import { Entry, EntryType } from '../../core/models/compendium';
 import { EntryCard } from './entry-card';
 import { EntryDetails } from './entry-details';
-import { FacetKey, MULTI_FACETS, facetValues } from './entry-facets';
+import { FacetKey, facetValues } from './entry-facets';
 import { EntryLabels } from './entry-labels.service';
 import { FilterBar } from './filter-bar';
 import { FacetSelection, activeFacets, applyFacets } from './picker-filters';
@@ -118,7 +118,6 @@ export class Picker<T extends PickItem> {
       (i, k) => values[i].get(k as FacetKey) ?? [],
       this.selection(),
       this.query(),
-      MULTI_FACETS,
     );
     return this.chosenOnly() ? list.filter((i) => this.chosenSet().has(i.id)) : list;
   });

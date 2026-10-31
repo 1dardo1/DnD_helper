@@ -764,4 +764,9 @@ export const en = {
   'picker.prerequisite.spellcasting': 'Spellcasting',
   'picker.prerequisite.yes': 'With prerequisites',
   'picker.prerequisite.no': 'No prerequisites',
+  'picker.mode': 'How to combine the ticked values',
+  'picker.modeOr': 'Or',
+  'picker.modeAnd': 'And',
+  'picker.modeOrHint': 'Any of the ticked values',
+  'picker.modeAndHint': 'All the ticked values at once',
 };

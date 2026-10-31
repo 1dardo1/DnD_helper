@@ -8,16 +8,10 @@ import { I18nService, TranslatePipe, TranslationKey } from '../../core/i18n/i18n
 import { ENTRY_TYPES, Entry, EntryType, Item } from '../../core/models/compendium';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { EntryCard } from '../../shared/picker/entry-card';
-import {
-  ENTRY_FACETS,
-  FacetKey,
-  MULTI_FACETS,
-  facetValues,
-  sortByPrice,
-} from '../../shared/picker/entry-facets';
+import { ENTRY_FACETS, FacetKey, facetValues, sortByPrice } from '../../shared/picker/entry-facets';
 import { EntryLabels } from '../../shared/picker/entry-labels.service';
 import { FilterBar } from '../../shared/picker/filter-bar';
-import { applyFacets } from '../../shared/picker/picker-filters';
+import { applyFacets, modeKey } from '../../shared/picker/picker-filters';
 import { normalise } from './compendium-search';
 import { LoadError } from './load-error';
 
@@ -64,8 +58,14 @@ export class EntryList {
   );
   protected readonly query = computed(() => this.params().get('q') ?? '');
   private readonly keys = computed(() => ENTRY_FACETS[this.entryType()]);
+  /** Filter values and their "and" modes, from the URL. */
   private readonly selected = computed(() =>
-    Object.fromEntries(this.keys().map((k) => [k, this.params().get(k) ?? ''])),
+    Object.fromEntries(
+      this.keys().flatMap((k) => [
+        [k, this.params().get(k) ?? ''],
+        [modeKey(k), this.params().get(modeKey(k)) ?? ''],
+      ]),
+    ),
   );
 
   protected readonly entries = resource({
@@ -149,7 +149,6 @@ export class EntryList {
       (i, k) => facetValues(list[i], k as FacetKey),
       this.selected(),
       this.query(),
-      MULTI_FACETS,
     );
     const sort = this.priced() ? this.sort() : '';
     return sort.startsWith('price-') ? sortByPrice(found as Item[], sort === 'price-desc') : found;
