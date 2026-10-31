@@ -192,16 +192,23 @@ function wideScreen(): boolean {
         color: var(--ink-soft);
       }
 
+      // a small ✕ in a circle; filled red when the value is excluded
       .exclude {
-        min-height: 2rem;
-        min-width: 2rem;
+        display: inline-flex;
+        flex: none;
+        align-items: center;
+        justify-content: center;
+        width: 1.6rem;
+        height: 1.6rem;
+        min-height: 0;
         padding: 0;
-        margin-left: auto;
-        font-size: 1rem;
+        margin: 0.2rem 0 0.2rem auto;
+        font-size: 0.8rem;
         line-height: 1;
         color: var(--ink-soft);
         background: none;
-        border: 0;
+        border: 1.5px solid currentColor;
+        border-radius: 50%;
         box-shadow: none;
         opacity: 0.55;
 
@@ -211,7 +218,9 @@ function wideScreen(): boolean {
         }
 
         &[aria-pressed='true'] {
-          color: var(--danger, var(--accent));
+          color: var(--paper);
+          background: var(--danger, var(--accent));
+          border-color: var(--danger, var(--accent));
         }
       }
 
