@@ -70,13 +70,22 @@ export function featSlots(cls: DndClass, level: number): FeatSlot[] {
 }
 
 /**
- * Feats that can fill a slot. ASI levels: the Ability Score Improvement feat or a general feat.
- * Feats whose prerequisites aren't met are included too (featIssues says why).
+ * Feats that can fill a slot. ASI levels: the Ability Score Improvement feat, a general feat, or
+ * a racial feat of the character's species (only those: racial feats of other species are left
+ * out). Other prerequisites that aren't met are included too (featIssues says why).
  */
-export function featsForSlot(kind: SlotKind, feats: Feat[]): Feat[] {
-  const wanted = kind === 'asi' ? ['general'] : [kind];
+export function featsForSlot(
+  kind: SlotKind,
+  feats: Feat[],
+  speciesId: string | null = null,
+): Feat[] {
+  const fits = (f: Feat) =>
+    kind === 'asi'
+      ? f.category === 'general' ||
+        (f.category === 'racial' && !!speciesId && !!f.prerequisites?.species?.includes(speciesId))
+      : f.category === kind;
   return feats
-    .filter((f) => wanted.includes(f.category))
+    .filter(fits)
     .sort((a, b) =>
       a.id === 'ability-score-improvement'
         ? -1

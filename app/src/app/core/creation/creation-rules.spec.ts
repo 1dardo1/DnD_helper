@@ -103,6 +103,20 @@ describe('creation rules', () => {
     expect(featsForSlot('fighting-style', feats).map((f) => f.id)).toEqual(['archery']);
   });
 
+  it("adds the racial feats of the character's species at ASI levels", () => {
+    const racial = (id: string, species: string[]) =>
+      ({ ...feat(id, 'racial', 4), prerequisites: { raw: '', level: 4, species } }) as Feat;
+    const feats = [
+      feat('tough', 'general', 4),
+      racial('elven-accuracy', ['elf', 'half-elf']),
+      racial('dwarven-fortitude', ['dwarf']),
+    ];
+    expect(featsForSlot('asi', feats, 'elf').map((f) => f.id)).toEqual(['elven-accuracy', 'tough']);
+    expect(featsForSlot('asi', feats, 'human').map((f) => f.id)).toEqual(['tough']);
+    expect(featsForSlot('asi', feats).map((f) => f.id)).toEqual(['tough']);
+    expect(featsForSlot('epic-boon', feats, 'elf')).toEqual([]);
+  });
+
   it('counts Expertise picks', () => {
     const rogue = {
       progression: { rows: rows({ 1: ['Expertise', 'Sneak Attack'], 6: ['Expertise'] }) },

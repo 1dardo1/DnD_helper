@@ -731,7 +731,7 @@ export class CharacterCreate {
   }
 
   protected featsFor(kind: 'asi' | 'fighting-style' | 'epic-boon'): Feat[] {
-    return featsForSlot(kind, this.data.value()?.feats ?? []);
+    return featsForSlot(kind, this.data.value()?.feats ?? [], this.draft().species?.id ?? null);
   }
 
   /** Why this character can't normally take a feat (empty = it can). */

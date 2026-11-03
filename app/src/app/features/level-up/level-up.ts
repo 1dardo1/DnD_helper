@@ -395,7 +395,7 @@ export class LevelUp {
   }
 
   protected featsFor(kind: 'asi' | 'fighting-style' | 'epic-boon'): Feat[] {
-    return featsForSlot(kind, this.data.value()?.feats ?? []);
+    return featsForSlot(kind, this.data.value()?.feats ?? [], this.draft()?.species?.id ?? null);
   }
 
   protected featProblems(feat: Feat | undefined): Note[] {
