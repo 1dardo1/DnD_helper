@@ -1,9 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, resource } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { CharacterStore } from '../../core/characters/character-store.service';
 import { SyncService } from '../../core/characters/sync.service';
+import { CompendiumService } from '../../core/compendium/compendium.service';
+import { DataTextService } from '../../core/i18n/data-text.service';
 import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
+import { Character } from '../../core/models/character';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 
 /** Characters on this device (plus any new ones in the repo), with their cloud status. */
@@ -31,6 +34,9 @@ import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
           <a [routerLink]="['/characters', r.character.id]"
             ><strong>{{ r.character.name }}</strong></a
           >
+          @if (summary(r.character); as line) {
+            <span class="summary">{{ line }}</span>
+          }
           <span class="status" [attr.data-status]="r.status">{{
             'characters.status.' + r.status | t
           }}</span>
@@ -97,11 +103,19 @@ import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
     .characters li > a:not(:first-child) {
       position: relative;
       z-index: 1;
+      padding-block: 0.5rem;
+      margin-block: -0.5rem;
       font-weight: 700;
       color: var(--danger);
     }
-    .characters small {
+    .characters small,
+    .characters .summary {
       flex: 1 1 100%;
+    }
+    .characters .summary {
+      margin-top: calc(-1 * var(--space-1));
+      font-family: var(--font-note);
+      font-size: var(--fs-lg);
     }
     .new {
       font-family: var(--font-note);
@@ -112,6 +126,29 @@ import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 export class CharacterList implements OnInit {
   protected readonly store = inject(CharacterStore);
   protected readonly sync = inject(SyncService);
+  private readonly data = inject(DataTextService);
+  private readonly compendium = inject(CompendiumService);
+
+  /** English names of classes and species by id, for the "Fighter 3 · Human" line. */
+  private readonly names = resource({
+    loader: async () => {
+      const [classes, species] = await Promise.all([
+        this.compendium.all('class'),
+        this.compendium.all('species'),
+      ]);
+      return new Map([...classes, ...species].map((e) => [e.type + ':' + e.id, e.name]));
+    },
+  });
+
+  /** "Guerrero 3 / Mago 1 · Humano", in the reader's language (empty while loading). */
+  protected summary(c: Character): string {
+    const names = this.names.value();
+    if (!names) return '';
+    const name = (key: string) => this.data.shortName(names.get(key) ?? '');
+    const classes = c.classes.map((k) => `${name('class:' + k.id) || k.id} ${k.level}`).join(' / ');
+    const species = c.species ? name('species:' + c.species.id) : '';
+    return [classes, species].filter(Boolean).join(' · ');
+  }
 
   async ngOnInit(): Promise<void> {
     await this.store.load();
