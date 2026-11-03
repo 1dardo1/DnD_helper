@@ -287,6 +287,8 @@ def run(root: Path, offline: bool = False, limit: int | None = None, budget_minu
         for e in entries:
             for c, k in strings_of(e, COMMON + PATHS[f]):
                 text, values = protect(c[k], terms)
+                if not text.strip():   # empty texts have nothing to translate
+                    continue
                 es = tr.get(text)
                 if es is None:
                     missing += 1
