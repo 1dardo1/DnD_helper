@@ -34,17 +34,28 @@ describe('inventory', () => {
   });
 
   it('keeps the wizard armor and shield pickers and the inventory in step', () => {
-    let c = wearArmor(newCharacter('A', 'x'), 'chain-mail', items);
+    let c = [chain, leather, shield].reduce((ch, i) => addItem(ch, i), newCharacter('A', 'x'));
+    c = wearArmor(c, 'chain-mail', items);
     c = wearShield(c, true, items);
     expect(c.equipped).toEqual({ armorId: 'chain-mail', shield: true });
+    c = wearArmor(c, 'leather-armor', items);
     expect(c.inventory.map((e) => [e.itemId, e.equipped])).toEqual([
-      ['chain-mail', true],
+      ['chain-mail', false],
+      ['leather-armor', true],
       ['shield', true],
     ]);
     c = wearArmor(c, null, items);
     c = wearShield(c, false, items);
     expect(c.equipped).toEqual({ armorId: null, shield: false });
     expect(c.inventory.every((e) => !e.equipped)).toBe(true);
+  });
+
+  it('only wears armor and shields the character carries', () => {
+    const bare = addItem(newCharacter('A', 'x'), sword);
+    expect(wearArmor(bare, 'chain-mail', items)).toBe(bare);
+    const c = wearShield(bare, true, items);
+    expect(c.equipped).toEqual({ armorId: null, shield: false });
+    expect(c.inventory.map((e) => e.itemId)).toEqual(['longsword']);
   });
 
   it('gives old characters an inventory with what they wore', () => {

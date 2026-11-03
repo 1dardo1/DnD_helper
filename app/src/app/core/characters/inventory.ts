@@ -64,34 +64,34 @@ export function toggleEquip(ch: Character, id: string, items: Map<string, Item>)
   return { ...ch, inventory, equipped };
 }
 
-/** Wear this armor (null: none), as the wizard's armor picker does; it joins the inventory. */
+/**
+ * Wear this armor (null: none), as the wizard's armor picker does. Only armor the character
+ * carries can be worn: an armor that isn't in the inventory changes nothing.
+ */
 export function wearArmor(
   ch: Character,
   armorId: string | null,
   items: Map<string, Item>,
 ): Character {
-  let c: Character = {
+  const entry = armorId
+    ? ch.inventory.find((e) => e.itemId === armorId && isArmor(items.get(armorId)))
+    : undefined;
+  if (armorId && !entry) return ch;
+  const c: Character = {
     ...ch,
     inventory: ch.inventory.map((e) =>
       isArmor(e.itemId ? items.get(e.itemId) : undefined) ? { ...e, equipped: false } : e,
     ),
     equipped: { ...ch.equipped, armorId: null },
   };
-  const armor = armorId ? items.get(armorId) : undefined;
-  if (!armor) return c;
-  if (!c.inventory.some((e) => e.itemId === armor.id)) c = addItem(c, armor);
-  const id = c.inventory.find((e) => e.itemId === armor.id)!.id;
-  return toggleEquip(c, id, items);
+  return entry ? toggleEquip(c, entry.id, items) : c;
 }
 
-/** Carry a shield or not, as the wizard's checkbox does. */
+/** Use a shield or not, as the wizard's checkbox does: only one the character carries. */
 export function wearShield(ch: Character, on: boolean, items: Map<string, Item>): Character {
   const entry = ch.inventory.find((e) => isShield(e.itemId ? items.get(e.itemId) : undefined));
-  if (entry) return entry.equipped === on ? ch : toggleEquip(ch, entry.id, items);
-  const shield = items.get('shield');
-  if (!on || !shield) return { ...ch, equipped: { ...ch.equipped, shield: on } };
-  const c = addItem(ch, shield);
-  return toggleEquip(c, c.inventory[c.inventory.length - 1].id, items);
+  if (!entry) return { ...ch, equipped: { ...ch.equipped, shield: false } };
+  return entry.equipped === on ? ch : toggleEquip(ch, entry.id, items);
 }
 
 function slug(s: string): string {

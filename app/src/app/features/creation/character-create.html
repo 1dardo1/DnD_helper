@@ -692,22 +692,29 @@
 
           <label>
             {{ 'create.armorWorn' | t }}
-            <select [value]="c.equipped.armorId ?? ''" (change)="patch(withArmor(value($event)))">
-              <option value="">{{ 'create.noArmor' | t }}</option>
-              @for (a of d.armor; track a.id) {
-                <option [value]="a.id">
+            <select [disabled]="!carriedArmor().length" (change)="patch(withArmor(value($event)))">
+              <option value="" [selected]="!c.equipped.armorId">{{ 'create.noArmor' | t }}</option>
+              @for (a of carriedArmor(); track a.id) {
+                <option [value]="a.id" [selected]="a.id === c.equipped.armorId">
                   {{ a.name | dataName }} ({{ a.armor?.kind | term: 'armor' }})
                 </option>
               }
             </select>
+            @if (!carriedArmor().length) {
+              <small>{{ 'create.equip.noArmorCarried' | t }}</small>
+            }
           </label>
-          <label class="inline">
+          <label class="inline wear-shield">
             <input
               type="checkbox"
               [checked]="c.equipped.shield"
+              [disabled]="!carriesShield()"
               (change)="patch(withShield(checked($event)))"
             />
             {{ 'create.shield' | t }}
+            @if (!carriesShield()) {
+              <small>({{ 'create.equip.noShieldCarried' | t }})</small>
+            }
           </label>
           <details class="equip-notes" [open]="!!c.equipment">
             <summary>{{ 'create.equip.notes' | t }}</summary>

@@ -145,9 +145,6 @@ export class CharacterCreate {
         species: sorted(rules.species.values()),
         backgrounds: sorted(rules.backgrounds.values()),
         feats: [...rules.feats.values()],
-        armor: sorted(
-          [...rules.items.values()].filter((i) => i.armor && i.armor.kind !== 'shield' && !i.magic),
-        ),
       };
     },
   });
@@ -258,6 +255,21 @@ export class CharacterCreate {
     const max = mode === 'start' ? this.startGold() : this.goldLeft();
     return this.shopItems().filter((i) => (shopPriceCp(i) ?? Infinity) <= max);
   });
+  /** The armors (not shields) the character carries: the only ones that can be worn. */
+  protected readonly carriedArmor = computed(() => {
+    const seen = new Set<string>();
+    return this.draft()
+      .inventory.map((e) => (e.itemId ? this.items.get(e.itemId) : undefined))
+      .filter(
+        (i): i is Item =>
+          !!i?.armor && i.armor.kind !== 'shield' && !seen.has(i.id) && !!seen.add(i.id),
+      );
+  });
+  protected readonly carriesShield = computed(() =>
+    this.draft().inventory.some(
+      (e) => e.itemId && this.items.get(e.itemId)?.armor?.kind === 'shield',
+    ),
+  );
   /** How many of each item the character carries (packages, purchases and hand-added). */
   protected readonly owned = computed(() => {
     const out = new Map<string, number>();

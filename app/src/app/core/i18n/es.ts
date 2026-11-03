@@ -259,6 +259,9 @@ export const es: Record<keyof typeof en, string> = {
   'create.equip.ownedOnly': 'Solo los que tienes',
   'create.scoreDown': 'Bajar {ability}',
   'create.scoreUp': 'Subir {ability}',
+  'create.equip.noArmorCarried':
+    'No llevas ninguna armadura: elige un paquete que la incluya o cómprala en la tienda.',
+  'create.equip.noShieldCarried': 'no llevas ninguno',
   'create.armorWorn': 'Armadura puesta',
   'create.noArmor': 'Sin armadura',
   'create.shield': 'Escudo',

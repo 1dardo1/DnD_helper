@@ -257,6 +257,9 @@ export const en = {
   'create.equip.ownedOnly': 'Only those you have',
   'create.scoreDown': 'Lower {ability}',
   'create.scoreUp': 'Raise {ability}',
+  'create.equip.noArmorCarried':
+    'You carry no armor: choose a package that has one or buy it in the shop.',
+  'create.equip.noShieldCarried': 'you carry none',
   'create.armorWorn': 'Armor worn',
   'create.noArmor': 'No armor',
   'create.shield': 'Shield',
