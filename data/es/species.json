@@ -2260,7 +2260,7 @@
   {
     "id": "half-elf",
     "type": "species",
-    "name": "Medio elfo",
+    "name": "Semielfo",
     "edition": "2014",
     "source": "Manual del jugador",
     "description": "***Al caminar en dos mundos pero no pertenecer realmente a ninguno, los semielfos combinan lo que algunos dicen que son las mejores cualidades de sus padres elfos y humanos: curiosidad humana, inventiva y ambición atenuadas por los sentidos refinados, el amor por la naturaleza y los gustos artísticos de los elfos.***",
@@ -2350,7 +2350,7 @@
   {
     "id": "half-orc",
     "type": "species",
-    "name": "Medio Orco",
+    "name": "Semiorco",
     "edition": "2014",
     "source": "Manual del jugador",
     "description": "***Cuando las alianzas entre humanos y orcos se sellan mediante matrimonios, nacen semiorcos. Algunos semiorcos se convierten en orgullosos jefes de tribus orcas, y su sangre humana les da una ventaja sobre sus rivales orcos de pura sangre. Algunos se aventuran en el mundo para demostrar su valía entre los humanos y otras razas más civilizadas. Muchos de ellos se convierten en aventureros, alcanzando grandeza por sus poderosas hazañas y notoriedad por sus costumbres bárbaras y su furia salvaje.***",

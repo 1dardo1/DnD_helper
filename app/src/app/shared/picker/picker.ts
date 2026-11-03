@@ -26,6 +26,7 @@ import { EntryLabels } from './entry-labels.service';
 import { defaultOrder } from './entry-order';
 import { FilterBar } from './filter-bar';
 import { FacetSelection, activeFacets, applyFacets } from './picker-filters';
+import { sectionsBySpecies } from './racial-feats';
 
 /** What a picker can list: compendium entries, or anything with an id and an English name. */
 export interface PickItem {
@@ -88,7 +89,11 @@ export class Picker<T extends PickItem> {
   private readonly ordered = computed(() => {
     const type = (this.items()[0] as Partial<Entry> | undefined)?.type;
     return type === 'spell' || type === 'feat'
-      ? defaultOrder(this.items(), (i) => this.dataText.shortName(i.name))
+      ? defaultOrder(
+          this.items(),
+          (i) => this.dataText.shortName(i.name),
+          (id) => this.labels.speciesName(id),
+        )
       : this.items();
   });
   private readonly chosenSet = computed(() => new Set(this.selected()));
@@ -146,6 +151,15 @@ export class Picker<T extends PickItem> {
     computation: () => this.pageSize(),
   });
   protected readonly visible = computed(() => this.filtered().slice(0, this.limit()));
+
+  /** Racial feats shown by the species they require (null: a plain list). */
+  protected readonly sections = computed(() =>
+    sectionsBySpecies(
+      this.visible(),
+      (id) => this.labels.speciesName(id),
+      (i) => this.dataText.shortName(i.name),
+    ),
+  );
 
   protected readonly anyFilter = computed(
     () => !!this.query() || activeFacets(this.selection()) > 0 || this.chosenOnly(),

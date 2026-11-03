@@ -684,6 +684,7 @@ export const es: Record<keyof typeof en, string> = {
   'picker.concentrationShort': 'C',
   'picker.ritualShort': 'R',
   'picker.prerequisite': 'Requisito',
+  'picker.speciesOnly': 'Solo para',
   'picker.damage': 'Daño',
   'picker.ac': 'CA',
   'picker.acDexCap': '{ac} + {dex} (máx. {max})',
@@ -699,8 +700,6 @@ export const es: Record<keyof typeof en, string> = {
     'Técnicas de combate de guerreros, paladines y exploradores.',
   'picker.groupInfo.feat.epic-boon': 'Dones legendarios para personajes de nivel 19 o superior.',
   'picker.groupInfo.feat.racial': 'Dotes que exigen una especie concreta.',
-  'picker.groupInfo.feat.dark-gift': 'Dones de los Dominios del Pavor, con un precio (Ravenloft).',
-  'picker.groupInfo.feat.planar-pact': 'Pactos con los poderes de los planos.',
   'picker.groupInfo.option.eldritch-invocation':
     'Invocaciones del brujo: poderes permanentes y conjuros extra.',
   'picker.groupInfo.option.maneuver':

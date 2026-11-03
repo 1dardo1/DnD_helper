@@ -68,13 +68,26 @@
       }
     </app-filter-bar>
   }
-  <ul class="cards" [attr.aria-label]="label()">
-    @for (item of visible(); track item.id) {
-      <ng-container *ngTemplateOutlet="pick; context: { $implicit: item }" />
-    } @empty {
-      <li class="empty">{{ 'common.noResults' | t }}</li>
+  @if (sections(); as list) {
+    @for (sec of list; track sec.species) {
+      @if (sec.species) {
+        <h3 class="section-title">{{ sec.label }}</h3>
+      }
+      <ul class="cards" [attr.aria-label]="sec.species ? sec.label : label()">
+        @for (item of sec.items; track item.id) {
+          <ng-container *ngTemplateOutlet="pick; context: { $implicit: item }" />
+        }
+      </ul>
     }
-  </ul>
+  } @else {
+    <ul class="cards" [attr.aria-label]="label()">
+      @for (item of visible(); track item.id) {
+        <ng-container *ngTemplateOutlet="pick; context: { $implicit: item }" />
+      } @empty {
+        <li class="empty">{{ 'common.noResults' | t }}</li>
+      }
+    </ul>
+  }
   @if (filtered().length > visible().length || (browsing() && chosenItems().length)) {
     <p class="actions">
       @if (filtered().length > visible().length) {

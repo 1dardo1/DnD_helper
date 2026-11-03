@@ -87,6 +87,22 @@
     --stamp: var(--warn);
   }
 
+  // racial feats: the species that can take them, as red stamps under the name
+  .species {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0.1rem 0;
+  }
+
+  .tag {
+    @include nb.stamp;
+    --stamp: var(--accent);
+    padding: 0 0.55em;
+    font-size: var(--fs-xs);
+    white-space: normal;
+  }
+
   .kicker {
     display: block;
     font-family: var(--font-title);

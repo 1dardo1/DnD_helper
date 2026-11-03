@@ -69,20 +69,41 @@
       </label>
     }
   </app-filter-bar>
-  <ul class="cards">
-    @for (e of visible(); track e.id) {
-      <li
-        class="card-item"
-        [appClassTheme]="entryType() === 'subclass' || entryType() === 'class' ? e : null"
-      >
-        <a class="card-link" [routerLink]="['/compendium', entryType(), e.id]">
-          <app-entry-card [entry]="e" />
-        </a>
-      </li>
-    } @empty {
-      <li class="empty">{{ 'common.noResults' | t }}</li>
+  <ng-template #card let-e>
+    <li
+      class="card-item"
+      [appClassTheme]="entryType() === 'subclass' || entryType() === 'class' ? e : null"
+    >
+      <a class="card-link" [routerLink]="['/compendium', entryType(), e.id]">
+        <app-entry-card [entry]="e" />
+      </a>
+    </li>
+  </ng-template>
+  @if (sections(); as list) {
+    @for (sec of list; track sec.species) {
+      <section class="species-section">
+        @if (sec.species) {
+          <h2>
+            {{ sec.label }}
+            <span class="n">({{ sec.items.length }})</span>
+          </h2>
+        }
+        <ul class="cards">
+          @for (e of sec.items; track e.id) {
+            <ng-container *ngTemplateOutlet="card; context: { $implicit: e }" />
+          }
+        </ul>
+      </section>
     }
-  </ul>
+  } @else {
+    <ul class="cards">
+      @for (e of visible(); track e.id) {
+        <ng-container *ngTemplateOutlet="card; context: { $implicit: e }" />
+      } @empty {
+        <li class="empty">{{ 'common.noResults' | t }}</li>
+      }
+    </ul>
+  }
   @if (filtered().length > visible().length) {
     <p class="more">
       <button type="button" (click)="showMore()">

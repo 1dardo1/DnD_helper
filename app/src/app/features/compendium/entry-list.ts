@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, effect, inject, input, linkedSignal, resource } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -13,6 +14,7 @@ import { EntryLabels } from '../../shared/picker/entry-labels.service';
 import { defaultOrder } from '../../shared/picker/entry-order';
 import { FilterBar } from '../../shared/picker/filter-bar';
 import { applyFacets, modeKey } from '../../shared/picker/picker-filters';
+import { sectionsBySpecies } from '../../shared/picker/racial-feats';
 import { normalise } from './compendium-search';
 import { LoadError } from './load-error';
 
@@ -37,7 +39,15 @@ const PAGE = 60;
  */
 @Component({
   selector: 'app-entry-list',
-  imports: [RouterLink, TranslatePipe, LoadError, EntryCard, FilterBar, ClassThemeDirective],
+  imports: [
+    NgTemplateOutlet,
+    RouterLink,
+    TranslatePipe,
+    LoadError,
+    EntryCard,
+    FilterBar,
+    ClassThemeDirective,
+  ],
   templateUrl: './entry-list.html',
   styleUrl: './entry-list.scss',
 })
@@ -77,7 +87,9 @@ export class EntryList {
   /** Sorted by the name shown (spells by level, feats by ability...), with the names to search by. */
   private readonly sorted = computed(() => {
     const shown = (e: Entry) => this.data.shortName(e.name);
-    const list = defaultOrder(this.entries.value() ?? [], shown);
+    const list = defaultOrder(this.entries.value() ?? [], shown, (id) =>
+      this.labels.speciesName(id),
+    );
     return { list, texts: list.map((e) => normalise(this.data.searchText(e.name))) };
   });
 
@@ -172,6 +184,15 @@ export class EntryList {
     computation: () => PAGE,
   });
   protected readonly visible = computed(() => this.filtered().slice(0, this.limit()));
+
+  /** Racial feats shown by the species they require (null: a plain list). */
+  protected readonly sections = computed(() =>
+    sectionsBySpecies(
+      this.visible(),
+      (id) => this.labels.speciesName(id),
+      (e) => this.data.shortName(e.name),
+    ),
+  );
 
   protected showMore(): void {
     this.limit.update((n) => n + PAGE);

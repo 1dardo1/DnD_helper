@@ -53,4 +53,45 @@ describe('defaultOrder', () => {
       'Alert',
     ]);
   });
+
+  it('puts racial feats last, by the name of the first species they require, then by name', () => {
+    const racial = (name: string, species: string[]) =>
+      ({
+        id: name,
+        type: 'feat',
+        name,
+        category: 'racial',
+        prerequisites: { raw: '', species },
+        abilityIncrease: { choose: 1, from: ['DEX'], amount: 1, max: 20 },
+      }) as never;
+    const shownSpecies: Record<string, string> = {
+      elf: 'Elfo',
+      dwarf: 'Enano',
+      'half-orc': 'Medio orco',
+    };
+    const list = [
+      racial('Prodigy', ['half-orc']),
+      racial('Wood Elf Magic', ['elf']),
+      feat('Alert', null),
+      racial('Dwarven Fortitude', ['dwarf']),
+      racial('Elven Accuracy', ['half-orc', 'elf']),
+      feat('Actor', ['CHA']),
+    ];
+    expect(
+      names(
+        defaultOrder(
+          list,
+          (f: { name: string }) => f.name,
+          (id) => shownSpecies[id],
+        ),
+      ),
+    ).toEqual([
+      'Actor',
+      'Alert',
+      'Elven Accuracy',
+      'Wood Elf Magic',
+      'Dwarven Fortitude',
+      'Prodigy',
+    ]);
+  });
 });

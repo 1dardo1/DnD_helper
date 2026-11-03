@@ -12,6 +12,12 @@
   @include cards.grid;
 }
 
+// racial feats: a heading per species
+.section-title {
+  margin: var(--space-2) 0 0;
+  font-size: var(--fs-lg);
+}
+
 .pick {
   scroll-margin-top: 5.5rem;
   @include cards.frame;

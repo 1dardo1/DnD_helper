@@ -31,6 +31,7 @@ import {
 } from './entry-facets';
 import { FacetView } from './filter-bar';
 import { modeKey } from './picker-filters';
+import { speciesNames } from './racial-feats';
 
 /** What a summary card shows: a one-line kicker, a few labelled facts and small marks. */
 export interface CardSummary {
@@ -40,6 +41,8 @@ export interface CardSummary {
   marks: { text: string; title: string }[];
   /** The start of the description, as plain text (feats: what they do at a glance). */
   preview?: string;
+  /** Racial feats: the names of the species that can take them. */
+  species?: string[];
 }
 
 /** Glossary domain of the "category" facet for each type that has one. */
@@ -90,6 +93,8 @@ export class EntryLabels {
 
   private readonly classNames = signal<Map<string, string>>(new Map());
   private loadingClasses = false;
+  private readonly speciesList = signal<Map<string, string>>(new Map());
+  private loadingSpecies = false;
 
   private t(key: string, params?: Record<string, string | number>): string {
     return this.i18n.t(key as TranslationKey, params);
@@ -109,6 +114,19 @@ export class EntryLabels {
       );
     }
     return this.data.shortName(this.classNames().get(id) ?? id);
+  }
+
+  /** Species name in the current language (short form), loading the species list on first use. */
+  speciesName(id: string): string {
+    if (!this.loadingSpecies) {
+      this.loadingSpecies = true;
+      this.compendium.all('species').then(
+        (ss) => this.speciesList.set(new Map(ss.map((s) => [s.id, s.name]))),
+        () => (this.loadingSpecies = false),
+      );
+    }
+    const name = this.speciesList().get(id);
+    return name ? this.data.shortName(name) : capitalise(id.replace(/-/g, ' '));
   }
 
   feet(n: number): string {
@@ -446,12 +464,21 @@ export class EntryLabels {
   }
 
   private featSummary(f: Feat): CardSummary {
+    const species = speciesNames(f, (id) => this.speciesName(id));
+    const pre = f.prerequisites;
+    // racial feats: the species go in their own line (the text is sometimes cut), the level here
+    const preText = species.length
+      ? pre?.level
+        ? this.t('picker.levelPlus', { level: pre.level })
+        : ''
+      : this.data.text(pre?.raw);
     return {
       kicker: capitalise(this.term('featCategory', f.category)),
+      ...(species.length ? { species } : {}),
       facts: [
         // every fighting style needs the Fighting Style feature: nothing to tell apart
-        ...(f.prerequisites && f.category !== 'fighting-style'
-          ? [{ label: this.t('picker.prerequisite'), value: this.data.text(f.prerequisites.raw) }]
+        ...(preText && f.category !== 'fighting-style'
+          ? [{ label: this.t('picker.prerequisite'), value: preText }]
           : []),
         ...(f.repeatable
           ? [{ label: this.t('compendium.repeatable'), value: this.t('compendium.yes') }]

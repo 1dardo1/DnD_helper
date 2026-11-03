@@ -1,6 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 
 import { DataNamePipe } from '../../core/i18n/data-text.service';
+import { TranslatePipe } from '../../core/i18n/i18n.service';
 import { Entry, Species, Subclass } from '../../core/models/compendium';
 import { themeFor } from '../theme/class-theme';
 import { EntryLabels } from './entry-labels.service';
@@ -12,7 +13,7 @@ import { SpeciesPortrait } from './species-portrait';
  */
 @Component({
   selector: 'app-entry-card',
-  imports: [DataNamePipe, SpeciesPortrait],
+  imports: [DataNamePipe, SpeciesPortrait, TranslatePipe],
   template: `
     @let s = summary();
     @if (image(); as img) {
@@ -36,6 +37,14 @@ import { SpeciesPortrait } from './species-portrait';
         <span class="mark edition">2014</span>
       }
     </span>
+    @if (s.species; as sp) {
+      <span class="species">
+        <span class="visually-hidden">{{ 'picker.speciesOnly' | t }}:</span>
+        @for (n of sp; track n) {
+          <span class="tag">{{ n }}</span>
+        }
+      </span>
+    }
     @if (s.kicker) {
       <span class="kicker">{{ s.kicker }}</span>
     }

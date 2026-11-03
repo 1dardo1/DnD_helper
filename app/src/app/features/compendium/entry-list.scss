@@ -35,6 +35,24 @@ app-filter-bar {
   }
 }
 
+// racial feats: one section per species
+.species-section + .species-section {
+  margin-top: var(--space-5);
+}
+
+.species-section h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-2);
+  margin: 0 0 var(--space-2);
+
+  .n {
+    font-size: var(--fs-sm);
+    color: var(--ink-soft);
+  }
+}
+
 .empty {
   grid-column: 1 / -1;
   color: var(--ink-soft);

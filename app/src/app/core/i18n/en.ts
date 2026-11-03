@@ -677,6 +677,7 @@ export const en = {
   'picker.concentrationShort': 'C',
   'picker.ritualShort': 'R',
   'picker.prerequisite': 'Prerequisite',
+  'picker.speciesOnly': 'Only for',
   'picker.damage': 'Damage',
   'picker.ac': 'AC',
   'picker.acDexCap': '{ac} + {dex} (max {max})',
@@ -691,8 +692,6 @@ export const en = {
   'picker.groupInfo.feat.fighting-style': 'Combat techniques for Fighters, Paladins and Rangers.',
   'picker.groupInfo.feat.epic-boon': 'Legendary gifts for characters of level 19 or higher.',
   'picker.groupInfo.feat.racial': 'Feats that require a particular species.',
-  'picker.groupInfo.feat.dark-gift': 'Gifts of the Domains of Dread, with a price (Ravenloft).',
-  'picker.groupInfo.feat.planar-pact': 'Pacts with the powers of the planes.',
   'picker.groupInfo.option.eldritch-invocation':
     'Warlock invocations: lasting powers and extra spells.',
   'picker.groupInfo.option.maneuver': 'Battle Master maneuvers, fuelled by superiority dice.',
