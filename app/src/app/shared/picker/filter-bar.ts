@@ -314,8 +314,16 @@ function wideScreen(): boolean {
       }
 
       .col li label {
+        flex: 1;
+        min-width: 0;
         min-height: 2.75rem;
         font-size: var(--fs-md);
+        overflow-wrap: break-word;
+      }
+
+      // wider columns so names fit beside the bigger ✕
+      .facets {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5rem), 1fr));
       }
 
       .col li input[type='checkbox'] {
