@@ -192,7 +192,7 @@ export const en = {
   'sync.ok': 'Everything saved to the cloud',
   'sync.now': 'Sync now',
   'sync.conflicts': '{count} with two versions',
-  'sync.readOnly': 'Local files: changes are not uploaded',
+  'sync.readOnly': 'No GitHub: characters are only kept on this device',
   'update.button': 'Update',
   'update.running': 'Updating…',
   'update.upToDate': 'Already up to date.',

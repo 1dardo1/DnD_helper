@@ -1,0 +1,8 @@
+{
+  "appId": "io.github.dardo1.dndhelper",
+  "appName": "D&D Helper",
+  "webDir": "dist/app/browser",
+  "android": {
+    "path": "android"
+  }
+}

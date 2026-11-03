@@ -194,7 +194,7 @@ export const es: Record<keyof typeof en, string> = {
   'sync.ok': 'Todo guardado en la nube',
   'sync.now': 'Sincronizar ahora',
   'sync.conflicts': '{count} con dos versiones',
-  'sync.readOnly': 'Ficheros locales: los cambios no se suben',
+  'sync.readOnly': 'Sin GitHub: los personajes se guardan solo en este dispositivo',
   'update.button': 'Actualizar',
   'update.running': 'Actualizando…',
   'update.upToDate': 'Ya está al día.',

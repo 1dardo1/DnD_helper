@@ -1,0 +1,51 @@
+name: Publicar la app en GitHub Pages
+
+# Construye la app con los datos dentro (data/) y la publica en
+# https://<usuario>.github.io/DnD_helper/. Sin token de GitHub la web enseña el compendio y guarda
+# los personajes solo en el dispositivo; con el token (Ajustes) sincroniza con el repo como siempre.
+# Hace falta activar Pages una vez: Settings → Pages → Source: "GitHub Actions".
+on:
+  push:
+    branches: [claude/practical-ride-qnr51a]
+    paths: ["app/**", "data/**", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      - name: Build (with the repo name as base path)
+        run: npx ng build -c production,bundled --base-href "/${{ github.event.repository.name }}/"
+      - run: node scripts/bundle-data.mjs dist/app/browser
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: app/dist/app/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

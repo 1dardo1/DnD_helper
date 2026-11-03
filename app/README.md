@@ -145,9 +145,28 @@ Las reglas siempre calculan con los datos en inglés; `core/i18n/data-text.servi
 inglés con su traducción para mostrarlo. Los nombres salen como «Bola de fuego (Fireball)», el buscador
 encuentra por cualquiera de los dos y lo que todavía no esté traducido sale en inglés.
 
+## Web y Android
+
+La web y la APK llevan dentro los datos (`data/`, copiados con `scripts/bundle-data.mjs`; la
+build `-c production,bundled` los usa). Sin token de GitHub enseñan el compendio y guardan los
+personajes solo en el dispositivo; con el token (Ajustes) sincronizan con el repo.
+
+- **GitHub Pages** (`.github/workflows/pages.yml`): se publica en cada push a `app/` o `data/`.
+  Hay que activarlo una vez en Settings → Pages → Source: *GitHub Actions* (en un repo privado
+  Pages pide GitHub Pro; la web publicada es pública, pero no lleva personajes ni tokens).
+- **APK** (`.github/workflows/apk.yml`): Capacitor genera el proyecto Android en cada ejecución
+  (la carpeta `android/` no se guarda). La APK queda como artefacto y en la release
+  `android-latest`. Para poder instalar cada versión encima de la anterior, crea una clave una
+  vez y guárdala en los secretos del repo:
+
+  ```bash
+  keytool -genkeypair -keystore dnd-helper.keystore -alias dndhelper -keyalg RSA -keysize 2048 -validity 10000
+  base64 -w0 dnd-helper.keystore   # → secreto ANDROID_KEYSTORE_BASE64
+  ```
+
+  más `ANDROID_KEYSTORE_PASSWORD` (la contraseña) y `ANDROID_KEY_ALIAS` (`dndhelper`). Sin ellos
+  la APK se firma con una clave nueva cada vez y hay que desinstalar la anterior para instalarla.
+
 ## Pendiente
 
-1. Compendio completo (fichas específicas de cada tipo, buscador global).
-2. Estado de partida (PG, espacios gastados, descansos) y subir de nivel guiado.
-3. Despliegue: GitHub Pages (PWA) y APK Android con Capacitor y actualización automática.
-4. Diseño visual.
+1. Actualización automática de la APK desde la propia app.

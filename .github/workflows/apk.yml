@@ -1,0 +1,105 @@
+name: Generar la APK de Android
+
+# Envuelve la app (con los datos dentro) en una app Android con Capacitor y deja la APK:
+#  - como artefacto de la ejecución (Actions → esta ejecución → Artifacts), y
+#  - en la release "android-latest" del repo (Releases), para descargarla desde el móvil.
+#
+# Firma: si existen los secretos ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD y
+# ANDROID_KEY_ALIAS, la APK se firma siempre con esa clave y se puede actualizar encima de la
+# anterior. Sin ellos se firma con una clave de depuración nueva en cada ejecución: funciona, pero
+# para instalar una versión nueva hay que desinstalar antes la anterior (se pierden los personajes
+# que no estuvieran subidos a GitHub).
+on:
+  push:
+    branches: [claude/practical-ride-qnr51a]
+    paths: ["app/**", "data/**", ".github/workflows/apk.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - run: npm ci
+
+      - name: Build the web app with the data inside
+        run: |
+          npx ng build -c production,bundled
+          node scripts/bundle-data.mjs dist/app/browser
+
+      - name: Android project (generated, not kept in the repo)
+        run: |
+          npx cap add android
+          npx cap sync android
+          # versionCode grows with every run, so Android accepts each APK as an update
+          sed -i "s/versionCode 1$/versionCode ${{ github.run_number }}/; s/versionName \"1.0\"/versionName \"1.0.${{ github.run_number }}\"/" android/app/build.gradle
+
+      - name: Build
+        working-directory: app/android
+        run: ./gradlew --no-daemon assembleRelease
+
+      - name: Sign
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          BT="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"
+          IN=android/app/build/outputs/apk/release/app-release-unsigned.apk
+          "$BT/zipalign" -f -p 4 "$IN" aligned.apk
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > release.keystore
+            ALIAS="$KEY_ALIAS"; PASS="$KEYSTORE_PASSWORD"
+            echo "Firmada con la clave de los secretos."
+          else
+            keytool -genkeypair -keystore release.keystore -storepass android -keypass android \
+              -alias debug -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=D&D Helper debug"
+            ALIAS=debug; PASS=android
+            echo "::warning::Sin secretos de firma: APK firmada con una clave de depuración nueva (desinstala la anterior antes de instalarla)."
+          fi
+          "$BT/apksigner" sign --ks release.keystore --ks-pass "pass:$PASS" --ks-key-alias "$ALIAS" \
+            --out dnd-helper.apk aligned.apk
+          "$BT/apksigner" verify dnd-helper.apk
+          rm -f release.keystore
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dnd-helper-apk
+          path: app/dnd-helper.apk
+
+      - name: Publish in the "android-latest" release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NOTES="APK generada automáticamente desde ${GITHUB_SHA::7} (ejecución ${{ github.run_number }})."
+          if gh release view android-latest >/dev/null 2>&1; then
+            gh release upload android-latest dnd-helper.apk --clobber
+            gh release edit android-latest --notes "$NOTES"
+          else
+            gh release create android-latest dnd-helper.apk --title "D&D Helper para Android" \
+              --notes "$NOTES" --target "$GITHUB_SHA" --prerelease
+          fi
