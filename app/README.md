@@ -177,6 +177,22 @@ personajes solo en el dispositivo; con el token (Ajustes) sincronizan con el rep
   más `ANDROID_KEYSTORE_PASSWORD` (la contraseña) y `ANDROID_KEY_ALIAS` (`dndhelper`). Sin ellos
   la APK se firma con una clave nueva cada vez y hay que desinstalar la anterior para instalarla.
 
+  - **Icono y pantalla de carga**: `npx @capacitor/assets generate --android` los crea en cada
+    ejecución a partir de `android-assets/` (PNG sacados de `public/icons/icon-maskable.svg` e
+    `icon.svg`: `icon-only.png` para los iconos antiguos, `icon-background.png` (el cuero) e
+    `icon-foreground.png` (el sello, transparente) para el icono adaptativo, y `splash.png` /
+    `splash-dark.png`, el icono sobre cuero `#3b2416`). Si cambia el icono, hay que volver a
+    exportarlos con los mismos tamaños (1024 px los iconos, 2732 px la pantalla de carga).
+  - **Aviso de versión nueva**: la APK se compila con `--define APP_BUILD=<nº de ejecución>`
+    (es también su `versionName` 1.0.N) y la release lleva en sus notas una línea `build: N`.
+    Dentro de la app Android, al abrirla y como mucho una vez al día, se pregunta a la API
+    pública de GitHub por esa release (`core/app-update/`); si tiene un número mayor, arriba de la
+    página sale «Hay una versión nueva de la app — Descargar», que abre la descarga de
+    `dnd-helper.apk` en el navegador. «Ahora no» lo oculta hasta que salga otra. Sin conexión o si
+    GitHub falla no dice nada y lo vuelve a intentar la próxima vez. En la web no aparece; para
+    probarlo con `npm start`, guarda en localStorage `dnd-helper.apkUpdate.fake` = `{"build": 1}`.
+
 ## Pendiente
 
-1. Actualización automática de la APK desde la propia app.
+1. Instalar la versión nueva desde la propia app: hoy el aviso abre la descarga en el navegador
+   y Android pide confirmar la instalación de la APK.
