@@ -392,11 +392,8 @@ export const es: Record<keyof typeof en, string> = {
   'play.res.mysticArcanum': 'Arcano místico',
   'play.res.arcaneRecovery': 'Recuperación arcana',
   'play.hitDice': 'Dados de golpe',
-  'play.roll': 'Tirada (1–{die})',
-  'play.spendRoll': 'Gastar con esta tirada',
-  'play.spendAverage': 'Gastar, sacar {n}',
   'play.hitDieHint':
-    'Gastar un dado de golpe cura la tirada + tu modificador de CON ({con}). Con un descanso largo recuperas todos los dados gastados.',
+    'Pulsa − al gastar un dado de golpe y + para recuperarlo. Cada dado gastado cura la tirada + tu modificador de CON ({con}): súmalo en los puntos de golpe. Con un descanso largo recuperas todos los dados gastados.',
   'play.shortRest': 'Descanso corto',
   'play.longRest': 'Descanso largo',
   'play.confirmShort':

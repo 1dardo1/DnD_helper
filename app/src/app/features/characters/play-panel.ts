@@ -7,7 +7,6 @@ import {
   PlayResource,
   PlayState,
   applyDamage,
-  averageHitDie,
   currentHp,
   heal,
   longRest,
@@ -21,7 +20,6 @@ import {
   setSpentSlots,
   setTempHp,
   shortRest,
-  spendHitDie,
   tapPip,
 } from '../../core/play/play-state';
 import {
@@ -62,7 +60,6 @@ export class PlayPanel {
   /** What's typed in the hit points box. */
   protected readonly amount = signal<number | null>(null);
   /** Rolls typed for each Hit Die size. */
-  protected readonly rolls = signal<Record<number, number | null>>({});
 
   protected readonly maxHp = computed(() => this.sheet().hitPoints.max);
   protected readonly hp = computed(() => currentHp(this.state(), this.maxHp()));
@@ -89,7 +86,6 @@ export class PlayPanel {
     this.sheet().hitPoints.hitDice.map((d) => ({
       ...d,
       spent: Math.min(this.state().hitDiceSpent[`d${d.die}`] ?? 0, d.count),
-      average: averageHitDie(d.die),
     })),
   );
 
@@ -151,18 +147,6 @@ export class PlayPanel {
 
   protected setHitDiceSpent(d: { die: number; count: number }, spent: number): void {
     this.emit(setHitDiceSpent(this.state(), `d${d.die}`, spent, d.count));
-  }
-
-  protected setRoll(die: number, value: number | null): void {
-    this.rolls.update((r) => ({ ...r, [die]: value }));
-  }
-
-  /** roll: the typed one, or the average when not given. */
-  protected spendHitDie(d: { die: number; count: number }, roll?: number | null): void {
-    const value = roll ?? averageHitDie(d.die);
-    if (!(value >= 1 && value <= d.die)) return;
-    this.setRoll(d.die, null);
-    this.emit(spendHitDie(this.state(), d, value, this.conModifier(), this.maxHp()));
   }
 
   protected tapDeathSave(kind: 'successes' | 'failures', index: number): void {

@@ -283,33 +283,6 @@
           </span>
           <small>{{ 'play.left' | t: { left: d.count - d.spent, max: d.count } }}</small>
         </div>
-        @if (d.spent < d.count) {
-          <div class="spend">
-            <label class="amount">
-              <span>{{ 'play.roll' | t: { die: d.die } }}</span>
-              <input
-                type="number"
-                inputmode="numeric"
-                min="1"
-                [max]="d.die"
-                [value]="rolls()[d.die] ?? ''"
-                (input)="setRoll(d.die, num($event))"
-              />
-            </label>
-            <div class="buttons">
-              <button
-                type="button"
-                (click)="spendHitDie(d, rolls()[d.die])"
-                [disabled]="!rolls()[d.die]"
-              >
-                {{ 'play.spendRoll' | t }}
-              </button>
-              <button type="button" (click)="spendHitDie(d)">
-                {{ 'play.spendAverage' | t: { n: d.average } }}
-              </button>
-            </div>
-          </div>
-        }
       }
       <small class="note">{{ 'play.hitDieHint' | t: { con: signed(conModifier()) } }}</small>
     </fieldset>

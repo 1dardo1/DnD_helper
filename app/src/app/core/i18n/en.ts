@@ -389,11 +389,8 @@ export const en = {
   'play.res.mysticArcanum': 'Mystic Arcanum',
   'play.res.arcaneRecovery': 'Arcane Recovery',
   'play.hitDice': 'Hit Dice',
-  'play.roll': 'Roll (1–{die})',
-  'play.spendRoll': 'Spend with this roll',
-  'play.spendAverage': 'Spend, take {n}',
   'play.hitDieHint':
-    'Spending a Hit Die heals the roll + your CON modifier ({con}). All spent Hit Dice come back on a Long Rest.',
+    'Press − when you spend a Hit Die and + to get it back. Each die spent heals the roll + your CON modifier ({con}): add it to your hit points. A long rest recovers all spent dice.',
   'play.shortRest': 'Short rest',
   'play.longRest': 'Long rest',
   'play.confirmShort':

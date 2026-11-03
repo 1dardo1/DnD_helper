@@ -304,6 +304,41 @@ function wideScreen(): boolean {
         text-decoration: underline;
       }
     }
+
+    // touch screens and phones: bigger targets for the finger
+    @media (pointer: coarse), (max-width: 44.99rem) {
+      .col > summary {
+        display: flex;
+        align-items: center;
+        min-height: 2.6rem;
+      }
+
+      .col li label {
+        min-height: 2.75rem;
+        font-size: var(--fs-md);
+      }
+
+      .col li input[type='checkbox'] {
+        width: 1.3rem;
+        height: 1.3rem;
+      }
+
+      .col .exclude {
+        width: 2.3rem;
+        height: 2.3rem;
+        font-size: 1rem;
+      }
+
+      .col ul {
+        max-height: 20rem;
+      }
+
+      .mode button {
+        min-height: 2.6rem;
+        padding: 0 1.15rem;
+        font-size: var(--fs-sm);
+      }
+    }
   `,
 })
 export class FilterBar {
