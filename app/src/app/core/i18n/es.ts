@@ -203,6 +203,8 @@ export const es: Record<keyof typeof en, string> = {
   'update.running': 'Actualizando…',
   'update.upToDate': 'Ya está al día.',
   'update.failed': 'No se ha podido actualizar: {message}',
+  'appUpdate.ready': 'Nueva versión disponible',
+  'appUpdate.reload': 'Recargar',
   'sheet.saveNotes': 'Guardar notas',
   'sheet.delete': 'Borrar personaje',
   'sheet.confirmDelete': '¿Borrar a {name}? También se borrará de la nube.',

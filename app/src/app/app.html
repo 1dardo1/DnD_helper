@@ -43,6 +43,10 @@
         {{ 'sync.now' | t }}
       </button>
     }
+    @if (appUpdate.ready()) {
+      <small>{{ 'appUpdate.ready' | t }}</small>
+      <button type="button" (click)="appUpdate.reload()">{{ 'appUpdate.reload' | t }}</button>
+    }
     @if (update.available()) {
       @if (update.message()) {
         <small class="update-message" [title]="update.message()">{{ update.message() }}</small>

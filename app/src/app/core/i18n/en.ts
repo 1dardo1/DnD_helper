@@ -201,6 +201,8 @@ export const en = {
   'update.running': 'Updating…',
   'update.upToDate': 'Already up to date.',
   'update.failed': 'Could not update: {message}',
+  'appUpdate.ready': 'New version available',
+  'appUpdate.reload': 'Reload',
   'sheet.saveNotes': 'Save notes',
   'sheet.delete': 'Delete character',
   'sheet.confirmDelete': 'Delete {name}? It will also be removed from the cloud.',
