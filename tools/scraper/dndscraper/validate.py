@@ -12,7 +12,10 @@ import sys
 from pathlib import Path
 
 from .common import EXCLUDED_CLASSES
-from .pipeline import FILES
+from .pipeline import FILES as WIKI_FILES
+
+# data/monsters.json comes from the SRD 5.2 (dndscraper.monsters), not from the wikis.
+FILES = {**WIKI_FILES, "monster": "monsters"}
 
 ABILITIES = {"STR", "DEX", "CON", "INT", "WIS", "CHA"}
 BASE = {"id": str, "type": str, "name": str, "edition": str, "description": str, "url": str}
@@ -29,14 +32,22 @@ FIELDS = {
     "background": {"abilityScores": list, "skills": list, "equipment": str},
     "item": {"category": str},
     "rule": {"category": str},
+    "monster": {"category": str, "size": list, "creatureType": str, "alignment": str, "ac": int, "hp": int,
+                "hitDice": str, "speed": dict, "abilities": dict, "saves": dict, "skills": dict,
+                "resistances": list, "immunities": list, "vulnerabilities": list, "conditionImmunities": list,
+                "senses": dict, "passivePerception": int, "languages": str, "cr": (int, float), "xp": int,
+                "proficiencyBonus": int, "traits": list, "actions": list, "bonusActions": list,
+                "reactions": list, "legendaryActions": list, "legendary": bool, "spellcasting": bool},
 }
+CHALLENGE_RATINGS = {0, 0.125, 0.25, 0.5, *range(1, 31)}
 # Lower bounds that catch a broken parser or a wiki layout change.
 MINIMUMS = {"class": 14, "subclass": 150, "spell": 500, "feat": 250, "species": 60, "background": 50,
-            "item": 600, "option": 80}
+            "item": 600, "option": 80, "monster": 300}
 MUST_EXIST = [("class", "blood-hunter"), ("class", "artificer"), ("class", "barbarian"),
               ("subclass", "blood-hunter/order-of-the-ghostslayer"), ("subclass", "blood-hunter/order-of-the-lycan"),
               ("subclass", "blood-hunter/order-of-the-mutant"), ("subclass", "blood-hunter/order-of-the-profane-soul"),
-              ("spell", "fireball"), ("feat", "alert"), ("species", "elf"), ("background", "acolyte")]
+              ("spell", "fireball"), ("feat", "alert"), ("species", "elf"), ("background", "acolyte"),
+              ("monster", "aboleth"), ("monster", "adult-red-dragon"), ("monster", "goblin-warrior")]
 # Must have been replaced by their 2024 version (the 2014 one must not survive).
 MUST_BE_2024 = [("class", "barbarian"), ("spell", "fireball"), ("species", "elf"), ("feat", "alert"),
                 ("subclass", "barbarian/path-of-the-zealot")]
@@ -134,6 +145,17 @@ def validate(root: Path) -> list[str]:
             errors.append(f"background '{e['id']}': only 2024 backgrounds are kept")
         if len(e["abilityScores"]) != 3:
             errors.append(f"background '{e['id']}': expected 3 ability scores")
+    for e in data["monster"]:
+        if e["cr"] not in CHALLENGE_RATINGS:
+            errors.append(f"monster '{e['id']}': bad challenge rating {e['cr']}")
+        if set(e["abilities"]) != ABILITIES or not set(e["saves"]) <= ABILITIES:
+            errors.append(f"monster '{e['id']}': bad ability scores or saving throws")
+        parts = ("traits", "actions", "bonusActions", "reactions", "legendaryActions")
+        # the Giant Fly (a mount of the Figurines of Wondrous Power) has nothing but its stats
+        if not any(e[k] for k in parts) and e["id"] != "giant-fly":
+            errors.append(f"monster '{e['id']}': no traits nor actions")
+        if any(not a.get("name") or not a.get("description") for k in parts for a in e[k]):
+            errors.append(f"monster '{e['id']}': trait or action without a name or text")
     feat_ids = {e["id"] for e in data["feat"]}
     for e in data["feat"]:
         if e["edition"] == "2014" and e["category"] in ("general", "racial") and \

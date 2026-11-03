@@ -649,6 +649,8 @@ def run(root: Path, offline: bool = False, delay: float = 0.5, translate: bool =
     merged = drop_dragonmarks(prune_options(merge(e14, e24, successors, report), report), report)
     apply_multiclass_gains(merged, root / "tools/scraper/multiclass.yaml", report)
     meta = write(merged, root / "data", report, crawler, root / "tools/scraper/report.md")
+    from .monsters import run as monsters_run   # SRD 5.2 creatures (data/monsters.json), not from the wikis
+    meta["counts"]["monster"] = monsters_run(root, offline=offline)
     if translate:
         # Spanish texts (data/es) always follow the English ones: only new or changed texts are sent.
         from .translate import run as translate_run
