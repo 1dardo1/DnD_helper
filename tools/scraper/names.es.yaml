@@ -97,9 +97,926 @@ Crusher: Aplastador
 Slasher: Rajador
 Piercer: Perforador
 Squat Nimbleness: Agilidad del rechoncho
+Abjuration Adept: Adepto de la abjuración
+Conjuration Adept: Adepto de la conjuración
+Divination Adept: Adepto de la adivinación
+Enchantment Adept: Adepto del encantamiento
+Evocation Adept: Adepto de la evocación
+Necromancy Adept: Adepto de la nigromancia
+Agent of Order: Agente del orden
+Artificer Initiate: Iniciado artífice
+Atoner's Grace: Gracia del penitente
+Charger: Embestidor
+Child of the Sun: Hijo del sol
+Close Quarters Shooter: Tirador a quemarropa
+Cold Caster: Lanzador gélido
+Critter Friend: Amigo de los bichos
+Cult of the Dragon Initiate: Iniciado del Culto del Dragón
+Dragon Fear: Miedo dracónico
+Dragon Hide: Piel dracónica
+Dragonscarred: Marcado por dragones
+Dual Wielder: Combatiente con dos armas
+Durable: Duradero
+Elemental Familiar: Familiar elemental
+Elemental Touched: Tocado por los elementos
+Emerald Enclave Fledgling: Novato del Enclave Esmeralda
+Enclave Magic: Magia del Enclave
+Everybody's Friend: Amigo de todos
+Fairy Trickster: Embaucador feérico
+Fell Handed: Mano funesta
+Fey Teleportation: Teletransporte feérico
+Fey Touched: Tocado por las hadas
+Flesh Morpher: Moldeador de carne
+Genie Magic: Magia de genio
+Gift of the Chromatic Dragon: Don del dragón cromático
+Gift of the Gem Dragon: Don del dragón gema
+Gift of the Metallic Dragon: Don del dragón metálico
+Great Weapon Fighting: Lucha con armas a dos manos
+Great Weapon Master: Maestro de armas grandes
+Guile of the Cloud Giant: Astucia del gigante de las nubes
+Keenness of the Stone Giant: Agudeza del gigante de piedra
+Gunner: Pistolero
+Harper Agent: Agente de los Arpistas
+Harper Teamwork: Trabajo en equipo de los Arpistas
+Heavily Armored: Entrenado en armadura pesada
+Moderately Armored: Entrenado en armadura media
+Lightly Armored: Entrenado en armadura ligera
+Knight of the Rose: Caballero de la Rosa
+Knight of the Sword: Caballero de la Espada
+Lich Ascension: Ascensión del liche
+Lich Initiate: Iniciado liche
+Lucky: Afortunado
+Magic Initiate: Iniciado en la magia
+Mythal Touched: Tocado por el mythal
+Order's Resilience: Resiliencia del orden
+Pack Fighting: Lucha en manada
+Planar Wanderer: Vagabundo planar
+Practiced Expert: Experto curtido
+Prone Fighting: Lucha en el suelo
+Psi Trickster: Embaucador psi
+Purple Dragon Rook: Torre del Dragón Púrpura
+Putrefy: Putrefacción
+Rebuke: Reprimenda
+Revenant Blade: Hoja del retornado
+Ritual Caster: Lanzador de rituales
+Scion Of Elemental Water: Vástago del agua elemental
+Shadow Touched: Tocado por las sombras
+Skilled: Habilidoso
+Soothing Familiar: Familiar calmante
+Spellfire Spark: Chispa de fuego de conjuro
+Strike of the Giants: Golpe de los gigantes
+Survivalist: Experto en supervivencia
+Survivor: Superviviente
+Tadpole Host: Huésped de renacuajo
+Tadpole's Safeguard: Salvaguarda del renacuajo
+Tavern Brawler: Camorrista de taberna
+Tunnel Fighter: Luchador de túneles
+Tyro of the Gauntlet: Novicio del Guantelete
+Ulitharid's Might: Poder del ulitárido
+Unarmed Fighting: Lucha sin armas
+Underhanded: Juego sucio
+Vampire Touched: Tocado por un vampiro
+Vampire's Plaything: Juguete del vampiro
+# Dones (épicos y sobrenaturales): «Don de…», como en el Manual del Jugador 2024
+Boon of Blazing Dawn: Don del amanecer ardiente
+Boon of Bloodshed: Don del derramamiento de sangre
+Boon of Bountiful Health: Don de la salud abundante
+Boon of Combat Prowess: Don de la pericia en combate
+Boon of Communication: Don de la comunicación
+Boon of Desperate Resilience: Don de la resiliencia desesperada
+Boon of Dimensional Travel: Don del viaje dimensional
+Boon of Energy Resistance: Don de la resistencia a la energía
+Boon of Erupting Spellpower: Don del poder mágico desbordante
+Boon of Exquisite Radiance: Don del resplandor exquisito
+Boon of Fate: Don del destino
+Boon of Fluid Forms: Don de las formas fluidas
+Boon of Fortitude: Don de la fortaleza
+Boon of Fortune's Favor: Don del favor de la fortuna
+Boon of Irresistible Offense: Don de la ofensiva irresistible
+Boon of Looming Shadows: Don de las sombras inminentes
+Boon of Magic School Mastery: Don del dominio de una escuela de magia
+Boon of Misty Escape: Don de la huida brumosa
+Boon of Poison Mastery: Don del dominio del veneno
+Boon of Recovery: Don de la recuperación
+Boon of Revelry: Don de la juerga
+Boon of Siberys: Don de Siberys
+Boon of Skill: Don de la habilidad
+Boon of Speed: Don de la velocidad
+Boon of Spell Recall: Don del recuerdo de conjuros
+Boon of Terror: Don del terror
+Boon of the Bandit King: Don del rey bandido
+Boon of the Bright Sun: Don del sol brillante
+Boon of the Cleansed Heart: Don del corazón purificado
+Boon of the Furious Storm: Don de la tormenta furiosa
+Boon of the Hunter's Eye: Don del ojo del cazador
+Boon of the Iron Mind: Don de la mente de hierro
+Boon of the Night Spirit: Don del espíritu nocturno
+Boon of the Soul Drinker: Don del bebedor de almas
+Boon of Truesight: Don de la visión verdadera
+Boon of Unwavering Devotion: Don de la devoción inquebrantable
 
 # Especies
 Half Elf: Semielfo
 Half Orc: Semiorco
 Half-Elf: Semielfo
 Half-Orc: Semiorco
+Aetherborn: Nacido del éter
+Astral Elf: Elfo astral
+Aven: Aven
+Bugbear: Osgo
+Dragonborn: Dracónido
+Duskling: Duskling
+Earth Genasi: Genasí de tierra
+Flamekin: Flamekin
+Giff: Giff
+Glitchling: Glitchling
+Goblin: Goblin
+Grung: Grung
+Hexblood: Sangre de bruja
+Hobgoblin: Hobgoblin
+Khoravar: Khoravar
+Kobold: Kobold
+Leonin: Leonino
+Merfolk: Gente del mar
+Owlin: Owlin
+Reborn: Renacido
+Revenant: Retornado
+Shadar-Kai: Shadar-kai
+Shifter: Cambiaformas
+Tiefling: Tiefling
+Tortle: Tortle
+Yuan Ti: Yuan-ti
+
+# Trasfondos
+Carouser: Juerguista
+Criminal: Criminal
+Dead Magic Dweller: Habitante de la magia muerta
+Entertainer: Artista
+Familiar Trainer: Adiestrador de familiares
+Genie Touched: Tocado por un genio
+Harper: Arpista
+Haunted One: Embrujado
+Inquisitive: Inquisitivo
+Mythalkeeper: Guardián del mythal
+Noble: Noble
+Phantasmic Circus Trouper: Artista del circo fantasmal
+Shadowmasters Exile: Exiliado de los Maestros de las Sombras
+Spirit Medium: Médium
+Vampire Devotee: Devoto de los vampiros
+Vampire Survivor: Superviviente de vampiros
+Ward of the Sheltering Hands: Pupilo de las Manos Protectoras
+
+# Subclases: Senda (bárbaro), Colegio (bardo), Dominio (clérigo), Círculo (druida)...
+Path of Lament: Senda del lamento
+Path of the Ancestral Guardian: Senda del guardián ancestral
+Path of the Battlerager: Senda del batallador furioso
+Battlerager: Batallador furioso
+Path Of The Beast: Senda de la bestia
+Path of the Berserker: Senda del berserker
+Path of the Giant: Senda del gigante
+Path of the Storm Herald: Senda del heraldo de la tormenta
+Path of the Wild Heart: Senda del corazón salvaje
+Path of the World Tree: Senda del árbol del mundo
+Path of the Zealot: Senda del fanático
+Zealot: Fanático
+Path of Unlight: Senda de la no luz
+Path of Wild Magic: Senda de la magia salvaje
+College of Creation: Colegio de la creación
+College of Dance: Colegio de la danza
+College of Eloquence: Colegio de la elocuencia
+College of Glamour: Colegio del glamour
+College of Lore: Colegio del conocimiento
+Lore: Conocimiento
+College of Satire: Colegio de la sátira
+College of Spirits: Colegio de los espíritus
+College of Swords: Colegio de las espadas
+College of the Moon: Colegio de la luna
+College of Valor: Colegio del valor
+College of Whispers: Colegio de los susurros
+Arcana: Arcano
+Forge Domain: Dominio de la forja
+Light Domain: Dominio de la luz
+Order Domain: Dominio del orden
+Protection Domain: Dominio de la protección
+Solidarity Domain (Amonkhet): Dominio de la solidaridad (Amonkhet)
+Strength Domain (Amonkhet): Dominio de la fuerza (Amonkhet)
+Trickery Domain: Dominio del engaño
+Twilight Domain: Dominio del crepúsculo
+Unity Domain: Dominio de la unidad
+War Domain: Dominio de la guerra
+Circle of Dreams: Círculo de los sueños
+Circle of Preservation: Círculo de la preservación
+Circle of Spores: Círculo de las esporas
+Circle of Twilight: Círculo del crepúsculo
+Circle of Wildfire: Círculo del fuego salvaje
+Wildfire: Fuego salvaje
+Banneret: Abanderado
+Echo Knight: Caballero del eco
+Purple Dragon Knight: Caballero del Dragón Púrpura
+Rune Knight: Caballero rúnico
+Way of the Astral Self: Camino del ser astral
+Astral Self: Ser astral
+Way of the Sun Soul: Camino del alma solar
+Oath of the Spellguard: Juramento del guardián de conjuros
+Spellguard: Guardián de conjuros
+Deep Stalker: Acechador de las profundidades
+Drakewarden: Guardián de dracos
+Fey Wanderer: Vagabundo feérico
+Monster Slayer Conclave: Cónclave del asesino de monstruos
+Ancestral: Ancestral
+Clockwork: Mecánica
+Defiled: Profanada
+Divine: Divina
+Draconic: Dracónica
+Favored Soul: Alma predilecta
+Favored: Predilecta
+Lunar: Lunar
+Psionic: Psiónica
+Spellfire Sorcery: Hechicería del fuego de conjuro
+Wild Magic Sorcery: Hechicería de magia salvaje
+Archfey Patron: Patrón archihada
+Archfey: Archihada
+Fiend Patron: Patrón infernal
+Fiend: Infernal
+Great Old One Patron: Patrón primigenio
+Great Old One: Primigenio
+Hexblade Patron: Patrón de la hoja maldita
+Hexblade Patron (UA6 - 26.06.25): Patrón de la hoja maldita (UA6 - 26.06.25)
+The Hexblade: La hoja maldita
+Hexblade: Hoja maldita
+Undying: Inmortal
+Undead: No muerto
+Bladesinger: Cantor de la hoja
+Conjurer: Conjurador
+Graviturgy Magic: Magia de graviturgia
+Lore Mastery: Maestría del saber
+Psionics: Psiónica
+
+# Opciones de clase (maldiciones de sangre, invocaciones, maniobras, metamagia...)
+Blood Curse of Binding: Maldición de sangre de la atadura
+Blood Curse of Corrosion: Maldición de sangre de la corrosión
+Agonizing Blast: Descarga agonizante
+Repelling Blast: Descarga repulsora
+Devil's Sight: Vista del diablo
+Gift of the Depths: Don de las profundidades
+Gift of the Protectors: Don de los protectores
+Investment of the Chain Master: Investidura del maestro de la cadena
+One with Shadows: Uno con las sombras
+Rally: Arengar
+Riposte: Contraataque
+Parry: Parada
+Trip Attack: Ataque derribador
+Goading Attack: Ataque provocador
+Seeking Spell: Conjuro buscador
+Twinned Spell: Conjuro gemelo
+Gelid: Gélido
+Impermeable: Impermeable
+
+# Conjuros (nombres del Manual del Jugador en español cuando existen)
+Abi-Dalzim's Horrid Wilting: Marchitamiento horrible de Abi-Dalzim
+Aganazzar's Scorcher: Abrasador de Aganazzar
+Alter Self: Alterar el propio aspecto
+Animal Friendship: Amistad con los animales
+Animal Messenger: Mensajero animal
+Animal Shapes: Formas animales
+Animate Dead: Animar a los muertos
+Arcane Eye: Ojo arcano
+Arcane Gate: Puerta arcana
+Arcane Lock: Cerradura arcana
+Arcane Weapon: Arma arcana
+Arms of Hadar: Brazos de Hadar
+Ashardalon's Stride: Zancada de Ashardalon
+Astral Flood: Inundación astral
+Astral Projection: Proyección astral
+Banishing Smite: Castigo desterrador
+Barkskin: Piel robliza
+Beast Bond: Vínculo bestial
+Beast Sense: Sentidos de bestia
+Bestow Curse: Lanzar maldición
+Bigby's Hand: Mano de Bigby
+Blade of Disaster: Hoja del desastre
+Blade Ward: Protección contra las armas
+Bless: Bendecir
+Blight: Marchitar
+Blinding Smite: Castigo cegador
+Blindness/Deafness: Ceguera/sordera
+Blink: Intermitencia
+Booming Blade: Hoja atronadora
+Branding Smite: Castigo marcador
+Buzzing Bee: Abeja zumbadora
+Call Lightning: Invocar relámpago
+Calm Emotions: Calmar emociones
+Cause Fear: Causar miedo
+Chain Lightning: Relámpago en cadena
+Charm Monster: Hechizar monstruo
+Charm Person: Hechizar persona
+Chill Touch: Toque gélido
+Clone: Clon
+Cloudkill: Nube aniquiladora
+Color Spray: Rociada de color
+Command: Orden imperiosa
+Commune: Comunión
+Commune with City: Comunión con la ciudad
+Comprehend Languages: Comprensión idiomática
+Cone Of Cold: Cono de frío
+Conjure Barlgura: Conjurar barlgura
+Conjure Hezrou: Conjurar hezrou
+Conjure Vrock: Conjurar vrock
+Conjure Constructs: Conjurar constructos
+Conjure Fey: Conjurar feérico
+Conjure Volley: Conjurar andanada
+Conjure Woodland Beings: Conjurar seres de los bosques
+Contact Other Plane: Contactar con otro plano
+Continual Flame: Llama permanente
+Control Water: Controlar el agua
+Counterspell: Contraconjuro
+Create Spelljamming Helm: Crear yelmo de spelljamming
+Create Undead: Crear muerto viviente
+Crusader's Mantle: Manto del cruzado
+Death Ward: Custodia contra la muerte
+Delayed Blast Fireball: Bola de fuego de explosión retardada
+Deryan's Helpful Homunculi: Homúnculos serviciales de Deryan
+Destructive Wave: Onda destructora
+Detect Evil and Good: Detectar el bien y el mal
+Detect Poison and Disease: Detectar venenos y enfermedades
+Dimension Door: Puerta dimensional
+Disintegrate: Desintegrar
+Dispel Evil and Good: Disipar el bien y el mal
+Dispel Magic: Disipar magia
+Divine Word: Palabra divina
+Dominate Beast: Dominar bestia
+Dominate Monster: Dominar monstruo
+Dominate Person: Dominar persona
+Drawmij's Instant Summons: Convocación instantánea de Drawmij
+Druid Grove: Arboleda druídica
+Druidcraft: Saber druídico
+Dust Devil: Remolino de polvo
+Earthbind: Atadura terrestre
+Eldritch Blast: Descarga sobrenatural
+Elminster's Effulgent Spheres: Esferas refulgentes de Elminster
+Elminster's Elusion: Elusión de Elminster
+Enemies Abound: Enemigos por doquier
+Enhance Ability: Potenciar característica
+Enlarge/Reduce: Agrandar/reducir
+Entangle: Enmarañar
+Enthrall: Embelesar
+Etherealness: Excursión etérea
+Expeditious Retreat: Retirada expeditiva
+Eyebite: Mirada nefasta
+Faerie Fire: Fuego feérico
+Fast Friends: Amigos rápidos
+Feather Fall: Caída de pluma
+Feeblemind: Debilidad mental
+Festering Blast: Descarga purulenta
+Find Greater Steed: Encontrar corcel mayor
+Find the Path: Encontrar el camino
+Fire Bolt: Descarga de fuego
+Flame Arrows: Flechas llameantes
+Flame Blade: Hoja flamígera
+Flame Strike: Columna llameante
+Flesh to Stone: Carne a piedra
+Foresight: Presciencia
+Fortune's Favor: Favor de la fortuna
+Galder's Speedy Courier: Mensajero veloz de Galder
+Gate: Portal
+Gentle Repose: Descanso apacible
+Gift of Gab: Don de labia
+Glyph of Warding: Glifo custodio
+Goodberry: Buenas bayas
+Grasping Vine: Enredadera aferradora
+Grave Ground: Suelo sepulcral
+Greater Invisibility: Invisibilidad mayor
+Greater Restoration: Restablecimiento mayor
+Guards and Wards: Guardas y custodias
+Guiding Bolt: Saeta guía
+Harm: Dañar
+Haste: Acelerar
+Haywire: Descontrol
+Heal: Curar
+Heat Metal: Calentar metal
+Heroes' Feast: Banquete de héroes
+Hindsight: Retrospectiva
+Hold Monster: Inmovilizar monstruo
+Hold Person: Inmovilizar persona
+Holy Aura: Aura sagrada
+Holy Star of Mystra: Estrella sagrada de Mystra
+Holy Weapon: Arma sagrada
+Icingdeath's Frost: Escarcha de Icingdeath
+Id Insinuation: Insinuación en el ello
+Illusory Script: Escritura ilusoria
+Immovable Object: Objeto inamovible
+Infernal Calling: Llamada infernal
+Investiture of Flame: Investidura de la llama
+Investiture of Ice: Investidura del hielo
+Investiture of Stone: Investidura de la piedra
+Investiture of Wind: Investidura del viento
+Jallarzi's Storm of Radiance: Tormenta de resplandor de Jallarzi
+Jim's Glowing Coin: Moneda resplandeciente de Jim
+Jim's Magic Missile: Proyectil mágico de Jim
+Jump: Salto
+Knock: Apertura
+Legend Lore: Conocimiento de leyendas
+Leomund's Lamentable Belaborment: Lamentable sermón de Leomund
+Leomund's Secret Chest: Cofre secreto de Leomund
+Leomund's Tiny Hut: Pequeña choza de Leomund
+Lesser Restoration: Restablecimiento menor
+Lightning Bolt: Relámpago
+Longstrider: Zancada prodigiosa
+Magic Circle: Círculo mágico
+Magic Jar: Receptáculo mágico
+Magic Missile: Proyectil mágico
+Magic Mouth: Boca mágica
+Magic Stone: Piedra mágica
+Major Image: Imagen mayor
+Mass Cure Wounds: Curar heridas en masa
+Mass Heal: Curación en masa
+Mass Healing Word: Palabra curativa en masa
+Mass Polymorph: Polimorfar en masa
+Mass Suggestion: Sugestión en masa
+Maximillian's Earthen Grasp: Agarre terroso de Maximillian
+Meld into Stone: Fundirse con la piedra
+Melf's Minute Meteors: Meteoritos diminutos de Melf
+Mending: Reparar
+Meteor Swarm: Lluvia de meteoritos
+Mind Spike: Púa mental
+Mirage Arcane: Espejismo arcano
+Mirror Image: Imagen múltiple
+Mold Earth: Moldear la tierra
+Mordenkainen's Faithful Hound: Perro guardián de Mordenkainen
+Mordenkainen's Lucubration: Lucubración de Mordenkainen
+Mordenkainen's Magnificent Mansion: Mansión magnífica de Mordenkainen
+Mordenkainen's Sword: Espada de Mordenkainen
+Move Earth: Mover la tierra
+Nathair's Mischief: Travesura de Nathair
+Nondetection: Indetectable
+Otiluke's Freezing Sphere: Esfera congelante de Otiluke
+Otiluke's Resilient Sphere: Esfera elástica de Otiluke
+Otto's Irresistible Dance: Danza irresistible de Otto
+Passwall: Pasamuros
+Pinky Swear: Promesa de meñique
+Planar Ally: Aliado planar
+Planar Binding: Atadura planar
+Plane Shift: Desplazamiento entre planos
+Poison Spray: Rociada venenosa
+Polymorph: Polimorfar
+"Power Word Fortify": "Palabra de poder: fortalecer"
+"Power Word Heal": "Palabra de poder: curar"
+"Power Word Kill": "Palabra de poder: matar"
+"Power Word Pain": "Palabra de poder: dolor"
+"Power Word Stun": "Palabra de poder: aturdir"
+Prayer of Healing: Plegaria de curación
+Primordial Ward: Protección primordial
+Prismatic Spray: Rociada prismática
+Project Image: Proyectar imagen
+Protection from Energy: Protección contra la energía
+Protection from Evil and Good: Protección contra el bien y el mal
+Psychic Crush: Aplastamiento psíquico
+Pulse Wave: Onda pulsante
+Quick Clothier: Sastre rápido
+Raise Dead: Revivir a los muertos
+Ray of Sickness: Rayo nauseabundo
+Remove Curse: Levantar maldición
+Reverse Gravity: Invertir la gravedad
+Rime's Binding Ice: Hielo aprisionador de Rime
+Rope Trick: Truco de la cuerda
+Sacred Flame: Llama sagrada
+Scrying: Escudriñar
+Searing Smite: Castigo abrasador
+See Invisibility: Ver lo invisible
+Seeming: Apariencia
+Sending: Recado
+Sense Emotion: Sentir emociones
+Sequester: Recluir
+Shape Water: Moldear el agua
+Shapechange: Cambiar de forma
+Shining Smite: Castigo resplandeciente
+Shocking Grasp: Agarre electrizante
+Sickening Radiance: Resplandor nauseabundo
+Skill Empowerment: Potenciar habilidad
+Slow: Ralentizar
+Sorcerous Burst: Estallido hechicero
+Spare the Dying: Piedad con los moribundos
+Speak with Animals: Hablar con los animales
+Speak with Plants: Hablar con las plantas
+Spellfire Flare: Llamarada de fuego de conjuro
+Spider Climb: Trepar cual arácnido
+Spike Growth: Crecimiento espinoso
+Spirit Guardians: Espíritus guardianes
+Spray Of Cards: Rociada de cartas
+Staggering Smite: Castigo aturdidor
+Sticks to Snakes: Palos en serpientes
+Stone Shape: Moldear la piedra
+Suggestion: Sugestión
+Summon Beast: Invocar bestia
+Summon Celestial: Invocar celestial
+Summon Construct: Invocar constructo
+Summon Dragon: Invocar dragón
+Summon Fey: Invocar feérico
+Summon Fiend: Invocar infernal
+Summon Plant: Invocar planta
+Summon Undead: Invocar muerto viviente
+Sword Burst: Estallido de espadas
+Tasha's Bubbling Cauldron: Caldero burbujeante de Tasha
+Tasha's Hideous Laughter: Risa horrible de Tasha
+Tasha's Otherworldly Guise: Apariencia sobrenatural de Tasha
+Teleport: Teletransporte
+Tenser's Floating Disk: Disco flotante de Tenser
+Tenser's Transformation: Transformación de Tenser
+Tether Essence: Atar esencia
+Thunderclap: Estruendo
+Thunderous Smite: Castigo atronador
+Thunderwave: Ola atronadora
+Time Stop: Detener el tiempo
+Toll the Dead: Doblar por los muertos
+Tongues: Don de lenguas
+Transfix: Transfixión
+Transport via Plants: Transporte vegetal
+Tree Stride: Zancada arbórea
+True Polymorph: Polimorfar verdadero
+True Resurrection: Resurrección verdadera
+True Seeing: Visión veraz
+True Strike: Golpe certero
+Uncertain Footing: Suelo inestable
+Vicious Mockery: Burla cruel
+Wall of Ice: Muro de hielo
+Warding Bond: Vínculo protector
+Water Breathing: Respirar bajo el agua
+Water Walk: Caminar sobre el agua
+Web: Telaraña
+Weird: Extraño
+Wind Walk: Caminar con el viento
+Wither and Bloom: Marchitar y florecer
+Word of Recall: Palabra de regreso
+Wrath Of Nature: Ira de la naturaleza
+Wrathful Smite: Castigo colérico
+Wristpocket: Bolsillo de muñeca
+Yolande's Regal Presence: Presencia regia de Yolande
+Zone of Amicability: Zona de amistad
+
+# Objetos (equipo y objetos mágicos; nombres de la Guía del Dungeon Master cuando existen)
+Adamantine Armor: Armadura de adamantina
+Adamantine Weapon: Arma de adamantina
+Adaptive Helm: Yelmo adaptable
+Alchemy Jug: Jarra alquímica
+Alchemy Jug (Blue): Jarra alquímica (azul)
+Alchemy Jug (Orange): Jarra alquímica (naranja)
+Ammunition: Munición
+Ammunition of Slaying: Munición asesina
+Arrow of Slaying: Flecha asesina
+Amulet of Proof against Detection and Location: Amuleto contra la detección y la localización
+Amulet of Protection from Turning: Amuleto de protección contra la expulsión
+Amulet of the Planes: Amuleto de los planos
+Arcane Focus: Canalizador arcano
+Druidic Focus: Canalizador druídico
+Armblade: Brazo-hoja
+Armor of Gleaming: Armadura reluciente
+Arrow-Catching Shield: Escudo atrapaflechas
+Azuredge: Filo azur
+Baba Yaga's Dancing Broom: Escoba danzante de Baba Yaga
+Badge of the Watch: Insignia de la guardia
+Bag of Beans: Bolsa de judías
+Bag of Bounty: Bolsa de abundancia
+Bag of Devouring: Bolsa devoradora
+Bag of Holding: Bolsa de contención
+Bagpipes: Gaita
+Band of Loyalty: Banda de lealtad
+Band of Shrouds: Banda de sudarios
+Barrier Tattoo: Tatuaje de barrera
+Battering Shield: Escudo de embestida
+Bead of Force: Cuenta de fuerza
+Bead of Nourishment: Cuenta de alimento
+Bead of Refreshment: Cuenta de refresco
+Belabor: Belabor
+Bell Branch: Rama de campanillas
+Bellows of Strangulation: Fuelle de estrangulamiento
+Belt of Dwarvenkind: Cinturón enano
+Belt of Giant Strength: Cinturón de fuerza de gigante
+Bigby's Beneficent Bracelet: Brazalete benéfico de Bigby
+Blightstaff: Bastón de la plaga
+Blood Fury Tattoo: Tatuaje de furia sangrienta
+Bloodshed Blade: Hoja del derramamiento de sangre
+Bobbing Lily Pad: Nenúfar flotante
+Boon Companion's Bands: Bandas del buen compañero
+Boots of Elvenkind: Botas élficas
+Boots of Haste: Botas de aceleración
+Boots of Striding and Springing: Botas de zancadas y brincos
+Bowl of Commanding Water Elementals: Cuenco para controlar elementales de agua
+Bracelet of Rock Magic: Pulsera de magia de la roca
+Bracers of Archery: Brazales de arquería
+Brazier of Commanding Fire Elementals: Brasero para controlar elementales de fuego
+Brooch of Living Essence: Broche de esencia viva
+Brooch of Shielding: Broche escudo
+Brooch of the Elements: Broche de los elementos
+Broom of Flying: Escoba voladora
+Cabal's Ruin: Ruina de la cábala
+Candle of Invocation: Vela de invocación
+Cap of Water Breathing: Gorro de respirar bajo el agua
+Cape of Enlargement: Capa de agrandamiento
+Cape of the Mountebank: Capa del saltimbanqui
+Card Sharp's Deck: Baraja del tahúr
+Carpet of Flying: Alfombra voladora
+Cataclysm Bolts: Virotes del cataclismo
+Censer of Controlling Air Elementals: Incensario para controlar elementales de aire
+Charlatan's Die: Dado del charlatán
+Charm of Plant Command: Amuleto de dominio vegetal
+Circlet of Barbed Vision: Diadema de visión espinosa
+Circlet of Blasting: Diadema explosiva
+Circlet of Human Perfection: Diadema de perfección humana
+Circlet of Wisdom: Diadema de sabiduría
+Claw of the Wyrm Rune: Garra de la runa del wyrm
+Claws of the Umber Hulk: Garras de umber hulk
+Climber's Kit: Equipo de escalada
+Cloak of Arachnida: Capa arácnida
+Cloak of Billowing: Capa ondeante
+Cloak of Displacement: Capa de desplazamiento
+Cloak of Elvenkind: Capa élfica
+Cloak of Many Fashions: Capa de mil modas
+Clothes of Mending: Ropa autorreparable
+Coat of the Crest: Casaca del blasón
+Coiling Grasp Tattoo: Tatuaje de agarre enroscado
+Conjurer's Canopy: Pabellón del conjurador
+Constantori's Portrait: Retrato de Constantori
+Corpse Slayer: Matacadáveres
+Cracked Driftglobe: Globo flotante agrietado
+Driftglobe: Globo flotante
+Craven Edge: Filo cobarde
+Crook of Rao: Báculo de Rao
+Dagger of Venom: Daga venenosa
+Daoud's Wondrous Lantern: Linterna maravillosa de Daoud
+Dead Man's Plate: Placas del muerto
+Decanter of Endless Water: Garrafa de agua infinita
+Deck Of Dimensions: Baraja de dimensiones
+Deck Of Miscellany: Baraja de miscelánea
+Deck Of Oracles: Baraja de oráculos
+Deck Of Wonder: Baraja de maravillas
+Delver's Claws: Garras del explorador
+Demon Armor: Armadura demoníaca
+Dispelling Ammunition: Munición disipadora
+Donjon's Sundering Sphere: Esfera desgarradora de Donjon
+Doublet of Dramatic Demise: Jubón de muerte dramática
+Dragon Scale Mail: Cota de escamas de dragón
+Dragon Slayer: Matadragones
+Dragon Vessel: Vasija dracónica
+Dragon's Wrath Weapon: Arma de la ira del dragón
+Duskcrusher: Triturador del ocaso
+Dust of Sneezing and Choking: Polvo estornutatorio y asfixiante
+Dwarven Plate: Armadura de placas enana
+Dwarven Thrower: Martillo arrojadizo enano
+Ear Horn of Hearing: Trompetilla de la audición
+Earworm: Gusano de oído
+Ebonbane: Perdición de ébano
+Efreeti Bottle: Botella de efreeti
+Efreeti Chain: Cota de malla de efreeti
+Eldritch Claw Tattoo: Tatuaje de garra sobrenatural
+Elocutionist's Lexicon: Léxico del orador
+Elven Chain: Cota de malla élfica
+Emerald Pen: Pluma esmeralda
+Euryale's Aegis: Égida de Euríale
+Evergreen Fertilizer: Fertilizante perenne
+Eversmoking Bottle: Botella humeante
+Eyes of Charming: Lentes de encantamiento
+Eyes of Minute Seeing: Lentes de visión minuciosa
+Eyes of the Eagle: Lentes de águila
+Fane-Eater: Devorador de templos
+Feed per day: Forraje (por día)
+Fenthras: Fenthras
+Feywild Shard: Fragmento de las Tierras Salvajes Feéricas
+Figurine of Wondrous Power: Figurita de poder maravilloso
+Firebrand Warhammer: Martillo de guerra ígneo
+Fish Suit: Traje de pez
+Flayer Slayer: Matadesolladores
+Fool's Blade: Hoja del necio
+Fork of Eddy Summoning: Tenedor de invocación de remolinos
+Frost Brand: Marca de escarcha
+Gambler's Blade: Hoja del tahúr
+Gate Stone: Piedra portal
+Gauntlets of Ogre Power: Guanteletes de poder de ogro
+Gem of Brightness: Gema de luminosidad
+Gem of Seeing: Gema de la visión
+Ghost Step Tattoo: Tatuaje de paso fantasmal
+Giant Slayer: Matagigantes
+Glamoured Studded Leather: Cuero tachonado encantado
+Gloves of Missile Snaring: Guantes atrapaproyectiles
+Gloves of Swimming and Climbing: Guantes de natación y escalada
+Gloves of Thievery: Guantes de ladrón
+Goading Ammunition: Munición provocadora
+Grappling Hook: Garfio
+Grimoire Infinitus: Grimorio Infinitus
+Gulthias Staff: Bastón de Gulthias
+Gunpowder (powder horn): Pólvora (polvorera)
+Hag Eye: Ojo de saga
+Harkon's Bite: Mordedura de Harkon
+Harper Pin: Insignia de los Arpistas
+Hat of Wizardry: Sombrero del mago
+Hell Hound Cloak: Capa de can infernal
+Helm of Devil Command: Yelmo de dominio diabólico
+Helm of Teleportation: Yelmo de teletransporte
+Helm of Underwater Action: Yelmo de acción submarina
+Heward's Handy Haversack: Práctica mochila de Heward
+Holy Avenger: Vengador sagrado
+Honor's Last Stand: Última batalla del honor
+Horn of Blasting: Cuerno explosivo
+Horseshoes of a Zephyr: Herraduras del céfiro
+Immovable Rod: Vara inamovible
+Infernal Tack: Arreos infernales
+Infiltrator's Key: Llave del infiltrado
+Inquisitive's Goggles: Gafas del inquisitivo
+Iron Bands of Bilarro: Bandas de hierro de Bilarro
+Jewel of Three Prayers: Joya de las tres oraciones
+Kiss of the Changebringer: Beso del portador del cambio
+Knave's Eye Patch: Parche del bribón
+Kyrzin's Ooze: Cieno de Kyrzin
+Lifewell Tattoo: Tatuaje de pozo de vida
+Loadstone: Piedra imán
+Lolth's Sting: Aguijón de Lolth
+Lorehold Primer: Manual de Lorehold
+Prismari Primer: Manual de Prismari
+Quandrix Primer: Manual de Quandrix
+Silverquill Primer: Manual de Silverquill
+Witherbloom Primer: Manual de Witherbloom
+Luba's Tarokka of Souls: Tarokka de las almas de Luba
+Luminous War Pick: Pico de guerra luminoso
+Lyrandar Skyskiff: Esquife celeste Lyrandar
+Mace of Disruption: Maza disruptora
+Mace of Smiting: Maza castigadora
+Mage Breaker: Rompemagos
+Magewright's Gloves: Guantes de artesano mágico
+Manual of Gainful Exercise: Manual de ejercicio provechoso
+Manual of Golems: Manual de gólems
+Manual of Quickness of Action: Manual de rapidez de acción
+Masquerade Tattoo: Tatuaje de mascarada
+Mess Kit: Kit de rancho
+Mindblasting Cap: Gorro arrasamentes
+Miner's Pick: Pico de minero
+Mirror of Life Trapping: Espejo atrapavidas
+Mithral Armor: Armadura de mithral
+Mizzium Armor: Armadura de mizzium
+Mizzium Mortar: Mortero de mizzium
+Mythallar Bracelet: Pulsera de mythallar
+Mythallar Cloak: Capa de mythallar
+Necklace of Adaptation: Collar de adaptación
+Nether Scroll of Azumar: Pergamino de Nether de Azumar
+Night Caller: Llamador nocturno
+Nimbus Coronet: Corona nimbo
+Nolzur's Marvelous Pigments: Maravillosos pigmentos de Nolzur
+Oil of Sharpness: Aceite de afilado
+Oil of Slipperiness: Aceite resbaladizo
+Opal of the Ild Rune: Ópalo de la runa Ild
+Orb of Dragonkind: Orbe de los dragones
+Orb of Shielding: Orbe escudo
+Orb of Sorcery: Orbe de hechicería
+Orcus Figurine: Estatuilla de Orcus
+Peregrine Mask: Máscara del halcón peregrino
+Perfume of Bewitching: Perfume embriagador
+Periapt of Health: Periapto de salud
+Periapt of Proof against Poison: Periapto contra el veneno
+Pipe of Remembrance: Pipa del recuerdo
+Pipes of Haunting: Flauta del espanto
+Pipes Of Pestilence: Flauta de la pestilencia
+Pipes of the Sewers: Flauta de las cloacas
+Plate Armor of Etherealness: Armadura de placas etérea
+Plate Of Knight's Fellowship: Armadura de la hermandad de caballeros
+Plate of the Dawnmartyr: Armadura del mártir del alba
+Platinum Scarf: Bufanda de platino
+Pole of Angling: Caña de pescar
+Pole of Collapsing: Pértiga plegable
+Potion of Giant Strength: Poción de fuerza de gigante
+Potion of Greater Invisibility: Poción de invisibilidad mayor
+Potion of Tirelessness: Poción de infatigabilidad
+Potion of Water Breathing: Poción de respirar bajo el agua
+Professor Orb: Orbe profesor
+Propeller Helm: Yelmo de hélice
+Purple Worm Poison: Veneno de gusano púrpura
+Queen Ehlissa's Marvelous Nightingale: Maravilloso ruiseñor de la reina Ehlissa
+Rakdos Riteknife: Cuchillo ritual de Rakdos
+Raven's Slumber: Sueño del cuervo
+Reaper's Scream: Grito del segador
+Red Wizard Blade: Hoja de mago rojo
+Reliquary: Relicario
+Rhythm Maker's Drum: Tambor del creador de ritmos
+Ring of Amity: Anillo de amistad
+Ring of Animal Influence: Anillo de influencia animal
+Ring of Djinni Summoning: Anillo de invocación de djinn
+Ring of Elemental Command: Anillo de dominio elemental
+Ring of Feather Falling: Anillo de caída de pluma
+Ring Of Puzzler's Wit: Anillo del ingenio del enigmista
+Ring of Spell Turning: Anillo de reflejo de conjuros
+Ring of the Orator: Anillo del orador
+Ring of Three Wishes: Anillo de los tres deseos
+Ring of Truth Telling: Anillo de la verdad
+Ring of Water Walking: Anillo de caminar sobre el agua
+Robe of Thayan Arcana: Túnica de los arcanos thayanos
+Robe of Useful Items: Túnica de objetos útiles
+Rod: Vara
+"Rod of the Pact Keeper, +1, +2, +3": "Vara del guardián del pacto, +1, +2, +3"
+Rod of the Solitary Scout: Vara del explorador solitario
+Rogue's Mantle: Manto del pícaro
+Rope of Climbing: Cuerda de escalada
+Rope of Entanglement: Cuerda enredadora
+Ruinstone: Piedra de la ruina
+Sanctum Amulet: Amuleto del santuario
+Scaled Ornament: Adorno escamado
+Scroll of Tarrasque Summoning: Pergamino de invocación de la tarasca
+Scroll of the Comet: Pergamino del cometa
+Secret Keeper's Circlet: Diadema del guardasecretos
+Sending Stones: Piedras de recado
+Shadowfell Brand Tattoo: Tatuaje de la marca del Páramo Sombrío
+Shard Solitaire: Fragmento solitario
+Shatterspike: Púa destrozadora
+Shield of Missile Attraction: Escudo atraeproyectiles
+Shield of the Uven Rune: Escudo de la runa Uven
+Sling Of Giant Felling: Honda derribagigantes
+Slippers of Spider Climbing: Zapatillas de trepar cual arácnido
+Spear of Backbiting: Lanza traicionera
+Spell Gem: Gema de conjuro
+Spelljamming Helm: Yelmo de spelljamming
+Spellguard Shield: Escudo de protección contra conjuros
+Spellwrought Tattoo: Tatuaje de conjuro
+Stabling per day: Establo (por día)
+Staff: Bastón
+Staff of Charming: Bastón de encantamiento
+Staff of Defense: Bastón de defensa
+Staff of Dunamancy: Bastón de dunamancia
+Staff of Ruling: Bastón de mando
+Staff of Striking: Bastón de golpeo
+Staff of Swarming Insects: Bastón de enjambres de insectos
+Staff of the Adder: Bastón de la víbora
+Staff of the Magi: Bastón de los magos
+Staff of Withering: Bastón marchitador
+Stone of Controlling Earth Elementals: Piedra para controlar elementales de tierra
+Stone of Good Luck (Luckstone): Piedra de la buena suerte
+Storm Boomerang: Bumerán de tormenta
+Studded Leather Armor: Armadura de cuero tachonado
+Summer's Dance: Baile del verano
+Sun Blade: Hoja solar
+Sun Pellet: Bolita solar
+Sword of Life Stealing: Espada robavidas
+Sword of Sharpness: Espada afilada
+Sword of the Planes: Espada de los planos
+Sword of Wounding: Espada hiriente
+Talisman of Pure Good: Talismán del bien puro
+Talisman of the Sphere: Talismán de la esfera
+Thayan Spell Tattoo: Tatuaje de conjuro thayano
+Thayan Sword: Espada thayana
+Thermal Cube: Cubo térmico
+Thunderbuss: Trabuco atronador
+Thunderous Greatclub: Gran clava atronadora
+Tome of the Stilled Tongue: Tomo de la lengua silenciada
+Traveler's Pearl: Perla del viajero
+Trident of Fish Command: Tridente de dominio sobre los peces
+Universal Solvent: Disolvente universal
+Ventilating Lungs: Pulmones ventiladores
+Vicious Weapon: Arma cruel
+Voidwalker Armor: Armadura del caminante del vacío
+Vorpal Sword: Espada vorpal
+Voyager Staff: Bastón del viajero
+Walloping Ammunition: Munición contundente
+Winged Ammunition: Munición alada
+Wand of Magic Missiles: Varita de proyectiles mágicos
+Wand of Misdirection: Varita de despiste
+Wand of Polymorph: Varita de polimorfar
+Wand of Wonder: Varita maravillosa
+Warm Fungal Clothing: Ropa cálida de hongos
+Warrior's Passkey: Llave maestra del guerrero
+Waste Hunter Blade: Hoja del cazador del yermo
+Waythe: Waythe
+Whelm: Whelm
+Wind Fan: Abanico del viento
+Wings of Flying: Alas de vuelo
+Wingwear: Traje alado
+Wraps of Dyamak: Vendas de Dyamak
+Wraps of Unarmed Power: Vendas de poder sin armas
+Wraps Of Unarmed Prowess: Vendas de destreza sin armas
+Wyrmreaver Gauntlets: Guanteletes del segador de wyrms
+Wyrmskull Throne: Trono del cráneo de wyrm
+Wyvern Poison: Veneno de guiverno
+
+# Reglas (facciones, armas de asedio, variantes)
+7pack Barbarian: "7pack: bárbaro"
+"7pack Barbarian:Totem Warrior": "7pack: bárbaro, guerrero tótem"
+"7pack Barbarian: Wild Magic": "7pack: bárbaro, magia salvaje"
+7pack Bard: "7pack: bardo"
+7pack Ranger: "7pack: explorador"
+7pack Rogue: "7pack: pícaro"
+7pack Sorcerer: "7pack: hechicero"
+7pack Warlock: "7pack: brujo"
+"7pack-warlock:the-genie": "7pack: brujo, el genio"
+7pack Wizard: "7pack: mago"
+Circle Magic: Magia en círculo
+Dark Gifts: Dones oscuros
+Draconic Gifts: Dones dracónicos
+Supernatural Gifts: Dones sobrenaturales
+Epic Boons: Dones épicos
+Mage Of Witherbloom: Mago de Witherbloom
+Ambuscade Ranger: Explorador emboscador
+Ranger, Revised: Explorador revisado
+House Orien: Casa Orien
+House Phiarlan: Casa Phiarlan
+House Tharashk: Casa Tharashk
+Ninth Quill: Novena Pluma
+Order of the Gauntlet: Orden del Guantelete
+The Purple Dragon Knights: Caballeros del Dragón Púrpura
+Boilerdrak: Boilerdrak
+Ram: Ariete
+Mangonel: Mangonela
+Survivors: Supervivientes

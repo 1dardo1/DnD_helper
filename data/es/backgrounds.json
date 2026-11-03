@@ -112,7 +112,7 @@
   {
     "id": "carouser",
     "type": "background",
-    "name": "Carrusel",
+    "name": "Juerguista",
     "edition": "2024",
     "source": "El libro del hambre de Astarion",
     "description": "Llegaste a la edad adulta en el corazón palpitante de una gran ciudad, como Baldur's Gate. Pasaste innumerables noches en tabernas, teatros, salones y garitos de juego, saboreando todo lo que la ciudad tenía para ofrecer. Eres natural interactuando con personas para aprender sus secretos, ya sea en un juego de alto riesgo o en una velada de alto nivel. Puede que te hayan echado de uno o diez establecimientos, pero sólo por gente que no sabe salir de fiesta.",
@@ -222,7 +222,7 @@
   {
     "id": "criminal",
     "type": "background",
-    "name": "Delincuente",
+    "name": "Criminal",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Te ganabas la vida a duras penas en callejones oscuros, robando carteras o robando tiendas. Quizás eras parte de una pequeña pandilla de malhechores con ideas afines que se cuidaban unos a otros. O tal vez eras un lobo solitario, defendiéndote del gremio de ladrones local y de los infractores de la ley más temibles.",
@@ -266,7 +266,7 @@
   {
     "id": "dead-magic-dweller",
     "type": "background",
-    "name": "Habitante mágico muerto",
+    "name": "Habitante de la magia muerta",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Las zonas mágicas muertas del desierto de Anauroch son un anatema para los lanzadores de conjuros y los monstruos que dependen de la magia, y es exactamente por eso que hiciste tu vida allí. Quizás estés huyendo de los Magos Rojos o te hayas topado con un poderoso djinni en Calimshan. Cualquiera sea el caso, decidiste que vivir en Anauroch era tu mejor opción. Después de largos meses o años, eres más fuerte, más sabio y estás armado con conocimientos adquiridos con esfuerzo sobre la medicina del desierto y la supervivencia en tierras baldías.",
@@ -354,7 +354,7 @@
   {
     "id": "entertainer",
     "type": "background",
-    "name": "Animador",
+    "name": "Artista",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Pasaste gran parte de tu juventud siguiendo ferias y carnavales itinerantes, realizando trabajos ocasionales para músicos y acróbatas a cambio de lecciones. Quizás hayas aprendido a caminar sobre la cuerda floja, a tocar el laúd con un estilo distinto o a recitar poesía con una dicción impecable. Hasta el día de hoy, prosperas con los aplausos y añoras el escenario.",
@@ -398,7 +398,7 @@
   {
     "id": "familiar-trainer",
     "type": "background",
-    "name": "Entrenador familiar",
+    "name": "Adiestrador de familiares",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "Un familiar mágico se unió a ti cuando eras joven y te acompañó durante toda tu adolescencia. Ahora, no puedes imaginar la vida sin tu amigo peludo (o plumoso, escamoso o viscoso) a tu lado. Has aprendido a trabajar en conjunto con tu familiar, y cuando la aventura presenta sus desafíos, tu familiar rápidamente te recuerda las pequeñas alegrías de la vida.",
@@ -464,7 +464,7 @@
   {
     "id": "genie-touched",
     "type": "background",
-    "name": "Genio tocado",
+    "name": "Tocado por un genio",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Aunque los genios ya no gobiernan Calimshan, la magia de los genios sigue siendo común en tu tierra natal. Quizás invocaste sin darte cuenta a un djinni de una lámpara mágica, o quizás te topaste con un oasis custodiado por una marid. Un dao podría haberte salvado de un deslizamiento de tierra, o haber negociado con un efreeti una riqueza fugaz. Independientemente de cómo tu destino se cruzara con el de un genio, la experiencia te dejó con un buen ojo, una lengua plateada y más que un toque de magia.",
@@ -530,7 +530,7 @@
   {
     "id": "harper",
     "type": "background",
-    "name": "Harper",
+    "name": "Arpista",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Aceptaste una invitación para unirte a los Harper y juraste defender el código Harper y actuar al servicio del bien común. Como todos los Harpers, comprendes el valor del trabajo en equipo y también cuándo es mejor hacerlo solo. Los veteranos de Harper te han enseñado los secretos de la orden (melodías mágicas, consignas especiales y prestidigitación) y te han confiado el uso de ese conocimiento para vigilar y socavar las fuerzas del mal.",
@@ -552,7 +552,7 @@
   {
     "id": "haunted-one",
     "type": "background",
-    "name": "Uno embrujado",
+    "name": "Embrujado",
     "edition": "2024",
     "source": "Ravenloft - Los horrores internos",
     "description": "Estás atormentado por los acontecimientos de tu pasado. Ya sea que haya sido un incidente terrible y solitario o una acumulación de momentos dolorosos, usted soporta el peso inquebrantable de lo que le sucedió. Has intentado enterrarlo y huir de él, sin éxito; No se puede matar con una espada ni desterrar mediante magia. Sin embargo, persistes.",
@@ -662,7 +662,7 @@
   {
     "id": "inquisitive",
     "type": "background",
-    "name": "Curioso",
+    "name": "Inquisitivo",
     "edition": "2024",
     "source": "Eberron - Forja del Artífice",
     "description": "Has perfeccionado tus talentos de investigación y deducción, impulsados por una curiosidad ilimitada, para explorar misterios, encontrar personas desaparecidas, recuperar bienes robados, desenterrar corrupción y conspiraciones, y resolver crímenes. Como curioso, es posible que haya trabajado por cuenta propia, haya firmado con una agencia de curiosos (quizás una con licencia de una casa con la marca del dragón como Medani o Tharashk), haya trabajado para un periódico de gran formato o haya trabajado para una fuerza policial.",
@@ -882,7 +882,7 @@
   {
     "id": "mythalkeeper",
     "type": "background",
-    "name": "Guardián de mitos",
+    "name": "Guardián del mythal",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Los mitos son fuentes de gran poder mágico que pueden alterar el Tejido o incluso la naturaleza misma de la realidad. La mayoría se construyeron en la antigüedad y desde entonces muchos han sufrido daños o han quedado inactivos. Como guardián de mitos de Dalelands, tu primera experiencia con un mito probablemente fue en las ruinas de Myth Drannor. Deambulas por Faerûn en busca de otros lugares de poder en ruinas, con la esperanza de aprender más sobre la historia y los poderes de los mitos, o incluso restaurar uno que funciona mal.",
@@ -904,7 +904,7 @@
   {
     "id": "noble",
     "type": "background",
-    "name": "Nobles",
+    "name": "Noble",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Creciste en un castillo, rodeado de riqueza, poder y privilegios. Su familia de aristócratas menores se aseguró de que usted recibiera una educación de primera clase, parte de la cual apreciaba y parte de la cual le molestaba. El tiempo que pasó en el castillo, especialmente las muchas horas que pasó observando a su familia en la corte, también le enseñó mucho sobre liderazgo.",
@@ -948,7 +948,7 @@
   {
     "id": "phantasmic-circus-trouper",
     "type": "background",
-    "name": "Compañía de circo fantasmal",
+    "name": "Artista del circo fantasmal",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "Ya sea como artista o como parte de un circo, encontraste un hogar entre los miembros del Phantasmic Circus. Mientras viajabas por todo el mundo llevando magia y asombro a audiencias entusiasmadas, aprendiste algo de magia de ilusión y perfeccionaste tus talentos para la interpretación y la desorientación.",
@@ -1124,7 +1124,7 @@
   {
     "id": "shadowmasters-exile",
     "type": "background",
-    "name": "Exilio de los Maestros de las Sombras",
+    "name": "Exiliado de los Maestros de las Sombras",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Entrenaste toda tu vida para convertirte en miembro de Shadowmasters, el misterioso gremio de ladrones que controla el reino de Thesk detrás de escena. El sigilo y los reflejos rápidos fueron solo el comienzo de tu educación como Maestro de las Sombras; También necesitabas perfeccionar tu crueldad para garantizar la seguridad de los secretos del gremio. Pero un movimiento en falso provocó su expulsión de la orden. Ahora debes recorrer tu propio camino.",
@@ -1212,7 +1212,7 @@
   {
     "id": "spirit-medium",
     "type": "background",
-    "name": "Medio espiritual",
+    "name": "Médium",
     "edition": "2024",
     "source": "Ravenloft - Los horrores internos",
     "description": "A través de extraños rituales y fatídicos encuentros, has descubierto que tienes una conexión única con los espíritus de los muertos y condenados. Tu cuerpo es un conducto para esos espíritus y te otorga una visión profética del más allá. Pero las intenciones de estos espíritus no siempre son inocentes y sus regalos tienen un costo inquietante.",
@@ -1234,7 +1234,7 @@
   {
     "id": "vampire-devotee",
     "type": "background",
-    "name": "Devoto vampiro",
+    "name": "Devoto de los vampiros",
     "edition": "2024",
     "source": "El libro del hambre de Astarion",
     "description": "Estabas al servicio de un vampiro o de un pequeño grupo de vampiros que vivían juntos. Los no-muertos bebieron tu sangre más veces de las que puedes contar. Es posible que hayas servido voluntariamente, tal vez con la aspiración de convertirte algún día en vampiro. O puede que hayas sido encantado mágicamente y conserves sólo unos pocos recuerdos confusos de tu época como familiar vampiro. En cualquier caso, tu tiempo en la guarida de los vampiros ha terminado.",
@@ -1256,7 +1256,7 @@
   {
     "id": "vampire-survivor",
     "type": "background",
-    "name": "Sobreviviente vampiro",
+    "name": "Superviviente de vampiros",
     "edition": "2024",
     "source": "El libro del hambre de Astarion",
     "description": "Fuiste testigo o sobreviviste a un ataque de vampiro. Es posible que haya estado directamente involucrado en esta confrontación, o tal vez lo que vio lo congeló de terror. De todos modos, permaneces atento a los ataques de monstruos y te enorgulleces de estar preparado para cualquier cosa. Ningún vampiro volverá a sorprenderte a ti o a tus aliados.",
@@ -1278,7 +1278,7 @@
   {
     "id": "ward-of-the-sheltering-hands",
     "type": "background",
-    "name": "Resguardo de las manos protectoras",
+    "name": "Pupilo de las Manos Protectoras",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "Un giro de mala suerte te llevó a Sheltering Hands, una organización altruista dedicada a defender a los oprimidos. La organización te ayudó a recuperar el equilibrio y te enseñó algo de su magia protectora, con la esperanza de que algún día tú también protejas a los menos afortunados en su momento de necesidad.",

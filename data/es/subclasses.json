@@ -18,7 +18,7 @@
       {
         "name": "Conjuros de alquimista",
         "level": 3,
-        "description": "Cuando alcanzas un nivel Artífice especificado en la tabla de conjuros de alquimista, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de alquimista\n\n| Artífice Nivel | Conjuros |\n|---|---|\n| 3 | Palabra Sanadora, Rayo de Enfermedad |\n| 5 | Esfera llameante, flecha ácida de Melf |\n| 9 | Forma gaseosa, palabra curativa masiva |\n| 13 | Sala de la Muerte, Esfera Vitriólica |\n| 17 | Cloudkill, resucitar a los muertos |"
+        "description": "Cuando alcanzas un nivel Artífice especificado en la tabla de conjuros de alquimista, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de alquimista\n\n| Artífice Nivel | Conjuros |\n|---|---|\n| 3 | Palabra Sanadora, Rayo de Enfermedad |\n| 5 | Esfera llameante, flecha ácida de Melf |\n| 9 | Forma gaseosa, palabra curativa masiva |\n| 13 | Custodia contra la muerte, Esfera Vitriólica |\n| 17 | Cloudkill, resucitar a los muertos |"
       },
       {
         "name": "Elixir experimental",
@@ -181,7 +181,7 @@
       {
         "name": "Conjuros de armero",
         "level": 3,
-        "description": "Cuando alcanzas un nivel Artífice especificado en la tabla de conjuros de armero, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de armero\n\n| Artífice Nivel | Conjuros |\n|---|---|\n| 3 | Misil Mágico, Onda Trueno |\n| 5 | Imagen reflejada, destrozada |\n| 9 | Patrón hipnótico, Rayo |\n| 13 | Escudo contra incendios, mayor invisibilidad |\n| 17 | Muro de paso, Muro de Fuerza |"
+        "description": "Cuando alcanzas un nivel Artífice especificado en la tabla de conjuros de armero, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de armero\n\n| Artífice Nivel | Conjuros |\n|---|---|\n| 3 | Proyectil mágico, Onda Trueno |\n| 5 | Imagen reflejada, destrozada |\n| 9 | Patrón hipnótico, Rayo |\n| 13 | Escudo contra incendios, mayor invisibilidad |\n| 17 | Muro de paso, Muro de Fuerza |"
       },
       {
         "name": "Armadura Arcana",
@@ -270,7 +270,7 @@
       {
         "name": "Conjuros de artillero",
         "level": 3,
-        "description": "Cuando alcanzas un nivel Artífice especificado en la tabla de conjuros de artillero, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de artillero\n\n| Artífice Nivel | Conjuros |\n|---|---|\n| 3 | Escudo, Onda de Trueno |\n| 5 | Rayo abrasador, destrozado |\n| 9 | Bola de fuego, muro de viento |\n| 13 | Tormenta de Hielo, Muro de Fuego |\n| 17 | Cono de Frío, Muro de Fuerza |"
+        "description": "Cuando alcanzas un nivel Artífice especificado en la tabla de conjuros de artillero, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de artillero\n\n| Artífice Nivel | Conjuros |\n|---|---|\n| 3 | Escudo, Ola atronadora |\n| 5 | Rayo abrasador, destrozado |\n| 9 | Bola de fuego, muro de viento |\n| 13 | Tormenta de Hielo, Muro de Fuego |\n| 17 | Cono de Frío, Muro de Fuerza |"
       },
       {
         "name": "Cañón sobrenatural",
@@ -525,7 +525,7 @@
       {
         "name": "Conjuros de reanimación",
         "level": 3,
-        "description": "Cuando alcanzas un nivel Artífice especificado en la tabla de Conjuros de Reanimador, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de reanimación\n\n| Artífice Nivel | Conjuros |\n|---|---|\n| 3 | Vida falsa, perdona a los moribundos, rayo de bruja |\n| 5 | Ceguera/sordera, mejora la capacidad |\n| 9 | Animar muertos, rayo |\n| 13 | Ruina, Sala de la Muerte |\n| 17 | Caparazón antivida, resucitar a los muertos |"
+        "description": "Cuando alcanzas un nivel Artífice especificado en la tabla de Conjuros de Reanimador, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de reanimación\n\n| Artífice Nivel | Conjuros |\n|---|---|\n| 3 | Vida falsa, perdona a los moribundos, rayo de bruja |\n| 5 | Ceguera/sordera, mejora la capacidad |\n| 9 | Animar muertos, rayo |\n| 13 | Ruina, Custodia contra la muerte |\n| 17 | Caparazón antivida, resucitar a los muertos |"
       },
       {
         "name": "Sacudida a la vida",
@@ -596,7 +596,7 @@
   {
     "id": "barbarian/path-of-lament-ua",
     "type": "subclass",
-    "name": "Camino del lamento",
+    "name": "Senda del lamento",
     "edition": "2024",
     "source": "UA13 - Opciones villanas 2 (23.04.2026)",
     "description": "*Transforma la amarga angustia en ira sobrenatural*\n\nLos bárbaros que recorren el Camino del Lamento convierten sus arrepentimientos en armas mortales y canalizan sus penas más profundas en acciones furiosas. Impulsados ​​por un dolor sobrenatural, su furia les otorga regalos más allá de la tumba.  \nUn Bárbaro puede elegir el Camino del Lamento, pero lo más frecuente es que el camino llegue al Bárbaro por un infeliz accidente. En el corazón de la ira del Bárbaro se encuentran un gran trauma y un dolor no resuelto: emociones dolorosas alimentadas por recuerdos inquietantes que salen a la superficie durante momentos llenos de adrenalina. Puedes seguir adelante o elegir un resultado de la tabla de Orígenes de Path of Lament para inspirar el incidente que constituye la raíz de tu desesperación.",
@@ -636,7 +636,7 @@
   {
     "id": "barbarian/path-of-the-ancestral-guardian-ua",
     "type": "subclass",
-    "name": "Camino del Guardián Ancestral",
+    "name": "Senda del guardián ancestral",
     "edition": "2024",
     "source": "UA10 - Actualización de subclases (30.10.2025)",
     "description": "*Llama a los espíritus para que te ayuden en el combate*\n\nLos bárbaros que recorren el Camino del Guardián Espiritual invocan espíritus (ya sean espíritus bestiales de la naturaleza, espíritus de ancestros fallecidos o espíritus de poder elemental puro) para que los guíen y protejan. Cuando estos bárbaros se enfurecen, contactan el reino de los espíritus y les piden ayuda.",
@@ -674,13 +674,13 @@
   {
     "id": "barbarian/path-of-the-battlerager",
     "type": "subclass",
-    "name": "El camino del guerrero",
+    "name": "Senda del batallador furioso",
     "edition": "2014",
     "source": "Guía del aventurero de Sword Coast",
     "description": "***Conocidos como Kuldjargh (literalmente \"idiota del hacha\") en enano, los battleragers son seguidores enanos de los dioses de la guerra y toman el Camino del Battlerager. Se especializan en usar armaduras voluminosas con púas y lanzarse al combate, golpeando con su propio cuerpo y entregándose a la furia de la batalla.***",
     "url": "https://dnd5e.wikidot.com/barbarian:battlerager",
     "classId": "barbarian",
-    "shortName": "Guerrero",
+    "shortName": "Batallador furioso",
     "features": [
       {
         "name": "Restricción: solo enanos",
@@ -714,7 +714,7 @@
   {
     "id": "barbarian/path-of-the-beast",
     "type": "subclass",
-    "name": "Camino de la bestia",
+    "name": "Senda de la bestia",
     "edition": "2014",
     "source": "El caldero de todo de Tasha",
     "description": "***Los bárbaros que recorren el Camino de la Bestia obtienen su ira de una chispa bestial que arde dentro de sus almas. Esa bestia estalla en plena ira, transformando físicamente el Bárbaro.***\n\n***Un Bárbaro así podría estar habitado por un espíritu primitivo o descender de cambiaformas. Puedes elegir el origen de tu poder salvaje o determinarlo tirando en la tabla Origen de la Bestia.***\n\n**Origen de la Bestia**\n\n| 1d4 | Origen |\n|---|---|\n| 1 | Uno de tus padres es un licántropo y has heredado parte de su maldición. |\n| 2 | Eres descendiente de un archidruida y heredaste la capacidad de cambiar parcialmente de forma. |\n| 3 | Un espíritu feérico te otorgó la capacidad de adoptar diferentes aspectos bestiales. |\n| 4 | Un antiguo espíritu animal habita dentro de ti, permitiéndote recorrer este camino. |",
@@ -749,7 +749,7 @@
   {
     "id": "barbarian/path-of-the-berserker",
     "type": "subclass",
-    "name": "El camino del berserker",
+    "name": "Senda del berserker",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Canaliza la ira en furia violenta*  \nLos bárbaros que recorren la Senda del Berserker dirigen su ira principalmente hacia la violencia. Su camino es de furia desenfrenada y se estremecen en el caos de la batalla mientras permiten que su ira se apodere de ellos y los empodere.",
@@ -787,7 +787,7 @@
   {
     "id": "barbarian/path-of-the-giant",
     "type": "subclass",
-    "name": "Camino del gigante",
+    "name": "Senda del gigante",
     "edition": "2014",
     "source": "Bigby presenta - Gloria de los gigantes",
     "description": "***Los bárbaros que recorren el Camino del Gigante obtienen su fuerza de las mismas fuerzas primarias que los gigantes. Mientras se enfurecen, estos bárbaros surgen con poder elemental y crecen en tamaño, adoptando formas que evocan la gloria de los gigantes. Algunos bárbaros parecen versiones de sí mismos de gran tamaño, tal vez con un toque de energía elemental brillando en sus ojos y alrededor de sus armas. Otros se transforman de manera más dramática, adoptando la apariencia de un gigante real o una forma similar a un Elemental, envuelto en fuego, escarcha o relámpagos.***",
@@ -827,7 +827,7 @@
   {
     "id": "barbarian/path-of-the-storm-herald-ua",
     "type": "subclass",
-    "name": "El camino del heraldo de la tormenta",
+    "name": "Senda del heraldo de la tormenta",
     "edition": "2024",
     "source": "UA10 - Actualización de subclases (30.10.2025)",
     "description": "*Empuña la furia de la tormenta*  \nLos bárbaros que siguen el Camino del Heraldo de la Tormenta aprenden a aprovechar su ira en un manto de magia primordial que se arremolina a su alrededor como una tormenta. Cuando están en ira, estos bárbaros aprovechan las fuerzas elementales de la naturaleza para crear poderosos efectos mágicos.",
@@ -865,7 +865,7 @@
   {
     "id": "barbarian/path-of-the-wild-heart",
     "type": "subclass",
-    "name": "Camino del corazón salvaje",
+    "name": "Senda del corazón salvaje",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Caminata en Comunidad con el Mundo Animal*  \nLos bárbaros que siguen el Camino del Corazón Salvaje se consideran parientes de los animales. Estos bárbaros aprenden medios mágicos para comunicarse con los animales y su rabia aumenta su conexión con los animales mientras los llena de poder sobrenatural.",
@@ -908,7 +908,7 @@
   {
     "id": "barbarian/path-of-the-world-tree",
     "type": "subclass",
-    "name": "Camino del árbol del mundo",
+    "name": "Senda del árbol del mundo",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Rastrea las raíces y ramas del multiverso*  \nLos bárbaros que siguen el Camino del Árbol del Mundo se conectan con el árbol cósmico Yggdrasil a través de su Rabia. Este árbol crece entre los Planos Exteriores, conectándolos entre sí y con el Plano Material. Estos bárbaros recurren a la magia del árbol para obtener vitalidad y como medio de viaje dimensional.",
@@ -943,13 +943,13 @@
   {
     "id": "barbarian/path-of-the-zealot",
     "type": "subclass",
-    "name": "El camino del fanático",
+    "name": "Senda del fanático",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Rabia en unión extática con un Dios*  \nLos bárbaros que recorren la Senda del Zelote reciben bendiciones de un dios o panteón. Estos Bárbaros experimentan su Rabia como un episodio extático de unión divina que les infunde poder. A menudo son aliados de los sacerdotes y otros seguidores de su dios o panteón.",
     "url": "https://dnd2024.wikidot.com/barbarian:path-of-the-zealot",
     "classId": "barbarian",
-    "shortName": "Zelote",
+    "shortName": "Fanático",
     "features": [
       {
         "name": "Furia divina",
@@ -986,7 +986,7 @@
   {
     "id": "barbarian/path-of-unlight-ua",
     "type": "subclass",
-    "name": "Camino de la no luz",
+    "name": "Senda de la no luz",
     "edition": "2024",
     "source": "UA15 - Opciones de la Infraoscuridad (20.08.2026)",
     "description": "*Desata tu luz interior como furia ardiente*  \nLos bárbaros imbuidos del poder de Unlight abrazan la magia incontrolable a cambio de una increíble destreza física. La Unlight que arde dentro de ellos ilumina la oscuridad mientras quema y cega a los enemigos del Bárbaro.  \nLa mayoría de los bárbaros en este camino estuvieron expuestos por primera vez a la Unlight en la Infraoscuridad. Los Deep Imaskari otorgan Unlight a los guerreros elegidos que lideran su ejército contra las regiones superiores de la Infraoscuridad, y algunos de estos soldados han huido para seguir sus propias vidas. Pero la magia de Unlight es contagiosa y se propaga de forma impredecible. Infecta a personas expuestas brevemente a él y ocasionalmente se manifiesta en personas que nunca han estado en la Infraoscuridad.",
@@ -1026,7 +1026,7 @@
   {
     "id": "barbarian/path-of-wild-magic",
     "type": "subclass",
-    "name": "Camino de la magia salvaje",
+    "name": "Senda de la magia salvaje",
     "edition": "2014",
     "source": "El caldero de todo de Tasha",
     "description": "***Muchos lugares del multiverso abundan en belleza, emociones intensas y magia desenfrenada; Feywild, los Planos Superiores y otros reinos de poder sobrenatural irradian tales fuerzas y pueden influir profundamente en las personas. Como gente de sentimientos profundos, los bárbaros son especialmente susceptibles a estas influencias salvajes, y algunos bárbaros son transformados por la magia. Estos bárbaros llenos de magia recorren el Camino de la Magia Salvaje. Los bárbaros elfos, tifling, aasimar y genasi a menudo buscan este camino, ansiosos por manifestar la magia sobrenatural de sus ancestros.***",
@@ -1066,7 +1066,7 @@
   {
     "id": "bard/college-of-creation",
     "type": "subclass",
-    "name": "Colegio de creacion",
+    "name": "Colegio de la creación",
     "edition": "2014",
     "source": "El caldero de todo de Tasha",
     "description": "***Los bardos creen que el cosmos es una obra de arte: la creación de los primeros dragones y dioses. Ese trabajo creativo incluyó armonías que continúan resonando en la existencia actual, un poder conocido como la Canción de la Creación. Los bardos del Colegio de la Creación se basan en esa canción primitiva a través de la danza, la música y la poesía, y sus maestros comparten esta lección: \"Antes del sol y la luna, estaba la Canción, y su música despertó el primer amanecer. Sus melodías deleitaron tanto a las piedras y los árboles que algunos de ellos obtuvieron una voz propia. Y ahora ellos también cantan. Aprendan la Canción, estudiantes, y ustedes también podrán enseñar a las montañas a cantar y bailar\".***\n\n***Los enanos y gnomos suelen animar a sus bardos a convertirse en estudiantes de la Canción de la Creación. Y entre los nacidos de dragones, la Canción de la Creación es venerada, ya que las leyendas retratan a Bahamut y Tiamat, el mayor de los dragones, como dos de los primeros cantantes de la canción.***",
@@ -1101,7 +1101,7 @@
   {
     "id": "bard/college-of-dance",
     "type": "subclass",
-    "name": "Facultad de danza",
+    "name": "Colegio de la danza",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Muévete en Armonía con el Cosmos*  \nLos bardos de la Facultad de Danza saben que las Palabras de la Creación no pueden estar contenidas en palabras o canciones; las palabras son pronunciadas por los movimientos de los cuerpos celestes y fluyen a través de los movimientos de las criaturas más pequeñas. Estos bardos practican una forma de estar en armonía con el cosmos giratorio que enfatiza la agilidad, la velocidad y la gracia.",
@@ -1136,7 +1136,7 @@
   {
     "id": "bard/college-of-eloquence",
     "type": "subclass",
-    "name": "Colegio de elocuencia",
+    "name": "Colegio de la elocuencia",
     "edition": "2014",
     "source": "Odiseas míticas de Theros, el caldero de todo de Tasha",
     "description": "***Los seguidores del Colegio de Elocuencia dominan el arte de la oratoria. La persuasión se considera un gran arte, y un argumento bien razonado y bien expresado a menudo resulta más poderoso que la verdad objetiva. Estos bardos utilizan una mezcla de lógica y juegos de palabras teatrales, ganándose a escépticos y detractores con argumentos lógicos y tocando la fibra sensible para apelar a las emociones de audiencias enteras.***",
@@ -1176,7 +1176,7 @@
   {
     "id": "bard/college-of-glamour",
     "type": "subclass",
-    "name": "Colegio de glamour",
+    "name": "Colegio del glamour",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Teje magia seductora de hadas*  \nEl Colegio del Glamour tiene sus orígenes en la magia seductora de Feywild. Los bardos que estudian esta magia tejen hilos de belleza y terror en sus canciones e historias, y los más poderosos entre ellos pueden envolverse en una majestad sobrenatural. Sus actuaciones despiertan un anhelo melancólico por la inocencia olvidada, evocan recuerdos inconscientes de miedos largamente arraigados y conmueven las emociones incluso de los oyentes más duros.",
@@ -1214,13 +1214,13 @@
   {
     "id": "bard/college-of-lore",
     "type": "subclass",
-    "name": "Colegio de tradiciones",
+    "name": "Colegio del conocimiento",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Sondea las profundidades del conocimiento mágico*  \nLos bardos del College of Lore recopilan conjuros y secretos de diversas fuentes, como tomos eruditos, ritos místicos y cuentos campesinos. Los miembros del colegio se reúnen en bibliotecas y universidades para compartir sus tradiciones entre sí. También se reúnen en festivales o asuntos de estado, donde pueden exponer la corrupción, desentrañar mentiras y burlarse de figuras de autoridad engreídas.",
     "url": "https://dnd2024.wikidot.com/bard:college-of-lore",
     "classId": "bard",
-    "shortName": "Saber",
+    "shortName": "Conocimiento",
     "features": [
       {
         "name": "Competencias adicionales",
@@ -1252,7 +1252,7 @@
   {
     "id": "bard/college-of-satire-ua",
     "type": "subclass",
-    "name": "Colegio de sátira",
+    "name": "Colegio de la sátira",
     "edition": "2014",
     "source": "Arcanos desenterrados 12 - Kits de antaño",
     "description": "***Los bardos del Colegio de la Sátira se llaman bufones. Utilizan historias vulgares, acrobacias atrevidas y chistes mordaces para entretener al público, desde las multitudes en un pub destartalado junto al muelle hasta los nobles de la corte real de un rey. Mientras que otros bardos buscan tradiciones olvidadas o cuentos de valentía épica, los bufones descubren historias embarazosas y divertidas de todo tipo. Ya sea contando la obscena historia de la aventura de un musculoso mozo de cuadra con una anciana duquesa o una sátira burlona de un Paladín de la empalagosa inocencia de Helm, un bufón nunca permite que el gusto, el decoro social o la vergüenza se interpongan en el camino de una buena risa.***\n\n***Si bien los bufones son maestros de los juegos de palabras, los chistes y las púas verbales, son mucho más que un simple alivio cómico. Se espera que se burlen y provoquen, aprovechando que, según la tradición, incluso las personas más poderosas deben soportar las pullas de un bufón con buen humor. Esta expectativa permite que un bufón sirva como crítico o voz de la razón cuando otros se sienten demasiado intimidados para decir la verdad.***\n\n*** Para la duquesa a la que le gustan los trabajadores jóvenes y fornidos, tales historias podrían servir para advertir a los objetivos de su afecto y obligarla a cambiar sus costumbres por falta de socios dispuestos. Contraatacar al bufón sólo arruina su reputación ya dañada y podría proporcionar la mejor evidencia de que las sátiras del bufón han dado en el blanco. Pero si es amable y generosa con sus conquistas, los chistes y las historias la presentan como una especie de héroe popular, al tiempo que atraen aún más socios potenciales hacia ella.***\n\n***Los bufones son leales a una sola causa: la búsqueda y propagación de la verdad. Usan su comedia y su apariencia inofensiva para derribar barreras sociales y exponer la corrupción, la incompetencia y la estupidez entre los ricos y poderosos. Ya sea revelando la traición de un estafador o exponiendo los planes de guerra de un barón impulsados por la codicia y la sed de sangre, un bufón sirve como la conciencia de un reino.***\n\n***Los bufones se aventuran para salvaguardar a la gente común y socavar los planes de los ricos, poderosos y arrogantes. Su magia fortalece el ánimo de los aliados y al mismo tiempo arroja dudas en las mentes de los enemigos. Entre los bardos, los bufones son acróbatas incomparables y su capacidad para dar volteretas, esquivar, saltar y trepar los convierte en oponentes resbaladizos en la batalla.***",
@@ -1287,7 +1287,7 @@
   {
     "id": "bard/college-of-spirits",
     "type": "subclass",
-    "name": "Colegio de espíritus",
+    "name": "Colegio de los espíritus",
     "edition": "2024",
     "source": "Ravenloft - Los horrores internos",
     "description": "*Invoca espíritus del más allá de la tumba*  \nLos bardos del Colegio de Espíritus conjuran espíritus legendarios para cambiar el mundo. Pero estas entidades son caprichosas y la convocatoria Bardo no siempre está completamente bajo su control.",
@@ -1325,7 +1325,7 @@
   {
     "id": "bard/college-of-swords",
     "type": "subclass",
-    "name": "Colegio de espadas",
+    "name": "Colegio de las espadas",
     "edition": "2014",
     "source": "La guía de Xanathar para todo",
     "description": "***Los bardos del Colegio de Espadas se llaman espadas y entretienen a través de atrevidas hazañas de destreza con las armas. Los Blades realizan acrobacias como tragar espadas, lanzar cuchillos, hacer malabarismos y simulacros de combates. Aunque usan sus armas para entretener, también son guerreros altamente entrenados y hábiles por derecho propio.***\n\n***Su talento con las armas inspira a muchos espadachines a llevar una doble vida. Una espada podría utilizar una compañía de circo como tapadera para actos nefastos como asesinatos, robos y chantajes. Otras espadas golpean a los malvados, aplicando la justicia contra los crueles y poderosos. La mayoría de los grupos están felices de aceptar el talento de un Blade por la emoción que añade a una actuación, pero pocos artistas confían plenamente en un Blade entre sus filas.***\n\n*** Los Blades que abandonan sus vidas como artistas a menudo se encuentran con problemas que hacen imposible mantener sus actividades secretas. Una espada atrapada robando o practicando justicia por mano propia es una responsabilidad demasiado grande para la mayoría de las compañías. Con sus habilidades con las armas y su magia, estos espadachines trabajan como ejecutores de gremios de ladrones o se lanzan por su cuenta como aventureros.***",
@@ -1400,7 +1400,7 @@
   {
     "id": "bard/college-of-valor",
     "type": "subclass",
-    "name": "Colegio de valor",
+    "name": "Colegio del valor",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Canta las hazañas de los antiguos héroes*  \nLos bardos del College of Valor son atrevidos narradores cuyos cuentos preservan la memoria de los grandes héroes del pasado. Estos bardos cantan las hazañas de los poderosos en salas abovedadas o ante multitudes reunidas alrededor de grandes hogueras. Viajan para presenciar de primera mano grandes acontecimientos y para asegurarse de que el recuerdo de estos acontecimientos no desaparezca. Con sus canciones, inspiran a las nuevas generaciones a alcanzar las mismas alturas de logros que los héroes de antaño.",
@@ -1438,7 +1438,7 @@
   {
     "id": "bard/college-of-whispers",
     "type": "subclass",
-    "name": "Colegio de susurros",
+    "name": "Colegio de los susurros",
     "edition": "2014",
     "source": "La guía de Xanathar para todo",
     "description": "***La mayoría de la gente está feliz de darle la bienvenida a un Bardo entre ellos. Los bardos del Colegio de los Susurros utilizan esto a su favor. Parecen ser como cualquier otro Bardo: comparten noticias, cantan canciones y cuentan cuentos a las audiencias que reúnen. En verdad, el Colegio de los Susurros enseña a sus estudiantes que son lobos entre ovejas. Estos bardos usan su conocimiento y magia para descubrir secretos y volverlos contra otros mediante extorsión y amenazas.***\n\n***Muchos otros bardos odian el Colegio de los Susurros, considerándolo un parásito que utiliza la reputación de los bardos para adquirir riqueza y poder. Por esta razón, estos bardos rara vez revelan su verdadera naturaleza a menos que sea necesario. Por lo general, afirman seguir alguna otra universidad o mantener en secreto su verdadera naturaleza para poder infiltrarse y explotar mejor las cortes reales y otros entornos de poder.***",
@@ -1592,7 +1592,7 @@
         "description": "En el nivel 11, tu mutagénico hemocracia permite que tu Marca de castigo revele la verdadera naturaleza de un enemigo. Cualquier ilusión o invisibilidad vigente sobre una criatura cuando la marcas termina, y la criatura no puede beneficiarse de los efectos de invisibilidad o ilusión mientras estás marcada por ti. Si una criatura marcada por ti tiene una forma alternativa (mediante el conjuro Polimorfismo, la acción Cambiar forma o el rasgo Cambiaformas, la característica Forma salvaje y efectos similares), debe tener éxito en Sabiduría tirada de salvación o volver a su forma verdadera y quedar aturdida hasta el final de tu siguiente turno. Cada vez que una criatura marcada intenta alterar su forma, debe tener éxito con una Sabiduría tirada de salvación o el intento falla, y queda aturdida hasta el final de tu siguiente turno."
       },
       {
-        "name": "Maldición de sangre de Corrosión",
+        "name": "Maldición de sangre de la corrosión",
         "level": 15,
         "description": "A partir del nivel 15, tu maldición de sangre puede infundir terribles toxinas en el cuerpo de una criatura. Obtienes el maldición de sangre de Corrosión para tu función Blood Maledict. Esto no cuenta contra tu número de maldiciones de sangre conocido."
       },
@@ -1629,7 +1629,7 @@
       {
         "name": "Enfoque del rito",
         "level": 3,
-        "description": "A partir del nivel 3, tu arma se convierte en un conducto para el poder de tu pacto con tu patrón elegido. Mientras tengas un Rito carmesí activo, puedes usar tu arma como canalizador mágico para tus conjuros Brujo y obtendrás un beneficio específico según el pacto elegido.\n\n***El Archifey.*** Cuando dañas a una criatura con un arma para la cual tienes un Rito carmesí activo, esa criatura brilla con una luz tenue hasta el final de tu siguiente turno. Mientras dura, la criatura no obtiene ningún beneficio de ninguna cobertura o de ser invisible.\n\n***El Celestial.*** Como acción adicional, gastas un uso de tu función Blood Maledict para curar a una criatura que puedas ver a 60 pies de ti. Esa criatura recupera un número de puntos de golpe igual a una tirada de tu dado de hemocracia + tu modificador hemocracia (mínimo de +1).\n\n***The Fathomless.*** Puedes respirar bajo el agua. Además, una vez por turno, cuando dañas a una criatura con un arma para la cual tienes un Rito carmesí activo, puedes reducir la velocidad de esa criatura en 10 pies hasta el comienzo de tu siguiente turno.\n\n***El Demonio.*** Mientras usas el Rito de la Llama, si sacas un 1 o 2 en un dado de daño cuando tiras el daño adicional del rito, puedes volver a tirar el dado y elegir qué tirada usar.\n\n***El Genio.*** Como acción adicional, gastas el uso de tu función Blood Maledict para obtener una velocidad de vuelo de 30 pies, que dura una cantidad de rondas igual a tu modificador hemocracia (mínimo de 1 ronda).\n\n***El Gran Viejo.*** Cuando logras un golpe crítico contra una criatura, esa criatura y cualquier otra criatura de tu elección dentro de 10 pies de ella te tendrán miedo hasta el final de tu siguiente turno.\n\n***The Hexblade.*** Cuando apuntas exitosamente a una criatura con un maldición de sangre, la próxima vez que golpeas a esa criatura con un ataque mientras la maldición está en efecto, el ataque causa daño adicional igual a tu modificador de competencia.\n\n***Los no-muertos.*** Cuando sufres daño necrótico, puedes usar tu reacción para reducir ese daño a la mitad. Además, tu apariencia cambia para reflejar algún aspecto de tu mecenas mientras tengas algún Rito carmesí activo.\n\n***The Undying.*** Cuando reduces una criatura hostil de al menos una amenaza leve (a discreción del DM) a 0 puntos de golpe, recuperas un número de puntos de golpe igual a una tirada de tu dado de hemocracia."
+        "description": "A partir del nivel 3, tu arma se convierte en un conducto para el poder de tu pacto con tu patrón elegido. Mientras tengas un Rito carmesí activo, puedes usar tu arma como canalizador mágico para tus conjuros Brujo y obtendrás un beneficio específico según el pacto elegido.\n\n***El Archifey.*** Cuando dañas a una criatura con un arma para la cual tienes un Rito carmesí activo, esa criatura brilla con una luz tenue hasta el final de tu siguiente turno. Mientras dura, la criatura no obtiene ningún beneficio de ninguna cobertura o de ser invisible.\n\n***El Celestial.*** Como acción adicional, gastas un uso de tu función Blood Maledict para curar a una criatura que puedas ver a 60 pies de ti. Esa criatura recupera un número de puntos de golpe igual a una tirada de tu dado de hemocracia + tu modificador hemocracia (mínimo de +1).\n\n***The Fathomless.*** Puedes respirar bajo el agua. Además, una vez por turno, cuando dañas a una criatura con un arma para la cual tienes un Rito carmesí activo, puedes reducir la velocidad de esa criatura en 10 pies hasta el comienzo de tu siguiente turno.\n\n***El Demonio.*** Mientras usas el Rito de la Llama, si sacas un 1 o 2 en un dado de daño cuando tiras el daño adicional del rito, puedes volver a tirar el dado y elegir qué tirada usar.\n\n***El Genio.*** Como acción adicional, gastas el uso de tu función Blood Maledict para obtener una velocidad de vuelo de 30 pies, que dura una cantidad de rondas igual a tu modificador hemocracia (mínimo de 1 ronda).\n\n***El Primigenio.*** Cuando logras un golpe crítico contra una criatura, esa criatura y cualquier otra criatura de tu elección dentro de 10 pies de ella te tendrán miedo hasta el final de tu siguiente turno.\n\n***The Hexblade.*** Cuando apuntas exitosamente a una criatura con un maldición de sangre, la próxima vez que golpeas a esa criatura con un ataque mientras la maldición está en efecto, el ataque causa daño adicional igual a tu modificador de competencia.\n\n***Los no-muertos.*** Cuando sufres daño necrótico, puedes usar tu reacción para reducir ese daño a la mitad. Además, tu apariencia cambia para reflejar algún aspecto de tu mecenas mientras tengas algún Rito carmesí activo.\n\n***The Undying.*** Cuando reduces una criatura hostil de al menos una amenaza leve (a discreción del DM) a 0 puntos de golpe, recuperas un número de puntos de golpe igual a una tirada de tu dado de hemocracia."
       },
       {
         "name": "Frenesí místico",
@@ -1639,7 +1639,7 @@
       {
         "name": "Arcanos revelados",
         "level": 7,
-        "description": "En el nivel 7, tu patrón te concede el uso de un conjuro distintivo basado en tu pacto. Lanzas este conjuro usando cualquier Magia de pacto espacio de conjuro y no puedes volver a hacerlo hasta que termines con un descanso largo.\n\n***El Archifey.*** Puedes lanzar Blur.\n\n***El Celestial.*** Puedes lanzar Restauración menor.\n\n***The Fathomless.*** Puedes lanzar Gust of Wind.\n\n***The Fiend.*** Puedes lanzar Scorching Ray.\n\n***El Genio.*** Puedes lanzar Fuerza Fantasmal.\n\n***El Gran Viejo.*** Puedes lanzar Detectar pensamientos.\n\n***El Hexblade.*** Puedes lanzar Branding Smite.\n\n***Los no-muertos.*** Puedes lanzar Ceguera/Sordera.\n\n***The Undying.*** Puedes lanzar Silencio."
+        "description": "En el nivel 7, tu patrón te concede el uso de un conjuro distintivo basado en tu pacto. Lanzas este conjuro usando cualquier Magia de pacto espacio de conjuro y no puedes volver a hacerlo hasta que termines con un descanso largo.\n\n***El Archifey.*** Puedes lanzar Blur.\n\n***El Celestial.*** Puedes lanzar Restauración menor.\n\n***The Fathomless.*** Puedes lanzar Gust of Wind.\n\n***The Fiend.*** Puedes lanzar Scorching Ray.\n\n***El Genio.*** Puedes lanzar Fuerza Fantasmal.\n\n***El Primigenio.*** Puedes lanzar Detectar pensamientos.\n\n***El Hexblade.*** Puedes lanzar Branding Smite.\n\n***Los no-muertos.*** Puedes lanzar Ceguera/Sordera.\n\n***The Undying.*** Puedes lanzar Silencio."
       },
       {
         "name": "Marca de la cicatriz debilitada",
@@ -1649,7 +1649,7 @@
       {
         "name": "Arcanos abiertos",
         "level": 15,
-        "description": "En el nivel 15, tu patrón te concede el uso de un conjuro adicional según tu pacto. Lanzas este conjuro sin gastar un espacio de conjuro y no puedes volver a hacerlo hasta que termines un descanso largo.\n\n***El Archifey.*** Puedes lanzar Lento.\n\n***El Celestial.*** Puedes lanzar Revivify.\n\n***The Fathomless.*** Puedes lanzar Lightning Bolt.\n\n***El Demonio.*** Puedes lanzar Bola de Fuego.\n\n***El Genio.*** Puedes lanzar Protección contra la energía.\n\n***El Gran Viejo.*** Puedes lanzar Prisa.\n\n***El Hexblade.*** Puedes lanzar Blink.\n\n***Los no-muertos.*** Puedes lanzar Hablar con los muertos.\n\n***The Undying.*** Puedes lanzar Bestow Curse."
+        "description": "En el nivel 15, tu patrón te concede el uso de un conjuro adicional según tu pacto. Lanzas este conjuro sin gastar un espacio de conjuro y no puedes volver a hacerlo hasta que termines un descanso largo.\n\n***El Archifey.*** Puedes lanzar Lento.\n\n***El Celestial.*** Puedes lanzar Revivify.\n\n***The Fathomless.*** Puedes lanzar Lightning Bolt.\n\n***El Demonio.*** Puedes lanzar Bola de Fuego.\n\n***El Genio.*** Puedes lanzar Protección contra la energía.\n\n***El Primigenio.*** Puedes lanzar Prisa.\n\n***El Hexblade.*** Puedes lanzar Blink.\n\n***Los no-muertos.*** Puedes lanzar Hablar con los muertos.\n\n***The Undying.*** Puedes lanzar Bestow Curse."
       },
       {
         "name": "Maldición de sangre del Devorador de Almas",
@@ -2050,7 +2050,7 @@
     "name": "Dominio de la ambición (Amonkhet)",
     "edition": "2014",
     "source": "Cambio de avión - Amonkhet",
-    "description": "*** Los clérigos de la ambición actúan como astutos visires que sutilmente plantan las semillas que florecen en la ambición que desean sus dioses. A través de insinuaciones, recuerdan a acólitos, iniciados y veteranos por igual que alcanzar el lugar propio (en la vida o en el más allá) a expensas de los demás no es vergonzoso, sino que es una prueba de determinación y empuje. Sugieren que no hay nada más importante que ese impulso: ni los lazos familiares, ni la amistad o el amor. Ni siquiera devoción a una deidad...***\n\n**Conjuros de dominio de ambición**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Bane, disfrazarse |\n| 3º | Imagen reflejada, rayo de debilitamiento |\n| 5to | Otorgar maldición, toque vampírico |\n| 7mo | Sala de la Muerte, Puerta Dimensional |\n| 9no | Dominar Persona, Modificar Memoria |",
+    "description": "*** Los clérigos de la ambición actúan como astutos visires que sutilmente plantan las semillas que florecen en la ambición que desean sus dioses. A través de insinuaciones, recuerdan a acólitos, iniciados y veteranos por igual que alcanzar el lugar propio (en la vida o en el más allá) a expensas de los demás no es vergonzoso, sino que es una prueba de determinación y empuje. Sugieren que no hay nada más importante que ese impulso: ni los lazos familiares, ni la amistad o el amor. Ni siquiera devoción a una deidad...***\n\n**Conjuros de dominio de ambición**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Bane, disfrazarse |\n| 3º | Imagen reflejada, rayo de debilitamiento |\n| 5to | Otorgar maldición, toque vampírico |\n| 7mo | Custodia contra la muerte, Puerta Dimensional |\n| 9no | Dominar Persona, Modificar Memoria |",
     "url": "https://dnd5e.wikidot.com/cleric:ambition",
     "classId": "cleric",
     "shortName": "Dominio de la ambición (Amonkhet)",
@@ -2127,12 +2127,12 @@
     "description": "*Amplifica tu poder mágico*\n\nLa magia impregna el multiverso y alimenta tanto la destrucción como la creación. Los clérigos con el Dominio Arcano ven el conocimiento mágico no como un poder que debe usarse en pos de fines personales, sino como un regalo que tienen la responsabilidad de compartir.\n\nLos dioses asociados con el Dominio Arcano conocen íntimamente los secretos y el potencial de la magia. Estos dioses suelen estar conectados con el conocimiento, el secreto o el poder.",
     "url": "https://dnd2024.wikidot.com/cleric:arcana-domain",
     "classId": "cleric",
-    "shortName": "Arcanos",
+    "shortName": "Arcano",
     "features": [
       {
         "name": "Conjuros de dominio arcano",
         "level": 3,
-        "description": "Tu conexión con este dominio divino significa que siempre tienes ciertos conjuros listos. Cuando alcanzas un nivel Clérigo especificado en la tabla de Conjuros del Dominio de Arcanos, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de dominio de arcanos\n\n| Clérigo Nivel | Conjuros preparados |\n|---|---|\n| 3 | Detectar magia, misil mágico, arma mágica, aura mágica de Nystul |\n| 5 | Contrahechizo, disipar magia |\n| 7 | Ojo Arcano, el cofre secreto de Leomund |\n| 9 | Mano de Bigby, Círculo de Teletransportación |"
+        "description": "Tu conexión con este dominio divino significa que siempre tienes ciertos conjuros listos. Cuando alcanzas un nivel Clérigo especificado en la tabla de Conjuros del Dominio de Arcanos, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de dominio de arcanos\n\n| Clérigo Nivel | Conjuros preparados |\n|---|---|\n| 3 | Detectar magia, proyectil mágico, arma mágica, aura mágica de Nystul |\n| 5 | Contraconjuro, disipar magia |\n| 7 | Ojo Arcano, el cofre secreto de Leomund |\n| 9 | Mano de Bigby, Círculo de Teletransportación |"
       },
       {
         "name": "Modificar Magia",
@@ -2282,7 +2282,7 @@
     "name": "Dominio de la muerte",
     "edition": "2014",
     "source": "Guía del Dungeon Master",
-    "description": "***El dominio de la Muerte se ocupa de las fuerzas que causan la muerte, así como de la energía negativa que da origen a las criaturas no muertas. Deidades como Chemosh, Myrkul y Wee Jas son patrocinadores de nigromantes, caballeros de la muerte, liches, señores de las momias y vampiros. Los dioses del dominio de la Muerte también encarnan el asesinato (Anubis, Bhaal y Pyremius), el dolor (Iuz o Loviatar), la enfermedad o el veneno (Incabulos, Talona o Morgion) y el inframundo (Hades y Hel).***\n\n**Conjuros del Dominio de la Muerte**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Falsa Vida, Rayo de Enfermedad |\n| 3º | Ceguera/sordera, rayo de debilitamiento |\n| 5to | Animar muertos, toque vampírico |\n| 7mo | Ruina, Sala de la Muerte |\n| 9no | Caparazón antivida, Cloudkill |",
+    "description": "***El dominio de la Muerte se ocupa de las fuerzas que causan la muerte, así como de la energía negativa que da origen a las criaturas no muertas. Deidades como Chemosh, Myrkul y Wee Jas son patrocinadores de nigromantes, caballeros de la muerte, liches, señores de las momias y vampiros. Los dioses del dominio de la Muerte también encarnan el asesinato (Anubis, Bhaal y Pyremius), el dolor (Iuz o Loviatar), la enfermedad o el veneno (Incabulos, Talona o Morgion) y el inframundo (Hades y Hel).***\n\n**Conjuros del Dominio de la Muerte**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Falsa Vida, Rayo de Enfermedad |\n| 3º | Ceguera/sordera, rayo de debilitamiento |\n| 5to | Animar muertos, toque vampírico |\n| 7mo | Ruina, Custodia contra la muerte |\n| 9no | Caparazón antivida, Cloudkill |",
     "url": "https://dnd5e.wikidot.com/cleric:death",
     "classId": "cleric",
     "shortName": "Muerte",
@@ -2361,7 +2361,7 @@
     "name": "Dominio del destino",
     "edition": "2014",
     "source": "Arcanos 85 desenterrados - Maravillas del multiverso",
-    "description": "***Los dioses del destino perciben el futuro y cómo las decisiones que toman los mortales los impulsan hacia sus destinos. Algunas deidades consideran que el futuro está predeterminado, mientras que otras entienden el multiverso como un lugar de posibilidades infinitas. Los clérigos que obtienen poder de las fuerzas del destino a veces reciben visiones directamente de su deidad y reciben augurios fugaces del futuro. Comparten conocimientos imposibles con sus aliados y profetizan el destino de sus enemigos.***\n\n**Deidades del Dominio del Destino**\n\n| Ejemplo de Deidad | Panteón |\n|---|---|\n| Savras | Reinos olvidados |\n| isto | Halcón Gris |\n| Gilean | Dragonlance |\n| Etiquetas Enorath | Élficos |\n\n**Conjuros de Dominio del Destino**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Susurros disonantes, heroísmo |\n| 3º | Ver Invisibilidad, Vínculo Protector |\n| 5to | Faro de esperanza, clarividencia |\n| 7mo | Sala de la Muerte, Adivinación |\n| 9no | Comuna, Geas |",
+    "description": "***Los dioses del destino perciben el futuro y cómo las decisiones que toman los mortales los impulsan hacia sus destinos. Algunas deidades consideran que el futuro está predeterminado, mientras que otras entienden el multiverso como un lugar de posibilidades infinitas. Los clérigos que obtienen poder de las fuerzas del destino a veces reciben visiones directamente de su deidad y reciben augurios fugaces del futuro. Comparten conocimientos imposibles con sus aliados y profetizan el destino de sus enemigos.***\n\n**Deidades del Dominio del Destino**\n\n| Ejemplo de Deidad | Panteón |\n|---|---|\n| Savras | Reinos olvidados |\n| isto | Halcón Gris |\n| Gilean | Dragonlance |\n| Etiquetas Enorath | Élficos |\n\n**Conjuros de Dominio del Destino**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Susurros disonantes, heroísmo |\n| 3º | Ver Invisibilidad, Vínculo Protector |\n| 5to | Faro de esperanza, clarividencia |\n| 7mo | Custodia contra la muerte, Adivinación |\n| 9no | Comuna, Geas |",
     "url": "https://dnd5e.wikidot.com/cleric:fate-ua",
     "classId": "cleric",
     "shortName": "Destino",
@@ -2437,7 +2437,7 @@
   {
     "id": "cleric/forge-domain",
     "type": "subclass",
-    "name": "Dominio de forja",
+    "name": "Dominio de la forja",
     "edition": "2014",
     "source": "La guía de Xanathar para todo",
     "description": "***Los dioses de la forja son patrones de los artesanos que trabajan con metal, desde un humilde herrero que mantiene una aldea con herraduras y hojas de arado hasta el poderoso artesano elfo cuyas flechas de mithril con punta de diamante han derribado a señores demonios. Los dioses de la forja enseñan que, con paciencia y trabajo duro, incluso el metal más intratable puede transformarse de un trozo de mineral a un objeto bellamente elaborado. Los clérigos de estas deidades buscan objetos perdidos por las fuerzas de la oscuridad, liberan minas invadidas por orcos y descubren materiales raros y maravillosos necesarios para crear potentes objetos mágicos. Los seguidores de estos dioses se enorgullecen de su trabajo y están dispuestos a fabricar y utilizar armaduras pesadas y armas poderosas para protegerlos. Las deidades de este dominio incluyen Gond, Reorx, Onatar, Moradin, Hefesto y Goibhniu.***\n\n**Forjar conjuros de dominio**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Identificar, Castigar Abrasadoramente |\n| 3º | Calentar metal, arma mágica |\n| 5to | Arma elemental, protección contra la energía |\n| 7mo | Fabricar, Muro de Fuego |\n| 9no | Animar Objetos, Creación |",
@@ -2598,7 +2598,7 @@
       {
         "name": "Conjuros de dominio grave",
         "level": 3,
-        "description": "Tu conexión con este dominio divino garantiza que siempre tengas ciertos conjuros listos. Cuando alcanzas un nivel Clérigo especificado en la tabla de conjuros del dominio de la tumba, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de dominio grave\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 3 | Detectar el bien y el mal, la vida falsa, el reposo apacible, el rayo de debilitamiento, perdonar a los moribundos |\n| 5 | Revivify, toque vampírico |\n| 7 | Ruina, Sala de la Muerte |\n| 9 | Disipa el mal y el bien, resucita a los muertos |"
+        "description": "Tu conexión con este dominio divino garantiza que siempre tengas ciertos conjuros listos. Cuando alcanzas un nivel Clérigo especificado en la tabla de conjuros del dominio de la tumba, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de dominio grave\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 3 | Detectar el bien y el mal, la vida falsa, el reposo apacible, el rayo de debilitamiento, perdonar a los moribundos |\n| 5 | Revivify, toque vampírico |\n| 7 | Ruina, Custodia contra la muerte |\n| 9 | Disipa el mal y el bien, resucita a los muertos |"
       },
       {
         "name": "Círculo de mortalidad",
@@ -2757,7 +2757,7 @@
       {
         "name": "Conjuros de dominio de vida",
         "level": 3,
-        "description": "Tu conexión con este dominio divino garantiza que siempre tengas ciertos conjuros listos. Cuando alcanzas un nivel Clérigo especificado en la tabla de Conjuros del Dominio de la Vida, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de dominio de vida\n\n| Clérigo Nivel | Conjuros preparados |\n|---|---|\n| 3 | Ayudar, bendecir, curar heridas, restauración menor |\n| 5 | Palabra de sanación masiva, Revivificar |\n| 7 | Aura de vida, Sala de la muerte |\n| 9 | Mayor restauración, cura masiva de heridas |"
+        "description": "Tu conexión con este dominio divino garantiza que siempre tengas ciertos conjuros listos. Cuando alcanzas un nivel Clérigo especificado en la tabla de Conjuros del Dominio de la Vida, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de dominio de vida\n\n| Clérigo Nivel | Conjuros preparados |\n|---|---|\n| 3 | Ayudar, bendecir, curar heridas, restauración menor |\n| 5 | Palabra de sanación masiva, Revivificar |\n| 7 | Aura de vida, Custodia contra la muerte |\n| 9 | Mayor restauración, cura masiva de heridas |"
       },
       {
         "name": "Preservar la vida",
@@ -2815,7 +2815,7 @@
   {
     "id": "cleric/light-domain",
     "type": "subclass",
-    "name": "Dominio ligero",
+    "name": "Dominio de la luz",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Trae luz para desterrar la oscuridad*\n\nEl Dominio de la Luz enfatiza el poder divino de provocar fuego ardiente y revelación. Los clérigos que ejercen este poder son almas iluminadas infundidas con el resplandor y el poder de la visión perspicaz de sus deidades, encargadas de ahuyentar las mentiras y quemar la oscuridad.\n\nEl Dominio de la Luz está asociado con los dioses de la verdad, la vigilancia, la belleza, la perspicacia y la renovación. Algunos de estos dioses se identifican con el sol o como aurigas que guían al sol por el cielo. Otros son centinelas que traspasan el engaño. Algunas son deidades de la belleza y el arte que enseñan que el arte es un vehículo para la mejora del alma.",
@@ -2824,9 +2824,9 @@
     "shortName": "Luz",
     "features": [
       {
-        "name": "Conjuros de dominio ligero",
+        "name": "Conjuros de dominio de la luz",
         "level": 3,
-        "description": "Tu conexión con este dominio divino garantiza que siempre tengas ciertos conjuros listos. Cuando alcanzas un nivel Clérigo especificado en la tabla de Conjuros del Dominio de la Luz, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de dominio ligero\n\n| Clérigo Nivel | Conjuros preparados |\n|---|---|\n| 3 | Manos ardientes, fuego de hadas, rayo abrasador, ver invisibilidad |\n| 5 | Luz del día, bola de fuego |\n| 7 | Ojo Arcano, Muro de Fuego |\n| 9 | Golpe de llama, Adivinación |"
+        "description": "Tu conexión con este dominio divino garantiza que siempre tengas ciertos conjuros listos. Cuando alcanzas un nivel Clérigo especificado en la tabla de Conjuros del Dominio de la Luz, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de dominio de la luz\n\n| Clérigo Nivel | Conjuros preparados |\n|---|---|\n| 3 | Manos ardientes, fuego de hadas, rayo abrasador, ver invisibilidad |\n| 5 | Luz del día, bola de fuego |\n| 7 | Ojo Arcano, Muro de Fuego |\n| 9 | Golpe de llama, Adivinación |"
       },
       {
         "name": "Resplandor del amanecer",
@@ -2968,7 +2968,7 @@
   {
     "id": "cleric/order-domain",
     "type": "subclass",
-    "name": "Ordenar Dominio",
+    "name": "Dominio del orden",
     "edition": "2014",
     "source": "Guía del Guildmaster de Rávnica, el caldero de todo de Tasha",
     "description": "***El Dominio de la Orden representa la disciplina, así como la devoción a las leyes que gobiernan una sociedad, una institución o una filosofía. Los clérigos del Orden meditan sobre la lógica y la justicia mientras sirven a sus dioses, cuyos ejemplos aparecen en la tabla Deidades del Orden.***\n\n***Los Clérigos del Orden creen que las leyes bien elaboradas establecen jerarquías legítimas y que aquellos seleccionados por la ley para liderar deben ser obedecidos. Quienes obedecen deben hacerlo lo mejor que puedan, y si quienes lideran no protegen la ley, deben ser reemplazados. De esta manera, la ley teje una red de obligaciones que crean orden y seguridad en un multiverso caótico.***\n\n**Ordenar Deidades**\n\n| Ejemplo de Deidad | Panteón |\n|---|---|\n| Aureón | Eberrón |\n| Perdición | Reinos olvidados |\n| Majere | Dragonlance |\n| Follo | Halcón Gris |\n| Tiro | Reinos olvidados |\n| Wee Jas | Halcón Gris |\n\n**Solicitar conjuros de dominio**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Comando, heroísmo |\n| 3º | Mantenga Persona, Zona de la Verdad |\n| 5to | Palabra de curación masiva, lenta |\n| 7mo | Compulsión, localizar criatura |\n| 9no | Comuna, Persona Dominada |",
@@ -3197,7 +3197,7 @@
   {
     "id": "cleric/protection-domain-ua",
     "type": "subclass",
-    "name": "Dominio de protección",
+    "name": "Dominio de la protección",
     "edition": "2014",
     "source": "Arcanos desenterrados 22 - Clérigo",
     "description": "***El dominio de protección es competencia de las deidades que encargan a sus seguidores proteger a los débiles de los fuertes. Los fieles de los dioses habitan en pueblos y ciudades de las tierras fronterizas, donde ayudan a reforzar las defensas y buscan males que derrotar. Estos dioses creen que un escudo fuerte y una armadura son la mejor defensa contra el mal, solo superada por una fuerte maza a mano para responder a cualquier ataque. Las deidades que otorgan este dominio incluyen Helm, Ilmater, Torm, Tyr, Heironeous, St. Cuthbert, Paladine, Dol Dorn, Silver Flame, Bahamut, Yondalla, Athena y Odin.***\n\n**Conjuros de protección de dominio**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Duelo Obligado, Protección contra el Mal y el Bien |\n| 3º | Ayuda, protección contra el veneno |\n| 5to | Protección contra la energía, lenta |\n| 7mo | Guardián de la fe, la esfera resiliente de Otiluke |\n| 9no | Caparazón Antivida, Muro de Fuerza |",
@@ -3276,13 +3276,13 @@
   {
     "id": "cleric/solidarity-domain-amonkhet",
     "type": "subclass",
-    "name": "Dominio Solidario (Amonkhet)",
+    "name": "Dominio de la solidaridad (Amonkhet)",
     "edition": "2014",
     "source": "Cambio de avión - Amonkhet",
     "description": "***La solidaridad es la primera virtud de la sociedad de Amonkhet. Oketra está encargado de exponer esta enseñanza del Dios-Faraón, inculcando en cada iniciado la virtud de la solidaridad. Ella convierte a cada grupo de niños en una cosecha de acólitos con un solo propósito: ser juzgados dignos de una gloriosa vida futura. Y ella inculca en cada cultivo la capacidad de unirse en una sola acción en pos de ese propósito. Le gustan las imágenes poéticas para comunicar sus ideales.***\n\n**Conjuros de Dominio Solidario**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Bendito, perno guía |\n| 3º | Ayuda, vínculo de protección |\n| 5to | Faro de esperanza, Manto de cruzado |\n| 7mo | Aura de Vida, Guardiana de la Fe |\n| 9no | Círculo de poder, cura masiva de heridas |",
     "url": "https://dnd5e.wikidot.com/cleric:solidarity",
     "classId": "cleric",
-    "shortName": "Dominio Solidario (Amonkhet)",
+    "shortName": "Dominio de la solidaridad (Amonkhet)",
     "features": [
       {
         "name": "Competencia adicional",
@@ -3355,13 +3355,13 @@
   {
     "id": "cleric/strength-domain-amonkhet",
     "type": "subclass",
-    "name": "Dominio de fuerza (Amonkhet)",
+    "name": "Dominio de la fuerza (Amonkhet)",
     "edition": "2014",
     "source": "Cambio de avión - Amonkhet",
     "description": "***La fuerza es la tercera virtud de la sociedad de Amonkhet. A Rhonas le corresponde inculcar esta enseñanza en aquellos que entrarán en la otra vida, pero en su opinión, las palabras en sí no importan. La fuerza no se puede enseñar. Debe construirse a través de la práctica y el entrenamiento. Rhonas demuestra sus enseñanzas con su ejemplo, más que dando a sus alumnos algún tipo de instrucción académica. Da la bienvenida al pueblo de Naktamun para que apoye al Hekma y lo observe mientras se adentra en el desierto para luchar contra los horrores más grandes. Los anima a observar su fuerza indomable, porque aunque nunca la igualarán, pueden aspirar al mimetismo. Los invita a escudriñar cada movimiento y practicar lo que ven.***\n\n**Conjuros de dominio de fuerza**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Favor Divino, Escudo de la Fe |\n| 3º | Mejorar la capacidad y proteger contra el veneno |\n| 5to | Prisa, Protección contra la Energía |\n| 7mo | Dominar Bestia, Piel de Piedra |\n| 9no | Ola destructiva, plaga de insectos |",
     "url": "https://dnd5e.wikidot.com/cleric:strength",
     "classId": "cleric",
-    "shortName": "Dominio de fuerza (Amonkhet)",
+    "shortName": "Dominio de la fuerza (Amonkhet)",
     "features": [
       {
         "name": "Competencia adicional",
@@ -3437,7 +3437,7 @@
     "name": "Dominio de la tempestad",
     "edition": "2014",
     "source": "Manual del jugador",
-    "description": "***Los dioses cuyas carteras incluyen el dominio de la Tempestad, incluidos Talos, Umberlee, Kord, Zeboim, el Devorador, Zeus y Thor, gobiernan las tormentas, el mar y el cielo. Incluyen dioses del relámpago y el trueno, dioses de los terremotos, algunos dioses del fuego y ciertos dioses de la violencia, la fuerza física y el coraje. En algunos panteones, un dios de este dominio gobierna sobre otras deidades y es conocido por la rápida justicia impartida por los rayos. En los panteones de los marineros, los dioses de este dominio son deidades del océano y patrones de los marineros. Los dioses de la tempestad envían a sus clérigos para inspirar miedo en la gente común, ya sea para mantenerlos en el camino de la rectitud o para alentarlos a ofrecer sacrificios de propiciación para protegerse de la ira divina.***\n\n**Conjuros de dominio de tempestad**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Nube de niebla, onda de trueno |\n| 3º | Ráfaga de viento, destrozada |\n| 5to | Llame a relámpagos, tormenta de aguanieve |\n| 7mo | Controlar el agua y la tormenta de hielo |\n| 9no | Ola destructiva, plaga de insectos |",
+    "description": "***Los dioses cuyas carteras incluyen el dominio de la Tempestad, incluidos Talos, Umberlee, Kord, Zeboim, el Devorador, Zeus y Thor, gobiernan las tormentas, el mar y el cielo. Incluyen dioses del relámpago y el trueno, dioses de los terremotos, algunos dioses del fuego y ciertos dioses de la violencia, la fuerza física y el coraje. En algunos panteones, un dios de este dominio gobierna sobre otras deidades y es conocido por la rápida justicia impartida por los rayos. En los panteones de los marineros, los dioses de este dominio son deidades del océano y patrones de los marineros. Los dioses de la tempestad envían a sus clérigos para inspirar miedo en la gente común, ya sea para mantenerlos en el camino de la rectitud o para alentarlos a ofrecer sacrificios de propiciación para protegerse de la ira divina.***\n\n**Conjuros de dominio de tempestad**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Nube de niebla, ola atronadora |\n| 3º | Ráfaga de viento, destrozada |\n| 5to | Llame a relámpagos, tormenta de aguanieve |\n| 7mo | Controlar el agua y la tormenta de hielo |\n| 9no | Ola destructiva, plaga de insectos |",
     "url": "https://dnd5e.wikidot.com/cleric:tempest",
     "classId": "cleric",
     "shortName": "Tempestad",
@@ -3513,7 +3513,7 @@
   {
     "id": "cleric/trickery-domain",
     "type": "subclass",
-    "name": "Dominio de engaño",
+    "name": "Dominio del engaño",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Haz travesuras y desafía a la autoridad*\n\nEl dominio Trickery ofrece magia de engaño, ilusión y sigilo. Los clérigos que ejercen esta magia son una fuerza disruptiva en el mundo, que perforan el orgullo, se burlan de los tiranos, liberan cautivos y se burlan de tradiciones vacías. Prefieren los subterfugios y las bromas a la confrontación directa.\n\nLos dioses del engaño son hacedores de travesuras e instigadores que representan un desafío constante al orden aceptado tanto entre los dioses como entre los mortales. Encarnan las fuerzas del cambio y la agitación social, y son patrones de ladrones, sinvergüenzas, jugadores, rebeldes y libertadores. Las órdenes religiosas que operan en secreto, especialmente aquellas que buscan socavar gobiernos o jerarquías opresivas, también recurren al poder del Dominio del Engaño.",
@@ -3587,7 +3587,7 @@
   {
     "id": "cleric/twilight-domain",
     "type": "subclass",
-    "name": "Dominio Crepuscular",
+    "name": "Dominio del crepúsculo",
     "edition": "2014",
     "source": "El caldero de todo de Tasha",
     "description": "***La transición crepuscular de la luz a la oscuridad a menudo trae calma e incluso alegría, cuando terminan las labores del día y comienzan las horas de descanso. La oscuridad también puede traer terrores, pero los dioses del crepúsculo protegen contra los horrores de la noche.***\n\n***Los clérigos que sirven a estas deidades (ejemplos de los cuales aparecen en la tabla de las Deidades del Crepúsculo) brindan consuelo a quienes buscan descanso y los protegen aventurándose en la oscuridad invasora para garantizar que la oscuridad sea un consuelo, no un terror.***\n\n**Deidades del Crepúsculo**\n\n| Ejemplo de Deidad | Panteón |\n|---|---|\n| Boldrei | Eberrón |\n| Celeste | Halcón Gris |\n| Dol-Arrah | Eberrón |\n| Timón | Reinos olvidados |\n| Ilmáter | Reinos olvidados |\n| Mishakal | Dragonlance |\n| Selune | Reinos olvidados |\n| Yondalla | Mediano |\n\n**Conjuros del Dominio Crepuscular**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Fuego de hadas, sueño |\n| 3º | Rayo de luna, ver invisibilidad |\n| 5to | Aura de vitalidad, la pequeña cabaña de Leomund |\n| 7mo | Aura de Vida, Mayor Invisibilidad |\n| 9no | Círculo de poder, engañar |",
@@ -3671,7 +3671,7 @@
   {
     "id": "cleric/unity-domain-ua",
     "type": "subclass",
-    "name": "Dominio de unidad",
+    "name": "Dominio de la unidad",
     "edition": "2014",
     "source": "Arcanos 68 desenterrados - Subclases, Parte 2",
     "description": "***Un sentido de unidad brilla en el corazón de las comunidades saludables, ya sea que estén unidas por la amistad, la sangre, la fe o alguna otra fuerza unificadora. Los dioses de la unidad profundizan esos vínculos y se deleitan en su fuerza.  \nLos clérigos de estos dioses presiden los matrimonios y otras costumbres de vinculación familiar, pero también alimentan los vínculos emocionales de amistad y camaradería. Sus bendiciones divinas refuerzan y protegen a los aliados en la batalla a través de estos profundos vínculos y desvían las influencias malignas.***\n\n**Conjuros de Dominio de Unity**\n\n| Clérigo Nivel | Conjuros |\n|---|---|\n| 1º | Heroísmo, escudo de la fe |\n| 3º | Ayuda, vínculo de protección |\n| 5to | Faro de esperanza, Envío |\n| 7mo | Aura de Pureza, Guardiana de la Fe |\n| 9no | Mayor Restauración, el vínculo telepático de Rary |",
@@ -3745,7 +3745,7 @@
   {
     "id": "cleric/war-domain",
     "type": "subclass",
-    "name": "Dominio de guerra",
+    "name": "Dominio de la guerra",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Inspira valor y derrota a los enemigos*\n\nLa guerra tiene muchas manifestaciones. Puede convertir a la gente corriente en héroes. Puede ser desesperado y horroroso, con actos de crueldad y cobardía que eclipsan ejemplos de excelencia y coraje. Los clérigos que aprovechan la magia del Dominio de Guerra sobresalen en la batalla, inspirando a otros a pelear la buena batalla u ofreciendo actos de violencia como oraciones.\n\nLos dioses del dominio de guerra vigilan a los guerreros y los recompensan por sus grandes hazañas. Incluyen campeones del honor y la caballería, así como dioses de la destrucción y el saqueo. Otros dioses de la guerra adoptan una postura más neutral, promoviendo la guerra en todas sus manifestaciones y apoyando a los guerreros en cualquier circunstancia.",
@@ -3898,7 +3898,7 @@
   {
     "id": "druid/circle-of-dreams",
     "type": "subclass",
-    "name": "Círculo de sueños",
+    "name": "Círculo de los sueños",
     "edition": "2014",
     "source": "La guía de Xanathar para todo",
     "description": "***Los druidas que son miembros del Círculo de los Sueños provienen de regiones que tienen fuertes vínculos con Feywild y sus reinos oníricos. La tutela de los druidas del mundo natural crea una alianza natural entre ellos y las hadas bien alineadas. Estos druidas buscan llenar el mundo de maravillas oníricas. Su magia cura heridas y trae alegría a los corazones abatidos, y los reinos que protegen son lugares relucientes y fructíferos, donde el sueño y la realidad se confunden y donde los cansados pueden encontrar descanso.***",
@@ -3936,7 +3936,7 @@
   {
     "id": "druid/circle-of-preservation-ua",
     "type": "subclass",
-    "name": "Círculo de Preservación",
+    "name": "Círculo de la preservación",
     "edition": "2024",
     "source": "UA7 – Subclases Apocalípticas (21.08.2025)",
     "description": "*Salvaguardar la naturaleza y sanar el mundo*\n\nLos druidas del Círculo de Preservación trabajan incansablemente para conservar los recursos naturales y restaurar lugares que alguna vez fueron arruinados por la codicia y la explotación. A través de una combinación de magia de conservación y restauración, los druidas de esta orden protegen y difunden la vida por toda la tierra. Los miembros más poderosos de este orden pueden devolver la vitalidad a los campos áridos, transformando tierras baldías en prósperas tierras salvajes una vez más.",
@@ -3947,7 +3947,7 @@
       {
         "name": "Círculo de conjuros de preservación",
         "level": 3,
-        "description": "Cuando alcanzas un nivel Druida especificado en la tabla de Conjuros del Círculo de Preservación, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Círculo de conjuros de preservación\n\n| Druida Nivel | Conjuros |\n|---|---|\n| 3 | Bendición, Restauración Menor, Protección contra el Veneno, Santuario |\n| 5 | Faro de esperanza, crecimiento vegetal |\n| 7 | Aura de vida, Sala de la muerte |\n| 9 | Mayor Restauración, Santificar |"
+        "description": "Cuando alcanzas un nivel Druida especificado en la tabla de Conjuros del Círculo de Preservación, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Círculo de conjuros de preservación\n\n| Druida Nivel | Conjuros |\n|---|---|\n| 3 | Bendición, Restauración Menor, Protección contra el Veneno, Santuario |\n| 5 | Faro de esperanza, crecimiento vegetal |\n| 7 | Aura de vida, Custodia contra la muerte |\n| 9 | Mayor Restauración, Santificar |"
       },
       {
         "name": "Tierra preservada",
@@ -4012,7 +4012,7 @@
   {
     "id": "druid/circle-of-spores-ua",
     "type": "subclass",
-    "name": "Círculo de esporas",
+    "name": "Círculo de las esporas",
     "edition": "2024",
     "source": "UA16 - Opciones de la Infraoscuridad 2 (10.09.2026)",
     "description": "*Administrador del ciclo de la vida, la muerte y la decadencia*  \nLos druidas del Círculo de Esporas encuentran la belleza en la decadencia. Veneran la capacidad del moho y otros hongos para crecer y transformar material sin vida. Estos druidas creen que la vida y la muerte son partes de un gran ciclo, donde cada etapa alimenta la siguiente.  \nLos druidas del Círculo de Esporas también ven la muerte viviente como parte de este gran ciclo siempre que sea temporal. Pero con el tiempo todas las cosas deben descomponerse para dejar espacio a una nueva vida. Los no-muertos que buscan reemplazar toda vida con no-muertos o que intentan evitar pasar a un descanso final violan el ciclo y deben ser frustrados.",
@@ -4359,7 +4359,7 @@
       {
         "name": "Conjuros del Círculo del Mar",
         "level": 3,
-        "description": "Cuando alcanzas un nivel Druida especificado en la tabla de Conjuros del Círculo del Mar, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n##### Conjuros del Círculo del Mar\n\n| Druida Nivel | Conjuros preparados |\n|---|---|\n| 3 | Nube de niebla, ráfaga de viento, rayo de escarcha, onda de trueno |\n| 5 | Rayo, respiración de agua |\n| 7 | Controlar el agua y la tormenta de hielo |\n| 9 | Conjurar elemental, sujetar monstruo |"
+        "description": "Cuando alcanzas un nivel Druida especificado en la tabla de Conjuros del Círculo del Mar, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n##### Conjuros del Círculo del Mar\n\n| Druida Nivel | Conjuros preparados |\n|---|---|\n| 3 | Nube de niebla, ráfaga de viento, rayo de escarcha, ola atronadora |\n| 5 | Rayo, respiración de agua |\n| 7 | Controlar el agua y la tormenta de hielo |\n| 9 | Conjurar elemental, sujetar monstruo |"
       },
       {
         "name": "La ira del mar",
@@ -4516,7 +4516,7 @@
       {
         "name": "Conjuros del Círculo del Titán",
         "level": 3,
-        "description": "Cuando alcanzas un nivel Druida especificado en la tabla de conjuros del Círculo del Titán, a partir de entonces siempre tendrás preparados los conjuros enumerados.  \nAdemás, puedes lanzar los conjuros de esta función mientras estás en tu forma de titán.\n\n##### Conjuros del Círculo del Titán\n\n| Druida Nivel | Conjuros preparados |\n|---|---|\n| 3 | Ampliar/Reducir, Taumaturgia, Onda de Trueno |\n| 5 | Miedo |\n| 7 | Escudo de fuego |\n| 9 | Ola destructiva |"
+        "description": "Cuando alcanzas un nivel Druida especificado en la tabla de conjuros del Círculo del Titán, a partir de entonces siempre tendrás preparados los conjuros enumerados.  \nAdemás, puedes lanzar los conjuros de esta función mientras estás en tu forma de titán.\n\n##### Conjuros del Círculo del Titán\n\n| Druida Nivel | Conjuros preparados |\n|---|---|\n| 3 | Ampliar/Reducir, Taumaturgia, Ola atronadora |\n| 5 | Miedo |\n| 7 | Escudo de fuego |\n| 9 | Ola destructiva |"
       },
       {
         "name": "Forma de titán",
@@ -4572,7 +4572,7 @@
   {
     "id": "druid/circle-of-twilight-ua",
     "type": "subclass",
-    "name": "Círculo de Crepúsculo",
+    "name": "Círculo del crepúsculo",
     "edition": "2014",
     "source": "Arcanos desenterrados 23 - Druida",
     "description": "***El Círculo del Crepúsculo busca exterminar a las criaturas no muertas y preservar el ciclo natural de vida y muerte que gobierna el cosmos. Su magia les permite manipular el límite entre la vida y la muerte, enviando a sus enemigos a su descanso final y manteniendo a sus aliados alejados de ese destino.***\n\n***Estos druidas buscan tierras contaminadas por los no-muertos. Estos lugares son sombríos y aprensivos. Una vez que los bosques vibrantes se vuelven sombríos, lugares encantados, desprovistos de animales y llenos de plantas que mueren lenta y prolongadamente. El Círculo del Crepúsculo va a esos lugares para desterrar a los no-muertos y restaurar la vida.***",
@@ -4610,13 +4610,13 @@
   {
     "id": "druid/circle-of-wildfire",
     "type": "subclass",
-    "name": "Círculo de incendios forestales",
+    "name": "Círculo del fuego salvaje",
     "edition": "2014",
     "source": "El caldero de todo de Tasha",
     "description": "***Los druidas dentro del Círculo de Incendios Forestales entienden que la destrucción es a veces el precursor de la creación, como cuando un incendio forestal promueve el crecimiento posterior. Estos druidas se unen a un espíritu primitivo que alberga poder tanto destructivo como creativo, lo que les permite crear llamas controladas que queman una cosa pero dan vida a otra.***",
     "url": "https://dnd5e.wikidot.com/druid:wildfire",
     "classId": "druid",
-    "shortName": "Incendio forestal",
+    "shortName": "Fuego salvaje",
     "features": [
       {
         "name": "Conjuros circulares",
@@ -4737,13 +4737,13 @@
   {
     "id": "fighter/banneret",
     "type": "subclass",
-    "name": "Banderín",
+    "name": "Abanderado",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "*Reúne a tus compañeros héroes con un liderazgo inspirador*\n\nLos estandartes son modelos de valor y liderazgo que protegen a los inocentes y reúnen a compañeros aventureros para las causas de la justicia y la libertad. Muchos son caballeros que sirven en Cormyr, la Marca Plateada, Damara, Chessenta u otras tierras de Faerûn. Deambulan por los reinos como caballeros andantes, llevando la lucha contra el mal más allá de las fronteras de su reino.\n\nUn Banneret depende del juicio, la valentía y la fidelidad al código de caballería para guiarse en la derrota de los malhechores. Un Banneret solitario es un guerrero hábil, pero cuando lidera un grupo de aliados, uno de estos guerreros puede transformar incluso una milicia mal equipada en una banda de guerra feroz.",
     "url": "https://dnd2024.wikidot.com/fighter:banneret",
     "classId": "fighter",
-    "shortName": "Banderín",
+    "shortName": "Abanderado",
     "features": [
       {
         "name": "Enviado caballeresco",
@@ -4862,7 +4862,7 @@
         "description": "A partir del nivel 15, cuando consigues un golpe crítico con un ataque con arma, obtienes una bonificación a la tirada de daño de esa arma igual a tu nivel en esta clase."
       },
       {
-        "name": "Sobreviviente",
+        "name": "Superviviente",
         "level": 18,
         "description": "En el nivel 18, alcanzas la cima de la resistencia en la batalla. Al comienzo de cada uno de tus turnos en combate, recuperas puntos de golpe igual a 5 + tu modificador de Constitución (mínimo de 1 punto de golpe). No obtienes este beneficio si tienes 0 puntos de golpe o si te queda más de la mitad de tu puntos de golpe."
       }
@@ -4960,7 +4960,7 @@
         "description": "Tus tiradas de ataque con armas y los ataques sin armas ahora pueden generar un golpe crítico con una tirada de 18-20 en el d20."
       },
       {
-        "name": "Sobreviviente",
+        "name": "Superviviente",
         "level": 18,
         "description": "Alcanzas el pináculo de la resiliencia en la batalla, brindándote estos beneficios.\n\n**Desafía a la muerte.** Tienes ventaja al morir tiradas de salvación. Además, cuando obtienes un resultado de 18-20 en una Muerte tirada de salvación, obtienes el beneficio de obtener un 20 en ella.\n\n**Reunión heroica.** Al comienzo de cada uno de tus turnos, recuperas puntos de golpe igual a 5 más tu modificador de Constitución si estás ensangrentado y tienes al menos 1 punto de golpe."
       }
@@ -4974,13 +4974,13 @@
   {
     "id": "fighter/echo-knight",
     "type": "subclass",
-    "name": "Caballero eco",
+    "name": "Caballero del eco",
     "edition": "2014",
     "source": "Guía del explorador de Wildemount",
     "description": "***El Caballero Eco, un misterioso y temido guerrero de primera línea de la dinastía Kryn, ha dominado el arte de usar dunamis para convocar las sombras desvanecidas de líneas temporales no realizadas para ayudarlos en la batalla. Rodeados de ecos de su propio poder, se lanzan a la refriega como un enjambre cíclico de sombras y ataques.***",
     "url": "https://dnd5e.wikidot.com/fighter:echo-knight",
     "classId": "fighter",
-    "shortName": "Caballero eco",
+    "shortName": "Caballero del eco",
     "features": [
       {
         "name": "Eco manifiesto",
@@ -5641,13 +5641,13 @@
   {
     "id": "fighter/purple-dragon-knight-ua",
     "type": "subclass",
-    "name": "Caballero Dragón Púrpura",
+    "name": "Caballero del Dragón Púrpura",
     "edition": "2024",
     "source": "Subclases de Forgotten Realms UA (28.01.2025)",
     "description": "*Predica la Majestad de los Dragones Amatista*  \nLos Caballeros Dragón Púrpura son modelos de valor y liderazgo que se asocian con dragones amatista. Estos caballeros aspiran a proteger a los inocentes y unir a sus compañeros aventureros a las causas de la justicia y la libertad. Aunque los Dragones Púrpuras se fundaron originalmente en Cormyr, se alistan nuevos reclutas de cualquier reino donde abunda la caballería, incluidas la Marca Plateada, Damara y Chessenta.\n\nLos personajes con esta subclase son especiales entre la orden. A diferencia de la mayoría de los Dragones Púrpuras, que se asocian con dragones amatista que ya han alcanzado la edad adulta, un personaje del Caballero Dragón Púrpura se vincula psiónicamente con una cría de dragón amatista. Este vínculo transforma irrevocablemente tanto al dragón como al caballero, permitiendo que el dragón crezca en fuerza junto con su compañero caballero.",
     "url": "https://dnd2024.wikidot.com/ua:subclass-fighter-purple-dragon-knight",
     "classId": "fighter",
-    "shortName": "Caballero Dragón Púrpura",
+    "shortName": "Caballero del Dragón Púrpura",
     "features": [
       {
         "name": "Enviado caballeresco",
@@ -5686,13 +5686,13 @@
   {
     "id": "fighter/rune-knight",
     "type": "subclass",
-    "name": "Caballero Runa",
+    "name": "Caballero rúnico",
     "edition": "2014",
     "source": "El caldero de todo de Tasha",
     "description": "***Los Rune Knights mejoran su destreza marcial utilizando el poder sobrenatural de las runas, una práctica antigua que se originó con los gigantes. Los cortadores de runas se pueden encontrar entre cualquier familia de gigantes, y probablemente aprendiste tus métodos de primera o segunda mano de un artesano tan místico. Ya sea que encontraste la obra del gigante tallada en una colina o cueva, aprendiste de las runas a través de un sabio o conociste al gigante en persona, estudiaste el oficio del gigante y aprendiste cómo aplicar runas mágicas para potenciar tu equipo.***",
     "url": "https://dnd5e.wikidot.com/fighter:rune-knight",
     "classId": "fighter",
-    "shortName": "Caballero Runa",
+    "shortName": "Caballero rúnico",
     "features": [
       {
         "name": "Competencias adicionales",
@@ -6131,7 +6131,7 @@
       {
         "name": "Lanzamiento de conjuros",
         "level": 3,
-        "description": "Has aprendido a lanzar conjuros. Consulta el Manual del jugador para conocer las reglas sobre el lanzamiento de conjuros. La siguiente información detalla cómo usas esas reglas como Guerrero de las Artes Místicas.\n\n**Trucos.** Conoces dos trucos de tu elección de la lista de conjuros Hechicero. Se recomiendan Blade Ward y Thunderclap. Siempre que obtengas un nivel Monje, puedes reemplazar uno de estos trucos con otro truco de tu elección de la lista de conjuros Hechicero.\n\nCuando alcanzas el Monje nivel 10, aprendes otro truco Hechicero de tu elección.\n\n**Espacios de conjuro.** La tabla de lanzamiento de conjuros del Guerrero de las Artes Místicas muestra cuántos espacios de conjuro tienes para lanzar tus conjuros de nivel 1+. Recuperas todos los espacios gastados cuando terminas un descanso largo.\n\n### Guerrero de las Artes Místicas Lanzamiento de Conjuros\n\n| Monje Nivel | Conjuros preparados | 1 | 2 | 3 | 4 |\n|---|---|---|---|---|---|\n| 3 | 3 | 2 | - | - | - |\n| 4 | 4 | 3 | - | - | - |\n| 5 | 4 | 3 | - | - | - |\n| 6 | 4 | 3 | - | - | - |\n| 7 | 5 | 4 | 2 | - | - |\n| 8 | 6 | 4 | 2 | - | - |\n| 9 | 6 | 4 | 2 | - | - |\n| 10 | 7 | 4 | 3 | - | - |\n| 11 | 8 | 4 | 3 | - | - |\n| 12 | 8 | 4 | 3 | - | - |\n| 13 | 9 | 4 | 3 | 2 | - |\n| 14 | 10 | 4 | 3 | 2 | - |\n| 15 | 10 | 4 | 3 | 2 | - |\n| 16 | 11 | 4 | 3 | 3 | - |\n| 17 | 11 | 4 | 3 | 3 | - |\n| 18 | 11 | 4 | 3 | 3 | - |\n| 19 | 12 | 4 | 3 | 3 | 1 |\n| 20 | 13 | 4 | 3 | 3 | 1 |\n\n**Conjuros preparados de nivel 1+.** Tú preparas la lista de conjuros de nivel 1+ que están disponibles para que los lances con esta función. Para empezar, elige tres conjuros de nivel 1 de la lista de conjuros Hechicero. Se recomiendan Salto, Misil Mágico y Escudo.\n\nLa cantidad de conjuros en tu lista aumenta a medida que ganas Monje niveles, como se muestra en la columna Conjuros preparados de la tabla de Lanzamiento de conjuros del Guerrero de las Artes Místicas. Siempre que ese número aumente, elige conjuros adicionales de la lista de conjuros Hechicero hasta que el número de conjuros en tu lista coincida con el número en la tabla. Los conjuros elegidos deben ser de un nivel para el que tengas espacios de conjuro. Por ejemplo, si tienes nivel 7 Monje, tu lista de conjuros preparados puede incluir cinco conjuros Hechicero de niveles 1 y 2 en cualquier combinación.\n\n**Cambiar tus conjuros preparados.** Siempre que ganes un nivel Monje, puedes reemplazar un conjuro en tu lista con otro conjuro Hechicero para el cual tienes espacios de conjuro.\n\n**Aptitud mágica.** La sabiduría es tu aptitud mágica para tus Hechicero conjuros.\n\n**Canalizador mágico.** Puedes usar un Enfoque Arcano como canalizador mágico para tus conjuros Hechicero.\n\n**Multiclase.** Si eres multiclase y tienes la función Lanzamiento de conjuros de más de una clase, suma un tercio de tus Monje niveles (redondeando hacia abajo) para determinar tus espacios de conjuro disponibles."
+        "description": "Has aprendido a lanzar conjuros. Consulta el Manual del jugador para conocer las reglas sobre el lanzamiento de conjuros. La siguiente información detalla cómo usas esas reglas como Guerrero de las Artes Místicas.\n\n**Trucos.** Conoces dos trucos de tu elección de la lista de conjuros Hechicero. Se recomiendan Blade Ward y Thunderclap. Siempre que obtengas un nivel Monje, puedes reemplazar uno de estos trucos con otro truco de tu elección de la lista de conjuros Hechicero.\n\nCuando alcanzas el Monje nivel 10, aprendes otro truco Hechicero de tu elección.\n\n**Espacios de conjuro.** La tabla de lanzamiento de conjuros del Guerrero de las Artes Místicas muestra cuántos espacios de conjuro tienes para lanzar tus conjuros de nivel 1+. Recuperas todos los espacios gastados cuando terminas un descanso largo.\n\n### Guerrero de las Artes Místicas Lanzamiento de Conjuros\n\n| Monje Nivel | Conjuros preparados | 1 | 2 | 3 | 4 |\n|---|---|---|---|---|---|\n| 3 | 3 | 2 | - | - | - |\n| 4 | 4 | 3 | - | - | - |\n| 5 | 4 | 3 | - | - | - |\n| 6 | 4 | 3 | - | - | - |\n| 7 | 5 | 4 | 2 | - | - |\n| 8 | 6 | 4 | 2 | - | - |\n| 9 | 6 | 4 | 2 | - | - |\n| 10 | 7 | 4 | 3 | - | - |\n| 11 | 8 | 4 | 3 | - | - |\n| 12 | 8 | 4 | 3 | - | - |\n| 13 | 9 | 4 | 3 | 2 | - |\n| 14 | 10 | 4 | 3 | 2 | - |\n| 15 | 10 | 4 | 3 | 2 | - |\n| 16 | 11 | 4 | 3 | 3 | - |\n| 17 | 11 | 4 | 3 | 3 | - |\n| 18 | 11 | 4 | 3 | 3 | - |\n| 19 | 12 | 4 | 3 | 3 | 1 |\n| 20 | 13 | 4 | 3 | 3 | 1 |\n\n**Conjuros preparados de nivel 1+.** Tú preparas la lista de conjuros de nivel 1+ que están disponibles para que los lances con esta función. Para empezar, elige tres conjuros de nivel 1 de la lista de conjuros Hechicero. Se recomiendan Salto, Proyectil mágico y Escudo.\n\nLa cantidad de conjuros en tu lista aumenta a medida que ganas Monje niveles, como se muestra en la columna Conjuros preparados de la tabla de Lanzamiento de conjuros del Guerrero de las Artes Místicas. Siempre que ese número aumente, elige conjuros adicionales de la lista de conjuros Hechicero hasta que el número de conjuros en tu lista coincida con el número en la tabla. Los conjuros elegidos deben ser de un nivel para el que tengas espacios de conjuro. Por ejemplo, si tienes nivel 7 Monje, tu lista de conjuros preparados puede incluir cinco conjuros Hechicero de niveles 1 y 2 en cualquier combinación.\n\n**Cambiar tus conjuros preparados.** Siempre que ganes un nivel Monje, puedes reemplazar un conjuro en tu lista con otro conjuro Hechicero para el cual tienes espacios de conjuro.\n\n**Aptitud mágica.** La sabiduría es tu aptitud mágica para tus Hechicero conjuros.\n\n**Canalizador mágico.** Puedes usar un Enfoque Arcano como canalizador mágico para tus conjuros Hechicero.\n\n**Multiclase.** Si eres multiclase y tienes la función Lanzamiento de conjuros de más de una clase, suma un tercio de tus Monje niveles (redondeando hacia abajo) para determinar tus espacios de conjuro disponibles."
       },
       {
         "name": "Místico Estilo de combate",
@@ -6534,13 +6534,13 @@
   {
     "id": "monk/way-of-the-astral-self",
     "type": "subclass",
-    "name": "Camino del Ser Astral",
+    "name": "Camino del ser astral",
     "edition": "2014",
     "source": "El caldero de todo de Tasha",
     "description": "***Un Monje que sigue el Camino del Ser Astral cree que su cuerpo es una ilusión. Ven su ki como una representación de su verdadera forma, un yo astral. Este yo astral tiene la capacidad de ser una fuerza de orden o desorden, con algunos monasterios entrenando a los estudiantes para usar su poder para proteger a los débiles y otros instruyendo a los aspirantes sobre cómo manifestar su verdadero yo al servicio de los poderosos.***",
     "url": "https://dnd5e.wikidot.com/monk:astral-self",
     "classId": "monk",
-    "shortName": "Yo Astral",
+    "shortName": "Ser astral",
     "features": [
       {
         "name": "Brazos del Ser Astral",
@@ -6679,7 +6679,7 @@
   {
     "id": "monk/way-of-the-sun-soul",
     "type": "subclass",
-    "name": "Camino del Alma Sol",
+    "name": "Camino del alma solar",
     "edition": "2014",
     "source": "Guía del aventurero de Sword Coast, Guía de todo de Xanathar",
     "description": "***Los monjes del Camino del Alma Solar aprenden a canalizar su propia energía vital en rayos abrasadores de luz. Enseñan que la meditación puede desbloquear la capacidad de desatar la luz indomable derramada por el alma de cada criatura viviente.***",
@@ -7095,7 +7095,7 @@
       {
         "name": "Conjuros de juramento",
         "level": 3,
-        "description": "Obtienes conjuros de juramento en los niveles Paladín enumerados.\n\n**Conjuros de juramento de redención**\n\n| Paladín Nivel | Conjuros |\n|---|---|\n| 3º | Santuario, Dormir |\n| 5to | Calmar las emociones, mantener a la persona |\n| 9no | Contrahechizo, patrón hipnótico |\n| 13 | La esfera resistente de Otiluke, Stoneskin |\n| 17 | Hold Monster, Muro de Fuerza |"
+        "description": "Obtienes conjuros de juramento en los niveles Paladín enumerados.\n\n**Conjuros de juramento de redención**\n\n| Paladín Nivel | Conjuros |\n|---|---|\n| 3º | Santuario, Dormir |\n| 5to | Calmar las emociones, mantener a la persona |\n| 9no | Contraconjuro, patrón hipnótico |\n| 13 | La esfera resistente de Otiluke, Stoneskin |\n| 17 | Hold Monster, Muro de Fuerza |"
       },
       {
         "name": "Canalizar divinidad",
@@ -7402,13 +7402,13 @@
   {
     "id": "paladin/oath-of-the-spellguard-ua",
     "type": "subclass",
-    "name": "Juramento del guardia de conjuros",
+    "name": "Juramento del guardián de conjuros",
     "edition": "2024",
     "source": "UA11 - Subclases Místicas (15.1.2026)",
     "description": "*Protege a tus aliados de la magia malvada*  \nLos paladines que hacen el Juramento del Guardia Conjuro juran luchar contra aquellos que usan magia para dañar a otros.  \nA menudo sirven como guardaespaldas de magos destacados, pero su función más importante es proteger a los aliados de devastadores ataques mágicos. Quienes hacen este juramento se aseguran de que los villanos que hacen mal uso de la magia sean llevados ante la justicia.\n\nEstos paladines comparten los siguientes principios:  \n• Protege a los inocentes de los malvados magos.  \n• Evita que la magia caiga en manos de los villanos.  \n• Proteger a los magos que usan la magia con honor.",
     "url": "https://dnd2024.wikidot.com/ua:subclass-paladin-oath-of-the-spellguard",
     "classId": "paladin",
-    "shortName": "Protector de conjuros",
+    "shortName": "Guardián de conjuros",
     "features": [
       {
         "name": "Vínculo guardián",
@@ -7418,7 +7418,7 @@
       {
         "name": "Conjuros del juramento del guardia de conjuros",
         "level": 3,
-        "description": "La magia de tu juramento asegura que siempre tengas ciertos conjuros listos; cuando alcanzas un nivel Paladín especificado en la tabla de Conjuros del Juramento del Guardián de Conjuros, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n#### Juramento de los conjuros del guardia de conjuros\n\n| Paladín Nivel | Conjuros |\n|---|---|\n| 3 | Detectar magia, escudo |\n| 5 | Ver Invisibilidad, Silencio |\n| 9 | Contrahechizo, disipar magia |\n| 13 | Libertad de movimiento, la esfera resiliente de Otiluke |\n| 17 | Círculo de poder, santificado |"
+        "description": "La magia de tu juramento asegura que siempre tengas ciertos conjuros listos; cuando alcanzas un nivel Paladín especificado en la tabla de Conjuros del Juramento del Guardián de Conjuros, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n#### Juramento de los conjuros del guardia de conjuros\n\n| Paladín Nivel | Conjuros |\n|---|---|\n| 3 | Detectar magia, escudo |\n| 5 | Ver Invisibilidad, Silencio |\n| 9 | Contraconjuro, disipar magia |\n| 13 | Libertad de movimiento, la esfera resiliente de Otiluke |\n| 17 | Círculo de poder, santificado |"
       },
       {
         "name": "Golpe del guardia de conjuros",
@@ -7433,7 +7433,7 @@
       {
         "name": "Hoja rompehechizos",
         "level": 15,
-        "description": "Inmediatamente después de golpear a una criatura con tu Golpe de guardia contra conjuros, puedes lanzar un Contrahechizo como parte de la misma reacción.  \nCuando lanzas un contrahechizo con un espacio de conjuro, ese espacio no se gasta si el conjuro no logra detener un conjuro."
+        "description": "Inmediatamente después de golpear a una criatura con tu Golpe de guardia contra conjuros, puedes lanzar un Contraconjuro como parte de la misma reacción.  \nCuando lanzas un contraconjuro con un espacio de conjuro, ese espacio no se gasta si el conjuro no logra detener un conjuro."
       },
       {
         "name": "Guardia de conjuros eterno",
@@ -7499,7 +7499,7 @@
       {
         "name": "Conjuros de juramento",
         "level": 3,
-        "description": "Obtienes conjuros de juramento en los niveles Paladín enumerados.\n\n**Conjuros del juramento de los Vigilantes**\n\n| Paladín Nivel | Conjuros |\n|---|---|\n| 3º | Alarma, Detecta Magia |\n| 5to | Rayo de luna, ver invisibilidad |\n| 9no | Contrahechizo, No detección |\n| 13 | Aura de Pureza, Destierro |\n| 17 | Mantenga Monstruo, Adivinación |"
+        "description": "Obtienes conjuros de juramento en los niveles Paladín enumerados.\n\n**Conjuros del juramento de los Vigilantes**\n\n| Paladín Nivel | Conjuros |\n|---|---|\n| 3º | Alarma, Detecta Magia |\n| 5to | Rayo de luna, ver invisibilidad |\n| 9no | Contraconjuro, No detección |\n| 13 | Aura de Pureza, Destierro |\n| 17 | Mantenga Monstruo, Adivinación |"
       },
       {
         "name": "Canalizar divinidad",
@@ -7846,13 +7846,13 @@
   {
     "id": "ranger/deep-stalker",
     "type": "subclass",
-    "name": "Acosador profundo",
+    "name": "Acechador de las profundidades",
     "edition": "2014",
     "source": "Arcanos 10 desenterrados: ¡Luz, Oscuridad, Infraoscuridad!",
     "description": "***Los aventureros que descienden a las profundidades en búsquedas desesperadas o en respuesta a la promesa de grandes riquezas rápidamente se encuentran cara a cara con el mal que se pudre bajo la tierra. Aunque muchos de estos personajes están encantados de volver a escapar al mundo de la superficie, los explorador con el arquetipo Deep Stalker dan la bienvenida a cada incursión en el mundo inferior, esforzándose por descubrir y derrotar las amenazas de la Infraoscuridad antes de que puedan llegar a la superficie.***\n\n***Muchos Deep Stalkers son elfos, ya que esa gente sabe muy bien la amenaza que representan los drow. Los Deep Stalkers exploran nuevos pasajes hacia la Infraoscuridad, los mapean cuidadosamente y trabajan para garantizar que permanezcan vigilados en todo momento. Se aventuran en las profundidades en largas y peligrosas patrullas, desapareciendo durante meses. Muchos de ellos nunca regresan.***\n\n***Los Deep Stalkers dominan conjuros útiles para navegar en la Infraoscuridad y sus tácticas de combate se centran en la emboscada, la sorpresa y el sigilo. Luchan solos o en pequeños grupos en territorio hostil, confiando en tácticas inteligentes para salir adelante.***",
     "url": "https://dnd5e.wikidot.com/ranger:deep-stalker-ua",
     "classId": "ranger",
-    "shortName": "Acosador profundo",
+    "shortName": "Acechador de las profundidades",
     "features": [
       {
         "name": "Explorador de la Infraoscuridad",
@@ -7917,13 +7917,13 @@
   {
     "id": "ranger/drakewarden",
     "type": "subclass",
-    "name": "Drakewarden",
+    "name": "Guardián de dracos",
     "edition": "2014",
     "source": "El tesoro de los dragones de Fizban",
     "description": "***Tu conexión con el mundo natural toma la forma de un espíritu dracónico, que puede manifestarse en forma física como un draco. A medida que tus poderes crecen, tu draco también crece, pasando de ser un pequeño compañero de cuatro patas a una majestuosa criatura alada, lo suficientemente grande y fuerte como para que puedas montarla. A lo largo del camino, obtendrás una parte cada vez mayor del impresionante poder de los dragones.***\n\n***Considera la fuente del espíritu dracónico con el que te has unido. La tabla Drakewarden Origin ofrece ejemplos.***\n\n**Origen del Guardián de los Dragones**\n\n| d6 | Origen |\n|---|---|\n| 1 | Estudiaste la escama o la garra de un dragón, o una baratija del tesoro de un dragón, creando tu vínculo a través de la magia dracónica persistente de esa ficha. |\n| 2 | Una orden secreta de explorador que recopilan y guardan la tradición dracónica te enseñaron sus costumbres. |\n| 3 | Un dragón te dio una geoda o una piedra preciosa para que la cuidaras. Para tu sorpresa, el draco surgió de esa piedra. |\n| 4 | Ingeriste unas gotas de sangre de dragón, infundiendo para siempre tu magia natural con poder dracónico. |\n| 5 | Una antigua inscripción dracónica en una piedra te otorgaba poder cuando la leías en voz alta. |\n| 6 | Tuviste un sueño vívido con una figura misteriosa acompañada por siete canarios amarillos, que te advirtieron de una perdición inminente. Cuando despertaste, tu draco estaba allí, mirándote. |",
     "url": "https://dnd5e.wikidot.com/ranger:drakewarden",
     "classId": "ranger",
-    "shortName": "Drakewarden",
+    "shortName": "Guardián de dracos",
     "features": [
       {
         "name": "Regalo dracónico",
@@ -7957,13 +7957,13 @@
   {
     "id": "ranger/fey-wanderer",
     "type": "subclass",
-    "name": "Vagabundo Fey",
+    "name": "Vagabundo feérico",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Empuña alegría y furia fey*  \nUna mística feérica te rodea, gracias a la bendición de un archifa o de un lugar en Feywild que te transformó. Independientemente de cómo hayas ganado magia feérica, ahora eres un Fey Wanderer. Tu risa alegre ilumina los corazones de los oprimidos, y tu destreza marcial infunde terror en tus enemigos, porque grande es la alegría de los elfos y terrible es su furia.",
     "url": "https://dnd2024.wikidot.com/ranger:fey-wanderer",
     "classId": "ranger",
-    "shortName": "Vagabundo Fey",
+    "shortName": "Vagabundo feérico",
     "features": [
       {
         "name": "Huelgas terribles",
@@ -8305,7 +8305,7 @@
   {
     "id": "ranger/monster-slayer-conclave",
     "type": "subclass",
-    "name": "Cónclave de cazadores de monstruos",
+    "name": "Cónclave del asesino de monstruos",
     "edition": "2014",
     "source": "La guía de Xanathar para todo",
     "description": "***Te has dedicado a cazar criaturas de la noche y portadores de magia siniestra. Un cazador de monstruos busca vampiros, dragones, hadas malvadas, demonios y otras amenazas mágicas. Entrenados en técnicas sobrenaturales para vencer a estos monstruos, los cazadores son expertos en desenterrar y derrotar a enemigos poderosos y místicos.***",
@@ -9006,13 +9006,13 @@
   {
     "id": "rogue/inquisitive",
     "type": "subclass",
-    "name": "Curioso",
+    "name": "Inquisitivo",
     "edition": "2014",
     "source": "La guía de Xanathar para todo",
     "description": "***Como inquisitivo arquetípico, destacas por desenterrar secretos y desentrañar misterios. Confías en tu ojo agudo para los detalles, pero también en tu habilidad perfeccionada para leer las palabras y los hechos de otras criaturas para determinar su verdadera intención. Eres un experto en derrotar a criaturas que se esconden entre la gente común y se aprovechan de ella, y tu dominio de la tradición y tu ojo agudo te equipan bien para exponer y acabar con males ocultos.***",
     "url": "https://dnd5e.wikidot.com/rogue:inquisitive",
     "classId": "rogue",
-    "shortName": "Curioso",
+    "shortName": "Inquisitivo",
     "features": [
       {
         "name": "Oído para el engaño",
@@ -9283,7 +9283,7 @@
         "description": "A partir del nivel 3, es difícil localizarte durante una pelea. Puedes moverte hasta la mitad de tu velocidad como reacción cuando un enemigo finaliza su turno a 5 pies de ti. Este movimiento no provoca ataques de oportunidad."
       },
       {
-        "name": "Superviviente",
+        "name": "Experto en supervivencia",
         "level": 3,
         "description": "Cuando eliges este arquetipo en el nivel 3, obtienes competencia en las habilidades de Naturaleza y Supervivencia si aún no las tienes. Tu bonificador de competencia se duplica para cualquier prueba de característica que hagas y que utilice cualquiera de esas competencias."
       },
@@ -9521,7 +9521,7 @@
     "description": "*Llevar el poder de un linaje lanzador de conjuros*\n\nTu magia innata proviene de un ancestro específico que ejerció un poder mágico tan asombroso que un fragmento de su personalidad te guía. Este ancestro te otorga guía y dirección mientras exploras tus habilidades mágicas innatas. Podrías ser el único descendiente superviviente de tu antepasado, una reencarnación que tiene un extraño parecido con tu antepasado o una víctima de una maldición obtenida al manipular los efectos personales de tu antepasado.",
     "url": "https://dnd2024.wikidot.com/ua:subclass-sorcerer-ancestral-sorcery",
     "classId": "sorcerer",
-    "shortName": "Ancestrales",
+    "shortName": "Ancestral",
     "features": [
       {
         "name": "Conocimiento de los antepasados",
@@ -9541,7 +9541,7 @@
       {
         "name": "Interrupción de conjuros superior",
         "level": 6,
-        "description": "El dominio de tu antepasado en el lanzamiento de conjuros te ayuda a romper conjuros. Siempre tienes preparado el Contrahechizo y Disipar Magia.  \nMientras tu función de Hechicería Innata esté activa, puedes lanzar cada conjuro sin gastar un espacio de conjuro. Si lanzas un Contrahechizo de esta manera, el objetivo tiene Desventaja en su Constitución tirada de salvación. Si lanzas Dispel Magic de esta manera, tienes ventaja en tu pruebas de característica para finalizar los conjuros en curso. Una vez que lanzas cualquiera de los conjuros sin un espacio de conjuro, debes terminar un descanso largo antes de poder volver a lanzar el conjuro de esta manera."
+        "description": "El dominio de tu antepasado en el lanzamiento de conjuros te ayuda a romper conjuros. Siempre tienes preparado el Contraconjuro y Disipar Magia.  \nMientras tu función de Hechicería Innata esté activa, puedes lanzar cada conjuro sin gastar un espacio de conjuro. Si lanzas un Contraconjuro de esta manera, el objetivo tiene Desventaja en su Constitución tirada de salvación. Si lanzas Dispel Magic de esta manera, tienes ventaja en tu pruebas de característica para finalizar los conjuros en curso. Una vez que lanzas cualquiera de los conjuros sin un espacio de conjuro, debes terminar un descanso largo antes de poder volver a lanzar el conjuro de esta manera."
       },
       {
         "name": "Majestad ancestral",
@@ -9604,7 +9604,7 @@
     "description": "*Canalizar las Fuerzas Cósmicas del Orden*\n\nLa fuerza cósmica del orden te ha infundido magia. Ese poder surge de Mechanus o de un reino similar: un plano de existencia moldeado enteramente por la eficiencia de un reloj. Tú o alguien de tu linaje podrías haber quedado enredado en las maquinaciones de los modrones, los seres ordenados que habitan en Mechanus. Quizás tu antepasado incluso participó en la Gran Marcha de Modron. Cualquiera que sea su origen dentro de ti, el poder del orden puede parecer extraño para los demás, pero para ti es parte de un sistema vasto y glorioso.",
     "url": "https://dnd2024.wikidot.com/sorcerer:clockwork-sorcery",
     "classId": "sorcerer",
-    "shortName": "Mecanismo de relojería",
+    "shortName": "Mecánica",
     "features": [
       {
         "name": "Conjuros de relojería",
@@ -9678,7 +9678,7 @@
     "description": "*Desvía vida a conjuros catastróficos*\n\nTu poder innato extrae la esencia vital del mundo circundante. A tus órdenes, las criaturas enferman y las plantas se marchitan hasta convertirse en cáscaras. Obtienes poder de la corrupción de la vida misma, drenando vitalidad para alimentar la magia destructiva.",
     "url": "https://dnd2024.wikidot.com/ua:subclass-sorcerer-defiled-sorcery",
     "classId": "sorcerer",
-    "shortName": "Profanado",
+    "shortName": "Profanada",
     "features": [
       {
         "name": "Profanar y empoderar",
@@ -9820,7 +9820,7 @@
     "description": "***A veces la chispa de magia que alimenta un Hechicero proviene de una fuente divina que brilla dentro del alma. Tener un alma tan bendecida es una señal de que tu magia innata podría provenir de una conexión familiar distante pero poderosa con un ser divino. Quizás tu antepasado fue un ángel, transformado en mortal y enviado a luchar en nombre de un dios. O tu nacimiento podría alinearse con una antigua profecía, que te marca como un sirviente de los dioses o un recipiente elegido de la magia divina.***\n\n***Un Alma Divina, con magnetismo natural, es vista como una amenaza por algunas jerarquías religiosas. Como forasteros que controlan el poder celestial, estos hechiceros pueden socavar el orden existente al afirmar un vínculo directo con lo divino.***\n\n***En algunas culturas, sólo aquellos que pueden reclamar el poder de un Alma Divina pueden ejercer el poder religioso. En estas tierras, los cargos eclesiásticos están dominados por unos pocos linajes y se conservan a lo largo de generaciones.***",
     "url": "https://dnd5e.wikidot.com/sorcerer:divine-soul",
     "classId": "sorcerer",
-    "shortName": "Divino",
+    "shortName": "Divina",
     "features": [
       {
         "name": "Magia Divina",
@@ -9863,7 +9863,7 @@
     "description": "*Respira la magia de los dragones*\n\nTu magia innata proviene del don de un dragón. Quizás un antiguo dragón que se enfrentaba a la muerte le legó parte de su poder mágico a usted o a su antepasado. Es posible que hayas absorbido magia de un sitio imbuido del poder de los dragones. O tal vez manipulaste un tesoro extraído del tesoro de un dragón que estaba impregnado de poder dracónico. O podrías tener un dragón como antepasado.",
     "url": "https://dnd2024.wikidot.com/sorcerer:draconic-sorcery",
     "classId": "sorcerer",
-    "shortName": "Dracónico",
+    "shortName": "Dracónica",
     "features": [
       {
         "name": "Resiliencia dracónica",
@@ -10060,13 +10060,13 @@
   {
     "id": "sorcerer/favored-soul-ua",
     "type": "subclass",
-    "name": "Alma favorecida",
+    "name": "Alma predilecta",
     "edition": "2014",
     "source": "Arcanos 3 desenterrados: Modificación de clases",
     "description": "",
     "url": "https://dnd5e.wikidot.com/sorcerer:favored-soul-ua",
     "classId": "sorcerer",
-    "shortName": "Favorecido",
+    "shortName": "Predilecta",
     "features": [
       {
         "name": "Elegido de los dioses",
@@ -10152,12 +10152,12 @@
     "description": "***En muchos mundos, la luna es un cuerpo celeste venerado con propiedades mágicas. En Krynn, los dioses de la magia están asociados con las tres lunas del mundo. En el mundo de Toril, el dios Selûne utiliza la luz de la luna para luchar contra la oscuridad. En Eberron, los eruditos de la Profecía Dracónica descifran antiguos secretos del crecimiento y menguante de las doce lunas de ese mundo.***\n\n***Tú o alguien de tu linaje ha estado expuesto a la magia concentrada de la luna (o lunas) de tu mundo, imbuyéndote de magia lunar. Quizás tu antepasado estuvo involucrado en un ritual druídico que involucraba un eclipse, o quizás un fragmento místico de una luna se estrelló cerca de ti. Independientemente de cómo hayas llegado a tener tu magia, tu conexión con la luna es obvia cuando lanzas conjuros Hechicero, tal vez haciendo que tus pupilas brillen con el color de una luna de tu mundo, provocando manifestaciones espectrales de las fases lunares que te orbitan, o algún otro efecto.***",
     "url": "https://dnd5e.wikidot.com/sorcerer:lunar-sorcery",
     "classId": "sorcerer",
-    "shortName": "Luna",
+    "shortName": "Lunar",
     "features": [
       {
         "name": "Encarnación lunar",
         "level": 3,
-        "description": "Aprendes conjuros adicionales cuando alcanzas ciertos niveles en esta clase, como se muestra en la tabla de Conjuros Lunares. Cada uno de estos conjuros cuenta como un conjuro Hechicero para ti, pero no cuenta para el número de conjuros Hechicero que conoces.\n\n**Conjuros lunares**\n\n| Hechicero Nivel | Conjuros de luna llena | Conjuros de luna nueva | Conjuros de luna creciente |\n|---|---|---|---|\n| 1º | Escudo | Rayo de enfermedad | Aerosol de color |\n| 3º | Restauración Menor | Ceguera/Sordera | Alterarse a sí mismo |\n| 5to | Disipar la magia | Toque vampírico | Corcel fantasma |\n| 7mo | Sala de la muerte | Confusión | Terreno alucinatorio |\n| 9no | El vínculo telepático de Rary | Mantenga monstruo | Engañar |\n\nCada vez que termines un descanso largo, podrás elegir en qué fase lunar manifiesta su poder a través de tu magia: Luna Llena, Luna Nueva o Luna Creciente. Mientras estás en la fase elegida, puedes lanzar un conjuro de primer nivel de la fase asociada en la tabla de Conjuros Lunares una vez sin gastar un espacio de conjuro. Una vez que lanzas un conjuro de esta manera, no puedes volver a hacerlo hasta que termines un descanso largo."
+        "description": "Aprendes conjuros adicionales cuando alcanzas ciertos niveles en esta clase, como se muestra en la tabla de Conjuros Lunares. Cada uno de estos conjuros cuenta como un conjuro Hechicero para ti, pero no cuenta para el número de conjuros Hechicero que conoces.\n\n**Conjuros lunares**\n\n| Hechicero Nivel | Conjuros de luna llena | Conjuros de luna nueva | Conjuros de luna creciente |\n|---|---|---|---|\n| 1º | Escudo | Rayo de enfermedad | Aerosol de color |\n| 3º | Restauración Menor | Ceguera/Sordera | Alterarse a sí mismo |\n| 5to | Disipar la magia | Toque vampírico | Corcel fantasma |\n| 7mo | Custodia contra la muerte | Confusión | Terreno alucinatorio |\n| 9no | El vínculo telepático de Rary | Mantenga monstruo | Engañar |\n\nCada vez que termines un descanso largo, podrás elegir en qué fase lunar manifiesta su poder a través de tu magia: Luna Llena, Luna Nueva o Luna Creciente. Mientras estás en la fase elegida, puedes lanzar un conjuro de primer nivel de la fase asociada en la tabla de Conjuros Lunares una vez sin gastar un espacio de conjuro. Una vez que lanzas un conjuro de esta manera, no puedes volver a hacerlo hasta que termines un descanso largo."
       },
       {
         "name": "Fuego lunar",
@@ -10269,7 +10269,7 @@
     "description": "***Un día una luz brilló dentro de ti: la iluminación del poder psiónico. Tu mente ahora hierve con este poder, cuyo alcance total no comprenderás por completo en los años venideros. Puedes tocar otras mentes con él y alterar el mundo que te rodea usándolo para controlar la energía mágica del multiverso. ¿Brillará este poder en usted como un faro de esperanza para los demás? ¿O serás una fuente de terror para aquellos que sientan la puñalada de tu mente y sean testigos de las extrañas manifestaciones de tu poder?***\n\n***Entre githyanki y githzerai, los poderes de los hechiceros del alma psiónica son venerados y controlados en ambos lados de la guerra gith. En Eberron, muchos kalashtar sueñan con descubrir las habilidades de este origen dentro de sí mismos, y en Athas, nacen más hechiceros con un alma psiónica que con cualquier otra fuente de poder. En los claros de los bosques primitivos tocados por Feywild, los niños a veces despiertan a las maravillas del poder psiónico. Y en las comunidades que sobreviven a las incursiones del Reino Lejano, algunas personas mutan en horribles aberraciones, mientras que unos pocos afortunados no sólo siguen siendo ellos mismos, sino que también descubren que la energía psiónica ahora inunda sus mentes.***",
     "url": "https://dnd5e.wikidot.com/sorcerer:psionic-soul-ua",
     "classId": "sorcerer",
-    "shortName": "Psiónico",
+    "shortName": "Psiónica",
     "features": [
       {
         "name": "Origen psiónico",
@@ -10466,7 +10466,7 @@
   {
     "id": "sorcerer/spellfire-sorcery",
     "type": "subclass",
-    "name": "Hechicería de fuego mágico",
+    "name": "Hechicería del fuego de conjuro",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "*Empuñar magia pura*\n\nTu poder innato proviene de la fuente misma de la magia: el Tejido. Esta conexión se manifiesta como una rara habilidad conocida como conjuro de fuego, y surge con ráfagas radiantes de esta magia pura. Tu talento con el fuego de conjuros te permite curar a tus aliados, quemar enemigos y absorber conjuros poderosos.\n\nLos portadores de conjuros de fuego tienden a tener predilección por deambular. Muchos viajan entre asentamientos cosmopolitas, como los de la Costa de la Espada, y ejercen su magia al servicio del bien común. Otros se dan cuenta de sus propios poderes extraños al vagar por tierras igualmente extrañas, desde los desiertos devastados por la magia del desierto de Anauroch hasta las tierras salvajes tocadas por los dioses de los Antiguos Imperios. Dondequiera que vayan en los Reinos, los Hechiceros de fuego mágico son cortejados por facciones con intereses en las artes arcanas, como los Arpistas, el Culto del Dragón y los Magos Rojos.",
@@ -10487,7 +10487,7 @@
       {
         "name": "Absorber conjuros",
         "level": 6,
-        "description": "Siempre tienes el Contrahechizo preparado.  \nAdemás, cada vez que un objetivo falla el tirada de salvación contra un contrahechizo que lanzas, recuperas 1d4 puntos de hechicería."
+        "description": "Siempre tienes el Contraconjuro preparado.  \nAdemás, cada vez que un objetivo falla el tirada de salvación contra un contraconjuro que lanzas, recuperas 1d4 puntos de hechicería."
       },
       {
         "name": "Fuego de conjuro perfeccionado",
@@ -10653,7 +10653,7 @@
   {
     "id": "sorcerer/wild-magic-sorcery",
     "type": "subclass",
-    "name": "Hechicería mágica salvaje",
+    "name": "Hechicería de magia salvaje",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Desata magia caótica*\n\nTu magia innata surge de las fuerzas del caos que subyacen al orden de la creación. Es posible que usted o un ancestro hayan soportado la exposición a la magia pura, tal vez a través de un portal plano que conduce al Limbo o a los Planos Elementales. Quizás fuiste bendecido por un ser feérico o marcado por un demonio. O tu magia podría ser una casualidad sin causa aparente. Cualquiera que sea su fuente, esta magia se agita dentro de ti, esperando cualquier salida.",
@@ -10684,7 +10684,7 @@
       {
         "name": "Oleada domesticada",
         "level": 18,
-        "description": "Inmediatamente después de lanzar un conjuro Hechicero con un espacio de conjuro, puedes crear un efecto de tu elección de la tabla Wild Magic Surge en lugar de tirar en esa tabla. Puedes elegir cualquier efecto de la tabla excepto la última fila, y si el efecto elegido implica una tirada, deberás realizarla.\n\nUna vez que uses esta función, no podrás volver a hacerlo hasta que termines un descanso largo.\n\n##### Oleada de magia salvaje\n\n| 1d100 | Efecto |\n|---|---|\n| 01-04 | Tira en esta tabla al comienzo de cada uno de tus turnos durante el siguiente minuto, ignorando este resultado en tiradas posteriores. |\n| 05-08 | Una criatura que es amigable contigo aparece en un espacio aleatorio desocupado a 60 pies de ti. La criatura está bajo el control del DM y desaparece 1 minuto después. Tira 1d4 para determinar la criatura: con un 1, aparece un Modron Duodrone; con un 2, aparece un Flumph; con un 3, aparece un Modron Monodrone; con un 4, aparece un Unicornio. Consulta el Manual de monstruos para conocer el bloque de estadísticas de la criatura. |\n| 09-12 | Durante el siguiente minuto, recuperas 5 puntos de golpe al comienzo de cada uno de tus turnos. |\n| 13-16 | Las criaturas tienen Desventaja en tiradas de salvación contra el siguiente conjuro que lances en el siguiente minuto que involucra un tirada de salvación. |\n| 17-20 | Estás sujeto a un efecto que dura 1 minuto a menos que su descripción diga lo contrario. Tira 1d8 para determinar el efecto: con un 1, estás rodeado por una música tenue y etérea que sólo tú y las criaturas a 5 pies de ti pueden escuchar; con un 2, tu talla aumenta en una categoría de talla; con un 3, te crece una larga barba hecha de plumas que permanece hasta que estornudas, momento en el que las plumas explotan de tu cara y desaparecen; con un 4, debes gritar cuando hablas; con un 5, mariposas ilusorias revolotean en el aire a 10 pies de ti; con un 6, aparece un ojo en tu frente, lo que te otorga Ventaja en las pruebas de Sabiduría (Percepción); con un 7, burbujas rosadas salen flotando de tu boca cada vez que hablas; con un 8, tu piel adquiere un tono azul vibrante durante 24 horas o hasta que el efecto finaliza con un conjuro Quitar maldición. |\n| 21-24 | Durante el siguiente minuto, todos tus conjuros con un tiempo de lanzamiento de una acción tienen un tiempo de lanzamiento de acción adicional. |\n| 25-28 | Eres transportado al Plano Astral hasta el final de tu próximo turno. Luego regresa al espacio que ocupaba anteriormente o al espacio desocupado más cercano si ese espacio está ocupado. |\n| 29-32 | La próxima vez que lances un conjuro que cause daño dentro del siguiente minuto, no lances los dados de daño del conjuro para determinar el daño. En su lugar, utilice el número más alto posible para cada dado de daño. |\n| 33-36 | Tienes Resistencia a todo daño durante el siguiente minuto. |\n| 37-40 | Te conviertes en una planta en maceta hasta el comienzo de tu siguiente turno. Mientras eres una planta, tienes la condición de Incapacitado y tienes Vulnerabilidad a todo daño. Si bajas a 0 puntos de golpe, tu bote se rompe y tu forma se revierte. |\n| 41-44 | Durante el siguiente minuto, puedes teletransportarte hasta 20 pies como acción adicional en cada uno de tus turnos. |\n| 45-48 | Tú y hasta tres criaturas que elijas dentro de un radio de 30 pies de ti tenéis la condición Invisible durante 1 minuto. Esta invisibilidad termina en una criatura inmediatamente después de que realiza una tirada de ataque, inflige daño o lanza un conjuro. |\n| 49-52 | Un escudo espectral flota cerca de ti durante el siguiente minuto, lo que te otorga una bonificación de +2 a CA e inmunidad al Misil Mágico. |\n| 53-56 | Puedes realizar una acción adicional en este turno. |\n| 57-60 | Lanzas un conjuro aleatorio. Si el conjuro normalmente requiere Concentración, no requiere Concentración en este caso; el conjuro dura toda su duración. Tira 1d10 para determinar el conjuro: con un 1, Confusión; con un 2, Bola de fuego; con un 3, Nube de Niebla; con un 4, Volar (lanzado sobre una criatura aleatoria dentro de 60 pies de ti), con un 5, Grasa; con un 6, Levitar (lanzarse sobre uno mismo); con un 7, Misil Mágico (lanzado como un conjuro de nivel 5); con un 8, Imagen reflejada; con un 9, Polimorfismo (lanzado sobre ti mismo), y si fallas el tirada de salvación, te conviertes en una Cabra (ver apéndice B); con un 10, Ver Invisibilidad. |\n| 61-64 | Durante el siguiente minuto, cualquier objeto inflamable y no mágico que toques y que no esté siendo usado o transportado por otra criatura estalla en llamas, sufre 1d4 de daño de Fuego y arde. |\n| 65-68 | Si mueres en la siguiente hora, revives inmediatamente como por el conjuro Reencarnar. |\n| 69-72 | Tienes la condición Asustado hasta el final de tu próximo turno. El DM determina la fuente de tu miedo. |\n| 73-76 | Te teletransportas hasta 60 pies a un espacio desocupado que puedas ver. |\n| 77-80 | Una criatura aleatoria a 60 pies de ti tiene la condición de Envenenado durante 1d4 horas. || 81-84 | Irradias luz brillante en un radio de 30 pies durante el siguiente minuto. Cualquier criatura que termine su turno a 5 pies de ti tiene la condición de Cegada hasta el final de su siguiente turno. |\n| 85-88 | Hasta tres criaturas de tu elección que puedas ver a 30 pies de ti reciben 1d10 de daño necrótico. Recuperas puntos de golpe igual a la suma del daño necrótico infligido. |\n| 89-92 | Hasta tres criaturas de tu elección que puedas ver a 30 pies de ti reciben 4d10 de daño de Rayo. |\n| 93-96 | Tú y todas las criaturas a 30 pies de ti tenéis vulnerabilidad al daño perforante durante el siguiente minuto. |\n| 97-00 | Tira 1d6: con un 1, recuperas 2d10 puntos de golpe; con un 2, un aliado de tu elección dentro de 300 pies de ti recupera 2d10 puntos de golpe; con un 3, recuperas tu nivel más bajo gastado espacio de conjuro; con un 4, un aliado de tu elección dentro de 300 pies de ti recupera su nivel más bajo gastado espacio de conjuro; con un 5, recuperas todo tu puntos de hechicería gastado; con un 6, todos los efectos de las filas 17-20 te afectan simultáneamente. |"
+        "description": "Inmediatamente después de lanzar un conjuro Hechicero con un espacio de conjuro, puedes crear un efecto de tu elección de la tabla Wild Magic Surge en lugar de tirar en esa tabla. Puedes elegir cualquier efecto de la tabla excepto la última fila, y si el efecto elegido implica una tirada, deberás realizarla.\n\nUna vez que uses esta función, no podrás volver a hacerlo hasta que termines un descanso largo.\n\n##### Oleada de magia salvaje\n\n| 1d100 | Efecto |\n|---|---|\n| 01-04 | Tira en esta tabla al comienzo de cada uno de tus turnos durante el siguiente minuto, ignorando este resultado en tiradas posteriores. |\n| 05-08 | Una criatura que es amigable contigo aparece en un espacio aleatorio desocupado a 60 pies de ti. La criatura está bajo el control del DM y desaparece 1 minuto después. Tira 1d4 para determinar la criatura: con un 1, aparece un Modron Duodrone; con un 2, aparece un Flumph; con un 3, aparece un Modron Monodrone; con un 4, aparece un Unicornio. Consulta el Manual de monstruos para conocer el bloque de estadísticas de la criatura. |\n| 09-12 | Durante el siguiente minuto, recuperas 5 puntos de golpe al comienzo de cada uno de tus turnos. |\n| 13-16 | Las criaturas tienen Desventaja en tiradas de salvación contra el siguiente conjuro que lances en el siguiente minuto que involucra un tirada de salvación. |\n| 17-20 | Estás sujeto a un efecto que dura 1 minuto a menos que su descripción diga lo contrario. Tira 1d8 para determinar el efecto: con un 1, estás rodeado por una música tenue y etérea que sólo tú y las criaturas a 5 pies de ti pueden escuchar; con un 2, tu talla aumenta en una categoría de talla; con un 3, te crece una larga barba hecha de plumas que permanece hasta que estornudas, momento en el que las plumas explotan de tu cara y desaparecen; con un 4, debes gritar cuando hablas; con un 5, mariposas ilusorias revolotean en el aire a 10 pies de ti; con un 6, aparece un ojo en tu frente, lo que te otorga Ventaja en las pruebas de Sabiduría (Percepción); con un 7, burbujas rosadas salen flotando de tu boca cada vez que hablas; con un 8, tu piel adquiere un tono azul vibrante durante 24 horas o hasta que el efecto finaliza con un conjuro Quitar maldición. |\n| 21-24 | Durante el siguiente minuto, todos tus conjuros con un tiempo de lanzamiento de una acción tienen un tiempo de lanzamiento de acción adicional. |\n| 25-28 | Eres transportado al Plano Astral hasta el final de tu próximo turno. Luego regresa al espacio que ocupaba anteriormente o al espacio desocupado más cercano si ese espacio está ocupado. |\n| 29-32 | La próxima vez que lances un conjuro que cause daño dentro del siguiente minuto, no lances los dados de daño del conjuro para determinar el daño. En su lugar, utilice el número más alto posible para cada dado de daño. |\n| 33-36 | Tienes Resistencia a todo daño durante el siguiente minuto. |\n| 37-40 | Te conviertes en una planta en maceta hasta el comienzo de tu siguiente turno. Mientras eres una planta, tienes la condición de Incapacitado y tienes Vulnerabilidad a todo daño. Si bajas a 0 puntos de golpe, tu bote se rompe y tu forma se revierte. |\n| 41-44 | Durante el siguiente minuto, puedes teletransportarte hasta 20 pies como acción adicional en cada uno de tus turnos. |\n| 45-48 | Tú y hasta tres criaturas que elijas dentro de un radio de 30 pies de ti tenéis la condición Invisible durante 1 minuto. Esta invisibilidad termina en una criatura inmediatamente después de que realiza una tirada de ataque, inflige daño o lanza un conjuro. |\n| 49-52 | Un escudo espectral flota cerca de ti durante el siguiente minuto, lo que te otorga una bonificación de +2 a CA e inmunidad al Proyectil mágico. |\n| 53-56 | Puedes realizar una acción adicional en este turno. |\n| 57-60 | Lanzas un conjuro aleatorio. Si el conjuro normalmente requiere Concentración, no requiere Concentración en este caso; el conjuro dura toda su duración. Tira 1d10 para determinar el conjuro: con un 1, Confusión; con un 2, Bola de fuego; con un 3, Nube de Niebla; con un 4, Volar (lanzado sobre una criatura aleatoria dentro de 60 pies de ti), con un 5, Grasa; con un 6, Levitar (lanzarse sobre uno mismo); con un 7, Proyectil mágico (lanzado como un conjuro de nivel 5); con un 8, Imagen reflejada; con un 9, Polimorfismo (lanzado sobre ti mismo), y si fallas el tirada de salvación, te conviertes en una Cabra (ver apéndice B); con un 10, Ver Invisibilidad. |\n| 61-64 | Durante el siguiente minuto, cualquier objeto inflamable y no mágico que toques y que no esté siendo usado o transportado por otra criatura estalla en llamas, sufre 1d4 de daño de Fuego y arde. |\n| 65-68 | Si mueres en la siguiente hora, revives inmediatamente como por el conjuro Reencarnar. |\n| 69-72 | Tienes la condición Asustado hasta el final de tu próximo turno. El DM determina la fuente de tu miedo. |\n| 73-76 | Te teletransportas hasta 60 pies a un espacio desocupado que puedas ver. |\n| 77-80 | Una criatura aleatoria a 60 pies de ti tiene la condición de Envenenado durante 1d4 horas. || 81-84 | Irradias luz brillante en un radio de 30 pies durante el siguiente minuto. Cualquier criatura que termine su turno a 5 pies de ti tiene la condición de Cegada hasta el final de su siguiente turno. |\n| 85-88 | Hasta tres criaturas de tu elección que puedas ver a 30 pies de ti reciben 1d10 de daño necrótico. Recuperas puntos de golpe igual a la suma del daño necrótico infligido. |\n| 89-92 | Hasta tres criaturas de tu elección que puedas ver a 30 pies de ti reciben 4d10 de daño de Rayo. |\n| 93-96 | Tú y todas las criaturas a 30 pies de ti tenéis vulnerabilidad al daño perforante durante el siguiente minuto. |\n| 97-00 | Tira 1d6: con un 1, recuperas 2d10 puntos de golpe; con un 2, un aliado de tu elección dentro de 300 pies de ti recupera 2d10 puntos de golpe; con un 3, recuperas tu nivel más bajo gastado espacio de conjuro; con un 4, un aliado de tu elección dentro de 300 pies de ti recupera su nivel más bajo gastado espacio de conjuro; con un 5, recuperas todo tu puntos de hechicería gastado; con un 6, todos los efectos de las filas 17-20 te afectan simultáneamente. |"
       }
     ],
     "spells": null,
@@ -10696,13 +10696,13 @@
   {
     "id": "warlock/archfey-patron",
     "type": "subclass",
-    "name": "Patrón Archifey",
+    "name": "Patrón archihada",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Negocia con Fey caprichoso*\n\nTu pacto se basa en el poder de Feywild. Cuando eliges esta subclase, puedes hacer un trato con un archienemigo, como el Príncipe de la Escarcha; la Reina del Aire y la Oscuridad, gobernante de la Corte del Crepúsculo; Titania de la Corte de Verano; o una vieja bruja. O podrías recurrir a un espectro de Fey, tejiendo una red de favores y deudas. Quienquiera que sea, su patrón suele ser inescrutable y caprichoso.",
     "url": "https://dnd2024.wikidot.com/warlock:archfey-patron",
     "classId": "warlock",
-    "shortName": "Archifey",
+    "shortName": "Archihada",
     "features": [
       {
         "name": "Conjuros de archifey",
@@ -10847,13 +10847,13 @@
   {
     "id": "warlock/fiend-patron",
     "type": "subclass",
-    "name": "Patrón demonio",
+    "name": "Patrón infernal",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Haz un trato con los planos inferiores*\n\nVuestro pacto se basa en los Planos Inferiores, los reinos de la perdición. Podrías llegar a un acuerdo con un señor demonio como Demogorgon u Orcus; un archidemonio como Asmodeo; o un demonio del pozo, un balor, un yugoloth o una bruja nocturna que es especialmente poderoso. Los objetivos de ese patrón son malvados (la corrupción o destrucción de todas las cosas, incluyéndote en última instancia a ti) y tu camino se define por el grado en que luchas contra esos objetivos.",
     "url": "https://dnd2024.wikidot.com/warlock:fiend-patron",
     "classId": "warlock",
-    "shortName": "Demonio",
+    "shortName": "Infernal",
     "features": [
       {
         "name": "La bendición del oscuro",
@@ -10990,13 +10990,13 @@
   {
     "id": "warlock/great-old-one-patron",
     "type": "subclass",
-    "name": "Gran Viejo Patrón",
+    "name": "Patrón primigenio",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "*Desenterrar la tradición prohibida de seres inefables*\n\nCuando eliges esta subclase, puedes unirte a un ser indescriptible del Reino Lejano o a un dios anciano, un ser como Tharizdun, el Dios Encadenado; Zargon, el Retornado; Hadar, el Hambre Oscura; o Gran Cthulhu. O podrías invocar varias entidades sin unirte a una. Los motivos de estos seres son incomprensibles, y el Primigenio podría ser indiferente a tu existencia. Pero los secretos que has aprendido te permiten extraer de ellos una extraña magia.",
     "url": "https://dnd2024.wikidot.com/warlock:great-old-one-patron",
     "classId": "warlock",
-    "shortName": "Gran viejo",
+    "shortName": "Primigenio",
     "features": [
       {
         "name": "Mente despierta",
@@ -11074,23 +11074,23 @@
   {
     "id": "warlock/hexblade-patron-ua6-26-06-25",
     "type": "subclass",
-    "name": "Patrón de hoja hexagonal",
+    "name": "Patrón de la hoja maldita",
     "edition": "2024",
     "source": "UA6 - Subclases Arcanas (26.06.2025)",
     "description": "*Forja un pacto con una espada maldita*\n\nHas hecho un pacto con un arma mágica inteligente y las fuerzas malditas contenidas en su hoja. Tal arma podría ser la espada envainada a tu costado, o podría ser una manifestación de un arma mágica infame como Blackrazor o la Espada de Kas proyectando su poder para promover su leyenda. A aquellos que estén dispuestos a seguir los caprichos de esta arma, estos patrones inescrutables ofrecen el poder de otorgar maldiciones malignas, asestar golpes de castigo y reforzar al portador.",
     "url": "https://dnd2024.wikidot.com/ua:subclass-warlock-hexblade-patron2",
     "classId": "warlock",
-    "shortName": "Patrón de hoja hexagonal (UA6 - 26.06.25)",
+    "shortName": "Patrón de la hoja maldita (UA6 - 26.06.25)",
     "features": [
       {
-        "name": "Conjuros de hoja hexagonal",
+        "name": "Conjuros de hoja maldita",
         "level": 3,
-        "description": "La magia de tu patrón asegura que siempre tengas ciertos conjuros listos; cuando alcanzas un nivel Brujo especificado en la tabla de conjuros de hoja hexagonal, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de hoja maleficio\n\n| Brujo Nivel | Conjuros |\n|---|---|\n| 3 | Vigor arcano, maleficio, escudo, castigo iracundo |\n| 5 | Otorgar maldición, conjurar bombardeo |\n| 7 | Libertad de movimiento, castigo asombroso |\n| 9 | Animar objetos, Golpe de viento de acero |"
+        "description": "La magia de tu patrón asegura que siempre tengas ciertos conjuros listos; cuando alcanzas un nivel Brujo especificado en la tabla de conjuros de hoja maldita, a partir de entonces siempre tendrás preparados los conjuros enumerados.\n\n### Conjuros de hoja maleficio\n\n| Brujo Nivel | Conjuros |\n|---|---|\n| 3 | Vigor arcano, maleficio, escudo, castigo iracundo |\n| 5 | Otorgar maldición, conjurar bombardeo |\n| 7 | Libertad de movimiento, castigo asombroso |\n| 9 | Animar objetos, Golpe de viento de acero |"
       },
       {
-        "name": "La maldición de la hoja hexagonal",
+        "name": "La maldición de la hoja maldita",
         "level": 3,
-        "description": "Tu patrón te otorga el poder de maldecir y obstaculizar a tus enemigos. Como acción adicional, elige una criatura que puedas ver a 30 pies de ti. El objetivo queda maldito durante 1 minuto, durante el cual obtienes los siguientes beneficios. La maldición termina antes de tiempo si usas esta función nuevamente, si la descartas (no se requiere ninguna acción) o mueres.  \nPuedes usar esta función una cantidad de veces igual a tu modificador de Carisma (mínimo una vez) y recuperas todos los usos gastados cuando terminas un descanso largo. Cuando lanzas un conjuro usando un espacio de conjuro que maldice a un objetivo, puedes usar la Maldición de tu Hexblade como parte del lanzamiento de ese conjuro en lugar de tomar un acción adicional. Cuando lo haces, el objetivo del conjuro es el objetivo de la maldición de tu hoja maleficio, y la duración de la maldición de tu espada maleficio es 1 minuto o la duración del conjuro, lo que sea más largo.  \n**Maldición hambrienta.** Cuando el objetivo maldecido por la maldición de tu hoja hexagonal cae a 0 puntos de golpe, recuperas puntos de golpe igual a 1d8 más tu modificador de carisma.  \n**Escudo maldito.** Mientras no uses armadura ni empuñes un escudo, obtienes una bonificación de +2 a CA mientras estés a 10 pies del objetivo maldecido por la maldición de tu hoja maleficio."
+        "description": "Tu patrón te otorga el poder de maldecir y obstaculizar a tus enemigos. Como acción adicional, elige una criatura que puedas ver a 30 pies de ti. El objetivo queda maldito durante 1 minuto, durante el cual obtienes los siguientes beneficios. La maldición termina antes de tiempo si usas esta función nuevamente, si la descartas (no se requiere ninguna acción) o mueres.  \nPuedes usar esta función una cantidad de veces igual a tu modificador de Carisma (mínimo una vez) y recuperas todos los usos gastados cuando terminas un descanso largo. Cuando lanzas un conjuro usando un espacio de conjuro que maldice a un objetivo, puedes usar la Maldición de tu Hexblade como parte del lanzamiento de ese conjuro en lugar de tomar un acción adicional. Cuando lo haces, el objetivo del conjuro es el objetivo de la maldición de tu hoja maleficio, y la duración de la maldición de tu espada maleficio es 1 minuto o la duración del conjuro, lo que sea más largo.  \n**Maldición hambrienta.** Cuando el objetivo maldecido por la maldición de tu hoja maldita cae a 0 puntos de golpe, recuperas puntos de golpe igual a 1d8 más tu modificador de carisma.  \n**Escudo maldito.** Mientras no uses armadura ni empuñes un escudo, obtienes una bonificación de +2 a CA mientras estés a 10 pies del objetivo maldecido por la maldición de tu hoja maleficio."
       },
       {
         "name": "Voluntad inquebrantable",
@@ -11100,7 +11100,7 @@
       {
         "name": "Brutalidad maligna",
         "level": 6,
-        "description": "El poder de tu patrón aumenta tu sed de sangre y te otorga los siguientes beneficios.  \n**Maldición desgarradora.** Después de lanzar un conjuro de nivel 1+ que tiene un tiempo de lanzamiento de una acción, puedes realizar un ataque con un arma como acción adicional.  \n**Maldición obstaculizadora.** Cuando golpeas al objetivo maldecido por la Maldición de tu Hoja hexagonal con una tirada de ataque, el objetivo tiene Desventaja en el siguiente tirada de salvación que realiza antes del inicio de tu siguiente turno.  \n**Maldición ineludible.** Cuando el objetivo de la maldición de tu hoja hexagonal termina su turno a 30 pies o más de ti, puedes moverte hasta tu velocidad directamente hacia el objetivo."
+        "description": "El poder de tu patrón aumenta tu sed de sangre y te otorga los siguientes beneficios.  \n**Maldición desgarradora.** Después de lanzar un conjuro de nivel 1+ que tiene un tiempo de lanzamiento de una acción, puedes realizar un ataque con un arma como acción adicional.  \n**Maldición obstaculizadora.** Cuando golpeas al objetivo maldecido por la Maldición de tu Hoja maldita con una tirada de ataque, el objetivo tiene Desventaja en el siguiente tirada de salvación que realiza antes del inicio de tu siguiente turno.  \n**Maldición ineludible.** Cuando el objetivo de la maldición de tu hoja maldita termina su turno a 30 pies o más de ti, puedes moverte hasta tu velocidad directamente hacia el objetivo."
       },
       {
         "name": "Armadura de maleficios",
@@ -11110,7 +11110,7 @@
       {
         "name": "Maleficio magistral",
         "level": 14,
-        "description": "El poder de la maldición de tu Hexblade aumenta, otorgando los siguientes beneficios.  \n**Crítico maldito.** Cualquier tirada de ataque que hagas contra el objetivo maldecido por la maldición de tu hoja hexagonal obtiene un golpe crítico con una tirada de 19 o 20 en el d20.  \n**Maldición explosiva.** Cuando infliges daño al objetivo maldecido por la maldición de tu hoja maleficio, puedes hacer que tu maldición explote con energía siniestra. El objetivo y cada criatura de tu elección en una Emanación de 30 pies que se origina en el objetivo reciben 3d6 de daño Necrótico, Psíquico o Radiante (tu elección), y su Velocidad se reduce en 10 pies hasta el comienzo de tu siguiente turno. Una vez que use este beneficio, no podrá volver a usarlo hasta que termine un descanso largo a menos que gaste un espacio Magia de pacto (no se requiere ninguna acción) para restaurar su uso.  \n**Restauración de maleficios.** Recuperas un uso gastado de la Maldición de Hexblade cuando terminas un descanso corto o usas tu función de Astucia mágica."
+        "description": "El poder de la maldición de tu Hexblade aumenta, otorgando los siguientes beneficios.  \n**Crítico maldito.** Cualquier tirada de ataque que hagas contra el objetivo maldecido por la maldición de tu hoja maldita obtiene un golpe crítico con una tirada de 19 o 20 en el d20.  \n**Maldición explosiva.** Cuando infliges daño al objetivo maldecido por la maldición de tu hoja maleficio, puedes hacer que tu maldición explote con energía siniestra. El objetivo y cada criatura de tu elección en una Emanación de 30 pies que se origina en el objetivo reciben 3d6 de daño Necrótico, Psíquico o Radiante (tu elección), y su Velocidad se reduce en 10 pies hasta el comienzo de tu siguiente turno. Una vez que use este beneficio, no podrá volver a usarlo hasta que termine un descanso largo a menos que gaste un espacio Magia de pacto (no se requiere ninguna acción) para restaurar su uso.  \n**Restauración de maleficios.** Recuperas un uso gastado de la Maldición de Hexblade cuando terminas un descanso corto o usas tu función de Astucia mágica."
       }
     ],
     "spells": [
@@ -11461,7 +11461,7 @@
       {
         "name": "Lista de conjuros ampliada",
         "level": 3,
-        "description": "En el nivel 1, el Genio te permite elegir entre una lista ampliada de conjuros cuando aprendes un conjuro Brujo. La tabla de conjuros ampliados de genio muestra los conjuros de genio que se agregan a la lista de conjuros Brujo, junto con los conjuros asociados en la tabla con el tipo de tu patrón: dao, djinni, efreeti o marid.\n\n**Conjuros ampliados de genio**\n\n| Nivel de conjuro | Conjuros de genio | Conjuros de Dao | Conjuros de genios | Conjuros efreeti | Conjuros Maridos |\n|---|---|---|---|---|---|\n| 1º | Detectar el Mal y el Bien | Santuario | Onda de trueno | Manos ardientes | Nube de niebla |\n| 2do | Fuerza fantasmal | Crecimiento pico | Ráfaga de viento | Rayo abrasador | Desenfoque |\n| 3º | Crear comida y agua | Fundir en piedra | Muro de viento | Bola de fuego | Tormenta de aguanieve |\n| 4to | Asesino fantasmal | Forma de piedra | Mayor invisibilidad | Escudo de fuego | Controlar el agua |\n| 5to | Creación | Muro de Piedra | Aparentemente | Golpe de llama | Cono de Frío |\n| 9no | Deseo | — | — | — | — |"
+        "description": "En el nivel 1, el Genio te permite elegir entre una lista ampliada de conjuros cuando aprendes un conjuro Brujo. La tabla de conjuros ampliados de genio muestra los conjuros de genio que se agregan a la lista de conjuros Brujo, junto con los conjuros asociados en la tabla con el tipo de tu patrón: dao, djinni, efreeti o marid.\n\n**Conjuros ampliados de genio**\n\n| Nivel de conjuro | Conjuros de genio | Conjuros de Dao | Conjuros de genios | Conjuros efreeti | Conjuros Maridos |\n|---|---|---|---|---|---|\n| 1º | Detectar el Mal y el Bien | Santuario | Ola atronadora | Manos ardientes | Nube de niebla |\n| 2do | Fuerza fantasmal | Crecimiento pico | Ráfaga de viento | Rayo abrasador | Desenfoque |\n| 3º | Crear comida y agua | Fundir en piedra | Muro de viento | Bola de fuego | Tormenta de aguanieve |\n| 4to | Asesino fantasmal | Forma de piedra | Mayor invisibilidad | Escudo de fuego | Controlar el agua |\n| 5to | Creación | Muro de Piedra | Aparentemente | Golpe de llama | Cono de Frío |\n| 9no | Deseo | — | — | — | — |"
       },
       {
         "name": "El barco del genio",
@@ -11520,13 +11520,13 @@
   {
     "id": "warlock/the-hexblade",
     "type": "subclass",
-    "name": "La hoja hexagonal",
+    "name": "La hoja maldita",
     "edition": "2014",
     "source": "La guía de Xanathar para todo",
     "description": "***Has hecho tu pacto con una entidad misteriosa de Shadowfell, una fuerza que se manifiesta en armas mágicas sensibles talladas en la materia de las sombras. La poderosa espada Blackrazor es la más notable de estas armas, que se han extendido por el multiverso a lo largo de los siglos. La fuerza oscura detrás de estas armas puede ofrecer poder a los brujos que formen pactos con ella. Muchos brujos con espadas hexagonales crean armas que emulan las formadas en Shadowfell. Otros renuncian a esas armas y se contentan con tejer la magia oscura de ese plano en sus conjuros.***\n\n***Debido a que se sabe que la Reina Cuervo forjó la primera de estas armas, muchos sabios especulan que ella y la fuerza son uno y que las armas, junto con los brujos con espadas hexagonales, son herramientas que ella usa para manipular eventos en el Plano Material para sus fines inescrutables.***",
     "url": "https://dnd5e.wikidot.com/warlock:hexblade",
     "classId": "warlock",
-    "shortName": "Hoja hexagonal",
+    "shortName": "Hoja maldita",
     "features": [
       {
         "name": "Lista de conjuros ampliada",
@@ -11534,7 +11534,7 @@
         "description": "Hexblade te permite elegir entre una lista ampliada de conjuros cuando aprendes un conjuro Brujo. Los siguientes conjuros se agregan a la lista de conjuros Brujo.\n\n**Conjuros expandidos de Hexblade**\n\n| Nivel de conjuro | Conjuros |\n|---|---|\n| 1º | Escudo, Castigo Iraquí |\n| 2do | Desenfoque, Branding Smite |\n| 3º | Parpadeo, arma elemental |\n| 4to | Asesino fantasmal, castigo asombroso |\n| 5to | Destierro de Smite, Cono de Frío |"
       },
       {
-        "name": "La maldición de la hoja hexagonal",
+        "name": "La maldición de la hoja maldita",
         "level": 3,
         "description": "A partir del nivel 1, obtienes la capacidad de lanzar una maldición siniestra sobre alguien. Como acción adicional, elige una criatura que puedas ver a 30 pies de ti. El objetivo queda maldito durante 1 minuto. La maldición termina antes de tiempo si el objetivo muere, tú mueres o quedas incapacitado. Hasta que termine la maldición, obtienes los siguientes beneficios:\n\n- Obtienes una bonificación a las tiradas de daño contra el objetivo maldito. El bono equivale a tu bonificador de competencia.\n\n- Cualquier tirada de ataque que hagas contra el objetivo maldito es un golpe crítico con una tirada de 19 o 20 en el d20.\n\n- Si el objetivo maldito muere, recuperas puntos de golpe igual a tu nivel Brujo + tu modificador de Carisma (mínimo de 1 punto de golpe).\n\nNo podrás volver a utilizar esta función hasta que termines un corto o descanso largo."
       },
@@ -11556,7 +11556,7 @@
       {
         "name": "Maestro de maleficios",
         "level": 14,
-        "description": "A partir del nivel 14, puedes propagar la maldición de tu hoja hexagonal de una criatura asesinada a otra criatura. Cuando la criatura maldecida por la maldición de tu Hexblade muere, puedes aplicar la maldición a una criatura diferente que puedas ver a 30 pies de ti, siempre que no estés incapacitado. Cuando aplicas la maldición de esta manera, no recuperas puntos de golpe de la muerte de la criatura previamente maldecida."
+        "description": "A partir del nivel 14, puedes propagar la maldición de tu hoja maldita de una criatura asesinada a otra criatura. Cuando la criatura maldecida por la maldición de tu Hexblade muere, puedes aplicar la maldición a una criatura diferente que puedas ver a 30 pies de ti, siempre que no estés incapacitado. Cuando aplicas la maldición de esta manera, no recuperas puntos de golpe de la muerte de la criatura previamente maldecida."
       }
     ],
     "spells": [
@@ -11817,12 +11817,12 @@
     "description": "***La muerte no ejerce influencia sobre tu patrón, quien ha descubierto los secretos de la vida eterna, aunque ese premio, como todo poder, tiene un precio. Una vez mortal, el Eterno ha visto pasar vidas mortales como las estaciones, como el parpadeo de días y noches interminables. Tiene los secretos de los siglos para compartir, secretos de la vida y la muerte. Seres de este tipo incluyen a Vecna, Señor de la Mano y el Ojo; la temible Iuz; la reina exánime Vol; la Corte Eterna de Aerenal; Vlaakith, reina exánime de los githyanki; y el inmortal Mago Fistandantalus.***\n\n***En los Reinos, los patrocinadores Eternos incluyen a Larloch, el Rey de las Sombras, el maestro legendario de la Cripta de Brujo, y Gilgeam, el Rey Dios de Unther.***",
     "url": "https://dnd5e.wikidot.com/warlock:undying",
     "classId": "warlock",
-    "shortName": "Eterno",
+    "shortName": "Inmortal",
     "features": [
       {
         "name": "Lista de conjuros ampliada",
         "level": 3,
-        "description": "The Undying te permite elegir entre una lista ampliada de conjuros cuando aprendes un conjuro Brujo. Los siguientes conjuros se agregan a la lista de conjuros Brujo.\n\n**Conjuros expandidos inmortales**\n\n| Nivel de conjuro | Conjuros |\n|---|---|\n| 1º | Falsa Vida, Rayo de Enfermedad |\n| 2do | Ceguera/sordera, Silencio |\n| 3º | Finge la muerte, habla con los muertos |\n| 4to | Aura de vida, Sala de la muerte |\n| 5to | Contagio, tradición legendaria |"
+        "description": "The Undying te permite elegir entre una lista ampliada de conjuros cuando aprendes un conjuro Brujo. Los siguientes conjuros se agregan a la lista de conjuros Brujo.\n\n**Conjuros expandidos inmortales**\n\n| Nivel de conjuro | Conjuros |\n|---|---|\n| 1º | Falsa Vida, Rayo de Enfermedad |\n| 2do | Ceguera/sordera, Silencio |\n| 3º | Finge la muerte, habla con los muertos |\n| 4to | Aura de vida, Custodia contra la muerte |\n| 5to | Contagio, tradición legendaria |"
       },
       {
         "name": "Entre los muertos",
@@ -11950,7 +11950,7 @@
     "description": "*Desafía la muerte por el poder profano*  \nHas hecho un pacto con una criatura que desafía el ciclo de la vida y la muerte: un poderoso lich, un vampiro u otra entidad no-muerta. Habiendo sido mortales, estos antiguos patrones conocen de primera mano los caminos de la ambición y las rutas más allá de las puertas de la muerte. Comparten con entusiasmo este conocimiento profano y otros secretos con aquellos que hacen su voluntad entre los vivos.",
     "url": "https://dnd2024.wikidot.com/warlock:undead-patron",
     "classId": "warlock",
-    "shortName": "No-muertos",
+    "shortName": "No muerto",
     "features": [
       {
         "name": "Forma de pavor",
@@ -12084,7 +12084,7 @@
       {
         "name": "Rompehechizos",
         "level": 10,
-        "description": "Siempre tienes preparados los conjuros Contrahechizo y Disipar Magia. Además, puedes lanzar Dispel Magic como acción adicional y puedes agregar tu bonificador de competencia a su prueba de característica.\n\nCuando lanzas cualquiera de los conjuros con un espacio de conjuro, ese espacio no se gasta si el conjuro no logra detener un conjuro."
+        "description": "Siempre tienes preparados los conjuros Contraconjuro y Disipar Magia. Además, puedes lanzar Dispel Magic como acción adicional y puedes agregar tu bonificador de competencia a su prueba de característica.\n\nCuando lanzas cualquiera de los conjuros con un espacio de conjuro, ese espacio no se gasta si el conjuro no logra detener un conjuro."
       },
       {
         "name": "Resistencia a conjuros",
@@ -12144,13 +12144,13 @@
   {
     "id": "wizard/bladesinger",
     "type": "subclass",
-    "name": "Bladesinger",
+    "name": "Cantor de la hoja",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "*Empuña armas y hechicería en un tándem elegante*\n\nLos Bladesingers dominan una tradición de hechicería que incorpora el manejo de la espada y la danza. En combate, un Bladesinger utiliza maniobras intrincadas y elegantes que evitan el daño y le permiten canalizar la magia en ataques devastadores y una defensa astuta. Muchos de los que han observado a un Bladesinger en acción recuerdan la exhibición como una de las experiencias más hermosas de sus vidas: una danza gloriosa acompañada por una espada cantante.\n\nBladesinging está asociado con las antiguas sociedades élficas que dominaron por primera vez el arte y acuñaron el término. Incluso hoy en día, la mayoría de Bladesingers todavía provienen de antiguos reinos élficos, como Myth Drannor, o de sociedades no élficas que comparten tierra e historia con los elfos, como la Marca Plateada. Provengan de donde vengan, los Bladesingers llevan sus talentos por todos los Reinos para ayudar a la gente común y realizar hazañas heroicas. La mayoría de las comunidades reciben la llegada de un Bladesinger como un buen augurio.",
     "url": "https://dnd2024.wikidot.com/wizard:bladesinger",
     "classId": "wizard",
-    "shortName": "Bladesinger",
+    "shortName": "Cantor de la hoja",
     "features": [
       {
         "name": "Canción de espada",
@@ -12230,13 +12230,13 @@
   {
     "id": "wizard/conjurer",
     "type": "subclass",
-    "name": "Prestidigitador",
+    "name": "Conjurador",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "*Atraviesa el espacio y llama a criaturas del aire*\n\nUn prestidigitador considera que la distancia y la materia son pautas flexibles en lugar de leyes físicas. Los prestidigitadores dominan la magia que mueve criaturas instantáneamente a través del espacio y las convoca para luchar en su nombre.",
     "url": "https://dnd2024.wikidot.com/wizard:conjurer",
     "classId": "wizard",
-    "shortName": "Prestidigitador",
+    "shortName": "Conjurador",
     "features": [
       {
         "name": "Transposición benigna",
@@ -12412,7 +12412,7 @@
   {
     "id": "wizard/graviturgy-magic",
     "type": "subclass",
-    "name": "Magia Graviturgia",
+    "name": "Magia de graviturgia",
     "edition": "2014",
     "source": "Guía del explorador de Wildemount",
     "description": "***Al comprender y dominar las fuerzas que unen o separan los cuerpos de materia, los estudiantes de la tradición arcana Graviturgia aprenden a doblar y manipular aún más la violenta energía de la gravedad para su beneficio y el terrible detrimento de sus enemigos.***",
@@ -12533,16 +12533,16 @@
   {
     "id": "wizard/lore-mastery",
     "type": "subclass",
-    "name": "Dominio de la tradición",
+    "name": "Maestría del saber",
     "edition": "2014",
     "source": "Arcanos desenterrados 29 - Brujo y Mago",
     "description": "***Lore Mastery es una tradición arcana obsesionada con comprender la mecánica subyacente de la magia. Es la más académica de todas las tradiciones arcanas. La promesa de descubrir nuevos conocimientos o probar (o desacreditar) una teoría de la magia suele ser necesaria para despertar a sus practicantes de sus laboratorios, academias y archivos y emprender una vida de aventuras.***\n\n***Conocidos como sabios, los seguidores de esta tradición son unos estudiosos que ven la belleza y el misterio en la aplicación de la magia. Los resultados de un conjuro les resultan menos interesantes que el proceso que lo crea. Algunos sabios adoptan una actitud altiva hacia aquellos que siguen una tradición centrada en una sola escuela de magia, considerándolos provincianos y carentes de la sofisticación necesaria para dominar la verdadera magia. Otros sabios son maestros generosos, que contrarrestan la ignorancia y el engaño con un conocimiento profundo y buen humor.***",
     "url": "https://dnd5e.wikidot.com/wizard:lore-mastery-ua",
     "classId": "wizard",
-    "shortName": "Dominio de la tradición",
+    "shortName": "Maestría del saber",
     "features": [
       {
-        "name": "Dominio de la tradición",
+        "name": "Maestría del saber",
         "level": 3,
         "description": "A partir del segundo nivel, te conviertes en un compendio de conocimientos sobre una amplia gama de temas. Tu bonificador de competencia se duplica para cualquier prueba de característica que hagas y que use la habilidad Arcanos, Historia, Naturaleza o Religión si dominas esa habilidad.\n\nAdemás, tus habilidades analíticas están tan perfeccionadas que tu iniciativa en el combate puede estar impulsada por la agilidad mental, en lugar de la agilidad física. Cuando tiras iniciativa, es una prueba de Inteligencia o una prueba de Destreza para ti (tú eliges)."
       },
@@ -12720,13 +12720,13 @@
   {
     "id": "wizard/psionics-ua",
     "type": "subclass",
-    "name": "Psionica",
+    "name": "Psiónica",
     "edition": "2014",
     "source": "Arcanos desenterrados 66 - Guerrero, Pícaro, Mago",
     "description": "***Los magos estudian el poder mágico en todas sus formas, incluida la magia psiónica. Aquellos magos que siguen la tradición de la psiónica perfeccionan el potencial mágico de sus propias mentes. A veces llamados psionicistas o mentalistas, estos magos interactúan con el multiverso a través de la lente de su aptitud y conciencia psiónica.***\n\n***Los psionicistas canalizan su magia enfocando sus mentes. Al hacerlo, pueden trascender sus cuerpos físicos, adoptando formas de pensamiento puro, lanzando conjuros psiónicos para evitar la necesidad de componentes y percibiendo el mundo con una gama más amplia de sentidos.***\n\n***Como miembro de la tradición psiónica, es posible que hayas despertado tu potencial psiónico a través del esfuerzo de tus estudios esotéricos, o tal vez te uniste a una orden académica dedicada a desbloquear la magia de la mente.***",
     "url": "https://dnd5e.wikidot.com/wizard:psionics-ua",
     "classId": "wizard",
-    "shortName": "Psionica",
+    "shortName": "Psiónica",
     "features": [
       {
         "name": "Enfoque psiónico",
@@ -12789,7 +12789,7 @@
       {
         "name": "Casting imprudente",
         "level": 3,
-        "description": "A partir del nivel 2, puedes intentar lanzar un conjuro que no tengas preparado. Cuando usas esta habilidad, usas tu acción y eliges una de las siguientes opciones:\n\n- Tira en la tabla de lanzamiento imprudente para ver trucos y lanza el conjuro resultante como parte de esta acción.\n\n- Gasta un espacio de conjuro y tira dos veces en la tabla de Lanzamiento imprudente para su nivel, o en la tabla de nivel 5 si el espacio es de nivel 6 o superior. Elige cuál de los dos resultados quieres usar y lanza el conjuro resultante como parte de esta acción.\n\nSi el conjuro que lanzas no es un conjuro Mago, sigue siendo un conjuro Mago para ti cuando lo lanzas con esta característica.\n\n**Casting imprudente**\n\n| d10 | Truco |\n|---|---|\n| 1 | Salpicadura de ácido |\n| 2 | Toque frío |\n| 3 | Rayo de fuego |\n| 4 | Luz |\n| 5 | Aerosol venenoso |\n| 6 | Rayo de escarcha |\n| 7 | Agarre impactante |\n| 8 | Llama Sagrada |\n| 9 | Látigo de espinas |\n| 10 | Tira dos veces y lanza cada truco, pero si tiras otro 10 en cualquiera de los dados, no lanzas nada, desperdiciando tu acción. |\n| d10 | Conjuro de primer nivel |\n| 1 | Manos ardientes |\n| 2 | Orbe cromático |\n| 3 | Aerosol de color |\n| 4 | Fuego de hadas |\n| 5 | Vida falsa |\n| 6 | Nube de niebla |\n| 7 | Saltar |\n| 8 | Misil mágico |\n| 9 | Onda de trueno |\n| 10 | Tira dos veces y lanza cada conjuro, pero si tiras otro 10 en cualquiera de los dados, no lanzas nada, desperdiciando tu acción. |\n| d10 | Conjuro de segundo nivel |\n| 1 | Desenfoque |\n| 2 | Oscuridad |\n| 3 | Ampliar/Reducir |\n| 4 | Ráfaga de viento |\n| 5 | Invisibilidad |\n| 6 | Levitar |\n| 7 | Flecha ácida de Melf |\n| 8 | Rayo abrasador |\n| 9 | Destrozar |\n| 10 | Tira dos veces y lanza cada conjuro, pero si tiras otro 10 en cualquiera de los dados, no lanzas nada, desperdiciando tu acción. |\n| d10 | Conjuro de tercer nivel |\n| 1 | Parpadeo |\n| 2 | Miedo |\n| 3 | Fingir muerte |\n| 4 | Bola de fuego |\n| 5 | Mosca |\n| 6 | Forma gaseosa |\n| 7 | Rayo |\n| 8 | Tormenta de aguanieve |\n| 9 | Nube apestosa |\n| 10 | Tira dos veces y lanza cada conjuro, pero si tiras otro 10 en cualquiera de los dados, no lanzas nada, desperdiciando tu acción. |\n| d10 | Conjuro de 4to nivel |\n| 1 | Plaga |\n| 2 | Confusión |\n| 3 | Los tentáculos negros de Evard |\n| 4 | Escudo de fuego |\n| 5 | Mayor invisibilidad |\n| 6 | Tormenta de hielo |\n| 7 | Asesino fantasmal |\n| 8 | Piel de piedra |\n| 9 | Muro de Fuego |\n| 10 | Tira dos veces y lanza cada conjuro, pero si tiras otro 10 en cualquiera de los dados, no lanzas nada, desperdiciando tu acción. |\n| d10 | Conjuro de quinto nivel |\n| 1 | Matar nubes |\n| 2 | Cono de Frío |\n| 3 | Ola destructiva |\n| 4 | Golpe de llama |\n| 5 | Mantenga monstruo |\n| 6 | Plaga de insectos |\n| 7 | Heridas de curación masiva |\n| 8 | Muro de Fuerza |\n| 9 | Muro de Piedra |\n| 10 | Tira dos veces y lanza cada conjuro, pero si tiras otro 10 en cualquiera de los dados, no lanzas nada, desperdiciando tu acción. |"
+        "description": "A partir del nivel 2, puedes intentar lanzar un conjuro que no tengas preparado. Cuando usas esta habilidad, usas tu acción y eliges una de las siguientes opciones:\n\n- Tira en la tabla de lanzamiento imprudente para ver trucos y lanza el conjuro resultante como parte de esta acción.\n\n- Gasta un espacio de conjuro y tira dos veces en la tabla de Lanzamiento imprudente para su nivel, o en la tabla de nivel 5 si el espacio es de nivel 6 o superior. Elige cuál de los dos resultados quieres usar y lanza el conjuro resultante como parte de esta acción.\n\nSi el conjuro que lanzas no es un conjuro Mago, sigue siendo un conjuro Mago para ti cuando lo lanzas con esta característica.\n\n**Casting imprudente**\n\n| d10 | Truco |\n|---|---|\n| 1 | Salpicadura de ácido |\n| 2 | Toque frío |\n| 3 | Rayo de fuego |\n| 4 | Luz |\n| 5 | Aerosol venenoso |\n| 6 | Rayo de escarcha |\n| 7 | Agarre impactante |\n| 8 | Llama Sagrada |\n| 9 | Látigo de espinas |\n| 10 | Tira dos veces y lanza cada truco, pero si tiras otro 10 en cualquiera de los dados, no lanzas nada, desperdiciando tu acción. |\n| d10 | Conjuro de primer nivel |\n| 1 | Manos ardientes |\n| 2 | Orbe cromático |\n| 3 | Aerosol de color |\n| 4 | Fuego de hadas |\n| 5 | Vida falsa |\n| 6 | Nube de niebla |\n| 7 | Saltar |\n| 8 | Proyectil mágico |\n| 9 | Ola atronadora |\n| 10 | Tira dos veces y lanza cada conjuro, pero si tiras otro 10 en cualquiera de los dados, no lanzas nada, desperdiciando tu acción. |\n| d10 | Conjuro de segundo nivel |\n| 1 | Desenfoque |\n| 2 | Oscuridad |\n| 3 | Ampliar/Reducir |\n| 4 | Ráfaga de viento |\n| 5 | Invisibilidad |\n| 6 | Levitar |\n| 7 | Flecha ácida de Melf |\n| 8 | Rayo abrasador |\n| 9 | Destrozar |\n| 10 | Tira dos veces y lanza cada conjuro, pero si tiras otro 10 en cualquiera de los dados, no lanzas nada, desperdiciando tu acción. |\n| d10 | Conjuro de tercer nivel |\n| 1 | Parpadeo |\n| 2 | Miedo |\n| 3 | Fingir muerte |\n| 4 | Bola de fuego |\n| 5 | Mosca |\n| 6 | Forma gaseosa |\n| 7 | Rayo |\n| 8 | Tormenta de aguanieve |\n| 9 | Nube apestosa |\n| 10 | Tira dos veces y lanza cada conjuro, pero si tiras otro 10 en cualquiera de los dados, no lanzas nada, desperdiciando tu acción. |\n| d10 | Conjuro de 4to nivel |\n| 1 | Plaga |\n| 2 | Confusión |\n| 3 | Los tentáculos negros de Evard |\n| 4 | Escudo de fuego |\n| 5 | Mayor invisibilidad |\n| 6 | Tormenta de hielo |\n| 7 | Asesino fantasmal |\n| 8 | Piel de piedra |\n| 9 | Muro de Fuego |\n| 10 | Tira dos veces y lanza cada conjuro, pero si tiras otro 10 en cualquiera de los dados, no lanzas nada, desperdiciando tu acción. |\n| d10 | Conjuro de quinto nivel |\n| 1 | Matar nubes |\n| 2 | Cono de Frío |\n| 3 | Ola destructiva |\n| 4 | Golpe de llama |\n| 5 | Mantenga monstruo |\n| 6 | Plaga de insectos |\n| 7 | Heridas de curación masiva |\n| 8 | Muro de Fuerza |\n| 9 | Muro de Piedra |\n| 10 | Tira dos veces y lanza cada conjuro, pero si tiras otro 10 en cualquiera de los dados, no lanzas nada, desperdiciando tu acción. |"
       },
       {
         "name": "Fundición alquímica",
@@ -12986,7 +12986,7 @@
       {
         "name": "Sobretensión",
         "level": 6,
-        "description": "A partir del sexto nivel, puedes almacenar energía mágica dentro de ti para luego potenciar tus conjuros dañinos.\n\nPuedes almacenar una cantidad máxima de sobretensiones igual a tu modificador de Inteligencia (mínimo de uno). Cada vez que terminas un descanso largo, tu número de sobretensiones se restablece a uno. Cada vez que finalizas con éxito un conjuro con Disipar Magia o Contrahechizo, obtienes un aumento de poder, mientras robas magia del conjuro que frustraste. Si finaliza un descanso corto sin sobretensiones, obtiene una sobretensión.\n\nUna vez por turno, cuando infliges daño a una criatura u objeto con un conjuro Mago, puedes gastar un aumento de energía para infligir daño de fuerza adicional a ese objetivo. El daño adicional equivale a la mitad de tu nivel Mago."
+        "description": "A partir del sexto nivel, puedes almacenar energía mágica dentro de ti para luego potenciar tus conjuros dañinos.\n\nPuedes almacenar una cantidad máxima de sobretensiones igual a tu modificador de Inteligencia (mínimo de uno). Cada vez que terminas un descanso largo, tu número de sobretensiones se restablece a uno. Cada vez que finalizas con éxito un conjuro con Disipar Magia o Contraconjuro, obtienes un aumento de poder, mientras robas magia del conjuro que frustraste. Si finaliza un descanso corto sin sobretensiones, obtiene una sobretensión.\n\nUna vez por turno, cuando infliges daño a una criatura u objeto con un conjuro Mago, puedes gastar un aumento de energía para infligir daño de fuerza adicional a ese objetivo. El daño adicional equivale a la mitad de tu nivel Mago."
       },
       {
         "name": "Magia duradera",
