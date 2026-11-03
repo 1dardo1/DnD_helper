@@ -1,6 +1,14 @@
 import { newCharacter, normalizeCharacter } from '../models/character';
 import { Item } from '../models/compendium';
-import { addItem, removeEntry, setQty, toggleEquip, wearArmor, wearShield } from './inventory';
+import {
+  addItem,
+  moveEntry,
+  removeEntry,
+  setQty,
+  toggleEquip,
+  wearArmor,
+  wearShield,
+} from './inventory';
 
 const item = (id: string, extra: Partial<Item>) => ({ id, name: id, ...extra }) as Item;
 const chain = item('chain-mail', { armor: { kind: 'heavy', baseAC: 16 } as Item['armor'] });
@@ -65,5 +73,13 @@ describe('inventory', () => {
       ['chain-mail', true],
       ['shield', true],
     ]);
+  });
+
+  it('moves entries up and down, within the list', () => {
+    let c = [chain, shield, sword].reduce((ch, i) => addItem(ch, i), newCharacter('A', 'x'));
+    c = moveEntry(c, 'longsword', -1);
+    expect(c.inventory.map((e) => e.id)).toEqual(['chain-mail', 'longsword', 'shield']);
+    expect(moveEntry(c, 'chain-mail', -1)).toBe(c);
+    expect(moveEntry(c, 'shield', 1)).toBe(c);
   });
 });

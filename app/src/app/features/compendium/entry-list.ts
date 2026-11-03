@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { DataTextService } from '../../core/i18n/data-text.service';
 import { I18nService, TranslatePipe, TranslationKey } from '../../core/i18n/i18n.service';
-import { ENTRY_TYPES, Entry, EntryType, Item } from '../../core/models/compendium';
+import { ClassOption, ENTRY_TYPES, Entry, EntryType, Item } from '../../core/models/compendium';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { EntryCard } from '../../shared/picker/entry-card';
 import { ENTRY_FACETS, FacetKey, facetValues, sortByPrice } from '../../shared/picker/entry-facets';
@@ -87,8 +87,11 @@ export class EntryList {
   /** Sorted by the name shown (spells by level, feats by ability...), with the names to search by. */
   private readonly sorted = computed(() => {
     const shown = (e: Entry) => this.data.shortName(e.name);
-    const list = defaultOrder(this.entries.value() ?? [], shown, (id) =>
-      this.labels.speciesName(id),
+    const list = defaultOrder(
+      this.entries.value() ?? [],
+      shown,
+      (id) => this.labels.speciesName(id),
+      (id) => this.labels.className(id),
     );
     return { list, texts: list.map((e) => normalise(this.data.searchText(e.name))) };
   });
@@ -126,6 +129,13 @@ export class EntryList {
     const counts = new Map<string, number>();
     for (const e of this.entries.value() ?? [])
       for (const v of facetValues(e, key)) counts.set(v, (counts.get(v) ?? 0) + 1);
+    // class options: the class of each group, to order the cards by class
+    const classOf = new Map<string, string>();
+    if (type === 'option')
+      for (const e of this.entries.value() ?? []) {
+        const o = e as ClassOption;
+        if (o.classId) classOf.set(o.group, this.labels.className(o.classId));
+      }
     const cards = [...counts].map(([value, count]) => {
       const infoKey = `picker.groupInfo.${type}.${value}`;
       const info = this.i18n.t(infoKey as TranslationKey);
@@ -134,6 +144,7 @@ export class EntryList {
         params: { [key]: value },
         count,
         label: this.labels.optionLabel(type, key, value),
+        classLabel: classOf.get(value),
         info: info === infoKey ? '' : info,
       };
     });

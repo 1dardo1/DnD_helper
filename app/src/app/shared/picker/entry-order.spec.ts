@@ -208,4 +208,56 @@ describe('groupOrder', () => {
       'metamagic',
     ]);
   });
+
+  it('orders species by popularity, then by name', () => {
+    const sp = (id: string) => ({ id, type: 'species', name: id }) as never;
+    const list = [sp('zzz'), sp('dwarf'), sp('aaa'), sp('elf'), sp('human')];
+    expect(names(defaultOrder(list, (x: { name: string }) => x.name))).toEqual([
+      'human',
+      'elf',
+      'dwarf',
+      'aaa',
+      'zzz',
+    ]);
+  });
+
+  it('orders subclasses by class, then by name', () => {
+    const sub = (name: string, classId: string) =>
+      ({ id: name, type: 'subclass', name, classId }) as never;
+    const list = [sub('Thief', 'rogue'), sub('Champion', 'fighter'), sub('Assassin', 'rogue')];
+    const cls: Record<string, string> = { rogue: 'Pícaro', fighter: 'Guerrero' };
+    expect(
+      names(
+        defaultOrder(
+          list,
+          (x: { name: string }) => x.name,
+          (id) => id,
+          (id) => cls[id],
+        ),
+      ),
+    ).toEqual(['Champion', 'Assassin', 'Thief']);
+  });
+
+  it('orders class option groups by class', () => {
+    const g = (value: string, classLabel: string, count: number) => ({
+      value,
+      label: value,
+      count,
+      classLabel,
+    });
+    const out = groupOrder('option', 'group', [
+      g('eldritch-invocation', 'Brujo', 50),
+      g('metamagic', 'Hechicero', 10),
+      g('maneuver', 'Guerrero', 20),
+      g('mutagen', 'Cazador de sangre', 12),
+      g('blood-curse', 'Cazador de sangre', 11),
+    ]);
+    expect(out.map((x) => x.value)).toEqual([
+      'eldritch-invocation',
+      'blood-curse',
+      'mutagen',
+      'maneuver',
+      'metamagic',
+    ]);
+  });
 });

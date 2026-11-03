@@ -36,6 +36,16 @@ export function removeEntry(ch: Character, id: string, items: Map<string, Item>)
   return { ...after, inventory: after.inventory.filter((e) => e.id !== id) };
 }
 
+/** Moves an entry up (-1) or down (+1) in the inventory: the player's own order. */
+export function moveEntry(ch: Character, id: string, delta: number): Character {
+  const from = ch.inventory.findIndex((e) => e.id === id);
+  const to = from + delta;
+  if (from < 0 || to < 0 || to >= ch.inventory.length) return ch;
+  const inventory = [...ch.inventory];
+  [inventory[from], inventory[to]] = [inventory[to], inventory[from]];
+  return { ...ch, inventory };
+}
+
 export function setQty(ch: Character, id: string, qty: number): Character {
   const n = Math.max(1, Math.floor(qty) || 1);
   return { ...ch, inventory: ch.inventory.map((e) => (e.id === id ? { ...e, qty: n } : e)) };

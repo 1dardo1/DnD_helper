@@ -114,6 +114,8 @@ export const es: Record<keyof typeof en, string> = {
   'sheet.weapons': 'Armas',
   'sheet.tools': 'Herramientas',
   'sheet.features': 'Rasgos',
+  'sheet.moveUp': 'Subir',
+  'sheet.moveDown': 'Bajar',
   'sheet.money': 'Monedas',
   'sheet.equipment': 'Equipo',
   'sheet.notes': 'Notas',

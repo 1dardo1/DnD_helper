@@ -14,9 +14,73 @@ import { requiredSpecies, speciesNames } from './racial-feats';
  *   simple ranged, martial melee, martial ranged, others, ammunition; armor: light, medium, heavy;
  *   then shields, gear,
  *   tools, mounts, poisons); magic ones by name.
+ * - species by popularity (SPECIES_POPULARITY), the rest by name;
+ * - subclasses by their class (shown name), then by name.
  * Other types (and plain objects such as species lineages) keep the name order.
  */
 const ABILITY_ORDER: Ability[] = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'];
+
+/**
+ * Species by how often players choose them (D&D Beyond's character data: human and elf first,
+ * then dragonborn, tiefling, half-elf...); the rest go after, by name.
+ */
+const SPECIES_POPULARITY = [
+  'human',
+  'elf',
+  'dragonborn',
+  'tiefling',
+  'half-elf',
+  'dwarf',
+  'half-orc',
+  'aasimar',
+  'halfling',
+  'tabaxi',
+  'gnome',
+  'goliath',
+  'orc',
+  'firbolg',
+  'warforged',
+  'genasi',
+  'air-genasi',
+  'earth-genasi',
+  'fire-genasi',
+  'water-genasi',
+  'kenku',
+  'changeling',
+  'tortle',
+  'lizardfolk',
+  'goblin',
+  'bugbear',
+  'kobold',
+  'harengon',
+  'shifter',
+  'fairy',
+  'satyr',
+  'owlin-scc',
+  'yuan-ti',
+  'triton',
+  'githyanki',
+  'aarakocra',
+  'hobgoblin',
+  'eladrin',
+  'sea-elf',
+  'shadar-kai',
+  'deep-gnome',
+  'duergar',
+  'githzerai',
+  'centaur',
+  'minotaur',
+  'kalashtar',
+  'dhampir',
+  'hexblood',
+  'reborn',
+  'autognome',
+  'astral-elf',
+  'plasmoid',
+  'thri-kreen',
+  'giff',
+  'hadozee',
+];
 
 /** Item categories in the order of the Player's Handbook (magic items, "other", last). */
 const ITEM_CATEGORIES = ['weapon', 'armor', 'shield', 'gear', 'tool', 'mount', 'poison', 'other'];
@@ -56,6 +120,8 @@ function key(e: Entry): number[] {
       if (!from.length) return [1, 0, 0];
       return [0, Math.min(...from.map((a) => ABILITY_ORDER.indexOf(a))), from.length];
     }
+    case 'species':
+      return [rank(SPECIES_POPULARITY, e.id)];
     case 'option':
       return [(e as ClassOption).prerequisites?.level ?? 1];
     case 'item':
@@ -81,14 +147,23 @@ export function defaultOrder<T>(
   items: readonly T[],
   shownName: (e: T) => string,
   speciesName: (id: string) => string = (id) => id,
+  className: (id: string) => string = (id) => id,
 ): T[] {
   const byName = [...items].sort((a, b) => shownName(a).localeCompare(shownName(b)));
   const keys = new Map(byName.map((e) => [e, key((e ?? {}) as Entry)]));
-  const species = new Map(
-    byName.map((e) => [e, speciesNames((e ?? {}) as Entry, speciesName)[0] ?? '']),
+  // racial feats by the species they require; subclasses by their class
+  const group = new Map(
+    byName.map((e) => {
+      const entry = (e ?? {}) as Entry & { classId?: string };
+      const g =
+        entry.type === 'subclass'
+          ? className(entry.classId ?? '')
+          : (speciesNames(entry, speciesName)[0] ?? '');
+      return [e, g];
+    }),
   );
   return byName.sort(
-    (a, b) => compare(keys.get(a)!, keys.get(b)!) || species.get(a)!.localeCompare(species.get(b)!),
+    (a, b) => compare(keys.get(a)!, keys.get(b)!) || group.get(a)!.localeCompare(group.get(b)!),
   );
 }
 
@@ -106,15 +181,22 @@ export interface GroupCard {
   value: string;
   label: string;
   count: number;
+  /** Class options: the shown name of the class the group belongs to. */
+  classLabel?: string;
 }
 
-/** Group cards in their default order: see GROUP_ORDER; classes by name; else the biggest first. */
+/**
+ * Group cards in their default order: see GROUP_ORDER; class options by class then name; classes
+ * by name; else the biggest first.
+ */
 export function groupOrder<G extends GroupCard>(type: string, facet: string, groups: G[]): G[] {
   const fixed = GROUP_ORDER[`${type}:${facet}`] ?? [];
+  const byClass = type === 'option' && facet === 'group';
   return [...groups].sort(
     (a, b) =>
       rank(fixed, a.value) - rank(fixed, b.value) ||
-      (facet === 'class' ? 0 : b.count - a.count) ||
+      (byClass ? (a.classLabel ?? '').localeCompare(b.classLabel ?? '') : 0) ||
+      (facet === 'class' || byClass ? 0 : b.count - a.count) ||
       a.label.localeCompare(b.label),
   );
 }

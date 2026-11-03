@@ -48,6 +48,48 @@
   .equip-spacer {
     min-width: 7rem;
   }
+
+  .name {
+    min-width: 0;
+  }
+
+  // phones: narrower controls so the name keeps the room
+  @media (max-width: 44.99rem) {
+    li {
+      gap: 0.25rem;
+    }
+
+    .equip,
+    .equip-spacer {
+      min-width: 0;
+      width: 4.8rem;
+      padding-inline: 0.2rem;
+      font-size: var(--fs-sm);
+    }
+
+    .qty {
+      width: 2.6rem;
+    }
+
+    .move button {
+      min-width: 1.6rem;
+      padding: 0;
+    }
+
+    .remove {
+      padding-inline: 0.2rem;
+    }
+  }
+
+  // ↑ ↓: the player's own order
+  .move {
+    display: inline-flex;
+
+    button {
+      min-width: 2rem;
+      padding: 0 0.3rem;
+    }
+  }
 }
 
 .add {

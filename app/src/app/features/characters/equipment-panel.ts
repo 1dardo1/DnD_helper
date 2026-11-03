@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import {
   addItem,
   canEquip,
+  moveEntry,
   removeEntry,
   setQty,
   toggleEquip,
@@ -97,6 +98,10 @@ export class EquipmentPanel {
   protected remove(e: InventoryEntry): void {
     const map = this.items.value()?.byId;
     if (map) this.changed.emit(removeEntry(this.character(), e.id, map));
+  }
+
+  protected move(e: InventoryEntry, delta: number): void {
+    this.changed.emit(moveEntry(this.character(), e.id, delta));
   }
 
   protected qty(e: InventoryEntry, ev: Event): void {

@@ -100,6 +100,7 @@ export class Picker<T extends PickItem> {
             this.items(),
             (i) => this.dataText.shortName(i.name),
             (id) => this.labels.speciesName(id),
+            (id) => this.labels.className(id),
           ),
         )
       : this.items(),
