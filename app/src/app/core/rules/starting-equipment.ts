@@ -31,6 +31,31 @@ export interface StartingChoice {
   class: string | null;
   background: string | null;
   bought: { itemId: string; qty: number }[];
+  /** 'gold': no packages, only their gold, to buy everything (absent: the book's packages). */
+  mode?: 'packages' | 'gold';
+}
+
+/** The package that is only gold ("(B) 50 GP"), if there is one. */
+export function goldOnlyPackage(list: EquipmentPackage[] | null): EquipmentPackage | null {
+  const gold = (list ?? []).filter((p) => p.lines.length === 0);
+  return gold.sort((a, b) => b.gold - a.gold)[0] ?? null;
+}
+
+/**
+ * What the shop sells: items with a price, without the 2014 version of an item that 2024 also
+ * has ("Potion of Healing (common)" 2014 next to "Potion of Healing" 2024), sorted by name.
+ */
+export function shopCatalog(items: Iterable<Item>): Item[] {
+  const all = [...items].filter((i) => shopPriceCp(i) !== null);
+  // "Potion of Healing (common)", "Shield, +1, +2, +3" vs "Shield, +1, +2, or +3"
+  const base = (i: Item) =>
+    norm(i.name)
+      .replace(/\s*\([^)]*\)\s*$/, '')
+      .replace(/,\s*or\s+/g, ', ');
+  const newer = new Set(all.filter((i) => i.edition === '2024').map(base));
+  return all
+    .filter((i) => i.edition === '2024' || !newer.has(base(i)))
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 const norm = (s: string) =>

@@ -3,6 +3,8 @@ import { Item } from '../models/compendium';
 import {
   applyStartingEquipment,
   coinsFromCp,
+  goldOnlyPackage,
+  shopCatalog,
   itemIndex,
   parseStartingEquipment,
   shopPriceCp,
@@ -133,5 +135,21 @@ describe('starting equipment', () => {
     ]);
     expect(b.equipped).toEqual({ armorId: null, shield: false });
     expect(b.money?.gp).toBe(11);
+  });
+
+  it('finds the gold-only package and sells each item once (2024 over 2014)', () => {
+    const p = parseStartingEquipment(fighter, index)!;
+    expect(goldOnlyPackage(p)?.letter).toBe('C');
+    expect(goldOnlyPackage(null)).toBe(null);
+    const old = item('potion-of-healing-common', 'Potion of Healing (common)', {
+      edition: '2014',
+      cost: { amount: 50, unit: 'gp' },
+    });
+    const abacus = item('abacus', 'Abacus', { edition: '2014', cost: { amount: 2, unit: 'gp' } });
+    const ids = shopCatalog([...all, old, abacus]).map((i) => i.id);
+    expect(ids).toContain('potion-of-healing');
+    expect(ids).toContain('abacus');
+    expect(ids).not.toContain('potion-of-healing-common');
+    expect(ids).not.toContain('oil');
   });
 });

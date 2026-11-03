@@ -65,6 +65,8 @@ export interface Character {
       class: string | null;
       background: string | null;
       bought: { itemId: string; qty: number }[];
+      /** 'gold': the gold instead of the packages, to buy everything in the shop. */
+      mode?: 'packages' | 'gold';
     };
   };
   /** Item ids from data/items.json, used for Armor Class (kept in step with the inventory). */

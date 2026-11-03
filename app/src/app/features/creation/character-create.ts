@@ -38,8 +38,10 @@ import {
   StartingChoice,
   applyStartingEquipment,
   goldLeftCp,
+  goldOnlyPackage,
   itemIndex,
   parseStartingEquipment,
+  shopCatalog,
   shopPriceCp,
 } from '../../core/rules/starting-equipment';
 import { ABILITIES } from '../../core/rules/tables';
@@ -230,11 +232,13 @@ export class CharacterCreate {
       .map((b) => ({ ...b, price: shopPriceCp(b.item) ?? 0 })),
   );
   /** Everything that can be bought: items with a price, magic ones at the DMG price. */
-  protected readonly shopItems = computed(() =>
-    [...this.items.values()]
-      .filter((i) => shopPriceCp(i) !== null)
-      .sort((a, b) => a.name.localeCompare(b.name)),
-  );
+  protected readonly shopItems = computed(() => shopCatalog(this.items.values()));
+  protected readonly equipMode = computed(() => this.startChoice().mode ?? 'packages');
+  /** Gold-only package of the class and of the background (gold mode). */
+  protected readonly goldPackages = computed(() => ({
+    class: goldOnlyPackage(this.packages().class),
+    background: goldOnlyPackage(this.packages().background),
+  }));
   protected readonly shopOpen = signal(false);
   protected readonly equipKinds = ['class', 'background'] as const;
   protected readonly itemFacets = ENTRY_FACETS.item;
@@ -715,7 +719,17 @@ export class CharacterCreate {
   /** First time on this step, start from the class and background starting equipment. */
   /** Entering the step: the packages may have changed with the class, background or tools. */
   protected prefillEquipment(): void {
-    if (this.draft().choices.startingEquipment) this.applyStart(this.startChoice());
+    if (!this.draft().choices.startingEquipment) return;
+    if (this.equipMode() === 'gold') {
+      // the class or background may have changed: take their gold-only packages again
+      const g = this.goldPackages();
+      this.applyStart({
+        ...this.startChoice(),
+        class: g.class?.letter ?? null,
+        background: g.background?.letter ?? null,
+      });
+      this.shopOpen.set(true);
+    } else this.applyStart(this.startChoice());
   }
 
   private applyStart(choice: StartingChoice): void {
@@ -734,6 +748,23 @@ export class CharacterCreate {
         : null,
     };
     this.patch((c) => applyStartingEquipment(c, fixed, p, this.items, tools, this.itemIdx()));
+  }
+
+  /** The book's packages, or only gold to buy everything (the shop opens). */
+  protected setEquipMode(mode: 'packages' | 'gold'): void {
+    if (mode === this.equipMode()) return;
+    const g = this.goldPackages();
+    this.applyStart(
+      mode === 'gold'
+        ? {
+            mode,
+            class: g.class?.letter ?? null,
+            background: g.background?.letter ?? null,
+            bought: [],
+          }
+        : { mode, class: null, background: null, bought: [] },
+    );
+    this.shopOpen.set(mode === 'gold');
   }
 
   protected choosePackage(kind: 'class' | 'background', letter: string): void {

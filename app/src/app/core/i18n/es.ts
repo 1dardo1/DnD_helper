@@ -248,6 +248,13 @@ export const es: Record<keyof typeof en, string> = {
   'create.equip.giveBack': 'Devolver uno',
   'create.equip.estimated': '(según rareza)',
   'create.equip.notes': 'Otras notas de equipo',
+  'create.equip.mode': 'Cómo empiezas equipado',
+  'create.equip.mode.packages': 'Equipo del manual',
+  'create.equip.mode.packages.hint': 'Elige uno de los paquetes de la clase y del trasfondo.',
+  'create.equip.mode.gold': 'Solo oro',
+  'create.equip.mode.gold.hint':
+    'En vez de los paquetes recibes su oro y compras lo que quieras en la tienda.',
+  'create.equip.noGoldOption': 'No tiene opción de oro: elige su equipo abajo',
   'create.armorWorn': 'Armadura puesta',
   'create.noArmor': 'Sin armadura',
   'create.shield': 'Escudo',

@@ -394,3 +394,50 @@ h3.issue {
     }
   }
 }
+
+.equip-modes {
+  @include cards.grid(14rem);
+  margin-bottom: var(--space-4);
+}
+
+.equip-mode {
+  @include cards.frame;
+  width: 100%;
+  height: 100%;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  strong {
+    font-family: var(--font-title);
+    color: var(--accent);
+  }
+
+  span {
+    font-size: 0.9em;
+    color: var(--ink-soft);
+  }
+}
+
+.gold-sources {
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-1) 0;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  em {
+    color: var(--ink-soft);
+  }
+}

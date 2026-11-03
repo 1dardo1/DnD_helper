@@ -246,6 +246,13 @@ export const en = {
   'create.equip.giveBack': 'Give one back',
   'create.equip.estimated': '(by rarity)',
   'create.equip.notes': 'Other equipment notes',
+  'create.equip.mode': 'How you start equipped',
+  'create.equip.mode.packages': 'Book equipment',
+  'create.equip.mode.packages.hint': 'Choose one of the class and background packages.',
+  'create.equip.mode.gold': 'Gold only',
+  'create.equip.mode.gold.hint':
+    'Instead of the packages you get their gold and buy whatever you want in the shop.',
+  'create.equip.noGoldOption': 'No gold option: choose its equipment below',
   'create.armorWorn': 'Armor worn',
   'create.noArmor': 'No armor',
   'create.shield': 'Shield',

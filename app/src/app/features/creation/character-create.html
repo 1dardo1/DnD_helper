@@ -508,10 +508,45 @@
         @case ('equipment') {
           @let pk = packages();
           @let sc = startChoice();
+          @let gp = goldPackages();
+          <div class="equip-modes" role="radiogroup" [attr.aria-label]="'create.equip.mode' | t">
+            @for (m of ['packages', 'gold']; track m) {
+              <button
+                type="button"
+                class="equip-mode"
+                role="radio"
+                [class.chosen]="equipMode() === m"
+                [attr.aria-checked]="equipMode() === m"
+                (click)="setEquipMode($any(m))"
+              >
+                <strong>{{ 'create.equip.mode.' + m | t }}</strong>
+                <span>{{ 'create.equip.mode.' + m + '.hint' | t }}</span>
+              </button>
+            }
+          </div>
+          @if (equipMode() === 'gold') {
+            <ul class="gold-sources">
+              @for (kind of equipKinds; track kind) {
+                @let src = kind === 'class' ? classList()[0] : background();
+                @if (src) {
+                  <li>
+                    <span>{{
+                      'create.equip.from.' + kind | t: { name: (src.name | dataName) }
+                    }}</span>
+                    @if (gp[kind]; as g) {
+                      <strong>{{ g.gold }} {{ 'compendium.coin.gp' | t }}</strong>
+                    } @else {
+                      <em>{{ 'create.equip.noGoldOption' | t }}</em>
+                    }
+                  </li>
+                }
+              }
+            </ul>
+          }
           @for (kind of equipKinds; track kind) {
             @let list = pk[kind];
             @let src = kind === 'class' ? classList()[0] : background();
-            @if (src) {
+            @if (src && (equipMode() === 'packages' || !gp[kind])) {
               <fieldset class="start-packages">
                 <legend>
                   {{ 'create.equip.from.' + kind | t: { name: (src.name | dataName) } }}
