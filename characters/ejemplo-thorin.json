@@ -3,7 +3,7 @@
   "id": "ejemplo-thorin",
   "name": "Thorin (ejemplo)",
   "dataVersion": "2026-10-29T18:29:35+00:00",
-  "updatedAt": "2026-11-03T11:08:07.136Z",
+  "updatedAt": "2026-11-03T19:07:47.133Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "dwarf",
@@ -89,7 +89,7 @@
     }
   ],
   "state": {
-    "hpCurrent": null,
+    "hpCurrent": 22,
     "hpTemp": 0,
     "spentSlots": [
       0,
@@ -112,7 +112,7 @@
       "successes": 0,
       "failures": 0
     },
-    "heroicInspiration": false,
+    "heroicInspiration": true,
     "conditions": [],
     "exhaustion": 0,
     "spellSwap": {}
