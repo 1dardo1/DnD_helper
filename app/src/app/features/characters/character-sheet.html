@@ -1,5 +1,5 @@
 <p>
-  <a routerLink="/characters">← {{ 'characters.title' | t }}</a>
+  <a class="back-link" routerLink="/characters">← {{ 'characters.title' | t }}</a>
 </p>
 
 @if (view.isLoading()) {
@@ -24,10 +24,12 @@
         · {{ s.background | dataName }}
       }
     </p>
-    <p>
+    <p class="actions-line">
       <span class="status">{{ 'characters.status.' + (status() ?? v.record.status) | t }}</span>
-      <a [routerLink]="['/characters', c.id, 'edit']">{{ 'sheet.edit' | t }}</a>
-      <a [routerLink]="['/characters', c.id, 'level-up']">{{ 'levelUp.link' | t }}</a>
+      <span class="links">
+        <a class="btn" [routerLink]="['/characters', c.id, 'edit']">{{ 'sheet.edit' | t }}</a>
+        <a class="btn" [routerLink]="['/characters', c.id, 'level-up']">{{ 'levelUp.link' | t }}</a>
+      </span>
     </p>
   </header>
 
@@ -114,17 +116,35 @@
     <section>
       <h2>{{ 'sheet.spellcasting' | t }}</h2>
       @for (sc of s.spellcasting.classes; track sc.classId) {
-        <p>
-          <strong>{{ className(s, sc.classId) }}</strong> · {{ 'abbr.' + sc.ability | t }} ·
-          {{ 'sheet.saveDc' | t }} {{ sc.saveDc }} · {{ 'sheet.spellAttack' | t }}
-          {{ signed(sc.attack) }}
-          @if (sc.cantrips !== null) {
-            · {{ 'sheet.cantrips' | t }} {{ sc.cantrips }}
-          }
-          @if (sc.prepared !== null) {
-            · {{ 'sheet.prepared' | t }} {{ sc.prepared }}
-          }
-        </p>
+        <div class="casting">
+          <strong class="who">{{ className(s, sc.classId) }}</strong>
+          <dl>
+            <div>
+              <dt>{{ 'sheet.spellAbility' | t }}</dt>
+              <dd>{{ 'abbr.' + sc.ability | t }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'sheet.saveDc' | t }}</dt>
+              <dd>{{ sc.saveDc }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'sheet.spellAttack' | t }}</dt>
+              <dd>{{ signed(sc.attack) }}</dd>
+            </div>
+            @if (sc.cantrips !== null) {
+              <div>
+                <dt>{{ 'sheet.cantrips' | t }}</dt>
+                <dd>{{ sc.cantrips }}</dd>
+              </div>
+            }
+            @if (sc.prepared !== null) {
+              <div>
+                <dt>{{ 'sheet.prepared' | t }}</dt>
+                <dd>{{ sc.prepared }}</dd>
+              </div>
+            }
+          </dl>
+        </div>
       }
       @if (slotLevels(s).length) {
         <p>

@@ -10,6 +10,82 @@
   }
 }
 
+// Phones: each attack is a small card (name and bonus on top, damage, then range and
+// properties), instead of a five-column table that had to be scrolled sideways.
+@media (max-width: 44.99rem) {
+  .table-scroll {
+    overflow: visible;
+  }
+
+  .attacks {
+    display: block;
+
+    thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+
+    tbody {
+      display: block;
+    }
+
+    tr {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        'weapon hit'
+        'dmg dmg'
+        'reach reach'
+        'props props';
+      column-gap: var(--space-3);
+      padding: var(--space-2) 0;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    td {
+      display: block;
+      padding: 0;
+      border: 0;
+    }
+
+    td:empty {
+      display: none;
+    }
+
+    .weapon {
+      grid-area: weapon;
+    }
+
+    .hit {
+      grid-area: hit;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .dmg {
+      grid-area: dmg;
+    }
+
+    .reach {
+      grid-area: reach;
+
+      &::before {
+        content: attr(data-label) ': ';
+        color: var(--ink-soft);
+      }
+    }
+
+    .props {
+      grid-area: props;
+      font-size: var(--fs-sm);
+      color: var(--ink-soft);
+    }
+  }
+}
+
 .inventory {
   list-style: none;
   margin: 0;
@@ -71,14 +147,18 @@
       width: 2.6rem;
     }
 
-    .move button {
-      min-width: 1.6rem;
-      padding: 0;
-    }
-
     .remove {
-      padding-inline: 0.2rem;
+      min-width: 2.5rem;
+      padding-inline: 0;
     }
+  }
+
+  // Rearranging: the name, the quantity and two big arrows
+  &.reordering .move button {
+    min-width: var(--tap);
+    min-height: var(--tap);
+    padding: 0;
+    font-size: var(--fs-lg);
   }
 
   // ↑ ↓: the player's own order
@@ -124,6 +204,29 @@
   input {
     width: 4.5rem;
     text-align: right;
+  }
+
+  // Phones: the five coins on one row, the coin under its box
+  @media (max-width: 44.99rem) {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-1);
+
+    label {
+      flex-direction: column-reverse;
+      gap: 0;
+    }
+
+    span {
+      font-size: var(--fs-sm);
+      color: var(--ink-soft);
+    }
+
+    input {
+      width: 100%;
+      padding-inline: 0.2rem;
+      text-align: center;
+    }
   }
 }
 

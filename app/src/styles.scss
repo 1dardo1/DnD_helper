@@ -358,6 +358,13 @@ a {
   }
 }
 
+// "← Characters" at the top of a page: a bigger touch area without moving the text.
+.back-link {
+  display: inline-block;
+  padding: 0.6rem 0.5rem 0.6rem 0;
+  margin: -0.6rem 0;
+}
+
 :focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 2px;

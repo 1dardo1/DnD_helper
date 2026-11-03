@@ -25,6 +25,63 @@
     font-family: var(--font-note);
     font-size: var(--fs-lg);
   }
+
+  // Edit / Level up: buttons, not small links, so they are easy to hit on a phone
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+
+    .btn {
+      padding-inline: 0.8rem;
+    }
+  }
+}
+
+// Spellcasting class: ability, save DC, attack... as small labelled figures
+.casting {
+  margin-bottom: var(--space-3);
+
+  .who {
+    display: block;
+    margin-bottom: var(--space-1);
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(6.4rem, 1fr));
+    gap: var(--space-2);
+    max-width: 44rem;
+    margin: 0;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.2rem 0.6rem 0.3rem;
+      text-align: center;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+    }
+  }
+
+  dt {
+    font-family: var(--font-note);
+    font-size: var(--fs-sm);
+    line-height: 1.2;
+    color: var(--ink-soft);
+    text-wrap: balance;
+  }
+
+  dd {
+    margin: 0;
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    font-variant-numeric: lining-nums;
+    color: var(--accent);
+  }
 }
 
 // Stat boxes and ability scores: hand-drawn boxes on the page.

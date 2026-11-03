@@ -1,5 +1,5 @@
 <p>
-  <a [routerLink]="['/characters', id()]">← {{ 'common.back' | t }}</a>
+  <a class="back-link" [routerLink]="['/characters', id()]">← {{ 'common.back' | t }}</a>
 </p>
 
 @if (data.isLoading()) {
@@ -515,7 +515,9 @@
               <button type="button" class="primary" [disabled]="saving()" (click)="save()">
                 {{ 'levelUp.save' | t }}
               </button>
-              <a [routerLink]="['/characters', id()]">{{ 'levelUp.cancel' | t }}</a>
+              <a class="btn btn-ghost" [routerLink]="['/characters', id()]">{{
+                'levelUp.cancel' | t
+              }}</a>
             </p>
           }
         }

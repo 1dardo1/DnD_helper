@@ -1,7 +1,7 @@
-import { Component, DestroyRef, computed, effect, inject } from '@angular/core';
+import { Component, DestroyRef, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ViewportScroller } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet, Scroll } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet, Scroll } from '@angular/router';
 
 import { ApkUpdateService } from './core/app-update/apk-update.service';
 import { CharacterStore } from './core/characters/character-store.service';
@@ -15,7 +15,7 @@ import { ApkUpdateNotice } from './shared/apk-update-notice';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, TranslatePipe, ApkUpdateNotice],
+  imports: [RouterOutlet, RouterLink, TranslatePipe, ApkUpdateNotice],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -29,6 +29,14 @@ export class App {
     { path: '/characters/new', label: 'nav.create' },
     { path: '/settings', label: 'nav.settings' },
   ] as const;
+
+  /** Current path, to mark the tab: a character's sheet, level-up... belong to "Characters". */
+  private readonly path = signal('');
+  protected readonly activeTab = computed(() => {
+    const p = this.path();
+    if (p === '/characters/new') return p;
+    return this.nav.find((n) => p === n.path || p.startsWith(n.path + '/'))?.path ?? null;
+  });
 
   protected readonly sync = inject(SyncService);
   protected readonly store = inject(CharacterStore);
@@ -44,6 +52,11 @@ export class App {
     this.sync.start(inject(DestroyRef));
     void inject(ApkUpdateService).start();
     this.scrollOnNavigation();
+    inject(Router)
+      .events.pipe(takeUntilDestroyed())
+      .subscribe((e) => {
+        if (e instanceof NavigationEnd) this.path.set(e.urlAfterRedirects.split(/[?#]/)[0]);
+      });
   }
 
   /**
