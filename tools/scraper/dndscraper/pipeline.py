@@ -427,13 +427,15 @@ def _text(e: dict) -> str:
 
 
 # Excluded by decision: the Eberron dragonmark feats, and the backgrounds that exist to grant one
-# (the "heir of House ..." backgrounds), since their origin feat would be missing.
+# (the "heir of House ..." backgrounds), since their origin feat would be missing; and the Planar
+# Pact and Dark Gift feats.
 _DRAGONMARK_IDS = {"dragonmark-ua", "greater-dragonmark-ua"}
+_EXCLUDED_FEAT_CATEGORIES = {"dragonmark", "planar-pact", "dark-gift"}
 
 
 def drop_dragonmarks(entries: list[dict], report: Report) -> list[dict]:
     feats_out = {e["id"] for e in entries if e["type"] == "feat"
-                 and (e.get("category") == "dragonmark" or e["id"] in _DRAGONMARK_IDS)}
+                 and (e.get("category") in _EXCLUDED_FEAT_CATEGORIES or e["id"] in _DRAGONMARK_IDS)}
     out = []
     for e in entries:
         if e["id"] in feats_out and e["type"] == "feat" or (

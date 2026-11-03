@@ -1,20 +1,5 @@
 [
   {
-    "id": "aberrant-anatomy",
-    "type": "feat",
-    "name": "Anatomía aberrante",
-    "edition": "2024",
-    "source": "Ravenloft - Los horrores internos",
-    "description": "La exposición a horrores alienígenas como los del Reino Lejano ha calentado tu forma física de maneras sobrenaturales. Obtienes las siguientes características.\n\n**Sin aliento.** Puedes contener la respiración durante 1 hora.\n\n**Percepción extrasensorial.** Tienes competencia en la habilidad Percepción, si no la tienes. También ganas Pericia en esa habilidad.  \nAdemás, tienes vista ciega con un alcance de 15 pies.\n\n**Carne deformada.** Inmediatamente después de hacer un prueba de d20 y sacar un 1 en el d20, la influencia aberrante que infecta tu forma se enciende, desgarrando el control de tu carne. Haz una Constitución tirada de salvación (CD 13 más tu bonificador de competencia). Si falla la salvación, quedarás aturdido hasta el final de tu siguiente turno.",
-    "url": "https://dnd2024.wikidot.com/feat:aberrant-anatomy",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Campaña Ravenloft"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
     "id": "ability-score-improvement",
     "type": "feat",
     "name": "Mejora de característica",
@@ -2657,21 +2642,6 @@
     ]
   },
   {
-    "id": "echoing-soul",
-    "type": "feat",
-    "name": "Alma resonante",
-    "edition": "2024",
-    "source": "Ravenloft - Los horrores internos",
-    "description": "Experimentas ecos de una vida pasada o alternativa.  \nObtienes las siguientes características.\n\n**Destreza canalizada.** Tienes competencia en dos habilidades de tu elección.  \nAdemás, elige una habilidad en la que tengas competencia. Obtendrás Pericia en esa habilidad. Cada vez que termines un descanso largo podrás cambiar tu elección de para este beneficio.\n\n**Lenguas inherentes.** Conoces un idioma adicional de tu elección, que eliges de las tablas de idiomas en el *Manual del jugador.*\n\n**Ecos intrusivos.** Inmediatamente después de sacar un prueba de d20 y sacar un 1 en el d20, los recuerdos y sensaciones de la otra vida de tu alma amenazan con apoderarte de ti. Haz una Constitución tirada de salvación (CD 13 más tu bonificador de competencia). Si falla la salvación, quedarás incapacitado hasta el final de tu siguiente turno. Mientras estás incapacitado de esta manera, tu velocidad se reduce a la mitad.",
-    "url": "https://dnd2024.wikidot.com/feat:echoing-soul",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Campaña Ravenloft"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
     "id": "eldritch-adept",
     "type": "feat",
     "name": "Adepto sobrenatural",
@@ -3065,46 +3035,6 @@
     ]
   },
   {
-    "id": "fey-pact",
-    "type": "feat",
-    "name": "Pacto Fey",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - Mayo de 2026",
-    "description": "Obtienes los siguientes beneficios.\n\n**Fey Bond.** Ya conoces a Sylvan. Si ya conoces a Sylvan cuando seleccionas esta dote, aprenderás un idioma de tu elección de las tablas de idiomas en el Manual del jugador. También obtienes Competencia en la habilidad Naturaleza.\n\n**Fey Cantrips.** Conoces el truco de Druidcraft y aprendes otro truco de tu elección de la escuela de magia de Adivinación o Encantamiento. Inteligencia, Sabiduría o Carisma es tu aptitud mágica para estos conjuros (elige cuándo seleccionas esta dote).\n\n**Palabras dulces.** Cuando fallas una prueba de Carisma (Engaño o Persuasión), puedes volver a tirar la prueba y debes usar la nueva tirada. Una vez que este beneficio convierte un fracaso en un éxito, no podrás volver a usarlo hasta que termines un descanso largo.",
-    "url": "https://dnd2024.wikidot.com/feat:fey-pact",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "No puedo tener otra hazaña de pacto plano"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
-    "id": "fey-sentinel",
-    "type": "feat",
-    "name": "Centinela feérico",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - Mayo de 2026",
-    "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Objetivo que se desvanece.** Cuando un enemigo no te alcanza con una tirada de ataque, puedes realizar una reacción para obtener la condición de invisible hasta el comienzo de tu siguiente turno o hasta inmediatamente después de realizar una tirada de ataque, infligir daño o lanzar un conjuro. Una vez que uses este beneficio, no podrás volver a hacerlo hasta que termines un descanso largo.\n\n**Fey Shift.** Cuando tomas el acción de Correr, puedes renunciar al movimiento adicional para teletransportarte a un espacio desocupado que puedas ver dentro de una distancia igual a la mitad de tu velocidad.\n\n**Raíces de la Naturaleza.** Siempre tienes preparado el conjuro Entangle. Puedes lanzarlo una vez sin un espacio de conjuro, y recuperas la capacidad de lanzarlo de esa manera cuando termines un descanso largo. También puedes lanzarlo usando cualquier espacios de conjuro que tengas. El aptitud mágica del conjuro es la habilidad aumentada por esta hazaña.\n\nCuando alcanzas el nivel 5 de personaje, también siempre tienes preparado el conjuro Crecimiento vegetal y puedes lanzarlo de la misma manera.",
-    "url": "https://dnd2024.wikidot.com/feat:fey-sentinel",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Nivel 4+, hazaña del Pacto Fey",
-      "level": 4
-    },
-    "repeatable": false,
-    "abilityIncrease": {
-      "choose": 1,
-      "from": [
-        "INT",
-        "WIS",
-        "CHA"
-      ],
-      "amount": 1,
-      "max": 20
-    }
-  },
-  {
     "id": "fey-teleportation",
     "type": "feat",
     "name": "Teletransportación Fey",
@@ -3133,31 +3063,6 @@
     "adjustments": [
       "Se agregó el prerrequisito de nivel 4 de las hazañas generales de 2024."
     ]
-  },
-  {
-    "id": "fey-tormentor",
-    "type": "feat",
-    "name": "Atormentador feérico",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - Agosto de 2026",
-    "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Faerie Time Warp.** Como acción adicional, elige hasta tres criaturas que puedas ver a 60 pies de ti. Cada objetivo obtiene una Sabiduría tirada de salvación (CD 8 más el modificador de habilidad de la puntuación incrementada por esta dote y tu bonificador de competencia). Si falla la salvación, la velocidad del objetivo se reduce en 10 pies y recibe una penalización de -2 a CA hasta el final de tu siguiente turno.\n\nUna vez que uses este beneficio, no podrás volver a usarlo hasta que termines un descanso largo.\n\n**Hag's Hex.** Siempre tienes el conjuro Hex preparado. Puedes lanzarlo una vez sin un espacio de conjuro, y recuperas la capacidad de lanzarlo de esa manera cuando termines con un descanso largo. También puedes lanzarlo usando cualquier espacios de conjuro que tengas. El aptitud mágica del conjuro es la habilidad aumentada por esta hazaña.\n\nCuando alcanzas el nivel 5 de personaje, también tienes preparado el conjuro Otorgar maldición y puedes lanzarlo de la misma manera.",
-    "url": "https://dnd2024.wikidot.com/feat:fey-tormentor",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Nivel 4+, hazaña del Pacto Fey",
-      "level": 4
-    },
-    "repeatable": false,
-    "abilityIncrease": {
-      "choose": 1,
-      "from": [
-        "INT",
-        "WIS",
-        "CHA"
-      ],
-      "amount": 1,
-      "max": 20
-    }
   },
   {
     "id": "fey-touched",
@@ -3320,21 +3225,6 @@
       "amount": 1,
       "max": 20
     }
-  },
-  {
-    "id": "gathered-whispers",
-    "type": "feat",
-    "name": "Susurros reunidos",
-    "edition": "2024",
-    "source": "Ravenloft - Los horrores internos",
-    "description": "Te persigue una cacofonía de espíritus susurrantes que sólo tú puedes oír. Obtienes las siguientes características.\n\n**Susurros espirituales.** Aprendes el conjuro Mensaje y puedes lanzarlo sin componentes materiales. Además, siempre tienes preparado el conjuro de Augurio. Puedes lanzarlo sin un espacio de conjuro o componentes de conjuro, y debes terminar un descanso largo antes de poder lanzarlo de esta manera nuevamente. También puedes lanzar el conjuro usando cualquier espacios de conjuro que tengas.  \nInteligencia, Sabiduría o Carisma es tu aptitud mágica para este beneficio (elige cuándo seleccionas esta dote).\n\n**Grito sobrenatural.** Cuando eres golpeado por una tirada de ataque, puedes tomar una reacción para canalizar tus espíritus inquietantes en un grito protector de otro mundo. Puedes agregar tu bonificador de competencia a tu CA contra ese ataque, lo que podría provocar que falle. Puedes usar este beneficio una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.\n\n**Voces del más allá.** Inmediatamente después de sacar un prueba de d20 y sacar un 1 en el d20, los inquietantes susurros aumentan a un volumen espantoso. Haz una Sabiduría tirada de salvación (CD 13 más tu bonificador de competencia). Si falla la salvación, quedarás ensordecido hasta el final de tu siguiente turno. Mientras estás ensordecido, tienes Desventaja en pruebas de característica y tiradas de ataque.",
-    "url": "https://dnd2024.wikidot.com/feat:gathered-whispers",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Campaña Ravenloft"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
   },
   {
     "id": "genie-magic",
@@ -3865,30 +3755,6 @@
     }
   },
   {
-    "id": "infernal-bulwark",
-    "type": "feat",
-    "name": "Baluarte Infernal",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - Mayo de 2026",
-    "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu puntuación de Constitución o Carisma en 1, hasta un máximo de 20.\n\n**Carne del diablo.** Tu piel se espesa y adquiere una textura escamosa y coriácea. Mientras no uses armadura ni empuñes un escudo, tu base Clase de Armadura es igual a 10 más tu modificador de Destreza más el modificador de la habilidad aumentada por esta hazaña.\n\n**Protección Infernal.** Siempre tienes preparado el conjuro Armadura de Agathys. Puedes lanzarlo una vez sin un espacio de conjuro, y recuperas la capacidad de lanzarlo de esa manera cuando termines con un descanso largo. Cuando lo lanzas sin un espacio de conjuro usando esta característica, lanzas este conjuro como su versión de nivel 2 e inflige daño de Fuego en lugar de daño de Frío. También puedes lanzar el conjuro usando cualquier espacios de conjuro que tengas del nivel apropiado. El carisma es tu aptitud mágica para este conjuro.\n\n**Oleada vengativa.** Siempre que una criatura que puedas ver a 60 pies de ti te obligue a hacer un tirada de salvación y tengas éxito, puedes tomar una Reacción para infligir 1d10 de daño de Fuego a esa criatura.\n\nPuedes usar este beneficio una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
-    "url": "https://dnd2024.wikidot.com/feat:infernal-bulwark",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Nivel 4+, hazaña del Pacto Infernal",
-      "level": 4
-    },
-    "repeatable": false,
-    "abilityIncrease": {
-      "choose": 1,
-      "from": [
-        "CON",
-        "CHA"
-      ],
-      "amount": 1,
-      "max": 20
-    }
-  },
-  {
     "id": "infernal-constitution",
     "type": "feat",
     "name": "Constitución infernal",
@@ -3909,45 +3775,6 @@
     "adjustments": [
       "Se agregó el prerrequisito de nivel 4 de las hazañas generales de 2024."
     ]
-  },
-  {
-    "id": "infernal-dragoon",
-    "type": "feat",
-    "name": "Dragón Infernal",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - Mayo de 2026",
-    "description": "**Puntuación de característica Incremento.** Incrementa tu puntuación de Constitución o Carisma en 1, hasta un máximo de 20.\n\n**Aura diabólica.** Tu estrecha asociación con poderes diabólicos inquieta a los demás. Puedes tomar un acción de Magia para manifestar un aura de miedo en una Emanación de 30 pies que se origina en ti mismo. Cada criatura de tu elección en esa área genera un Carisma tirada de salvación (CD 8 más el modificador de la habilidad aumentada por esta dote más tu bonificador de competencia). Si falla la salvación, tiene la condición de Asustado hasta el final de su siguiente turno. Con una salvación exitosa, la criatura no se ve afectada y es inmune a esta habilidad durante 24 horas.\n\n**Favor del diablo.** Puedes recurrir a tu patrón infernal para que te ayude. Cuando obtienes un prueba de d20, puedes agregar una bonificación de +2 a la tirada. Una vez que uses este beneficio, no podrás volver a hacerlo hasta que termines un descanso largo.\n\n**Empoderamiento Diabólico.** Siempre tienes preparado el conjuro Arma Mágica. Puedes lanzarlo una vez sin un espacio de conjuro, y recuperas la capacidad de lanzarlo de esa manera cuando termines con un descanso largo. Cuando lo lanzas sin un espacio de conjuro usando esta función, la duración del conjuro pasa a ser de 8 horas para ese lanzamiento. También puedes lanzar el conjuro usando cualquier espacios de conjuro que tengas del nivel apropiado. El carisma es tu aptitud mágica para este conjuro.",
-    "url": "https://dnd2024.wikidot.com/feat:infernal-dragoon",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Nivel 4+, hazaña del Pacto Infernal",
-      "level": 4
-    },
-    "repeatable": false,
-    "abilityIncrease": {
-      "choose": 1,
-      "from": [
-        "CON",
-        "CHA"
-      ],
-      "amount": 1,
-      "max": 20
-    }
-  },
-  {
-    "id": "infernal-pact",
-    "type": "feat",
-    "name": "Pacto Infernal",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - Mayo de 2026",
-    "description": "Obtienes los siguientes beneficios.\n\n**Resistencia Infernal.** Tienes Resistencia al daño de Fuego o daño de Veneno.\n\n**Vista infernal.** Obtienes visión en la oscuridad con un alcance de 30 pies. Este visión en la oscuridad no está obstaculizado por la Oscuridad mágica.\n\n**Lengua plateada.** Obtienes competencia en la habilidad Engaño.",
-    "url": "https://dnd2024.wikidot.com/feat:infernal-pact",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "No puedo tener otra hazaña de pacto plano"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
   },
   {
     "id": "initiate-of-high-sorcery",
@@ -4308,21 +4135,6 @@
     "adjustments": [
       "Se agregó el prerrequisito de nivel 4 de las hazañas generales de 2024."
     ]
-  },
-  {
-    "id": "living-shadow",
-    "type": "feat",
-    "name": "Sombra Viviente",
-    "edition": "2024",
-    "source": "Ravenloft - Los horrores internos",
-    "description": "La sombra que proyectas está animada y siempre presente; a veces incluso actúa según su propia voluntad.  \nObtienes las siguientes características.\n\n**Grasping Shadow.** Aprendes el conjuro Mano de mago y puedes lanzarlo sin componentes del conjuro. Inteligencia, Sabiduría o Carisma es tu aptitud mágica para este conjuro (elige cuándo seleccionas esta dote).\n\n**Golpe alargado.** Cuando realizas una tirada de ataque cuerpo a cuerpo como parte del Ataque o acción de Magia en tu turno, puedes aumentar tu alcance para ese ataque en 10 pies, mientras tu sombra se estira para ayudarte. Puedes usar esta función una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.\n\n**Voluntad siniestra.** Inmediatamente después de hacer un prueba de d20 y sacar un 1 en el d20, tu sombra intenta ejercer su voluntad. Haz una Sabiduría tirada de salvación (CD 13 más tu bonificador de competencia). Si falla la salvación, quedarás incapacitado hasta el inicio de tu siguiente turno, momento en el que deberás tirar en la tabla de Voluntad de la Sombra para determinar qué harás durante ese turno.\n\n### La voluntad de la sombra\n\n| 1d8 | Comportamiento |\n|---|---|\n| 1 | No realizas ninguna acción ni un acción adicional, y utilizas todo tu movimiento para moverte. Tira 1d4 para la dirección 1, norte: 2, este; 3, sur; 4, oeste. |\n| 2-6 | No te mueves ni tomas un acción adicional, y tomas el acción de Atacar para realizar un ataque cuerpo a cuerpo contra una criatura aleatoria que esté a tu alcance. Si no hay ninguno a su alcance, no realiza ninguna acción. |\n| 7-8 | Tienes la condición boca abajo y tu turno termina. |",
-    "url": "https://dnd2024.wikidot.com/feat:living-shadow",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Campaña Ravenloft"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
   },
   {
     "id": "lordly-resolve",
@@ -4698,21 +4510,6 @@
     "category": "general",
     "prerequisites": {
       "raw": "No puedo tener otra hazaña de talento salvaje"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
-    "id": "mist-walker",
-    "type": "feat",
-    "name": "Caminante de la niebla",
-    "edition": "2024",
-    "source": "Ravenloft - Los horrores internos",
-    "description": "Sabes cómo escapar de las garras de la Niebla, pero esta libertad tiene un precio: si permaneces en un área durante demasiado tiempo, la Niebla te encontrará y drenará tu fuerza vital. Obtienes las siguientes características.\n\n**Viajero del Dominio.** Cuando ingresas a la Niebla con la intención de alcanzar un dominio específico, se te trata como si poseeras un talismán de la Niebla vinculado a ese dominio. Para utilizar esta función, debes conocer el nombre del dominio que has elegido como destino, pero no es necesario que hayas visitado ese terreno previamente. Este rasgo no te permite eludir las fronteras del dominio cerradas por la voluntad de un Señor Oscuro.\n\n**Mist Walk.** Cuando recibes daño o fallas un tirada de salvación para evitar o finalizar la condición de Agarrado o Apresado, puedes tomar una Reacción y teletransportarte hasta 15 pies a un espacio desocupado que puedas ver. Puedes usar esta función una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.\n\n**Raíces envenenadas.** Cuando terminas un descanso largo, el mundo que te rodea en un radio de 10 millas se convierte en un sifón que absorbe tu vitalidad. Siempre que termines un descanso corto en esa área, haz una Constitución tirada de salvación (CD 13 más tu bonificador de competencia). En caso de una salvación fallida, no obtendrás ningún beneficio al terminar ese descanso.",
-    "url": "https://dnd2024.wikidot.com/feat:mist-walker",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Campaña Ravenloft"
     },
     "repeatable": false,
     "abilityIncrease": null
@@ -5884,21 +5681,6 @@
     ]
   },
   {
-    "id": "second-skin",
-    "type": "feat",
-    "name": "Segunda piel",
-    "edition": "2024",
-    "source": "Ravenloft - Los horrores internos",
-    "description": "Hay otro lado tuyo que la mayoría de la gente nunca ve: una bestia, un vengador aterrador o una pesadilla ambulante. Obtienes las siguientes características.\n\n**Forma alternativa.** Siempre tienes preparado el conjuro Alter Self. Puedes lanzarlo sin un espacio de conjuro o componentes de conjuro, y debes terminar un descanso largo antes de poder lanzarlo de esta manera nuevamente. También puedes lanzarlo usando espacios de conjuro que tengas del nivel apropiado. Inteligencia, Sabiduría o Carisma es tu aptitud mágica para este conjuro (elige cuándo seleccionas esta dote).\n\nCuando lanzas Alter Self sin un espacio de conjuro usando esta función, no requiere Concentración.\n\n**Cambio involuntario.** Ciertas circunstancias pueden desencadenar involuntariamente tu transformación. Cuando selecciones esta dote, tira en la tabla de Catalizador de Cambio para determinar qué desencadena tu cambio.\n\nDespués de experimentar el catalizador, al comienzo de tu siguiente turno, crea un Carisma tirada de salvación (CD 13 más tu bonificador de competencia). Si falla la partida, inmediatamente usas la Forma alternativa para lanzar Alter Self sin un espacio de conjuro. Si ya has gastado el uso de esa característica, en su lugar tendrás la condición de Aturdido hasta el comienzo de tu próximo turno.\n\n### Cambiar catalizador\n\n| 1d6 | Catalizador |\n|---|---|\n| 1 | Ver una fase particular de la luna |\n| 2 | Oler el aroma de cierto tipo de flor |\n| 3 | Escuchar el repique de las campanas del templo |\n| 4 | Escuchar una melodía particular |\n| 5 | Tocando plata pura con tu piel desnuda |\n| 6 | Ver a alguien que se parece a un individuo específico |",
-    "url": "https://dnd2024.wikidot.com/feat:second-skin",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Campaña Ravenloft"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
     "id": "sentinel",
     "type": "feat",
     "name": "Centinela",
@@ -5963,21 +5745,6 @@
     ]
   },
   {
-    "id": "shadow-pact",
-    "type": "feat",
-    "name": "Pacto de las Sombras",
-    "edition": "2024",
-    "source": "Lanzamientos de D&D Beyond – Octubre de 2026",
-    "description": "Obtienes los siguientes beneficios.\n\n**Visión en la oscuridad.** Obtienes visión en la oscuridad con un alcance de 60 pies. Si ya tienes visión en la oscuridad, su alcance aumenta en 30 pies.\n\n**Sangre de las Sombras.** Cada vez que lanzas un dado para determinar la cantidad de puntos de golpe que recuperas, puedes volver a tirar el dado si arroja un 1 mientras estás completamente dentro de Luz tenue u Oscuridad, y debes usar la nueva tirada.\n\n**Sudadera de sombras.** Puedes tomar un acción adicional para irradiar una emanación de luz tenue de 5 pies a tu alrededor durante 1 minuto. Finaliza anticipadamente si lo descartas (no se requiere acción) o tienes la condición de Incapacitado. Una vez que uses este beneficio, no podrás volver a usarlo hasta que termines un Corto o descanso largo.",
-    "url": "https://dnd2024.wikidot.com/feat:shadow-pact",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "No puedo tener otra hazaña de pacto plano"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
     "id": "shadow-touched",
     "type": "feat",
     "name": "Sombra tocada",
@@ -6004,55 +5771,6 @@
     "replaced": [
       "https://dnd5e.wikidot.com/feat:shadow-touched"
     ]
-  },
-  {
-    "id": "shadow-trapper",
-    "type": "feat",
-    "name": "Trampero de sombras",
-    "edition": "2024",
-    "source": "Lanzamientos de D&D Beyond – Octubre de 2026",
-    "description": "Tu afinidad con la melancolía de Shadowfell te otorga los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu puntuación de Fuerza o Sabiduría en 1, hasta un máximo de 20.\n\n**Sudario peligroso.** Tienes ventaja en las tiradas de ataque contra criaturas dentro de la Emanación de tu Sudario de Sombras.\n\n**Abrazo doloroso.** Al comienzo de su turno, una criatura apresada por ti debe tener éxito en una Sabiduría tirada de salvación (CD equivale a 8 más el modificador de habilidad de la puntuación incrementada por esta dote y tu bonificador de competencia) o recibir daño psíquico igual a 1d4 más el modificador de habilidad de la puntuación incrementada por esta dote.",
-    "url": "https://dnd2024.wikidot.com/feat:shadow-trapper",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Nivel 4+, hazaña del Pacto de las Sombras",
-      "level": 4
-    },
-    "repeatable": false,
-    "abilityIncrease": {
-      "choose": 1,
-      "from": [
-        "STR",
-        "WIS"
-      ],
-      "amount": 1,
-      "max": 20
-    }
-  },
-  {
-    "id": "shadow-weaver",
-    "type": "feat",
-    "name": "Tejedor de sombras",
-    "edition": "2024",
-    "source": "Lanzamientos de D&D Beyond – Octubre de 2026",
-    "description": "Tu compromiso con tu pacto planar te otorga los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Crear Sombra.** Siempre tienes preparado el conjuro de Oscuridad. Puedes lanzarlo una vez sin un espacio de conjuro, y recuperas la capacidad de lanzarlo de esa manera cuando termines un descanso largo. También puedes lanzar el conjuro usando cualquier espacios de conjuro que tengas del nivel apropiado. El aptitud mágica del conjuro es la habilidad aumentada por esta hazaña.\n\n**Manipular la sombra.** Puedes tomar un acción adicional para aumentar o disminuir el radio de un conjuro de Oscuridad que lanzas en 5 pies (mínimo 5 pies, máximo 25 pies) o mover el área de Oscuridad a un espacio dentro de los 60 pies de ti.",
-    "url": "https://dnd2024.wikidot.com/feat:shadow-weaver",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Nivel 4+, hazaña del Pacto de las Sombras",
-      "level": 4
-    },
-    "repeatable": false,
-    "abilityIncrease": {
-      "choose": 1,
-      "from": [
-        "INT",
-        "WIS",
-        "CHA"
-      ],
-      "amount": 1,
-      "max": 20
-    }
   },
   {
     "id": "shadowmoor-hexer",
@@ -6783,21 +6501,6 @@
     ]
   },
   {
-    "id": "symbiotic-being",
-    "type": "feat",
-    "name": "Ser simbiótico",
-    "edition": "2024",
-    "source": "Ravenloft - Los horrores internos",
-    "description": "Un segundo ser reside dentro de tu cuerpo, ofreciendo conocimiento y asistencia mientras promueve su propia agenda. Obtienes las siguientes características.\n\n**Existencia entrelazada.** El simbionte no puede ser un objetivo. Si mueres, también lo hará tu simbionte. Si vuelves a la vida, tu simbionte también revive.\n\n**Segunda Mente.** Obtienes competencia en una de las siguientes habilidades: Arcanos, Engaño, Historia, Intimidación, Perspicacia, Investigación, Naturaleza, Religión, Percepción o Persuasión. También conoces un idioma adicional de tu elección, elegido de las tablas de idiomas del Manual del Jugador.\n\n**Simbiosis sostenida.** Cuando fallas un tirada de salvación, puedes realizar una Reacción y gastar uno de tus dados de golpe. Tira el dado y suma el número obtenido al tirada de salvación, lo que podría convertir el fracaso en un éxito.\n\nPuedes usar esta función una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.\n\n**Agenda simbiótica.** Inmediatamente después de hacer un prueba de d20 y sacar un 1 en el d20, tu simbionte intenta imponer el control. Haz un Carisma tirada de salvación (CD 13 más tu bonificador de competencia). Si falla la salvación, tendrás la condición de Encantado durante 1d12 horas. Mientras estás encantado, debes intentar seguir las órdenes del simbionte y promover sus objetivos, según lo determine el DM. Siempre que recibas daño, puedes repetir esta salvación, finalizando el efecto si tienes éxito.\n\nA discreción del DM, puedes hacer esto tirada de salvación siempre que actúes en contra de la agenda del simbionte.",
-    "url": "https://dnd2024.wikidot.com/feat:symbiotic-being",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Campaña Ravenloft"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
     "id": "tactical-combatant",
     "type": "feat",
     "name": "Combatiente táctico",
@@ -7023,21 +6726,6 @@
     "url": "https://dnd2024.wikidot.com/feat:tireless-reveler",
     "category": "origin",
     "prerequisites": null,
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
-    "id": "touch-of-death",
-    "type": "feat",
-    "name": "Toque de muerte",
-    "edition": "2024",
-    "source": "Ravenloft - Los horrores internos",
-    "description": "El poder mortal reside dentro de ti y estalla ante la menor provocación. Obtienes las siguientes características.\n\n**Toque mortal.** Aprendes el conjuro Toque frío y puedes lanzarlo sin componentes del conjuro. El daño necrótico que infliges con este conjuro ignora la Resistencia. Inteligencia, Sabiduría o Carisma es tu aptitud mágica para este conjuro (elige cuándo seleccionas esta dote).\n\n**Tirón de la tumba.** Tienes desventaja al morir tiradas de salvación.",
-    "url": "https://dnd2024.wikidot.com/feat:touch-of-death",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Campaña Ravenloft"
-    },
     "repeatable": false,
     "abilityIncrease": null
   },
@@ -7509,21 +7197,6 @@
       "amount": 1,
       "max": 20
     }
-  },
-  {
-    "id": "watchers",
-    "type": "feat",
-    "name": "Vigilantes",
-    "edition": "2024",
-    "source": "Ravenloft - Los horrores internos",
-    "description": "Algo antinatural siempre te observa, tomando la forma de alimañas y otras criaturas espeluznantes que se escabullen. Obtienes las siguientes características.\n\n**Ojos prestados.** Siempre tienes preparados los conjuros Sentir bestia y Hablar con animales. Puedes lanzar cada conjuro sin un espacio de conjuro y debes terminar un descanso largo antes de poder volver a lanzarlo de esta manera. También puedes lanzar estos conjuros usando espacios de conjuro que tengas del nivel apropiado.\n\n**Mayor sospecha.** Cada vez que tomas el acción de Buscar, puedes tirar 1d4 y sumar el número obtenido a cualquier prueba de característica realizado como parte de esa acción.\n\n**Vigilantes incesantes.** Tienes desventaja en tiradas de salvación contra el conjuro de Adivinación.\n\nAdemás, inmediatamente después de sacar un prueba de d20 y sacar un 1 en el d20, la paranoia amenaza con abrumarte. Haz una Sabiduría tirada de salvación (CD 13 más tu bonificador de competencia). Si falla la partida, tendrás Desventaja en pruebas de d20 durante 1 minuto. Puedes repetir el guardado al final de cada uno de tus turnos, finalizando el efecto temprano si tienes éxito.",
-    "url": "https://dnd2024.wikidot.com/feat:watchers",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Campaña Ravenloft"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
   },
   {
     "id": "weapon-master",

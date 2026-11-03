@@ -1,20 +1,5 @@
 [
   {
-    "id": "aberrant-anatomy",
-    "type": "feat",
-    "name": "Aberrant Anatomy",
-    "edition": "2024",
-    "source": "Ravenloft - The Horrors Within",
-    "description": "Exposure to alien horrors like those of the Far Realm has warmed your physical form in supernatural ways. You gain the following features.\n\n**Breathless.** You can hold your breath for 1 hour.\n\n**Extrasensory Perception.** You have proficiency in the Perception skill, if you lack it. You also gain Expertise in that skill.  \nIn addition, you have Blindsight with a range of 15 feet.\n\n**Warping Flesh.** Immediately after you make a D20 Test and roll a 1 on the d20, the aberrant influence infecting your form flares, wrenching control of your flesh. Make a Constitution saving throw (DC 13 plus your Proficiency Bonus). On a failed save, you have the Stunned condition until the end of your next turn.",
-    "url": "https://dnd2024.wikidot.com/feat:aberrant-anatomy",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Ravenloft Campaign"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
     "id": "ability-score-improvement",
     "type": "feat",
     "name": "Ability Score Improvement",
@@ -2657,21 +2642,6 @@
     ]
   },
   {
-    "id": "echoing-soul",
-    "type": "feat",
-    "name": "Echoing Soul",
-    "edition": "2024",
-    "source": "Ravenloft - The Horrors Within",
-    "description": "You experience echoes from a past or alternate life.  \nYou gain the following features.\n\n**Channelled Prowess.** You have proficiency in two skills of your choice.  \nIn addition, choose one skill you have proficiency in. You gain Expertise in that skill. Whenever you finish a Long Rest you can change your choice of for this benefit.\n\n**Inherent Tongues.** You know one additional language of your choice, which you choose from the language tables in the *Player's Handbook.*\n\n**Intrusive Echoes.** Immediately after you make a D20 Test and roll a 1 on the d20, memories and sensations from your soul's other life threaten to overtake you. Make a Constitution saving throw (DC 13 plus your Proficiency Bonus). On a failed save, you have the Incapacitated condition until the end of your next turn. While you are Incapacitated in this way, your Speed is halved.",
-    "url": "https://dnd2024.wikidot.com/feat:echoing-soul",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Ravenloft Campaign"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
     "id": "eldritch-adept",
     "type": "feat",
     "name": "Eldritch Adept",
@@ -3065,46 +3035,6 @@
     ]
   },
   {
-    "id": "fey-pact",
-    "type": "feat",
-    "name": "Fey Pact",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - May 2026",
-    "description": "You gain the following benefits.\n\n**Fey Bond.** You know Sylvan. If you already know Sylvan when you select this feat, you instead learn one language of your choice from the language tables in the Player's Handbook. You also gain Proficiency in the Nature skill.\n\n**Fey Cantrips.** You know the Druidcraft cantrip and learn one other cantrip of your choice from the Divination or Enchantment school of magic. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells (choose when you select this feat).\n\n**Honeyed Words.** When you fail a Charisma (Deception or Persuasion) check, you can reroll the check, and you must use the new roll. Once this benefit turns a failure into a success, you can't use it again until you finish a Long Rest.",
-    "url": "https://dnd2024.wikidot.com/feat:fey-pact",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Can't Have Another Planar Pact Feat"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
-    "id": "fey-sentinel",
-    "type": "feat",
-    "name": "Fey Sentinel",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - May 2026",
-    "description": "You gain the following benefits.\n\n**Ability Score Increase.** Increase your Intelligence, Wisdom, or Charisma score by 1, to a maximum of 20.\n\n**Fading Target.** When an enemy misses you with an attack roll, you can take a Reaction to gain the Invisible condition until the start of your next turn or until immediately after you make an attack roll, deal damage, or cast a spell. Once you use this benefit, you can't do so again until you finish a Long Rest.\n\n**Fey Shift.** When you take the Dash action, you can forgo the extra movement to teleport to an unoccupied space you can see within a distance equal to half your Speed instead.\n\n**Nature's Roots.** You always have the Entangle spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast it using any spell slots you have. The spell's spellcasting ability is the ability increased by this feat.\n\nWhen you reach character level 5, you also always have the Plant Growth spell prepared and can cast it the same way.",
-    "url": "https://dnd2024.wikidot.com/feat:fey-sentinel",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Level 4+, Fey Pact Feat",
-      "level": 4
-    },
-    "repeatable": false,
-    "abilityIncrease": {
-      "choose": 1,
-      "from": [
-        "INT",
-        "WIS",
-        "CHA"
-      ],
-      "amount": 1,
-      "max": 20
-    }
-  },
-  {
     "id": "fey-teleportation",
     "type": "feat",
     "name": "Fey Teleportation",
@@ -3133,31 +3063,6 @@
     "adjustments": [
       "Added the level 4 prerequisite of 2024 general feats"
     ]
-  },
-  {
-    "id": "fey-tormentor",
-    "type": "feat",
-    "name": "Fey Tormentor",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - August 2026",
-    "description": "You gain the following benefits.\n\n**Ability Score Increase.** Increase your Intelligence, Wisdom, or Charisma score by 1, to a maximum of 20.\n\n**Faerie Time Warp.** As a Bonus Action, choose up to three creatures you can see within 60 feet of yourself. Each target makes a Wisdom saving throw (DC 8 plus the ability modifier of the score increased by this feat and your Proficiency Bonus). On a failed save, the target's Speed is reduced by 10 feet, and it takes a −2 penalty to AC until the end of your next turn.\n\nOnce you use this benefit, you can't use it again until you finish a Long Rest.\n\n**Hag's Hex.** You always have the Hex spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast it using any spell slots you have. The spell's spellcasting ability is the ability increased by this feat.\n\nWhen you reach character level 5, you also have the Bestow Curse spell prepared and can cast it in the same way.",
-    "url": "https://dnd2024.wikidot.com/feat:fey-tormentor",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Level 4+, Fey Pact Feat",
-      "level": 4
-    },
-    "repeatable": false,
-    "abilityIncrease": {
-      "choose": 1,
-      "from": [
-        "INT",
-        "WIS",
-        "CHA"
-      ],
-      "amount": 1,
-      "max": 20
-    }
   },
   {
     "id": "fey-touched",
@@ -3320,21 +3225,6 @@
       "amount": 1,
       "max": 20
     }
-  },
-  {
-    "id": "gathered-whispers",
-    "type": "feat",
-    "name": "Gathered Whispers",
-    "edition": "2024",
-    "source": "Ravenloft - The Horrors Within",
-    "description": "You are haunted by a cacophony of whispering spirits only you can hear. You gain the following features.\n\n**Spirit Whispers.** You learn the Message spell and can cast it without Material components. Additionally, you always have the Augury spell prepared. You can cast it without a spell slot or spell components, and you must finish a Long Rest before you can cast it in this way again. You can also cast the spell using any spell slots you have.  \nIntelligence, Wisdom, or Charisma is your spellcasting ability for this benefit (choose when you select this feat).\n\n**Unearthly Scream.** When you are hit by an attack roll, you can take a Reaction to channel your haunting spirits into a protective, otherworldly scream. You can add your Proficiency Bonus to your AC against that attack, potentially causing it to miss. You can use this benefit a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.\n\n**Voices from Beyond.** Immediately after you make a D20 Test and roll a 1 on the d20, the haunting whispers rise to a ghastly volume. Make a Wisdom saving throw (DC 13 plus your Proficiency Bonus). On a failed save, you have the Deafened condition until the end of your next turn. While Deafened, you have Disadvantage on ability checks and attack rolls.",
-    "url": "https://dnd2024.wikidot.com/feat:gathered-whispers",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Ravenloft Campaign"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
   },
   {
     "id": "genie-magic",
@@ -3865,30 +3755,6 @@
     }
   },
   {
-    "id": "infernal-bulwark",
-    "type": "feat",
-    "name": "Infernal Bulwark",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - May 2026",
-    "description": "You gain the following benefits.\n\n**Ability Score Increase.** Increase your Constitution or Charisma score by 1, to a maximum of 20.\n\n**Devil's Flesh.** Your skin thickens and assumes a scaled, leathery texture. While you aren't wearing armor or wielding a Shield, your base Armor Class equals 10 plus your Dexterity modifier plus the modifier of the ability increased by this feat.\n\n**Infernal Protection.** You always have the Armor of Agathys spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. When you cast it without a spell slot using this feature, you cast this spell as its level 2 version, and it deals Fire damage instead of Cold damage. You can also cast the spell using any spell slots you have of the appropriate level. Charisma is your spellcasting ability for this spell.\n\n**Vengeful Surge.** Whenever a creature you can see within 60 feet of yourself forces you to make a saving throw and you succeed, you can take a Reaction to deal 1d10 Fire damage to that creature.\n\nYou can use this benefit a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",
-    "url": "https://dnd2024.wikidot.com/feat:infernal-bulwark",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Level 4+, Infernal Pact Feat",
-      "level": 4
-    },
-    "repeatable": false,
-    "abilityIncrease": {
-      "choose": 1,
-      "from": [
-        "CON",
-        "CHA"
-      ],
-      "amount": 1,
-      "max": 20
-    }
-  },
-  {
     "id": "infernal-constitution",
     "type": "feat",
     "name": "Infernal Constitution",
@@ -3909,45 +3775,6 @@
     "adjustments": [
       "Added the level 4 prerequisite of 2024 general feats"
     ]
-  },
-  {
-    "id": "infernal-dragoon",
-    "type": "feat",
-    "name": "Infernal Dragoon",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - May 2026",
-    "description": "**Ability Score Increase.** Increase your Constitution or Charisma score by 1, to a maximum of 20.\n\n**Devilish Aura.** Your close association with diabolic powers unsettles others. You can take a Magic action to manifest an aura of fear in a 30-foot Emanation originating from yourself. Each creature of your choice in that area makes a Charisma saving throw (DC 8 plus the modifier of the ability increased by this feat plus your Proficiency Bonus). On a failed save, it has the Frightened condition until the end of its next turn. On a successful save, a creature is unaffected, and it is immune to this ability for 24 hours.\n\n**Devil's Favor.** You can call on your infernal patron to aid you. When you make a D20 Test, you can add a +2 bonus to the roll. Once you use this benefit, you can't do so again until you finish a Long Rest.\n\n**Diabolic Empowerment.** You always have the Magic Weapon spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. When you cast it without a spell slot using this feature, the spell's duration becomes 8 hours for that casting. You can also cast the spell using any spell slots you have of the appropriate level. Charisma is your spellcasting ability for this spell.",
-    "url": "https://dnd2024.wikidot.com/feat:infernal-dragoon",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Level 4+, Infernal Pact Feat",
-      "level": 4
-    },
-    "repeatable": false,
-    "abilityIncrease": {
-      "choose": 1,
-      "from": [
-        "CON",
-        "CHA"
-      ],
-      "amount": 1,
-      "max": 20
-    }
-  },
-  {
-    "id": "infernal-pact",
-    "type": "feat",
-    "name": "Infernal Pact",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - May 2026",
-    "description": "You gain the following benefits.\n\n**Infernal Resistance.** You have Resistance to Fire damage or Poison damage.\n\n**Infernal Sight.** You gain Darkvision with a range of 30 feet. This Darkvision is unimpeded by magical Darkness.\n\n**Silver-Tongued.** You gain proficiency in the Deception skill.",
-    "url": "https://dnd2024.wikidot.com/feat:infernal-pact",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Can't Have Another Planar Pact Feat"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
   },
   {
     "id": "initiate-of-high-sorcery",
@@ -4308,21 +4135,6 @@
     "adjustments": [
       "Added the level 4 prerequisite of 2024 general feats"
     ]
-  },
-  {
-    "id": "living-shadow",
-    "type": "feat",
-    "name": "Living Shadow",
-    "edition": "2024",
-    "source": "Ravenloft - The Horrors Within",
-    "description": "The shadow you cast is animate and ever-present - sometimes it even acts according to its own will.  \nYou gain the following features.\n\n**Grasping Shadow.** You learn the Mage Hand spell and can cast it without spell components. Intelligence, Wisdom or Charisma is your spellcasting ability for this spell (choose when you select this feat).\n\n**Lengthened Strike.** When you make a melee attack roll as part of the Attack or Magic action on your turn, you can increase your reach for that attack by 10 feet, as your shadow stretches to aid you. You can use this feature a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.\n\n**Ominous Will.** Immediately after you make a D20 Test and roll a 1 on the d20, your shadow attempts to exert its will. Make a Wisdom saving throw (DC 13 plus your Proficiency Bonus). On a failed save, you have the Incapacitated condition until the start of your next turn, at which point you must roll on the Shadow's Will table to determine what you do during that turn.\n\n### Shadow's Will\n\n| 1d8 | Behaviour |\n|---|---|\n| 1 | You don't take any action or a Bonus Action, and you use all your movement to move. Roll 1d4 for the direction 1, north: 2, east; 3, south; 4, west. |\n| 2-6 | You don't move or take a Bonus Action, and you take the Attack action to make one melee attack against a random creature within reach. If none are within reach, you take no action. |\n| 7-8 | You have the Prone condition, and your turn ends. |",
-    "url": "https://dnd2024.wikidot.com/feat:living-shadow",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Ravenloft Campaign"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
   },
   {
     "id": "lordly-resolve",
@@ -4698,21 +4510,6 @@
     "category": "general",
     "prerequisites": {
       "raw": "Can't Have Another Wild Talent Feat"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
-    "id": "mist-walker",
-    "type": "feat",
-    "name": "Mist Walker",
-    "edition": "2024",
-    "source": "Ravenloft - The Horrors Within",
-    "description": "You know how to slip through the Mists' grasp, but this freedom comes at a price: If you remain in one area for too long, the Mists find you and drain your life force. You gain the following features.\n\n**Domain Traveler.** When you enter the Mists intent on reaching a specific domain, you are treated as if you possess a Mist talisman keyed to that domain. To use this feature, you must know the name of the domain you have chosen as your destination, but you don't need to have previously visited that land. This trait doesn't allow you to bypass domain borders closed by a Darklord's will.\n\n**Mist Walk.** When you take damage or fail a saving throw to avoid or end the Grappled or Restrained condition, you can take a Reaction and teleport up to 15 feet to an unoccupied space you can see. You can use this feature a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.\n\n**Poisoned Roots.** When you finish a Long Rest, the world around you in a 10-mile radius becomes a siphon that leeches away at your vitality. Whenever you finish a Short Rest in that area, make a Constitution saving throw (DC 13 plus your Proficiency Bonus). On a failed save, you get no benefits from finishing that rest.",
-    "url": "https://dnd2024.wikidot.com/feat:mist-walker",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Ravenloft Campaign"
     },
     "repeatable": false,
     "abilityIncrease": null
@@ -5884,21 +5681,6 @@
     ]
   },
   {
-    "id": "second-skin",
-    "type": "feat",
-    "name": "Second Skin",
-    "edition": "2024",
-    "source": "Ravenloft - The Horrors Within",
-    "description": "There is another side of you that most people never see: a beast, a terrifying avenger, or a walking nightmare. You gain the following features.\n\n**Alternate Form.** You always have the Alter Self spell prepared. You can cast it without a spell slot or spell components, and you must finish a Long Rest before you can cast it in this way again. You can also cast it using spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for this spell (choose when you select this feat).\n\nWhen you cast Alter Self without a spell slot using this feature, it doesn't require Concentration.\n\n**Involuntary Change.** Certain circumstances can involuntarily trigger your transformation. When you select this feat, roll on the Change Catalyst table to determine what triggers your change.\n\nAfter you experience the catalyst, at the start of your next turn, make a Charisma saving throw (DC 13 plus your Proficiency Bonus). On a failed save, you immediately use Alternate Form to cast Alter Self without a spell slot. If you've already expended the use of that feature, you instead have the Stunned condition until the start of your next turn.\n\n### Change Catalyst\n\n| 1d6 | Catalyst |\n|---|---|\n| 1 | Seeing a particular phase of the moon |\n| 2 | Smelling the scent of a certain type of flower |\n| 3 | Hearing temple bells ringing |\n| 4 | Hearing a particular melody |\n| 5 | Touching pure silver with your bare skin |\n| 6 | Seeing someone who resembles a specific individual |",
-    "url": "https://dnd2024.wikidot.com/feat:second-skin",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Ravenloft Campaign"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
     "id": "sentinel",
     "type": "feat",
     "name": "Sentinel",
@@ -5963,21 +5745,6 @@
     ]
   },
   {
-    "id": "shadow-pact",
-    "type": "feat",
-    "name": "Shadow Pact",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - October 2026",
-    "description": "You gain the following benefits.\n\n**Darkvision.** You gain Darkvision with a range of 60 feet. If you already have Darkvision, its range increases by 30 feet.\n\n**Shadow Blood.** Whenever you roll a die to determine the number of Hit Points you regain, you can reroll the die if it rolls a 1 while you're entirely within Dim Light or Darkness, and you must use the new roll.\n\n**Shroud of Shadows.** You can take a Bonus Action to radiate a 5-foot Emanation of Dim Light around you for 1 minute. It ends early if you dismiss it (no action required) or you have the Incapacitated condition. Once you use this benefit, you can't use it again until you finish a Short or Long Rest.",
-    "url": "https://dnd2024.wikidot.com/feat:shadow-pact",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Can't Have Another Planar Pact Feat"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
     "id": "shadow-touched",
     "type": "feat",
     "name": "Shadow Touched",
@@ -6004,55 +5771,6 @@
     "replaced": [
       "https://dnd5e.wikidot.com/feat:shadow-touched"
     ]
-  },
-  {
-    "id": "shadow-trapper",
-    "type": "feat",
-    "name": "Shadow Trapper",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - October 2026",
-    "description": "Your affinity with the Shadowfell's melancholy grants you the following benefits.\n\n**Ability Score Increase.** Increase your Strength or Wisdom score by 1, to a maximum of 20.\n\n**Dangerous Shroud.** You have Advantage on attack rolls against creatures within the Emanation of your Shroud of Shadows.\n\n**Sorrowful Embrace.** At the start of its turn, a creature Grappled by you must succeed on a Wisdom saving throw (DC equals 8 plus the ability modifier of the score increased by this feat and your Proficiency Bonus) or take Psychic damage equal to 1d4 plus the ability modifier of the score increased by this feat.",
-    "url": "https://dnd2024.wikidot.com/feat:shadow-trapper",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Level 4+, Shadow Pact Feat",
-      "level": 4
-    },
-    "repeatable": false,
-    "abilityIncrease": {
-      "choose": 1,
-      "from": [
-        "STR",
-        "WIS"
-      ],
-      "amount": 1,
-      "max": 20
-    }
-  },
-  {
-    "id": "shadow-weaver",
-    "type": "feat",
-    "name": "Shadow Weaver",
-    "edition": "2024",
-    "source": "D&D Beyond Drops - October 2026",
-    "description": "Your commitment to your planar pact grants you the following benefits.\n\n**Ability Score Increase.** Increase your Intelligence, Wisdom, or Charisma score by 1, to a maximum of 20.\n\n**Create Shadow.** You always have the Darkness spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have of the appropriate level. The spell's spellcasting ability is the ability increased by this feat.\n\n**Manipulate Shadow.** You can take a Bonus Action to increase or decrease the radius of a Darkness spell you cast by 5 feet (minimum 5 feet, maximum 25 feet) or move the area of Darkness to a space within 60 feet of you.",
-    "url": "https://dnd2024.wikidot.com/feat:shadow-weaver",
-    "category": "planar-pact",
-    "prerequisites": {
-      "raw": "Level 4+, Shadow Pact Feat",
-      "level": 4
-    },
-    "repeatable": false,
-    "abilityIncrease": {
-      "choose": 1,
-      "from": [
-        "INT",
-        "WIS",
-        "CHA"
-      ],
-      "amount": 1,
-      "max": 20
-    }
   },
   {
     "id": "shadowmoor-hexer",
@@ -6783,21 +6501,6 @@
     ]
   },
   {
-    "id": "symbiotic-being",
-    "type": "feat",
-    "name": "Symbiotic Being",
-    "edition": "2024",
-    "source": "Ravenloft - The Horrors Within",
-    "description": "A second being resides within your body, offering knowledge and assistance while furthering its own agenda. You gain the following features.\n\n**Entwined Existence.** The symbiote can't be targeted. If you die, so does your symbiote. If you are returned to life, your symbiote also revives.\n\n**Second Mind.** You gain proficiency in one of the following skills: Arcana, Deception, History, Intimidation, Insight, Investigation, Nature, Religion, Perception, or Persuasion. You also know one additional language of your choice, chosen from the language tables in the Player's Handbook.\n\n**Sustained Symbiosis.** When you fail a saving throw, you can take a Reaction and expend one of your Hit Dice. Roll the die and add the number rolled to the saving throw, potentially turning the failure into a success.\n\nYou can use this feature a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.\n\n**Symbiotic Agenda.** Immediately after you make a D20 Test and roll a 1 on the d20, your symbiote attempts to assert control. Make a Charisma saving throw (DC 13 plus your Proficiency Bonus). On a failed save, you have the Charmed condition for 1d12 hours. While Charmed, you must try to follow the symbiote's commands and further its goals, as determined by the DM. Whenever you take damage, you can repeat this save, ending the effect on a success.\n\nAt the DM's discretion, you might make this saving throw whenever you act contrary to the symbiote's agenda.",
-    "url": "https://dnd2024.wikidot.com/feat:symbiotic-being",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Ravenloft Campaign"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
     "id": "tactical-combatant",
     "type": "feat",
     "name": "Tactical Combatant",
@@ -7023,21 +6726,6 @@
     "url": "https://dnd2024.wikidot.com/feat:tireless-reveler",
     "category": "origin",
     "prerequisites": null,
-    "repeatable": false,
-    "abilityIncrease": null
-  },
-  {
-    "id": "touch-of-death",
-    "type": "feat",
-    "name": "Touch of Death",
-    "edition": "2024",
-    "source": "Ravenloft - The Horrors Within",
-    "description": "Deathly power resides within you, bursting out at the slightest provocation. You gain the following features.\n\n**Death Touch.** You learn the Chill Touch spell and can cast it without spell components. Necrotic damage you deal with this spell ignores Resistance. Intelligence, Wisdom, or Charisma is your spellcasting ability for this spell (choose when you select this feat).\n\n**Pull of the Grave.** You have Disadvantage on Death Saving Throws.",
-    "url": "https://dnd2024.wikidot.com/feat:touch-of-death",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Ravenloft Campaign"
-    },
     "repeatable": false,
     "abilityIncrease": null
   },
@@ -7509,21 +7197,6 @@
       "amount": 1,
       "max": 20
     }
-  },
-  {
-    "id": "watchers",
-    "type": "feat",
-    "name": "Watchers",
-    "edition": "2024",
-    "source": "Ravenloft - The Horrors Within",
-    "description": "Something unnatural is always watching you, taking the form of scurrying vermin and other eerie creatures. You gain the following features.\n\n**Borrowed Eyes.** You always have the Beast Sense and Speak with Animals spells prepared. You can cast each spell without a spell slot, and you must finish a Long Rest before you can cast it in this way again. You can also cast these spells using spell slots you have of the appropriate level.\n\n**Heightened Suspicion.** Whenever you take the Search action, you can roll 1d4 and add the number rolled to any ability check made as part of that action.\n\n**Incessant Watchers.** You have Disadvantage on saving throws made against the Scrying spell.\n\nIn addition, immediately after you make a D20 Test and roll a 1 on the d20, paranoia threatens to overwhelm you. Make a Wisdom saving throw (DC 13 plus your Proficiency Bonus). On a failed save, you have Disadvantage on D20 Tests for 1 minute. You can repeat the save at the end of each of your turns, ending the effect early on a success.",
-    "url": "https://dnd2024.wikidot.com/feat:watchers",
-    "category": "dark-gift",
-    "prerequisites": {
-      "raw": "Ravenloft Campaign"
-    },
-    "repeatable": false,
-    "abilityIncrease": null
   },
   {
     "id": "weapon-master",
