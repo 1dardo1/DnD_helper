@@ -691,7 +691,6 @@ export const en = {
   'picker.groupInfo.feat.fighting-style': 'Combat techniques for Fighters, Paladins and Rangers.',
   'picker.groupInfo.feat.epic-boon': 'Legendary gifts for characters of level 19 or higher.',
   'picker.groupInfo.feat.racial': 'Feats that require a particular species.',
-  'picker.groupInfo.feat.dragonmark': 'Feats of the Eberron dragonmarked houses.',
   'picker.groupInfo.feat.dark-gift': 'Gifts of the Domains of Dread, with a price (Ravenloft).',
   'picker.groupInfo.feat.planar-pact': 'Pacts with the powers of the planes.',
   'picker.groupInfo.option.eldritch-invocation':

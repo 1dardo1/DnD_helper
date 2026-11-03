@@ -9,9 +9,9 @@
     "subclass": 205,
     "option": 92,
     "spell": 641,
-    "feat": 360,
+    "feat": 331,
     "species": 89,
-    "background": 75,
+    "background": 61,
     "item": 1346,
     "rule": 84
   },
@@ -33,15 +33,15 @@
       "2014": 172
     },
     "feat": {
-      "2024": 242,
-      "2014": 118
+      "2024": 215,
+      "2014": 116
     },
     "species": {
       "2024": 30,
       "2014": 59
     },
     "background": {
-      "2024": 75
+      "2024": 61
     },
     "item": {
       "2024": 707,
@@ -55,10 +55,10 @@
   "pagesDownloaded": 0,
   "downloadFailures": 0,
   "parseFailures": 1,
-  "translatedAt": "2026-11-03T10:48:39+00:00",
+  "translatedAt": "2026-11-03T11:18:09+00:00",
   "translation": {
     "es": {
-      "texts": 17244,
+      "texts": 17043,
       "untranslated": 0,
       "requests": 0,
       "complete": true

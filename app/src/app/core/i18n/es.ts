@@ -699,7 +699,6 @@ export const es: Record<keyof typeof en, string> = {
     'Técnicas de combate de guerreros, paladines y exploradores.',
   'picker.groupInfo.feat.epic-boon': 'Dones legendarios para personajes de nivel 19 o superior.',
   'picker.groupInfo.feat.racial': 'Dotes que exigen una especie concreta.',
-  'picker.groupInfo.feat.dragonmark': 'Dotes de las casas con marca del dragón de Eberron.',
   'picker.groupInfo.feat.dark-gift': 'Dones de los Dominios del Pavor, con un precio (Ravenloft).',
   'picker.groupInfo.feat.planar-pact': 'Pactos con los poderes de los planos.',
   'picker.groupInfo.option.eldritch-invocation':

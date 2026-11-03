@@ -23,6 +23,7 @@ import { EntryCard } from './entry-card';
 import { EntryDetails } from './entry-details';
 import { FacetKey, facetValues } from './entry-facets';
 import { EntryLabels } from './entry-labels.service';
+import { defaultOrder } from './entry-order';
 import { FilterBar } from './filter-bar';
 import { FacetSelection, activeFacets, applyFacets } from './picker-filters';
 
@@ -83,6 +84,13 @@ export class Picker<T extends PickItem> {
   protected readonly browsing = signal(false);
   protected readonly open = signal<ReadonlySet<string>>(new Set());
 
+  /** The items in the default order of their type (spells by level, feats by ability...). */
+  private readonly ordered = computed(() => {
+    const type = (this.items()[0] as Partial<Entry> | undefined)?.type;
+    return type === 'spell' || type === 'feat'
+      ? defaultOrder(this.items(), (i) => this.dataText.shortName(i.name))
+      : this.items();
+  });
   private readonly chosenSet = computed(() => new Set(this.selected()));
   private readonly type = computed(() => (this.items()[0] as Partial<Entry> | undefined)?.type);
 
@@ -97,11 +105,11 @@ export class Picker<T extends PickItem> {
 
   /** Normalised names (shown and English) of every item, recomputed when the language changes. */
   private readonly texts = computed(() =>
-    this.items().map((i) => normalise(this.dataText.searchText(i.name))),
+    this.ordered().map((i) => normalise(this.dataText.searchText(i.name))),
   );
   private readonly values = computed(() => {
     const keys = this.facets();
-    return this.items().map(
+    return this.ordered().map(
       (i) => new Map(keys.map((k) => [k, facetValues(i as unknown as Entry, k)])),
     );
   });
@@ -120,7 +128,7 @@ export class Picker<T extends PickItem> {
   protected readonly filtered = computed(() => {
     const values = this.values();
     const list = applyFacets(
-      this.items(),
+      this.ordered(),
       this.texts(),
       (i, k) => values[i].get(k as FacetKey) ?? [],
       this.selection(),

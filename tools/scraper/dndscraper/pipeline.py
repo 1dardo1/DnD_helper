@@ -426,6 +426,24 @@ def _text(e: dict) -> str:
     return " ".join([e.get("description", "")] + [f"{f['name']} {f['description']}" for f in e.get("features", [])]).lower()
 
 
+# Excluded by decision: the Eberron dragonmark feats, and the backgrounds that exist to grant one
+# (the "heir of House ..." backgrounds), since their origin feat would be missing.
+_DRAGONMARK_IDS = {"dragonmark-ua", "greater-dragonmark-ua"}
+
+
+def drop_dragonmarks(entries: list[dict], report: Report) -> list[dict]:
+    feats_out = {e["id"] for e in entries if e["type"] == "feat"
+                 and (e.get("category") == "dragonmark" or e["id"] in _DRAGONMARK_IDS)}
+    out = []
+    for e in entries:
+        if e["id"] in feats_out and e["type"] == "feat" or (
+                e["type"] == "background" and e.get("featId") in feats_out):
+            report.excluded.append(e.get("url") or e["id"])
+            continue
+        out.append(e)
+    return out
+
+
 def prune_options(entries: list[dict], report: Report) -> list[dict]:
     """Class option lists follow the class version in the data:
     - a group with 2024 options (Eldritch Invocations) keeps only those;
@@ -623,7 +641,7 @@ def run(root: Path, offline: bool = False, delay: float = 0.5, translate: bool =
     e24 = r.parse_2024()
     e14 = r.parse_2014()
     successors = load_successors(root / "tools/scraper/successors.yaml")
-    merged = prune_options(merge(e14, e24, successors, report), report)
+    merged = drop_dragonmarks(prune_options(merge(e14, e24, successors, report), report), report)
     apply_multiclass_gains(merged, root / "tools/scraper/multiclass.yaml", report)
     meta = write(merged, root / "data", report, crawler, root / "tools/scraper/report.md")
     # species pictures (URLs on the Fandom wikis), before the translation copies data/species.json

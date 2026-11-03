@@ -10,6 +10,7 @@ import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { EntryCard } from '../../shared/picker/entry-card';
 import { ENTRY_FACETS, FacetKey, facetValues, sortByPrice } from '../../shared/picker/entry-facets';
 import { EntryLabels } from '../../shared/picker/entry-labels.service';
+import { defaultOrder } from '../../shared/picker/entry-order';
 import { FilterBar } from '../../shared/picker/filter-bar';
 import { applyFacets, modeKey } from '../../shared/picker/picker-filters';
 import { normalise } from './compendium-search';
@@ -73,10 +74,10 @@ export class EntryList {
     loader: ({ params }) => this.compendium.all(params) as Promise<Entry[]>,
   });
 
-  /** Sorted by the name shown, with the normalised names to search by. */
+  /** Sorted by the name shown (spells by level, feats by ability...), with the names to search by. */
   private readonly sorted = computed(() => {
     const shown = (e: Entry) => this.data.shortName(e.name);
-    const list = [...(this.entries.value() ?? [])].sort((a, b) => shown(a).localeCompare(shown(b)));
+    const list = defaultOrder(this.entries.value() ?? [], shown);
     return { list, texts: list.map((e) => normalise(this.data.searchText(e.name))) };
   });
 
