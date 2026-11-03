@@ -181,7 +181,7 @@
   {
     "id": "agent-of-order",
     "type": "feat",
-    "name": "Agente de Orden",
+    "name": "Agente del orden",
     "edition": "2014",
     "source": "Planescape: aventuras en el multiverso.",
     "description": "Puedes canalizar fuerzas cósmicas del orden para obtener estos beneficios:\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 20.  \n**Golpe de estasis.** Una vez por turno, cuando dañas a una criatura que puedes ver a 60 pies de ti, puedes infligir 1d8 de daño de fuerza adicional al objetivo, y debe tener éxito con una Sabiduría tirada de salvación (CD igual a 8 + tu bonificador de competencia + el modificador del aptitud mágica que elegiste para la hazaña Vástago de los planos exteriores) mientras las ataduras espectrales intentan atraparlo. Con una salvación exitosa, el objetivo escapa. En caso de una salvación fallida, el objetivo tiene la condición de apresado hasta el comienzo de tu siguiente turno. Estas ataduras se manifiestan como cadenas o algún otro símbolo de estasis. Puedes usar este beneficio una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
@@ -451,7 +451,7 @@
   {
     "id": "artificer-initiate",
     "type": "feat",
-    "name": "Artífice Iniciar",
+    "name": "Iniciado artífice",
     "edition": "2014",
     "source": "El caldero de todo de Tasha",
     "description": "Has aprendido algo de la inventiva de un Artífice:\n\n- Aprendes un truco de tu elección de la lista de conjuros Artífice y aprendes un conjuro de primer nivel de tu elección de esa lista. La inteligencia es tu aptitud mágica para estos conjuros.\n\n- Puedes lanzar el conjuro de nivel 1 de esta dote sin un espacio de conjuro y debes terminar un descanso largo antes de poder lanzarlo de esta manera nuevamente. También puedes lanzar el conjuro usando cualquier espacios de conjuro que tengas.\n\n- Obtienes competencia con un tipo de Herramientas de artesano de tu elección, y puedes usar ese tipo de herramienta como canalizador mágico para cualquier conjuro que lances que use Inteligencia como aptitud mágica.",
@@ -523,7 +523,7 @@
   {
     "id": "atoners-grace-ua",
     "type": "feat",
-    "name": "La gracia de la expiación",
+    "name": "Gracia del penitente",
     "edition": "2024",
     "source": "UA14 - Opciones villanas revisadas (18.06.2026)",
     "description": "Obtienes los siguientes beneficios.\n\n**Mien desarmante.** La actitud hostil de una criatura no impone Desventaja en tus pruebas de Carisma (Persuasión) para influir en esa criatura.\n\n**Parlamentar.** Cuando tomas Retirada o acción de Influir, cada criatura de tu elección dentro de 5 pies de ti tiene Ventaja en el siguiente prueba de característica o tirada de salvación que haga antes del comienzo de tu siguiente turno.",
@@ -704,7 +704,7 @@
   {
     "id": "boon-of-blazing-dawn",
     "type": "feat",
-    "name": "Bendición del amanecer ardiente",
+    "name": "Don del amanecer ardiente",
     "edition": "2024",
     "source": "El libro del hambre de Astarion",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Amado del Sol.** Tienes inmunidad al daño radiante.\n\n**Golpe Ardiente.** Cuando golpeas a una criatura con un ataque con arma, el daño puede ser Radiante o el tipo de daño normal del arma (tú eliges).\n\n**Explosión de luz solar.** Una vez por turno, cuando golpeas a una criatura con un ataque que inflige daño radiante, puedes emitir luz brillante en un radio de 30 pies desde ti y luz tenue durante 30 pies adicionales hasta el comienzo de tu siguiente turno. Esta luz es la luz del sol.",
@@ -732,7 +732,7 @@
   {
     "id": "boon-of-bloodshed",
     "type": "feat",
-    "name": "Bendición del derramamiento de sangre",
+    "name": "Don del derramamiento de sangre",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Killer's Fortune.** Cuando un enemigo que puedes ver se reduce a 0 puntos de golpe, obtienes Ventaja en la siguiente tirada de ataque que hagas antes del final de tu siguiente turno.\n\n**Poder del dolor.** Una vez por turno, cuando haces una tirada de ataque mientras estás ensangrentado, puedes infligir daño adicional al objetivo igual a tu bonificador de competencia. El tipo de daño extra es el mismo que el tipo de ataque.",
@@ -760,7 +760,7 @@
   {
     "id": "boon-of-bountiful-health",
     "type": "feat",
-    "name": "Bendición de una salud abundante",
+    "name": "Don de la salud abundante",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa uno puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Salud aumentada.** Cuando obtienes puntos de golpe temporales, aumenta la cantidad de puntos de golpe temporales que obtienes en 5.\n\n**Recuperación superior.** Cuando gastas uno o más punto de golpe dados para recuperar puntos de golpe, puedes usar el mayor número posible para cada dado.",
@@ -788,7 +788,7 @@
   {
     "id": "boon-of-combat-prowess",
     "type": "feat",
-    "name": "Beneficio de la destreza en combate",
+    "name": "Don de la pericia en combate",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Apunta sin igual.** Cuando fallas con una tirada de ataque, puedes golpear en su lugar. Una vez que uses este beneficio, no podrás volver a usarlo hasta el comienzo de tu siguiente turno.",
@@ -816,7 +816,7 @@
   {
     "id": "boon-of-communication",
     "type": "feat",
-    "name": "Bendición de la comunicación",
+    "name": "Don de la comunicación",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 30.\n\n**Orador astuto.** No tienes Desventaja en pruebas de característica para influir en criaturas hostiles.\n\n**Intérprete talentoso.** Usted comprende el significado literal de cualquier idioma que escuche o vea por señas, y puede comprender el significado literal de cualquier idioma escrito que vea.\n\n**Comunicación mental.** Obtienes telepatía con un alcance de 120 pies.",
@@ -841,7 +841,7 @@
   {
     "id": "boon-of-desperate-resilience",
     "type": "feat",
-    "name": "La bendición de la resiliencia desesperada",
+    "name": "Don de la resiliencia desesperada",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu puntuación de Fuerza o Constitución en 1, hasta un máximo de 30.\n\n**Defensa del cuerpo y la mente.** Mientras estás ensangrentado, tienes resistencia a todos los tipos de daño excepto a la Fuerza.",
@@ -865,7 +865,7 @@
   {
     "id": "boon-of-dimensional-travel",
     "type": "feat",
-    "name": "La bendición de los viajes dimensionales",
+    "name": "Don del viaje dimensional",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Pasos parpadeantes.** Inmediatamente después de tomar el acción de Atacar o el acción de Magia, puedes teletransportarte hasta 30 pies a un espacio desocupado que puedas ver.",
@@ -893,7 +893,7 @@
   {
     "id": "boon-of-energy-resistance",
     "type": "feat",
-    "name": "Beneficio de la resistencia energética",
+    "name": "Don de la resistencia a la energía",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Resistencias energéticas.** Obtienes resistencia a dos de los siguientes tipos de daño de tu elección: Ácido, Frío, Fuego, Rayo, Necrótico, Veneno, Psíquico, Radiante o Trueno. Cada vez que termines un descanso largo, podrás cambiar tus opciones.\n\n**Redirección de energía.** Cuando recibes daño de uno de los tipos elegidos para las Resistencias de energía  \nbeneficio, puedes tomar una Reacción para dirigir daño del mismo tipo hacia otra criatura que puedas ver dentro de 60 pies de ti y que no esté detrás de la Cobertura Total. Si lo haces, esa criatura debe tener éxito en una Destreza tirada de salvación (CD 8 más tu modificador de Constitución y bonificador de competencia) o recibir daño igual a 2d12 más tu modificador de Constitución.",
@@ -921,7 +921,7 @@
   {
     "id": "boon-of-erupting-spellpower",
     "type": "feat",
-    "name": "Bendición del poder de conjuros en erupción",
+    "name": "Don del poder mágico desbordante",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 30.\n\n**Sobrecarga de conjuros.** Cuando lanzas un conjuro que causa daño usando un espacio de conjuro, puedes hacer que su energía mágica aumente. Puedes tratar cualquier 1 o 2 en un dado de daño lanzado para el conjuro como un 3, y las criaturas que recibieron daño del conjuro también tienen la condición Prone. Una vez que uses este beneficio, no podrás volver a hacerlo hasta que lances Iniciativa o termines un Largo o descanso corto.",
@@ -947,7 +947,7 @@
   {
     "id": "boon-of-exquisite-radiance",
     "type": "feat",
-    "name": "Bendición del resplandor exquisito",
+    "name": "Don del resplandor exquisito",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Descanso eterno.** Las criaturas que reduzcas a 0 puntos de golpe no pueden convertirse en no-muertos.\n\n**Poderoso resplandor.** Cuando haces una tirada de daño que inflige daño radiante, puedes usar el mayor número posible para cada dado de daño. Una vez que uses este beneficio, no podrás volver a hacerlo hasta que termines un descanso largo.",
@@ -975,7 +975,7 @@
   {
     "id": "boon-of-fate",
     "type": "feat",
-    "name": "Bendición del destino",
+    "name": "Don del destino",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Mejora el destino.** Cuando tú u otra criatura a 60 pies de ti logra o falla un prueba de d20, puedes tirar 2d4 y aplicar el total obtenido como bonificación o penalización a la tirada de d20. Una vez que uses este beneficio, no podrás volver a usarlo hasta que lances Iniciativa o termines un Corto o descanso largo.",
@@ -1003,7 +1003,7 @@
   {
     "id": "boon-of-fluid-forms",
     "type": "feat",
-    "name": "Bendición de las formas fluidas",
+    "name": "Don de las formas fluidas",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 30.\n\n**Cambiador de forma.** Puedes tomar un acción de Magia para cambiar de forma a una Bestia, Humanoide o Monstruo con un índice de desafío no superior a 10. Cuando cambias de forma, obtienes un número de puntos de golpe temporales igual al puntos de golpe de la forma. El efecto de cambio de forma dura 1 hora y termina antes de tiempo si no te queda puntos de golpe temporales o si tomas un acción de Magia para volver a tu verdadera forma.\n\nLas estadísticas de tu juego se reemplazan por el bloque de estadísticas de la forma elegida, pero conservas tu tipo de criatura; alineación; personalidad; Puntuaciones de Inteligencia, Sabiduría y Carisma; puntos de golpe; punto de golpe Dados; competencias; y capacidad para comunicarse. Si tienes la función Lanzamiento de conjuros o Magia de pacto, también la conservas. Al cambiar de forma, usted determina si su equipo cae al suelo o cambia de tamaño y forma para adaptarse a la nueva forma mientras está en él.\n\nUna vez que uses este beneficio, no podrás volver a hacerlo hasta que termines un descanso largo.\n\n**Transformación resistente.** Cuando ganas puntos de golpe temporales cuando cambias de forma, aumenta ese número de puntos de golpe temporales en 20.",
@@ -1028,7 +1028,7 @@
   {
     "id": "boon-of-fortitude",
     "type": "feat",
-    "name": "Bendición de la fortaleza",
+    "name": "Don de la fortaleza",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Salud fortificada.** Tu máximo de puntos de golpe aumenta en 40. Además, cada vez que recuperas puntos de golpe, puedes recuperar puntos de golpe adicional igual a tu modificador de Constitución. Una vez que hayas recuperado estos puntos de golpe adicionales, no podrás volver a hacerlo hasta el comienzo de tu siguiente turno.",
@@ -1056,7 +1056,7 @@
   {
     "id": "boon-of-fortunes-favor",
     "type": "feat",
-    "name": "Bendición del favor de la fortuna",
+    "name": "Don del favor de la fortuna",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Tirada de salvación Reroll.** Cuando fallas un tirada de salvación, puedes volver a lanzarlo y debes usar el nuevo lanzamiento. Una vez que uses este beneficio, no podrás volver a hacerlo hasta el inicio de tu siguiente turno.",
@@ -1084,7 +1084,7 @@
   {
     "id": "boon-of-irresistible-offense",
     "type": "feat",
-    "name": "Bendición de la ofensiva irresistible",
+    "name": "Don de la ofensiva irresistible",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu puntuación de Fuerza o Destreza en 1, hasta un máximo de 30.\n\n**Supera las defensas.** El daño contundente, perforante y cortante que infliges siempre ignora la resistencia.\n\n**Golpe abrumador.** Cuando obtienes un 20 en el d20 para una tirada de ataque, puedes infligir daño adicional al objetivo igual al puntuación de característica aumentado por esta hazaña. El tipo de daño extra es el mismo que el tipo de ataque.",
@@ -1108,7 +1108,7 @@
   {
     "id": "boon-of-looming-shadows",
     "type": "feat",
-    "name": "Bendición de las sombras inminentes",
+    "name": "Don de las sombras inminentes",
     "edition": "2024",
     "source": "El libro del hambre de Astarion",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Estiramiento sombrío.** Cuando tomas el acción de Atacar, el alcance de tus ataques con armas cuerpo a cuerpo aumenta en 10 pies hasta el final de tu turno.\n\n**Silueta bailando.** Puedes tomar el acción de Esquivar como un acción adicional.",
@@ -1136,7 +1136,7 @@
   {
     "id": "boon-of-magic-school-mastery",
     "type": "feat",
-    "name": "Beneficio del dominio de la escuela de magia",
+    "name": "Don del dominio de una escuela de magia",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 30.\n\n**Escuela de maestría.** Elige una de las ocho escuelas de magia: Abjuración, Conjuración, Adivinación, Encantamiento, Evocación, Ilusión, Nigromancia o Transmutación. Su elección le otorga las siguientes características:\n\n**Rote Casting.** Elige un conjuro de nivel 1 de la escuela elegida que aparece en la lista de conjuros de tu clase. Siempre tienes ese conjuro preparado y puedes lanzarlo sin espacio de conjuro ni componentes del conjuro.\n\n**Arcano de firma.** Elige un conjuro de nivel 7 o inferior de la escuela elegida. Siempre tienes ese conjuro preparado. Puedes lanzarlo una vez sin un espacio de conjuro, y recuperas la capacidad de lanzarlo de esta manera cuando termines un descanso largo.\n\nTambién puedes lanzar estos conjuros preparados usando cualquier espacios de conjuro que tengas del nivel apropiado.\n\n**Repetible.** Puedes realizar esta hazaña más de una vez, pero debes elegir una escuela de magia diferente cada vez.",
@@ -1162,7 +1162,7 @@
   {
     "id": "boon-of-misty-escape",
     "type": "feat",
-    "name": "Bendición del escape brumoso",
+    "name": "Don de la huida brumosa",
     "edition": "2024",
     "source": "El libro del hambre de Astarion",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 30.\n\n**Forma gaseosa.** Si bajas a 0 puntos de golpe pero no te matan directamente, puedes bajar a 1 punto de golpe y lanzar Forma gaseosa sin gastar espacio de conjuro (no se requiere ninguna acción). Cuando lanzas este conjuro de esta manera, solo puedes apuntar a ti mismo, tu velocidad de vuelo es de 20 pies y recuperas 10 puntos de golpe al comienzo de cada uno de tus turnos durante la duración del conjuro. El aptitud mágica del conjuro es la habilidad aumentada por esta hazaña.\n\nUna vez que uses este beneficio, no podrás volver a hacerlo hasta que termines un descanso largo.",
@@ -1187,7 +1187,7 @@
   {
     "id": "boon-of-poison-mastery",
     "type": "feat",
-    "name": "Beneficio del dominio del veneno",
+    "name": "Don del dominio del veneno",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Antitóxico.** Tienes inmunidad al daño por veneno y la condición de envenenado.\n\n**Envenenador perfecto.** Una vez por turno, cuando lanzas dados para determinar el daño de Veneno que una criatura recibe de tu ataque, conjuro o característica, puedes usar el número más alto posible para cada dado.",
@@ -1215,7 +1215,7 @@
   {
     "id": "boon-of-recovery",
     "type": "feat",
-    "name": "Bendición de la recuperación",
+    "name": "Don de la recuperación",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Última resistencia.** Cuando te reduzcan a 0 puntos de golpe, puedes bajar a 1 punto de golpe y recuperar una cantidad de puntos de golpe igual a la mitad de tu máximo de puntos de golpe. Una vez que uses este beneficio, no podrás volver a usarlo hasta que termines un descanso largo.\n\n**Recupera vitalidad.** Tienes un grupo de diez d10. Como acción adicional, puedes gastar dados del grupo, tirarlos y recuperar una cantidad de puntos de golpe igual al total de la tirada. Recuperas todos los dados gastados cuando terminas un descanso largo.",
@@ -1243,7 +1243,7 @@
   {
     "id": "boon-of-revelry",
     "type": "feat",
-    "name": "Bendición de la juerga",
+    "name": "Don de la juerga",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 30.\n\n**Inspire Dance.** Siempre tienes preparado el conjuro de Danza Irresistible de Otto. Puedes lanzarlo una vez sin un espacio de conjuro y recuperas la capacidad de lanzarlo de esa manera cuando termines un descanso largo. También puedes lanzar el conjuro usando cualquier espacios de conjuro que tengas del nivel apropiado.\n\nCuando lanzas el conjuro, no requiere componentes del conjuro y recibir daño no rompe tu concentración en él.\n\n**Canta.** Si bien una criatura que falló su tirada de salvación contra tu Danza irresistible de Otto tiene la condición Encantada de ese conjuro, no puede lanzar conjuros con componentes verbales y canta deliciosas tonterías si puede cantar.",
@@ -1268,7 +1268,7 @@
   {
     "id": "boon-of-siberys",
     "type": "feat",
-    "name": "Bendición de Siberys",
+    "name": "Don de Siberys",
     "edition": "2024",
     "source": "Eberron - Forja del Artífice",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Magia aberrante.** Elige un conjuro de nivel 8 o inferior de la lista de conjuros Hechicero o un conjuro de la tabla de conjuros de marcas de dragón de Siberys (la tabla incluye sugerencias de marcas de dragón si deseas asociar un conjuro con una de las marcas). Siempre tienes ese conjuro preparado. Puedes lanzarlo una vez sin un espacio de conjuro o componentes de conjuro, y recuperas la capacidad de lanzarlo de esa manera cuando terminas un Corto o descanso largo. También puedes lanzar este conjuro usando cualquier espacios de conjuro que tengas del nivel apropiado. Inteligencia, Sabiduría o Carisma es tu aptitud mágica para este conjuro (elige cuándo obtienes esta dote).\n\n**Conjuros de Marca del Dragón de Siberys**\n\n| Conjuro | Marca del dragón sugerida |\n|---|---|\n| Formas de animales | Manipulación |\n| Controlar el clima | Tormenta |\n| Semiplano | Fabricación |\n| Fiesta de los Héroes | Hospitalidad |\n| Laberinto | Protección |\n| Mente en blanco | Centinela |\n| Cambio de plano | Pasaje |\n| Imagen del proyecto | Sombra |\n| Regenerar | Curación |\n| Símbolo | Escribiendo |\n| Teletransportarse | Encontrar |\n| Verdadera visión | Detección |",
@@ -1296,7 +1296,7 @@
   {
     "id": "boon-of-skill",
     "type": "feat",
-    "name": "Beneficio de la habilidad",
+    "name": "Don de la habilidad",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Adepto completo.** Obtienes competencia en todas las habilidades.\n\n**Pericia.** Elige una habilidad en la que te falte Pericia. Obtienes Pericia en esa habilidad.",
@@ -1324,7 +1324,7 @@
   {
     "id": "boon-of-speed",
     "type": "feat",
-    "name": "Bendición de la velocidad",
+    "name": "Don de la velocidad",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Artista del escape.** Como acción adicional, puedes tomar el acción de Destrabarse, que también pone fin a tu condición de Agarrado.\n\n**Rapidez.** Tu velocidad aumenta en 30 pies.",
@@ -1352,7 +1352,7 @@
   {
     "id": "boon-of-spell-recall",
     "type": "feat",
-    "name": "Beneficio del recuerdo de conjuros",
+    "name": "Don del recuerdo de conjuros",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 30.\n\n**Lanzamiento libre.** Siempre que lances un conjuro con un nivel 1-4 espacio de conjuro, tira 1d4. Si el número que obtienes es el mismo que el nivel del espacio, el espacio no se gasta.",
@@ -1377,7 +1377,7 @@
   {
     "id": "boon-of-terror",
     "type": "feat",
-    "name": "Bendición del terror",
+    "name": "Don del terror",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu puntuación de Carisma en 1, hasta un máximo de 30.\n\n**Sin Miedo.** Tienes inmunidad a la condición Asustado.\n\n**¡Huid, tontos!** Cuando una criatura con la condición Asustada comienza su turno a 60 pies de ti, puedes tomar una Reacción para avivar su terror, siempre que puedas ver a la criatura y no esté detrás de una Cobertura Total. Si lo haces, la criatura debe tener éxito con una Sabiduría tirada de salvación (CD 8 más tu modificador de Carisma y tu bonificador de competencia) o pasar su turno alejándose de ti por el medio más rápido disponible. Una vez que uses este beneficio, no podrás volver a usarlo hasta que termines un Corto o descanso largo.\n\n**Intimidante.** Obtienes competencia en la habilidad Intimidación si aún no la tienes. También ganas Pericia en Intimidación.",
@@ -1400,7 +1400,7 @@
   {
     "id": "boon-of-the-bandit-king-ua",
     "type": "feat",
-    "name": "Bendición del rey bandido",
+    "name": "Don del rey bandido",
     "edition": "2024",
     "source": "UA14 - Opciones villanas revisadas (18.06.2026)",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Encanto vil.** Tienes ventaja en las pruebas de destreza (juego de manos) para robar un bolsillo.  \nCuando tienes éxito en dicha prueba, puedes hacer que el objetivo de tu robo se separe voluntariamente del objeto y tenga la condición de Encantado durante 1 minuto o hasta que sufra daño. Una vez que uses este beneficio, no podrás volver a usarlo hasta que termines un Corto o descanso largo.\n\n**Inatrapable.** No provocas ataques de oportunidad cuando te mueves fuera del alcance de una criatura.",
@@ -1428,7 +1428,7 @@
   {
     "id": "boon-of-the-bright-sun",
     "type": "feat",
-    "name": "Bendición del sol brillante",
+    "name": "Don del sol brillante",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Constitución, Sabiduría o Carisma en 1, hasta un máximo de 30.\n\n**Presencia de luz diurna.** Como acción adicional, irradias una emanación de luz brillante de 30 pies que es luz solar. Si alguna parte del área de la Emanación se superpone con un área de Oscuridad creada por un conjuro, ese conjuro se disipa. La Emanación dura hasta que la descartas (no se requiere ninguna acción), mueres o tienes la condición de Incapacitado.\n\n**Luz fortificante.** Cuando tu Presencia de luz diurna está activa, al comienzo de cada uno de tus turnos, tú y tus aliados que puedes ver en tu Presencia de luz diurna ganan 10 puntos de golpe temporales.",
@@ -1453,7 +1453,7 @@
   {
     "id": "boon-of-the-cleansed-heart-ua",
     "type": "feat",
-    "name": "Bendición del corazón limpio",
+    "name": "Don del corazón purificado",
     "edition": "2024",
     "source": "UA14 - Opciones villanas revisadas (18.06.2026)",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Limpiar corazón.** Puedes lanzar Disipar el mal y el bien sin gastar espacio de conjuro. No puedes usar la función especial Desestimación del conjuro cuando lo lanzas de esta manera.\n\n**Reflejo radiante.** Tienes inmunidad al daño necrótico. Cuando estés sujeto a daño necrótico y no tengas la condición de Incapacitado, puedes infligir 2d8 de daño Radiante a cada criatura de tu elección dentro de una Emanación de 10 pies que se origine en ti.",
@@ -1481,7 +1481,7 @@
   {
     "id": "boon-of-the-furious-storm",
     "type": "feat",
-    "name": "Bendición de la tormenta furiosa",
+    "name": "Don de la tormenta furiosa",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 30.\n\n**Ojo de la Tormenta.** Tienes Resistencia al daño de Rayos y Truenos. Mientras estás ensangrentado, tienes inmunidad al daño de rayos y truenos.\n\n**Fuerza de la tormenta.** Las criaturas tienen Desventaja en tiradas de salvación contra tus conjuros que causan daño de Rayo o Trueno.",
@@ -1507,7 +1507,7 @@
   {
     "id": "boon-of-the-hunters-eye-ua",
     "type": "feat",
-    "name": "Bendición del ojo del cazador",
+    "name": "Don del ojo del cazador",
     "edition": "2024",
     "source": "UA14 - Opciones villanas revisadas (18.06.2026)",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Captura rápida.** Cuando infliges daño a una criatura que pretendes noquear en lugar de matar, si el objetivo tiene 20 o menos puntos de golpe después de infligir el daño, el objetivo se reduce a 0 puntos de golpe.\n\n**Cazador estudiado.** Cuando tiras Iniciativa, puedes elegir una criatura que puedas ver; sabes si esa criatura tiene inmunidades, resistencias o vulnerabilidades, y si la criatura tiene alguna, sabes cuáles son.",
@@ -1535,7 +1535,7 @@
   {
     "id": "boon-of-the-iron-mind",
     "type": "feat",
-    "name": "Bendición de la Mente de Hierro",
+    "name": "Don de la mente de hierro",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Enfoque inquebrantable.** Cuando mantienes Concentración en un efecto, pierdes Concentración solo si lanzas un conjuro o activas otro efecto que requiera Concentración, si tienes la condición Petrificado o Inconsciente, o si mueres.",
@@ -1563,7 +1563,7 @@
   {
     "id": "boon-of-the-night-spirit",
     "type": "feat",
-    "name": "Bendición del espíritu nocturno",
+    "name": "Don del espíritu nocturno",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Fusionarse con sombras.** Mientras estás en Luz tenue o en Oscuridad, puedes darte la condición Invisible como acción adicional. La condición termina en ti inmediatamente después de realizar una acción, un acción adicional o una reacción.\n\n**Forma Sombría.** Mientras estés dentro de Luz Tenue u Oscuridad, tienes Resistencia a todo daño excepto Psíquico y Radiante.",
@@ -1591,7 +1591,7 @@
   {
     "id": "boon-of-the-soul-drinker",
     "type": "feat",
-    "name": "Bendición del bebedor de almas",
+    "name": "Don del bebedor de almas",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Resistencia a tumbas.** Tienes resistencia al daño por frío y al daño necrótico.\n\n**Succiona vida.** Cuando un enemigo a 120 pies de ti se reduce a 0 puntos de golpe, puedes realizar una reacción para recuperar 50 puntos de golpe. Una vez que uses este beneficio, no podrás volver a usarlo hasta que termines un Corto o descanso largo.",
@@ -1619,7 +1619,7 @@
   {
     "id": "boon-of-truesight",
     "type": "feat",
-    "name": "Bendición de visión verdadera",
+    "name": "Don de la visión verdadera",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Visión verdadera.** Tienes visión verdadera con un alcance de 60 pies.",
@@ -1647,7 +1647,7 @@
   {
     "id": "boon-of-unwavering-devotion-ua",
     "type": "feat",
-    "name": "Bendición de la devoción inquebrantable",
+    "name": "Don de la devoción inquebrantable",
     "edition": "2024",
     "source": "UA14 - Opciones villanas revisadas (18.06.2026)",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 30.\n\n**Inmunidad a la posesión.** Automáticamente tienes éxito en tiradas de salvación para evitar o finalizar la posesión.\n\n**Ver a través de ilusiones.** Las ilusiones visuales te parecen transparentes y automáticamente tienes éxito en tiradas de salvación contra ellas.\n\n**Confianza innegable.** Inmediatamente después de que una criatura que puedes ver logra una Sabiduría tirada de salvación contra un efecto que creaste, puedes tomar una Reacción para obligar a esa criatura a repetir la tirada de salvación, y debe usar la nueva tirada. Una vez que uses este beneficio, no podrás volver a usarlo hasta que lances Iniciativa o termines un Corto o descanso largo.",
@@ -1766,7 +1766,7 @@
   {
     "id": "charger",
     "type": "feat",
-    "name": "Cargador",
+    "name": "Embestidor",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu puntuación de Fuerza o Destreza en 1, hasta un máximo de 20.\n\n** Dash mejorado. ** Cuando tomas el acción de Correr, tu velocidad aumenta en 10 pies para esa acción.\n\n**Ataque de carga.** Si te mueves al menos 10 pies en línea recta hacia un objetivo inmediatamente antes de golpearlo con una tirada de ataque cuerpo a cuerpo como parte del acción de Atacar, elige uno de los siguientes efectos: obtén una bonificación de 1d8 a la tirada de daño del ataque, o empuja al objetivo hasta 10 pies de distancia si no es más de un tamaño más grande que tú. Podrás utilizar este beneficio sólo una vez en cada uno de tus turnos.",
@@ -1831,7 +1831,7 @@
   {
     "id": "child-of-the-sun",
     "type": "feat",
-    "name": "Niño del sol",
+    "name": "Hijo del sol",
     "edition": "2024",
     "source": "Lorwyn - Primera luz",
     "description": "Obtienes los siguientes beneficios.\n\n**Ojos de Eirdu.** Tú y tus aliados a 10 pies de ti tienen Ventaja en tiradas de salvación para evitar o finalizar la condición de Ceguera.\n\n**Fuego de hadas.** Aprendes el conjuro Fuego de hadas. Inteligencia, Sabiduría o Carisma es tu aptitud mágica para este conjuro (elige cuándo seleccionas esta dote). Puedes lanzarlo una vez sin un espacio de conjuro, y recuperas la capacidad de lanzarlo de esa manera cuando termines un descanso largo. También puedes lanzar el conjuro usando cualquier espacios de conjuro que tengas.\n\nCuando lanzas Faerie Fire sin un espacio de conjuro usando este beneficio, recibir daño no puede romper tu concentración en el conjuro.",
@@ -1859,7 +1859,7 @@
   {
     "id": "close-quarters-shooter",
     "type": "feat",
-    "name": "Tirador a corta distancia",
+    "name": "Tirador a quemarropa",
     "edition": "2014",
     "source": "UA",
     "description": "Al realizar un ataque a distancia mientras estás a 5 pies de una criatura hostil, no tienes desventaja en la tirada de ataque. Tus ataques a distancia ignoran la mitad de la cobertura y las tres cuartas partes de la cobertura contra objetivos dentro de 30 pies de ti. Tienes una bonificación de +1 a las tiradas de ataque en ataques a distancia.",
@@ -1930,7 +1930,7 @@
   {
     "id": "cold-caster",
     "type": "feat",
-    "name": "Lanzador en frío",
+    "name": "Lanzador gélido",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Cantrip.** Aprendes el truco del Rayo de Escarcha. Si ya lo sabes, aprendes un truco Mago diferente de tu elección. El aptitud mágica del conjuro es la habilidad aumentada por esta hazaña.\n\n**Congelación.** Una vez por turno, cuando golpeas a una criatura con una tirada de ataque y le infliges daño de Frío, puedes negar temporalmente las defensas de la criatura. La criatura resta 1d4 del siguiente tirada de salvación que haga antes del final de tu siguiente turno.",
@@ -1955,7 +1955,7 @@
   {
     "id": "conjuration-adept",
     "type": "feat",
-    "name": "Adepto de conjuración",
+    "name": "Adepto de la conjuración",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Conjuros adicionales.** Tu destreza te permite tener siempre ciertos conjuros listos. Cuando tienes espacios de conjuro de un nivel especificado en la tabla de Conjuros del Adepto de Conjuración, a partir de entonces siempre tendrás preparados los conjuros enumerados para ese nivel e inferiores.\n\n**Conjuración persistente.** Mientras mantienes la concentración en un conjuro de la escuela de conjuración, obtienes una bonificación a la Constitución tiradas de salvación para mantener esta concentración. Esta bonificación es igual al modificador de habilidad de la puntuación aumentada por esta dote.\n\n### Conjuros de experto en conjuración\n\n| Espacio de conjuro Nivel | Conjuro |\n|---|---|\n| 1 | Enredar |\n| 2 | Paso brumoso |\n| 3 | Conjurar animales |\n| 4 | Puerta de dimensión |\n| 5 | Conjurar elemental |",
@@ -1994,7 +1994,7 @@
   {
     "id": "critter-friend-ua",
     "type": "feat",
-    "name": "Amigo bicho",
+    "name": "Amigo de los bichos",
     "edition": "2014",
     "source": "Arcanos desenterrados 39 - Hazañas para las razas",
     "description": "Tu amistad con los animales se profundiza místicamente. Obtienes los siguientes beneficios:\n\n- Obtienes competencia en la habilidad Manejo de animales. Si ya lo dominas, tu bonificador de competencia se duplica por cualquier verificación que hagas con él.\n\n- Aprendes el conjuro Hablar con los animales y puedes lanzarlo a voluntad, sin gastar un espacio de conjuro. También aprendes el conjuro Amistad Animal y puedes lanzarlo una vez con esta dote, sin gastar un espacio de conjuro. Recuperas la capacidad de lanzarlo de esta manera cuando terminas un descanso largo. La sabiduría es tu aptitud mágica para estos conjuros.",
@@ -2091,7 +2091,7 @@
   {
     "id": "cult-of-the-dragon-initiate",
     "type": "feat",
-    "name": "Culto del Iniciado del Dragón",
+    "name": "Iniciado del Culto del Dragón",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Lengua de Dragón.** Ya sabes Draconic. Si ya conoces Draconic cuando seleccionas esta dote, en su lugar aprendes un idioma de tu elección de las tablas de idiomas en el Manual del jugador o en el capítulo 2 de este libro.\n\n**Terror del dragón.** Puedes tomar un acción de Magia para infundir terror en una criatura que puedas ver a 30 pies de ti. El objetivo debe tener éxito en Sabiduría tirada de salvación (CD 8 más tu modificador de Sabiduría y bonificador de competencia) o tener la condición Asustado hasta el final de tu siguiente turno. Si el objetivo tiene éxito en la salvación o cuando el efecto termina para un objetivo, el objetivo es inmune a este efecto durante 24 horas.\n\n**Inspirado en el miedo.** Cuando haces que una criatura tenga la condición Asustada y tú eres la fuente de su miedo, puedes ganar inspiración heroica si te falta. Una vez que uses este beneficio, no podrás volver a usarlo hasta que termines un Corto o descanso largo.",
@@ -2282,7 +2282,7 @@
   {
     "id": "divination-adept",
     "type": "feat",
-    "name": "Adepto de adivinación",
+    "name": "Adepto de la adivinación",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Conjuros adicionales.** Tu destreza te permite tener siempre ciertos conjuros listos. Cuando tienes espacios de conjuro de un nivel especificado en la tabla de conjuros del experto en adivinación, a partir de entonces siempre tendrás preparados los conjuros enumerados para ese nivel e inferior.\n\n**Intervención profética.** Cuando una criatura que puedes ver a 60 pies de ti hace un prueba de d20, puedes tomar una Reacción para darle a esa criatura Ventaja o Desventaja (tu elección) en esa tirada.\n\nUna vez que uses este beneficio, no podrás volver a hacerlo hasta que termines un descanso largo. También puedes recuperar el uso de esta función cuando lanzas un conjuro de la escuela de Adivinación usando un espacio de conjuro.\n\n### Conjuros de experto en adivinación\n\n| Espacio de conjuro Nivel | Conjuro |\n|---|---|\n| 1 | Detectar el Mal y el Bien |\n| 2 | Pico mental |\n| 3 | Clarividencia |\n| 4 | Adivinación |\n| 5 | Adivinando |",
@@ -2352,7 +2352,7 @@
   {
     "id": "dragon-fear",
     "type": "feat",
-    "name": "Miedo al dragón",
+    "name": "Miedo dracónico",
     "edition": "2014",
     "source": "La guía de Xanathar para todo",
     "description": "Cuando estás enojado, irradias amenaza. Obtienes los siguientes beneficios:\n\n- Aumenta tu puntuación de Fuerza, Constitución o Carisma en 1, hasta un máximo de 20.\n\n- En lugar de exhalar energía destructiva, puedes gastar el uso de tu rasgo Arma de Aliento para rugir, obligando a cada criatura de tu elección dentro de 30 pies de ti a hacer una Sabiduría tirada de salvación (CD 8 + tu bonificador de competencia + tu modificador de Carisma). Un objetivo automáticamente tiene éxito al guardar si no puede oírte ni verte. Si falla la salvación, el objetivo se asusta durante 1 minuto. Si el objetivo asustado sufre algún daño, puede repetir el tirada de salvación, finalizando el efecto sobre sí mismo si tiene éxito.",
@@ -2383,7 +2383,7 @@
   {
     "id": "dragon-hide",
     "type": "feat",
-    "name": "Piel de dragón",
+    "name": "Piel dracónica",
     "edition": "2014",
     "source": "La guía de Xanathar para todo",
     "description": "Manifiestas escamas y garras que recuerdan a tus ancestros dracónicos. Obtienes los siguientes beneficios:\n\n- Aumenta tu puntuación de Fuerza, Constitución o Carisma en 1, hasta un máximo de 20.\n\n- Tus escamas se endurecen. Mientras no uses armadura, puedes calcular tu CA como 13 + tu modificador de Destreza. Puedes usar un escudo y aun así obtener este beneficio.\n\n- Puedes hacer crecer garras retráctiles desde las puntas de tus dedos. Extender o retraer las garras no requiere ninguna acción. Las garras son armas naturales que puedes utilizar para realizar ataques sin armas. Si golpeas con ellos, infliges un daño cortante igual a 1d4 + tu modificador de Fuerza, en lugar del daño contundente normal de un ataque sin armas.",
@@ -2427,7 +2427,7 @@
   {
     "id": "dragonscarred",
     "type": "feat",
-    "name": "Cicatriz de dragón",
+    "name": "Marcado por dragones",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Constitución o Carisma en 1, hasta un máximo de 20.\n\n**Resistencia al daño.** Cuando obtengas esta dote, elige Ácido, Frío, Fuego, Rayo o Veneno. Tienes Resistencia al tipo de daño elegido.\n\n**Poder temible.** Cuando infliges daño a una criatura como parte del Ataque o acción de Magia en tu turno, puedes usar el beneficio Terror del Dragón de la hazaña Iniciado del Culto del Dragón como acción adicional este turno.",
@@ -2514,7 +2514,7 @@
   {
     "id": "dual-wielder",
     "type": "feat",
-    "name": "Doble portador",
+    "name": "Combatiente con dos armas",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu puntuación de Fuerza o Destreza en 1, hasta un máximo de 20.\n\n**Doble empuñadura mejorada.** Cuando tomas el acción de Atacar en tu turno y atacas con un arma que tiene la propiedad Ligera, puedes hacer un Ataque extra como un acción adicional más adelante en el mismo turno con un arma diferente, que debe ser un arma cuerpo a cuerpo que carezca de la propiedad de dos manos. No agregas tu modificador de habilidad al daño del Ataque extra a menos que ese modificador sea negativo.\n\n**Quick Draw.** Puedes sacar o guardar dos armas que carecen de la propiedad de dos manos cuando normalmente sólo podrías sacar o guardar una.",
@@ -2589,7 +2589,7 @@
   {
     "id": "durable",
     "type": "feat",
-    "name": "Durable",
+    "name": "Duradero",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Constitución en 1, hasta un máximo de 20.\n\n**Desafía a la muerte.** Tienes ventaja al morir tiradas de salvación.\n\n**Recuperación rápida.** Como acción adicional, puedes gastar uno de tus punto de golpe Dados, tirar el dado y recuperar una cantidad de puntos de golpe igual a la tirada.",
@@ -2693,7 +2693,7 @@
   {
     "id": "elemental-familiar",
     "type": "feat",
-    "name": "Familiares elementales",
+    "name": "Familiar elemental",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa uno puntuación de característica de tu elección en 1, hasta un máximo de 20.\n\n**Energía elemental.** Aprendes cómo imbuir a tu familiar con poder elemental. Cuando lanzas el conjuro Buscar familiar, elige daño por ácido, frío, fuego, relámpago o trueno. Tu familiar está imbuido de esta energía hasta que lances Buscar familiar nuevamente, otorgándole los siguientes beneficios:\n\n**Resistencia elemental.** Tu familiar tiene resistencia al tipo de daño elegido.\n\n**Pulso de energía.** Como acción adicional, le ordenas a tu familiar que libere una explosión de energía elemental. Tu familiar debe estar a 120 pies de ti y reaccionar para desatar esta explosión. Cada criatura en una emanación de 5 pies que se origina a partir de tu familiar genera una Destreza tirada de salvación (CD 8 más tu modificador aptitud mágica para el conjuro Buscar familiar y tu bonificador de competencia). En una salvación fallida, una criatura sufre 2d4 de daño del tipo elegido, y si la criatura es Mediana o más pequeña, tiene la condición Prone.",
@@ -2721,7 +2721,7 @@
   {
     "id": "elemental-touched-ua",
     "type": "feat",
-    "name": "Elemental tocado",
+    "name": "Tocado por los elementos",
     "edition": "2014",
     "source": "Arcanos desenterrados 83 - Opciones gigantes",
     "description": "Has estado expuesto a la magia primordial de los planos elementales, lo que te otorga cierto control sobre el mundo natural que te rodea. Aprendes el truco de Druida o Taumaturgia, usando Inteligencia, Sabiduría o Carisma como aptitud mágica (elige cuándo obtendrás esta dote).\n\nCada vez que termines un descanso largo, podrás elegir con qué elemento estás en sintonía: Aire, Tierra, Fuego o Agua. Dependiendo de tu elección, puedes usar un acción adicional para provocar uno de los siguientes efectos:\n\n- **Aire.** Obtienes una velocidad de vuelo igual a tu velocidad al caminar hasta el final de tu turno. Si estás en el aire al final de tu turno después de usar este movimiento y no te mantienen en el aire por otros medios, te caes.\n\n- **Tierra.** Haces que el suelo a 30 pies de ti se convierta en terreno difícil durante 1 minuto o hasta que vuelvas a crear este efecto. Durante ese tiempo, puedes moverte por un terreno de terreno difícil sin gastar movimiento adicional.\n- **Fuego.** Te rodeas de una nube de ceniza y humo. Hasta el final de tu turno, tu movimiento no provoca ataques de oportunidad.\n- **Agua.** Puedes crear una fuerte oleada de agua dirigida a una criatura a 15 pies de ti que puedas ver. La criatura debe tener éxito en una Fuerza tirada de salvación (que puede elegir fallar) contra un CD igual a 8 + tu modificador aptitud mágica + tu bonificador de competencia o ser empujada hasta 10 pies de distancia de ti. El agua desaparece inmediatamente después de que la criatura tenga éxito o falle.\n\nPuedes crear este efecto una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
@@ -2798,7 +2798,7 @@
   {
     "id": "emerald-enclave-fledgling",
     "type": "feat",
-    "name": "Incipiente del Enclave Esmeralda",
+    "name": "Novato del Enclave Esmeralda",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Habla con animales.** Siempre tienes preparado el conjuro Habla con animales y puedes lanzarlo con cualquier espacios de conjuro que tengas. Inteligencia, Sabiduría o Carisma es tu aptitud mágica para este conjuro (elige cuándo seleccionas esta dote). Cuando lanzas este conjuro como Ritual, su duración es de 8 horas.\n\n**Equipo de etiqueta.** Cuando tomas el acción de Ayudar, puedes cambiar de lugar con un aliado dispuesto dentro de 5 pies de ti como parte de esa misma acción. Este movimiento no provoca ataques de oportunidad. No puedes utilizar este beneficio si el aliado tiene la condición de Incapacitado.",
@@ -2852,7 +2852,7 @@
   {
     "id": "enchantment-adept",
     "type": "feat",
-    "name": "Adepto al encantamiento",
+    "name": "Adepto del encantamiento",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Conjuros adicionales.** Tu destreza te permite tener siempre ciertos conjuros listos. Cuando tienes espacios de conjuro de un nivel especificado en la tabla de Conjuros del Adepto de Encantamiento, a partir de entonces siempre tendrás preparados los conjuros enumerados para ese nivel e inferior.\n\n**Encantamientos sutiles.** Cuando lanzas un conjuro de la escuela de encantamientos usando un espacio de conjuro, puedes lanzarlo sin ningún componente verbal, somático o material, excepto los componentes materiales que son consumidos por el conjuro o que tienen un costo especificado en el conjuro.\n\n### Conjuros de experto en encantamiento\n\n| Espacio de conjuro Nivel | Conjuro |\n|---|---|\n| 1 | Susurros disonantes |\n| 2 | cautivar |\n| 3 | Retener persona |\n| 4 | Dominar Bestia |\n| 5 | Modificar memoria |",
@@ -2878,7 +2878,7 @@
   {
     "id": "enclave-magic",
     "type": "feat",
-    "name": "Enclave mágico",
+    "name": "Magia del Enclave",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Amigo de los animales.** Tienes ventaja en pruebas de característica cuando tomas el acción de Influir con Bestias.\n\n**Dos corazones, una mente.** Siempre tienes preparado el conjuro Sentido de la Bestia. Puedes lanzarlo una vez sin un espacio de conjuro y recuperas la capacidad de lanzarlo de esa manera cuando termines un descanso largo. Cuando lo lanzas sin un espacio de conjuro usando esta función, no requiere Concentración. También puedes lanzar el conjuro usando cualquier espacios de conjuro que tengas del nivel apropiado. El aptitud mágica del conjuro es la habilidad aumentada por esta hazaña.",
@@ -2903,7 +2903,7 @@
   {
     "id": "everybodys-friend-ua",
     "type": "feat",
-    "name": "El amigo de todos",
+    "name": "Amigo de todos",
     "edition": "2014",
     "source": "Arcanos desenterrados 39 - Hazañas para las razas",
     "description": "Desarrollas tu personalidad magnética para facilitar tu camino por el mundo. Obtienes los siguientes beneficios:\n\n- Aumenta tu puntuación de Carisma en 1, hasta un máximo de 20.\n\n- Obtienes competencia en las habilidades de engaño y persuasión. Si ya dominas cualquiera de las habilidades, tu bonificador de competencia se duplica por cualquier prueba que hagas con esa habilidad.",
@@ -2925,7 +2925,7 @@
   {
     "id": "evocation-adept",
     "type": "feat",
-    "name": "Adepto de evocación",
+    "name": "Adepto de la evocación",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Conjuros adicionales.** Tu destreza te permite tener siempre ciertos conjuros listos. Cuando tienes espacios de conjuro de un nivel especificado en la tabla de Conjuros de Adepto de Evocación, a partir de entonces siempre tendrás preparados los conjuros enumerados para ese nivel e inferior.\n\n**Evocación impulsada.** Una vez por turno, cuando lanzas un conjuro de Evocación e infliges daño, puedes tirar hasta dos de tus punto de golpe Dados no gastados y sumar el total obtenido a una de las tiradas de daño del conjuro. Luego se gastan esos punto de golpe Dados.\n\n### Conjuros de adepto de evocación\n\n| Espacio de conjuro Nivel | Conjuro |\n|---|---|\n| 1 | Orbe cromático |\n| 2 | Destrozar |\n| 3 | Bola de fuego |\n| 4 | Esfera vitriólica |\n| 5 | Muro de Fuerza |",
@@ -2981,7 +2981,7 @@
   {
     "id": "fairy-trickster",
     "type": "feat",
-    "name": "Tramposo de hadas",
+    "name": "Embaucador feérico",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu Destreza o Carisma puntuación de característica en 1, hasta un máximo de 20.\n\n**Faerie Trod Trotter.** Cuando tomas el acción de Destrabarse en tu turno, el terreno difícil no te cuesta movimiento adicional por el resto de ese turno.\n\n**Golpe nervioso.** Cuando golpeas a una criatura con una tirada de ataque, puedes intentar poner nervioso al objetivo. El objetivo debe tener éxito en Sabiduría tirada de salvación (CD 8 más el modificador de habilidad de la puntuación incrementada por esta hazaña y tu bonificador de competencia) o tener Desventaja en tiradas de salvación hasta el final de tu siguiente turno.\n\nPuedes usar este beneficio una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
@@ -3018,7 +3018,7 @@
   {
     "id": "fell-handed",
     "type": "feat",
-    "name": "Cayó con la mano",
+    "name": "Mano funesta",
     "edition": "2014",
     "source": "Arcanos desenterrados 14 - Dotes",
     "description": "Dominas el hacha de mano, el hacha de batalla, el hacha grande, el martillo de guerra y el mazo. Obtienes los siguientes beneficios al utilizar cualquiera de ellos:\n\n- Obtienes una bonificación de +1 a las tiradas de ataque que realices con el arma.\n\n- Siempre que tengas ventaja en una tirada de ataque cuerpo a cuerpo que hagas con el arma y golpees, también puedes derribar al objetivo si la tirada más baja de las dos tiradas d20 también impactaría al objetivo.\n\n- Siempre que tengas desventaja en una tirada de ataque cuerpo a cuerpo que hagas con el arma, el objetivo recibe un daño contundente igual a tu modificador de Fuerza (mínimo de 0) si el ataque falla, pero la mayor de las dos tiradas de d20 habría impactado.\n\n- Si usas el acción de Ayudar para ayudar al ataque cuerpo a cuerpo de un aliado mientras empuñas el arma, haces a un lado el escudo del objetivo momentáneamente. Además de que el aliado obtenga ventaja en la tirada de ataque, el aliado obtiene una bonificación de +2 a la tirada si el objetivo está usando un escudo.",
@@ -3037,7 +3037,7 @@
   {
     "id": "fey-teleportation",
     "type": "feat",
-    "name": "Teletransportación Fey",
+    "name": "Teletransporte feérico",
     "edition": "2014",
     "source": "La guía de Xanathar para todo",
     "description": "Tu estudio de la tradición de los altos elfos ha desbloqueado poderes de hadas que pocos elfos poseen, excepto tus primos eladrines. Aprovechando tu ascendencia feérica, puedes atravesar momentáneamente Feywild para acortar tu camino de un lugar a otro. Obtienes los siguientes beneficios:\n\n- Aumenta tu puntuación de Inteligencia o Carisma en 1, hasta un máximo de 20.\n\n- Aprendes a hablar, leer y escribir Sylvan.\n\n- Aprendes el conjuro Misty Step y puedes lanzarlo una vez sin gastar espacio de conjuro. Recuperas la capacidad de lanzarlo de esta manera cuando terminas un corto o descanso largo. La inteligencia es tu aptitud mágica para este conjuro.",
@@ -3067,7 +3067,7 @@
   {
     "id": "fey-touched",
     "type": "feat",
-    "name": "Fey tocado",
+    "name": "Tocado por las hadas",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Tu exposición a la magia de Feywild te otorga los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Magia Fey.** Elige un conjuro de nivel 1 de la escuela de magia de Adivinación o Encantamiento. Siempre tienes ese conjuro y el conjuro Misty Step preparados. Puedes lanzar cada uno de estos conjuros sin gastar un espacio de conjuro. Una vez que lanzas cualquiera de los conjuros de esta manera, no puedes volver a lanzarlo de esta manera hasta que termines un descanso largo. También puedes lanzar estos conjuros usando espacios de conjuro que tengas del nivel apropiado. El aptitud mágica de los conjuros es la habilidad aumentada por esta hazaña.",
@@ -3166,7 +3166,7 @@
   {
     "id": "flesh-morpher-ua",
     "type": "feat",
-    "name": "Morfer de carne",
+    "name": "Moldeador de carne",
     "edition": "2024",
     "source": "UA5 – El Psion (27.05.2025)",
     "description": "Obtienes los siguientes beneficios.  \n**Carne flexible.** Cuando realizas una prueba de Destreza (Acrobacia o Juego de manos), obtienes una bonificación igual a tu modificador de Inteligencia (mínimo de +1). Puedes usar este beneficio una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.  \n**Talento psiónico.** Siempre tienes preparado el conjuro Longstrider. Puedes lanzarlo una vez sin un espacio de conjuro, y recuperas la capacidad de lanzarlo de esa manera cuando termines un descanso largo. También puedes lanzarlo usando cualquier espacios de conjuro que tengas del nivel apropiado. Cuando lanzas el conjuro, no requiere componentes verbales, y la Inteligencia, la Sabiduría o el Carisma son tu aptitud mágica para este conjuro (elige cuándo seleccionas esta dote).  \nCuando alcanzas el nivel 3 de personaje, también siempre tienes preparado el conjuro Alter Self y puedes lanzarlo de la misma manera.",
@@ -3229,7 +3229,7 @@
   {
     "id": "genie-magic",
     "type": "feat",
-    "name": "Magia genio",
+    "name": "Magia de genio",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Wish Magic.** Como acción de Magia, puedes lanzar un conjuro de nivel 1 de tu elección de la lista de conjuros Hechicero que tiene un tiempo de lanzamiento de una acción. Una vez que uses este beneficio, no podrás volver a hacerlo hasta que termines un descanso largo. El aptitud mágica del conjuro es la habilidad aumentada por esta hazaña.\n\nCuando alcanzas el nivel 11, el conjuro que lanzas con esta dote se lanza como si usaras un nivel 2 espacio de conjuro. Cuando alcanzas el nivel 17, el conjuro se lanza como si usaras un nivel 3 espacio de conjuro.",
@@ -3254,7 +3254,7 @@
   {
     "id": "gift-of-the-chromatic-dragon",
     "type": "feat",
-    "name": "Don del Dragón Cromático",
+    "name": "Don del dragón cromático",
     "edition": "2014",
     "source": "El tesoro de los dragones de Fizban",
     "description": "Has manifestado parte del poder de los dragones cromáticos, otorgándote los siguientes beneficios:\n\n- **Infusión cromática.** Como acción adicional, puedes tocar un arma simple o marcial e infundirle uno de los siguientes tipos de daño: ácido, frío, fuego, rayo o veneno. Durante el siguiente minuto, el arma inflige 1d4 de daño adicional del tipo elegido cuando impacta. Después de usar este acción adicional, no podrás volver a hacerlo hasta que termines un descanso largo.\n\n- **Resistencia reactiva.** Cuando sufres daño por ácido, frío, fuego, rayos o veneno, puedes usar tu reacción para darte resistencia a ese daño. Puedes usar esta reacción una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
@@ -3273,7 +3273,7 @@
   {
     "id": "gift-of-the-gem-dragon",
     "type": "feat",
-    "name": "Regalo del Dragón Gema",
+    "name": "Don del dragón gema",
     "edition": "2014",
     "source": "El tesoro de los dragones de Fizban",
     "description": "Has manifestado parte del poder de los dragones gema, otorgándote los siguientes beneficios:\n\n- **Puntuación de característica Incremento.** Incrementa tu puntaje de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n- **Represalia telequinética.** Cuando recibes daño de una criatura que está a 10 pies de ti, puedes usar tu reacción para emanar energía telequinética. La criatura que te hizo daño debe tener una Fuerza tirada de salvación (CD es igual a 8 + tu bonificador de competencia + el modificador de habilidad de la puntuación incrementada por esta hazaña). Si falla la salvación, la criatura sufre 2d8 de daño de fuerza y ​​es empujada hasta 10 pies de distancia de ti. Con una salvación exitosa, la criatura recibe la mitad de daño y no es empujada. Puedes usar esta reacción una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
@@ -3301,7 +3301,7 @@
   {
     "id": "gift-of-the-metallic-dragon",
     "type": "feat",
-    "name": "Regalo del Dragón Metálico",
+    "name": "Don del dragón metálico",
     "edition": "2014",
     "source": "El tesoro de los dragones de Fizban",
     "description": "Has manifestado parte del poder de los dragones metálicos, otorgándote los siguientes beneficios:\n\n- **Curación Draconiana.** Aprendes el conjuro Curar Heridas. Puedes lanzar este conjuro sin gastar un espacio de conjuro. Una vez que lanzas este conjuro de esta manera, no podrás volver a hacerlo hasta que termines un descanso largo. También puedes lanzar este conjuro usando espacios de conjuro que tienes. El aptitud mágica del conjuro es Inteligencia, Sabiduría o Carisma cuando lo lanzas con esta dote (elige cuándo obtienes la dote).\n\n- **Alas protectoras.** Puedes manifestar alas protectoras que pueden protegerte a ti o a otros. Cuando tú u otra criatura que puedas ver a 5 pies de ti es golpeado por una tirada de ataque, puedes usar tu reacción para manifestar alas espectrales desde tu espalda por un momento. Otorgas una bonificación al CA del objetivo igual a tu bonificador de competencia contra esa tirada de ataque, lo que puede provocar que falle. Puedes usar esta reacción una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
@@ -3384,7 +3384,7 @@
   {
     "id": "great-weapon-fighting",
     "type": "feat",
-    "name": "Gran lucha con armas",
+    "name": "Lucha con armas a dos manos",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Cuando tiras daño por un ataque que realizas con un arma cuerpo a cuerpo que sostienes con las dos manos, puedes tratar cualquier 1 o 2 en un dado de daño como un 3. El arma debe tener la propiedad de dos manos o versátil para obtener este beneficio.",
@@ -3402,7 +3402,7 @@
   {
     "id": "great-weapon-master",
     "type": "feat",
-    "name": "Gran maestro de armas",
+    "name": "Maestro de armas grandes",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu puntuación de Fuerza en 1, hasta un máximo de 20.\n\n**Pesado Maestría con armas.** Cuando golpeas a una criatura con un arma que tiene la propiedad Pesada como parte del acción de Atacar en tu turno, puedes hacer que el arma cause daño adicional al objetivo. El daño adicional equivale a tu bonificador de competencia.\n\n**Hew.** Inmediatamente después de obtener un golpe crítico con un arma cuerpo a cuerpo o reducir una criatura a 0 puntos de golpe con uno, puedes realizar un ataque con la misma arma que un acción adicional.",
@@ -3466,7 +3466,7 @@
   {
     "id": "guile-of-the-cloud-giant",
     "type": "feat",
-    "name": "La astucia del gigante de las nubes",
+    "name": "Astucia del gigante de las nubes",
     "edition": "2014",
     "source": "Bigby presenta - Gloria de los gigantes",
     "description": "Has manifestado la magia confusa emblemática de los gigantes de las nubes, otorgándote los siguientes beneficios:\n\n- **Puntuación de característica Incremento.** Incrementa tu puntaje de Fuerza, Constitución o Carisma en 1, hasta un máximo de 20.\n- **Escape nublado.** Cuando una criatura que puedes ver te golpea con una tirada de ataque, puedes usar tu reacción para darte resistencia al daño de ese ataque. Luego te teletransportas a un espacio desocupado que puedes ver a 30 pies de ti. Puedes usar esta reacción una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
@@ -3491,7 +3491,7 @@
   {
     "id": "gunner",
     "type": "feat",
-    "name": "Artillero",
+    "name": "Pistolero",
     "edition": "2014",
     "source": "El caldero de todo de Tasha",
     "description": "Tienes mano rápida y buen ojo al emplear armas de fuego, lo que te otorga los siguientes beneficios:\n\n- Aumenta tu puntuación de Destreza en 1, hasta un máximo de 20.\n\n- Obtienes competencia con armas de fuego (ver \"Armas de fuego\" en la *Guía del Dungeon Master*).\n\n- Ignoras la propiedad de carga de las armas de fuego.\n\n- Estar a 5 pies de una criatura hostil no impone desventaja en tus tiradas de ataque a distancia.",
@@ -3541,7 +3541,7 @@
   {
     "id": "harper-agent",
     "type": "feat",
-    "name": "Agente Harper",
+    "name": "Agente de los Arpistas",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**El canto de los ladrones.** Ya conoces el Cant de los ladrones.\n\n**Entrenamiento con instrumentos.** Obtienes competencia con un Instrumento musical de tu elección.\n\n**Melodía de distracción.** Cuando tomas el acción de Ayudar para ayudar en la tirada de ataque de un aliado, el enemigo al que estás distrayendo puede estar a 30 pies de ti, en lugar de a 5 pies de ti, siempre que el enemigo pueda verte u oírte.",
@@ -3554,7 +3554,7 @@
   {
     "id": "harper-teamwork",
     "type": "feat",
-    "name": "Trabajo en equipo",
+    "name": "Trabajo en equipo de los Arpistas",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Destreza o Carisma en 1, hasta un máximo de 20.\n\n**Juego de palabras fulminante.** Cuando tomas el acción de Ayudar para ayudar en la tirada de ataque de un aliado contra un enemigo, ese enemigo también tiene Desventaja en el primer tirada de salvación que realiza antes del comienzo de tu siguiente turno.\n\n**Fuerza de voluntad inspiradora.** Si logras con un tirada de salvación terminar con tu condición de Asustado o Paralizado, puedes elegir un aliado que puedas ver a 30 pies de ti y que tenga la misma condición. Esa condición termina inmediatamente para ese aliado.",
@@ -3594,7 +3594,7 @@
   {
     "id": "heavily-armored",
     "type": "feat",
-    "name": "Fuertemente blindado",
+    "name": "Entrenado en armadura pesada",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu puntuación de Constitución o Fuerza en 1, hasta un máximo de 20.\n\n**Entrenamiento con armadura.** Obtienes entrenamiento con armadura pesada.",
@@ -3913,7 +3913,7 @@
   {
     "id": "keenness-of-the-stone-giant",
     "type": "feat",
-    "name": "La agudeza del gigante de piedra",
+    "name": "Agudeza del gigante de piedra",
     "edition": "2014",
     "source": "Bigby presenta - Gloria de los gigantes",
     "description": "Has manifestado los talentos físicos emblemáticos de los gigantes de piedra, otorgándote los siguientes beneficios:\n\n- **Puntuación de característica Incremento.** Incrementa tu puntuación de Fuerza, Constitución o Sabiduría en 1, hasta un máximo de 20.\n- **Vista cavernosa.** Obtienes visión en la oscuridad con un alcance de 60 pies. Si ya tienes visión en la oscuridad de otra fuente, su alcance aumenta en 60 pies.\n- **Lanzamiento de piedras.** Como acción adicional, puedes tomar una piedra y realizar un ataque mágico con ella. El ataque es un ataque de conjuro a distancia con un alcance de 60 pies que utiliza el puntuación de característica que aumentaste con esta dote como el aptitud mágica. Con un golpe, la roca causa 1d10 de daño de fuerza, y el objetivo debe tener éxito en una Fuerza tirada de salvación (CD es igual a 8 + tu bonificador de competencia + el modificador aptitud mágica) o tener la condición propensa. Puedes usar este acción adicional una cantidad de veces igual a tu bonificador de competencia, y recuperarás todos los usos gastados cuando termines un descanso largo.",
@@ -3963,7 +3963,7 @@
   {
     "id": "knight-of-the-rose",
     "type": "feat",
-    "name": "Caballero de la rosa",
+    "name": "Caballero de la Rosa",
     "edition": "2014",
     "source": "Dragonlance: Sombra de la Reina Dragón",
     "description": "Eres un Caballero de Solamnia alineado con la Orden de la Rosa, un grupo conocido por su liderazgo, justicia y sabiduría. Tu determinación te otorga estos beneficios:\n\n- **Puntuación de característica Incremento.** Incrementa tu puntaje de Constitución, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n- **Refuerzo de reunión.** Como acción adicional, puedes alentar a una criatura que puedas ver a 30 pies de ti (puedes elegir tú mismo). Si el objetivo puede verte u oírte, gana puntos de golpe temporales igual a 1d8 + tu bonificador de competencia + el modificador de habilidad del puntuación de característica aumentado por esta dote. Puedes usar este acción adicional una cantidad de veces igual a tu bonificador de competencia, y recuperarás todos los usos gastados cuando termines un descanso largo.",
@@ -3988,7 +3988,7 @@
   {
     "id": "knight-of-the-sword",
     "type": "feat",
-    "name": "Caballero de la espada",
+    "name": "Caballero de la Espada",
     "edition": "2014",
     "source": "Dragonlance: Sombra de la Reina Dragón",
     "description": "Eres un Caballero de Solamnia alineado con la Orden de la Espada, un grupo dedicado al heroísmo y el coraje. La valentía fortalece tu espíritu y te otorga estos beneficios:\n\n- **Puntuación de característica Aumentar** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n- **Golpe desmoralizador.** Una vez por turno, cuando golpeas a una criatura con una tirada de ataque con arma, puedes intentar asustar a ese objetivo. El objetivo debe obtener una Sabiduría tirada de salvación (CD es igual a 8 + tu bonificador de competencia + el modificador de habilidad de la puntuación incrementada por esta hazaña). Si falla la salvación, el objetivo te tiene miedo hasta el final de tu siguiente turno. Si tiene éxito, el objetivo tiene desventaja en la siguiente tirada de ataque que realice antes del final de su siguiente turno. Puedes usar este beneficio una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
@@ -4013,7 +4013,7 @@
   {
     "id": "lich-ascension-ua",
     "type": "feat",
-    "name": "Ascensión del Exánime",
+    "name": "Ascensión del liche",
     "edition": "2024",
     "source": "UA12 – Opciones Villanas (04.02.2026)",
     "description": "Tu camino hacia el lichdom está completo. Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**No-muerto.** Tu tipo de criatura es No-muerto.\n\n**Anatomía impía.** Tienes resistencia al daño necrótico y venenoso. No se obtienen niveles de agotamiento por deshidratación, desnutrición o asfixia.\n\n**Mirada Aterradora.** Aprendes el conjuro de Miedo si aún no lo sabes, y siempre lo tienes preparado. Inteligencia, Sabiduría o Carisma es tu aptitud mágica para este conjuro (elige cuándo seleccionas esta dote). Puedes lanzar el conjuro sin gastar un espacio de conjuro un número de veces igual a tu modificador aptitud mágica (mínimo de una vez), y recuperas todos los usos gastados cuando terminas un descanso largo.\n\n**Rejuvenecimiento.** Si mueres, te vuelves a formar en 1d10 días si tienes un frasco espiritual y no te reviven antes de esa fecha. Obtienes un nuevo cuerpo, que aparece con todos tus puntos de golpe en el espacio desocupado más cercano dentro de los 5 pies de tu frasco espiritual.",
@@ -4035,7 +4035,7 @@
   {
     "id": "lich-initiate-ua",
     "type": "feat",
-    "name": "Iniciado Exánime",
+    "name": "Iniciado liche",
     "edition": "2024",
     "source": "UA12 – Opciones Villanas (04.02.2026)",
     "description": "Das los primeros pasos hacia la lichdom, que implican la creación de tu frasco espiritual, un recipiente mágico que ancla tu alma al mundo de los vivos en caso de que tu cuerpo se destruya.  \nObtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Creando tu frasco espiritual.** Elige un objeto diminuto que tenga gran importancia para ti. Sigue adelante o elige de la tabla Spirit Jars para inspirar este objeto. Pasas un descanso largo anclando tu alma a este objeto, lo que te permite consumir las almas de los vivos para reforzar tu propio poder. Sólo puedes tener un frasco de espíritu a la vez. Si creas un segundo frasco de espíritu, el antiguo se destruye.\n\n**Tarros de alcohol**\n\n| 1d6 | Tu tarro espiritual es... |\n|---|---|\n| 1 | Una bellota de un bosque destruido hace mucho tiempo. |\n| 2 | Una carta de amor de un amante fallecido. |\n| 3 | El tintero que usaste para escribir tu primer conjuro u oración. |\n| 4 | El símbolo sagrado desfigurado de un dios al que has denunciado. |\n| 5 | Una campana cuyo peaje disminuye con cada alma que recoges. |\n| 6 | Una parte del cuerpo disecada, como un ojo, un dedo o un cuerno, que alguna vez fue parte de ti o de alguien que conocías. |\n\n**Destrucción del frasco espiritual.** El Clase de Armadura de tu frasco espiritual es igual a tu CD de salvación de conjuros, y tiene un número de puntos de golpe igual a tu modificador aptitud mágica más tu nivel de personaje. Si tu frasco espiritual es destruido, obtienes 2 niveles de agotamiento y no podrás usar la habilidad Soul Siphon hasta que crees uno nuevo.\n\n**Soul Siphon.** Cuando reduces un enemigo humanoide a 0 puntos de golpe, puedes consumir su alma y obtener un impulso de energía arcana (no se requiere ninguna acción). En tu próximo turno, la primera criatura que golpees con un ataque recibe daño necrótico adicional equivalente a 1d6 más tu modificador aptitud mágica. También obtienes este beneficio si alguien más reduce a 0 puntos de golpe a un enemigo humanoide a 10 pies de ti. Un alma consumida de esta manera sólo puede ser restaurada mediante un conjuro de Resurrección Verdadera o Deseo.",
@@ -4086,7 +4086,7 @@
   {
     "id": "lightly-armored",
     "type": "feat",
-    "name": "Ligeramente blindado",
+    "name": "Entrenado en armadura ligera",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu puntuación de Fuerza o Destreza en 1, hasta un máximo de 20.\n\n**Entrenamiento con armadura.** Obtienes entrenamiento con armadura ligera y escudos.",
@@ -4204,7 +4204,7 @@
   {
     "id": "lucky",
     "type": "feat",
-    "name": "Suerte",
+    "name": "Afortunado",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntos de suerte.** Tienes una cantidad de puntos de suerte igual a tu bonificador de competencia y puedes gastar los puntos en los siguientes beneficios. Recuperas tus puntos de suerte gastados cuando terminas un descanso largo.\n\n**Ventaja.** Cuando tiras un d20 para obtener un prueba de d20, puedes gastar 1 punto de suerte para obtener ventaja en la tirada.\n\n**Desventaja.** Cuando una criatura tira un d20 para una tirada de ataque contra ti, puedes gastar 1 punto de suerte para imponer Desventaja en esa tirada.",
@@ -4272,7 +4272,7 @@
   {
     "id": "magic-initiate",
     "type": "feat",
-    "name": "Iniciado mágico",
+    "name": "Iniciado en la magia",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Conjuro de nivel 1.** Elige un conjuro de nivel 1 de la misma lista que seleccionaste para los trucos de esta hazaña. Siempre tienes ese conjuro preparado. Puedes lanzarlo una vez sin un espacio de conjuro y recuperas la capacidad de lanzarlo de esa manera cuando termines un descanso largo. También puedes lanzar el conjuro usando cualquier espacios de conjuro que tengas.\n\n**Cambio de conjuro.** Siempre que ganes un nuevo nivel, puedes reemplazar uno de los conjuros que elegiste para esta hazaña con un conjuro diferente del mismo nivel de la lista de conjuros elegidos.\n\n**Repetible.** Puedes realizar esta dote más de una vez, pero debes elegir una lista de conjuros diferente cada vez.",
@@ -4536,7 +4536,7 @@
   {
     "id": "moderately-armored",
     "type": "feat",
-    "name": "Moderadamente blindado",
+    "name": "Entrenado en armadura media",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu puntuación de Fuerza o Destreza en 1, hasta un máximo de 20.\n\n**Entrenamiento con armadura.** Obtienes entrenamiento con armadura media.",
@@ -4604,7 +4604,7 @@
   {
     "id": "mythal-touched",
     "type": "feat",
-    "name": "Mythal tocado",
+    "name": "Tocado por el mythal",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Mythal Ward.** Si un ataque de conjuro te golpea o fallas un tirada de salvación contra un conjuro, puedes tomar una Reacción para tirar en la tabla de Magia Tocada por Mythal para crear un efecto mágico. Si un efecto requiere un tirada de salvación, el CD equivale a 8 más el modificador de la habilidad aumentado por esta dote y tu bonificador de competencia.\n\nPuedes usar este beneficio una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.\n\n**Magia tocada por Mythal**\n\n| 1d20 | Efecto |\n|---|---|\n| 1-2 | Tú y cada criatura a 15 pies de ti obtienen una Destreza tirada de salvación, recibiendo un daño de Fuerza igual a 1d8 veces el nivel del conjuro desencadenante en una salvación fallida o la mitad de daño en una exitosa. |\n| 3-7 | Tú y el lanzador del conjuro desencadenante formáis un vínculo telepático durante 1 hora. |\n| 8-10 | La gravedad se invierte en un cilindro de 15 pies de radio y 60 pies de altura centrado en usted durante 1 minuto, según el conjuro de gravedad inversa. |\n| 11-13 | Tú y el lanzador del conjuro desencadenante hacen cada uno una Constitución tirada de salvación. Si falla la salvación, la criatura queda aturdida hasta el final de su siguiente turno. |\n| 14-17 | Obtienes una bonificación de +2 a CA durante 1 minuto, lo que potencialmente convierte el conjuro desencadenante en un fallo si se trataba de un ataque de conjuro. |\n| 18-19 | Cualquier objeto inflamable y no mágico a 10 pies del lanzador del conjuro desencadenante que no esté siendo usado o transportado por otra criatura estalla en llamas, sufre 1d4 de daño de Fuego y arde. |\n| 20 | El conjuro desencadenante se disipa sin efecto y la acción acción adicional o reacción utilizada para lanzarlo se desperdicia. Si ese conjuro se lanzó con un espacio de conjuro, el espacio no se gasta. |",
@@ -4655,7 +4655,7 @@
   {
     "id": "necromancy-adept",
     "type": "feat",
-    "name": "Adepto a la nigromancia",
+    "name": "Adepto de la nigromancia",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Conjuros adicionales.** Tu destreza te permite tener siempre ciertos conjuros listos. Cuando tienes espacios de conjuro de un nivel especificado en la tabla de conjuros del experto en nigromancia, a partir de entonces siempre tendrás preparados los conjuros enumerados para ese nivel e inferior.\n\n**Manipulación de vida.** Cuando lanzas un conjuro de la escuela de Nigromancia usando un espacio de conjuro, puedes lanzar inmediatamente hasta dos de tus dados punto de golpe no gastados. Recuperas puntos de golpe igual al total obtenido más el nivel de espacio de conjuro gastado. Luego se gastan esos punto de golpe Dados.\n\n### Conjuros de adepto a la nigromancia\n\n| Espacio de conjuro Nivel | Conjuro |\n|---|---|\n| 1 | Infligir heridas |\n| 2 | Rayo de debilitamiento |\n| 3 | Toque vampírico |\n| 4 | Plaga |\n| 5 | Levantar muertos |",
@@ -4763,7 +4763,7 @@
   {
     "id": "orders-resilience",
     "type": "feat",
-    "name": "La resiliencia del orden",
+    "name": "Resiliencia del orden",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Fuerza, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Resurge.** Cuando tienes la condición Prone, puedes enderezarte con solo 5 pies de movimiento.\n\n**Juntos somos más fuertes.** Si estás a 5 pies de un aliado que no tiene la condición de Incapacitado, tú y ese aliado tenéis Ventaja en Fuerza tiradas de salvación. No podrás utilizar este beneficio mientras tengas la condición de Incapacitado.",
@@ -4863,7 +4863,7 @@
   {
     "id": "pack-fighting",
     "type": "feat",
-    "name": "Pelea de manada",
+    "name": "Lucha en manada",
     "edition": "2024",
     "source": "Lanzamientos de D&D Beyond – julio de 2026",
     "description": "Cuando realizas un ataque cuerpo a cuerpo con un arma o un ataque sin armas contra una criatura, obtienes una bonificación de +1 a la tirada de daño si al menos uno de tus aliados está a 5 pies de la criatura y el aliado no tiene la condición de Incapacitado. Si al menos un aliado dentro de 5 pies de la criatura también tiene esta dote y no tiene la condición de Incapacitado, esta bonificación aumenta a +2.",
@@ -4957,7 +4957,7 @@
   {
     "id": "planar-wanderer",
     "type": "feat",
-    "name": "Vagabundo plano",
+    "name": "Vagabundo planar",
     "edition": "2014",
     "source": "Planescape - Aventuras en el Multiverso",
     "description": "Puedes recurrir a las fuerzas del multiverso para sobrevivir a los extremos cósmicos y atravesar sus reinos infinitos, otorgándote estos beneficios:\n\n**Adaptación plana.** Cuando terminas un descanso largo, obtienes resistencia al daño por ácido, frío o fuego (tú eliges) hasta que termines el siguiente descanso largo.\n\n**Portal Cracker.** Tu experiencia con los portales te permite abrirlos sin una clave de portal. Como acción, puedes concentrarte en un portal del que eres consciente a 5 pies de ti y realizar una prueba de CD 20 de Inteligencia (Arcanos). Si fallas la prueba, recibirás 3d8 de daño psíquico y no podrás volver a utilizar este beneficio en ese portal hasta que termines un descanso largo. Si la prueba es exitosa, puede forzar la apertura o el cierre del portal durante 1 hora. Durante ese tiempo, el portal no responde a su clave de portal a menos que una criatura que emplee la clave tenga éxito en una prueba de Inteligencia (Arcano) de CD 20 como acción.\n\n**Portal Sense.** Conoces la dirección al último portal plano que usaste mientras tú y el portal están en el mismo plano de existencia. Además, como acción, puedes detectar la ubicación de cualquier portal dentro de 30 pies de ti que no esté detrás de una cobertura total. Una vez que detectes un portal con esta acción, no podrás volver a usar la acción hasta que termines un descanso largo.",
@@ -5051,7 +5051,7 @@
   {
     "id": "practiced-expert-ua",
     "type": "feat",
-    "name": "Experto practicado",
+    "name": "Experto curtido",
     "edition": "2014",
     "source": "Arcanos desenterrados 73 - Dotes",
     "description": "Ha perfeccionado su competencia con habilidades o herramientas particulares y ha obtenido los siguientes beneficios:\n\n- Aumenta en 1 un puntuación de característica de tu elección, hasta un máximo de 20.\n\n- Obtienes competencia con una habilidad o herramienta de tu elección.\n\n- Elija una de sus habilidades o habilidades con herramientas. Tu bonificador de competencia se duplica para cualquier prueba de característica que hagas y que utilice la competencia elegida.",
@@ -5106,7 +5106,7 @@
   {
     "id": "prone-fighting",
     "type": "feat",
-    "name": "Lucha propensa",
+    "name": "Lucha en el suelo",
     "edition": "2024",
     "source": "Lanzamientos de D&D Beyond – julio de 2026",
     "description": "Si bien tienes la condición Prone, no tienes Desventaja debido a la condición Prone en las tiradas de ataque, y la condición Prone no otorga Ventaja en las tiradas de ataque realizadas contra ti.",
@@ -5139,7 +5139,7 @@
   {
     "id": "psi-trickster-ua",
     "type": "feat",
-    "name": "Tramposo psi",
+    "name": "Embaucador psi",
     "edition": "2024",
     "source": "UA5 – El Psion (27.05.2025)",
     "description": "Obtienes los siguientes beneficios.  \n**Mente astuta.** Cuando realizas una prueba de Carisma (Engaño o Persuasión), obtienes una bonificación igual a tu modificador de Inteligencia (bonificación mínima de +1). Puedes usar este beneficio una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.  \n**Talento psiónico.** Ya conoces el truco de la ilusión menor. Además siempre tienes preparado el conjuro Disguise Self. Puedes lanzarlo una vez sin un espacio de conjuro, y recuperas la capacidad de lanzarlo de esa manera cuando termines un descanso largo. También puedes lanzarlo usando cualquier espacios de conjuro que tengas. Cuando lanzas estos conjuros, no requieren componentes verbales o materiales, y la Inteligencia, la Sabiduría o el Carisma son tu aptitud mágica para ellos (elige cuándo seleccionas esta dote).",
@@ -5193,7 +5193,7 @@
   {
     "id": "purple-dragon-rook",
     "type": "feat",
-    "name": "Torre Dragón Púrpura",
+    "name": "Torre del Dragón Púrpura",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Súplica.** Obtienes competencia en una de las siguientes habilidades: Perspicacia, Rendimiento o Persuasión.\n\n**Grito de reunión.** Cuando tiras Iniciativa y no tienes la condición de Incapacitado, puedes elegir una cantidad de criaturas igual a tu bonificador de competencia que puedas ver a menos de 30 pies de ti. Esas criaturas ganan inspiración heroica.\n\nUna vez que uses este beneficio, no podrás volver a hacerlo hasta que termines un descanso largo.",
@@ -5206,7 +5206,7 @@
   {
     "id": "putrefy",
     "type": "feat",
-    "name": "Putrefacto",
+    "name": "Putrefacción",
     "edition": "2024",
     "source": "El libro del hambre de Astarion",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 20.\n\n**Necrosis.** Cuando haces una tirada de daño que causa daño necrótico, puedes hacer que una criatura que reciba ese daño tenga la condición de Envenenado hasta el comienzo de tu siguiente turno. Una vez que uses este beneficio, no podrás volver a usarlo hasta que termines un Corto o descanso largo.",
@@ -5314,7 +5314,7 @@
   {
     "id": "rebuke",
     "type": "feat",
-    "name": "Reprender",
+    "name": "Reprimenda",
     "edition": "2024",
     "source": "El libro del hambre de Astarion",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 20.\n\n**Golpe Radiante.** Cuando haces una tirada de daño que inflige daño Radiante, puedes hacer que una criatura Enorme o más pequeña que reciba el daño tenga la condición Prone. Una vez que uses este beneficio, no podrás volver a usarlo hasta que termines un Corto o descanso largo.",
@@ -5373,7 +5373,7 @@
   {
     "id": "revenant-blade",
     "type": "feat",
-    "name": "Espada Retornada",
+    "name": "Hoja del retornado",
     "edition": "2014",
     "source": "Guía de Wayfinder para Eberron",
     "description": "Eres descendiente de un maestro de la doble espada y sus habilidades te han pasado a ti. Obtienes los siguientes beneficios:\n\n- Aumenta tu puntuación de Destreza o Fuerza en 1, hasta un máximo de 20.\n- Mientras empuñas un arma de doble hoja con las dos manos, el arma tiene el rasgo *delicadeza* para tus ataques y obtienes +1 CA.\n- En tu turno, cuando usas un acción adicional para realizar un ataque cuerpo a cuerpo con la hoja en el extremo opuesto del arma, el dado de daño del arma para este ataque aumenta a 2d4, en lugar de 1d4.",
@@ -5431,7 +5431,7 @@
   {
     "id": "ritual-caster",
     "type": "feat",
-    "name": "Lanzador ritual",
+    "name": "Lanzador de rituales",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Conjuros rituales.** Elige una cantidad de conjuros de nivel 1 igual a tu bonificador de competencia que tengan la etiqueta Ritual. Siempre tienes esos conjuros preparados y puedes lanzarlos con cualquier espacios de conjuro que tengas. El aptitud mágica de los conjuros es la habilidad aumentada por esta hazaña. Cada vez que tu bonificador de competencia aumente a partir de entonces, podrás agregar un conjuro adicional de nivel 1 con la etiqueta Ritual a los conjuros siempre preparados con esta característica.\n\n**Ritual rápido.** Con este beneficio, puedes lanzar un conjuro de Ritual que hayas preparado usando su tiempo de lanzamiento normal en lugar del tiempo extendido para un Ritual. Hacerlo no requiere un espacio de conjuro. Una vez que lanzas el conjuro de esta manera, no podrás volver a utilizar este beneficio hasta que termines un descanso largo.",
@@ -5524,7 +5524,7 @@
     "name": "Modelador de runas",
     "edition": "2014",
     "source": "Bigby presenta - Gloria de los gigantes",
-    "description": "Has estudiado la magia de las runas gigantes, lo que te otorga los siguientes beneficios:\n\n- **Comprender idiomas.** Aprendes el conjuro Comprender idiomas. Puedes lanzar este conjuro sin gastar un espacio de conjuro y debes terminar un descanso largo antes de poder volver a lanzarlo de esta manera. También puedes lanzar este conjuro usando cualquier espacios de conjuro que tengas.\n\n- **Magia rúnica.** Conoces un número de runas igual a la mitad de tu bonificador de competencia (redondeado hacia abajo), elegidas de la tabla de conjuros rúnicos. Cada vez que termines un descanso largo, puedes inscribir cada runa que conozcas en un arma, armadura, prenda de vestir u otro objeto no mágico que toques. Aprendes temporalmente los conjuros de nivel 1 que corresponden a las runas que inscribiste, como se especifica en la tabla de Conjuros rúnicos, y conoces esos conjuros hasta que terminas un descanso largo, cuando las runas se desvanecen. Mientras usas o llevas cualquier objeto marcado con runas, puedes lanzar los conjuros asociados con esas runas usando cualquier espacios de conjuro que tengas.  \nTambién puedes invocar una runa inscrita en un objeto que llevas puesto o llevas y lanzar su conjuro asociado sin gastar un espacio de conjuro ni utilizar componentes materiales. Una vez que lanzas el conjuro de esta manera, no podrás volver a hacerlo hasta que termines un descanso largo. Tu aptitud mágica para esta dote es Inteligencia, Sabiduría o Carisma (elige cuando selecciones esta dote).  \nCada vez que subas de nivel, podrás reemplazar una de las runas que conoces por otra de la tabla de conjuros rúnicos.\n\n##### Conjuros rúnicos\n\n| Runa | Conjuro |\n|---|---|\n| Nube | Nube de niebla |\n| Muerte | Infligir heridas |\n| Dragón | Orbe cromático |\n| Enemigo | Disfrazarse |\n| Fuego | Manos ardientes |\n| Amigo | Habla con los animales |\n| Escarcha | Armadura de Agathys |\n| Colina | Buena baya |\n| Viaje | Zancudo largo |\n| Rey | Comando |\n| Montaña | Enredar |\n| Piedra | Santuario |\n| Tormenta | Onda de trueno |",
+    "description": "Has estudiado la magia de las runas gigantes, lo que te otorga los siguientes beneficios:\n\n- **Comprender idiomas.** Aprendes el conjuro Comprender idiomas. Puedes lanzar este conjuro sin gastar un espacio de conjuro y debes terminar un descanso largo antes de poder volver a lanzarlo de esta manera. También puedes lanzar este conjuro usando cualquier espacios de conjuro que tengas.\n\n- **Magia rúnica.** Conoces un número de runas igual a la mitad de tu bonificador de competencia (redondeado hacia abajo), elegidas de la tabla de conjuros rúnicos. Cada vez que termines un descanso largo, puedes inscribir cada runa que conozcas en un arma, armadura, prenda de vestir u otro objeto no mágico que toques. Aprendes temporalmente los conjuros de nivel 1 que corresponden a las runas que inscribiste, como se especifica en la tabla de Conjuros rúnicos, y conoces esos conjuros hasta que terminas un descanso largo, cuando las runas se desvanecen. Mientras usas o llevas cualquier objeto marcado con runas, puedes lanzar los conjuros asociados con esas runas usando cualquier espacios de conjuro que tengas.  \nTambién puedes invocar una runa inscrita en un objeto que llevas puesto o llevas y lanzar su conjuro asociado sin gastar un espacio de conjuro ni utilizar componentes materiales. Una vez que lanzas el conjuro de esta manera, no podrás volver a hacerlo hasta que termines un descanso largo. Tu aptitud mágica para esta dote es Inteligencia, Sabiduría o Carisma (elige cuando selecciones esta dote).  \nCada vez que subas de nivel, podrás reemplazar una de las runas que conoces por otra de la tabla de conjuros rúnicos.\n\n##### Conjuros rúnicos\n\n| Runa | Conjuro |\n|---|---|\n| Nube | Nube de niebla |\n| Muerte | Infligir heridas |\n| Dragón | Orbe cromático |\n| Enemigo | Disfrazarse |\n| Fuego | Manos ardientes |\n| Amigo | Habla con los animales |\n| Escarcha | Armadura de Agathys |\n| Colina | Buena baya |\n| Viaje | Zancudo largo |\n| Rey | Comando |\n| Montaña | Enredar |\n| Piedra | Santuario |\n| Tormenta | Ola atronadora |",
     "url": "https://dnd5e.wikidot.com/feat:rune-shaper",
     "category": "general",
     "prerequisites": {
@@ -5614,7 +5614,7 @@
   {
     "id": "scion-of-elemental-water-ua",
     "type": "feat",
-    "name": "Vástago de agua elemental",
+    "name": "Vástago del agua elemental",
     "edition": "2014",
     "source": "Arcanos 85 desenterrados - Maravillas del multiverso",
     "description": "Has estado expuesto a la magia primordial del  \nPlano Elemental de Agua, que te otorga lo siguiente  \nbeneficios:\n\n**Oleada de onda.** Puedes usar un acción adicional para crear una fuerte oleada de agua dirigida a una criatura a 15 pies de ti que puedas ver. El objetivo debe hacer una Fuerza tirada de salvación; el CD para esta salvación es igual a 8 + tu bonificador de competencia + el modificador aptitud mágica elegido para esta hazaña, y una criatura puede optar por fallar este tirada de salvación. Si falla, el objetivo es empujado hasta 10 pies de distancia de usted o atraído hasta 10 pies hacia usted (usted elige). El agua desaparece inmediatamente después de que la criatura tenga éxito o falle. Puedes crear este efecto una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
@@ -5747,7 +5747,7 @@
   {
     "id": "shadow-touched",
     "type": "feat",
-    "name": "Sombra tocada",
+    "name": "Tocado por las sombras",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Tu exposición a la magia de Shadowfell te otorga los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Magia de las Sombras.** Elige un conjuro de nivel 1 de la escuela de magia de Ilusión o Nigromancia. Siempre tienes preparado ese conjuro y el conjuro de Invisibilidad. Puedes lanzar cada uno de estos conjuros sin gastar un espacio de conjuro. Una vez que lanzas cualquiera de los conjuros de esta manera, no puedes volver a lanzarlo de esta manera hasta que termines un descanso largo. También puedes lanzar estos conjuros usando espacios de conjuro que tengas del nivel apropiado. El aptitud mágica de los conjuros es la habilidad aumentada por esta hazaña.",
@@ -5969,7 +5969,7 @@
   {
     "id": "skilled",
     "type": "feat",
-    "name": "Calificado",
+    "name": "Habilidoso",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes competencia en cualquier combinación de tres habilidades o herramientas de tu elección.",
@@ -6045,7 +6045,7 @@
   {
     "id": "soothing-familiar",
     "type": "feat",
-    "name": "Calmante familiar",
+    "name": "Familiar calmante",
     "edition": "2024",
     "source": "Arcanos desatados",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta un puntuación de característica de tu elección en 1, hasta un máximo de 20.\n\n**Baliza curativa.** La energía positiva llena una emanación de 5 pies que se origina en tu familiar, siempre y cuando esté a 120 pies de ti. Siempre que un aliado en esa Emanación lanza un dado para determinar el número de puntos de golpe restaurados a una criatura, ese aliado puede tratar una tirada de 1 o 2 en el dado como un 3.",
@@ -6257,7 +6257,7 @@
   {
     "id": "spellfire-spark",
     "type": "feat",
-    "name": "Chispa de fuego mágico",
+    "name": "Chispa de fuego de conjuro",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Absorción de magia.** Una vez por turno, cuando recibes daño de un conjuro o efecto mágico, reduces el daño total recibido en 1d4. No puedes hacer uso de este beneficio si tienes la condición de Incapacitado.\n\n**Llama de fuego mágico.** Aprendes el truco de la Llama Sagrada. Inteligencia, Sabiduría o Carisma es tu aptitud mágica para este conjuro (elige cuándo seleccionas esta dote). También puedes lanzar este truco como acción adicional un número de veces igual a tu bonificador de competencia, y recuperarás todos los usos gastados cuando termines un descanso largo.",
@@ -6372,7 +6372,7 @@
   {
     "id": "strike-of-the-giants",
     "type": "feat",
-    "name": "Huelga de gigantes",
+    "name": "Golpe de los gigantes",
     "edition": "2014",
     "source": "Bigby presenta - Gloria de los gigantes",
     "description": "Has absorbido magia primitiva que te da un eco del poder de los gigantes. Cuando obtengas esta dote, elige uno de los beneficios que se enumeran a continuación. Una vez por turno, cuando golpeas a un objetivo con un ataque con arma cuerpo a cuerpo o un ataque con arma a distancia usando un arma arrojadiza, puedes imbuir el ataque con un efecto adicional dependiendo del beneficio que elijas:\n\n- **Golpe de nube.** El objetivo sufre 1d4 de daño de trueno adicional. Si el objetivo es una criatura, debe tener éxito en Sabiduría tirada de salvación, o te volverás invisible para ella hasta el comienzo de tu siguiente turno o hasta inmediatamente después de que hagas una tirada de ataque o lances un conjuro.\n- **Golpe de fuego.** El objetivo sufre 1d10 de daño de fuego adicional.\n- **Golpe de Escarcha.** El objetivo sufre 1d6 de daño por frío extra. Si el objetivo es una criatura, debe tener éxito en una Constitución tirada de salvación, o su velocidad se reduce a 0 hasta el comienzo de tu siguiente turno.\n- **Hill Strike.** El objetivo recibe 1d6 de daño adicional del tipo del arma. Si el objetivo es una criatura, debe tener éxito en Fuerza tirada de salvación o tener la condición de derribado.\n- **Golpe de piedra.** El objetivo sufre 1d6 de daño de fuerza adicional. Si el objetivo es una criatura, debe tener éxito en Fuerza tirada de salvación o ser empujado a 10 pies de ti en línea recta.\n- **Golpe de tormenta.** El objetivo sufre 1d6 daños adicionales por rayo. Si el objetivo es una criatura, debe tener éxito en una Constitución tirada de salvación, o tendrá desventaja en las tiradas de ataque hasta el comienzo de tu siguiente turno.\n\nEl tirada de salvación CD para estos efectos equivale a 8 + tu bonificador de competencia + tu modificador de Fuerza o Constitución.\n\nPuedes usar esta dote un número de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
@@ -6444,7 +6444,7 @@
   {
     "id": "survivalist-ua",
     "type": "feat",
-    "name": "Superviviente",
+    "name": "Experto en supervivencia",
     "edition": "2014",
     "source": "Arcanos desenterrados 38 - Dotes para habilidades",
     "description": "Dominas la cultura salvaje y obtienes los siguientes beneficios:\n\n- Aumenta tu puntuación de Sabiduría en 1, hasta un máximo de 20.\n\n- Obtienes competencia en la habilidad Supervivencia. Si ya dominas la habilidad, agregas el doble de tu bonificador de competencia a las comprobaciones que hagas con ella.\n\n- Aprendes el conjuro Alarma. Puedes lanzarlo una vez sin gastar un espacio de conjuro, y recuperas la capacidad de hacerlo cuando terminas un descanso largo.",
@@ -6470,7 +6470,7 @@
   {
     "id": "survivor",
     "type": "feat",
-    "name": "Sobreviviente",
+    "name": "Superviviente",
     "edition": "2024",
     "source": "Ravenloft - Los horrores internos",
     "description": "Obtienes los siguientes beneficios.  \n**Hipervigilancia.** Cada vez que tiras Iniciativa, puedes volver a tirar el d20 si el número obtenido es 9 o menos. Debes utilizar el nuevo rollo.  \n**Ármate.** Cuando fallas un tirada de salvación para evitar o finalizar la condición Encantado o Asustado, puedes tomar una Reacción para agregar una bonificación a la tirada que potencialmente haga que tenga éxito. El bono es igual a tu bonificador de competencia.  \nUna vez que realices esta reacción, no podrás volver a hacerlo hasta que termines un descanso largo.",
@@ -6541,7 +6541,7 @@
   {
     "id": "tadpole-host-ua",
     "type": "feat",
-    "name": "Anfitrión renacuajo",
+    "name": "Huésped de renacuajo",
     "edition": "2024",
     "source": "UA15 - Opciones de la Infraoscuridad (20.08.2026)",
     "description": "Comienzas una relación simbiótica con el renacuajo desollador de mentes en tu cuerpo. Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu Inteligencia en 1, hasta un máximo de 20.\n\n**Mind Sliver.** Aprendes el truco Mind Sliver. La inteligencia es tu aptitud mágica para este conjuro.\n\n**Poder psiónico.** La fuente de energía psiónica que te proporciona tu renacuajo está representada por dados de energía psiónica, que alimentan los poderes que tienes en esta ruta de hazañas.  \nTienes una cantidad de Dados de Energía Psiónica igual a tu bonificador de competencia. Cuando realizas esta hazaña, tu dado de energía psiónica es un d6. El dado cambia cuando realizas hazañas a lo largo del Camino de la Ceremorfosis.  \nCualquier característica en esta ruta de hazañas que use un dado de energía psiónica usa solo los dados de esta ruta de hazañas. Algunas de tus funciones gastan dados de energía psiónica, como se especifica en la descripción de una función, y no puedes usar una función si requiere que uses un dado cuando se gastan todos tus dados de energía psiónica.  \nRecuperas todos los dados de energía psiónica gastados cuando terminas un descanso largo.\n\n**Sobrecarga psiónica.** Siempre que inflijas daño psíquico, puedes gastar un dado de energía psiónica para tirar el dado e infligir daño psíquico adicional igual al número obtenido.",
@@ -6564,7 +6564,7 @@
   {
     "id": "tadpoles-safeguard-ua",
     "type": "feat",
-    "name": "La salvaguardia del renacuajo",
+    "name": "Salvaguarda del renacuajo",
     "edition": "2024",
     "source": "UA15 - Opciones de la Infraoscuridad (20.08.2026)",
     "description": "Su renacuajo tiene un gran interés en proteger su caparazón mientras se incuba. Obtienes los siguientes beneficios.\n\n**Puntuación de característica Incremento.** Incrementa tu puntaje de Constitución o Inteligencia en 1, hasta un máximo de 20.\n\n**Dados de energía psiónica.** Los dados de energía psiónica que te otorga esta ruta de hazaña se convierten en d8.\n\n**Telepatía.** Tienes telepatía con un alcance de 10 pies. Si ya tienes telepatía, tu alcance aumenta en 10 pies.\n\n**Warding Backlash.** Siempre tienes preparado el conjuro Escudo. La inteligencia es tu aptitud mágica para este conjuro. Puedes lanzarlo sin gastar un espacio de conjuro gastando un dado de energía psiónica. También puedes lanzar el conjuro usando cualquier espacios de conjuro que tengas. Cuando gastas un dado de energía psiónica para lanzar el conjuro y hacer que el ataque desencadenante falle, tira el dado gastado. El atacante recibe daño psíquico igual al número obtenido.",
@@ -6606,7 +6606,7 @@
   {
     "id": "tavern-brawler",
     "type": "feat",
-    "name": "Guerrero de taberna",
+    "name": "Camorrista de taberna",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Obtienes los siguientes beneficios.\n\n**Mejorado ataque sin armas.** Cuando golpeas con tu ataque sin armas e infliges daño, puedes infligir daño contundente igual a 1d4 más tu modificador de Fuerza en lugar del daño normal de un ataque sin armas.\n\n**Retiradas de daño.** Cada vez que lanzas un dado de daño para tu ataque sin armas, puedes volver a tirar el dado si arroja un 1, y debes usar la nueva tirada.\n\n**Armas improvisadas.** Tienes competencia con armas improvisadas.\n\n**Empujar.** Cuando golpeas a una criatura con un ataque sin armas como parte del acción de Atacar en tu turno, puedes infligir daño al objetivo y también empujarlo a 5 pies de distancia de ti. Puedes utilizar este beneficio sólo una vez por turno.",
@@ -6897,7 +6897,7 @@
   {
     "id": "tunnel-fighter",
     "type": "feat",
-    "name": "Túnel Guerrero",
+    "name": "Luchador de túneles",
     "edition": "2014",
     "source": "UA",
     "description": "Como acción adicional, puedes adoptar una postura defensiva que dura hasta el comienzo de tu siguiente turno. Mientras estás en tu postura defensiva, puedes hacer ataques de oportunidad sin usar tu reacción, y puedes usar tu reacción para realizar un ataque cuerpo a cuerpo contra una criatura que se mueve más de 5 pies mientras está a tu alcance.",
@@ -6933,7 +6933,7 @@
   {
     "id": "tyro-of-the-gauntlet",
     "type": "feat",
-    "name": "Tyro del guantelete",
+    "name": "Novicio del Guantelete",
     "edition": "2024",
     "source": "Reinos olvidados - Héroes de Faerun",
     "description": "Obtienes los siguientes beneficios.\n\n**Permanece como uno.** Cuando un aliado a 5 pies de ti es sometido a un efecto que lo empujaría o tiraría, puedes tomar una reacción para evitar que ese aliado sea empujado o tirado. Para recibir este beneficio, el aliado no puede tener la condición de Incapacitado.\n\n**Vigilante.** Cuando tomas el acción de Preparar, la siguiente tirada de ataque realizada contra ti tiene Desventaja antes del inicio de tu siguiente turno.",
@@ -6946,7 +6946,7 @@
   {
     "id": "ulitharids-might-ua",
     "type": "feat",
-    "name": "El poder de Ulitarid",
+    "name": "Poder del ulitárido",
     "edition": "2024",
     "source": "UA15 - Opciones de la Infraoscuridad (20.08.2026)",
     "description": "El renacuajo que ingeriste te está transformando en un ulitárido, un tipo raro de illita que cuenta con una gran fuerza física y poder mental, así como dos tentáculos adicionales.\n\n**Puntuación de característica Incremento.** Incrementa tu puntuación de Fuerza, Destreza o Constitución en 1, hasta un máximo de 20.\n\n**Dados de energía psiónica.** Los dados de energía psiónica que te otorga esta ruta de hazaña se convierten en d8.\n\n**Telepatía.** Tienes telepatía con un alcance de 10 pies. Si ya tienes telepatía, el alcance aumenta en 10 pies.\n\n**Tentáculos extendidos.** Dos tentáculos largos brotan alrededor de tu boca. Puedes usar estos tentáculos para hacer un ataque sin armas. Cuando usas estos tentáculos, tu alcance aumenta en 5 pies.",
@@ -6970,7 +6970,7 @@
   {
     "id": "unarmed-fighting",
     "type": "feat",
-    "name": "Luchas desarmadas",
+    "name": "Lucha sin armas",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Cuando golpeas con tu ataque sin armas e infliges daño, puedes infligir un daño contundente igual a 1d6 más tu modificador de Fuerza en lugar del daño normal de un ataque sin armas. Si no llevas armas ni escudo cuando haces la tirada de ataque, el d6 se convierte en un d8.\n\nAl comienzo de cada uno de tus turnos, puedes infligir 1d4 de daño contundente a una criatura apresada por ti.",
@@ -7012,7 +7012,7 @@
   {
     "id": "underhanded-ua",
     "type": "feat",
-    "name": "Turbia",
+    "name": "Juego sucio",
     "edition": "2024",
     "source": "UA14 - Opciones villanas revisadas (18.06.2026)",
     "description": "Obtienes los siguientes beneficios.\n\n**Elusivo.** Inmediatamente después de tirar Iniciativa, puedes moverte hasta 10 pies.\n\n**Lucha Sucio.** Cuando una criatura de un tamaño mayor o menor que tú hace un ataque de oportunidad contra ti y falla, puedes tomar una Reacción para darle a esa criatura la condición Prone. Debes tener las manos libres para usar esta Reacción.",
@@ -7062,7 +7062,7 @@
   {
     "id": "vampire-touched",
     "type": "feat",
-    "name": "Vampiro tocado",
+    "name": "Tocado por un vampiro",
     "edition": "2024",
     "source": "El libro del hambre de Astarion",
     "description": "Obtienes los siguientes beneficios.\n\n**Puntuación de característica Aumentar.** Aumenta tu puntuación de Inteligencia, Sabiduría o Carisma en 1, hasta un máximo de 20.\n\n**Magia vampírica.** Elige un conjuro de nivel 1 de la escuela de magia Encantamiento o Ilusión. Siempre tienes ese conjuro y el conjuro Spider Climb preparados. Puedes lanzar cada uno de estos conjuros sin gastar un espacio de conjuro, pero cuando lanzas Spider Climb de esta manera, debes apuntar a ti mismo y debes terminar un descanso largo antes de poder lanzar cada conjuro de esta manera nuevamente. También puedes lanzar cualquiera de los conjuros usando espacios de conjuro que tengas del nivel apropiado. Tu aptitud mágica para los conjuros es la habilidad aumentada por esta hazaña.",
@@ -7087,7 +7087,7 @@
   {
     "id": "vampires-plaything",
     "type": "feat",
-    "name": "El juguete del vampiro",
+    "name": "Juguete del vampiro",
     "edition": "2024",
     "source": "El libro del hambre de Astarion",
     "description": "Obtienes los siguientes beneficios.\n\n**Decantando.** Cuando termines un descanso largo, podrás crear una Poción de Curación o una Antitoxina, siempre y cuando tengas un frasco o matraz vacío. Estos líquidos se evaporan cuando terminas otro descanso largo.\n\n**Retiro oportuno.** Puedes tomar un acción adicional para tomar el acción de Correr o el acción de Destrabarse. Puedes utilizar este beneficio un número de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.\n\n**Conexión vampírica.** El DM determina el destino de tu antiguo maestro vampiro. Mientras tú y tu antiguo maestro vampiro estáis en el mismo plano de existencia, el vampiro puede comunicarse contigo telepáticamente y tú puedes elegir permitirle percibir a través de tus sentidos.",

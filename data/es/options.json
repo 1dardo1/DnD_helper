@@ -2,7 +2,7 @@
   {
     "id": "blood-curse/blood-curse-of-binding",
     "type": "option",
-    "name": "Maldición de sangre de Encuadernación",
+    "name": "Maldición de sangre de la atadura",
     "edition": "2014",
     "source": null,
     "description": "Como acción adicional, intentas atar una criatura Grande o más pequeña que puedas ver a 30 pies de ti, lo que debe tener una Fuerza tirada de salvación. Si falla, la velocidad de la criatura maldita se reduce a 0 y no puede usar reacciones hasta el final de tu siguiente turno.\n\n***Amplificar.*** Esta maldición dura 1 minuto y puede afectar a cualquier criatura sin importar su tamaño. La criatura maldita puede repetir el tirada de salvación al final de cada uno de sus turnos, poniendo fin a la maldición sobre sí misma si tiene éxito.",
@@ -28,7 +28,7 @@
   {
     "id": "blood-curse/blood-curse-of-corrosion",
     "type": "option",
-    "name": "Maldición de sangre de Corrosión",
+    "name": "Maldición de sangre de la corrosión",
     "edition": "2014",
     "source": null,
     "description": "Como acción adicional, haces que una criatura a 30 pies de ti sea envenenada. La criatura maldita puede hacer una Constitución tirada de salvación al final de cada uno de sus turnos, poniendo fin a la maldición sobre sí misma si tiene éxito.\n\n***Amplificar.*** La criatura maldita sufre 4d6 de daño necrótico cuando infliges esta maldición, y vuelve a sufrir este daño cada vez que falla una Constitución tirada de salvación para poner fin a la maldición.",
@@ -170,7 +170,7 @@
   {
     "id": "eldritch-invocation/agonizing-blast",
     "type": "option",
-    "name": "Explosión agonizante",
+    "name": "Descarga agonizante",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Elige uno de tus trucos Brujo conocidos que causen daño. Puedes agregar tu modificador de Carisma a las tiradas de daño de ese conjuro.\n\n**Repetible.** Puedes obtener esta invocación más de una vez. Cada vez que lo hagas, elige un truco elegible diferente.",
@@ -224,7 +224,7 @@
   {
     "id": "eldritch-invocation/devils-sight",
     "type": "option",
-    "name": "La vista del diablo",
+    "name": "Vista del diablo",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Puedes ver normalmente en condiciones de luz tenue y oscuridad, tanto mágicas como no mágicas, a una distancia de 120 pies de ti.",
@@ -383,7 +383,7 @@
   {
     "id": "eldritch-invocation/gift-of-the-depths",
     "type": "option",
-    "name": "Regalo de las profundidades",
+    "name": "Don de las profundidades",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Puedes respirar bajo el agua y obtienes una velocidad de natación igual a tu velocidad.\n\nTambién puedes lanzar Water Breathing una vez sin gastar un espacio de conjuro. Recuperas la capacidad de lanzarlo de esta manera nuevamente cuando terminas un descanso largo.",
@@ -402,7 +402,7 @@
   {
     "id": "eldritch-invocation/gift-of-the-protectors",
     "type": "option",
-    "name": "Regalo de los Protectores",
+    "name": "Don de los protectores",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Aparece una nueva página en tu *Libro de las Sombras* cuando la conjuras. Con tu permiso, una criatura puede realizar una acción para escribir su nombre en esa página, que puede contener una cantidad de nombres igual a tu modificador de Carisma (mínimo de un nombre).\n\nCuando cualquier criatura cuyo nombre está en la página se reduce a 0 puntos de golpe pero no se mata directamente, la criatura cae mágicamente a 1 punto de golpe. Una vez que se activa esta magia, ninguna criatura podrá beneficiarse de ella hasta que termines un descanso largo.\n\nComo acción de Magia, puedes borrar un nombre en la página tocándolo.",
@@ -421,7 +421,7 @@
   {
     "id": "eldritch-invocation/investment-of-the-chain-master",
     "type": "option",
-    "name": "Inversión del Chain Master",
+    "name": "Investidura del maestro de la cadena",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Cuando lanzas Buscar familiar, infundes al familiar invocado una medida de tu poder sobrenatural, otorgándole a la criatura los siguientes beneficios.\n\n**Aéreo o acuático.** El familiar obtiene una velocidad de vuelo o una velocidad de natación (a tu elección) de 40 pies.\n\n**Ataque rápido.** Como acción adicional, puedes ordenarle al familiar que tome el acción de Atacar.\n\n**Daño necrótico o radiante.** Siempre que el familiar cause daño contundente, perforante o cortante, puedes hacer que en su lugar cause daño necrótico o radiante.\n\n**Tu salvación CD.** Si el familiar obliga a una criatura a hacer un tirada de salvación, usa tu CD de salvación de conjuros.\n\n**Resistencia.** Cuando el familiar recibe daño, puedes tomar una reacción para otorgarle resistencia contra ese daño.",
@@ -532,7 +532,7 @@
   {
     "id": "eldritch-invocation/one-with-shadows",
     "type": "option",
-    "name": "Uno con sombras",
+    "name": "Uno con las sombras",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Mientras estás en un área de luz tenue u oscuridad, puedes lanzarte Invisibilidad sin gastar un espacio de conjuro.",
@@ -609,7 +609,7 @@
   {
     "id": "eldritch-invocation/repelling-blast",
     "type": "option",
-    "name": "Explosión repelente",
+    "name": "Descarga repulsora",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Elige uno de tus trucos Brujo conocidos que requieran una tirada de ataque. Cuando golpeas a una criatura grande o más pequeña con ese truco, puedes empujar a la criatura hasta 10 pies de distancia de ti.\n\n**Repetible.** Puedes obtener esta invocación más de una vez. Cada vez que lo hagas, elige un truco elegible diferente.",
@@ -832,7 +832,7 @@
   {
     "id": "maneuver/goading-attack",
     "type": "option",
-    "name": "Ataque de incitación",
+    "name": "Ataque provocador",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Cuando golpeas a una criatura con una tirada de ataque, puedes gastar un Dado de Superioridad para intentar incitar al objetivo a que te ataque. Añade el Dado de Superioridad a la tirada de daño del ataque. El objetivo debe tener éxito en Sabiduría tirada de salvación o tener Desventaja en las tiradas de ataque contra objetivos distintos a ti hasta el final de tu siguiente turno.",
@@ -896,7 +896,7 @@
   {
     "id": "maneuver/parry",
     "type": "option",
-    "name": "Parar",
+    "name": "Parada",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Cuando otra criatura te daña con una tirada de ataque cuerpo a cuerpo, puedes tomar una Reacción y gastar un Dado de Superioridad para reducir el daño por el número que tiras en tu Dado de Superioridad más tu modificador de Fuerza o Destreza (tu elección).",
@@ -944,7 +944,7 @@
   {
     "id": "maneuver/rally",
     "type": "option",
-    "name": "Manifestación",
+    "name": "Arengar",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Como acción adicional, puedes gastar un Dado de Superioridad para reforzar la resolución de un compañero. Elige un aliado tuyo a 30 pies de ti que pueda verte u oírte. Esa criatura gana puntos de golpe temporales igual a la tirada del Dado de Superioridad más la mitad de tu nivel Guerrero (redondeando hacia abajo).",
@@ -960,7 +960,7 @@
   {
     "id": "maneuver/riposte",
     "type": "option",
-    "name": "Respuesta",
+    "name": "Contraataque",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Cuando una criatura falla en una tirada de ataque cuerpo a cuerpo, puedes realizar una Reacción y gastar un Dado de Superioridad para realizar una tirada de ataque cuerpo a cuerpo con un arma o un ataque sin armas contra la criatura. Si golpeas, suma el dado de superioridad al daño del ataque.",
@@ -1008,7 +1008,7 @@
   {
     "id": "maneuver/trip-attack",
     "type": "option",
-    "name": "Ataque de viaje",
+    "name": "Ataque derribador",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Cuando golpeas a una criatura con una tirada de ataque usando un arma o un ataque sin armas, puedes gastar un Dado de Superioridad y agregar el dado a la tirada de daño del ataque. Si el objetivo es Grande o más pequeño, debe tener éxito en Fuerza tirada de salvación o tener la condición Tendido.",
@@ -1102,7 +1102,7 @@
   {
     "id": "metamagic/seeking-spell",
     "type": "option",
-    "name": "Buscando conjuro",
+    "name": "Conjuro buscador",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Costo: 1 punto de hechicería\n\nSi haces una tirada de ataque para un conjuro y fallas, puedes gastar 1 punto de hechicería para volver a tirar el d20, y debes usar la nueva tirada.\n\nPuedes usar Buscando Conjuro incluso si ya has usado una opción Metamágica diferente durante el lanzamiento del conjuro.",
@@ -1141,7 +1141,7 @@
   {
     "id": "metamagic/twinned-spell",
     "type": "option",
-    "name": "Conjuro hermanado",
+    "name": "Conjuro gemelo",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Costo: 1 punto de hechicería\n\nCuando lanzas un conjuro, como Charm Person, que se puede lanzar con un nivel superior espacio de conjuro para apuntar a una criatura adicional, puedes gastar 1 punto de hechicería para aumentar el nivel efectivo del conjuro en 1.",
@@ -1251,7 +1251,7 @@
   {
     "id": "mutagen/gelid",
     "type": "option",
-    "name": "Gelido",
+    "name": "Gélido",
     "edition": "2014",
     "source": null,
     "description": "Tienes resistencia al daño por frío y vulnerabilidad al daño por fuego.",
@@ -1264,7 +1264,7 @@
   {
     "id": "mutagen/impermeable",
     "type": "option",
-    "name": "Impermeables",
+    "name": "Impermeable",
     "edition": "2014",
     "source": null,
     "description": "Tienes resistencia al daño perforante y vulnerabilidad al daño cortante.",

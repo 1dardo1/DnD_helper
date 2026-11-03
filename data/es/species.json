@@ -112,7 +112,7 @@
   {
     "id": "aetherborn",
     "type": "species",
-    "name": "Aetherborn",
+    "name": "Nacido del éter",
     "edition": "2014",
     "source": "Cambio de avión - Kaladesh",
     "description": "*** Los Aetherborn surgen espontáneamente como parte del proceso de refinamiento del éter. Sus cuerpos y mentes aparentemente se forman a partir de alguna interacción entre los elementos volátiles del éter que se eliminan durante el refinamiento y las impresiones psíquicas creadas por las personas involucradas en el proceso. Pero cada nacido del éter es un individuo único, no una mera copia de la mente y la forma de otra persona. Esta raza es poco comprendida y pocos nacidos del éter están dispuestos a desperdiciar parte de sus cortas vidas permitiendo que los eruditos vedalken estudien sus características biológicas y psicológicas.***\n\n*** Los Aetherborn son un extraño subproducto vivo del proceso de refinamiento del éter, adoptados en forma humanoide pero que carecen de las cualidades biológicas de otras razas. No comen ni duermen y no se reproducen, ni tienen ninguna característica sexual física. El lenguaje que clasifica a las personas en categorías masculinas o femeninas se desmorona cuando se trata de etergénitos. La mayoría de los nacidos del éter prefieren que otros usen el pronombre \"ellos\" para referirse a ellos, ya que no les atribuye un género que no poseen. Sólo unos pocos prefieren \"él\" o \"ella\", ya que han elegido adoptar un género.***",
@@ -216,7 +216,7 @@
   {
     "id": "astral-elf",
     "type": "species",
-    "name": "Elfo Astral",
+    "name": "Elfo astral",
     "edition": "2014",
     "source": "Guía del aventurero astral",
     "description": "***Hace mucho tiempo, grupos de elfos se aventuraron desde Feywild al Plano Astral para estar más cerca de sus dioses. La vida en Silver Void ha imbuido sus almas con una chispa de luz divina. Esa luz se manifiesta como un brillo estrellado en los ojos de un elfo astral.***\n\n***Debido a que nada envejece en el Plano Astral, los elfos astrales que habitan ese plano pueden ser muy viejos, y su longevidad les da una perspectiva inusual sobre el paso del tiempo. Algunos son propensos a la melancolía, mientras que otros pueden mostrar falta de sentimiento. Muchos buscan formas creativas de ocuparse. Ya sea que elijan vivir en tranquila contemplación o emprender la exploración de los confines del multiverso, los elfos astrales tienden a ver las cosas a través de la lente del tiempo como si tuvieran poco o ningún significado para ellos. Los elfos astrales que no habitan en el Plano Astral pueden vivir hasta más de 750 años.***",
@@ -326,7 +326,7 @@
   {
     "id": "aven",
     "type": "species",
-    "name": "Avén",
+    "name": "Aven",
     "edition": "2014",
     "source": "Cambio de avión - Amonkhet",
     "description": "La mayoría de los aven con cabeza de ibis, atraídos por las enseñanzas de Kefnet, se especializan en lanzar conjuros. Se enorgullecen de todas las cualidades que comparten con el dios del conocimiento: no sólo sus cabezas de ave, sino también su rápido ingenio, confianza en sí mismos, astucia y destreza para lanzar conjuros.",
@@ -415,7 +415,7 @@
   {
     "id": "bugbear",
     "type": "species",
-    "name": "Osito",
+    "name": "Osgo",
     "edition": "2014",
     "source": "Mordenkainen presenta: Monstruos del multiverso",
     "description": "***Ni insectos ni osos, los osgos son los primos descomunales de los duendes y los hobgoblins. Con raíces en Feywild, los primeros osgos residían en lugares ocultos, en espacios oscuros y de difícil acceso. Hace mucho tiempo y por el rabillo del ojo, llegaron al Plano Material, instados a extenderse por el multiverso por el dios conquistador Maglubiyet. Siglos después, todavía tienen el don de las hadas para acechar fuera de la vista, y muchos de ellos se han escapado de la influencia de ese dios.***\n\n***Tienen extremidades largas y están cubiertas de pelo áspero, con orejas en forma de cuña y dientes puntiagudos. A pesar de su formidable constitución, los osgos son merodeadores silenciosos, gracias a una magia feérica que les permite esconderse en espacios que parecen demasiado pequeños para ellos.***",
@@ -564,7 +564,7 @@
             "description": "Cuentas como una talla más grande al determinar tu capacidad de carga y el peso que puedes empujar o arrastrar. Además, cualquier escalada que requiera manos y pies te resulta especialmente difícil debido a tus piernas equinas. Cuando realizas una subida de este tipo, cada pie de movimiento te cuesta 4 pies extra, en lugar del 1 pie extra normal."
           },
           {
-            "name": "Sobreviviente",
+            "name": "Superviviente",
             "level": 1,
             "description": "Tienes competencia en una de las siguientes habilidades: manejo de animales, medicina, naturaleza o supervivencia."
           }
@@ -596,7 +596,7 @@
             "description": "Cuentas como una talla más grande al determinar tu capacidad de carga y el peso que puedes empujar o arrastrar. Además, cualquier escalada que requiera manos y pies te resulta especialmente difícil debido a tus piernas equinas. Cuando realizas una subida de este tipo, cada pie de movimiento te cuesta 4 pies extra, en lugar del 1 pie extra normal."
           },
           {
-            "name": "Sobreviviente",
+            "name": "Superviviente",
             "level": 1,
             "description": "Tienes competencia en una de las siguientes habilidades: manejo de animales, medicina, naturaleza o supervivencia."
           }
@@ -816,7 +816,7 @@
         "description": "Tienes visión en la oscuridad con un alcance de 60 pies."
       },
       {
-        "name": "Escalada de araña",
+        "name": "Trepar cual arácnido",
         "level": 1,
         "description": "Tienes una velocidad de ascenso igual a tu velocidad. Cuando alcances el nivel 3 de personaje, podrás moverte hacia arriba, hacia abajo y a través de superficies verticales y a lo largo de techos dejando tus manos libres."
       },
@@ -840,7 +840,7 @@
   {
     "id": "dragonborn",
     "type": "species",
-    "name": "Nacido de dragón",
+    "name": "Dracónido",
     "edition": "2024",
     "source": "Manual del jugador",
     "description": "Los antepasados ​​de los dragonborn nacieron de huevos de dragones cromáticos y metálicos. Una historia sostiene que estos huevos fueron bendecidos por los dioses dragones Bahamut y Tiamat, que querían poblar el multiverso con personas creadas a su imagen. Otra historia afirma que los dragones crearon al primer nacido de dragón sin las bendiciones de los dioses. Cualquiera que sea su origen, los dragonborn se han hecho un hogar en el plano material.\n\nLos Dragonborn parecen dragones bípedos y sin alas (escamosos, de ojos brillantes y huesos gruesos con cuernos en la cabeza) y su coloración y otras características recuerdan a sus ancestros dracónicos.",
@@ -961,7 +961,7 @@
         "description": "Ya conoces el truco de Dancing Lights. Cuando alcanzas el nivel 3 de personaje, siempre tienes preparado el conjuro Faerie Fire. Cuando alcanzas el nivel 5 de personaje, siempre tienes preparado el conjuro Web. Puedes lanzar cada uno de estos conjuros una vez sin un espacio de conjuro. Una vez que lanzas cualquiera de estos conjuros con este rasgo, no puedes volver a lanzar ese conjuro con él hasta que termines un descanso largo. También puedes lanzar estos conjuros usando cualquier espacios de conjuro que tengas del nivel apropiado.  \nInteligencia, Sabiduría o Carisma es tu aptitud mágica para los conjuros que lanzas con este rasgo (elige la habilidad cuando selecciones esta especie)."
       },
       {
-        "name": "Escalada de araña",
+        "name": "Trepar cual arácnido",
         "level": 1,
         "description": "Tienes una velocidad de ascenso igual a tu velocidad. Cuando alcances el nivel 3 de personaje, podrás moverte hacia arriba, hacia abajo y a través de superficies verticales y a lo largo de techos dejando tus manos libres."
       },
@@ -1070,7 +1070,7 @@
   {
     "id": "duskling",
     "type": "species",
-    "name": "Anochecer",
+    "name": "Duskling",
     "edition": "2024",
     "source": "Lanzamientos de D&D Beyond – Septiembre de 2026",
     "description": "Los Dusklings son un pueblo que abandonó Feywild para establecerse en tierras boscosas tanto de los planos exteriores como del plano material. La magia inherente de Feywild todavía corre a través de ellos, dándoles a los crepúsculos la capacidad de impregnarse de efectos mágicos.\n\nLos polluelos que viajan en los aviones a menudo viven en comunidades migratorias que siguen los rebaños de ganado que cuidan. Cuando los recursos se agotan en un lugar, se trasladan a otro. Los jóvenes crepúsculos practican juegos atrevidos que los animan a aprovechar y utilizar sus poderes internos.",
@@ -1165,7 +1165,7 @@
   {
     "id": "earth-genasi",
     "type": "species",
-    "name": "Genasí de Tierra",
+    "name": "Genasí de tierra",
     "edition": "2014",
     "source": "Mordenkainen presenta: Monstruos del multiverso",
     "description": "***Al rastrear su ascendencia hasta los genios de los planos elementales, cada genasí puede aprovechar el poder de uno de los elementos. Aire, tierra, fuego y agua: estos son los cuatro pilares del Plano Material y los cuatro tipos de genasi. Algunos genasí son descendientes directos de un genio, mientras que otros nacieron de padres no genasí que vivían cerca de un lugar bañado por la magia de un genio.***\n\n***Un genasí típico tiene una vida útil de 120 años***\n\n***Rastreando su ascendencia hasta dao, los genios del Plano Elemental de la Tierra, los genasi terrestres heredan la fuerza inquebrantable de dao y el control sobre la tierra.***\n\n***La piel de un genasí de tierra puede tener los colores de la piedra y la tierra o un tono de piel humana con destellos brillantes como polvo de gemas. Algunos genasí de tierra tienen líneas que marcan su piel como grietas, ya sea mostrando venas brillantes como gemas o un brillo tenue y amarillento. El cabello de genasí de tierra puede parecer tallado en piedra o cristal o parecerse a hebras de metal hilado.***",
@@ -1707,7 +1707,7 @@
   {
     "id": "flamekin",
     "type": "species",
-    "name": "Llamakin",
+    "name": "Flamekin",
     "edition": "2024",
     "source": "Lorwyn - Primera luz",
     "description": "Los Flamekin son personas hechas de dos elementos clave de la creación: fuego y piedra. Como resultado, muchos flamekin sienten una fuerte conexión con el mundo natural. Los cuerpos de Flamekin irradian llamas mágicas inofensivas, aunque poseen magia innata que les permite crear llamas ardientes en multitud de formas.\n\nFlamekin considera que el autodescubrimiento y la autoexpresión son las aspiraciones más nobles y cree que la autorrealización es lo más importante que un individuo puede hacer con su vida. Flamekin llama a esta búsqueda de toda la vida el Camino de la Llama.\n\nLos Flamekin habitan en Lorwyn o Shadowmoor. Física y culturalmente son similares en ambas tierras.",
@@ -1744,7 +1744,7 @@
   {
     "id": "giff",
     "type": "species",
-    "name": "Gif",
+    "name": "Giff",
     "edition": "2014",
     "source": "Spelljammer: Aventuras en el espacio - Guía del aventurero astral",
     "description": "*** Los Giff son gente alta, de hombros anchos y rasgos parecidos a los de un hipopótamo. Algunos tienen la piel suave, mientras que otros tienen cerdas cortas en la cara y en la parte superior de la cabeza. Como seres de tamaño impresionante y apariencia inolvidable, los giff se hacen notar dondequiera que vayan.***\n\n***La mayoría de los giff creen que se originaron en un mundo, pero su mundo natal ahora es materia de leyenda, porque ningún giff vivo lo ha visto o sabe dónde está. Los seres divinos que crearon giff también han sido olvidados. Sus titánicos cuerpos petrificados flotan en el Mar Astral, aislados e irreconocibles en su forma actual.***\n\n***Aunque no se dan cuenta, los giff se sienten atraídos por el plano astral porque, en un nivel psíquico profundo, permanecen conectados con sus dioses creadores, a quienes les queda suficiente chispa divina para imbuir a giff con sus propias chispas, que los giff han aprendido a canalizar a través de sus armas. La mayoría de los giff no tienen idea de dónde proviene esta llamada chispa astral, pero sienten su presencia con mayor fuerza cuando están en el Espacio Salvaje o el Mar Astral.***\n\n***Giff se divide en dos bandos con respecto a cómo se pronuncia su nombre. La mitad de ellos lo dicen con g fuerte, la otra mitad con g suave. Los desacuerdos sobre la pronunciación correcta a menudo derivan en resentimientos, discusiones ruidosas y enfrentamientos a cabezazos, pero rara vez van más allá de eso.***",
@@ -1915,7 +1915,7 @@
   {
     "id": "glitchling-ua",
     "type": "species",
-    "name": "Fallo",
+    "name": "Glitchling",
     "edition": "2014",
     "source": "Arcanos 85 desenterrados - Maravillas del multiverso",
     "description": "***Creados por fuerzas de la ley plana, los glitchlings son criaturas aladas con apariencia humana creadas a partir de una fusión de magia y máquina. Estos exploradores buscan aprender todo lo que puedan sobre el multiverso y sus criaturas. Luego, algunos fallos llevan lo que aprenden a planos legales, como Mechanus, para informar el funcionamiento ordenado del multiverso. Otros se enamoran de los viajes y de los pueblos que encuentran, y buscan hacer su propia vida entre los aviones.***\n\n***Los Glitchlings comienzan su existencia con personalidades rudimentarias. A medida que absorben información y experiencias, sus personalidades crecen, pero muchos conservan peculiaridades asociadas con sus orígenes legítimos. Puedes tirar o elegir una peculiaridad de la tabla de Quirks ordenados o crear la tuya propia.***\n\n| d6 | encabezado |\n|---|---|\n| 1 | Colecciono cosas, ya sea un tipo específico de objeto o cosas hechas de un material particular. |\n| 2 | Nos consideramos parte de las fuerzas colectivas y legales del multiverso y no nos referimos a nosotros mismos como un ser singular. |\n| 3 | Busco nuevas experiencias para poder comprender mejor la libertad de mi existencia. |\n| 4 | Prefacio las cosas que digo con una breve descripción, como: \"observación\", \"interjección\" o \"consulta\". |\n| 5 | Planifico respuestas elaboradas para cada contingencia, listas para ejecutarse en cualquier momento. |\n| 6 | Investigo las intenciones de las personas detrás de sus acciones, tratando de resolver la ecuación que las guía. |\n\n**RASGOS BRILLANTES**  \nComo problema técnico, tienes los siguientes rasgos raciales.",
@@ -2004,7 +2004,7 @@
   {
     "id": "goblin",
     "type": "species",
-    "name": "Duende",
+    "name": "Goblin",
     "edition": "2014",
     "source": "Mordenkainen presenta: Monstruos del multiverso",
     "description": "***Los duendes, un pueblo subterráneo, se pueden encontrar en todos los rincones del multiverso, a menudo junto a sus parientes osgos y hobgoblins. Mucho antes de que el dios Maglubiyet los conquistara, los primeros goblins servían en la corte de la Reina del Aire y la Oscuridad, una de las archifey de Feywild. Los duendes prosperaron en su peligroso dominio gracias a una bendición especial suya: una habilidad sobrenatural para encontrar los puntos débiles en enemigos más grandes que ellos y salir de los problemas. Los duendes trajeron consigo esta bendición de las hadas a mundos de todo el plano material, incluso si no recuerdan el reino de las hadas que habitaban antes del ascenso de Maglubiyet. Ahora muchos duendes persiguen sus propios destinos, escapando de las conspiraciones tanto de los archienemigos como de los dioses.***",
@@ -2162,7 +2162,7 @@
   {
     "id": "grung-oga",
     "type": "species",
-    "name": "Grunge",
+    "name": "Grung",
     "edition": "2014",
     "source": "Un Grung Arriba, Vida Extra 2017",
     "description": "***Los grungs son humanoides agresivos parecidos a ranas que se encuentran en las selvas tropicales y las selvas tropicales. Son tremendamente territoriales y se consideran superiores a la mayoría de las demás criaturas.***\n\n***La sociedad grunge es un sistema de castas. Cada casta pone huevos en un grupo de eclosión separado, y los grupos juveniles se unen a su casta al salir del criadero. Todos los grungs son de un gris verdoso opaco cuando nacen, pero cada individuo adquiere el color de su casta a medida que crece hasta la edad adulta. De la casta más baja a la más alta, los grungs pueden ser verdes, azules, morados, rojos, naranjas u dorados.***\n\n***Todos los grungs secretan una sustancia que es inofensiva para ellos pero venenosa para otras criaturas. Un grung también usa veneno para envenenar sus armas. Los grungs siempre están buscando criaturas que puedan capturar y esclavizar. Los grungs utilizan esclavos para todo tipo de tareas menores, pero sobre todo les gusta darles órdenes. Los esclavos son alimentados con alimentos levemente envenenados para mantenerlos letárgicos y dóciles. Una criatura afectada de esta manera durante un largo período de tiempo se convierte en un caparazón de lo que era antes y sólo puede ser restaurada a la normalidad mediante magia. Al ser anfibios, los grungs necesitan agua para vivir; cualquier grung que no se sumerja en agua durante al menos 1 hora durante un día queda bastante agotado.***\n\n***Los grungs verdes son los guerreros, cazadores y trabajadores de la tribu, y los grungs azules trabajan como artesanos y en otras funciones domésticas. Supervisando y guiando a ambos grupos están los grungs morados, que sirven como administradores y comandantes. Los grungs rojos son los eruditos y usuarios de magia de la tribu. Son superiores a los grungs morados, azules y verdes y reciben el debido respeto incluso por parte de grungs de mayor estatus. Las castas superiores incluyen los grungs naranjas, que son guerreros de élite que tienen autoridad sobre todos los grungs menores, y los grungs dorados, que ocupan las posiciones de liderazgo más altas. El soberano de una tribu es siempre un hombre de oro.***\n\n***Un grung normalmente permanece en su casta de por vida. En raras ocasiones, un individuo que se distingue por sus grandes hazañas puede ganarse una invitación para unirse a una casta superior. A través de una combinación de tónicos herbales y magia ritual, un grung elevado cambia de color y es incorporado a su nueva casta de la misma manera que lo sería un juvenil de la casta. A partir de entonces, el grung y su progenie son miembros de la casta superior.***",
@@ -2546,7 +2546,7 @@
   {
     "id": "hexblood",
     "type": "species",
-    "name": "Sangre maleficio",
+    "name": "Sangre de bruja",
     "edition": "2024",
     "source": "Ravenloft - Los horrores internos",
     "description": "Los Hexbloods son individuos infundidos con magia feérica como resultado de energía sobrenatural o brujería misteriosa. Muchos sangre maleficio se transforman en tales seres después de hacer un trato con una bruja poderosa, pero otras fuerzas extrañas pueden resultar en el nacimiento de un sangre maleficio. El extraño poder feérico de una sangre hexadecimal se manifiesta como una clarividencia espeluznante y una magia seductora.",
@@ -2576,7 +2576,7 @@
   {
     "id": "hobgoblin",
     "type": "species",
-    "name": "Duende",
+    "name": "Hobgoblin",
     "edition": "2014",
     "source": "Mordenkainen presenta: Monstruos del multiverso",
     "description": "***Los hobgoblins tienen sus orígenes en las antiguas cortes de Feywild, donde aparecieron por primera vez con sus parientes duendes y osgos. Muchos de ellos fueron expulsados ​​de Feywild por el dios conquistador Maglubiyet, quien los reunió como soldados, pero el reino de las hadas dejó su huella; Dondequiera que estén en el multiverso, continúan canalizando un aspecto de la regla de reciprocidad de Feywild, que crea un vínculo místico entre el dador y el receptor de un regalo.***\n\n***En algunos mundos, estos vínculos llevan a los hobgoblins a formar comunidades con profundos vínculos entre sí. En Eberron y los Reinos Olvidados, han surgido vastas legiones de duendes, con filas de soldados devotos famosos por su unidad.***\n\n***Los hobgoblins son generalmente más altos que sus primos duendes, pero no tan grandes como los osgos. Tienen orejas y narices curvas y puntiagudas que se vuelven de color rojo o azul brillante durante las manifestaciones de emoción.***",
@@ -2936,7 +2936,7 @@
   {
     "id": "khoravar",
     "type": "species",
-    "name": "Jorávar",
+    "name": "Khoravar",
     "edition": "2024",
     "source": "Eberron - Forja del Artífice",
     "description": "A lo largo de los siglos, los descendientes tanto de humanos como de elfos han desarrollado sus propias comunidades y tradiciones en Khorvaire. El ascenso de la Casa Lyrandar y la Casa Medani ha fortalecido esta identidad. Los miembros de estas comunidades se llaman a sí mismos Khoravar, un término élfico que significa \"hijos de Khorvaire\", ya que no les gusta el término \"semielfo\".\n\nMuchos Khoravar abrazan la idea de ser \"el puente entre\", creyendo que están llamados a facilitar la comunicación y la cooperación entre miembros de diferentes culturas o especies. Los khoravar que siguen esta filosofía suelen convertirse en bardos, diplomáticos, mediadores o traductores. Otros, fascinados por su conexión distante con los Fey, buscan construir puentes entre el Plano Material y el Feywild de Thelanis. Estos Khoravar a menudo se convierten en druidas o brujos con patrocinadores archifadas.",
@@ -2983,7 +2983,7 @@
   {
     "id": "kobold",
     "type": "species",
-    "name": "Kóbold",
+    "name": "Kobold",
     "edition": "2014",
     "source": "Mordenkainen presenta: Monstruos del multiverso",
     "description": "***Los kobolds, unas de las criaturas dracónicas más pequeñas del multiverso, muestran su ascendencia dracónica en el brillo de sus escamas y en sus rugidos. Las leyendas hablan de los primeros kobolds que surgieron de la Infraoscuridad cerca de las guaridas de los primeros dragones. En algunas tierras, los kobolds sirven a dragones cromáticos o metálicos, e incluso los adoran como seres divinos. En otros lugares, los kobolds saben muy bien lo peligrosos que pueden ser esos dragones y ayudan a otros a defenderse de la destrucción dracónica.***\n\n*** Cualquiera que sea su relación con los dragones, las escamas de los kobold tienden a ser de color óxido, aunque el kobold ocasional luce un color de escamas más parecido al de un dragón cromático o metálico. El grito de un kobold puede expresar una variedad de emociones: ira, resolución, euforia, miedo y más. Independientemente de la emoción expresada, su grito resuena con poder dracónico.***",
@@ -3099,7 +3099,7 @@
         "description": "Tienes competencia en las habilidades de atletismo y acrobacia."
       },
       {
-        "name": "Suerte",
+        "name": "Afortunado",
         "level": 1,
         "description": "Cuando sacas un 1 en el d20 para una tirada de ataque, prueba de característica o tirada de salvación, puedes volver a tirar el dado y debes usar la nueva tirada."
       },
@@ -3156,7 +3156,7 @@
   {
     "id": "leonin",
     "type": "species",
-    "name": "Leonina",
+    "name": "Leonino",
     "edition": "2014",
     "source": "Odiseas míticas de Theros",
     "description": "***Los leonin protegen las brillantes tierras de Oreskos, una llanura dorada donde incluso los dioses rara vez traspasan. Las manadas de estos humanoides nómadas con apariencia de leones rara vez interactúan con otros pueblos, ya que tienen todo lo que necesitan en su resplandeciente tierra natal y conocen la traición de los extraños. Aún así, algunos leoninos se preguntan qué hay más allá de las montañas fronterizas de Oreskos y buscan probarse en un mundo más amplio.***",
@@ -3464,7 +3464,7 @@
   {
     "id": "merfolk",
     "type": "species",
-    "name": "Tritones",
+    "name": "Gente del mar",
     "edition": "2014",
     "source": "Cambio de Avión - Ixalan",
     "description": "***Los tritones son una raza anfibia, nacida y a gusto en el agua pero cómoda en tierra firme. De forma humanoide, tienen piel de marfil, plata, rojizo, azul o morado oscuro. Aletas largas se extienden desde la parte posterior de sus antebrazos y pantorrillas, y sus dedos de manos y pies están palmeados. Los crecimientos parecidos a pelos en sus cabezas son gruesos y erizados como las agujas de un erizo de mar, o largos y ondulados, parecidos a finas algas. En cualquier caso, estos crecimientos suelen variar en color desde el rojo hasta el marrón cálido y el negro. Los tritones machos tienen crecimientos similares que se extienden desde los pómulos.***\n\nLos River Heralds son tritones, una raza de humanoides anfibios que viven en los océanos, ríos y selvas tropicales de Ixalan. Miden entre siete y ocho pies de altura, con una piel que va desde el color burdeos intenso, pasando por muchos tonos de violeta y azul, hasta el verde, el naranja brillante y el amarillo. Tienen forma humana, pero tienen aletas largas que se extienden desde los hombros, antebrazos, espalda media y pantorrillas. Los volantes de aletas también sobresalen de la parte posterior de sus cabezas. Todos los tritones pueden respirar aire o filtrar oxígeno del agua, y pueden caminar por la tierra o nadar con la misma facilidad.",
@@ -3812,7 +3812,7 @@
   {
     "id": "owlin-scc",
     "type": "species",
-    "name": "Búho",
+    "name": "Owlin",
     "edition": "2014",
     "source": "Strixhaven: un plan de estudios del caos",
     "description": "***Parientes lejanos de los búhos gigantes de Feywild, los búhos vienen en muchas formas y tamaños, desde pequeños y esponjosos hasta majestuosos y de alas anchas. Owlin tiene brazos y piernas como otros humanoides, así como alas que se extienden desde la espalda y los hombros.  \nAl igual que los búhos, los búhos están adornados con plumas que no emiten ningún sonido cuando se mueven o vuelan, lo que les facilita acecharte sigilosamente en la biblioteca.  \nTu personaje búho podría ser nocturno. O tal vez tu personaje simplemente tiende a levantarse más tarde, encarnando el apodo común de ave nocturna.***",
@@ -3956,7 +3956,7 @@
   {
     "id": "reborn",
     "type": "species",
-    "name": "Renacer",
+    "name": "Renacido",
     "edition": "2024",
     "source": "Ravenloft - Los horrores internos",
     "description": "Los renacidos son individuos que han muerto pero inexplicablemente siguen vivos. Algunos renacidos exhiben las cicatrices de finales fatales, su carne cenicienta o sus venas sin sangre dejan claro que han escapado de la muerte. Otros renacidos son maravillas de la magia o la ciencia, formados a partir de seres dispares o portadores de mentes misteriosas en cuerpos fabricados. Cualesquiera que sean sus orígenes, los renacidos conocen una nueva vida y buscan experiencias y respuestas propias.",
@@ -3996,7 +3996,7 @@
   {
     "id": "revenant-ua",
     "type": "species",
-    "name": "Renacido",
+    "name": "Retornado",
     "edition": "2014",
     "source": "Arcanos desenterrados 15 - Héroes góticos",
     "description": "***Habiendo encontrado un final cruel e inmerecido, has regresado al reino de los vivos. Como retornado, tienes sed de venganza contra aquellos que te hicieron daño en la vida o buscas completar una tarea final y crítica que dejaste sin terminar.***\n\n***La subraza retornada se puede aplicar a cualquier raza que tenga una subraza y reemplaza las opciones de subraza existentes de esa raza. Alternativamente, puedes aplicar esta nueva subraza a una carrera sin opciones de subraza usando las opciones de modificación que se proporcionan a continuación.***\n\n***Tu DM también podría permitirte tomar esta subraza para un personaje asesinado. En ese caso, tu personaje resucita de entre los muertos con su subraza original reemplazada (o con las modificaciones necesarias realizadas en sus rasgos básicos), lleno de determinación de buscar venganza o completar su misión.***",
@@ -4087,7 +4087,7 @@
     "darkvision": null,
     "traits": [
       {
-        "name": "Carnero",
+        "name": "Ariete",
         "level": 1,
         "description": "Puedes usar tu cabeza y tus cuernos para realizar ataques desarmados. Cuando golpeas con ellos, el golpe causa 1d6 + tu modificador de Fuerza de daño contundente, en lugar del daño contundente normal para un ataque sin armas."
       },
@@ -4118,7 +4118,7 @@
             "description": "Tu tipo de criatura es hada, en lugar de humanoide."
           },
           {
-            "name": "Carnero",
+            "name": "Ariete",
             "level": 1,
             "description": "Puedes usar tu cabeza y tus cuernos para realizar ataques desarmados. Si golpeas con ellos, infliges un daño contundente igual a 1d4 + tu modificador de Fuerza."
           },
@@ -4248,7 +4248,7 @@
   {
     "id": "shadar-kai",
     "type": "species",
-    "name": "Shadar Kai",
+    "name": "Shadar-kai",
     "edition": "2014",
     "source": "Mordenkainen presenta: Monstruos del multiverso",
     "description": "***Shadar-kai son los elfos de Shadowfell, originalmente atraídos a ese temible reino por la Reina Cuervo. A lo largo de los siglos, algunos de ellos han seguido sirviéndola, mientras que otros se han aventurado en el Plano Material para forjar sus propios destinos.***\n\n***Una vez los shadar-kai eran Fey como el resto de sus parientes elfos; ahora existen en un estado entre la vida y la muerte, gracias a que fueron transformados por la energía sombría de Shadowfell.***\n\n***Los Shadar-kai tienen tonos de piel cenicientos y, mientras están en Shadowfell, también se vuelven marchitos, lo que refleja la naturaleza sombría de ese sombrío plano.***\n\n***Al igual que otros elfos, shadar-kai puede vivir hasta más de 750 años.***",
@@ -4341,7 +4341,7 @@
   {
     "id": "shifter",
     "type": "species",
-    "name": "Palanca de cambios",
+    "name": "Cambiaformas",
     "edition": "2024",
     "source": "Eberron - Forja del Artífice",
     "description": "Los cambiaformas, a veces llamados \"fueron tocados\", descienden de personas que contrajeron licantropía total o parcial. Los humanoides con un aspecto bestial, los cambiaformas, no pueden cambiar de forma por completo, pero pueden mejorar sus características animales temporalmente en un proceso que llaman \"cambio\".\n\nLos cambiaformas se parecen a los humanos en altura y constitución, pero suelen ser más ágiles y flexibles. Sus rasgos faciales tienen un aspecto bestial, a menudo con ojos grandes y orejas puntiagudas; la mayoría de los cambiaformas también poseen dientes caninos prominentes. Les crece pelo parecido a un pelaje en casi todas las partes de su cuerpo. Si bien la apariencia de un cambiaformas puede recordarle a un espectador la de un animal, el cambiaformas sigue siendo claramente identificable como un humanoide incluso en su forma más salvaje.",
@@ -4579,10 +4579,10 @@
   {
     "id": "tiefling",
     "type": "species",
-    "name": "Tiflin",
+    "name": "Tiefling",
     "edition": "2024",
     "source": "Manual del jugador",
-    "description": "Los Tieflings nacen en los Planos Inferiores o tienen ancestros diabólicos que se originaron allí. Un tifling (pronunciado TEE-fling) está vinculado por sangre a un diablo, un demonio o algún otro demonio. Esta conexión con los Planos Inferiores es el legado diabólico de los tiflin, que viene con la promesa de poder pero no tiene ningún efecto en la perspectiva moral de los tiflin.\n\nUn tiflin elige si abraza o lamenta su legado diabólico. Los tres legados se describen a continuación.\n\n##### Abisal\n\nLa entropía del Abismo, el caos del Pandemonium y la desesperación de Carceri llaman a los tiflins que tienen el legado abisal. Cuernos, pieles, colmillos y olores peculiares son características físicas comunes de estos tiflins, la mayoría de los cuales tienen sangre de demonios corriendo por sus venas.\n\n##### Ctónico\n\nLos tiflin que tienen el legado ctónico sienten no sólo el tirón de Carceri sino también la codicia de la Gehena y la tristeza del Hades. Algunos de estos tiflins parecen cadavéricos. Otros poseen la belleza sobrenatural de un súcubo, o tienen rasgos físicos en común con una bruja nocturna, un yugoloth o algún otro ancestro diabólico del Mal Neutral.\n\n##### Infernal\n\nEl legado infernal conecta a los tiflin no sólo con la Gehena sino también con los Nueve Infiernos y los furiosos campos de batalla de Acheron. Cuernos, espinas, colas, ojos dorados y un leve olor a azufre o humo son rasgos físicos comunes de estos tiflins, la mayoría de los cuales tienen su ascendencia en los demonios.",
+    "description": "Los Tieflings nacen en los Planos Inferiores o tienen ancestros diabólicos que se originaron allí. Un tifling (pronunciado TEE-fling) está vinculado por sangre a un diablo, un demonio o algún otro demonio. Esta conexión con los Planos Inferiores es el legado diabólico de los tiefling, que viene con la promesa de poder pero no tiene ningún efecto en la perspectiva moral de los tiefling.\n\nUn tiefling elige si abraza o lamenta su legado diabólico. Los tres legados se describen a continuación.\n\n##### Abisal\n\nLa entropía del Abismo, el caos del Pandemonium y la desesperación de Carceri llaman a los tieflings que tienen el legado abisal. Cuernos, pieles, colmillos y olores peculiares son características físicas comunes de estos tieflings, la mayoría de los cuales tienen sangre de demonios corriendo por sus venas.\n\n##### Ctónico\n\nLos tiefling que tienen el legado ctónico sienten no sólo el tirón de Carceri sino también la codicia de la Gehena y la tristeza del Hades. Algunos de estos tieflings parecen cadavéricos. Otros poseen la belleza sobrenatural de un súcubo, o tienen rasgos físicos en común con una bruja nocturna, un yugoloth o algún otro ancestro diabólico del Mal Neutral.\n\n##### Infernal\n\nEl legado infernal conecta a los tiefling no sólo con la Gehena sino también con los Nueve Infiernos y los furiosos campos de batalla de Acheron. Cuernos, espinas, colas, ojos dorados y un leve olor a azufre o humo son rasgos físicos comunes de estos tieflings, la mayoría de los cuales tienen su ascendencia en los demonios.",
     "url": "https://dnd2024.wikidot.com/species:tiefling",
     "creatureType": "humanoid",
     "size": [
@@ -4677,7 +4677,7 @@
   {
     "id": "tortle",
     "type": "species",
-    "name": "Tortuga",
+    "name": "Tortle",
     "edition": "2014",
     "source": "Mordenkainen presenta: Monstruos del multiverso",
     "description": "***Las tortugas tienen un dicho: \"Llevamos nuestras casas a la espalda\". Esta gente de tortugas vive en muchos mundos, y la mayoría de las veces viajan arriba y abajo de costas, a lo largo de canales y a través del mar. Las tortugas no tienen una historia unificada de cómo fueron creadas, pero todas tienen la sensación de estar conectadas místicamente con el mundo natural. Llevar su refugio a la espalda les da a las tortugas una sensación especial de seguridad dondequiera que vayan, porque incluso si visitan un país lejano y desconocido, tienen un lugar donde descansar.***\n\n***Las tortugas exhiben la misma gama de coloración y patrones que se encuentran entre las tortugas, y muchas tortugas disfrutan adornando sus caparazones de maneras distintivas.***",
@@ -5179,7 +5179,7 @@
   {
     "id": "yuan-ti",
     "type": "species",
-    "name": "Yuan Ti",
+    "name": "Yuan-ti",
     "edition": "2014",
     "source": "Mordenkainen presenta: Monstruos del multiverso",
     "description": "***Los Yuan-ti eran originalmente humanos que se transformaron en serpientes a través de antiguos rituales. La mayoría de los yuan-ti fueron corrompidos y convertidos en monstruos por esos ritos, pero algunos yuan-ti se convirtieron en un nuevo pueblo que mezcla características de humanos y serpientes.***\n\n***Bendecidos con resistencia a los efectos mágicos y venenosos de los rituales que los crearon, cada uno de estos yuan-ti manifiesta su herencia serpentina de diversas maneras: una lengua bífida, ojos de serpiente, una nariz con forma de serpiente o alguna otra característica ofidiana. Independientemente de cómo se vea un yuan-ti, tiene el poder de perseguir un gran bien o mal en el multiverso.***",
