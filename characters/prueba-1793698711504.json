@@ -3,7 +3,7 @@
   "id": "prueba-1793698711504",
   "name": "Prueba",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-03T09:38:31.505Z",
+  "updatedAt": "2026-11-03T09:38:48.632Z",
   "updatedBy": "M33SamsungDeCarlos",
   "species": {
     "id": "aarakocra",
@@ -207,14 +207,16 @@
       0,
       0
     ],
-    "resources": {},
+    "resources": {
+      "fighter:second wind": 1
+    },
     "pactSlotsSpent": 0,
     "hitDiceSpent": {},
     "deathSaves": {
       "successes": 0,
       "failures": 0
     },
-    "heroicInspiration": false,
+    "heroicInspiration": true,
     "conditions": [],
     "exhaustion": 0,
     "spellSwap": {}
