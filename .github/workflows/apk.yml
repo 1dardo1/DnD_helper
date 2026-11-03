@@ -30,15 +30,15 @@ jobs:
       run:
         working-directory: app
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
           cache-dependency-path: app/package-lock.json
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 21
@@ -46,13 +46,19 @@ jobs:
       - run: npm ci
 
       - name: Build the web app with the data inside
+        # APP_BUILD: the app compares it with the "build: N" line of the release notes to offer
+        # the newer APK (src/app/core/app-update/).
         run: |
-          npx ng build -c production,bundled
+          npx ng build -c production,bundled --define APP_BUILD=${{ github.run_number }}
           node scripts/bundle-data.mjs dist/app/browser
 
       - name: Android project (generated, not kept in the repo)
         run: |
           npx cap add android
+          # launcher icon (adaptive and legacy) and splash from android-assets/ (README: Web y Android)
+          npx --yes @capacitor/assets@3.0.5 generate --android --assetPath android-assets \
+            --iconBackgroundColor '#3b2416' --iconBackgroundColorDark '#3b2416' \
+            --splashBackgroundColor '#3b2416' --splashBackgroundColorDark '#3b2416'
           npx cap sync android
           # versionCode grows with every run, so Android accepts each APK as an update
           sed -i "s/versionCode 1$/versionCode ${{ github.run_number }}/; s/versionName \"1.0\"/versionName \"1.0.${{ github.run_number }}\"/" android/app/build.gradle
@@ -85,7 +91,7 @@ jobs:
           "$BT/apksigner" verify dnd-helper.apk
           rm -f release.keystore
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: dnd-helper-apk
           path: app/dnd-helper.apk
@@ -94,7 +100,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          NOTES="APK generada automáticamente desde ${GITHUB_SHA::7} (ejecución ${{ github.run_number }})."
+          # The app reads the "build: N" line to tell whether there's a newer APK: keep it on a
+          # line of its own. The APK is uploaded before the notes change.
+          NOTES="APK generada automáticamente desde ${GITHUB_SHA::7} (ejecución ${{ github.run_number }}).
+
+          build: ${{ github.run_number }}"
           if gh release view android-latest >/dev/null 2>&1; then
             gh release upload android-latest dnd-helper.apk --clobber
             gh release edit android-latest --notes "$NOTES"

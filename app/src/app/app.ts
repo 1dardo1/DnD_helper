@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ViewportScroller } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet, Scroll } from '@angular/router';
 
+import { ApkUpdateService } from './core/app-update/apk-update.service';
 import { CharacterStore } from './core/characters/character-store.service';
 import { SyncService } from './core/characters/sync.service';
 import { RepositoryService } from './core/data/repository.service';
@@ -10,10 +11,11 @@ import { DevUpdateService } from './core/dev/dev-update.service';
 import { AppUpdateService } from './core/pwa/app-update.service';
 import { I18nService, TranslatePipe } from './core/i18n/i18n.service';
 import { Language, SettingsService } from './core/settings/settings.service';
+import { ApkUpdateNotice } from './shared/apk-update-notice';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, TranslatePipe],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, TranslatePipe, ApkUpdateNotice],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -40,6 +42,7 @@ export class App {
     effect(() => (document.documentElement.lang = this.language()));
     void this.store.load();
     this.sync.start(inject(DestroyRef));
+    void inject(ApkUpdateService).start();
     this.scrollOnNavigation();
   }
 

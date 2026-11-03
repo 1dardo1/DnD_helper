@@ -24,9 +24,9 @@ jobs:
       run:
         working-directory: tools/scraper
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -39,7 +39,7 @@ jobs:
         run: cp translations.es.json "$RUNNER_TEMP/translations.repo.json" 2>/dev/null || true
 
       - name: Restore translation cache backup
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: tools/scraper/translations.es.json
           key: translations-es-${{ github.run_id }}
@@ -62,7 +62,7 @@ jobs:
       # Downloaded pages are cached between runs; only pages changed since (sitemap lastmod) are fetched again.
       - name: Restore page cache
         if: ${{ !inputs.full_refresh }}
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: tools/scraper/.cache
           key: wiki-pages-${{ github.run_id }}
@@ -78,7 +78,7 @@ jobs:
 
       - name: Save page cache
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: tools/scraper/.cache
           key: wiki-pages-${{ github.run_id }}
@@ -86,7 +86,7 @@ jobs:
       # Backup of what's translated, in case the run fails before committing it.
       - name: Save translation cache
         if: always() && hashFiles('tools/scraper/translations.es.json') != ''
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: tools/scraper/translations.es.json
           key: translations-es-${{ github.run_id }}
