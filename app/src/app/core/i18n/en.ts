@@ -1,6 +1,7 @@
 /** UI texts in English. Keys are shared with es.ts (which must define all of them). */
 export const en = {
   'app.title': 'D&D Helper',
+  'app.home': 'D&D Helper — Compendium',
   'nav.compendium': 'Compendium',
   'nav.characters': 'Characters',
   'nav.create': 'New character',

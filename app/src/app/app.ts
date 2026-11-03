@@ -81,6 +81,14 @@ export class App {
       });
   }
 
+  /**
+   * The title always leads to the compendium home (its routerLink drops any query params) at the
+   * top, also when that page is already open: then there's no navigation to scroll it.
+   */
+  protected toTop(): void {
+    window.scrollTo(0, 0);
+  }
+
   protected setLanguage(language: string): void {
     this.settings.update({ language: language as Language });
   }

@@ -1,5 +1,7 @@
 <header class="topbar">
-  <a class="brand" routerLink="/compendium">{{ 'app.title' | t }}</a>
+  <a class="brand" routerLink="/compendium" [attr.aria-label]="'app.home' | t" (click)="toTop()">{{
+    'app.title' | t
+  }}</a>
   <nav>
     @for (item of nav; track item.path) {
       <a

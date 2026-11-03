@@ -3,6 +3,7 @@ import { en } from './en';
 /** Textos de la interfaz en español. Deben estar todas las claves de en.ts. */
 export const es: Record<keyof typeof en, string> = {
   'app.title': 'D&D Helper',
+  'app.home': 'D&D Helper — Compendio',
   'nav.compendium': 'Compendio',
   'nav.characters': 'Personajes',
   'nav.create': 'Nuevo personaje',

@@ -79,8 +79,17 @@ $wide: 60rem;
     );
   }
 
+  border-radius: var(--radius-sm);
+
   &:hover {
     color: #f3dca8;
+  }
+
+  // the gold of the tooling, around the title, on the dark leather
+  &:focus-visible {
+    color: #f3dca8;
+    outline: 2px solid #e8cf96;
+    outline-offset: 2px;
   }
 }
 
@@ -354,6 +363,10 @@ main {
   }
 
   .brand {
+    // a tap target of 44 px that doesn't make the strap taller (the row is as tall as the language
+    // select)
+    min-height: 2.75rem;
+    margin-block: -0.25rem;
     font-size: 1.65rem;
   }
 
