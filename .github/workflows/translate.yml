@@ -24,7 +24,7 @@ jobs:
       run:
         working-directory: tools/scraper
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Already complete?
         id: check
@@ -32,7 +32,7 @@ jobs:
           python3 -c "import json,sys; t=json.load(open('../../data/meta.json')).get('translation',{}).get('es',{}); sys.exit(0 if t.get('complete') else 1)" \
             && echo "done=true" >> "$GITHUB_OUTPUT" || echo "done=false" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         if: steps.check.outputs.done != 'true'
         with:
           python-version: "3.12"
@@ -48,7 +48,7 @@ jobs:
 
       - name: Restore translation cache backup
         if: steps.check.outputs.done != 'true'
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: tools/scraper/translations.es.json
           key: translations-es-${{ github.run_id }}
@@ -79,7 +79,7 @@ jobs:
 
       - name: Save translation cache
         if: always() && steps.check.outputs.done != 'true' && hashFiles('tools/scraper/translations.es.json') != ''
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: tools/scraper/translations.es.json
           key: translations-es-${{ github.run_id }}
