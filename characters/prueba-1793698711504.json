@@ -3,7 +3,7 @@
   "id": "prueba-1793698711504",
   "name": "Prueba",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-03T09:38:48.632Z",
+  "updatedAt": "2026-11-03T09:38:59.295Z",
   "updatedBy": "M33SamsungDeCarlos",
   "species": {
     "id": "aarakocra",
@@ -208,7 +208,7 @@
       0
     ],
     "resources": {
-      "fighter:second wind": 1
+      "fighter:second wind": 2
     },
     "pactSlotsSpent": 0,
     "hitDiceSpent": {},
