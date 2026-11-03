@@ -20,7 +20,7 @@
       type="button"
       class="pick-more btn-ghost"
       [attr.aria-expanded]="opened"
-      (click)="toggleOpen(item)"
+      (click)="toggleOpen(item, $event)"
     >
       {{ (opened ? 'picker.less' : 'picker.more') | t }}
     </button>

@@ -13,6 +13,7 @@
 }
 
 .pick {
+  scroll-margin-top: 5.5rem;
   @include cards.frame;
 
   &.open {
@@ -122,5 +123,11 @@ label.inline {
   .check {
     width: 1.2rem;
     height: 1.2rem;
+  }
+}
+
+@media (max-width: 44.99rem) {
+  .pick {
+    scroll-margin-top: 0.75rem;
   }
 }

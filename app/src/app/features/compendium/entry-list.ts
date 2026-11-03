@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, linkedSignal, resource } from '@angular/core';
+import { Component, computed, effect, inject, input, linkedSignal, resource } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
@@ -83,6 +83,15 @@ export class EntryList {
   // -- groups --------------------------------------------------------------------------------
   /** The facet this type is grouped by, if any. */
   protected readonly groupKey = computed(() => GROUPED[this.entryType()] ?? null);
+  /** Entering or leaving a group (same page, other query) starts at the top, like a new page. */
+  private readonly groupScroll = (() => {
+    let last: string | undefined;
+    return effect(() => {
+      const key = `${this.choosing()}|${this.groupLabel() ?? ''}`;
+      if (last !== undefined && key !== last) window.scrollTo({ top: 0 });
+      last = key;
+    });
+  })();
   /** The group open (its label), for the title. */
   protected readonly groupLabel = computed(() => {
     const key = this.groupKey();

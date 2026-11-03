@@ -1,5 +1,7 @@
 import { Component, DestroyRef, computed, effect, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ViewportScroller } from '@angular/common';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet, Scroll } from '@angular/router';
 
 import { CharacterStore } from './core/characters/character-store.service';
 import { SyncService } from './core/characters/sync.service';
@@ -36,6 +38,29 @@ export class App {
     effect(() => (document.documentElement.lang = this.language()));
     void this.store.load();
     this.sync.start(inject(DestroyRef));
+    this.scrollOnNavigation();
+  }
+
+  /**
+   * A new page starts at the top, and going back returns to where the previous one was. Changes
+   * that stay on the same page (filters kept in the URL) don't move it.
+   */
+  private scrollOnNavigation(): void {
+    const scroller = inject(ViewportScroller);
+    let path = '';
+    inject(Router)
+      .events.pipe(takeUntilDestroyed())
+      .subscribe((e) => {
+        if (!(e instanceof Scroll)) return;
+        const ev = e.routerEvent;
+        const next = ('urlAfterRedirects' in ev ? ev.urlAfterRedirects : ev.url).split('?')[0];
+        const samePage = next === path;
+        path = next;
+        if (e.position) {
+          const pos = e.position;
+          setTimeout(() => scroller.scrollToPosition(pos), 50);
+        } else if (!samePage) scroller.scrollToPosition([0, 0]);
+      });
   }
 
   protected setLanguage(language: string): void {

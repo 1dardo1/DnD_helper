@@ -169,12 +169,25 @@ export class Picker<T extends PickItem> {
     );
   }
 
-  protected toggleOpen(item: T): void {
+  protected toggleOpen(item: T, event?: Event): void {
+    const opening = !this.isOpen(item);
     this.open.update((s) => {
       const next = new Set(s);
       if (!next.delete(item.id)) next.add(item.id);
       return next;
     });
+    // An opened card takes the whole row (it may jump below its neighbour) and a closed one
+    // shrinks: keep its top on screen so the reader doesn't lose it.
+    const card = (event?.target as HTMLElement | undefined)?.closest<HTMLElement>('.pick');
+    if (!card) return;
+    afterNextRender(
+      () => {
+        const top = card.getBoundingClientRect().top;
+        if (opening || top < 0 || top > window.innerHeight * 0.6)
+          card.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      },
+      { injector: this.injector },
+    );
   }
 
   protected setFacet(key: string, value: string): void {
