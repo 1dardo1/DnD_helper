@@ -15,7 +15,7 @@
         <tbody>
           @for (a of attacks(); track a.entryId + a.name) {
             <tr [class.stowed]="!a.equipped">
-              <td>
+              <td class="weapon">
                 <strong>{{
                   a.entryId ? (a.name | dataName: true) : ('sheet.unarmedStrike' | t)
                 }}</strong>
@@ -23,20 +23,20 @@
                   <small> · {{ 'sheet.notEquipped' | t }}</small>
                 }
               </td>
-              <td>
+              <td class="hit">
                 <strong>{{ signed(a.bonus) }}</strong>
                 <small> {{ 'abbr.' + a.ability | t }}</small>
                 @if (!a.proficient) {
                   <small class="issue"> · {{ 'sheet.notProficient' | t }}</small>
                 }
               </td>
-              <td>
+              <td class="dmg">
                 {{ a.damage }} {{ a.damageType | term: 'damage' }}
                 @if (a.versatile) {
                   <small>({{ 'sheet.twoHanded' | t: { damage: a.versatile } }})</small>
                 }
               </td>
-              <td>
+              <td class="reach" [attr.data-label]="'sheet.reach' | t">
                 @if (a.reach) {
                   {{ 'sheet.feet' | t: { n: a.reach } }}
                 }
@@ -47,7 +47,7 @@
                   {{ 'sheet.rangeFeet' | t: { range: a.range } }}
                 }
               </td>
-              <td>
+              <td class="props">
                 @for (p of a.properties; track p; let last = $last) {
                   {{ p | term: 'property' }}{{ last ? '' : ', ' }}
                 }
@@ -69,11 +69,12 @@
     <h2>{{ 'sheet.equipment' | t }}</h2>
     <div class="purse" role="group" [attr.aria-label]="'sheet.money' | t">
       @for (k of coinKeys; track k) {
-        <label>
+        <label [title]="'sheet.coinName.' + k | t">
           <input
             type="number"
             min="0"
             inputmode="numeric"
+            [attr.aria-label]="'sheet.coinName.' + k | t"
             [value]="character().money?.[k] ?? 0"
             (change)="setCoin(k, $event)"
           />
@@ -94,10 +95,12 @@
         </button>
       </p>
     }
-    <ul class="inventory">
+    <ul class="inventory" [class.reordering]="reordering()">
       @for (r of entries(); track r.entry.id; let first = $first, last = $last) {
         <li [class.equipped]="r.entry.equipped">
-          @if (canEquip(r.item)) {
+          <!-- while rearranging: no Equip / ✕, so the arrows get big buttons -->
+          @if (reordering()) {
+          } @else if (canEquip(r.item)) {
             <button
               type="button"
               class="equip"
@@ -149,14 +152,16 @@
               </button>
             </span>
           }
-          <button
-            type="button"
-            class="btn-ghost remove"
-            (click)="remove(r.entry)"
-            [attr.aria-label]="('sheet.removeItem' | t) + ': ' + (r.item?.name ?? r.entry.name)"
-          >
-            ✕
-          </button>
+          @if (!reordering()) {
+            <button
+              type="button"
+              class="btn-ghost remove"
+              (click)="remove(r.entry)"
+              [attr.aria-label]="('sheet.removeItem' | t) + ': ' + (r.item?.name ?? r.entry.name)"
+            >
+              ✕
+            </button>
+          }
         </li>
       } @empty {
         <li class="muted">{{ 'sheet.noItems' | t }}</li>

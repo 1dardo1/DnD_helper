@@ -58,7 +58,12 @@ export class EquipmentPanel {
 
   protected readonly attacks = computed(() => {
     const weapons: WeaponEntry[] = this.entries()
-      .filter((e) => !!e.item?.weapon)
+      // ammunition (Arrows, Bolts...) is listed as a weapon without damage: it is no attack
+      .filter(
+        (e) =>
+          !!e.item?.weapon &&
+          (e.item.weapon.damage.length > 0 || e.item.weapon.properties.length > 0),
+      )
       .map((e) => ({ id: e.entry.id, equipped: e.entry.equipped, item: e.item! }));
     return attacksFor(this.sheet(), weapons);
   });
