@@ -345,7 +345,7 @@
                             [min]="scores.method === 'point-buy' ? 8 : 3"
                             [max]="scores.method === 'point-buy' ? 15 : 20"
                             [value]="scores.base[a]"
-                            (change)="setScore(a, value($event))"
+                            (change)="typeScore(a, $event)"
                           />
                           <button
                             type="button"

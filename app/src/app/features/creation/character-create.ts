@@ -638,6 +638,22 @@ export class CharacterCreate {
     });
   }
 
+  /**
+   * A typed score: in point buy it stays within 8–15 and never spends more than the budget (the
+   * highest value that still fits is kept); the box shows the value finally kept.
+   */
+  protected typeScore(a: Ability, e: Event): void {
+    const input = e.target as HTMLInputElement;
+    const s = this.draft().abilityScores;
+    let n = parseInt(input.value, 10) || 0;
+    if (s?.method === 'point-buy') {
+      n = Math.min(Math.max(n, 8), 15);
+      while (n > 8 && pointBuyCost({ ...s.base, [a]: n }) > POINT_BUY_BUDGET) n--;
+    } else if (s?.method === 'manual') n = Math.min(Math.max(n, 3), 20);
+    input.value = String(n);
+    this.setScore(a, String(n));
+  }
+
   protected setScore(a: Ability, raw: string): void {
     const n = parseInt(raw, 10) || 0;
     this.patch((c) => {
