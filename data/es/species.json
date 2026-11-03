@@ -55,8 +55,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/f/f7/Aarakocra_5eR.png/revision/latest/scale-to-width-down/480?cb=20260621050905"
+    ]
   },
   {
     "id": "aasimar",
@@ -106,8 +105,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:aasimar"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/a/ad/5eR_Aasimar.png/revision/latest/scale-to-width-down/480?cb=20250106164628"
+    ]
   },
   {
     "id": "aetherborn",
@@ -146,8 +144,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/dungeonsdragons/images/4/4d/Aetherborn.png/revision/latest/scale-to-width-down/480?cb=20250711205917"
+    ]
   },
   {
     "id": "air-genasi",
@@ -210,8 +207,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/9/9e/Air_genasi_5e.jpg/revision/latest/scale-to-width-down/480?cb=20220813033915"
+    ]
   },
   {
     "id": "astral-elf",
@@ -265,8 +261,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/b/b4/Astral_elf_5e.png/revision/latest/scale-to-width-down/480?cb=20221121231609"
+    ]
   },
   {
     "id": "autognome",
@@ -320,8 +315,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/spelljammer/images/2/2e/2E_Autognome_MC9.png/revision/latest/scale-to-width-down/480?cb=20221108194515"
+    ]
   },
   {
     "id": "aven",
@@ -368,8 +362,7 @@
     ],
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/dungeonsdragons/images/c/cc/Champion_of_the_Trials.jpg/revision/latest/scale-to-width-down/480?cb=20250715041634"
+    ]
   },
   {
     "id": "boggart",
@@ -409,8 +402,7 @@
         "description": "Puedes tomar Desconexión o acción de Esconderse como acción adicional en cada uno de tus turnos."
       }
     ],
-    "variants": [],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/1/1b/Boggart_2e.jpg/revision/latest/scale-to-width-down/480?cb=20210131050526"
+    "variants": []
   },
   {
     "id": "bugbear",
@@ -497,8 +489,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/f/f8/Monster_Manual_5e_-_Bugbear_-_p33.jpg/revision/latest/scale-to-width-down/480?cb=20200313165121"
+    ]
   },
   {
     "id": "centaur",
@@ -607,8 +598,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/c/cc/Centaur-5e.jpg/revision/latest/scale-to-width-down/480?cb=20201226170508"
+    ]
   },
   {
     "id": "changeling",
@@ -642,8 +632,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:changeling"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/4/47/Changeling_MotM.png/revision/latest/scale-to-width-down/480?cb=20230822130023"
+    ]
   },
   {
     "id": "custom-lineage",
@@ -678,8 +667,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": null
+    ]
   },
   {
     "id": "deep-gnome",
@@ -746,8 +734,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/3/3c/Deep_gnome_5e.png/revision/latest/scale-to-width-down/480?cb=20220721050837"
+    ]
   },
   {
     "id": "deep-imaskari-ua",
@@ -788,8 +775,7 @@
         "description": "Cuando alcances el nivel 3 de personaje, puedes usar un acción adicional para crear un Aura de No Luz que arroja Luz Brillante en una Emanación de 10 pies que se origina en ti.  \nElija una de las opciones a continuación cada vez que cree el aura; el aura dura 1 minuto o hasta que la finalices (no se requiere ninguna acción), y una vez que creas esta aura, no puedes volver a hacerlo hasta que termines un descanso largo:\n\n**Abjurando de la Luz Nocturna.** Tú y tus aliados en el aura obtienen una bonificación de CA igual a la mitad de tu bonificador de competencia (redondeando hacia abajo).\n\n**Brilliant Unlight.** Las criaturas que no sean tus aliados y que comiencen su turno dentro de la Emanación deben tener éxito en una Constitución tirada de salvación (CD 8 más tu modificador de Carisma y bonificador de competencia) o tener la condición de Ceguera hasta el final de tu siguiente turno.\n\n**Corrupting Unlight.** Cuando infliges daño a una criatura con un ataque o un conjuro, puedes cambiar el tipo de daño a Radiante. Además, puedes lanzar uno de tus punto de golpe Dados no gastados e infligir daño Radiante adicional igual al número obtenido. Luego ese dado se gasta."
       }
     ],
-    "variants": [],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/9/95/Ex_Deep_Imaskari.jpg/revision/latest/scale-to-width-down/480?cb=20091027163507"
+    "variants": []
   },
   {
     "id": "dhampir",
@@ -834,8 +820,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:dhampir"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/9/97/ABoH_dhampir.jpg/revision/latest/scale-to-width-down/480?cb=20260531202234"
+    ]
   },
   {
     "id": "dragonborn",
@@ -924,8 +909,7 @@
     ],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:dragonborn"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/c/c4/Dragonborn_5eR.png/revision/latest/scale-to-width-down/480?cb=20250514043333"
+    ]
   },
   {
     "id": "drider-ua",
@@ -971,8 +955,7 @@
         "description": "Ignoras las restricciones de movimiento causadas por las redes y conoces la ubicación de cualquier otra criatura en contacto con la misma red."
       }
     ],
-    "variants": [],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/5/5d/Monster_Manual_5e_-_Drider_-_p120.jpg/revision/latest/scale-to-width-down/480?cb=20141112143053"
+    "variants": []
   },
   {
     "id": "duergar",
@@ -1064,8 +1047,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/6/68/Duergar-5e.jpg/revision/latest/scale-to-width-down/480?cb=20190315010252"
+    ]
   },
   {
     "id": "duskling",
@@ -1115,8 +1097,7 @@
         "description": "Obtienes una cantidad de puntos de golpe temporales igual a tu bonificador de competencia y tienes Ventaja en las pruebas de Fuerza (Atletismo) y Destreza (Acrobacia)."
       }
     ],
-    "variants": [],
-    "image": null
+    "variants": []
   },
   {
     "id": "dwarf",
@@ -1159,8 +1140,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:dwarf"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/b/b6/Dwarf-5e.png/revision/latest/scale-to-width-down/480?cb=20180814005205"
+    ]
   },
   {
     "id": "earth-genasi",
@@ -1218,8 +1198,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/e/e0/Earth_genasi.jpg/revision/latest/scale-to-width-down/480?cb=20081025060656"
+    ]
   },
   {
     "id": "eladrin",
@@ -1301,8 +1280,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/0e/Celestial_Eladrin.jpg/revision/latest/scale-to-width-down/480?cb=20210414074838"
+    ]
   },
   {
     "id": "elf",
@@ -1446,8 +1424,7 @@
     ],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:elf"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/e/e2/5eR_Elves.jpg/revision/latest/scale-to-width-down/480?cb=20250529031259"
+    ]
   },
   {
     "id": "faerie",
@@ -1478,8 +1455,7 @@
         "description": "Gracias a tus alas, tienes una velocidad de vuelo igual a tu velocidad al caminar. No puedes usar esta velocidad de vuelo si llevas una armadura media o pesada.\n\nAdemás, las hadas de Shadowmoor tienen visión en la oscuridad con un alcance de 120 pies."
       }
     ],
-    "variants": [],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/1/18/DMG5e_-_Feywild_-_Cladio_pozas_-_p50.jpg/revision/latest/scale-to-width-down/480?cb=20150507090151"
+    "variants": []
   },
   {
     "id": "fairy",
@@ -1564,8 +1540,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/e/e8/Faerie.jpg/revision/latest/scale-to-width-down/480?cb=20080309111448"
+    ]
   },
   {
     "id": "firbolg",
@@ -1637,8 +1612,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/79/Firbolg-5e.jpg/revision/latest/scale-to-width-down/480?cb=20180623050202"
+    ]
   },
   {
     "id": "fire-genasi",
@@ -1701,8 +1675,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/2/23/Fire_Genasi_5e.png/revision/latest/scale-to-width-down/480?cb=20220830155944"
+    ]
   },
   {
     "id": "flamekin",
@@ -1738,8 +1711,7 @@
         "description": "Ya conoces el truco Produce Flame. A partir del nivel 3, puedes lanzar el conjuro Manos Ardientes con este rasgo. A partir del nivel 5, también puedes lanzar el conjuro Flame Blade con este rasgo, sin necesidad de un componente material. Una vez que lanzas Burning Hands o Flame Blade con este rasgo, no puedes volver a lanzar ese conjuro con él hasta que termines un descanso largo. También puedes lanzar cualquiera de esos conjuros usando cualquier espacios de conjuro que tengas del nivel apropiado.  \nInteligencia, Sabiduría o Carisma es tu aptitud mágica para estos conjuros cuando los lanzas con este rasgo (elige cuando selecciones esta raza)."
       }
     ],
-    "variants": [],
-    "image": "https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/6/6b/IkoriaElementalConcept.png/revision/latest/scale-to-width-down/480?cb=20230630202414"
+    "variants": []
   },
   {
     "id": "giff",
@@ -1778,8 +1750,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/74/Giff-5e.png/revision/latest/scale-to-width-down/480?cb=20180526150021"
+    ]
   },
   {
     "id": "githyanki",
@@ -1846,8 +1817,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/3/3d/Monster_Manual_5e_-_Githyanki_-_p160.jpg/revision/latest/scale-to-width-down/480?cb=20200229181610"
+    ]
   },
   {
     "id": "githzerai",
@@ -1909,8 +1879,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/c/cc/Monster_Manual_5e_-_Githzerai_-_p161.jpg/revision/latest/scale-to-width-down/480?cb=20200229183231"
+    ]
   },
   {
     "id": "glitchling-ua",
@@ -1959,8 +1928,7 @@
     "variants": [],
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)"
-    ],
-    "image": null
+    ]
   },
   {
     "id": "gnome",
@@ -1998,8 +1966,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:gnome"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/c/cb/5eR_Gnomes.png/revision/latest/scale-to-width-down/480?cb=20251028031317"
+    ]
   },
   {
     "id": "goblin",
@@ -2127,8 +2094,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/74/Dungeon_Masters_guide_5e_-_Goblin_-_p107.jpg/revision/latest/scale-to-width-down/480?cb=20150503203525"
+    ]
   },
   {
     "id": "goliath",
@@ -2156,8 +2122,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:goliath"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/1/15/United_colors_of_goliaths_5point5e.jpg/revision/latest/scale-to-width-down/480?cb=20241016184327"
+    ]
   },
   {
     "id": "grung-oga",
@@ -2212,8 +2177,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/1/1f/Grungs-5e.jpg/revision/latest/scale-to-width-down/480?cb=20171010182736"
+    ]
   },
   {
     "id": "hadozee",
@@ -2254,8 +2218,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/2/20/Hadozee_SJ_5E_2.png/revision/latest/scale-to-width-down/480?cb=20220902095955"
+    ]
   },
   {
     "id": "half-elf",
@@ -2344,8 +2307,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/9/92/Half-elf_PHB5e.jpg/revision/latest/scale-to-width-down/480?cb=20200903214340"
+    ]
   },
   {
     "id": "half-orc",
@@ -2417,8 +2379,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/03/Half-orc-5e.png/revision/latest/scale-to-width-down/480?cb=20200308113302"
+    ]
   },
   {
     "id": "halfling",
@@ -2461,8 +2422,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:halfling"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/3/38/Halflings_5eR.png/revision/latest/scale-to-width-down/480?cb=20251028032610"
+    ]
   },
   {
     "id": "harengon",
@@ -2540,8 +2500,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/02/Harengon.png/revision/latest/scale-to-width-down/480?cb=20230807181834"
+    ]
   },
   {
     "id": "hexblood",
@@ -2570,8 +2529,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:hexblood"
-    ],
-    "image": null
+    ]
   },
   {
     "id": "hobgoblin",
@@ -2665,8 +2623,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/9/90/Hobgoblin_Warlord-5e.png/revision/latest/scale-to-width-down/480?cb=20171011030221"
+    ]
   },
   {
     "id": "human",
@@ -2705,8 +2662,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:human"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/b/bd/5eR_Humans.jpg/revision/latest/scale-to-width-down/480?cb=20250529030721"
+    ]
   },
   {
     "id": "illithidkin-ua",
@@ -2747,8 +2703,7 @@
         "description": "Tienes telepatía con un alcance de 30 pies."
       }
     ],
-    "variants": [],
-    "image": null
+    "variants": []
   },
   {
     "id": "kalashtar",
@@ -2791,8 +2746,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:kalashtar"
-    ],
-    "image": "https://static.wikia.nocookie.net/eberron/images/6/6a/Kalashtar-5eR.png/revision/latest/scale-to-width-down/480?cb=20251211050305"
+    ]
   },
   {
     "id": "kender",
@@ -2831,8 +2785,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/e/e5/Kender_5e.png/revision/latest/scale-to-width-down/480?cb=20231122144056"
+    ]
   },
   {
     "id": "kenku",
@@ -2895,8 +2848,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/b/b8/Kenku_5e.jpg/revision/latest/scale-to-width-down/480?cb=20220407203219"
+    ]
   },
   {
     "id": "khenra",
@@ -2930,8 +2882,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/4/47/Jackal.jpg/revision/latest/scale-to-width-down/480?cb=20190514090807"
+    ]
   },
   {
     "id": "khoravar",
@@ -2977,8 +2928,7 @@
         "description": "Obtienes competencia en una habilidad o con una herramienta de tu elección. Siempre que termines un descanso largo, puedes reemplazarlo con otra habilidad o dominio de herramientas."
       }
     ],
-    "variants": [],
-    "image": "https://static.wikia.nocookie.net/eberron/images/8/86/Khoravar-5eR.png/revision/latest/scale-to-width-down/480?cb=20251212001200"
+    "variants": []
   },
   {
     "id": "kobold",
@@ -3072,8 +3022,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/f/f3/Monster_Manual_5e_-_Kobold_-_p195.jpg/revision/latest/scale-to-width-down/480?cb=20141112221803"
+    ]
   },
   {
     "id": "kor",
@@ -3113,8 +3062,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/5/5b/Kor.PNG/revision/latest/scale-to-width-down/480?cb=20160429193915"
+    ]
   },
   {
     "id": "kuo-toa-ua",
@@ -3150,8 +3098,7 @@
         "description": "Siempre tienes preparado el conjuro Buscar familiar y puedes lanzarlo sin componentes materiales. Puedes lanzarlo una vez sin un espacio de conjuro, y recuperas la capacidad de lanzarlo de esta manera cuando terminas un descanso largo.  \nCuando lanzas el conjuro, eliges una de las formas normales para tu familiar o una de las siguientes formas especiales: Homunculus o Myconid Sprout. El tipo de criatura del familiar es Celestial.  \nAdemás, la forma de tu familiar es una mezcla divina de múltiples criaturas. Cuando lances este conjuro, elige una segunda forma entre las opciones disponibles. Tu familiar gana una acción, reacción o rasgo de esa segunda forma."
       }
     ],
-    "variants": [],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/2/28/Kuo-toa-5e.jpg/revision/latest/scale-to-width-down/480?cb=20190710143644"
+    "variants": []
   },
   {
     "id": "leonin",
@@ -3195,8 +3142,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/b/b9/Leonin_male.webp/revision/latest/scale-to-width-down/480?cb=20241216062357"
+    ]
   },
   {
     "id": "lizardfolk",
@@ -3283,8 +3229,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/5/57/Lizardfolk_mm5e.jpg/revision/latest/scale-to-width-down/480?cb=20170915185539"
+    ]
   },
   {
     "id": "locathah-lr",
@@ -3329,8 +3274,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/00/Locathah-5e.jpg/revision/latest/scale-to-width-down/480?cb=20210305203002"
+    ]
   },
   {
     "id": "lorwyn-changeling",
@@ -3371,8 +3315,7 @@
         "description": "Cada vez que tiras Iniciativa, puedes mover inmediatamente hasta la mitad de tu Velocidad, siempre que no tengas Desventaja en la tirada de Iniciativa."
       }
     ],
-    "variants": [],
-    "image": "https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/0/03/Shapeshifter.jpg/revision/latest/scale-to-width-down/480?cb=20190514021345"
+    "variants": []
   },
   {
     "id": "loxodon",
@@ -3421,8 +3364,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/7/70/CompleatedLoxodonConcept.png/revision/latest/scale-to-width-down/480?cb=20230629202513"
+    ]
   },
   {
     "id": "lupin",
@@ -3458,8 +3400,7 @@
         "description": "Tienes competencia en la habilidad Percepción, Sigilo o Supervivencia."
       }
     ],
-    "variants": [],
-    "image": null
+    "variants": []
   },
   {
     "id": "merfolk",
@@ -3506,8 +3447,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/00/Merfolk_5point5e.jpg/revision/latest/scale-to-width-down/480?cb=20250321152034"
+    ]
   },
   {
     "id": "minotaur",
@@ -3633,8 +3573,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/3/3d/Minotaur-5e.png/revision/latest/scale-to-width-down/480?cb=20161209024527"
+    ]
   },
   {
     "id": "myconid-ua",
@@ -3675,8 +3614,7 @@
         "description": "Cuando termines un descanso largo, podrás realizar un ritual de fusión para compartir conocimientos y experiencias. Cuando lo hagas, elige hasta seis aliados (que pueden incluirte a ti) dentro de 30 pies de ti para participar en el ritual y una habilidad en la que al menos un participante tenga competencia. Cada una de las criaturas elegidas tiene competencia en esa habilidad hasta que terminen un descanso largo."
       }
     ],
-    "variants": [],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/a/a9/Myconids-5e.jpg/revision/latest/scale-to-width-down/480?cb=20171017162732"
+    "variants": []
   },
   {
     "id": "naga",
@@ -3720,8 +3658,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/a/a6/Guardian_naga-5e.jpg/revision/latest/scale-to-width-down/480?cb=20171010180024"
+    ]
   },
   {
     "id": "orc",
@@ -3759,8 +3696,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:orc"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/6/60/5eR_Orcs.jpg/revision/latest/scale-to-width-down/480?cb=20250529030935"
+    ]
   },
   {
     "id": "owlfolk-ua",
@@ -3806,8 +3742,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/dungeonsdragons/images/7/7f/Owlin.png/revision/latest/scale-to-width-down/480?cb=20250715160508"
+    ]
   },
   {
     "id": "owlin-scc",
@@ -3848,8 +3783,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/dungeonsdragons/images/7/7f/Owlin.png/revision/latest/scale-to-width-down/480?cb=20250715160508"
+    ]
   },
   {
     "id": "plasmoid",
@@ -3899,8 +3833,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/spelljammer/images/a/a3/Plasmoids.jpg/revision/latest/scale-to-width-down/480?cb=20220809110517"
+    ]
   },
   {
     "id": "rabbitfolk-ua",
@@ -3950,8 +3883,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/02/Harengon.png/revision/latest/scale-to-width-down/480?cb=20230807181834"
+    ]
   },
   {
     "id": "reborn",
@@ -3990,8 +3922,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:reborn"
-    ],
-    "image": null
+    ]
   },
   {
     "id": "revenant-ua",
@@ -4029,8 +3960,7 @@
     "variants": [],
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/7e/Revenant-5e.png/revision/latest/scale-to-width-down/480?cb=20161213024507"
+    ]
   },
   {
     "id": "rimekin",
@@ -4066,8 +3996,7 @@
         "description": "Tienes visión en la oscuridad con un alcance de 60 pies."
       }
     ],
-    "variants": [],
-    "image": null
+    "variants": []
   },
   {
     "id": "satyr",
@@ -4144,8 +4073,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/d/dc/Satyr-5e.jpg/revision/latest/scale-to-width-down/480?cb=20160918232601"
+    ]
   },
   {
     "id": "sea-elf",
@@ -4242,8 +4170,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/d/dc/AquaticElf-5e.png/revision/latest/scale-to-width-down/480?cb=20211207075044"
+    ]
   },
   {
     "id": "shadar-kai",
@@ -4335,8 +4262,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/8/8c/Shadar-kai_shadow_dancer-5e.png/revision/latest/scale-to-width-down/480?cb=20190322194924"
+    ]
   },
   {
     "id": "shifter",
@@ -4375,8 +4301,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:shifter"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/1/12/Shifter-5eR.jpg/revision/latest/scale-to-width-down/480?cb=20251212001940"
+    ]
   },
   {
     "id": "simic-hybrid",
@@ -4411,8 +4336,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": null
+    ]
   },
   {
     "id": "siren",
@@ -4447,8 +4371,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/6/61/Harpy-5e.png/revision/latest/scale-to-width-down/480?cb=20161130025002"
+    ]
   },
   {
     "id": "tabaxi",
@@ -4522,8 +4445,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/a/a2/Tabaxi-5e.jpg/revision/latest/scale-to-width-down/480?cb=20170131190820"
+    ]
   },
   {
     "id": "thri-kreen",
@@ -4573,8 +4495,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/1/19/Thri-kreen-5e.jpg/revision/latest/scale-to-width-down/480?cb=20161118210858"
+    ]
   },
   {
     "id": "tiefling",
@@ -4671,8 +4592,7 @@
     ],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:tiefling"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/4/4e/Rainbow_tieflings_5point5e.jpg/revision/latest/scale-to-width-down/480?cb=20241021163453"
+    ]
   },
   {
     "id": "tortle",
@@ -4755,8 +4675,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/72/Tortle-5e.png/revision/latest/scale-to-width-down/480?cb=20170928140158"
+    ]
   },
   {
     "id": "triton",
@@ -4838,8 +4757,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/72/Triton-5e.jpg/revision/latest/scale-to-width-down/480?cb=20190930164813"
+    ]
   },
   {
     "id": "vampire",
@@ -4906,8 +4824,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/09/Vampire_5point5e.jpg/revision/latest/scale-to-width-down/480?cb=20250328215545"
+    ]
   },
   {
     "id": "vedalken",
@@ -4964,8 +4881,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/d/dd/Vedalken.jpg/revision/latest/scale-to-width-down/480?cb=20190514075224"
+    ]
   },
   {
     "id": "verdan-ai",
@@ -5009,8 +4925,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/8/88/Verdan-5e.jpg/revision/latest/scale-to-width-down/480?cb=20190811111038"
+    ]
   },
   {
     "id": "viashino-ua",
@@ -5049,8 +4964,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/1/14/Viashino.jpg/revision/latest/scale-to-width-down/480?cb=20190514074643"
+    ]
   },
   {
     "id": "warforged",
@@ -5099,8 +5013,7 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:warforged"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/5/5c/Warforged-5e.jpg/revision/latest/scale-to-width-down/480?cb=20200522150846"
+    ]
   },
   {
     "id": "water-genasi",
@@ -5173,8 +5086,7 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/4/40/Water_genasi.jpg/revision/latest/scale-to-width-down/480?cb=20081025060459"
+    ]
   },
   {
     "id": "yuan-ti",
@@ -5247,7 +5159,6 @@
     "adjustments": [
       "Se eliminó el aumento racial puntuación de característica (reglas de 2024)",
       "Idiomas raciales eliminados (reglas de 2024)"
-    ],
-    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/74/Monster_Manual_5e_-_Yuan-ti_-_p307.jpg/revision/latest/scale-to-width-down/480?cb=20141116095915"
+    ]
   }
 ]
