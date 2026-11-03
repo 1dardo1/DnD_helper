@@ -1,0 +1,144 @@
+name: Generar retratos con IA
+
+# Genera con Cloudflare Workers AI (FLUX.1 schnell, gratis) los retratos que faltan y los sube a una
+# rama nueva portraits/<número de ejecución> para revisarlos antes de llevarlos a la app (nunca a la
+# rama principal). Ver tools/portraits/README.md. Hacen falta los secretos CLOUDFLARE_ACCOUNT_ID y
+# CLOUDFLARE_API_TOKEN (Settings → Secrets and variables → Actions).
+on:
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: "Qué retratar"
+        type: choice
+        options: [species]
+        default: species
+      only:
+        description: "Solo estos ids, separados por comas (se rehacen aunque ya existan). Vacío: los que faltan"
+        type: string
+        default: ""
+      force:
+        description: "Rehacer todos (aunque ya existan)"
+        type: boolean
+        default: false
+      changed:
+        description: "Rehacer también los que tienen el prompt o la seed cambiados"
+        type: boolean
+        default: false
+      limit:
+        description: "Como mucho N imágenes (0 = sin límite; la cuota gratuita da para ~170 al día)"
+        type: string
+        default: "0"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: portraits
+  cancel-in-progress: false
+
+jobs:
+  portraits:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      KIND: ${{ inputs.kind }}
+      ONLY: ${{ inputs.only }}
+      FORCE: ${{ inputs.force }}
+      CHANGED: ${{ inputs.changed }}
+      LIMIT: ${{ inputs.limit }}
+      BRANCH: portraits/${{ github.run_number }}
+    steps:
+      - name: Check the Cloudflare secrets
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          missing=""
+          [ -n "$CLOUDFLARE_ACCOUNT_ID" ] || missing="$missing CLOUDFLARE_ACCOUNT_ID"
+          [ -n "$CLOUDFLARE_API_TOKEN" ] || missing="$missing CLOUDFLARE_API_TOKEN"
+          if [ -n "$missing" ]; then
+            msg="Faltan los secretos:$missing. Créalos en Settings → Secrets and variables → Actions (ver tools/portraits/README.md)."
+            echo "::error::$msg"
+            echo "### Retratos: $msg" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tools/portraits/requirements.txt
+
+      - run: pip install -r tools/portraits/requirements.txt
+
+      - name: Tests of the tool
+        working-directory: tools
+        run: python -m unittest discover -s portraits/tests -t .
+
+      - name: Generate
+        id: run
+        working-directory: tools
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          args=("$KIND" --provider cloudflare --summary "$GITHUB_STEP_SUMMARY")
+          [ -n "$ONLY" ] && args+=(--only "$ONLY")
+          [ "$FORCE" = "true" ] && args+=(--force)
+          [ "$CHANGED" = "true" ] && args+=(--changed)
+          [[ "$LIMIT" =~ ^[0-9]+$ ]] && [ "$LIMIT" -gt 0 ] && args+=(--limit "$LIMIT")
+          set +e
+          python -m portraits "${args[@]}"
+          status=$?
+          set -e
+          # 0: all done (or stopped by the quota: what's done is kept); 1: some failed; 2: credentials
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+
+      - name: Upload the review page and the pictures
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: portraits-${{ inputs.kind }}-${{ github.run_number }}
+          path: |
+            tools/portraits/review.html
+            tools/portraits/generated.json
+            app/public/${{ inputs.kind }}/*.webp
+            app/public/${{ inputs.kind }}/index.json
+          if-no-files-found: ignore
+
+      - name: Commit to a review branch
+        if: always() && steps.run.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add "app/public/$KIND" tools/portraits/generated.json
+          if git diff --cached --quiet; then
+            echo "Sin imágenes nuevas: no se crea la rama." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          n=$(git diff --cached --name-only --diff-filter=AM -- "app/public/$KIND/*.webp" | wc -l)
+          git commit -m "portraits: $n retratos de $KIND (ejecución ${{ github.run_number }})"
+          git push origin "$BRANCH"
+          url="${{ github.server_url }}/${{ github.repository }}/compare/${GITHUB_REF_NAME}...${BRANCH}?expand=1"
+          {
+            echo ""
+            echo "### Revisar y fusionar"
+            echo ""
+            echo "- Rama: \`$BRANCH\` ($n imágenes nuevas o cambiadas)"
+            echo "- Página de revisión: descarga el artefacto **portraits-$KIND-${{ github.run_number }}** y abre \`tools/portraits/review.html\`"
+            echo "- Comparar / abrir PR hacia \`${GITHUB_REF_NAME}\`: $url"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Result
+        if: always() && steps.run.outcome == 'success'
+        run: |
+          case "${{ steps.run.outputs.status }}" in
+            0) echo "Hecho." ;;
+            1) echo "::warning::Algunas imágenes fallaron (ver el resumen); las demás están en la rama $BRANCH."; exit 1 ;;
+            *) echo "::error::No se pudo generar (credenciales o permisos: ver el log)."; exit 1 ;;
+          esac

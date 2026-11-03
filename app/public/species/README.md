@@ -17,6 +17,13 @@ arriba en la página de cada especie.
 
 Si una especie no tiene imagen, no se muestra nada.
 
+## Generarlas con IA
+
+No hace falta hacerlas a mano: `tools/portraits/` las genera con una IA gratuita (Cloudflare
+Workers AI) a partir de las descripciones de `tools/portraits/species.yaml`, ya en este formato, y
+actualiza `index.json`. Se lanza desde *Actions* → "Generar retratos con IA" y deja el resultado en
+una rama aparte para revisarlo. Ver [tools/portraits/README.md](../../../tools/portraits/README.md).
+
 ## Formato recomendado
 
 - **WebP** (solo se buscan ficheros `.webp`; un JPG o PNG se puede convertir, p. ej.
