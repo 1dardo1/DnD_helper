@@ -2,37 +2,42 @@
   <section class="caster">
     <h3>{{ c.name | dataName: true }}</h3>
     @if (c.cantrips.length) {
-      <p>
-        <strong>{{ 'spells.cantrips' | t }}:</strong>
-        @for (s of c.cantrips; track s.id; let last = $last) {
-          <a [routerLink]="['/compendium', 'spell', s.id]">{{ s.name | dataName: true }}</a
-          >{{ last ? '' : ', ' }}
-        }
+      <p class="list-title">
+        <strong>{{ 'spells.cantrips' | t }}</strong>
       </p>
+      <ul class="spells">
+        @for (s of c.cantrips; track s.id) {
+          <li>
+            <a [routerLink]="['/compendium', 'spell', s.id]">{{ s.name | dataName: true }}</a>
+          </li>
+        }
+      </ul>
     }
-    <p>
-      <strong
-        >{{ 'spells.prepared' | t
-        }}{{
-          c.maxPrepared !== null ? ' (' + c.prepared.length + ' / ' + c.maxPrepared + ')' : ''
-        }}:</strong
-      >
-      @for (s of c.prepared; track s.id; let last = $last) {
-        <a [routerLink]="['/compendium', 'spell', s.id]">{{ s.name | dataName: true }}</a
-        ><small> {{ 'spell.levelShort' | t: { level: s.level } }}</small
-        >{{ last ? '' : ', ' }}
-      } @empty {
-        —
+    <p class="list-title">
+      <strong>{{ 'spells.prepared' | t }}</strong>
+      @if (c.maxPrepared !== null) {
+        <span [class.issue]="c.prepared.length > c.maxPrepared">
+          ({{ c.prepared.length }} / {{ c.maxPrepared }})</span
+        >
       }
     </p>
+    <ul class="spells">
+      @for (s of c.prepared; track s.id) {
+        <li>
+          <a [routerLink]="['/compendium', 'spell', s.id]"
+            ><small>{{ 'spell.levelShort' | t: { level: s.level } }}</small>
+            {{ s.name | dataName: true }}</a
+          >
+        </li>
+      } @empty {
+        <li class="none">—</li>
+      }
+    </ul>
 
     @if (c.swap === 'any') {
       <aside class="sticky">
         <p>{{ 'spells.swapAny' | t }}</p>
         @if (editing() === c.classId) {
-          <p [class.issue]="c.maxPrepared !== null && c.prepared.length > c.maxPrepared">
-            {{ c.prepared.length }} / {{ c.maxPrepared ?? '—' }}
-          </p>
           <ul class="choose">
             @for (s of c.available; track s.id) {
               <li>
@@ -44,7 +49,16 @@
               </li>
             }
           </ul>
-          <button type="button" class="primary" (click)="finish(c)">{{ 'spells.done' | t }}</button>
+          <!-- stays in view while scrolling the (long) list of spells -->
+          <div class="done-bar">
+            <span [class.issue]="c.maxPrepared !== null && c.prepared.length > c.maxPrepared">
+              {{ 'spells.preparedCount' | t }}: {{ c.prepared.length }} /
+              {{ c.maxPrepared ?? '—' }}
+            </span>
+            <button type="button" class="primary" (click)="finish(c)">
+              {{ 'spells.done' | t }}
+            </button>
+          </div>
         } @else {
           <button type="button" (click)="editing.set(c.classId)">{{ 'spells.change' | t }}</button>
           <button type="button" class="btn-ghost" (click)="finish(c)">
