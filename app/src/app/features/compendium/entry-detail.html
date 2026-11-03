@@ -434,6 +434,20 @@
           <h2>{{ 'compendium.traits' | t }}</h2>
           <ng-container *ngTemplateOutlet="traits; context: { $implicit: sp.traits }" />
         }
+        @if (racialFeats.value()?.length) {
+          <h2>{{ 'compendium.racialFeats' | t }}</h2>
+          <ul class="racial-feats">
+            @for (f of racialFeats.value(); track f.id) {
+              <li>
+                <a [routerLink]="['/compendium', 'feat', f.id]">{{ f.name | dataName }}</a>
+                @if (f.prerequisites?.level; as lv) {
+                  <small> · {{ 'picker.levelPlus' | t: { level: lv } }}</small>
+                }
+                <span class="feat-preview">{{ preview($any(f.description | dataText), 140) }}</span>
+              </li>
+            }
+          </ul>
+        }
         @if (sp.variants.length) {
           <h2>{{ 'compendium.variants' | t }}</h2>
           @for (v of sp.variants; track v.name) {

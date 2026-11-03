@@ -503,6 +503,7 @@ export const en = {
   'compendium.feet': '{n} ft.',
   'compendium.darkvision': 'Darkvision',
   'compendium.traits': 'Traits',
+  'compendium.racialFeats': 'Racial feats',
   'compendium.variants': 'Lineages and variants',
   'compendium.abilityScores': 'Ability scores',
   'compendium.originFeat': 'Origin feat',

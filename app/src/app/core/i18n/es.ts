@@ -508,6 +508,7 @@ export const es: Record<keyof typeof en, string> = {
   'compendium.feet': '{n} pies',
   'compendium.darkvision': 'Visión en la oscuridad',
   'compendium.traits': 'Rasgos',
+  'compendium.racialFeats': 'Dotes raciales',
   'compendium.variants': 'Linajes y variantes',
   'compendium.abilityScores': 'Puntuaciones de característica',
   'compendium.originFeat': 'Dote de origen',

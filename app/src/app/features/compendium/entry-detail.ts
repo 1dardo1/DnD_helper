@@ -3,6 +3,8 @@ import { Component, computed, inject, input, resource } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
+import { speciesFits } from '../../core/creation/creation-rules';
+import { plainPreview } from '../../shared/picker/entry-labels.service';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
 import { PhrasePipe, TermDomain, TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
@@ -73,6 +75,22 @@ export class EntryDetail {
     loader: async ({ params }) =>
       (await this.compendium.all('subclass')).filter((s) => s.classId === params),
   });
+  /** Racial feats this species can take (its own, and those open to its size), by name. */
+  protected readonly racialFeats = resource({
+    params: () => (this.entryType() === 'species' ? this.id() : undefined),
+    loader: async ({ params }) => {
+      const [feats, species] = await Promise.all([
+        this.compendium.all('feat'),
+        this.compendium.get('species', params),
+      ]);
+      if (!species) return [];
+      return feats
+        .filter((f) => f.category === 'racial' && speciesFits(f, species))
+        .sort((a, b) => this.data.shortName(a.name).localeCompare(this.data.shortName(b.name)));
+    },
+  });
+  protected readonly preview = plainPreview;
+
   /** In alphabetical order of the names shown. */
   protected readonly sortedSubclasses = computed(() =>
     [...(this.subclasses.value() ?? [])].sort((a, b) =>

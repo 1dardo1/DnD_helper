@@ -81,3 +81,15 @@
     margin-top: 0;
   }
 }
+
+.racial-feats {
+  li {
+    margin-bottom: var(--space-2);
+  }
+
+  .feat-preview {
+    display: block;
+    font-size: var(--fs-sm);
+    color: var(--ink-soft);
+  }
+}
