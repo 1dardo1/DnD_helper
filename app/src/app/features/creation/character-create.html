@@ -328,13 +328,36 @@
                           }
                         </select>
                       } @else {
-                        <input
-                          type="number"
-                          [min]="scores.method === 'point-buy' ? 8 : 3"
-                          [max]="scores.method === 'point-buy' ? 15 : 20"
-                          [value]="scores.base[a]"
-                          (change)="setScore(a, value($event))"
-                        />
+                        <span class="stepper">
+                          <button
+                            type="button"
+                            [disabled]="!canStep(a, -1)"
+                            [attr.aria-label]="
+                              'create.scoreDown' | t: { ability: ('ability.' + a | t) }
+                            "
+                            (click)="stepScore(a, -1)"
+                          >
+                            −
+                          </button>
+                          <input
+                            type="number"
+                            inputmode="numeric"
+                            [min]="scores.method === 'point-buy' ? 8 : 3"
+                            [max]="scores.method === 'point-buy' ? 15 : 20"
+                            [value]="scores.base[a]"
+                            (change)="setScore(a, value($event))"
+                          />
+                          <button
+                            type="button"
+                            [disabled]="!canStep(a, 1)"
+                            [attr.aria-label]="
+                              'create.scoreUp' | t: { ability: ('ability.' + a | t) }
+                            "
+                            (click)="stepScore(a, 1)"
+                          >
+                            +
+                          </button>
+                        </span>
                       }
                     </td>
                     @if (sheet(); as sh) {

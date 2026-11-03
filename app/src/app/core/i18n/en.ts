@@ -255,6 +255,8 @@ export const en = {
   'create.equip.afford.left': 'With what is left ({gold})',
   'create.equip.owned': 'You have {n}',
   'create.equip.ownedOnly': 'Only those you have',
+  'create.scoreDown': 'Lower {ability}',
+  'create.scoreUp': 'Raise {ability}',
   'create.armorWorn': 'Armor worn',
   'create.noArmor': 'No armor',
   'create.shield': 'Shield',

@@ -652,6 +652,21 @@ export class CharacterCreate {
     });
   }
 
+  /** Whether the − / + buttons can move this score (limits, and the point-buy budget). */
+  protected canStep(a: Ability, delta: number): boolean {
+    const s = this.draft().abilityScores;
+    if (!s) return false;
+    const n = s.base[a] + delta;
+    if (s.method === 'point-buy')
+      return n >= 8 && n <= 15 && pointBuyCost({ ...s.base, [a]: n }) <= POINT_BUY_BUDGET;
+    return n >= 3 && n <= 20;
+  }
+
+  protected stepScore(a: Ability, delta: number): void {
+    const s = this.draft().abilityScores;
+    if (s && this.canStep(a, delta)) this.setScore(a, String(s.base[a] + delta));
+  }
+
   protected pointsSpent(): number {
     const s = this.draft().abilityScores;
     return s ? pointBuyCost(s.base) : 0;

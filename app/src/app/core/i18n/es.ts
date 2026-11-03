@@ -257,6 +257,8 @@ export const es: Record<keyof typeof en, string> = {
   'create.equip.afford.left': 'Con lo que te queda ({gold})',
   'create.equip.owned': 'Tienes {n}',
   'create.equip.ownedOnly': 'Solo los que tienes',
+  'create.scoreDown': 'Bajar {ability}',
+  'create.scoreUp': 'Subir {ability}',
   'create.armorWorn': 'Armadura puesta',
   'create.noArmor': 'Sin armadura',
   'create.shield': 'Escudo',
