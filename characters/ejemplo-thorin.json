@@ -3,31 +3,119 @@
   "id": "ejemplo-thorin",
   "name": "Thorin (ejemplo)",
   "dataVersion": "2026-10-29T18:29:35+00:00",
-  "updatedAt": "2026-10-29T20:30:00.000Z",
-  "updatedBy": "ejemplo",
-  "species": { "id": "dwarf", "variant": null },
-  "background": { "id": "soldier", "abilityIncreases": { "STR": 2, "CON": 1 } },
+  "updatedAt": "2026-11-03T11:08:07.136Z",
+  "updatedBy": "Linux armv81",
+  "species": {
+    "id": "dwarf",
+    "variant": null
+  },
+  "size": null,
+  "background": {
+    "id": "soldier",
+    "abilityIncreases": {
+      "STR": 2,
+      "CON": 1
+    }
+  },
   "classes": [
-    { "id": "blood-hunter", "level": 5, "subclassId": "blood-hunter/order-of-the-lycan", "hp": [null, 6, 8, 5, 7] }
+    {
+      "id": "blood-hunter",
+      "level": 5,
+      "subclassId": "blood-hunter/order-of-the-lycan",
+      "hp": [
+        null,
+        6,
+        8,
+        5,
+        7
+      ]
+    }
   ],
   "abilityScores": {
     "method": "standard",
-    "base": { "STR": 15, "DEX": 13, "CON": 14, "INT": 12, "WIS": 10, "CHA": 8 }
+    "base": {
+      "STR": 15,
+      "DEX": 13,
+      "CON": 14,
+      "INT": 12,
+      "WIS": 10,
+      "CHA": 8
+    }
   },
   "choices": {
-    "skills": ["survival", "insight", "investigation"],
+    "skills": [
+      "survival",
+      "insight",
+      "investigation"
+    ],
     "expertise": [],
     "saves": [],
-    "feats": ["ability-score-improvement", "great-weapon-fighting"],
-    "abilityIncreases": [
-      { "source": "ability-score-improvement", "ability": "STR", "amount": 1 },
-      { "source": "ability-score-improvement", "ability": "CON", "amount": 1 }
+    "feats": [
+      "ability-score-improvement",
+      "great-weapon-fighting"
     ],
-    "options": ["blood-curse/blood-curse-of-binding"],
-    "spells": []
+    "featSlots": [],
+    "abilityIncreases": [
+      {
+        "source": "ability-score-improvement",
+        "ability": "STR",
+        "amount": 1
+      },
+      {
+        "source": "ability-score-improvement",
+        "ability": "CON",
+        "amount": 1
+      }
+    ],
+    "options": [
+      "blood-curse/blood-curse-of-binding"
+    ],
+    "spells": [],
+    "languages": [],
+    "toolChoices": []
   },
-  "equipped": { "armorId": "studded-leather-armor", "shield": false },
+  "equipped": {
+    "armorId": "studded-leather-armor",
+    "shield": false
+  },
   "equipment": "Greataxe, Explorer's Pack, Studded Leather Armor, Alchemist's Supplies",
-  "state": { "hpCurrent": null, "hpTemp": 0, "spentSlots": [0, 0, 0, 0, 0, 0, 0, 0, 0], "resources": {} },
+  "inventory": [
+    {
+      "id": "studded-leather-armor",
+      "itemId": "studded-leather-armor",
+      "name": "",
+      "qty": 1,
+      "equipped": true
+    }
+  ],
+  "state": {
+    "hpCurrent": null,
+    "hpTemp": 0,
+    "spentSlots": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "resources": {
+      "blood-hunter:hybrid transformation": 0,
+      "blood-hunter:blood maledict": 0
+    },
+    "pactSlotsSpent": 0,
+    "hitDiceSpent": {},
+    "deathSaves": {
+      "successes": 0,
+      "failures": 0
+    },
+    "heroicInspiration": false,
+    "conditions": [],
+    "exhaustion": 0,
+    "spellSwap": {}
+  },
   "notes": "Personaje de ejemplo para probar la ficha. Bórralo cuando quieras."
 }
