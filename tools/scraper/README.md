@@ -62,16 +62,8 @@ categorías, competencias…) no se traduce.
 
 ## Imágenes de las especies
 
-`dndscraper.images` (lo lanza también la extracción completa) busca la imagen principal de la
-página de cada especie en las wikis de Fandom (Forgotten Realms primero; la lista y las
-excepciones están en `images.yaml`) y guarda solo su URL en `species[].image`. La app la enseña
-desde la wiki sin cabecera Referer (las wikis rechazan imágenes enlazadas desde otras webs); no se
-copia ninguna imagen al repo. Lo encontrado se guarda en `species-images.json`, que se reutiliza
-si se lanza sin conexión (`--offline`).
-
-```bash
-python -m dndscraper.images
-```
+El extractor no busca imágenes. Las de las especies las pone el usuario a mano en
+`app/public/species/<id>.webp` y van con la app (ver `app/public/species/README.md`).
 
 ## Exclusiones
 

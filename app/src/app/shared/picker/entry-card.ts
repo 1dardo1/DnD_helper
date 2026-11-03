@@ -2,7 +2,7 @@ import { Component, computed, inject, input } from '@angular/core';
 
 import { DataNamePipe } from '../../core/i18n/data-text.service';
 import { TranslatePipe } from '../../core/i18n/i18n.service';
-import { Entry, Species, Subclass } from '../../core/models/compendium';
+import { Entry, Subclass } from '../../core/models/compendium';
 import { themeFor } from '../theme/class-theme';
 import { EntryLabels } from './entry-labels.service';
 import { SpeciesPortrait } from './species-portrait';
@@ -16,8 +16,8 @@ import { SpeciesPortrait } from './species-portrait';
   imports: [DataNamePipe, SpeciesPortrait, TranslatePipe],
   template: `
     @let s = summary();
-    @if (image(); as img) {
-      <app-species-portrait class="thumb" [src]="img" />
+    @if (entry().type === 'species') {
+      <app-species-portrait class="thumb" [speciesId]="entry().id" />
     }
     <span class="head">
       @if (icon(); as i) {
@@ -90,11 +90,6 @@ export class EntryCard {
     if (e.type !== 'class' && e.type !== 'subclass') return null;
     const t = e.type === 'class' ? themeFor(e.id) : themeFor((e as Subclass).classId, e.id);
     return { motif: t.motif, light: t.accent2Light, dark: t.accent2Dark };
-  });
-  /** Species: their picture at the top of the card. */
-  protected readonly image = computed(() => {
-    const e = this.entry();
-    return e.type === 'species' ? ((e as Species).image ?? null) : null;
   });
   private readonly labels = inject(EntryLabels);
 

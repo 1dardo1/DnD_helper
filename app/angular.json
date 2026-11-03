@@ -26,7 +26,8 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "ignore": ["**/README.md"]
               }
             ],
             "styles": ["src/styles.scss"]
@@ -55,7 +56,8 @@
               "assets": [
                 {
                   "glob": "**/*",
-                  "input": "public"
+                  "input": "public",
+                  "ignore": ["**/README.md"]
                 },
                 {
                   "glob": "**/*.json",

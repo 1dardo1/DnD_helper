@@ -41,8 +41,8 @@ import { SpeciesPortrait } from './species-portrait';
         >
       </p>
     }
-    @if (species()?.image; as img) {
-      <app-species-portrait class="full" [src]="img" [alt]="e.name | dataName" />
+    @if (species()) {
+      <app-species-portrait class="full" [speciesId]="e.id" [alt]="e.name | dataName" />
     }
     <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
     @if (spell()?.higherLevels; as h) {

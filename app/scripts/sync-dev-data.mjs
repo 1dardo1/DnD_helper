@@ -5,6 +5,7 @@ import {
   existsSync,
   mkdirSync,
   readdirSync,
+  readFileSync,
   rmSync,
   statSync,
   writeFileSync,
@@ -32,3 +33,21 @@ writeFileSync(
   JSON.stringify(characters.map((f) => `characters/${f}`)),
 );
 console.log('dev data copied to .dev-data/');
+
+// public/species/index.json: the ids of the species pictures (public/species/<id>.webp), so the
+// app only asks for the ones that exist. Committed (the builds use it as is); rewritten here, so
+// `npm start` / `npm test` keep it up to date when pictures are added or removed.
+const pictures = join(app, 'public', 'species');
+const ids = existsSync(pictures)
+  ? readdirSync(pictures)
+      .filter((f) => f.endsWith('.webp'))
+      .map((f) => f.slice(0, -'.webp'.length))
+      .sort()
+  : [];
+const manifest = join(pictures, 'index.json');
+const json = JSON.stringify(ids, null, 2) + '\n';
+if (!existsSync(manifest) || readFileSync(manifest, 'utf8') !== json) {
+  mkdirSync(pictures, { recursive: true });
+  writeFileSync(manifest, json);
+  console.log(`species pictures: ${ids.length} listed in public/species/index.json`);
+}
