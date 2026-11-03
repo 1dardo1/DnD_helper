@@ -626,6 +626,9 @@ def run(root: Path, offline: bool = False, delay: float = 0.5, translate: bool =
     merged = prune_options(merge(e14, e24, successors, report), report)
     apply_multiclass_gains(merged, root / "tools/scraper/multiclass.yaml", report)
     meta = write(merged, root / "data", report, crawler, root / "tools/scraper/report.md")
+    # species pictures (URLs on the Fandom wikis), before the translation copies data/species.json
+    from .images import run as images_run
+    meta["images"] = images_run(root, offline=offline)
     if translate:
         # Spanish texts (data/es) always follow the English ones: only new or changed texts are sent.
         from .translate import run as translate_run

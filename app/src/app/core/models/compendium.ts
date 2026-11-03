@@ -164,6 +164,8 @@ export interface Species extends Entry {
   darkvision: number | null;
   traits: Feature[];
   variants: SpeciesVariant[];
+  /** Picture on a Fandom wiki (shown without a Referer), or null. */
+  image?: string | null;
 }
 
 export interface Background extends Entry {

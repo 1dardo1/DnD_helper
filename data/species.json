@@ -55,7 +55,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/f/f7/Aarakocra_5eR.png/revision/latest/scale-to-width-down/480?cb=20260621050905"
   },
   {
     "id": "aasimar",
@@ -105,7 +106,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:aasimar"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/a/ad/5eR_Aasimar.png/revision/latest/scale-to-width-down/480?cb=20250106164628"
   },
   {
     "id": "aetherborn",
@@ -144,7 +146,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/dungeonsdragons/images/4/4d/Aetherborn.png/revision/latest/scale-to-width-down/480?cb=20250711205917"
   },
   {
     "id": "air-genasi",
@@ -207,7 +210,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/9/9e/Air_genasi_5e.jpg/revision/latest/scale-to-width-down/480?cb=20220813033915"
   },
   {
     "id": "astral-elf",
@@ -261,7 +265,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/b/b4/Astral_elf_5e.png/revision/latest/scale-to-width-down/480?cb=20221121231609"
   },
   {
     "id": "autognome",
@@ -315,7 +320,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/spelljammer/images/2/2e/2E_Autognome_MC9.png/revision/latest/scale-to-width-down/480?cb=20221108194515"
   },
   {
     "id": "aven",
@@ -362,7 +368,8 @@
     ],
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/dungeonsdragons/images/c/cc/Champion_of_the_Trials.jpg/revision/latest/scale-to-width-down/480?cb=20250715041634"
   },
   {
     "id": "boggart",
@@ -402,7 +409,8 @@
         "description": "You can take the Disengage or Hide action as a bonus action on each of your turns."
       }
     ],
-    "variants": []
+    "variants": [],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/1/1b/Boggart_2e.jpg/revision/latest/scale-to-width-down/480?cb=20210131050526"
   },
   {
     "id": "bugbear",
@@ -489,7 +497,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/f/f8/Monster_Manual_5e_-_Bugbear_-_p33.jpg/revision/latest/scale-to-width-down/480?cb=20200313165121"
   },
   {
     "id": "centaur",
@@ -598,7 +607,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/c/cc/Centaur-5e.jpg/revision/latest/scale-to-width-down/480?cb=20201226170508"
   },
   {
     "id": "changeling",
@@ -632,7 +642,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:changeling"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/4/47/Changeling_MotM.png/revision/latest/scale-to-width-down/480?cb=20230822130023"
   },
   {
     "id": "custom-lineage",
@@ -667,7 +678,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": null
   },
   {
     "id": "deep-gnome",
@@ -734,7 +746,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/3/3c/Deep_gnome_5e.png/revision/latest/scale-to-width-down/480?cb=20220721050837"
   },
   {
     "id": "deep-imaskari-ua",
@@ -775,7 +788,8 @@
         "description": "When you reach character level 3, you can use a Bonus Action to create an Aura of Unlight that sheds Bright Light in a 10-foot Emanation originating from you.  \nChoose one of the options below each time you create the aura; the aura lasts for 1 minute or until you end it (no action required), and once you create this aura, you can't do so again until you finish a Long Rest:\n\n**Abjuring Unlight.** You and your allies in the aura gain a bonus to AC equal to half your Proficiency Bonus (round down).\n\n**Brilliant Unlight.** Creatures other than your allies that start their turn within the Emanation must succeed on a Constitution saving throw (DC 8 plus your Charisma modifier and Proficiency Bonus) or have the Blinded condition until the end of your next turn.\n\n**Corrupting Unlight.** When you deal damage to a creature with an attack or a spell, you can change the damage type to Radiant. Additionally, you can roll one of your unexpended Hit Point Dice and deal extra Radiant damage equal to the number rolled. That die is then expended."
       }
     ],
-    "variants": []
+    "variants": [],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/9/95/Ex_Deep_Imaskari.jpg/revision/latest/scale-to-width-down/480?cb=20091027163507"
   },
   {
     "id": "dhampir",
@@ -820,7 +834,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:dhampir"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/9/97/ABoH_dhampir.jpg/revision/latest/scale-to-width-down/480?cb=20260531202234"
   },
   {
     "id": "dragonborn",
@@ -909,7 +924,8 @@
     ],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:dragonborn"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/c/c4/Dragonborn_5eR.png/revision/latest/scale-to-width-down/480?cb=20250514043333"
   },
   {
     "id": "drider-ua",
@@ -955,7 +971,8 @@
         "description": "You ignore movement restrictions caused by webs, and you know the location of any other creature in contact with the same web."
       }
     ],
-    "variants": []
+    "variants": [],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/5/5d/Monster_Manual_5e_-_Drider_-_p120.jpg/revision/latest/scale-to-width-down/480?cb=20141112143053"
   },
   {
     "id": "duergar",
@@ -1047,7 +1064,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/6/68/Duergar-5e.jpg/revision/latest/scale-to-width-down/480?cb=20190315010252"
   },
   {
     "id": "duskling",
@@ -1097,7 +1115,8 @@
         "description": "You gain a number of Temporary Hit Points equal to your Proficiency Bonus, and you have Advantage on Strength (Athletics) and Dexterity (Acrobatics) checks."
       }
     ],
-    "variants": []
+    "variants": [],
+    "image": null
   },
   {
     "id": "dwarf",
@@ -1140,7 +1159,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:dwarf"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/b/b6/Dwarf-5e.png/revision/latest/scale-to-width-down/480?cb=20180814005205"
   },
   {
     "id": "earth-genasi",
@@ -1198,7 +1218,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/e/e0/Earth_genasi.jpg/revision/latest/scale-to-width-down/480?cb=20081025060656"
   },
   {
     "id": "eladrin",
@@ -1280,7 +1301,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/0e/Celestial_Eladrin.jpg/revision/latest/scale-to-width-down/480?cb=20210414074838"
   },
   {
     "id": "elf",
@@ -1424,7 +1446,8 @@
     ],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:elf"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/e/e2/5eR_Elves.jpg/revision/latest/scale-to-width-down/480?cb=20250529031259"
   },
   {
     "id": "faerie",
@@ -1455,7 +1478,8 @@
         "description": "Because of your wings, you have a flying speed equal to your walking speed. You can't use this flying speed if you're wearing medium or heavy armor.\n\nIn addition, Shadowmoor faeries have Darkvision with a range of 120 feet."
       }
     ],
-    "variants": []
+    "variants": [],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/1/18/DMG5e_-_Feywild_-_Cladio_pozas_-_p50.jpg/revision/latest/scale-to-width-down/480?cb=20150507090151"
   },
   {
     "id": "fairy",
@@ -1540,7 +1564,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/e/e8/Faerie.jpg/revision/latest/scale-to-width-down/480?cb=20080309111448"
   },
   {
     "id": "firbolg",
@@ -1612,7 +1637,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/79/Firbolg-5e.jpg/revision/latest/scale-to-width-down/480?cb=20180623050202"
   },
   {
     "id": "fire-genasi",
@@ -1675,7 +1701,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/2/23/Fire_Genasi_5e.png/revision/latest/scale-to-width-down/480?cb=20220830155944"
   },
   {
     "id": "flamekin",
@@ -1711,7 +1738,8 @@
         "description": "You know the Produce Flame cantrip. Starting at 3rd level, you can cast the Burning Hands spell with this trait. Starting at 5th level, you can also cast the Flame Blade spell with this trait, without requiring a material component. Once you cast Burning Hands or Flame Blade with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast either of those spells using any spell slots you have of the appropriate level.  \nIntelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race)."
       }
     ],
-    "variants": []
+    "variants": [],
+    "image": "https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/6/6b/IkoriaElementalConcept.png/revision/latest/scale-to-width-down/480?cb=20230630202414"
   },
   {
     "id": "giff",
@@ -1750,7 +1778,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/74/Giff-5e.png/revision/latest/scale-to-width-down/480?cb=20180526150021"
   },
   {
     "id": "githyanki",
@@ -1817,7 +1846,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/3/3d/Monster_Manual_5e_-_Githyanki_-_p160.jpg/revision/latest/scale-to-width-down/480?cb=20200229181610"
   },
   {
     "id": "githzerai",
@@ -1879,7 +1909,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/c/cc/Monster_Manual_5e_-_Githzerai_-_p161.jpg/revision/latest/scale-to-width-down/480?cb=20200229183231"
   },
   {
     "id": "glitchling-ua",
@@ -1928,7 +1959,8 @@
     "variants": [],
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)"
-    ]
+    ],
+    "image": null
   },
   {
     "id": "gnome",
@@ -1966,7 +1998,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:gnome"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/c/cb/5eR_Gnomes.png/revision/latest/scale-to-width-down/480?cb=20251028031317"
   },
   {
     "id": "goblin",
@@ -2094,7 +2127,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/74/Dungeon_Masters_guide_5e_-_Goblin_-_p107.jpg/revision/latest/scale-to-width-down/480?cb=20150503203525"
   },
   {
     "id": "goliath",
@@ -2122,7 +2156,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:goliath"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/1/15/United_colors_of_goliaths_5point5e.jpg/revision/latest/scale-to-width-down/480?cb=20241016184327"
   },
   {
     "id": "grung-oga",
@@ -2177,7 +2212,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/1/1f/Grungs-5e.jpg/revision/latest/scale-to-width-down/480?cb=20171010182736"
   },
   {
     "id": "hadozee",
@@ -2218,7 +2254,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/2/20/Hadozee_SJ_5E_2.png/revision/latest/scale-to-width-down/480?cb=20220902095955"
   },
   {
     "id": "half-elf",
@@ -2307,7 +2344,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/9/92/Half-elf_PHB5e.jpg/revision/latest/scale-to-width-down/480?cb=20200903214340"
   },
   {
     "id": "half-orc",
@@ -2379,7 +2417,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/03/Half-orc-5e.png/revision/latest/scale-to-width-down/480?cb=20200308113302"
   },
   {
     "id": "halfling",
@@ -2422,7 +2461,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:halfling"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/3/38/Halflings_5eR.png/revision/latest/scale-to-width-down/480?cb=20251028032610"
   },
   {
     "id": "harengon",
@@ -2500,7 +2540,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/02/Harengon.png/revision/latest/scale-to-width-down/480?cb=20230807181834"
   },
   {
     "id": "hexblood",
@@ -2529,7 +2570,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:hexblood"
-    ]
+    ],
+    "image": null
   },
   {
     "id": "hobgoblin",
@@ -2623,7 +2665,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/9/90/Hobgoblin_Warlord-5e.png/revision/latest/scale-to-width-down/480?cb=20171011030221"
   },
   {
     "id": "human",
@@ -2662,7 +2705,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:human"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/b/bd/5eR_Humans.jpg/revision/latest/scale-to-width-down/480?cb=20250529030721"
   },
   {
     "id": "illithidkin-ua",
@@ -2703,7 +2747,8 @@
         "description": "You have telepathy with a range of 30 feet."
       }
     ],
-    "variants": []
+    "variants": [],
+    "image": null
   },
   {
     "id": "kalashtar",
@@ -2746,7 +2791,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:kalashtar"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/eberron/images/6/6a/Kalashtar-5eR.png/revision/latest/scale-to-width-down/480?cb=20251211050305"
   },
   {
     "id": "kender",
@@ -2785,7 +2831,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/e/e5/Kender_5e.png/revision/latest/scale-to-width-down/480?cb=20231122144056"
   },
   {
     "id": "kenku",
@@ -2848,7 +2895,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/b/b8/Kenku_5e.jpg/revision/latest/scale-to-width-down/480?cb=20220407203219"
   },
   {
     "id": "khenra",
@@ -2882,7 +2930,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/4/47/Jackal.jpg/revision/latest/scale-to-width-down/480?cb=20190514090807"
   },
   {
     "id": "khoravar",
@@ -2928,7 +2977,8 @@
         "description": "You gain proficiency in one skill or with one tool of your choice. Whenever you finish a Long Rest, you can replace it with another skill or tool proficiency."
       }
     ],
-    "variants": []
+    "variants": [],
+    "image": "https://static.wikia.nocookie.net/eberron/images/8/86/Khoravar-5eR.png/revision/latest/scale-to-width-down/480?cb=20251212001200"
   },
   {
     "id": "kobold",
@@ -3022,7 +3072,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/f/f3/Monster_Manual_5e_-_Kobold_-_p195.jpg/revision/latest/scale-to-width-down/480?cb=20141112221803"
   },
   {
     "id": "kor",
@@ -3062,7 +3113,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/5/5b/Kor.PNG/revision/latest/scale-to-width-down/480?cb=20160429193915"
   },
   {
     "id": "kuo-toa-ua",
@@ -3098,7 +3150,8 @@
         "description": "You always have the Find Familiar spell prepared and can cast it without material components. You can cast it once without a spell slot, and you regain the ability to cast it in this way when you finish a Long Rest.  \nWhen you cast the spell, you choose one of the normal forms for your familiar or one of the following special forms: Homunculus or Myconid Sprout. The familiar's creature type is Celestial.  \nAdditionally, your familiar's form is a divine blend of multiple creatures. When you cast this spell, choose a second form from the available options. Your familiar gains one action, Reaction, or trait from that second form."
       }
     ],
-    "variants": []
+    "variants": [],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/2/28/Kuo-toa-5e.jpg/revision/latest/scale-to-width-down/480?cb=20190710143644"
   },
   {
     "id": "leonin",
@@ -3142,7 +3195,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/b/b9/Leonin_male.webp/revision/latest/scale-to-width-down/480?cb=20241216062357"
   },
   {
     "id": "lizardfolk",
@@ -3229,7 +3283,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/5/57/Lizardfolk_mm5e.jpg/revision/latest/scale-to-width-down/480?cb=20170915185539"
   },
   {
     "id": "locathah-lr",
@@ -3274,7 +3329,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/00/Locathah-5e.jpg/revision/latest/scale-to-width-down/480?cb=20210305203002"
   },
   {
     "id": "lorwyn-changeling",
@@ -3315,7 +3371,8 @@
         "description": "Whenever you roll Initiative, you can immediately move up to half your Speed, provided you don't have Disadvantage on the Initiative roll."
       }
     ],
-    "variants": []
+    "variants": [],
+    "image": "https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/0/03/Shapeshifter.jpg/revision/latest/scale-to-width-down/480?cb=20190514021345"
   },
   {
     "id": "loxodon",
@@ -3364,7 +3421,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/7/70/CompleatedLoxodonConcept.png/revision/latest/scale-to-width-down/480?cb=20230629202513"
   },
   {
     "id": "lupin",
@@ -3400,7 +3458,8 @@
         "description": "You have proficiency in the Perception, Stealth, or Survival skill."
       }
     ],
-    "variants": []
+    "variants": [],
+    "image": null
   },
   {
     "id": "merfolk",
@@ -3447,7 +3506,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/00/Merfolk_5point5e.jpg/revision/latest/scale-to-width-down/480?cb=20250321152034"
   },
   {
     "id": "minotaur",
@@ -3573,7 +3633,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/3/3d/Minotaur-5e.png/revision/latest/scale-to-width-down/480?cb=20161209024527"
   },
   {
     "id": "myconid-ua",
@@ -3614,7 +3675,8 @@
         "description": "When you finish a Long Rest, you can perform a melding ritual to share knowledge and experiences. When you do so, choose up to six allies (which can include yourself) within 30 feet of yourself to partake in the ritual and a skill proficiency that at least one participant has proficiency in. The chosen creatures each have proficiency in that skill until they finish a Long Rest."
       }
     ],
-    "variants": []
+    "variants": [],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/a/a9/Myconids-5e.jpg/revision/latest/scale-to-width-down/480?cb=20171017162732"
   },
   {
     "id": "naga",
@@ -3658,7 +3720,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/a/a6/Guardian_naga-5e.jpg/revision/latest/scale-to-width-down/480?cb=20171010180024"
   },
   {
     "id": "orc",
@@ -3696,7 +3759,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:orc"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/6/60/5eR_Orcs.jpg/revision/latest/scale-to-width-down/480?cb=20250529030935"
   },
   {
     "id": "owlfolk-ua",
@@ -3742,7 +3806,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/dungeonsdragons/images/7/7f/Owlin.png/revision/latest/scale-to-width-down/480?cb=20250715160508"
   },
   {
     "id": "owlin-scc",
@@ -3783,7 +3848,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/dungeonsdragons/images/7/7f/Owlin.png/revision/latest/scale-to-width-down/480?cb=20250715160508"
   },
   {
     "id": "plasmoid",
@@ -3833,7 +3899,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/spelljammer/images/a/a3/Plasmoids.jpg/revision/latest/scale-to-width-down/480?cb=20220809110517"
   },
   {
     "id": "rabbitfolk-ua",
@@ -3883,7 +3950,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/02/Harengon.png/revision/latest/scale-to-width-down/480?cb=20230807181834"
   },
   {
     "id": "reborn",
@@ -3922,7 +3990,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:reborn"
-    ]
+    ],
+    "image": null
   },
   {
     "id": "revenant-ua",
@@ -3960,7 +4029,8 @@
     "variants": [],
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/7e/Revenant-5e.png/revision/latest/scale-to-width-down/480?cb=20161213024507"
   },
   {
     "id": "rimekin",
@@ -3996,7 +4066,8 @@
         "description": "You have Darkvision with a range of 60 feet."
       }
     ],
-    "variants": []
+    "variants": [],
+    "image": null
   },
   {
     "id": "satyr",
@@ -4073,7 +4144,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/d/dc/Satyr-5e.jpg/revision/latest/scale-to-width-down/480?cb=20160918232601"
   },
   {
     "id": "sea-elf",
@@ -4170,7 +4242,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/d/dc/AquaticElf-5e.png/revision/latest/scale-to-width-down/480?cb=20211207075044"
   },
   {
     "id": "shadar-kai",
@@ -4262,7 +4335,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/8/8c/Shadar-kai_shadow_dancer-5e.png/revision/latest/scale-to-width-down/480?cb=20190322194924"
   },
   {
     "id": "shifter",
@@ -4301,7 +4375,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:shifter"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/1/12/Shifter-5eR.jpg/revision/latest/scale-to-width-down/480?cb=20251212001940"
   },
   {
     "id": "simic-hybrid",
@@ -4336,7 +4411,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": null
   },
   {
     "id": "siren",
@@ -4371,7 +4447,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/6/61/Harpy-5e.png/revision/latest/scale-to-width-down/480?cb=20161130025002"
   },
   {
     "id": "tabaxi",
@@ -4445,7 +4522,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/a/a2/Tabaxi-5e.jpg/revision/latest/scale-to-width-down/480?cb=20170131190820"
   },
   {
     "id": "thri-kreen",
@@ -4495,7 +4573,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/1/19/Thri-kreen-5e.jpg/revision/latest/scale-to-width-down/480?cb=20161118210858"
   },
   {
     "id": "tiefling",
@@ -4592,7 +4671,8 @@
     ],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:tiefling"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/4/4e/Rainbow_tieflings_5point5e.jpg/revision/latest/scale-to-width-down/480?cb=20241021163453"
   },
   {
     "id": "tortle",
@@ -4675,7 +4755,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/72/Tortle-5e.png/revision/latest/scale-to-width-down/480?cb=20170928140158"
   },
   {
     "id": "triton",
@@ -4757,7 +4838,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/72/Triton-5e.jpg/revision/latest/scale-to-width-down/480?cb=20190930164813"
   },
   {
     "id": "vampire",
@@ -4824,7 +4906,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/0/09/Vampire_5point5e.jpg/revision/latest/scale-to-width-down/480?cb=20250328215545"
   },
   {
     "id": "vedalken",
@@ -4881,7 +4964,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/d/dd/Vedalken.jpg/revision/latest/scale-to-width-down/480?cb=20190514075224"
   },
   {
     "id": "verdan-ai",
@@ -4925,7 +5009,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/8/88/Verdan-5e.jpg/revision/latest/scale-to-width-down/480?cb=20190811111038"
   },
   {
     "id": "viashino-ua",
@@ -4964,7 +5049,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/1/14/Viashino.jpg/revision/latest/scale-to-width-down/480?cb=20190514074643"
   },
   {
     "id": "warforged",
@@ -5013,7 +5099,8 @@
     "variants": [],
     "replaced": [
       "https://dnd5e.wikidot.com/lineage:warforged"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/5/5c/Warforged-5e.jpg/revision/latest/scale-to-width-down/480?cb=20200522150846"
   },
   {
     "id": "water-genasi",
@@ -5086,7 +5173,8 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/4/40/Water_genasi.jpg/revision/latest/scale-to-width-down/480?cb=20081025060459"
   },
   {
     "id": "yuan-ti",
@@ -5159,6 +5247,7 @@
     "adjustments": [
       "Removed racial Ability Score Increase (2024 rules)",
       "Removed racial languages (2024 rules)"
-    ]
+    ],
+    "image": "https://static.wikia.nocookie.net/forgottenrealms/images/7/74/Monster_Manual_5e_-_Yuan-ti_-_p307.jpg/revision/latest/scale-to-width-down/480?cb=20141116095915"
   }
 ]

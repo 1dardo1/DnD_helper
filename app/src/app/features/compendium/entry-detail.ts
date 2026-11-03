@@ -29,6 +29,8 @@ import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from './load-error';
 
 /** Detail page for any entry, with the fields of its type and links to related entries. */
+import { SpeciesPortrait } from '../../shared/picker/species-portrait';
+
 @Component({
   selector: 'app-entry-detail',
   imports: [
@@ -42,6 +44,7 @@ import { LoadError } from './load-error';
     MarkdownPipe,
     LoadError,
     ClassThemeDirective,
+    SpeciesPortrait,
   ],
   templateUrl: './entry-detail.html',
   styleUrl: './entry-detail.scss',

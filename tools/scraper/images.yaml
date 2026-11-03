@@ -1,0 +1,16 @@
+# Imágenes de las especies: se buscan solas por el nombre inglés en estas wikis de Fandom (en
+# este orden) y la app las enseña desde allí, sin copiarlas al repo. Aquí van las excepciones:
+#   id: "wiki:Título de la página"   la imagen principal de esa página
+#   id: null                         sin imagen (la búsqueda daría una que no corresponde)
+wikis: [forgottenrealms, dungeonsdragons, eberron, spelljammer, mtg]
+
+overrides:
+  autognome: "spelljammer:Autognome"
+  plasmoid: "spelljammer:Plasmoid"
+  lupin: null
+  owlfolk-ua: "dungeonsdragons:Owlin"
+  rabbitfolk-ua: "forgottenrealms:Harengon"
+  shadar-kai: "forgottenrealms:Shadar-kai (elf)"
+  lorwyn-changeling: "mtg:Shapeshifter"
+  reborn: null
+  custom-lineage: null

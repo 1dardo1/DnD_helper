@@ -401,6 +401,9 @@
 
       @case ('species') {
         @let sp = asSpecies(e);
+        @if (sp.image) {
+          <app-species-portrait class="full" [src]="sp.image" [alt]="sp.name | dataName" />
+        }
         <dl class="fields">
           <dt>{{ 'compendium.creatureType' | t }}</dt>
           <dd>{{ sp.creatureType | term: 'creatureType' }}</dd>
