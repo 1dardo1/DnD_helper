@@ -164,7 +164,12 @@ export function optionGroupsFor(
     const value = col ? parseInt(cls.progression.rows[level - 1]?.values[col] ?? '', 10) : NaN;
     return {
       group,
-      options: opts.sort((a, b) => a.name.localeCompare(b.name)),
+      // by the level they require (none = 1), as the wizard and level-up list them
+      options: opts.sort(
+        (a, b) =>
+          (a.prerequisites?.level ?? 1) - (b.prerequisites?.level ?? 1) ||
+          a.name.localeCompare(b.name),
+      ),
       count: Number.isNaN(value) ? null : value,
     };
   });

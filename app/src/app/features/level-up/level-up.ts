@@ -44,6 +44,7 @@ import { RulesDataService } from '../../core/rules/rules-data.service';
 import { Sheet } from '../../core/rules/sheet';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { ENTRY_FACETS } from '../../shared/picker/entry-facets';
+import { defaultOrder } from '../../shared/picker/entry-order';
 import { Picker } from '../../shared/picker/picker';
 import { LoadError } from '../compendium/load-error';
 
@@ -125,7 +126,7 @@ export class LevelUp {
     const mine = d.original.classes.map((k) => ({ entry: k, cls: d.rules.classes.get(k.id) }));
     const current = mine.map((m) => m.cls).filter((c): c is DndClass => !!c);
     const taken = new Set(d.original.classes.map((k) => k.id));
-    const others = d.classes
+    const others = this.shown(d.classes)
       .filter((c) => !taken.has(c.id))
       .map((cls) => ({ cls, notes: multiclassNotes(current, cls, d.before!) }));
     return { mine, current, others };
@@ -151,7 +152,9 @@ export class LevelUp {
       ...g,
       entry,
       sub,
-      subclasses: subclassesFor(cls.id, [...d.rules.subclasses.values()]),
+      subclasses: this.shown(subclassesFor(cls.id, [...d.rules.subclasses.values()])),
+      // by level required, then by the name shown
+      optionGroups: g.optionGroups.map((og) => ({ ...og, options: this.shown(og.options) })),
       spellLists: sl,
       skillOptions: multiclassSkillOptions(cls, g.multiclass),
       instruments: g.multiclass?.instrument ? TOOL_GROUPS['Musical Instrument'] : [],
@@ -394,8 +397,20 @@ export class LevelUp {
     return id ? this.data.value()?.rules.feats.get(id) : undefined;
   }
 
+  /** Feats for each kind of slot, in the default order (ASI first, then by ability...). */
+  private readonly featLists = computed(() => {
+    const feats = this.data.value()?.feats ?? [];
+    const kinds = ['asi', 'fighting-style', 'epic-boon'] as const;
+    return new Map(kinds.map((k) => [k, this.shown(featsForSlot(k, feats))]));
+  });
+
   protected featsFor(kind: 'asi' | 'fighting-style' | 'epic-boon'): Feat[] {
-    return featsForSlot(kind, this.data.value()?.feats ?? []);
+    return this.featLists().get(kind) ?? [];
+  }
+
+  /** In the default order of their type, by the name shown. */
+  private shown<T extends { name: string }>(xs: readonly T[]): T[] {
+    return defaultOrder(xs, (x) => this.dataText.shortName(x.name));
   }
 
   protected featProblems(feat: Feat | undefined): Note[] {
