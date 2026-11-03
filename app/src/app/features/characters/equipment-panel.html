@@ -81,6 +81,19 @@
         </label>
       }
     </div>
+    @if (entries().length > 1) {
+      <p class="reorder">
+        <button
+          type="button"
+          class="btn-ghost"
+          [class.on]="reordering()"
+          [attr.aria-pressed]="reordering()"
+          (click)="reordering.set(!reordering())"
+        >
+          {{ (reordering() ? 'sheet.reorderDone' : 'sheet.reorder') | t }}
+        </button>
+      </p>
+    }
     <ul class="inventory">
       @for (r of entries(); track r.entry.id; let first = $first, last = $last) {
         <li [class.equipped]="r.entry.equipped">
@@ -114,26 +127,28 @@
             (change)="qty(r.entry, $event)"
             [attr.aria-label]="'sheet.quantity' | t"
           />
-          <span class="move">
-            <button
-              type="button"
-              class="btn-ghost"
-              [disabled]="first"
-              (click)="move(r.entry, -1)"
-              [attr.aria-label]="('sheet.moveUp' | t) + ': ' + (r.item?.name ?? r.entry.name)"
-            >
-              ↑
-            </button>
-            <button
-              type="button"
-              class="btn-ghost"
-              [disabled]="last"
-              (click)="move(r.entry, 1)"
-              [attr.aria-label]="('sheet.moveDown' | t) + ': ' + (r.item?.name ?? r.entry.name)"
-            >
-              ↓
-            </button>
-          </span>
+          @if (reordering()) {
+            <span class="move">
+              <button
+                type="button"
+                class="btn-ghost"
+                [disabled]="first"
+                (click)="move(r.entry, -1)"
+                [attr.aria-label]="('sheet.moveUp' | t) + ': ' + (r.item?.name ?? r.entry.name)"
+              >
+                ↑
+              </button>
+              <button
+                type="button"
+                class="btn-ghost"
+                [disabled]="last"
+                (click)="move(r.entry, 1)"
+                [attr.aria-label]="('sheet.moveDown' | t) + ': ' + (r.item?.name ?? r.entry.name)"
+              >
+                ↓
+              </button>
+            </span>
+          }
           <button
             type="button"
             class="btn-ghost remove"

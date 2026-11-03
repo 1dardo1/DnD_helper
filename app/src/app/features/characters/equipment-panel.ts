@@ -45,6 +45,8 @@ export class EquipmentPanel {
   });
 
   protected readonly query = signal('');
+  /** Shows the ↑ ↓ buttons to rearrange the inventory. */
+  protected readonly reordering = signal(false);
 
   protected readonly entries = computed(() => {
     const byId = this.items.value()?.byId;

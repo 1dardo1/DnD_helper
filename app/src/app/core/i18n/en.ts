@@ -112,6 +112,8 @@ export const en = {
   'sheet.weapons': 'Weapons',
   'sheet.tools': 'Tools',
   'sheet.features': 'Features',
+  'sheet.reorder': '⇅ Rearrange',
+  'sheet.reorderDone': '✓ Done',
   'sheet.moveUp': 'Move up',
   'sheet.moveDown': 'Move down',
   'sheet.money': 'Coins',

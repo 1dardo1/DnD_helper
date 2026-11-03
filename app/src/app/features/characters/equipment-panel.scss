@@ -126,3 +126,15 @@
     text-align: right;
   }
 }
+
+.reorder {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 var(--space-1);
+
+  .on {
+    color: var(--card);
+    background-color: var(--accent);
+    border-color: var(--accent);
+  }
+}
