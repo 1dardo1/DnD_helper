@@ -12,6 +12,7 @@ import {
   EntryType,
   Feat,
   Item,
+  Monster,
   Rule,
   Spell,
   Species,
@@ -26,6 +27,7 @@ import {
   facetValues,
   backgroundFeat,
   backgroundTool,
+  crText,
   isFeatKind,
   weaponTraining,
 } from './entry-facets';
@@ -50,6 +52,7 @@ const CATEGORY_DOMAIN: Partial<Record<EntryType, TermDomain>> = {
   feat: 'featCategory',
   item: 'itemCategory',
   rule: 'ruleCategory',
+  monster: 'monsterCategory',
 };
 
 /** Facets whose label already exists as a compendium filter label. */
@@ -257,6 +260,32 @@ export class EntryLabels {
       case 'creatureType':
         text = this.term('creatureType', value);
         break;
+      case 'cr':
+        text = this.t('monster.crValue', { cr: value.replace('-', '–') });
+        break;
+      case 'challenge':
+        text = this.t('monster.crValue', { cr: crText(Number(value)) });
+        break;
+      case 'movement':
+        text = value === 'walkOnly' ? this.t('monster.walkOnly') : this.term('speed', value);
+        break;
+      case 'legendary':
+      case 'spellcaster':
+        text = this.t(value === 'yes' ? 'compendium.yes' : 'compendium.no');
+        break;
+      case 'immunity':
+      case 'resistance':
+        text = value === 'none' ? this.t('compendium.none') : this.term('damage', value);
+        break;
+      case 'conditionImmunity':
+        text = value === 'none' ? this.t('compendium.none') : this.term('condition', value);
+        break;
+      case 'senses':
+        text = value === 'none' ? this.t('compendium.none') : this.t(`monster.sense.${value}`);
+        break;
+      case 'alignment':
+        text = this.term('alignment', value);
+        break;
       case 'feat':
         text = isFeatKind(value)
           ? this.t('picker.featOfKind', { kind: this.term('featCategory', value) })
@@ -330,6 +359,8 @@ export class EntryLabels {
         return this.itemSummary(e as Item);
       case 'option':
         return this.optionSummary(e as ClassOption);
+      case 'monster':
+        return this.monsterSummary(e as Monster);
       case 'rule':
         return {
           kicker: capitalise(this.term('ruleCategory', (e as Rule).category)),
@@ -526,6 +557,44 @@ export class EntryLabels {
       ? `${capitalise(this.term('magicType', i.magic.type))} · ${this.term('rarity', i.magic.rarity)}`
       : capitalise(this.term('itemCategory', i.category));
     return { kicker: kind, facts: facts.slice(0, 3), marks: [] };
+  }
+
+  /** "Grande · Dragón · VD 10" and AC, HP and speeds. */
+  monsterKicker(m: Monster): string {
+    return [
+      m.size.map((z) => this.term('size', z)).join(' / '),
+      capitalise(this.term('creatureType', m.creatureType)),
+      this.t('monster.crValue', { cr: crText(m.cr) }),
+    ].join(' · ');
+  }
+
+  /** "30 pies, volando 60 pies (flotando)". */
+  monsterSpeed(m: Monster): string {
+    const kinds = (['burrow', 'climb', 'fly', 'swim'] as const).filter((k) => m.speed[k]);
+    return [
+      this.feet(m.speed.walk),
+      ...kinds.map(
+        (k) =>
+          this.t('compendium.speedKind', {
+            kind: this.term('speed', k),
+            feet: this.feet(m.speed[k]!),
+          }) + (k === 'fly' && m.speed.hover ? ` (${this.term('speed', 'hover')})` : ''),
+      ),
+    ].join(', ');
+  }
+
+  private monsterSummary(m: Monster): CardSummary {
+    return {
+      kicker: this.monsterKicker(m),
+      facts: [
+        { label: this.t('monster.ac'), value: String(m.ac) },
+        { label: this.t('monster.hp'), value: `${m.hp} (${m.hitDice})` },
+        { label: this.t('picker.speed'), value: this.monsterSpeed(m) },
+      ],
+      marks: m.legendary
+        ? [{ text: this.t('monster.legendaryShort'), title: this.t('picker.facet.legendary') }]
+        : [],
+    };
   }
 
   private optionSummary(o: ClassOption): CardSummary {

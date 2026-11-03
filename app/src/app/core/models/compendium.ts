@@ -7,7 +7,16 @@ export type Ability = 'STR' | 'DEX' | 'CON' | 'INT' | 'WIS' | 'CHA';
 export type Edition = '2014' | '2024';
 
 export type EntryType =
-  'class' | 'subclass' | 'option' | 'spell' | 'feat' | 'species' | 'background' | 'item' | 'rule';
+  | 'class'
+  | 'subclass'
+  | 'option'
+  | 'spell'
+  | 'feat'
+  | 'species'
+  | 'background'
+  | 'item'
+  | 'rule'
+  | 'monster';
 
 export interface Entry {
   id: string;
@@ -212,6 +221,70 @@ export interface Rule extends Entry {
   category: string;
 }
 
+/** A trait or an action of a monster's stat block. */
+export interface MonsterFeature {
+  name: string;
+  /** Markdown. */
+  description: string;
+}
+
+/** A creature of the SRD 5.2 (2024 Monster Manual), from tools/scraper/dndscraper/monsters.py. */
+export interface Monster extends Entry {
+  type: 'monster';
+  /** "animal" for the creatures of the SRD's Animals appendix. */
+  category: 'monster' | 'animal';
+  /** "Large"; ["Medium", "Small"] when it can be either. */
+  size: string[];
+  creatureType: string;
+  /** "swarm" for swarms of Tiny creatures. */
+  tags: string[];
+  alignment: string;
+  ac: number;
+  /** Armor worn (equipment names), if any. */
+  armor: string[];
+  hp: number;
+  /** "20d10 + 40". */
+  hitDice: string;
+  speed: {
+    walk: number;
+    fly?: number;
+    swim?: number;
+    climb?: number;
+    burrow?: number;
+    hover?: boolean;
+  };
+  initiative: number | null;
+  abilities: Record<Ability, number>;
+  /** Only the proficient saving throws (the rest use the ability modifier). */
+  saves: Partial<Record<Ability, number>>;
+  /** skill id ("animal-handling") → bonus. */
+  skills: Record<string, number>;
+  vulnerabilities: string[];
+  resistances: string[];
+  immunities: string[];
+  conditionImmunities: string[];
+  /** Range in feet of each special sense (darkvision, blindsight, tremorsense, truesight). */
+  senses: Partial<Record<'darkvision' | 'blindsight' | 'tremorsense' | 'truesight', number>>;
+  passivePerception: number;
+  /** As written ("Common, Draconic"); empty when it speaks none. */
+  languages: string;
+  /** Challenge rating: 0, 0.125, 0.25, 0.5, 1…30. */
+  cr: number;
+  xp: number;
+  xpInLair: number | null;
+  proficiencyBonus: number;
+  gear: string[];
+  traits: MonsterFeature[];
+  actions: MonsterFeature[];
+  bonusActions: MonsterFeature[];
+  reactions: MonsterFeature[];
+  legendaryActions: MonsterFeature[];
+  legendaryActionUses: { uses: number; inLair: number | null } | null;
+  legendary: boolean;
+  /** It casts spells (a Spellcasting action or trait, or actions that cast a spell). */
+  spellcasting: boolean;
+}
+
 export interface EntryByType {
   class: DndClass;
   subclass: Subclass;
@@ -222,6 +295,7 @@ export interface EntryByType {
   background: Background;
   item: Item;
   rule: Rule;
+  monster: Monster;
 }
 
 /** data/<file>.json for each type. */
@@ -234,6 +308,7 @@ export const DATA_FILES: Record<EntryType, string> = {
   species: 'species',
   background: 'backgrounds',
   item: 'items',
+  monster: 'monsters',
   rule: 'rules',
 };
 

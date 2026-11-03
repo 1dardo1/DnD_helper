@@ -2,6 +2,7 @@
 
 Convierte [dnd5e.wikidot.com](https://dnd5e.wikidot.com) (reglas de 2014) y
 [dnd2024.wikidot.com](https://dnd2024.wikidot.com) (reglas de 2024) en los JSON de `data/`.
+Los monstruos salen del SRD 5.2 (ver [Monstruos](#monstruos-srd-52)).
 
 ## Uso
 
@@ -64,6 +65,41 @@ categorías, competencias…) no se traduce.
 
 El extractor no busca imágenes. Las de las especies las pone el usuario a mano en
 `app/public/species/<id>.webp` y van con la app (ver `app/public/species/README.md`).
+
+## Monstruos (SRD 5.2)
+
+Las wikis no tienen monstruos. `dndscraper.monsters` (lo lanza también la extracción completa)
+descarga las **331 criaturas del SRD 5.2**, la parte gratuita del Manual de Monstruos de 2024, y
+escribe `data/monsters.json`:
+
+- La lista y casi todo sale de la API de [Open5e](https://api.open5e.com/v2/creatures/?document__key=srd-2024):
+  rasgos y acciones con su texto completo (listas de conjuros incluidas), velocidades, sentidos,
+  iniciativa, inmunidades… A los ataques se les devuelve el «Hit:» que Open5e quita.
+- Lo que Open5e tiene mal o no tiene se toma de la [D&D 5e API](https://www.dnd5eapi.co/api/2024/monsters)
+  cuando la criatura está en las dos: tamaños («Medium or Small», Tiny), alineamiento, salvaciones con
+  competencia, PX de VD 0 y en guarida, armadura y equipo.
+- Campos: tamaño, tipo, alineamiento, CA, PG y dados, velocidades (con `hover`), iniciativa,
+  características, salvaciones con competencia, habilidades, resistencias/inmunidades/vulnerabilidades
+  al daño, inmunidades a estados, sentidos y Percepción pasiva, idiomas, `cr` (0, 0.125, 0.25, 0.5,
+  1…30), PX, bonificador de competencia (calculado del VD), rasgos, acciones, acciones adicionales,
+  reacciones, acciones legendarias, `legendary`, `spellcasting` y `category` (`animal` para el
+  apéndice de animales). `description` reúne rasgos y acciones en Markdown.
+- Los usos de acciones legendarias no vienen en ninguna de las dos fuentes: se pone el estándar de
+  2024, 3 (4 en su guarida si tiene guarida).
+- El SRD no trae hábitats ni subtipos (demonio, diablo, goblinoide…), así que no los hay.
+- Las respuestas se guardan en `.cache/monsters/`, así que `--offline` funciona.
+- La traducción no envía `description` otra vez: se rehace con los rasgos y acciones traducidos.
+  Los nombres oficiales en español de los monstruos conocidos están en `names.es.yaml` (sección
+  «Monstruos»); los dudosos se dejan en inglés.
+
+```bash
+python -m dndscraper.monsters [--offline]
+```
+
+**Licencia:** el SRD 5.2 se publica bajo [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
+This work includes material from the System Reference Document 5.2 ("SRD 5.2") by Wizards of the Coast
+LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2 is licensed under the Creative Commons
+Attribution 4.0 International License. La app lo dice en el pie del compendio y en la ficha de cada monstruo.
 
 ## Exclusiones
 

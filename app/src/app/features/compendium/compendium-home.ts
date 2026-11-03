@@ -43,6 +43,14 @@ import { LoadError } from './load-error';
           <small> · {{ 'compendium.offline' | t }}</small>
         }
       </p>
+      <p class="credit">
+        <small
+          >{{ 'monster.creditMonsters' | t }} {{ 'monster.credit' | t }}
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener"
+            >creativecommons.org/licenses/by/4.0</a
+          ></small
+        >
+      </p>
     }
   `,
   styles: `
@@ -145,8 +153,14 @@ import { LoadError } from './load-error';
     .sections li:nth-child(9) {
       --i: 8;
     }
-    .sections li:nth-child(n + 10) {
+    .sections li:nth-child(10) {
+      --i: 8.5;
+    }
+    .sections li:nth-child(n + 11) {
       --i: 4.5;
+    }
+    .credit {
+      color: var(--ink-soft);
     }
   `,
 })

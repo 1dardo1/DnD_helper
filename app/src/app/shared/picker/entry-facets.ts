@@ -11,6 +11,7 @@ import {
   EntryType,
   Feat,
   Item,
+  Monster,
   Prerequisites,
   Spell,
   Species,
@@ -65,7 +66,18 @@ export type FacetKey =
   | 'mastery'
   | 'armorKind'
   | 'stealth'
-  | 'price';
+  | 'price'
+  // monsters
+  | 'cr'
+  | 'challenge'
+  | 'movement'
+  | 'legendary'
+  | 'spellcaster'
+  | 'immunity'
+  | 'resistance'
+  | 'conditionImmunity'
+  | 'senses'
+  | 'alignment';
 
 /**
  * Facets offered for each type, the most used first: the first `PRIMARY_FACETS[type]` are always
@@ -108,6 +120,22 @@ export const ENTRY_FACETS: Record<EntryType, FacetKey[]> = {
     'stealth',
     'edition',
   ],
+  // what a DM looks for to build an encounter: how hard, what kind, how big, how it moves
+  monster: [
+    'cr',
+    'creatureType',
+    'size',
+    'movement',
+    'legendary',
+    'spellcaster',
+    'category',
+    'immunity',
+    'resistance',
+    'conditionImmunity',
+    'senses',
+    'alignment',
+    'challenge',
+  ],
   rule: ['category'],
 };
 
@@ -120,6 +148,7 @@ export const PRIMARY_FACETS: Record<EntryType, number> = {
   species: 4,
   background: 4,
   item: 4,
+  monster: 4,
   rule: 1,
 };
 
@@ -381,6 +410,58 @@ export function sortByPrice<T extends Pick<Item, 'cost'>>(items: readonly T[], d
   });
 }
 
+// -- monsters ------------------------------------------------------------------------------------
+
+/** "0", "1/8", "1/4", "1/2", "1"…"30". */
+export function crText(cr: number): string {
+  if (cr > 0 && cr < 1) return `1/${Math.round(1 / cr)}`;
+  return String(cr);
+}
+
+/**
+ * Challenge rating bands, the usual ones for each tier of play: 0–1/4 and 1/2–1 (a party of levels
+ * 1–2), 2–4 (tier 1), 5–10 (tier 2), 11–16 (tier 3), 17+ (tier 4).
+ */
+export const CR_BANDS = ['0-1/4', '1/2-1', '2-4', '5-10', '11-16', '17+'] as const;
+
+export function crBand(cr: number): (typeof CR_BANDS)[number] {
+  if (cr <= 0.25) return '0-1/4';
+  if (cr <= 1) return '1/2-1';
+  if (cr <= 4) return '2-4';
+  if (cr <= 10) return '5-10';
+  if (cr <= 16) return '11-16';
+  return '17+';
+}
+
+/** Ability modifier of a score: 10–11 → 0, 18 → +4, 7 → −2. */
+export function abilityModifier(score: number): number {
+  return Math.floor((score - 10) / 2);
+}
+
+/** "+3", "−1", "+0" (with a real minus sign). */
+export function signed(n: number): string {
+  return n < 0 ? `−${-n}` : `+${n}`;
+}
+
+export const MOVEMENTS = ['fly', 'hover', 'swim', 'climb', 'burrow', 'walkOnly'] as const;
+
+/** Ways of moving besides walking (hover counts as flying too), or "walkOnly". */
+export function movementValues(m: Pick<Monster, 'speed'>): string[] {
+  const out = (['fly', 'hover', 'swim', 'climb', 'burrow'] as const).filter((k) => !!m.speed[k]);
+  return out.length ? out : ['walkOnly'];
+}
+
+/** Special senses it has, or "none". */
+export function senseValues(m: Pick<Monster, 'senses'>): string[] {
+  const out = Object.entries(m.senses)
+    .filter(([, v]) => !!v)
+    .map(([k]) => k)
+    .sort();
+  return out.length ? out : ['none'];
+}
+
+const orNone = (list: string[]) => (list.length ? list : ['none']);
+
 // -- every facet -------------------------------------------------------------------------------
 
 const yesNo = (b: boolean) => [b ? 'yes' : 'no'];
@@ -494,6 +575,36 @@ export function facetValues(e: Entry, key: FacetKey): string[] {
       }
       break;
     }
+    case 'monster': {
+      const m = as<Monster>(e);
+      switch (key) {
+        case 'cr':
+          return [crBand(m.cr)];
+        case 'challenge':
+          return [String(m.cr)];
+        case 'creatureType':
+          return [m.creatureType];
+        case 'size':
+          return m.size.map((z) => z.toLowerCase());
+        case 'movement':
+          return movementValues(m);
+        case 'legendary':
+          return yesNo(m.legendary);
+        case 'spellcaster':
+          return yesNo(m.spellcasting);
+        case 'immunity':
+          return orNone(m.immunities);
+        case 'resistance':
+          return orNone(m.resistances);
+        case 'conditionImmunity':
+          return orNone(m.conditionImmunities);
+        case 'senses':
+          return senseValues(m);
+        case 'alignment':
+          return [m.alignment];
+      }
+      break;
+    }
     case 'item': {
       const i = as<Item>(e);
       switch (key) {
@@ -549,7 +660,23 @@ const ORDER: Partial<Record<FacetKey, string[]>> = {
   area: ['yes', 'none', ...AREA_SHAPES],
   price: ['none', 'lt1', '1-10', '10-100', '100-1000', 'gt1000'],
   casting: ['caster', 'spells', 'no'],
-  size: ['tiny', 'small', 'medium', 'large'],
+  size: ['tiny', 'small', 'medium', 'large', 'huge', 'gargantuan'],
+  cr: [...CR_BANDS],
+  movement: [...MOVEMENTS],
+  senses: ['darkvision', 'blindsight', 'tremorsense', 'truesight', 'none'],
+  alignment: [
+    'lawful good',
+    'neutral good',
+    'chaotic good',
+    'lawful neutral',
+    'neutral',
+    'chaotic neutral',
+    'lawful evil',
+    'neutral evil',
+    'chaotic evil',
+    'unaligned',
+  ],
+  category: ['monster', 'animal'],
   primary: ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'],
   ability: ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'],
   saves: ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'],
@@ -569,7 +696,12 @@ export function facetRank(key: FacetKey, value: string): number | null {
   switch (key) {
     case 'level':
     case 'hitDie':
+    case 'challenge':
       return Number(value);
+    case 'immunity':
+    case 'resistance':
+    case 'conditionImmunity':
+      return value === 'none' ? -1 : 0;
     case 'minLevel':
     case 'darkvision':
       return value === 'none' ? 0 : Number(value);
@@ -582,6 +714,8 @@ export function facetRank(key: FacetKey, value: string): number | null {
     case 'repeatable':
     case 'attunement':
     case 'stealth':
+    case 'legendary':
+    case 'spellcaster':
       return value === 'yes' ? 0 : 1;
     case 'tool':
       return value.startsWith('toolGroup:') ? 1 : 0;

@@ -54,17 +54,14 @@
     (facetChange)="setParam($event.key, $event.value)"
     (clear)="clear()"
   >
-    @if (priced()) {
+    @if (sorts(); as so) {
       <label class="sort">
         {{ 'picker.sort' | t }}
         <select (change)="setParam('sort', $any($event.target).value)">
-          <option value="" [selected]="!sort()">{{ 'picker.sort.default' | t }}</option>
-          <option value="price-asc" [selected]="sort() === 'price-asc'">
-            {{ 'picker.sort.priceAsc' | t }}
-          </option>
-          <option value="price-desc" [selected]="sort() === 'price-desc'">
-            {{ 'picker.sort.priceDesc' | t }}
-          </option>
+          <option value="" [selected]="!sort()">{{ so.default | t }}</option>
+          @for (o of so.options; track o.value) {
+            <option [value]="o.value" [selected]="sort() === o.value">{{ o.label | t }}</option>
+          }
         </select>
       </label>
     }

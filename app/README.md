@@ -1,7 +1,8 @@
 # D&D Helper — app
 
 Aplicación web (Angular 21) para consultar el compendio de `data/` y crear y gestionar personajes.
-Interfaz en español e inglés; el contenido de juego está en inglés, tal como sale de las wikis.
+Interfaz en español e inglés; el contenido de juego está en inglés, tal como sale de las wikis (y los
+monstruos, del SRD 5.2), con su traducción al español.
 
 ## Arrancarla en el PC
 
@@ -66,6 +67,29 @@ src/app/
     settings/      ajustes
   shared/          pipe de Markdown
 ```
+
+## Monstruos
+
+El compendio tiene una sección **Monstruos** con las 331 criaturas del SRD 5.2 (la parte gratuita
+del Manual de Monstruos de 2024; ver `tools/scraper/README.md`). Pensada para que el DM prepare
+encuentros:
+
+- **Orden:** por valor de desafío (VD) de menor a mayor y, dentro de cada VD, por nombre. El
+  selector «Ordenar» también deja ver primero los más difíciles o por nombre.
+- **Filtros** (con O/Y y exclusión, como el resto): valor de desafío por tramos (0–1/4, 1/2–1, 2–4,
+  5–10, 11–16, 17+: los de cada nivel de juego), tipo de criatura, tamaño, movimiento (volando,
+  flotando, nadando, trepando, excavando o solo a pie) y, en «Más filtros», legendario, lanza
+  conjuros, categoría (monstruo o animal), inmunidad y resistencia al daño, inmunidad a estados,
+  sentidos, alineamiento y VD exacto. Pinchar el VD en una ficha lista los monstruos de ese VD.
+- **Ficha:** bloque de estadísticas como el del manual de 2024 (`features/compendium/monster-stat-block.ts`):
+  tipo, CA, iniciativa, PG, velocidad, las seis características con modificador y salvación (en
+  color la que tiene competencia), habilidades, defensas, sentidos, idiomas, VD con PX y bonificador,
+  y rasgos, acciones, acciones adicionales, reacciones y acciones legendarias.
+- Tamaños, tipos, alineamientos, daños y estados pasan por el glosario (`glossary.es.json`).
+
+**Créditos:** contiene material del System Reference Document 5.2 de Wizards of the Coast LLC,
+disponible bajo licencia [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode). La app
+lo indica en el pie de la portada del compendio y en cada ficha de monstruo.
 
 ## Personajes y sincronización
 

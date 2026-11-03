@@ -1,4 +1,12 @@
-import { Ability, ClassOption, Entry, Feat, Item, Spell } from '../../core/models/compendium';
+import {
+  Ability,
+  ClassOption,
+  Entry,
+  Feat,
+  Item,
+  Monster,
+  Spell,
+} from '../../core/models/compendium';
 import { requiredSpecies, speciesNames } from './racial-feats';
 
 /**
@@ -15,7 +23,8 @@ import { requiredSpecies, speciesNames } from './racial-feats';
  *   then shields, gear,
  *   tools, mounts, poisons); magic ones by name.
  * - species by popularity (SPECIES_POPULARITY), the rest by name;
- * - subclasses by their class (shown name), then by name.
+ * - subclasses by their class (shown name), then by name;
+ * - monsters by challenge rating (the easiest first), then by name.
  * Other types (and plain objects such as species lineages) keep the name order.
  */
 const ABILITY_ORDER: Ability[] = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'];
@@ -126,6 +135,8 @@ function key(e: Entry): number[] {
       return [(e as ClassOption).prerequisites?.level ?? 1];
     case 'item':
       return itemKey(e as Item);
+    case 'monster':
+      return [(e as Monster).cr];
     default:
       return [];
   }

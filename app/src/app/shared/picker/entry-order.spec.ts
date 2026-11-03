@@ -12,6 +12,31 @@ const feat = (name: string, from: string[] | null, id = name) =>
 const names = (xs: { name: string }[]) => xs.map((x) => x.name);
 
 describe('defaultOrder', () => {
+  it('orders monsters by challenge rating, then by name', () => {
+    const monster = (name: string, cr: number) =>
+      ({ id: name, type: 'monster', name, cr }) as never;
+    const list = [
+      monster('Owlbear', 3),
+      monster('Goblin Warrior', 0.25),
+      monster('Aboleth', 10),
+      monster('Bat', 0),
+      monster('Ghoul', 1),
+      monster('Ape', 0.5),
+      monster('Wolf', 0.25),
+      monster('Bandit', 0.125),
+    ];
+    expect(names(defaultOrder(list, (s: { name: string }) => s.name))).toEqual([
+      'Bat',
+      'Bandit',
+      'Goblin Warrior',
+      'Wolf',
+      'Ape',
+      'Ghoul',
+      'Owlbear',
+      'Aboleth',
+    ]);
+  });
+
   it('orders spells by level, then without concentration first, then by name', () => {
     const list = [
       spell('Haste', 3, true),

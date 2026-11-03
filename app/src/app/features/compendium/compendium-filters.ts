@@ -13,6 +13,7 @@ export const FILTERS: Record<EntryType, FilterKey[]> = {
   species: ['edition'],
   background: ['edition'],
   item: ['category', 'rarity', 'magic', 'edition'],
+  monster: ['category'],
   rule: ['category'],
 };
 

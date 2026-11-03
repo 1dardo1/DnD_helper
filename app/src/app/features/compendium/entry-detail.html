@@ -557,6 +557,18 @@
         <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
       }
 
+      @case ('monster') {
+        <app-monster-stat-block [monster]="asMonster(e)" />
+        <p class="credit">
+          <small
+            >{{ 'monster.credit' | t }}
+            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener"
+              >creativecommons.org/licenses/by/4.0</a
+            ></small
+          >
+        </p>
+      }
+
       @default {
         <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
       }

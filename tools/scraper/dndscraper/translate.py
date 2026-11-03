@@ -26,9 +26,12 @@ from pathlib import Path
 import requests
 import yaml
 
+from . import monsters
+
 ROOT = Path(__file__).resolve().parents[3]
 HERE = Path(__file__).resolve().parents[1]
-FILES = ["backgrounds", "classes", "feats", "items", "options", "rules", "species", "spells", "subclasses"]
+FILES = ["backgrounds", "classes", "feats", "items", "options", "rules", "species", "spells", "subclasses",
+         "monsters"]
 
 # Paths (dot-separated, [] = every list item) of the texts to translate, per file. Everything else
 # is copied as is.
@@ -47,6 +50,17 @@ PATHS = {
                "reactionTrigger"],
     "subclasses": ["features[].name", "features[].description", "shortName"],
 }
+# Files with their own list instead of COMMON + PATHS. Monsters: the description (their traits and
+# actions together) isn't sent again; it's rebuilt from the translated parts (REBUILD).
+OWN_PATHS = {
+    "monsters": ["name", "languages"] + [f"{part}[].{field}" for part, _ in monsters.PARTS
+                                         for field in ("name", "description")],
+}
+REBUILD = {"monsters": lambda e: monsters.describe(e, "es")}
+
+
+def paths_of(file: str) -> list[str]:
+    return OWN_PATHS.get(file) or COMMON + PATHS[file]
 
 URL = "https://translate.googleapis.com/translate_a/single"
 SEP = "\n⟦#⟧\n"          # between texts sent in one request
@@ -269,13 +283,14 @@ def run(root: Path, offline: bool = False, limit: int | None = None, budget_minu
     fixes = load_fixes(HERE / "fixes.es.yaml")
     names_path = HERE / "names.es.yaml"
     fixed_names = (yaml.safe_load(names_path.read_text(encoding="utf-8")) or {}) if names_path.exists() else {}
-    data = {f: json.loads((root / "data" / f"{f}.json").read_text(encoding="utf-8")) for f in FILES}
+    data = {f: json.loads((root / "data" / f"{f}.json").read_text(encoding="utf-8")) for f in FILES
+            if (root / "data" / f"{f}.json").exists()}
 
     # 1. Collect every text (protected) and translate what's missing.
     protected_texts = []
     for f, entries in data.items():
         for e in entries:
-            for c, k in strings_of(e, COMMON + PATHS[f]):
+            for c, k in strings_of(e, paths_of(f)):
                 protected_texts.append(protect(c[k], terms)[0])
     if limit:
         protected_texts = protected_texts[:limit]
@@ -287,7 +302,7 @@ def run(root: Path, offline: bool = False, limit: int | None = None, budget_minu
     missing = 0
     for f, entries in data.items():
         for e in entries:
-            for c, k in strings_of(e, COMMON + PATHS[f]):
+            for c, k in strings_of(e, paths_of(f)):
                 text, values = protect(c[k], terms)
                 if not text.strip():   # empty texts have nothing to translate
                     continue
@@ -299,6 +314,8 @@ def run(root: Path, offline: bool = False, limit: int | None = None, budget_minu
                     if k in ("name", "shortName"):
                         es = fixed_names.get(c[k]) or es[:1].upper() + es[1:]
                     c[k] = es
+            if f in REBUILD:
+                e["description"] = REBUILD[f](e)
         (out_dir / f"{f}.json").write_text(json.dumps(entries, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     stats = {"texts": len(protected_texts), "untranslated": missing, "requests": tr.requests,
              "complete": missing == 0}
