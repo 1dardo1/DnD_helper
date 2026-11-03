@@ -1,7 +1,7 @@
-import { Component, DestroyRef, computed, effect, inject } from '@angular/core';
+import { Component, DestroyRef, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ViewportScroller } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet, Scroll } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet, Scroll } from '@angular/router';
 
 import { CharacterStore } from './core/characters/character-store.service';
 import { SyncService } from './core/characters/sync.service';
@@ -12,7 +12,7 @@ import { Language, SettingsService } from './core/settings/settings.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, TranslatePipe],
+  imports: [RouterOutlet, RouterLink, TranslatePipe],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -27,6 +27,14 @@ export class App {
     { path: '/settings', label: 'nav.settings' },
   ] as const;
 
+  /** Current path, to mark the tab: a character's sheet, level-up... belong to "Characters". */
+  private readonly path = signal('');
+  protected readonly activeTab = computed(() => {
+    const p = this.path();
+    if (p === '/characters/new') return p;
+    return this.nav.find((n) => p === n.path || p.startsWith(n.path + '/'))?.path ?? null;
+  });
+
   protected readonly sync = inject(SyncService);
   protected readonly store = inject(CharacterStore);
   protected readonly update = inject(DevUpdateService);
@@ -39,6 +47,11 @@ export class App {
     void this.store.load();
     this.sync.start(inject(DestroyRef));
     this.scrollOnNavigation();
+    inject(Router)
+      .events.pipe(takeUntilDestroyed())
+      .subscribe((e) => {
+        if (e instanceof NavigationEnd) this.path.set(e.urlAfterRedirects.split(/[?#]/)[0]);
+      });
   }
 
   /**
