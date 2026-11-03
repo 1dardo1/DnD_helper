@@ -60,6 +60,9 @@ jobs:
             --iconBackgroundColor '#3b2416' --iconBackgroundColorDark '#3b2416' \
             --splashBackgroundColor '#3b2416' --splashBackgroundColorDark '#3b2416'
           npx cap sync android
+          # full screen: our MainActivity hides the status and navigation bars
+          cp android-overrides/MainActivity.java \
+            android/app/src/main/java/io/github/dardo1/dndhelper/MainActivity.java
           # versionCode grows with every run, so Android accepts each APK as an update
           sed -i "s/versionCode 1$/versionCode ${{ github.run_number }}/; s/versionName \"1.0\"/versionName \"1.0.${{ github.run_number }}\"/" android/app/build.gradle
 

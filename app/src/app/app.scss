@@ -8,7 +8,11 @@ $phone: 44.99rem;
 $wide: 60rem;
 
 :host {
-  display: block;
+  // a column: top strap, then the page filling what's left of the screen (no scroll when the
+  // content fits)
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
   --ribbon-compendium: #7d1d1a;
   --ribbon-characters: #2f5a34;
   --ribbon-create: #27466f;
@@ -239,18 +243,24 @@ nav {
 }
 
 main {
+  flex: 1 0 auto;
+  box-sizing: border-box;
+  width: 100%;
   max-width: var(--content-width);
-  min-height: calc(100dvh - 6rem);
-  margin: 1.5rem auto 2.5rem;
-  padding: 3.25rem 2rem 3rem 2.25rem;
+  // margins and padding shrink on short screens (landscape tablets) so a short page fits
+  margin: clamp(0.75rem, 2.5vh, 1.5rem) auto clamp(0.75rem, 3vh, 2.5rem);
+  padding: clamp(1.5rem, 5vh, 3.25rem) 2rem clamp(1.5rem, 5vh, 3rem) 2.25rem;
   border-radius: 2px 6px 6px 2px;
 }
 
 // Wide screens: tooled leather frame, stitched spine and brass corners.
 @media (min-width: $wide) {
   main {
-    margin: 1.75rem max(2rem, calc((100% - var(--content-width)) / 2)) 3rem;
-    padding: 3.5rem 3rem 3.5rem 3.75rem;
+    width: auto;
+    max-width: none;
+    margin: clamp(1rem, 3vh, 1.75rem) max(2rem, calc((100% - var(--content-width)) / 2))
+      clamp(1rem, 3.5vh, 3rem);
+    padding: clamp(1.75rem, 5.5vh, 3.5rem) 3rem clamp(1.75rem, 5.5vh, 3.5rem) 3.75rem;
     box-shadow:
       inset 0 0 2.5rem var(--paper-edge),
       inset 0 0 0.4rem var(--paper-edge),
@@ -416,7 +426,6 @@ main {
   }
 
   main {
-    min-height: calc(100dvh - 5.5rem);
     margin: 0;
     padding: 1.25rem 1rem calc(5.75rem + env(safe-area-inset-bottom));
     border-radius: 0;

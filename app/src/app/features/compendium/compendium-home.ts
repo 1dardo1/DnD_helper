@@ -94,6 +94,22 @@ import { LoadError } from './load-error';
       position: absolute;
       inset: 0;
     }
+    /* short screens that aren't phones (landscape tablets): smaller cards so it all fits */
+    @media (min-width: 45rem) and (max-height: 56rem) {
+      .sections {
+        gap: var(--space-2);
+        margin-block: var(--space-2);
+      }
+      .sections li {
+        padding: var(--space-2) var(--space-3) var(--space-2) var(--space-4);
+      }
+      .sections a {
+        font-size: var(--fs-lg);
+      }
+      p {
+        margin-block: var(--space-2);
+      }
+    }
     .sections li:hover {
       border-color: var(--line-strong);
       box-shadow: var(--shadow-2);
