@@ -228,7 +228,9 @@
     "tiny": "Diminuto",
     "small": "Pequeño",
     "medium": "Mediano",
-    "large": "Grande"
+    "large": "Grande",
+    "huge": "Enorme",
+    "gargantuan": "Gargantuesco"
   },
   "creatureType": {
     "aberration": "aberración",
@@ -251,7 +253,8 @@
     "fly": "volando",
     "swim": "nadando",
     "climb": "trepando",
-    "burrow": "excavando"
+    "burrow": "excavando",
+    "hover": "flotando"
   },
   "column": {
     "1st": "1.º",
@@ -289,5 +292,39 @@
     "blood curses known": "Maldiciones de sangre conocidas",
     "psionic energy dice": "Dados de energía psiónica",
     "psionic energy die": "Dado de energía psiónica"
+  },
+  "condition": {
+    "blinded": "cegado",
+    "charmed": "hechizado",
+    "deafened": "ensordecido",
+    "exhaustion": "cansancio",
+    "frightened": "asustado",
+    "grappled": "agarrado",
+    "incapacitated": "incapacitado",
+    "invisible": "invisible",
+    "paralyzed": "paralizado",
+    "petrified": "petrificado",
+    "poisoned": "envenenado",
+    "prone": "derribado",
+    "restrained": "apresado",
+    "stunned": "aturdido",
+    "unconscious": "inconsciente"
+  },
+  "alignment": {
+    "lawful good": "legal bueno",
+    "neutral good": "neutral bueno",
+    "chaotic good": "caótico bueno",
+    "lawful neutral": "legal neutral",
+    "neutral": "neutral",
+    "chaotic neutral": "caótico neutral",
+    "lawful evil": "legal malvado",
+    "neutral evil": "neutral malvado",
+    "chaotic evil": "caótico malvado",
+    "unaligned": "sin alineamiento",
+    "any alignment": "cualquier alineamiento"
+  },
+  "monsterCategory": {
+    "monster": "Monstruo",
+    "animal": "Animal"
   }
 }

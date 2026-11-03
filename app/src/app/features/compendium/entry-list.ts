@@ -6,7 +6,14 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { DataTextService } from '../../core/i18n/data-text.service';
 import { I18nService, TranslatePipe, TranslationKey } from '../../core/i18n/i18n.service';
-import { ClassOption, ENTRY_TYPES, Entry, EntryType, Item } from '../../core/models/compendium';
+import {
+  ClassOption,
+  ENTRY_TYPES,
+  Entry,
+  EntryType,
+  Item,
+  Monster,
+} from '../../core/models/compendium';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { EntryCard } from '../../shared/picker/entry-card';
 import { ENTRY_FACETS, FacetKey, facetValues, sortByPrice } from '../../shared/picker/entry-facets';
@@ -26,8 +33,26 @@ const GROUPED: Partial<Record<EntryType, FacetKey>> = {
   subclass: 'class',
 };
 
-/** Types whose list can also be sorted by price (?sort=price-asc|price-desc). */
-const PRICED = new Set<EntryType>(['item']);
+/** Other orders a type's list offers (?sort=…), with the label of the default one. */
+const SORTS: Partial<
+  Record<EntryType, { default: string; options: { value: string; label: string }[] }>
+> = {
+  item: {
+    default: 'picker.sort.default',
+    options: [
+      { value: 'price-asc', label: 'picker.sort.priceAsc' },
+      { value: 'price-desc', label: 'picker.sort.priceDesc' },
+    ],
+  },
+  // monsters are listed by challenge rating; the hardest first or by name on request
+  monster: {
+    default: 'picker.sort.crAsc',
+    options: [
+      { value: 'cr-desc', label: 'picker.sort.crDesc' },
+      { value: 'name', label: 'picker.sort.name' },
+    ],
+  },
+};
 
 /** Cards rendered at a time ("Mostrar más" for the rest). */
 const PAGE = 60;
@@ -167,7 +192,7 @@ export class EntryList {
     return this.labels.facetViews(this.entryType(), this.inGroup(), keys, this.selected());
   });
 
-  protected readonly priced = computed(() => PRICED.has(this.entryType()));
+  protected readonly sorts = computed(() => SORTS[this.entryType()] ?? null);
   protected readonly sort = computed(() => this.params().get('sort') ?? '');
 
   protected readonly filtered = computed(() => {
@@ -179,8 +204,15 @@ export class EntryList {
       this.selected(),
       this.query(),
     );
-    const sort = this.priced() ? this.sort() : '';
-    return sort.startsWith('price-') ? sortByPrice(found as Item[], sort === 'price-desc') : found;
+    const sort = this.sorts()?.options.some((o) => o.value === this.sort()) ? this.sort() : '';
+    if (sort.startsWith('price-')) return sortByPrice(found as Item[], sort === 'price-desc');
+    // stable sorts: the default order (by name within a rating) is kept where they tie
+    if (sort === 'cr-desc') return [...found].sort((a, b) => (b as Monster).cr - (a as Monster).cr);
+    if (sort === 'name') {
+      const shown = (e: Entry) => this.data.shortName(e.name);
+      return [...found].sort((a, b) => shown(a).localeCompare(shown(b)));
+    }
+    return found;
   });
 
   /** Back to one page whenever the type, search or filters change. */

@@ -40,6 +40,15 @@ for (const sp of load('species')) {
   for (const z of sp.size ?? []) add('size', z);
   for (const k of Object.keys(sp.speed ?? {})) add('speed', k);
 }
+for (const m of load('monsters')) {
+  add('creatureType', m.creatureType);
+  add('alignment', m.alignment);
+  add('monsterCategory', m.category);
+  for (const z of m.size ?? []) add('size', z);
+  for (const k of Object.keys(m.speed ?? {})) add('speed', k);
+  for (const d of [...m.immunities, ...m.resistances, ...m.vulnerabilities]) add('damage', d);
+  for (const c of m.conditionImmunities ?? []) add('condition', c);
+}
 for (const c of load('classes')) {
   for (const col of c.progression?.columns ?? []) add('column', col);
   for (const a of c.proficiencies?.armor ?? []) add('proficiency', a);

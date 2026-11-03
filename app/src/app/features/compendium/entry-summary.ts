@@ -1,4 +1,5 @@
 import { term } from '../../core/i18n/glossary';
+import { crText } from '../../shared/picker/entry-facets';
 import { Entry, EntryByType } from '../../core/models/compendium';
 
 /**
@@ -32,6 +33,11 @@ export function entrySummary(
     }
     case 'rule':
       return term(lang, 'ruleCategory', (e as EntryByType['rule']).category);
+    case 'monster': {
+      // "VD 10 · aberración" / "CR 10 · aberration"
+      const m = e as EntryByType['monster'];
+      return `${lang === 'es' ? 'VD' : 'CR'} ${crText(m.cr)} · ${term(lang, 'creatureType', m.creatureType)}`;
+    }
     default:
       return '';
   }

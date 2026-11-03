@@ -28,6 +28,9 @@ export type TermDomain =
   | 'size'
   | 'creatureType'
   | 'speed'
+  | 'condition'
+  | 'alignment'
+  | 'monsterCategory'
   | 'column';
 
 const ES = glossaryEs as Record<TermDomain, Record<string, string>>;
@@ -43,7 +46,12 @@ export function term(
 }
 
 /** Domains whose values are ids ("fighting-style"): shown as words in English. */
-const SLUG_DOMAINS = new Set<TermDomain>(['featCategory', 'optionGroup', 'ruleCategory']);
+const SLUG_DOMAINS = new Set<TermDomain>([
+  'featCategory',
+  'optionGroup',
+  'ruleCategory',
+  'monsterCategory',
+]);
 
 function humanise(slug: string): string {
   const words = slug.replace(/-/g, ' ');

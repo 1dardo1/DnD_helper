@@ -1,5 +1,9 @@
 import { Entry } from '../../core/models/compendium';
 import {
+  abilityModifier,
+  crBand,
+  crText,
+  signed,
   areaShapes,
   armorTraining,
   backgroundFeat,
@@ -301,5 +305,102 @@ describe('spell area and effect facets', () => {
     expect(
       facetValues(spell('action', { description: 'A creature regains 2d8 Hit Points.' }), 'damage'),
     ).toEqual(['healing']);
+  });
+});
+
+describe('monster facets', () => {
+  const monster = (extra = {}) =>
+    ({
+      id: 'm',
+      type: 'monster',
+      name: 'M',
+      edition: '2024',
+      cr: 2,
+      size: ['Medium', 'Small'],
+      creatureType: 'humanoid',
+      speed: { walk: 30 },
+      senses: {},
+      legendary: false,
+      spellcasting: false,
+      immunities: [],
+      resistances: [],
+      conditionImmunities: [],
+      alignment: 'neutral',
+      category: 'monster',
+      ...extra,
+    }) as unknown as Entry;
+
+  it('writes fractional challenge ratings as fractions', () => {
+    expect([0, 0.125, 0.25, 0.5, 1, 30].map(crText)).toEqual(['0', '1/8', '1/4', '1/2', '1', '30']);
+  });
+
+  it('puts challenge ratings in tier bands', () => {
+    expect([0, 0.25, 0.5, 1, 2, 4, 5, 10, 11, 16, 17, 30].map(crBand)).toEqual([
+      '0-1/4',
+      '0-1/4',
+      '1/2-1',
+      '1/2-1',
+      '2-4',
+      '2-4',
+      '5-10',
+      '5-10',
+      '11-16',
+      '11-16',
+      '17+',
+      '17+',
+    ]);
+  });
+
+  it('computes ability modifiers and signs them', () => {
+    expect([1, 7, 10, 11, 18, 30].map(abilityModifier)).toEqual([-5, -2, 0, 0, 4, 10]);
+    expect([signed(3), signed(0), signed(-1)]).toEqual(['+3', '+0', '−1']);
+  });
+
+  it('gives the band, exact rating, sizes, movement and yes/no facets', () => {
+    const dragon = monster({
+      cr: 0.25,
+      size: ['Huge'],
+      speed: { walk: 40, fly: 80, hover: true, swim: 40 },
+      legendary: true,
+      spellcasting: true,
+      immunities: ['fire'],
+      senses: { darkvision: 120, blindsight: 60 },
+    });
+    expect(facetValues(dragon, 'cr')).toEqual(['0-1/4']);
+    expect(facetValues(dragon, 'challenge')).toEqual(['0.25']);
+    expect(facetValues(dragon, 'size')).toEqual(['huge']);
+    expect(facetValues(dragon, 'movement')).toEqual(['fly', 'hover', 'swim']);
+    expect(facetValues(dragon, 'legendary')).toEqual(['yes']);
+    expect(facetValues(dragon, 'spellcaster')).toEqual(['yes']);
+    expect(facetValues(dragon, 'immunity')).toEqual(['fire']);
+    expect(facetValues(dragon, 'senses')).toEqual(['blindsight', 'darkvision']);
+    const guard = monster();
+    expect(facetValues(guard, 'size')).toEqual(['medium', 'small']);
+    expect(facetValues(guard, 'movement')).toEqual(['walkOnly']);
+    expect(facetValues(guard, 'immunity')).toEqual(['none']);
+    expect(facetValues(guard, 'senses')).toEqual(['none']);
+    expect(facetValues(guard, 'legendary')).toEqual(['no']);
+    expect(facetValues(guard, 'category')).toEqual(['monster']);
+  });
+
+  it('offers bands and exact ratings in game order, not alphabetically', () => {
+    const list = [
+      monster({ cr: 17 }),
+      monster({ cr: 2 }),
+      monster({ cr: 0.5 }),
+      monster({ cr: 10 }),
+    ];
+    expect(facetOptionsFor(list, 'cr', (v) => v).map((o) => o.value)).toEqual([
+      '1/2-1',
+      '2-4',
+      '5-10',
+      '17+',
+    ]);
+    expect(facetOptionsFor(list, 'challenge', (v) => v).map((o) => o.value)).toEqual([
+      '0.5',
+      '2',
+      '10',
+      '17',
+    ]);
   });
 });

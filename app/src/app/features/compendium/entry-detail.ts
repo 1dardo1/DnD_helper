@@ -19,6 +19,7 @@ import {
   Feat,
   Feature,
   Item,
+  Monster,
   Rule,
   Species,
   Spell,
@@ -29,6 +30,7 @@ import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { armorDex, prerequisitesText, slotsText, weaponProperty } from './entry-format';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from './load-error';
+import { MonsterStatBlock } from './monster-stat-block';
 
 /** Detail page for any entry, with the fields of its type and links to related entries. */
 import { SpeciesPortrait } from '../../shared/picker/species-portrait';
@@ -47,6 +49,7 @@ import { SpeciesPortrait } from '../../shared/picker/species-portrait';
     LoadError,
     ClassThemeDirective,
     SpeciesPortrait,
+    MonsterStatBlock,
   ],
   templateUrl: './entry-detail.html',
   styleUrl: './entry-detail.scss',
@@ -142,6 +145,9 @@ export class EntryDetail {
   }
   protected asRule(e: Entry): Rule {
     return e as Rule;
+  }
+  protected asMonster(e: Entry): Monster {
+    return e as Monster;
   }
 
   /** Features grouped by level, in level order. */
