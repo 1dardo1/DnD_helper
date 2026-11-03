@@ -14,7 +14,7 @@
 } @else if (data.value(); as d) {
   @let c = draft();
 
-  <nav class="steps" aria-label="steps">
+  <nav class="steps" aria-label="steps" #stepsNav>
     @for (s of steps; track s; let i = $index) {
       <button
         type="button"
@@ -60,7 +60,7 @@
   </ng-template>
 
   <div class="layout">
-    <section class="step">
+    <section class="step" #stepSection tabindex="-1">
       @switch (step()) {
         <!-- 1. Classes ------------------------------------------------------------------ -->
         @case ('class') {
@@ -509,44 +509,18 @@
           @let pk = packages();
           @let sc = startChoice();
           @let gp = goldPackages();
-          <div class="equip-modes" role="radiogroup" [attr.aria-label]="'create.equip.mode' | t">
-            @for (m of ['packages', 'gold']; track m) {
-              <button
-                type="button"
-                class="equip-mode"
-                role="radio"
-                [class.chosen]="equipMode() === m"
-                [attr.aria-checked]="equipMode() === m"
-                (click)="setEquipMode($any(m))"
-              >
-                <strong>{{ 'create.equip.mode.' + m | t }}</strong>
-                <span>{{ 'create.equip.mode.' + m + '.hint' | t }}</span>
+          <p class="equip-intro">
+            {{ 'create.equip.intro' | t }}
+            @if (gp.class || gp.background) {
+              <button type="button" class="all-gold" (click)="allGold()">
+                {{ 'create.equip.allGold' | t }}
               </button>
             }
-          </div>
-          @if (equipMode() === 'gold') {
-            <ul class="gold-sources">
-              @for (kind of equipKinds; track kind) {
-                @let src = kind === 'class' ? classList()[0] : background();
-                @if (src) {
-                  <li>
-                    <span>{{
-                      'create.equip.from.' + kind | t: { name: (src.name | dataName) }
-                    }}</span>
-                    @if (gp[kind]; as g) {
-                      <strong>{{ g.gold }} {{ 'compendium.coin.gp' | t }}</strong>
-                    } @else {
-                      <em>{{ 'create.equip.noGoldOption' | t }}</em>
-                    }
-                  </li>
-                }
-              }
-            </ul>
-          }
+          </p>
           @for (kind of equipKinds; track kind) {
             @let list = pk[kind];
             @let src = kind === 'class' ? classList()[0] : background();
-            @if (src && (equipMode() === 'packages' || !gp[kind])) {
+            @if (src) {
               <fieldset class="start-packages">
                 <legend>
                   {{ 'create.equip.from.' + kind | t: { name: (src.name | dataName) } }}
@@ -648,8 +622,24 @@
             <section class="shop">
               <h3>{{ 'create.equip.shop' | t }}</h3>
               <p class="hint">{{ 'create.equip.shopHint' | t }}</p>
+              <div class="afford" role="radiogroup" [attr.aria-label]="'create.equip.afford' | t">
+                @for (a of affordModes; track a) {
+                  <button
+                    type="button"
+                    role="radio"
+                    [class.on]="shopAfford() === a"
+                    [attr.aria-checked]="shopAfford() === a"
+                    (click)="shopAfford.set(a)"
+                  >
+                    {{
+                      'create.equip.afford.' + a
+                        | t: { gold: coins(a === 'start' ? startGold() : goldLeft()) }
+                    }}
+                  </button>
+                }
+              </div>
               <app-picker
-                [items]="shopItems()"
+                [items]="shopVisible()"
                 [facets]="itemFacets"
                 multiple
                 [pageSize]="24"
@@ -660,12 +650,12 @@
                   @let price = shopPrice(item) ?? 0;
                   <span class="shop-card">
                     <app-entry-card [entry]="item" />
-                    <span class="shop-price" [class.dear]="price > goldLeft()">
-                      {{ coins(price) }}
-                      @if (!item.cost) {
+                    @if (!item.cost) {
+                      <span class="shop-price" [class.dear]="price > goldLeft()">
+                        {{ coins(price) }}
                         <small>{{ 'create.equip.estimated' | t }}</small>
-                      }
-                    </span>
+                      </span>
+                    }
                   </span>
                 </ng-template>
               </app-picker>

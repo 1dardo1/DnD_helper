@@ -1,5 +1,17 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, effect, inject, input, resource, signal } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  Injector,
+  input,
+  resource,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { CharacterStore } from '../../core/characters/character-store.service';
@@ -233,8 +245,20 @@ export class CharacterCreate {
   );
   /** Everything that can be bought: items with a price, magic ones at the DMG price. */
   protected readonly shopItems = computed(() => shopCatalog(this.items.values()));
-  protected readonly equipMode = computed(() => this.startChoice().mode ?? 'packages');
-  /** Gold-only package of the class and of the background (gold mode). */
+  /** Gold of the chosen options, before buying anything (copper pieces). */
+  protected readonly startGold = computed(
+    () => this.goldLeft() + this.bought().reduce((n, b) => n + b.price * b.qty, 0),
+  );
+  protected readonly affordModes = ['all', 'start', 'left'] as const;
+  /** Shop filter: everything, what the starting gold pays for, or what the gold left pays for. */
+  protected readonly shopAfford = signal<'all' | 'start' | 'left'>('all');
+  protected readonly shopVisible = computed(() => {
+    const mode = this.shopAfford();
+    if (mode === 'all') return this.shopItems();
+    const max = mode === 'start' ? this.startGold() : this.goldLeft();
+    return this.shopItems().filter((i) => (shopPriceCp(i) ?? Infinity) <= max);
+  });
+  /** Gold-only option of the class and of the background, if they have one. */
   protected readonly goldPackages = computed(() => ({
     class: goldOnlyPackage(this.packages().class),
     background: goldOnlyPackage(this.packages().background),
@@ -379,9 +403,32 @@ export class CharacterCreate {
     this.setStep(STEPS[i]);
   }
 
+  private readonly injector = inject(Injector);
+  private readonly stepsNav = viewChild<ElementRef<HTMLElement>>('stepsNav');
+  private readonly stepSection = viewChild<ElementRef<HTMLElement>>('stepSection');
+
   protected setStep(s: Step): void {
     if (s === 'equipment') this.prefillEquipment();
+    const changed = s !== this.step();
     this.step.set(s);
+    if (changed) {
+      // go to the top of the new step (the button pressed was usually at the bottom)
+      afterNextRender(
+        () => {
+          const nav = this.stepsNav()?.nativeElement;
+          nav?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+          // on phones the tabs scroll sideways: centre the current one
+          const cur = nav?.querySelector<HTMLElement>('.current');
+          if (nav && cur && nav.scrollWidth > nav.clientWidth)
+            nav.scrollTo({
+              left: cur.offsetLeft - nav.offsetLeft - (nav.clientWidth - cur.clientWidth) / 2,
+              behavior: 'smooth',
+            });
+          this.stepSection()?.nativeElement.focus({ preventScroll: true });
+        },
+        { injector: this.injector },
+      );
+    }
   }
 
   // -- classes -------------------------------------------------------------------------
@@ -719,17 +766,7 @@ export class CharacterCreate {
   /** First time on this step, start from the class and background starting equipment. */
   /** Entering the step: the packages may have changed with the class, background or tools. */
   protected prefillEquipment(): void {
-    if (!this.draft().choices.startingEquipment) return;
-    if (this.equipMode() === 'gold') {
-      // the class or background may have changed: take their gold-only packages again
-      const g = this.goldPackages();
-      this.applyStart({
-        ...this.startChoice(),
-        class: g.class?.letter ?? null,
-        background: g.background?.letter ?? null,
-      });
-      this.shopOpen.set(true);
-    } else this.applyStart(this.startChoice());
+    if (this.draft().choices.startingEquipment) this.applyStart(this.startChoice());
   }
 
   private applyStart(choice: StartingChoice): void {
@@ -750,21 +787,16 @@ export class CharacterCreate {
     this.patch((c) => applyStartingEquipment(c, fixed, p, this.items, tools, this.itemIdx()));
   }
 
-  /** The book's packages, or only gold to buy everything (the shop opens). */
-  protected setEquipMode(mode: 'packages' | 'gold'): void {
-    if (mode === this.equipMode()) return;
+  /** Shortcut: the gold option everywhere there is one, and the shop open. */
+  protected allGold(): void {
     const g = this.goldPackages();
-    this.applyStart(
-      mode === 'gold'
-        ? {
-            mode,
-            class: g.class?.letter ?? null,
-            background: g.background?.letter ?? null,
-            bought: [],
-          }
-        : { mode, class: null, background: null, bought: [] },
-    );
-    this.shopOpen.set(mode === 'gold');
+    const c = this.startChoice();
+    this.applyStart({
+      ...c,
+      class: g.class?.letter ?? c.class,
+      background: g.background?.letter ?? c.background,
+    });
+    this.shopOpen.set(true);
   }
 
   protected choosePackage(kind: 'class' | 'background', letter: string): void {

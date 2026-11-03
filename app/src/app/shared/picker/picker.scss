@@ -5,6 +5,7 @@
   display: grid;
   gap: var(--space-3);
   min-width: 0;
+  scroll-margin-top: 6rem;
 }
 
 .cards {
@@ -108,4 +109,18 @@
 label.inline {
   font-family: var(--font-title);
   font-size: var(--fs-sm);
+}
+
+// phones (two columns): smaller text and padding so the cards fit
+@media (max-width: 44.99rem) {
+  .pick-main {
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-2) 0;
+    font-size: var(--fs-sm);
+  }
+
+  .check {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
 }

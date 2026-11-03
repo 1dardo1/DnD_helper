@@ -1,15 +1,18 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  Component,
-  TemplateRef,
+  afterNextRender,
   booleanAttribute,
+  Component,
   computed,
   contentChild,
+  ElementRef,
   inject,
+  Injector,
   input,
   linkedSignal,
   output,
   signal,
+  TemplateRef,
 } from '@angular/core';
 
 import { normalise } from '../../features/compendium/compendium-search';
@@ -67,6 +70,8 @@ export class Picker<T extends PickItem> {
   protected readonly detailsTpl = contentChild<TemplateRef<{ $implicit: T }>>('details');
 
   private readonly dataText = inject(DataTextService);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly injector = inject(Injector);
   private readonly labels = inject(EntryLabels);
 
   protected readonly query = signal('');
@@ -151,6 +156,15 @@ export class Picker<T extends PickItem> {
     }
     if (!this.isChosen(item)) this.picked.emit({ id: item.id, on: true });
     this.browsing.set(false);
+    // the list folds to the chosen card: bring it back into view if it went above the screen
+    afterNextRender(
+      () => {
+        const el = this.host.nativeElement;
+        if (el.getBoundingClientRect().top < 0)
+          el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      },
+      { injector: this.injector },
+    );
   }
 
   protected toggleOpen(item: T): void {

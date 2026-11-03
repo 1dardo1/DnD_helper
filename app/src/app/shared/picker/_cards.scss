@@ -16,6 +16,12 @@
     margin: 0;
     min-width: 0;
   }
+
+  // phones: two columns, to see more options at once
+  @media (max-width: 44.99rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
 }
 
 /// A small vellum card; `.chosen` marks the selected one with red ink and a wax seal.

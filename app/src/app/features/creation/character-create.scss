@@ -373,7 +373,9 @@ h3.issue {
     color: var(--ink-soft);
   }
 
+  // projected into the picker's card button: take the width next to the ring
   .shop-card {
+    flex: 1;
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -395,49 +397,43 @@ h3.issue {
   }
 }
 
-.equip-modes {
-  @include cards.grid(14rem);
-  margin-bottom: var(--space-4);
-}
-
-.equip-mode {
-  @include cards.frame;
-  width: 100%;
-  height: 100%;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--space-1);
-  padding: var(--space-3);
-  color: inherit;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-
-  strong {
-    font-family: var(--font-title);
-    color: var(--accent);
-  }
-
-  span {
-    font-size: 0.9em;
-    color: var(--ink-soft);
-  }
-}
-
-.gold-sources {
+.equip-intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
   margin: 0 0 var(--space-3);
-  padding: 0;
-  list-style: none;
+  color: var(--ink-soft);
+}
 
-  li {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-3);
-    padding: var(--space-1) 0;
-    border-bottom: 1px dashed var(--line);
+// Shop filter by what the gold pays for: big, always visible chips.
+.afford {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+
+  button {
+    min-height: var(--tap);
+    border-radius: 999px;
   }
 
-  em {
-    color: var(--ink-soft);
+  .on {
+    color: var(--card);
+    background-color: var(--accent);
+    border-color: var(--accent);
   }
+}
+
+// moving to a step scrolls here (below the sticky header on wide screens)
+.steps {
+  scroll-margin-top: 5.5rem;
+
+  @media (max-width: 44.99rem) {
+    scroll-margin-top: 0.5rem;
+  }
+}
+
+.step:focus {
+  outline: none;
 }
