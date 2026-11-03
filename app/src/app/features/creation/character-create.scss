@@ -381,6 +381,17 @@ h3.issue {
     min-width: 0;
   }
 
+  .owned {
+    align-self: flex-start;
+    margin-top: 0.3rem;
+    padding: 0.05rem 0.55rem;
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    color: var(--card);
+    background-color: var(--accent);
+    border-radius: 999px;
+  }
+
   .shop-price {
     display: block;
     margin-top: 0.2rem;

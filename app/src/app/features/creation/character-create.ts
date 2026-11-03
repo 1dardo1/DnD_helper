@@ -258,6 +258,14 @@ export class CharacterCreate {
     const max = mode === 'start' ? this.startGold() : this.goldLeft();
     return this.shopItems().filter((i) => (shopPriceCp(i) ?? Infinity) <= max);
   });
+  /** How many of each item the character carries (packages, purchases and hand-added). */
+  protected readonly owned = computed(() => {
+    const out = new Map<string, number>();
+    for (const e of this.draft().inventory)
+      if (e.itemId) out.set(e.itemId, (out.get(e.itemId) ?? 0) + e.qty);
+    return out;
+  });
+  protected readonly ownedIds = computed(() => [...this.owned().keys()]);
   /** Gold-only option of the class and of the background, if they have one. */
   protected readonly goldPackages = computed(() => ({
     class: goldOnlyPackage(this.packages().class),

@@ -63,7 +63,7 @@
             [checked]="chosenOnly()"
             (change)="chosenOnly.set($any($event.target).checked)"
           />
-          {{ 'picker.chosenOnly' | t }}
+          {{ chosenOnlyLabel() || ('picker.chosenOnly' | t) }}
         </label>
       }
     </app-filter-bar>

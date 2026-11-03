@@ -640,6 +640,8 @@
               </div>
               <app-picker
                 [items]="shopVisible()"
+                [selected]="ownedIds()"
+                [chosenOnlyLabel]="'create.equip.ownedOnly' | t"
                 [facets]="itemFacets"
                 multiple
                 [pageSize]="24"
@@ -650,6 +652,9 @@
                   @let price = shopPrice(item) ?? 0;
                   <span class="shop-card">
                     <app-entry-card [entry]="item" />
+                    @if (owned().get(item.id); as n) {
+                      <span class="owned">{{ 'create.equip.owned' | t: { n } }}</span>
+                    }
                     @if (!item.cost) {
                       <span class="shop-price" [class.dear]="price > goldLeft()">
                         {{ coins(price) }}

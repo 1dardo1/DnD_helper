@@ -63,6 +63,8 @@ export class Picker<T extends PickItem> {
   readonly pageSize = input(24);
   /** Accessible name of the list. */
   readonly label = input('');
+  /** Text of the "only the chosen" checkbox (multiple choice); default "Solo los elegidos". */
+  readonly chosenOnlyLabel = input('');
   /** id + true (chosen) / false (unticked, multiple only). */
   readonly picked = output<{ id: string; on: boolean }>();
 
