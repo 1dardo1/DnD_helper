@@ -60,6 +60,7 @@ import { ABILITIES } from '../../core/rules/tables';
 import { SettingsService } from '../../core/settings/settings.service';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { ENTRY_FACETS } from '../../shared/picker/entry-facets';
+import { defaultOrder } from '../../shared/picker/entry-order';
 import { EntryCard } from '../../shared/picker/entry-card';
 import { Picker } from '../../shared/picker/picker';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
@@ -177,7 +178,11 @@ export class CharacterCreate {
         cls,
         subclasses: subclassesFor(cls.id, [...d.rules.subclasses.values()]),
         slots: featSlots(cls, entry.level),
-        optionGroups: optionGroupsFor(cls, entry.level, entry.subclassId, d.options),
+        // by level required, then by the name shown
+        optionGroups: optionGroupsFor(cls, entry.level, entry.subclassId, d.options).map((g) => ({
+          ...g,
+          options: defaultOrder(g.options, (o) => this.dataText.shortName(o.name)),
+        })),
         expertise: expertiseCount(cls, entry.level),
         sub,
         spells: sl && {

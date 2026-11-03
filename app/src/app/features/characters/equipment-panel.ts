@@ -16,6 +16,8 @@ import { Character, Coins, InventoryEntry } from '../../core/models/character';
 import { Item } from '../../core/models/compendium';
 import { WeaponEntry, attacksFor } from '../../core/rules/attacks';
 import { Sheet } from '../../core/rules/sheet';
+import { defaultOrder } from '../../shared/picker/entry-order';
+import { normalise, rankName } from '../compendium/compendium-search';
 
 /** Attacks with the carried weapons, and the inventory (add, equip, remove). */
 @Component({
@@ -58,13 +60,23 @@ export class EquipmentPanel {
     return attacksFor(this.sheet(), weapons);
   });
 
-  /** Compendium items matching the search (English or translated name). */
+  /**
+   * Compendium items matching the search (English or translated name): the best matches first
+   * ("Cuerda" before "Cuerda de escalada"), then mundane before magic, weapons and armor first.
+   */
   protected readonly results = computed(() => {
     const q = norm(this.query());
     if (q.length < 2) return [];
-    return (this.items.value()?.all ?? [])
-      .filter((i) => norm(this.dataText.searchText(i.name)).includes(q))
-      .sort((a, b) => Number(!!b.weapon || !!b.armor) - Number(!!a.weapon || !!a.armor))
+    const found = (this.items.value()?.all ?? []).filter((i) =>
+      norm(this.dataText.searchText(i.name)).includes(q),
+    );
+    const match = (i: Item) =>
+      Math.min(
+        ...[i.name, this.dataText.shortName(i.name)].map((n) => rankName(normalise(n), q) ?? 9),
+      );
+    const rank = new Map(found.map((i) => [i, match(i)]));
+    return defaultOrder(found, (i) => this.dataText.shortName(i.name))
+      .sort((a, b) => rank.get(a)! - rank.get(b)!)
       .slice(0, 8);
   });
 

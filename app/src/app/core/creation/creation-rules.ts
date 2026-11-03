@@ -72,7 +72,7 @@ export function featSlots(cls: DndClass, level: number): FeatSlot[] {
 /**
  * Feats that can fill a slot. ASI levels: the Ability Score Improvement feat, a general feat, or
  * a racial feat of the character's species (only those: racial feats of other species are left
- * out). Other prerequisites that aren't met are included too (featIssues says why).
+ * out; a feat open to several species comes with only the character's one). Other prerequisites that aren't met are included too (featIssues says why).
  */
 export function featsForSlot(
   kind: SlotKind,
@@ -84,15 +84,23 @@ export function featsForSlot(
       ? f.category === 'general' ||
         (f.category === 'racial' && !!speciesId && !!f.prerequisites?.species?.includes(speciesId))
       : f.category === kind;
-  return feats
-    .filter(fits)
-    .sort((a, b) =>
-      a.id === 'ability-score-improvement'
-        ? -1
-        : b.id === 'ability-score-improvement'
-          ? 1
-          : a.name.localeCompare(b.name),
-    );
+  return (
+    feats
+      .filter(fits)
+      // a racial feat open to several species is shown under the character's one only
+      .map((f) =>
+        f.category === 'racial' && speciesId && f.prerequisites
+          ? { ...f, prerequisites: { ...f.prerequisites, species: [speciesId] } }
+          : f,
+      )
+      .sort((a, b) =>
+        a.id === 'ability-score-improvement'
+          ? -1
+          : b.id === 'ability-score-improvement'
+            ? 1
+            : a.name.localeCompare(b.name),
+      )
+  );
 }
 
 /** How many Expertise picks the class gives up to a level (each Expertise feature = 2 skills). */
@@ -173,7 +181,12 @@ export function optionGroupsFor(
     const value = col ? parseInt(cls.progression.rows[level - 1]?.values[col] ?? '', 10) : NaN;
     return {
       group,
-      options: opts.sort((a, b) => a.name.localeCompare(b.name)),
+      // by the level they require (none = 1), as the wizard and level-up list them
+      options: opts.sort(
+        (a, b) =>
+          (a.prerequisites?.level ?? 1) - (b.prerequisites?.level ?? 1) ||
+          a.name.localeCompare(b.name),
+      ),
       count: Number.isNaN(value) ? null : value,
     };
   });

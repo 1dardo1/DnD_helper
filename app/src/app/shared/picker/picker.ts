@@ -17,7 +17,7 @@ import {
 
 import { normalise } from '../../features/compendium/compendium-search';
 import { DataTextService } from '../../core/i18n/data-text.service';
-import { TranslatePipe } from '../../core/i18n/i18n.service';
+import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Entry, EntryType } from '../../core/models/compendium';
 import { EntryCard } from './entry-card';
 import { EntryDetails } from './entry-details';
@@ -26,7 +26,7 @@ import { EntryLabels } from './entry-labels.service';
 import { defaultOrder } from './entry-order';
 import { FilterBar } from './filter-bar';
 import { FacetSelection, activeFacets, applyFacets } from './picker-filters';
-import { sectionsBySpecies } from './racial-feats';
+import { requiredSpecies, sectionsBySpecies } from './racial-feats';
 
 /** What a picker can list: compendium entries, or anything with an id and an English name. */
 export interface PickItem {
@@ -74,6 +74,7 @@ export class Picker<T extends PickItem> {
   protected readonly detailsTpl = contentChild<TemplateRef<{ $implicit: T }>>('details');
 
   private readonly dataText = inject(DataTextService);
+  private readonly i18n = inject(I18nService);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly injector = inject(Injector);
   private readonly labels = inject(EntryLabels);
@@ -85,19 +86,24 @@ export class Picker<T extends PickItem> {
   protected readonly browsing = signal(false);
   protected readonly open = signal<ReadonlySet<string>>(new Set());
 
-  /** The items in the default order of their type (spells by level, feats by ability...). */
-  private readonly ordered = computed(() => {
-    const type = (this.items()[0] as Partial<Entry> | undefined)?.type;
-    return type === 'spell' || type === 'feat'
-      ? defaultOrder(
-          this.items(),
-          (i) => this.dataText.shortName(i.name),
-          (id) => this.labels.speciesName(id),
-        )
-      : this.items();
-  });
   private readonly chosenSet = computed(() => new Set(this.selected()));
   private readonly type = computed(() => (this.items()[0] as Partial<Entry> | undefined)?.type);
+  /**
+   * Compendium entries in the default order of their type (by the name shown; spells by level,
+   * feats by ability, options by level required, items mundane first...). Other items (species
+   * lineages) keep the caller's order.
+   */
+  private readonly ordered = computed(() =>
+    this.type()
+      ? racialFirst(
+          defaultOrder(
+            this.items(),
+            (i) => this.dataText.shortName(i.name),
+            (id) => this.labels.speciesName(id),
+          ),
+        )
+      : this.items(),
+  );
 
   /** Single choice with something chosen and not browsing: only the chosen card. */
   protected readonly collapsed = computed(
@@ -152,14 +158,21 @@ export class Picker<T extends PickItem> {
   });
   protected readonly visible = computed(() => this.filtered().slice(0, this.limit()));
 
-  /** Racial feats shown by the species they require (null: a plain list). */
-  protected readonly sections = computed(() =>
-    sectionsBySpecies(
+  /**
+   * Racial feats shown by the species they require, before the rest (in a feat slot they are the
+   * character's own; behind ~190 general feats they would be out of sight). Null: a plain list.
+   */
+  protected readonly sections = computed(() => {
+    const list = sectionsBySpecies(
       this.visible(),
       (id) => this.labels.speciesName(id),
       (i) => this.dataText.shortName(i.name),
-    ),
-  );
+    );
+    if (!list) return null;
+    const rest = list.filter((sec) => !sec.species);
+    const racial = list.filter((sec) => sec.species);
+    return [...racial, ...rest.map((sec) => ({ ...sec, label: this.i18n.t('picker.otherFeats') }))];
+  });
 
   protected readonly anyFilter = computed(
     () => !!this.query() || activeFacets(this.selection()) > 0 || this.chosenOnly(),
@@ -229,4 +242,10 @@ export class Picker<T extends PickItem> {
   protected asEntry(item: T): Entry {
     return item as unknown as Entry;
   }
+}
+
+/** Racial feats (those that require a species) before the rest, each part keeping its order. */
+function racialFirst<T>(items: T[]): T[] {
+  const racial = (i: T) => requiredSpecies(i as Partial<Entry>).length > 0;
+  return [...items.filter(racial), ...items.filter((i) => !racial(i))];
 }

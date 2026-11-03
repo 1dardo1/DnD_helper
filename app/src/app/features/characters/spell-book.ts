@@ -3,13 +3,14 @@ import { RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { spellListOf, spellsFor } from '../../core/creation/creation-rules';
-import { DataNamePipe } from '../../core/i18n/data-text.service';
+import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character } from '../../core/models/character';
 import { Spell } from '../../core/models/compendium';
 import { replaceSpell } from '../../core/play/spell-swap';
 import { castingOf } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
+import { defaultOrder } from '../../shared/picker/entry-order';
 
 interface Caster {
   classId: string;
@@ -39,6 +40,7 @@ export class SpellBook {
 
   private readonly compendium = inject(CompendiumService);
   private readonly rules = inject(RulesDataService);
+  private readonly dataText = inject(DataTextService);
 
   private readonly data = resource({
     loader: async () => {
@@ -66,19 +68,25 @@ export class SpellBook {
       const sc = castingOf(cls, sub);
       if (!sc) continue;
       const list = spellListOf(cls, sc);
-      const mine = chosen.filter((s) => s.classes.includes(list));
+      // by level (cantrips by name), as the compendium lists them
+      const mine = this.shown(chosen.filter((s) => s.classes.includes(list)));
       out.push({
         classId: cls.id,
         name: cls.name,
         cantrips: mine.filter((s) => s.level === 0),
         prepared: mine.filter((s) => s.level > 0),
-        available: spellsFor(list, sc, entry.level, d.spells).leveled,
+        available: this.shown(spellsFor(list, sc, entry.level, d.spells).leveled),
         maxPrepared: sc.preparedByLevel?.[entry.level - 1] ?? null,
         swap: ch.state.spellSwap?.[cls.id] ?? null,
       });
     }
     return out;
   });
+
+  /** In the default order of spells (level, without concentration first, name shown). */
+  private shown(spells: readonly Spell[]): Spell[] {
+    return defaultOrder(spells, (s) => this.dataText.shortName(s.name));
+  }
 
   protected isChosen(id: string): boolean {
     return this.character().choices.spells.includes(id);

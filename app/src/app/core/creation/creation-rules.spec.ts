@@ -1,5 +1,5 @@
 import { newCharacter } from '../models/character';
-import { Background, DndClass, Feat, Spell, Spellcasting } from '../models/compendium';
+import { Background, ClassOption, DndClass, Feat, Spell, Spellcasting } from '../models/compendium';
 import {
   backgroundIncreasesValid,
   expertiseCount,
@@ -8,6 +8,7 @@ import {
   featIssues,
   maxSpellLevel,
   multiclassIssues,
+  optionGroupsFor,
   pointBuyCost,
   review,
   skillPicks,
@@ -76,6 +77,29 @@ describe('creation rules', () => {
     expect(featSlots(fighter, 20).map((s) => s.kind)).toContain('epic-boon');
   });
 
+  it('lists class options by the level they require, then by name', () => {
+    const option = (name: string, level?: number) =>
+      ({
+        id: name,
+        name,
+        group: 'eldritch-invocation',
+        classId: 'fighter',
+        subclassId: null,
+        prerequisites: level ? { raw: '', level } : null,
+      }) as unknown as ClassOption;
+    const options = [
+      option('Witch Sight', 15),
+      option('Devil Sight', 2),
+      option('Pact of the Tome'),
+    ];
+    const [group] = optionGroupsFor(fighter, 20, null, options);
+    expect(group.options.map((o) => o.name)).toEqual([
+      'Pact of the Tome',
+      'Devil Sight',
+      'Witch Sight',
+    ]);
+  });
+
   it('reads the "Ability Score Improvemnt" typo in the Blood Hunter table as an ASI', () => {
     const rows = Array.from({ length: 16 }, (_, i) => ({
       level: i + 1,
@@ -112,6 +136,7 @@ describe('creation rules', () => {
       racial('dwarven-fortitude', ['dwarf']),
     ];
     expect(featsForSlot('asi', feats, 'elf').map((f) => f.id)).toEqual(['elven-accuracy', 'tough']);
+    expect(featsForSlot('asi', feats, 'half-elf')[0].prerequisites?.species).toEqual(['half-elf']);
     expect(featsForSlot('asi', feats, 'human').map((f) => f.id)).toEqual(['tough']);
     expect(featsForSlot('asi', feats).map((f) => f.id)).toEqual(['tough']);
     expect(featsForSlot('epic-boon', feats, 'elf')).toEqual([]);

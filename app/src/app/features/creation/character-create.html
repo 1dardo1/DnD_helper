@@ -470,7 +470,7 @@
                       <label
                         class="inline"
                         [class.issue]="optionTooHigh(o, r.entry.level)"
-                        [title]="o.prerequisites?.raw ?? ''"
+                        [title]="o.prerequisites?.raw | dataText"
                       >
                         <input
                           type="checkbox"
@@ -479,7 +479,7 @@
                         />
                         {{ o.name | dataName }}
                         @if (optionTooHigh(o, r.entry.level)) {
-                          <small>⚠ {{ o.prerequisites?.raw }}</small>
+                          <small>⚠ {{ o.prerequisites?.raw | dataText }}</small>
                         }
                       </label>
                     }

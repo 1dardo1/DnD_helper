@@ -70,7 +70,7 @@
   }
   @if (sections(); as list) {
     @for (sec of list; track sec.species) {
-      @if (sec.species) {
+      @if (sec.label && list.length > 1) {
         <h3 class="section-title">{{ sec.label }}</h3>
       }
       <ul class="cards" [attr.aria-label]="sec.species ? sec.label : label()">
