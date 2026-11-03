@@ -267,6 +267,8 @@ def run(root: Path, offline: bool = False, limit: int | None = None, budget_minu
     terms = load_terms(HERE / "terms.es.yaml", root / "app/src/app/core/i18n/glossary.es.json")
     tr = Translator(HERE / "translations.es.json", offline, budget_minutes=budget_minutes)
     fixes = load_fixes(HERE / "fixes.es.yaml")
+    names_path = HERE / "names.es.yaml"
+    fixed_names = (yaml.safe_load(names_path.read_text(encoding="utf-8")) or {}) if names_path.exists() else {}
     data = {f: json.loads((root / "data" / f"{f}.json").read_text(encoding="utf-8")) for f in FILES}
 
     # 1. Collect every text (protected) and translate what's missing.
@@ -294,7 +296,9 @@ def run(root: Path, offline: bool = False, limit: int | None = None, budget_minu
                     missing += 1
                 else:
                     es = apply_fixes(restore(es, values), fixes)
-                    c[k] = es[:1].upper() + es[1:] if k in ("name", "shortName") else es
+                    if k in ("name", "shortName"):
+                        es = fixed_names.get(c[k]) or es[:1].upper() + es[1:]
+                    c[k] = es
         (out_dir / f"{f}.json").write_text(json.dumps(entries, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     stats = {"texts": len(protected_texts), "untranslated": missing, "requests": tr.requests,
              "complete": missing == 0}

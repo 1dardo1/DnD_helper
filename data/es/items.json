@@ -332,7 +332,7 @@
     "name": "Jarra de alquimia",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "Esta jarra de cerámica parece poder contener un galón de líquido y pesa 12 libras, ya sea llena o vacía. La jarra chapotea cuando se agita, incluso si está vacía.\n\nPuedes tomar un acción de Magia y nombrar un líquido de la tabla Líquidos de la jarra de Alchemy para hacer que la jarra produzca el líquido elegido. Luego, puedes descorchar la jarra como un acción de Usar y verter ese líquido, hasta 2 galones por minuto. La cantidad máxima de líquido que puede producir la jarra depende del líquido que hayas nombrado.\n\nUna vez que la jarra empieza a producir un líquido, no puede producir otro diferente, o más de uno que haya alcanzado su máximo, hasta el siguiente amanecer.\n\n#### Líquidos de jarra de alquimia\n\n| Líquido | Máx. Cantidad |\n|---|---|\n| Ácido | 8 onzas |\n| Veneno básico | 4 onzas |\n| Cerveza | 4 galones |\n| Miel | 1 galón |\n| Mayonesa | 2 galones |\n| Petróleo | 1 cuarto |\n| Vinagre | 2 galones |\n| Agua dulce | 8 galones |\n| Agua, sal | 12 galones |\n| Vino | 1 galón |",
+    "description": "Esta jarra de cerámica parece poder contener un galón de líquido y pesa 12 libras, ya sea llena o vacía. La jarra chapotea cuando se agita, incluso si está vacía.\n\nPuedes tomar un acción de Magia y nombrar un líquido de la tabla Líquidos de la jarra de Alchemy para hacer que la jarra produzca el líquido elegido. Luego, puedes descorchar la jarra como un acción de Usar y verter ese líquido, hasta 2 galones por minuto. La cantidad máxima de líquido que puede producir la jarra depende del líquido que hayas nombrado.\n\nUna vez que la jarra empieza a producir un líquido, no puede producir otro diferente, o más de uno que haya alcanzado su máximo, hasta el siguiente amanecer.\n\n#### Líquidos de jarra de alquimia\n\n| Líquido | Máx. Cantidad |\n|---|---|\n| Ácido | 8 onzas |\n| Veneno básico | 4 onzas |\n| Cerveza | 4 galones |\n| Miel | 1 galón |\n| Mayonesa | 2 galones |\n| Aceite | 1 cuarto |\n| Vinagre | 2 galones |\n| Agua dulce | 8 galones |\n| Agua, sal | 12 galones |\n| Vino | 1 galón |",
     "url": "https://dnd2024.wikidot.com/magic-item:alchemy-jug",
     "category": "other",
     "cost": null,
@@ -355,7 +355,7 @@
     "name": "Jarra de alquimia (azul)",
     "edition": "2014",
     "source": "Misterios del candelero",
-    "description": "(Esta jarra funciona como una jarra de alquimia, excepto que no produce ácido ni veneno. En su lugar, puede producir 1 litro de té hirviendo).\n\nEsta jarra de cerámica parece poder contener un galón de líquido y pesa 12 libras, ya sea llena o vacía. Se pueden escuchar sonidos de chapoteo desde el interior de la jarra cuando se agita, incluso si la jarra está vacía.\n\nPuedes usar una acción y nombrar un líquido de la siguiente tabla para hacer que la jarra produzca el líquido elegido. Luego, puedes descorchar la jarra como acción y verter ese líquido, hasta 2 galones por minuto. La cantidad máxima de líquido que puede producir la jarra depende del líquido que hayas nombrado.\n\nUna vez que la jarra empieza a producir un líquido, no puede producir otro diferente, o más de uno que haya alcanzado su máximo, hasta el siguiente amanecer.\n\n| Líquido | Cantidad máxima |\n|---|---|\n| Té caliente hirviendo | 1 cuarto |\n| Cerveza | 4 galones |\n| Miel | 1 galón |\n| Mayonesa | 2 galones |\n| Petróleo | 1 cuarto |\n| Vinagre | 2 galones |\n| Agua dulce | 8 galones |\n| Agua, sal | 12 galones |\n| Vino | 1 galón |",
+    "description": "(Esta jarra funciona como una jarra de alquimia, excepto que no produce ácido ni veneno. En su lugar, puede producir 1 litro de té hirviendo).\n\nEsta jarra de cerámica parece poder contener un galón de líquido y pesa 12 libras, ya sea llena o vacía. Se pueden escuchar sonidos de chapoteo desde el interior de la jarra cuando se agita, incluso si la jarra está vacía.\n\nPuedes usar una acción y nombrar un líquido de la siguiente tabla para hacer que la jarra produzca el líquido elegido. Luego, puedes descorchar la jarra como acción y verter ese líquido, hasta 2 galones por minuto. La cantidad máxima de líquido que puede producir la jarra depende del líquido que hayas nombrado.\n\nUna vez que la jarra empieza a producir un líquido, no puede producir otro diferente, o más de uno que haya alcanzado su máximo, hasta el siguiente amanecer.\n\n| Líquido | Cantidad máxima |\n|---|---|\n| Té caliente hirviendo | 1 cuarto |\n| Cerveza | 4 galones |\n| Miel | 1 galón |\n| Mayonesa | 2 galones |\n| Aceite | 1 cuarto |\n| Vinagre | 2 galones |\n| Agua dulce | 8 galones |\n| Agua, sal | 12 galones |\n| Vino | 1 galón |",
     "url": "https://dnd5e.wikidot.com/wondrous-items:alchemy-jug-blue",
     "category": "other",
     "cost": null,
@@ -375,7 +375,7 @@
     "name": "Jarra de alquimia (naranja)",
     "edition": "2014",
     "source": "Misterios del candelero",
-    "description": "(Esta jarra funciona como una jarra de alquimia, excepto que no produce ácido ni veneno. En su lugar, puede producir 1 galón de salsa de soja).\n\nEsta jarra de cerámica parece poder contener un galón de líquido y pesa 12 libras, ya sea llena o vacía. Se pueden escuchar sonidos de chapoteo desde el interior de la jarra cuando se agita, incluso si la jarra está vacía.\n\nPuedes usar una acción y nombrar un líquido de la siguiente tabla para hacer que la jarra produzca el líquido elegido. Luego, puedes descorchar la jarra como acción y verter ese líquido, hasta 2 galones por minuto. La cantidad máxima de líquido que puede producir la jarra depende del líquido que hayas nombrado.\n\nUna vez que la jarra empieza a producir un líquido, no puede producir otro diferente, o más de uno que haya alcanzado su máximo, hasta el siguiente amanecer.\n\n| Líquido | Cantidad máxima |\n|---|---|\n| Salsa de soja | 1 galón |\n| Cerveza | 4 galones |\n| Miel | 1 galón |\n| Mayonesa | 2 galones |\n| Petróleo | 1 cuarto |\n| Vinagre | 2 galones |\n| Agua dulce | 8 galones |\n| Agua, sal | 12 galones |\n| Vino | 1 galón |",
+    "description": "(Esta jarra funciona como una jarra de alquimia, excepto que no produce ácido ni veneno. En su lugar, puede producir 1 galón de salsa de soja).\n\nEsta jarra de cerámica parece poder contener un galón de líquido y pesa 12 libras, ya sea llena o vacía. Se pueden escuchar sonidos de chapoteo desde el interior de la jarra cuando se agita, incluso si la jarra está vacía.\n\nPuedes usar una acción y nombrar un líquido de la siguiente tabla para hacer que la jarra produzca el líquido elegido. Luego, puedes descorchar la jarra como acción y verter ese líquido, hasta 2 galones por minuto. La cantidad máxima de líquido que puede producir la jarra depende del líquido que hayas nombrado.\n\nUna vez que la jarra empieza a producir un líquido, no puede producir otro diferente, o más de uno que haya alcanzado su máximo, hasta el siguiente amanecer.\n\n| Líquido | Cantidad máxima |\n|---|---|\n| Salsa de soja | 1 galón |\n| Cerveza | 4 galones |\n| Miel | 1 galón |\n| Mayonesa | 2 galones |\n| Aceite | 1 cuarto |\n| Vinagre | 2 galones |\n| Agua dulce | 8 galones |\n| Agua, sal | 12 galones |\n| Vino | 1 galón |",
     "url": "https://dnd5e.wikidot.com/wondrous-items:alchemy-jug-orange",
     "category": "other",
     "cost": null,
@@ -1354,7 +1354,7 @@
   {
     "id": "axe-beak",
     "type": "item",
-    "name": "Pico de hacha",
+    "name": "Picohacha",
     "edition": "2024",
     "source": null,
     "description": "**Capacidad de carga:** 210 lb.",
@@ -1660,7 +1660,7 @@
   {
     "id": "ball-bearings",
     "type": "item",
-    "name": "Rodamientos de bolas",
+    "name": "Bolas de metal",
     "edition": "2024",
     "source": null,
     "description": "Como acción de Usar, puedes derramar los rodamientos de bolas de su bolsa. Se extienden para cubrir un área nivelada de 10 pies cuadrados a 10 pies de usted. Una criatura que ingresa a esta área por primera vez en un turno debe tener éxito en CD 10 Destreza tirada de salvación o tener la condición boca abajo. Se necesitan 10 minutos para recuperar los rodamientos de bolas.",
@@ -2489,7 +2489,7 @@
   {
     "id": "block-and-tackle",
     "type": "item",
-    "name": "Bloquear y abordar",
+    "name": "Polipasto",
     "edition": "2024",
     "source": null,
     "description": "Un Block and Tackle le permite levantar hasta cuatro veces el peso que normalmente puede levantar.",
@@ -2804,7 +2804,7 @@
   {
     "id": "bolts",
     "type": "item",
-    "name": "Pernos",
+    "name": "Virotes",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -2873,7 +2873,7 @@
   {
     "id": "book",
     "type": "item",
-    "name": "Reservar",
+    "name": "Libro",
     "edition": "2024",
     "source": null,
     "description": "Un libro contiene ficción o no ficción. Si consulta un libro de no ficción preciso sobre su tema, obtiene una bonificación de +5 a las pruebas de Inteligencia (Arcanos, Historia, Naturaleza o Religión) que realice sobre ese tema.",
@@ -3235,7 +3235,7 @@
   {
     "id": "bottle-glass",
     "type": "item",
-    "name": "Botella, vidrio",
+    "name": "Botella de cristal",
     "edition": "2024",
     "source": null,
     "description": "Una botella de vidrio tiene capacidad para 1½ pintas.",
@@ -3727,7 +3727,7 @@
   {
     "id": "bullets-firearm",
     "type": "item",
-    "name": "Balas, Arma de fuego",
+    "name": "Balas de arma de fuego",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -3750,7 +3750,7 @@
   {
     "id": "bullets-sling",
     "type": "item",
-    "name": "Balas, Honda",
+    "name": "Balas de honda",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -3773,10 +3773,10 @@
   {
     "id": "burglars-pack",
     "type": "item",
-    "name": "Paquete de ladrón",
+    "name": "Equipo de ladrón",
     "edition": "2024",
     "source": null,
-    "description": "Un paquete de ladrón contiene los siguientes elementos: mochila, rodamientos de bolas, campana, 10 velas, palanca, linterna con capucha, 7 frascos de aceite, raciones para 5 días, cuerda, yesquero y odre.",
+    "description": "Un equipo de ladrón contiene los siguientes elementos: mochila, rodamientos de bolas, campana, 10 velas, palanca, linterna con capucha, 7 frascos de aceite, raciones para 5 días, cuerda, yesquero y odre.",
     "url": "https://dnd2024.wikidot.com/equipment:adventuring-gear",
     "category": "gear",
     "cost": {
@@ -3791,7 +3791,7 @@
   {
     "id": "burnt-othur-fumes",
     "type": "item",
-    "name": "Humos de otros gases quemados",
+    "name": "Humo de othur quemado",
     "edition": "2024",
     "source": null,
     "description": "Una criatura sometida a los humos quemados de Othur debe tener éxito en una Constitución de CD 13 tirada de salvación o recibir 10 (3d6) de daño de Veneno, y debe repetir la salvación al comienzo de cada uno de sus turnos. En cada salvación fallida sucesiva, la criatura sufre 3 (1d6) de daño por Veneno. Después de tres salvaciones exitosas, el veneno termina.\n\n**Tipo:** Veneno inhalado",
@@ -4134,7 +4134,7 @@
   {
     "id": "carriage",
     "type": "item",
-    "name": "Carro",
+    "name": "Carruaje",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -4152,7 +4152,7 @@
   {
     "id": "carrion-crawler-mucus",
     "type": "item",
-    "name": "Moco carroñero",
+    "name": "Mucosidad de carroñero reptante",
     "edition": "2024",
     "source": null,
     "description": "Una criatura sometida a Carrion Crawler Mucus debe tener éxito en una Constitución de CD 13 tirada de salvación o tener la condición de Envenenado durante 1 minuto. La criatura también tiene la condición de Paralizado mientras está envenenada de esta manera. La criatura repite la salvación al final de cada uno de sus turnos, finalizando el efecto sobre sí misma si tiene éxito.\n\n**Tipo:** Veneno de contacto",
@@ -4170,7 +4170,7 @@
   {
     "id": "cart",
     "type": "item",
-    "name": "Carrito",
+    "name": "Carreta",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -4206,7 +4206,7 @@
   {
     "id": "case-crossbow-bolt",
     "type": "item",
-    "name": "Estuche, perno de ballesta",
+    "name": "Estuche para virotes",
     "edition": "2024",
     "source": null,
     "description": "Una caja de virotes para ballesta tiene capacidad para 20 virotes.",
@@ -4224,7 +4224,7 @@
   {
     "id": "case-map-or-scroll",
     "type": "item",
-    "name": "Caso, mapa o pergamino",
+    "name": "Estuche para mapas o pergaminos",
     "edition": "2024",
     "source": null,
     "description": "Un estuche para mapas o pergaminos tiene capacidad para 10 hojas de papel o 5 hojas de pergamino.",
@@ -4515,7 +4515,7 @@
   {
     "id": "chest",
     "type": "item",
-    "name": "Pecho",
+    "name": "Cofre",
     "edition": "2024",
     "source": null,
     "description": "Un cofre tiene capacidad para hasta 12 pies cúbicos de contenido.",
@@ -5107,7 +5107,7 @@
   {
     "id": "clothes-fine",
     "type": "item",
-    "name": "Ropa, bien",
+    "name": "Ropa fina",
     "edition": "2024",
     "source": null,
     "description": "La ropa fina está hecha de telas caras y adornada con detalles elaborados por expertos. Algunos eventos y lugares admiten únicamente personas que visten esta ropa.",
@@ -5145,7 +5145,7 @@
   {
     "id": "clothes-travelers",
     "type": "item",
-    "name": "Ropa, Viajero",
+    "name": "Ropa de viaje",
     "edition": "2024",
     "source": null,
     "description": "La Ropa de Viajero son prendas resistentes diseñadas para viajar en diversos entornos.",
@@ -5160,7 +5160,7 @@
   {
     "id": "club",
     "type": "item",
-    "name": "Club",
+    "name": "Clava",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -5460,7 +5460,7 @@
   {
     "id": "covered-wagon",
     "type": "item",
-    "name": "Vagón cubierto",
+    "name": "Carromato cubierto",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -5558,7 +5558,7 @@
   {
     "id": "crossbow-hand",
     "type": "item",
-    "name": "Ballesta, mano",
+    "name": "Ballesta de mano",
     "edition": "2014",
     "source": "Tumba de la aniquilación",
     "description": "",
@@ -5591,7 +5591,7 @@
   {
     "id": "crossbow-heavy",
     "type": "item",
-    "name": "Ballesta, pesada",
+    "name": "Ballesta pesada",
     "edition": "2014",
     "source": "Tumba de la aniquilación",
     "description": "",
@@ -5625,7 +5625,7 @@
   {
     "id": "crossbow-light",
     "type": "item",
-    "name": "Ballesta, ligera",
+    "name": "Ballesta ligera",
     "edition": "2014",
     "source": "Tumba de la aniquilación",
     "description": "",
@@ -6870,10 +6870,10 @@
   {
     "id": "diplomats-pack",
     "type": "item",
-    "name": "Paquete de diplomático",
+    "name": "Equipo de diplomático",
     "edition": "2024",
     "source": null,
-    "description": "Un paquete de diplomático contiene los siguientes elementos: cofre, ropa fina, tinta, 5 bolígrafos de tinta, lámpara, 2 estuches para mapas o pergaminos, 4 frascos de aceite, 5 hojas de papel, 5 hojas de pergamino, perfume y yesquero.",
+    "description": "Un equipo de diplomático contiene los siguientes elementos: cofre, ropa fina, tinta, 5 bolígrafos de tinta, lámpara, 2 estuches para mapas o pergaminos, 4 frascos de aceite, 5 hojas de papel, 5 hojas de pergamino, perfume y yesquero.",
     "url": "https://dnd2024.wikidot.com/equipment:adventuring-gear",
     "category": "gear",
     "cost": {
@@ -7146,7 +7146,7 @@
       "subtype": "Scale Mail",
       "attunement": true,
       "attunementBy": null,
-      "raw": "Armadura (correo a escala), muy rara (requiere sintonía)"
+      "raw": "Armadura (cota de escamas), muy rara (requiere sintonía)"
     },
     "replaced": [
       "https://dnd5e.wikidot.com/wondrous-items:dragon-scale-mail"
@@ -7238,7 +7238,7 @@
   {
     "id": "dragonchess",
     "type": "item",
-    "name": "Dragón ajedrez",
+    "name": "Ajedrez de dragones",
     "edition": "2024",
     "source": null,
     "description": "**Habilidad:** Sabiduría",
@@ -7504,7 +7504,7 @@
   {
     "id": "dulcimer",
     "type": "item",
-    "name": "Dulcimer",
+    "name": "Dulcémele",
     "edition": "2024",
     "source": null,
     "description": "**Habilidad:** Carisma",
@@ -7522,10 +7522,10 @@
   {
     "id": "dungeoneers-pack",
     "type": "item",
-    "name": "Paquete de mazmorra",
+    "name": "Equipo de explorador de mazmorras",
     "edition": "2024",
     "source": null,
-    "description": "Un paquete de mazmorra contiene los siguientes elementos: mochila, abrojos, palanca, 2 frascos de aceite, 10 días de raciones, cuerda, yesquero, 10 antorchas y odre de agua.",
+    "description": "Un equipo de explorador de mazmorras contiene los siguientes elementos: mochila, abrojos, palanca, 2 frascos de aceite, 10 días de raciones, cuerda, yesquero, 10 antorchas y odre de agua.",
     "url": "https://dnd2024.wikidot.com/equipment:adventuring-gear",
     "category": "gear",
     "cost": {
@@ -7735,7 +7735,7 @@
   {
     "id": "dynamite-stick",
     "type": "item",
-    "name": "Palo de dinamita",
+    "name": "Cartucho de dinamita",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -8312,7 +8312,7 @@
   {
     "id": "entertainers-pack",
     "type": "item",
-    "name": "Paquete de animador",
+    "name": "Equipo de artista",
     "edition": "2024",
     "source": null,
     "description": "Un paquete de entretenimiento contiene los siguientes elementos: mochila, petate, campana, linterna de diana, 3 disfraces, espejo, 8 frascos de aceite, raciones para 9 días, yesca y odre.",
@@ -8532,10 +8532,10 @@
   {
     "id": "explorers-pack",
     "type": "item",
-    "name": "Paquete de explorador",
+    "name": "Equipo de explorador",
     "edition": "2024",
     "source": null,
-    "description": "Un paquete de explorador contiene los siguientes elementos: mochila, petate, 2 frascos de aceite, raciones para 10 días, cuerda, yesquero, 10 antorchas y odre de agua.",
+    "description": "Un equipo de explorador contiene los siguientes elementos: mochila, petate, 2 frascos de aceite, raciones para 10 días, cuerda, yesquero, 10 antorchas y odre de agua.",
     "url": "https://dnd2024.wikidot.com/equipment:adventuring-gear",
     "category": "gear",
     "cost": {
@@ -9139,7 +9139,7 @@
   {
     "id": "flask",
     "type": "item",
-    "name": "Matraz",
+    "name": "Frasco",
     "edition": "2024",
     "source": null,
     "description": "Un matraz tiene capacidad para 1 litro.",
@@ -10201,7 +10201,7 @@
   {
     "id": "greatclub",
     "type": "item",
-    "name": "Gran club",
+    "name": "Gran clava",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -10234,7 +10234,7 @@
   {
     "id": "greatsword",
     "type": "item",
-    "name": "Gran espada",
+    "name": "Espadón",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -10268,7 +10268,7 @@
   {
     "id": "grenade-fragmentation",
     "type": "item",
-    "name": "Granada, fragmentación",
+    "name": "Granada de fragmentación",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -10314,7 +10314,7 @@
   {
     "id": "grenade-smoke",
     "type": "item",
-    "name": "Granada, Humo",
+    "name": "Granada de humo",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -10587,7 +10587,7 @@
   {
     "id": "half-plate-armor",
     "type": "item",
-    "name": "Armadura de media placa",
+    "name": "Armadura de semiplacas",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -11438,7 +11438,7 @@
   {
     "id": "hide-armor",
     "type": "item",
-    "name": "Ocultar armadura",
+    "name": "Armadura de pieles",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -11526,7 +11526,7 @@
   {
     "id": "holy-symbol",
     "type": "item",
-    "name": "Símbolo Santo",
+    "name": "Símbolo sagrado",
     "edition": "2024",
     "source": null,
     "description": "Un Símbolo Sagrado toma una de las formas de la tabla de Símbolos Sagrados y está adornado con joyas o pintado para canalizar la magia divina. Un Clérigo o un Paladín pueden usar un Símbolo Sagrado como un canalizador mágico.",
@@ -11558,7 +11558,7 @@
   {
     "id": "holy-water",
     "type": "item",
-    "name": "Agua Bendita",
+    "name": "Agua bendita",
     "edition": "2024",
     "source": null,
     "description": "Cuando tomas el acción de Atacar, puedes reemplazar uno de tus ataques lanzando un frasco de Agua Bendita. Apunta a una criatura que puedas ver a 20 pies de ti. El objetivo debe tener éxito en una Destreza tirada de salvación (CD 8 más tu modificador de Destreza y bonificador de competencia) o recibir 2d8 de daño Radiante si es un Demonio o un No-muerto.",
@@ -11820,7 +11820,7 @@
   {
     "id": "horse-draft",
     "type": "item",
-    "name": "Caballo, Tiro",
+    "name": "Caballo de tiro",
     "edition": "2024",
     "source": null,
     "description": "**Capacidad de carga:** 540 lb.",
@@ -11838,7 +11838,7 @@
   {
     "id": "horse-riding",
     "type": "item",
-    "name": "Caballo, Equitación",
+    "name": "Caballo de monta",
     "edition": "2024",
     "source": null,
     "description": "**Capacidad de carga:** 480 lb.",
@@ -12285,7 +12285,7 @@
   {
     "id": "ink-pen",
     "type": "item",
-    "name": "Pluma de tinta",
+    "name": "Pluma",
     "edition": "2024",
     "source": null,
     "description": "Usando tinta, se usa un bolígrafo de tinta para escribir o dibujar.",
@@ -12665,7 +12665,7 @@
   {
     "id": "keelboat",
     "type": "item",
-    "name": "Barco de quilla",
+    "name": "Bote de quilla",
     "edition": "2024",
     "source": null,
     "description": "**Velocidad:** 1 mph\n**Equipo:** 1\n**Pasajeros:** 6\n**Carga (Toneladas):** 1/2\n**CA:** 15\n**CV:** 100\n**Umbral de daño:** 10",
@@ -12902,7 +12902,7 @@
   {
     "id": "lance",
     "type": "item",
-    "name": "Lanza",
+    "name": "Lanza de caballería",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -12937,7 +12937,7 @@
   {
     "id": "lantern-bullseye",
     "type": "item",
-    "name": "Linterna, diana",
+    "name": "Linterna sorda",
     "edition": "2024",
     "source": null,
     "description": "Una linterna Bullseye quema aceite como combustible para emitir luz brillante en un cono de 60 pies y luz tenue durante 60 pies adicionales.",
@@ -12955,7 +12955,7 @@
   {
     "id": "lantern-hooded",
     "type": "item",
-    "name": "Linterna, con capucha",
+    "name": "Linterna de capucha",
     "edition": "2024",
     "source": null,
     "description": "Una linterna con capucha quema aceite como combustible para emitir luz brillante en un radio de 30 pies y luz tenue en 30 pies adicionales. Como acción adicional, puedes bajar el capó, reduciendo la luz a Luz tenue en un radio de 5 pies, o subirlo nuevamente.",
@@ -13388,7 +13388,7 @@
   {
     "id": "lock",
     "type": "item",
-    "name": "Bloquear",
+    "name": "Cerradura",
     "edition": "2024",
     "source": null,
     "description": "Una cerradura viene con una llave. Sin la llave, una criatura puede usar Herramientas de ladrón para abrir esta cerradura con una prueba exitosa de CD 15 de Destreza (Juego de manos).",
@@ -13728,7 +13728,7 @@
   {
     "id": "luminous-war-pick",
     "type": "item",
-    "name": "Selección de guerra luminosa",
+    "name": "Pico de guerra luminosa",
     "edition": "2014",
     "source": "Phandelver y abajo - El obelisco destrozado",
     "description": "El mango de este pico de guerra tiene incrustaciones de piedras nacaradas trituradas que confieren al arma una tenue luminiscencia. Obtienes una bonificación de +1 a las tiradas de ataque y daño realizadas con esta elección de guerra.\n\nMientras empuñas el pico de guerra, puedes usar un acción adicional para lanzar el conjuro Luz del día, eligiendo un punto en el pico de guerra. Una vez que uses este acción adicional, no podrás volver a usarlo hasta el siguiente amanecer.",
@@ -15382,7 +15382,7 @@
   {
     "id": "morningstar",
     "type": "item",
-    "name": "Estrella de la mañana",
+    "name": "Lucero del alba",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -15851,7 +15851,7 @@
   {
     "id": "net",
     "type": "item",
-    "name": "Neto",
+    "name": "Red",
     "edition": "2024",
     "source": null,
     "description": "Cuando tomas el acción de Atacar, puedes reemplazar uno de tus ataques lanzando una red. Apunta a una criatura que puedas ver a 15 pies de ti. El objetivo debe tener éxito en una Destreza tirada de salvación (CD 8 más tu modificador de Destreza y bonificador de competencia) o tener la condición Apresado hasta que escape. El objetivo tiene éxito automáticamente si es Enorme o más grande. Para escapar, el objetivo o una criatura a 5 pies de él debe realizar una acción para realizar una prueba de Fuerza (Atletismo) de CD 10, liberando a la criatura restringida si tiene éxito. Destruir la red (CA 10; 5 HP; inmunidad a golpes, veneno y daño psíquico) también libera al objetivo, finalizando el efecto.",
@@ -16098,10 +16098,10 @@
   {
     "id": "oil",
     "type": "item",
-    "name": "Petróleo",
+    "name": "Aceite",
     "edition": "2024",
     "source": null,
-    "description": "Puedes rociar una criatura, objeto o espacio con petróleo o usarlo como combustible, como se detalla a continuación. Mojar una criatura o un objeto. Cuando tomas el acción de Atacar, puedes reemplazar uno de tus ataques lanzando un frasco de aceite. Apunta a una criatura u objeto a 20 pies de ti. El objetivo debe tener éxito en una Destreza tirada de salvación (CD 8 más tu modificador de Destreza y bonificador de competencia) o quedar cubierto de aceite. Si el objetivo recibe daño de Fuego antes de que el aceite se seque (después de 1 minuto), el objetivo recibe 5 daños de Fuego adicionales por la quema de aceite. Mojar un espacio. Puede tomar el acción de Usar para verter un matraz de aceite en un terreno nivelado para cubrir un área de 5 pies cuadrados a 5 pies de usted. Si está encendido, el aceite arde hasta el final del turno 2 rondas desde que se encendió el aceite (o 12 segundos) e inflige 5 daños de Fuego a cualquier criatura que entre en el área o termine su turno allí. Una criatura puede recibir este daño sólo una vez por turno. Combustible. El petróleo sirve como combustible para lámparas y faroles. Una vez encendida, una petaca de Aceite arde durante 6 horas en una Lámpara o Farol. No es necesario que esa duración sea consecutiva; Puedes apagar el Aceite ardiendo (como un acción de Usar) y volver a encenderlo hasta que se haya quemado por un total de 6 horas.",
+    "description": "Puedes rociar una criatura, objeto o espacio con aceite o usarlo como combustible, como se detalla a continuación. Mojar una criatura o un objeto. Cuando tomas el acción de Atacar, puedes reemplazar uno de tus ataques lanzando un frasco de aceite. Apunta a una criatura u objeto a 20 pies de ti. El objetivo debe tener éxito en una Destreza tirada de salvación (CD 8 más tu modificador de Destreza y bonificador de competencia) o quedar cubierto de aceite. Si el objetivo recibe daño de Fuego antes de que el aceite se seque (después de 1 minuto), el objetivo recibe 5 daños de Fuego adicionales por la quema de aceite. Mojar un espacio. Puede tomar el acción de Usar para verter un matraz de aceite en un terreno nivelado para cubrir un área de 5 pies cuadrados a 5 pies de usted. Si está encendido, el aceite arde hasta el final del turno 2 rondas desde que se encendió el aceite (o 12 segundos) e inflige 5 daños de Fuego a cualquier criatura que entre en el área o termine su turno allí. Una criatura puede recibir este daño sólo una vez por turno. Combustible. El aceite sirve como combustible para lámparas y faroles. Una vez encendida, una petaca de Aceite arde durante 6 horas en una Lámpara o Farol. No es necesario que esa duración sea consecutiva; Puedes apagar el Aceite ardiendo (como un acción de Usar) y volver a encenderlo hasta que se haya quemado por un total de 6 horas.",
     "url": "https://dnd2024.wikidot.com/equipment:adventuring-gear",
     "category": "gear",
     "cost": {
@@ -16800,7 +16800,7 @@
   {
     "id": "perfume",
     "type": "item",
-    "name": "Perfumes",
+    "name": "Perfume",
     "edition": "2024",
     "source": null,
     "description": "El perfume viene en un frasco de 4 onzas. Durante 1 hora después de aplicarte Perfume, tienes pruebas de Ventaja en Carisma (Persuasión) realizadas para influir en un Humanoide Indiferente a 5 pies de ti.",
@@ -16933,7 +16933,7 @@
   {
     "id": "pike",
     "type": "item",
-    "name": "Lucio",
+    "name": "Pica",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -17111,7 +17111,7 @@
   {
     "id": "pistol-automatic",
     "type": "item",
-    "name": "Pistola, automática",
+    "name": "Pistola automática",
     "edition": "2014",
     "source": "Guía de maestros de mazmorras",
     "description": "",
@@ -17360,7 +17360,7 @@
   {
     "id": "poison-basic",
     "type": "item",
-    "name": "Veneno, básico",
+    "name": "Veneno básico",
     "edition": "2024",
     "source": null,
     "description": "Como acción adicional, puedes usar un frasco de Veneno básico para cubrir un arma o hasta tres municiones. Una criatura que recibe daño perforante o cortante del arma o munición envenenada sufre 1d4 de daño adicional por veneno. Una vez aplicado, el veneno conserva su potencia durante 1 minuto o hasta que se inflige el daño, lo que ocurra primero.",
@@ -17416,7 +17416,7 @@
   {
     "id": "pole",
     "type": "item",
-    "name": "Polo",
+    "name": "Pértiga",
     "edition": "2024",
     "source": null,
     "description": "Un poste mide 10 pies de largo. Puedes usarlo para tocar algo a una distancia de hasta 10 pies. Si debes realizar una prueba de Fuerza (Atletismo) como parte de un salto de altura o de longitud, puedes usar la pértiga para saltar, dándote ventaja en la prueba.",
@@ -17561,7 +17561,7 @@
   {
     "id": "pot-iron",
     "type": "item",
-    "name": "Olla, Hierro",
+    "name": "Olla de hierro",
     "edition": "2024",
     "source": null,
     "description": "Una olla de hierro tiene capacidad para 1 galón.",
@@ -18493,10 +18493,10 @@
   {
     "id": "priests-pack",
     "type": "item",
-    "name": "Paquete de sacerdote",
+    "name": "Equipo de sacerdote",
     "edition": "2024",
     "source": null,
-    "description": "Un paquete de sacerdote contiene los siguientes elementos: mochila, manta, agua bendita, lámpara, raciones para 7 días, bata y yesquero.",
+    "description": "Un equipo de sacerdote contiene los siguientes elementos: mochila, manta, agua bendita, lámpara, raciones para 7 días, bata y yesquero.",
     "url": "https://dnd2024.wikidot.com/equipment:adventuring-gear",
     "category": "gear",
     "cost": {
@@ -18949,7 +18949,7 @@
   {
     "id": "ram-portable",
     "type": "item",
-    "name": "RAM, portátil",
+    "name": "Ariete portátil",
     "edition": "2024",
     "source": null,
     "description": "Puedes utilizar un ariete portátil para derribar puertas. Al hacerlo, obtienes un bonificador +4 a la prueba de Fuerza. Otro personaje puede ayudarte a usar el ariete, dándote ventaja en esta prueba.",
@@ -19302,7 +19302,7 @@
   {
     "id": "rifle-automatic",
     "type": "item",
-    "name": "Rifle, automático",
+    "name": "Rifle automático",
     "edition": "2014",
     "source": "Guía de maestros de mazmorras",
     "description": "",
@@ -19332,7 +19332,7 @@
   {
     "id": "rifle-hunting",
     "type": "item",
-    "name": "Rifle, caza",
+    "name": "Rifle de caza",
     "edition": "2014",
     "source": "Guía de maestros de mazmorras",
     "description": "",
@@ -19361,7 +19361,7 @@
   {
     "id": "ring-mail",
     "type": "item",
-    "name": "Correo anular",
+    "name": "Cota de anillas",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -20152,7 +20152,7 @@
   {
     "id": "robe",
     "type": "item",
-    "name": "Bata",
+    "name": "Túnica",
     "edition": "2024",
     "source": null,
     "description": "Una túnica tiene un significado vocacional o ceremonial. Algunos eventos y lugares admiten solo personas que visten una túnica con ciertos colores o símbolos.",
@@ -21200,7 +21200,7 @@
   {
     "id": "scale-mail",
     "type": "item",
-    "name": "Correo a escala",
+    "name": "Cota de escamas",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -21308,10 +21308,10 @@
   {
     "id": "scholars-pack",
     "type": "item",
-    "name": "Paquete de erudito",
+    "name": "Equipo de erudito",
     "edition": "2024",
     "source": null,
-    "description": "Un paquete de erudito contiene los siguientes elementos: mochila, libro, tinta, bolígrafo, lámpara, 10 frascos de aceite, 10 hojas de pergamino y yesquero.",
+    "description": "Un equipo de erudito contiene los siguientes elementos: mochila, libro, tinta, bolígrafo, lámpara, 10 frascos de aceite, 10 hojas de pergamino y yesquero.",
     "url": "https://dnd2024.wikidot.com/equipment:adventuring-gear",
     "category": "gear",
     "cost": {
@@ -23114,7 +23114,7 @@
   {
     "id": "spell-scroll-cantrip",
     "type": "item",
-    "name": "Pergamino de conjuro (Cantrip)",
+    "name": "Pergamino de conjuro (truco)",
     "edition": "2024",
     "source": null,
     "description": "Un Pergamino de Conjuro (Cantrip) es un objeto mágico que lleva las palabras de un cantrip determinado por el creador del pergamino. Si el conjuro está en la lista de conjuros de tu clase, puedes leer el pergamino y lanzar el conjuro usando su tiempo de lanzamiento normal y sin proporcionar ningún componente material. Si el conjuro requiere un tirada de salvación o una tirada de ataque, el CD de salvación de conjuros es 13 y la bonificación de ataque es +5. El pergamino se desintegra cuando se completa el lanzamiento.",
@@ -23129,7 +23129,7 @@
   {
     "id": "spell-scroll-level-1",
     "type": "item",
-    "name": "Pergamino de conjuros (nivel 1)",
+    "name": "Pergamino de conjuro (nivel 1)",
     "edition": "2024",
     "source": null,
     "description": "Un Pergamino de Conjuro (Nivel 1) es un objeto mágico que lleva las palabras de un conjuro de nivel 1, respectivamente, determinadas por el creador del pergamino. Si el conjuro está en la lista de conjuros de tu clase, puedes leer el pergamino y lanzar el conjuro usando su tiempo de lanzamiento normal y sin proporcionar ningún componente material. Si el conjuro requiere un tirada de salvación o una tirada de ataque, el CD de salvación de conjuros es 13 y la bonificación de ataque es +5. El pergamino se desintegra cuando se completa el lanzamiento.",
@@ -23367,7 +23367,7 @@
   {
     "id": "spikes-iron",
     "type": "item",
-    "name": "Picos, Hierro",
+    "name": "Clavos de hierro",
     "edition": "2024",
     "source": null,
     "description": "Los Iron Spikes vienen en paquetes de diez. Como acción de Usar, puedes utilizar un objeto contundente, como un martillo ligero, para clavar una púa en madera, tierra o un material similar. Puedes hacerlo para cerrar una puerta o luego atar una cuerda o cadena a la púa.",
@@ -23465,7 +23465,7 @@
   {
     "id": "splint-armor",
     "type": "item",
-    "name": "Armadura de férula",
+    "name": "Armadura de bandas",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -24290,7 +24290,7 @@
   {
     "id": "stonemaker-war-pick",
     "type": "item",
-    "name": "Selección de guerra de canteros",
+    "name": "Pico de guerra de canteros",
     "edition": "2014",
     "source": "El libro de muchas cosas",
     "description": "Obtienes una bonificación de +1 a las tiradas de ataque y daño realizadas con esta elección de guerra mágica. Tiene las siguientes propiedades especiales:\n\n**Fusionar en Piedra.** Puedes lanzar el conjuro Fundir en Piedra desde esta elección de guerra. Una vez que se usa esta propiedad, no se puede volver a usar hasta el siguiente amanecer.\n\n**Petrificación.** La elección de guerra tiene 1d6 + 1 cargas. Si logras un golpe crítico contra una criatura que tiene menos de 100 puntos de golpe, puedes gastar 1 carga de la elección de guerra para que esa criatura obtenga una Constitución de CD 15 tirada de salvación. Si falla la salvación, la criatura queda petrificada durante 8 horas. Cuando al elegido de guerra no le quedan cargas, pierde esta propiedad.",
@@ -24445,7 +24445,7 @@
   {
     "id": "string",
     "type": "item",
-    "name": "Cuerda",
+    "name": "Cordel",
     "edition": "2024",
     "source": null,
     "description": "La cuerda mide 10 pies de largo. Puedes hacerle un nudo como un acción de Usar.",
@@ -25176,7 +25176,7 @@
   {
     "id": "tent-two-person",
     "type": "item",
-    "name": "Tienda de campaña, dos personas",
+    "name": "Tienda para dos personas",
     "edition": "2014",
     "source": "Dragonlance: Sombra de la Reina Dragón",
     "description": "",
@@ -25430,7 +25430,7 @@
   {
     "id": "thunderous-greatclub",
     "type": "item",
-    "name": "Gran club atronador",
+    "name": "Gran clava atronador",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
     "description": "Mientras estás en sintonía con esta arma mágica, tu Fuerza es 20 a menos que tu Fuerza ya sea igual o mayor que esa puntuación. El arma causa 1d8 de daño de Trueno adicional a cualquier criatura que golpee y 3d8 de daño de Trueno adicional a los objetos que golpea y que no están siendo usados ​​o transportados.\n\nEl arma tiene las siguientes propiedades adicionales.\n\n**Trueno.** Como acción de Magia, puedes golpear el arma contra una superficie dura para crear un fuerte trueno audible a 300 pies. También creas un cono de energía atronadora de 30 pies. Cada criatura en el Cono debe tener éxito en una Fuerza CD 15 tirada de salvación o tener la condición Prone. Los objetos no mágicos en el Cono que no se usan ni se transportan sufren 3d8 de daño de Trueno.\n\n**Terremoto.** Como acción de Magia, puedes golpear el arma contra el suelo para crear una intensa perturbación sísmica en un círculo de 50 pies de radio centrado en el punto de impacto. Las estructuras en contacto con el suelo en esa área reciben 50 de daño contundente, y cada criatura en el suelo en esa área debe tener éxito en una Destreza CD 20 tirada de salvación o tener la condición boca abajo. Si esa criatura también se está concentrando, debe tener éxito con CD 20 Constitución tirada de salvación o su Concentración se romperá. Además, puede provocar que se abra una fisura de 30 pies de profundidad y 10 pies de ancho en el suelo en cualquier parte del área. Cualquier criatura en un lugar donde se abre la fisura debe realizar una Destreza CD 20 tirada de salvación, cayendo en la fisura en una salvación fallida o moviéndose con el borde de la fisura en una salvación exitosa. Cualquier estructura en un lugar donde se abre la fisura colapsa dentro de la fisura. Una vez que uses esta propiedad, no podrás volver a usarla hasta el siguiente amanecer.",
@@ -26085,7 +26085,7 @@
   {
     "id": "vial",
     "type": "item",
-    "name": "Frasco",
+    "name": "Vial",
     "edition": "2024",
     "source": null,
     "description": "Un vial tiene capacidad para hasta 4 onzas.",
@@ -26227,7 +26227,7 @@
   {
     "id": "wagon",
     "type": "item",
-    "name": "Vagón",
+    "name": "Carromato",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -26908,7 +26908,7 @@
   {
     "id": "war-pick",
     "type": "item",
-    "name": "Selección de guerra",
+    "name": "Pico de guerra",
     "edition": "2024",
     "source": null,
     "description": "",
@@ -27488,7 +27488,7 @@
     "name": "Voluntad de la garra",
     "edition": "2014",
     "source": "Guía del explorador de Wildemount",
-    "description": "Gemas negras, azules, verdes, rojas y blancas talladas en forma de cabezas de dragón cubren esta ostentosa púa de guerra dorada, marcándola como un arma que canaliza el poder de Tiamat.\n\n***Sentiencia.*** *Will of the Talon* es un arma inteligente y malvada legal con una Inteligencia de 14, una Sabiduría de 15 y un Carisma de 19. Tiene audición y visión en la oscuridad en un alcance de 120 pies.\n\nEl arma se comunica telepáticamente con su portador y puede hablar, leer y comprender lo común, lo dracónico y lo infernal.\n\n***Personalidad.*** Un demonio óseo de mal genio llamado Ashtyrlon vive dentro de *Will of the Talon*. El arma es codiciosa y valora un liderazgo fuerte. Exige que su portador tome medidas decisivas para mantener el orden en situaciones de alta presión y que siempre reciba a cambio una parte justa del tesoro.\n\n***Inactivo.*** La selección de guerra otorga los siguientes beneficios en su estado inactivo:\n\n- Puedes hablar, leer y escribir dracónico e infernal.\n- Obtienes una bonificación de +1 a las tiradas de ataque y daño realizadas con esta arma mágica.\n- Como acción adicional mientras sostienes el pico de guerra, puedes causar el siguiente efecto: cada criatura de tu elección que esté a 30 pies de ti y sea consciente de ti debe tener éxito en un CD 13 de Sabiduría tirada de salvación o te tendrá miedo durante 1 minuto. Una criatura puede repetir el tirada de salvación al final de cada uno de sus turnos, finalizando el efecto sobre sí misma si tiene éxito. Si el tirada de salvación de una criatura tiene éxito o el efecto termina, la criatura es inmune a tu presencia aterradora durante las próximas 24 horas. Esta propiedad no podrá volver a utilizarse hasta el próximo amanecer.\n- Mientras sostienes el pico de guerra, puedes usar tu acción para exhalar energía destructiva. Elige un tipo de daño de la tabla de armas de aliento de la Voluntad de la Garra. Cada criatura en el área de la exhalación debe hacer un CD 13 tirada de salvación, cuyo tipo se especifica en la tabla. Una criatura sufre 3d6 de daño si falla una salvación, o la mitad de daño si tiene éxito.\n\n**Voluntad de las armas de aliento de la garra**\n\n| Tipo de daño | Área | Tirada de salvación |\n|---|---|---|\n| Ácido | Línea de 5 pies de ancho, 30 pies de largo | Destreza |\n| Frío | Cono de 15 pies | Constitución |\n| Fuego | Cono de 15 pies | Destreza |\n| Rayo | Línea de 5 pies de ancho, 30 pies de largo | Destreza |\n| Veneno | Cono de 15 pies | Constitución |\n\n***Despertado.*** Cuando la selección de guerra alcanza un estado despierto, obtiene las siguientes propiedades:\n\n- La bonificación del arma a las tiradas de ataque y daño aumenta a +2.\n- El tirada de salvación CD para la propiedad Arma de aliento de la selección de guerra aumenta a 15, y esa propiedad causa 4d6 de daño en una salvación fallida, o la mitad de daño en una exitosa.\n- El tirada de salvación CD de la propiedad Presencia aterradora de la elección de guerra aumenta a 15.\n- Mientras portas el arma, tienes resistencia al daño por ácido, frío, fuego, rayos y veneno.\n\n***Exaltado.*** Cuando la selección de guerra alcanza un estado exaltado, obtiene las siguientes propiedades:\n\n- La bonificación del arma a las tiradas de ataque y daño aumenta a +3.\n- El tirada de salvación CD para la propiedad Arma de aliento de la elección de guerra aumenta a 17, y esa propiedad causa 5d6 de daño en una salvación fallida, o la mitad de daño en una exitosa.\n- El tirada de salvación CD de la propiedad Presencia aterradora de la selección de guerra aumenta a 17.",
+    "description": "Gemas negras, azules, verdes, rojas y blancas talladas en forma de cabezas de dragón cubren esta ostentosa púa de guerra dorada, marcándola como un arma que canaliza el poder de Tiamat.\n\n***Sentiencia.*** *Will of the Talon* es un arma inteligente y malvada legal con una Inteligencia de 14, una Sabiduría de 15 y un Carisma de 19. Tiene audición y visión en la oscuridad en un alcance de 120 pies.\n\nEl arma se comunica telepáticamente con su portador y puede hablar, leer y comprender lo común, lo dracónico y lo infernal.\n\n***Personalidad.*** Un demonio óseo de mal genio llamado Ashtyrlon vive dentro de *Will of the Talon*. El arma es codiciosa y valora un liderazgo fuerte. Exige que su portador tome medidas decisivas para mantener el orden en situaciones de alta presión y que siempre reciba a cambio una parte justa del tesoro.\n\n***Inactivo.*** El pico de guerra otorga los siguientes beneficios en su estado inactivo:\n\n- Puedes hablar, leer y escribir dracónico e infernal.\n- Obtienes una bonificación de +1 a las tiradas de ataque y daño realizadas con esta arma mágica.\n- Como acción adicional mientras sostienes el pico de guerra, puedes causar el siguiente efecto: cada criatura de tu elección que esté a 30 pies de ti y sea consciente de ti debe tener éxito en un CD 13 de Sabiduría tirada de salvación o te tendrá miedo durante 1 minuto. Una criatura puede repetir el tirada de salvación al final de cada uno de sus turnos, finalizando el efecto sobre sí misma si tiene éxito. Si el tirada de salvación de una criatura tiene éxito o el efecto termina, la criatura es inmune a tu presencia aterradora durante las próximas 24 horas. Esta propiedad no podrá volver a utilizarse hasta el próximo amanecer.\n- Mientras sostienes el pico de guerra, puedes usar tu acción para exhalar energía destructiva. Elige un tipo de daño de la tabla de armas de aliento de la Voluntad de la Garra. Cada criatura en el área de la exhalación debe hacer un CD 13 tirada de salvación, cuyo tipo se especifica en la tabla. Una criatura sufre 3d6 de daño si falla una salvación, o la mitad de daño si tiene éxito.\n\n**Voluntad de las armas de aliento de la garra**\n\n| Tipo de daño | Área | Tirada de salvación |\n|---|---|---|\n| Ácido | Línea de 5 pies de ancho, 30 pies de largo | Destreza |\n| Frío | Cono de 15 pies | Constitución |\n| Fuego | Cono de 15 pies | Destreza |\n| Rayo | Línea de 5 pies de ancho, 30 pies de largo | Destreza |\n| Veneno | Cono de 15 pies | Constitución |\n\n***Despertado.*** Cuando el pico de guerra alcanza un estado despierto, obtiene las siguientes propiedades:\n\n- La bonificación del arma a las tiradas de ataque y daño aumenta a +2.\n- El tirada de salvación CD para la propiedad Arma de aliento de el pico de guerra aumenta a 15, y esa propiedad causa 4d6 de daño en una salvación fallida, o la mitad de daño en una exitosa.\n- El tirada de salvación CD de la propiedad Presencia aterradora de la elección de guerra aumenta a 15.\n- Mientras portas el arma, tienes resistencia al daño por ácido, frío, fuego, rayos y veneno.\n\n***Exaltado.*** Cuando el pico de guerra alcanza un estado exaltado, obtiene las siguientes propiedades:\n\n- La bonificación del arma a las tiradas de ataque y daño aumenta a +3.\n- El tirada de salvación CD para la propiedad Arma de aliento de la elección de guerra aumenta a 17, y esa propiedad causa 5d6 de daño en una salvación fallida, o la mitad de daño en una exitosa.\n- El tirada de salvación CD de la propiedad Presencia aterradora de el pico de guerra aumenta a 17.",
     "url": "https://dnd5e.wikidot.com/wondrous-items:will-of-the-talon",
     "category": "weapon",
     "cost": null,

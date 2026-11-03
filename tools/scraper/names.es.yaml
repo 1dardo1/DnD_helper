@@ -1,0 +1,92 @@
+# Nombres fijos: el nombre inglés exacto de una entrada (objeto, conjuro, dote...) → su nombre en
+# español. Gana a la traducción automática; úsalo cuando el traductor se equivoca con un nombre
+# (los del equipo suelen salir mal porque no tienen contexto). Nombres del Manual del Jugador.
+
+# Armaduras
+Hide Armor: Armadura de pieles
+Half Plate Armor: Armadura de semiplacas
+Plate Armor: Armadura de placas
+Ring Mail: Cota de anillas
+Scale Mail: Cota de escamas
+Splint Armor: Armadura de bandas
+Padded Armor: Armadura acolchada
+
+# Armas
+Club: Clava
+Greatclub: Gran clava
+Greatsword: Espadón
+Morningstar: Lucero del alba
+Net: Red
+Pike: Pica
+War Pick: Pico de guerra
+Lance: Lanza de caballería
+Bolts: Virotes
+Crossbow, hand: Ballesta de mano
+Crossbow, heavy: Ballesta pesada
+Crossbow, light: Ballesta ligera
+Bullets, Firearm: Balas de arma de fuego
+Bullets, Sling: Balas de honda
+Pistol, automatic: Pistola automática
+Rifle, automatic: Rifle automático
+Rifle, hunting: Rifle de caza
+Grenade, Fragmentation: Granada de fragmentación
+Grenade, Smoke: Granada de humo
+Dynamite Stick: Cartucho de dinamita
+
+# Equipo de aventurero
+Ball Bearings: Bolas de metal
+Block and Tackle: Polipasto
+Book: Libro
+Bottle, Glass: Botella de cristal
+Case, Crossbow Bolt: Estuche para virotes
+Case, Map or Scroll: Estuche para mapas o pergaminos
+Chest: Cofre
+Clothes, Fine: Ropa fina
+Clothes, Traveler's: Ropa de viaje
+Flask: Frasco
+Holy Symbol: Símbolo sagrado
+Holy Water: Agua bendita
+Ink Pen: Pluma
+Lantern, Bullseye: Linterna sorda
+Lantern, Hooded: Linterna de capucha
+Lock: Cerradura
+Oil: Aceite
+Perfume: Perfume
+Pole: Pértiga
+Pot, Iron: Olla de hierro
+Ram, Portable: Ariete portátil
+Robe: Túnica
+Spikes, Iron: Clavos de hierro
+String: Cordel
+Tent, Two-person: Tienda para dos personas
+Vial: Vial
+Poison, Basic: Veneno básico
+Spell Scroll (Cantrip): Pergamino de conjuro (truco)
+Spell Scroll (Level 1): Pergamino de conjuro (nivel 1)
+
+# Paquetes de equipo
+Burglar's Pack: Equipo de ladrón
+Diplomat's Pack: Equipo de diplomático
+Dungeoneer's Pack: Equipo de explorador de mazmorras
+Entertainer's Pack: Equipo de artista
+Explorer's Pack: Equipo de explorador
+Priest's Pack: Equipo de sacerdote
+Scholar's Pack: Equipo de erudito
+
+# Herramientas y juegos
+Dragonchess: Ajedrez de dragones
+Dulcimer: Dulcémele
+
+# Monturas y vehículos
+Axe Beak: Picohacha
+Horse, Draft: Caballo de tiro
+Horse, Riding: Caballo de monta
+Cart: Carreta
+Carriage: Carruaje
+Wagon: Carromato
+Covered Wagon: Carromato cubierto
+Keelboat: Bote de quilla
+
+# Venenos
+Burnt Othur Fumes: Humo de othur quemado
+Carrion Crawler Mucus: Mucosidad de carroñero reptante

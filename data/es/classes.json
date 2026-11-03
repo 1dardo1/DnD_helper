@@ -728,7 +728,7 @@
       {
         "name": "La magia del tinker",
         "level": 1,
-        "description": "Ya conoces el truco de Mending.  \nComo acción de Magia mientras mantienes presionado Herramientas de hojalatero, puedes crear un elemento en un espacio desocupado dentro de 5 pies de ti, eligiendo el elemento de la siguiente lista:\n\n| Rodamientos de bolas |\n|---|\n| Neto |\n| Cesta |\n| Petróleo |\n| Petate |\n| Papel |\n| Campana |\n| Pergamino |\n| Manta |\n| Polo |\n| Bloquear y abordar |\n| Bolsa |\n| Cubo |\n| Cuerda |\n| Abrojos |\n| Saco |\n| Vela |\n| Pala |\n| Palanca |\n| Cadena |\n| matraz |\n| Yesquero |\n| Jarra |\n| Antorcha |\n| Lámpara |\n| Vial |\n\nConsulta las reglas del objeto en el Manual del jugador.  \nEl elemento dura hasta que terminas un descanso largo, momento en el que desaparece.  \nPuedes usar esta función una cantidad de veces igual a tu modificador de Inteligencia (mínimo una vez) y recuperas todos los usos gastados cuando terminas un descanso largo."
+        "description": "Ya conoces el truco de Mending.  \nComo acción de Magia mientras mantienes presionado Herramientas de hojalatero, puedes crear un elemento en un espacio desocupado dentro de 5 pies de ti, eligiendo el elemento de la siguiente lista:\n\n| Rodamientos de bolas |\n|---|\n| Neto |\n| Cesta |\n| Aceite |\n| Petate |\n| Papel |\n| Campana |\n| Pergamino |\n| Manta |\n| Polo |\n| Bloquear y abordar |\n| Bolsa |\n| Cubo |\n| Cuerda |\n| Abrojos |\n| Saco |\n| Vela |\n| Pala |\n| Palanca |\n| Cadena |\n| matraz |\n| Yesquero |\n| Jarra |\n| Antorcha |\n| Lámpara |\n| Vial |\n\nConsulta las reglas del objeto en el Manual del jugador.  \nEl elemento dura hasta que terminas un descanso largo, momento en el que desaparece.  \nPuedes usar esta función una cantidad de veces igual a tu modificador de Inteligencia (mínimo una vez) y recuperas todos los usos gastados cuando terminas un descanso largo."
       },
       {
         "name": "Replicar objeto mágico",
@@ -829,7 +829,7 @@
         ]
       }
     },
-    "startingEquipment": "Elija A o B: (A) Gran hacha, 4 hachas de mano, paquete de explorador y 15 po; o (B) 75 po",
+    "startingEquipment": "Elija A o B: (A) Gran hacha, 4 hachas de mano, equipo de explorador y 15 po; o (B) 75 po",
     "multiclass": {
       "prerequisites": [
         {
@@ -4181,7 +4181,7 @@
         ]
       }
     },
-    "startingEquipment": "Elija A, B o C: (A) Cota de malla, Gran espada, Mayal, 8 jabalinas, Paquete de mazmorra y 4 po; (B) Armadura de cuero tachonada, cimitarra, espada corta, arco largo, 20 flechas, carcaj, paquete de dungeoneer y 11 po; o (C) 155 po",
+    "startingEquipment": "Elija A, B o C: (A) Cota de malla, Gran espada, Mayal, 8 jabalinas, Equipo de explorador de mazmorras y 4 po; (B) Armadura de cuero tachonada, cimitarra, espada corta, arco largo, 20 flechas, carcaj, paquete de dungeoneer y 11 po; o (C) 155 po",
     "multiclass": {
       "prerequisites": [
         {
@@ -4571,7 +4571,7 @@
         ]
       }
     },
-    "startingEquipment": "Elija A o B: (A) Lanza, 5 Dagas, Herramientas de artesano o Instrumento musical elegido por el dominio de la herramienta anterior, Paquete de Explorador y 11 po; o (B) 50 po",
+    "startingEquipment": "Elija A o B: (A) Lanza, 5 Dagas, Herramientas de artesano o Instrumento musical elegido por el dominio de la herramienta anterior, Equipo de explorador y 11 po; o (B) 50 po",
     "multiclass": {
       "prerequisites": [
         {
@@ -7736,7 +7736,7 @@
         ]
       }
     },
-    "startingEquipment": "Elige A o B: (A) Armadura de cuero, Hoz, 2 dagas, Foco arcano (orbe), Libro (tradición oculta), Paquete de erudito y 15 po; o (B) 100 po",
+    "startingEquipment": "Elige A o B: (A) Armadura de cuero, Hoz, 2 dagas, Foco arcano (orbe), Libro (tradición oculta), Equipo de erudito y 15 po; o (B) 100 po",
     "multiclass": {
       "prerequisites": [
         {
@@ -8409,7 +8409,7 @@
         ]
       }
     },
-    "startingEquipment": "Elija A o B: (A) 2 dagas, enfoque arcano (cuarto de bastón), túnica, libro de conjuros, paquete de erudito y 5 po; o (B) 55 po",
+    "startingEquipment": "Elija A o B: (A) 2 dagas, enfoque arcano (cuarto de bastón), túnica, libro de conjuros, equipo de erudito y 5 po; o (B) 55 po",
     "multiclass": {
       "prerequisites": [
         {
