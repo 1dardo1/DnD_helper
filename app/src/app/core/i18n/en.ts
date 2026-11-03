@@ -723,7 +723,7 @@ export const en = {
   'picker.price.100-1000': '100–1,000 gp',
   'picker.price.gt1000': 'Over 1,000 gp',
   'picker.sort': 'Sort',
-  'picker.sort.name': 'By name',
+  'picker.sort.default': 'By kind and name',
   'picker.sort.priceAsc': 'Price, cheapest first',
   'picker.sort.priceDesc': 'Price, dearest first',
   'picker.increase.yes': 'Yes (any)',

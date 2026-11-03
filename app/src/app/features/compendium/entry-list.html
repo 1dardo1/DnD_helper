@@ -58,7 +58,7 @@
       <label class="sort">
         {{ 'picker.sort' | t }}
         <select (change)="setParam('sort', $any($event.target).value)">
-          <option value="" [selected]="!sort()">{{ 'picker.sort.name' | t }}</option>
+          <option value="" [selected]="!sort()">{{ 'picker.sort.default' | t }}</option>
           <option value="price-asc" [selected]="sort() === 'price-asc'">
             {{ 'picker.sort.priceAsc' | t }}
           </option>

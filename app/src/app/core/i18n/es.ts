@@ -736,7 +736,7 @@ export const es: Record<keyof typeof en, string> = {
   'picker.price.100-1000': '100–1.000 po',
   'picker.price.gt1000': 'Más de 1.000 po',
   'picker.sort': 'Ordenar',
-  'picker.sort.name': 'Por nombre',
+  'picker.sort.default': 'Por tipo y nombre',
   'picker.sort.priceAsc': 'Precio, de menor a mayor',
   'picker.sort.priceDesc': 'Precio, de mayor a menor',
   'picker.increase.yes': 'Sí (cualquiera)',

@@ -84,15 +84,16 @@ export class Picker<T extends PickItem> {
   protected readonly browsing = signal(false);
   protected readonly open = signal<ReadonlySet<string>>(new Set());
 
-  /** The items in the default order of their type (spells by level, feats by ability...). */
-  private readonly ordered = computed(() => {
-    const type = (this.items()[0] as Partial<Entry> | undefined)?.type;
-    return type === 'spell' || type === 'feat'
-      ? defaultOrder(this.items(), (i) => this.dataText.shortName(i.name))
-      : this.items();
-  });
   private readonly chosenSet = computed(() => new Set(this.selected()));
   private readonly type = computed(() => (this.items()[0] as Partial<Entry> | undefined)?.type);
+  /**
+   * Compendium entries in the default order of their type (by the name shown; spells by level,
+   * feats by ability, options by level required, items mundane first...). Other items (species
+   * lineages) keep the caller's order.
+   */
+  private readonly ordered = computed(() =>
+    this.type() ? defaultOrder(this.items(), (i) => this.dataText.shortName(i.name)) : this.items(),
+  );
 
   /** Single choice with something chosen and not browsing: only the chosen card. */
   protected readonly collapsed = computed(

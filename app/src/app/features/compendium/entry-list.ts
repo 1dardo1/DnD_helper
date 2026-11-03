@@ -10,7 +10,7 @@ import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { EntryCard } from '../../shared/picker/entry-card';
 import { ENTRY_FACETS, FacetKey, facetValues, sortByPrice } from '../../shared/picker/entry-facets';
 import { EntryLabels } from '../../shared/picker/entry-labels.service';
-import { defaultOrder } from '../../shared/picker/entry-order';
+import { defaultOrder, groupOrder } from '../../shared/picker/entry-order';
 import { FilterBar } from '../../shared/picker/filter-bar';
 import { applyFacets, modeKey } from '../../shared/picker/picker-filters';
 import { normalise } from './compendium-search';
@@ -114,22 +114,18 @@ export class EntryList {
     const counts = new Map<string, number>();
     for (const e of this.entries.value() ?? [])
       for (const v of facetValues(e, key)) counts.set(v, (counts.get(v) ?? 0) + 1);
-    return (
-      [...counts]
-        .map(([value, count]) => {
-          const infoKey = `picker.groupInfo.${type}.${value}`;
-          const info = this.i18n.t(infoKey as TranslationKey);
-          return {
-            value,
-            params: { [key]: value },
-            count,
-            label: this.labels.optionLabel(type, key, value),
-            info: info === infoKey ? '' : info,
-          };
-        })
-        // classes alphabetically; other groups from the biggest
-        .sort((a, b) => (key === 'class' ? 0 : b.count - a.count) || a.label.localeCompare(b.label))
-    );
+    const cards = [...counts].map(([value, count]) => {
+      const infoKey = `picker.groupInfo.${type}.${value}`;
+      const info = this.i18n.t(infoKey as TranslationKey);
+      return {
+        value,
+        params: { [key]: value },
+        count,
+        label: this.labels.optionLabel(type, key, value),
+        info: info === infoKey ? '' : info,
+      };
+    });
+    return groupOrder(type, key, cards);
   });
 
   // -- list ----------------------------------------------------------------------------------
