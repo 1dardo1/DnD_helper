@@ -6270,7 +6270,7 @@
   {
     "id": "squat-nimbleness",
     "type": "feat",
-    "name": "Agilidad en sentadillas",
+    "name": "Agilidad del rechoncho",
     "edition": "2014",
     "source": "La guía de Xanathar para todo",
     "description": "Eres extraordinariamente ágil para tu raza. Obtienes los siguientes beneficios:\n\n- Aumenta tu puntuación de Fuerza o Destreza en 1, hasta un máximo de 20.\n\n- Aumente su velocidad al caminar en 5 pies.\n\n- Obtienes competencia en la habilidad Acrobacia o Atletismo (tú eliges).\n\n- Tienes ventaja en cualquier prueba de Fuerza (Atletismo) o Destreza (Acrobacia) que realices para escapar de ser apresado.",
@@ -6281,7 +6281,10 @@
       "species": [
         "dwarf"
       ],
-      "level": 4
+      "level": 4,
+      "size": [
+        "Small"
+      ]
     },
     "repeatable": false,
     "abilityIncrease": {

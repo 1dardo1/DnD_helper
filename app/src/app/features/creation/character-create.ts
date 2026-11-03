@@ -736,14 +736,14 @@ export class CharacterCreate {
   }
 
   protected featsFor(kind: 'asi' | 'fighting-style' | 'epic-boon'): Feat[] {
-    return featsForSlot(kind, this.data.value()?.feats ?? [], this.draft().species?.id ?? null);
+    return featsForSlot(kind, this.data.value()?.feats ?? [], this.species() ?? null);
   }
 
   /** Why this character can't normally take a feat (empty = it can). */
   protected featProblems(feat: Feat | undefined): Note[] {
     const sheet = this.sheet();
     if (!feat || !sheet) return [];
-    return featIssues(feat, sheet, this.draft().species?.id ?? null).map((n) => ({
+    return featIssues(feat, sheet, this.species() ?? null).map((n) => ({
       ...n,
       params: { ...n.params, feat: feat.name },
     }));

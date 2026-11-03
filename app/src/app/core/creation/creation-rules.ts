@@ -69,6 +69,20 @@ export function featSlots(cls: DndClass, level: number): FeatSlot[] {
   return out;
 }
 
+/** What the feat rules need of the character's species: its id and the sizes it can be. */
+export interface SpeciesRef {
+  id: string;
+  size: string[];
+}
+
+/** Whether a feat's species requirement is met: one of its species, or a size it allows. */
+export function speciesFits(feat: Feat, species: SpeciesRef | null): boolean {
+  const pre = feat.prerequisites;
+  if (!pre?.species?.length) return true;
+  if (!species) return false;
+  return pre.species.includes(species.id) || !!pre.size?.some((z) => species.size.includes(z));
+}
+
 /**
  * Feats that can fill a slot. ASI levels: the Ability Score Improvement feat, a general feat, or
  * a racial feat of the character's species (only those: racial feats of other species are left
@@ -77,12 +91,12 @@ export function featSlots(cls: DndClass, level: number): FeatSlot[] {
 export function featsForSlot(
   kind: SlotKind,
   feats: Feat[],
-  speciesId: string | null = null,
+  species: SpeciesRef | null = null,
 ): Feat[] {
+  const speciesId = species?.id ?? null;
   const fits = (f: Feat) =>
     kind === 'asi'
-      ? f.category === 'general' ||
-        (f.category === 'racial' && !!speciesId && !!f.prerequisites?.species?.includes(speciesId))
+      ? f.category === 'general' || (f.category === 'racial' && speciesFits(f, species))
       : f.category === kind;
   return (
     feats
@@ -90,7 +104,7 @@ export function featsForSlot(
       // a racial feat open to several species is shown under the character's one only
       .map((f) =>
         f.category === 'racial' && speciesId && f.prerequisites
-          ? { ...f, prerequisites: { ...f.prerequisites, species: [speciesId] } }
+          ? { ...f, prerequisites: { ...f.prerequisites, species: [speciesId], size: undefined } }
           : f,
       )
       .sort((a, b) =>
@@ -345,7 +359,7 @@ export interface Note {
 }
 
 /** Why a feat can't normally be taken by this character (empty = it can). */
-export function featIssues(feat: Feat, sheet: Sheet, speciesId: string | null): Note[] {
+export function featIssues(feat: Feat, sheet: Sheet, species: SpeciesRef | null): Note[] {
   const pre = feat.prerequisites;
   if (!pre) return [];
   const out: Note[] = [];
@@ -361,10 +375,10 @@ export function featIssues(feat: Feat, sheet: Sheet, speciesId: string | null): 
       out.push({ key: 'create.issue.featAbility', params: { what }, kind: 'issue' });
     }
   }
-  if (pre.species?.length && !(speciesId && pre.species.includes(speciesId)))
+  if (!speciesFits(feat, species))
     out.push({
       key: 'create.issue.featSpecies',
-      params: { what: pre.species.join(', ') },
+      params: { what: [...(pre.species ?? []), ...(pre.size ?? [])].join(', ') },
       kind: 'issue',
     });
   if (pre.spellcasting && !sheet.spellcasting.classes.length)
@@ -493,7 +507,7 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
         const feat = featId ? ctx.feats.get(featId) : undefined;
         if (!feat) emptySlots++;
         else if (ctx.sheet)
-          for (const n of featIssues(feat, ctx.sheet, ch.species?.id ?? null))
+          for (const n of featIssues(feat, ctx.sheet, ctx.species ?? null))
             out.choices.push({ ...n, params: { ...n.params, feat: feat.name } });
       }
       // spell counts per caster (the class, or a subclass that casts on its own)

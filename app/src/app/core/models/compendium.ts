@@ -107,6 +107,8 @@ export interface Prerequisites {
   abilities?: { ability: Ability; min: number }[];
   abilitiesMode?: 'all' | 'any';
   species?: string[];
+  /** "Dwarf or a Small race": also any species that can be of one of these sizes. */
+  size?: string[];
   spellcasting?: boolean;
   proficiency?: string[];
 }

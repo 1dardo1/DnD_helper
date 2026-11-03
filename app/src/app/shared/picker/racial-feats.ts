@@ -1,10 +1,18 @@
 import { Entry, Feat } from '../../core/models/compendium';
 
-/** The species a racial feat requires (their ids); none for any other entry. */
+/** Stands for "any species that can be this size" among the required species ("size:Small"). */
+export const SIZE_PREFIX = 'size:';
+
+/**
+ * The species a racial feat requires (their ids), plus "size:Small" when any species of that size
+ * may take it ("Dwarf or a Small race"); none for any other entry.
+ */
 export function requiredSpecies(e: Partial<Entry> | null | undefined): string[] {
   if (!e || e.type !== 'feat') return [];
   const f = e as Partial<Feat>;
-  return f.category === 'racial' ? (f.prerequisites?.species ?? []) : [];
+  if (f.category !== 'racial') return [];
+  const pre = f.prerequisites;
+  return [...(pre?.species ?? []), ...(pre?.size ?? []).map((z) => SIZE_PREFIX + z)];
 }
 
 /** The required species' names, alphabetically ("Elfo", "Semielfo"). */

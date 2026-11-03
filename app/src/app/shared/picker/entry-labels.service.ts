@@ -31,7 +31,7 @@ import {
 } from './entry-facets';
 import { FacetView } from './filter-bar';
 import { modeKey } from './picker-filters';
-import { speciesNames } from './racial-feats';
+import { SIZE_PREFIX, speciesNames } from './racial-feats';
 
 /** What a summary card shows: a one-line kicker, a few labelled facts and small marks. */
 export interface CardSummary {
@@ -118,6 +118,11 @@ export class EntryLabels {
 
   /** Species name in the current language (short form), loading the species list on first use. */
   speciesName(id: string): string {
+    // "size:Small": any species that can be Small
+    if (id.startsWith(SIZE_PREFIX))
+      return this.t('picker.speciesOfSize', {
+        size: this.term('size', id.slice(SIZE_PREFIX.length)),
+      });
     if (!this.loadingSpecies) {
       this.loadingSpecies = true;
       this.compendium.all('species').then(

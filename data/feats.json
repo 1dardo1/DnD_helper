@@ -6281,7 +6281,10 @@
       "species": [
         "dwarf"
       ],
-      "level": 4
+      "level": 4,
+      "size": [
+        "Small"
+      ]
     },
     "repeatable": false,
     "abilityIncrease": {

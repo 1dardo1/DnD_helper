@@ -37,7 +37,7 @@ import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/dat
 import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, normalizeCharacter } from '../../core/models/character';
-import { Ability, ClassOption, DndClass, Feat } from '../../core/models/compendium';
+import { Ability, ClassOption, DndClass, Feat, Species } from '../../core/models/compendium';
 import { swapRule } from '../../core/play/spell-swap';
 import { computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
@@ -401,9 +401,14 @@ export class LevelUp {
   private readonly featLists = computed(() => {
     const feats = this.data.value()?.feats ?? [];
     const kinds = ['asi', 'fighting-style', 'epic-boon'] as const;
-    const species = this.draft()?.species?.id ?? null;
-    return new Map(kinds.map((k) => [k, this.shown(featsForSlot(k, feats, species))]));
+    return new Map(kinds.map((k) => [k, this.shown(featsForSlot(k, feats, this.speciesEntry()))]));
   });
+
+  /** The character's species (id and sizes), for the racial feat requirements. */
+  private speciesEntry(): Species | null {
+    const id = this.draft()?.species?.id;
+    return (id && this.data.value()?.rules.species.get(id)) || null;
+  }
 
   protected featsFor(kind: 'asi' | 'fighting-style' | 'epic-boon'): Feat[] {
     return this.featLists().get(kind) ?? [];
@@ -417,7 +422,7 @@ export class LevelUp {
   protected featProblems(feat: Feat | undefined): Note[] {
     const sheet = this.after();
     if (!feat || !sheet) return [];
-    return featIssues(feat, sheet, this.draft()?.species?.id ?? null).map((n) => ({
+    return featIssues(feat, sheet, this.speciesEntry()).map((n) => ({
       ...n,
       params: { ...n.params, feat: feat.name },
     }));

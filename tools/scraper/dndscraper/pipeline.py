@@ -382,6 +382,9 @@ def convert_feat(e: dict, species_keys: set[str]) -> None:
         e["category"] = "racial" if found else "general"
         if found:
             pre["species"] = found
+        # "Dwarf or a Small race": also any species that can be Small (the app checks the size)
+        if found and re.search(r"\bsmall race\b", raw):
+            pre["size"] = ["Small"]
         if "level" not in pre:
             pre["level"] = 4
             pre["raw"] = ("Level 4+, " + pre["raw"]) if pre.get("raw") else "Level 4+"

@@ -685,6 +685,7 @@ export const en = {
   'picker.acDexCap': '{ac} + {dex} (max {max})',
   'picker.class': 'Class',
   'picker.breadcrumb': 'Breadcrumb',
+  'picker.speciesOfSize': '{size} species',
   'picker.otherFeats': 'Other feats',
   'picker.chooseGroup': 'Choose a group to open, or see them all.',
   'picker.all': 'See all',

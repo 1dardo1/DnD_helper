@@ -692,6 +692,7 @@ export const es: Record<keyof typeof en, string> = {
   'picker.acDexCap': '{ac} + {dex} (máx. {max})',
   'picker.class': 'Clase',
   'picker.breadcrumb': 'Ruta',
+  'picker.speciesOfSize': 'Especies de tamaño {size}',
   'picker.otherFeats': 'Otras dotes',
   'picker.chooseGroup': 'Elige un grupo para abrirlo, o míralos todos.',
   'picker.all': 'Ver todo',

@@ -15,6 +15,8 @@ import {
   spellListOf,
   spellsFor,
   toolChoices,
+  SpeciesRef,
+  speciesFits,
 } from './creation-rules';
 import { Sheet } from '../rules/sheet';
 
@@ -51,6 +53,8 @@ const fighter = {
 
 const feat = (id: string, category: string, level?: number) =>
   ({ id, name: id, category, prerequisites: level ? { raw: '', level } : null }) as unknown as Feat;
+
+const sp = (id: string, size: string[] = ['Medium']): SpeciesRef => ({ id, size });
 
 describe('creation rules', () => {
   it("prices point buy like the Player's Handbook", () => {
@@ -135,11 +139,32 @@ describe('creation rules', () => {
       racial('elven-accuracy', ['elf', 'half-elf']),
       racial('dwarven-fortitude', ['dwarf']),
     ];
-    expect(featsForSlot('asi', feats, 'elf').map((f) => f.id)).toEqual(['elven-accuracy', 'tough']);
-    expect(featsForSlot('asi', feats, 'half-elf')[0].prerequisites?.species).toEqual(['half-elf']);
-    expect(featsForSlot('asi', feats, 'human').map((f) => f.id)).toEqual(['tough']);
+    expect(featsForSlot('asi', feats, sp('elf')).map((f) => f.id)).toEqual([
+      'elven-accuracy',
+      'tough',
+    ]);
+    expect(featsForSlot('asi', feats, sp('half-elf'))[0].prerequisites?.species).toEqual([
+      'half-elf',
+    ]);
+    expect(featsForSlot('asi', feats, sp('human')).map((f) => f.id)).toEqual(['tough']);
     expect(featsForSlot('asi', feats).map((f) => f.id)).toEqual(['tough']);
-    expect(featsForSlot('epic-boon', feats, 'elf')).toEqual([]);
+    expect(featsForSlot('epic-boon', feats, sp('elf'))).toEqual([]);
+  });
+
+  it('offers a "Dwarf or a Small race" feat to every species that can be Small', () => {
+    const squat = {
+      ...feat('squat-nimbleness', 'racial', 4),
+      prerequisites: { raw: '', level: 4, species: ['dwarf'], size: ['Small'] },
+    } as Feat;
+    const ids = (s: SpeciesRef) => featsForSlot('asi', [squat], s).map((f) => f.id);
+    expect(ids(sp('dwarf'))).toEqual(['squat-nimbleness']);
+    expect(ids(sp('halfling', ['Small']))).toEqual(['squat-nimbleness']);
+    expect(ids(sp('human', ['Small', 'Medium']))).toEqual(['squat-nimbleness']);
+    expect(ids(sp('elf'))).toEqual([]);
+    expect(featsForSlot('asi', [squat], sp('gnome', ['Small']))[0].prerequisites?.species).toEqual([
+      'gnome',
+    ]);
+    expect(speciesFits(squat, sp('goliath'))).toBe(false);
   });
 
   it('counts Expertise picks', () => {
@@ -233,8 +258,8 @@ describe('requirements', () => {
       'create.issue.featProficiency',
     ]);
     const elven = { prerequisites: { raw: '', species: ['elf', 'half-elf'] } } as unknown as Feat;
-    expect(featIssues(elven, sheetWith({}), 'elf')).toEqual([]);
-    expect(featIssues(elven, sheetWith({}), 'dwarf').map((n) => n.key)).toEqual([
+    expect(featIssues(elven, sheetWith({}), sp('elf'))).toEqual([]);
+    expect(featIssues(elven, sheetWith({}), sp('dwarf')).map((n) => n.key)).toEqual([
       'create.issue.featSpecies',
     ]);
   });
