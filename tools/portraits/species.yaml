@@ -1,0 +1,563 @@
+# Prompts for the AI species portraits (FLUX.1 schnell, Cloudflare Workers AI).
+# Full prompt sent to the model = style + ", " + species prompt.
+# style: the common prefix added before every species description (one consistent look)
+style: >-
+  Full-body character portrait for a fantasy field journal, ink and watercolour
+  sketch on aged parchment, warm sepia and ochre palette with muted reds, soft
+  hand-drawn linework, plain parchment background, single figure, centred,
+  standing in a neutral pose, whole body visible from head to feet, no text, no border
+negative: >-
+  text, letters, caption, watermark, signature, frame, border, multiple people,
+  crowd, photo, photorealistic, 3d render, blurry, deformed hands, extra limbs,
+  cropped feet, gore, nudity
+species:
+  aarakocra:
+    prompt: >-
+      A lean bird-person with the head of an eagle, a hooked yellow beak and keen golden eyes,
+      brown and white feathers, large feathered wings folded on its back, taloned bird feet
+      and clawed hands; wears a light leather harness and carries a javelin.
+    seed: 1001
+  aasimar:
+    prompt: >-
+      A serene human-looking woman with faintly luminous skin, pale silver eyes without pupils,
+      a soft halo of light behind her head and freckles that shimmer like stars; wears a white
+      and gold travelling cloak over chain mail and holds a mace.
+    seed: 1002
+  aetherborn:
+    prompt: >-
+      A gaunt, ageless and sexless humanoid with smooth ash-grey skin like smoky glass, thin wisps
+      of dark vapour drifting from its body, large pale glowing eyes and a hairless head; dressed
+      in an elegant high-collared coat with brass filigree.
+    seed: 1003
+  air-genasi:
+    prompt: >-
+      A slender woman with pale sky-blue skin, white hair that floats upward as if blown by a
+      constant breeze, wispy swirling air currents around her limbs and calm light-blue eyes;
+      wears loose layered silk travelling clothes and holds a quarterstaff.
+    seed: 1004
+  astral-elf:
+    prompt: >-
+      A tall, ethereal elf man with pointed ears, pale skin with a faint silvery glow, eyes like
+      tiny points of starlight, long white hair drifting weightlessly, and robes patterned like a
+      night sky; holds a slender curved sword.
+    seed: 1005
+  autognome:
+    prompt: >-
+      A small mechanical gnome-shaped construct about half a human's height, with a riveted brass
+      and copper body, a round head with lens-like glass eyes, visible gears at the joints and a
+      small chimney vent on its back; carries a satchel of tools.
+    seed: 1006
+  aven:
+    prompt: >-
+      A tall, graceful bird-headed humanoid with the head and neck of an ibis, a long curved
+      beak, white and black feathers, broad wings folded behind the shoulders and bird legs;
+      wears a pleated linen kilt, gold collar and carries a spear.
+    seed: 1007
+  boggart:
+    prompt: >-
+      A small, squat goblin-like creature about half a human's height with a hedgehog-like
+      snout, beady eyes, spiky brown fur, short curved horns and a grinning mouth; wears a
+      patched apron hung with potion bottles and carries a cooking ladle.
+    seed: 1008
+  bugbear:
+    prompt: >-
+      A tall, long-limbed hairy goblinoid with coarse yellow-brown fur, a bear-like snout,
+      small fangs, wide pointed ears and long arms reaching to the knees; wears studded
+      leather armour and carries a morningstar.
+    seed: 1009
+  centaur:
+    prompt: >-
+      A centaur woman with the upper body of a human joined at the waist to the body of a
+      chestnut horse, four hooves and a long tail, braided dark hair, a leather breastplate
+      and a longbow with a quiver on her back.
+    seed: 1010
+  changeling:
+    prompt: >-
+      A slender androgynous humanoid with smooth chalk-white skin, colourless pale eyes, a
+      flat-featured face with a barely defined nose, and silvery-white hair; wears a dark
+      travelling coat and holds a smooth expressionless mask in one hand.
+    seed: 1011
+  # Custom Lineage: a rules option with no appearance of its own
+  custom-lineage:
+    prompt: >-
+      A generic humanoid adventurer.
+    seed: 1012
+    skip: true
+  deep-gnome:
+    prompt: >-
+      A small, wiry gnome about half a human's height with stone-grey skin, a bald head, large
+      pointed ears, a hooked nose and dark eyes; wears dusty leather with a miner's pick and
+      a pouch of gems, standing on rocky ground.
+    seed: 1013
+  # Deep Imaskari (Unearthed Arcana)
+  deep-imaskari-ua:
+    prompt: >-
+      A human woman with very pale skin from which colourless, faintly glowing crystals
+      protrude along her cheekbones, shoulders and forearms, piercing golden-white eyes and
+      straight black hair; wears dark layered robes and holds a crystal-tipped staff.
+    seed: 1014
+  dhampir:
+    prompt: >-
+      A pale, handsome young man with ashen skin, dark circles under intense red-tinged eyes,
+      slightly pointed canine teeth, black hair and an elegant high-collared dark coat with a
+      rapier at his hip; unsettling but noble look.
+    seed: 1015
+  dragonborn:
+    prompt: >-
+      A tall, powerfully built dragonborn with the head of a dragon on a humanoid body, no tail,
+      covered in bronze-coloured scales, a short frill of horns, a muscular reptilian snout
+      and clawed hands; wears plate armour and holds a greatsword.
+    seed: 1016
+  # Drider (Unearthed Arcana)
+  drider-ua:
+    prompt: >-
+      A drider: the upper body of a drow elf woman with dark grey skin, white hair and red eyes,
+      joined at the waist to the large body of a black spider with eight long jointed legs;
+      wears a dark leather bodice and holds a curved dagger.
+    seed: 1017
+  duergar:
+    prompt: >-
+      A stocky, grim dwarf with ash-grey skin, a bald head, a long stiff white beard, deep-set
+      eyes and a scowl; wears heavy dark iron armour with riveted plates and holds a war pick.
+    seed: 1018
+  duskling:
+    prompt: >-
+      A lithe fey herder with dusky violet skin, faint glowing freckles like twilight stars,
+      long pointed ears and long legs made for leaping, dark hair in braids; wears a woollen
+      cloak and boots and holds a shepherd's crook.
+    seed: 1019
+  dwarf:
+    prompt: >-
+      A short, broad dwarf woman about two-thirds a human's height, ruddy skin, thick braided
+      auburn hair and a stern face; wears chain mail and a horned helmet slung at her belt and
+      holds a battleaxe and a round shield.
+    seed: 1020
+  earth-genasi:
+    prompt: >-
+      A broad, sturdy man with rough grey-brown skin like weathered stone, cracks running across
+      it that glint with crystal veins, hair like crumbled earth and small pebbles orbiting him;
+      wears heavy leather and carries a warhammer.
+    seed: 1021
+  eladrin:
+    prompt: >-
+      An elegant elf with pointed ears and skin and hair in autumn colours: copper-red hair,
+      bronze skin and amber eyes, fallen leaves swirling around her; wears flowing robes in
+      orange and gold and holds a slender rapier.
+    seed: 1022
+  elf:
+    prompt: >-
+      A slender elf man taller than a human, with long pointed ears, a fine angular face,
+      almond-shaped green eyes and long straight blond hair; wears a forest-green hooded cloak
+      over leather armour and carries a longbow.
+    seed: 1023
+  # Faerie (Lorwyn)
+  faerie:
+    prompt: >-
+      A tiny insect-like fey about a foot tall with a humanoid face, glossy black eyes, long
+      antennae, shiny chitinous skin, thin insect-jointed legs and four dragonfly wings; shown
+      large in the frame, holding a thorn as a spear.
+    seed: 1024
+  fairy:
+    prompt: >-
+      A tiny fey woman about the size of a child, with large pointed ears, bright eyes, flowers
+      woven into her hair and delicate butterfly wings; wears clothes made of petals and leaves
+      and holds a small wooden wand.
+    seed: 1025
+  firbolg:
+    prompt: >-
+      A huge, gentle giant-kin taller than a human, with bluish-grey skin, a broad cow-like pink
+      nose, long drooping ears and a long braided beard; wears a druid's mantle of moss and furs
+      and leans on a gnarled wooden staff.
+    seed: 1026
+  fire-genasi:
+    prompt: >-
+      A man with charcoal-dark skin cracked with glowing ember lines, hair made of living
+      flickering flames, burning orange eyes and faint smoke rising from his shoulders; wears
+      a sleeveless leather jerkin and holds a scimitar.
+    seed: 1027
+  flamekin:
+    prompt: >-
+      A slender humanoid made of dark grey stone with a lean, sharply carved body, wreathed
+      entirely in flowing orange flames like hair and a cloak, eyes glowing white-hot; wears
+      only a few metal bands and a belt with pouches.
+    seed: 1028
+  giff:
+    prompt: >-
+      A huge, barrel-chested humanoid with the head of a hippopotamus, thick grey hide, a
+      wide snout and small ears, sporting a waxed handlebar moustache; wears a red military
+      officer's coat with brass buttons and holds a musket.
+    seed: 1029
+  githyanki:
+    prompt: >-
+      A gaunt, tall githyanki warrior woman with yellow-green leathery skin, a flat nose, sunken
+      black eyes, pointed back-swept ears and dark hair in a topknot; wears ornate lacquered
+      armour and holds a silver greatsword.
+    seed: 1030
+  githzerai:
+    prompt: >-
+      A lean, ascetic monk with pale yellow skin, sunken eyes, a flat nose, pointed ears, a
+      shaved head and a long thin braided beard; wears simple loose monastic robes and stands
+      barefoot, hands calmly clasped.
+    seed: 1031
+  # Glitchling (Unearthed Arcana)
+  glitchling-ua:
+    prompt: >-
+      A slim, human-like construct made of polished metal plates and clockwork, with a smooth
+      mask-like face, round glowing eyes, and two small vestigial metal wings on its back;
+      carries a notebook and a satchel of collected trinkets.
+    seed: 1032
+  gnome:
+    prompt: >-
+      A small, cheerful gnome about half a human's height, with a big nose, bright curious eyes,
+      a wild tuft of white hair and an old woman's wrinkled smile; wears a tinker's apron
+      covered with tools and goggles on her forehead.
+    seed: 1033
+  goblin:
+    prompt: >-
+      A small, wiry goblin about half a human's height with green-yellow skin, a large head,
+      long pointed ears, a flat nose, sharp teeth and red eyes; wears ragged leather and holds
+      a short sword and a lantern.
+    seed: 1034
+  goliath:
+    prompt: >-
+      A towering, heavily muscled goliath half again as tall as a human, with grey stone-like
+      skin marked by dark patches and tattoo-like lines, a bald head and a strong jaw; wears
+      fur and leather and carries a large maul over a shoulder.
+    seed: 1035
+  # Grung (One Grung Above)
+  grung-oga:
+    prompt: >-
+      A small frog-like humanoid about half a human's height with smooth bright orange skin
+      speckled with black, big round eyes, a wide mouth and webbed hands and feet; wears a
+      tiny loincloth belt with pouches and holds a blowgun.
+    seed: 1036
+  hadozee:
+    prompt: >-
+      An agile ape-like humanoid with brown fur, a monkey face, long arms with handlike feet,
+      and thin gliding membranes of skin stretching between arms and legs; wears a sailor's
+      striped shirt and bandana and carries a cutlass.
+    seed: 1037
+  half-elf:
+    prompt: >-
+      A half-elf man with a human build, slightly pointed ears, a short dark beard, warm brown
+      skin and green eyes; wears a bard's colourful doublet and cape and carries a lute on his
+      back.
+    seed: 1038
+  half-orc:
+    prompt: >-
+      A broad, muscular half-orc woman with greyish-green skin, small tusks rising from the
+      lower jaw, a heavy brow, black hair in a long braid and a scar on one cheek; wears hide
+      armour and holds a greataxe.
+    seed: 1039
+  halfling:
+    prompt: >-
+      A small halfling about half a human's height with a round friendly face, curly brown hair,
+      bare hairy feet and a cheerful grin; wears a waistcoat, a short cloak and a backpack with
+      a frying pan, holding a sling.
+    seed: 1040
+  harengon:
+    prompt: >-
+      A rabbit-like humanoid with white and grey fur, long upright ears, a twitching nose, large
+      dark eyes and big long hind feet; wears a short green cape and leather vest and holds a
+      pair of daggers.
+    seed: 1041
+  hexblood:
+    prompt: >-
+      A woman with faintly green-tinged skin, wild tangled hair woven with twigs, eyes of two
+      different colours, a crown of small curved horns and long dark nails; wears a ragged
+      witch's shawl and holds a lantern with a living doll at her belt.
+    seed: 1042
+  hobgoblin:
+    prompt: >-
+      A disciplined goblinoid soldier of human height with dark orange-red skin, a flat face,
+      pointed ears, sharp yellow eyes and black hair tied back; wears polished lamellar armour
+      with a crested helmet and holds a longsword and a banner pole.
+    seed: 1043
+  human:
+    prompt: >-
+      A middle-aged human man with weathered tanned skin, short greying hair and a trimmed
+      beard; wears a padded gambeson, a travelling cloak and boots and holds a spear and a
+      wooden shield.
+    seed: 1044
+  # Illithidkin (Unearthed Arcana)
+  illithidkin-ua:
+    prompt: >-
+      A humanoid with mottled purple skin, white pupil-less eyes, a hairless head with ridged
+      veins and a few short wriggling tentacles around the mouth and jaw; wears a dark hooded
+      robe and raises one hand with a faint psionic glow.
+    seed: 1045
+  kalashtar:
+    prompt: >-
+      A serene human-like woman with delicate features, dark skin, short silver hair and eyes
+      that glow softly, a faint shimmering aura around her head; wears flowing layered robes
+      with crescent motifs and holds a crystal focus.
+    seed: 1046
+  kender:
+    prompt: >-
+      A small, childlike adult with pointed ears, a lively face and a long hair topknot; wears
+      bright mismatched clothes covered in pouches stuffed with trinkets and holds a forked
+      staff with a sling.
+    seed: 1047
+  kenku:
+    prompt: >-
+      A wingless crow-like humanoid with glossy black feathers, a sharp black beak, beady
+      dark eyes and bird-clawed feet; wears a tattered hooded cloak and holds a pair of short
+      swords.
+    seed: 1048
+  khenra:
+    prompt: >-
+      A lean jackal-headed humanoid with short sandy-tan fur, a long snout, tall pointed ears
+      and amber eyes; wears a bronze-and-linen desert armour with a gold collar and holds a
+      khopesh sword.
+    seed: 1049
+  # Khoravar (Eberron half-elves)
+  khoravar:
+    prompt: >-
+      A young woman of mixed human and elven heritage with subtly pointed ears, olive skin,
+      sharp grey eyes and black hair in a short bob; wears the blue coat and sash of a sailor
+      diplomat and carries a rolled map case.
+    seed: 1050
+  kobold:
+    prompt: >-
+      A small reptilian humanoid about half a human's height with rust-red scales, a short
+      dragon-like snout, small horns, a long tail and clawed feet; wears a miner's helmet with
+      a candle and holds a short spear.
+    seed: 1051
+  kor:
+    prompt: >-
+      A tall, slender, fine-boned humanoid with pale grey-blue skin, a hairless head with
+      small facial tattoos and a calm look; wears light climbing gear with coiled ropes and
+      grappling hooks and holds a hooked staff.
+    seed: 1052
+  # Kuo-Toa (Unearthed Arcana)
+  kuo-toa-ua:
+    prompt: >-
+      A fish-like humanoid with slimy grey-green scales, a wide fish head with bulging round
+      eyes, a gaping mouth, gills on the neck and webbed hands and feet; wears a shell-adorned
+      harness and holds a pincer staff.
+    seed: 1053
+  leonin:
+    prompt: >-
+      A powerful lion-like humanoid with tawny golden fur, a full dark mane, a feline face with
+      amber eyes and a tufted tail; wears a bronze breastplate in ancient Greek style and holds
+      a spear and round shield.
+    seed: 1054
+  lizardfolk:
+    prompt: >-
+      A lizard-like humanoid with green and brown scales, a long reptilian snout full of teeth,
+      a spiny crest on the head and a thick tail; wears a bone necklace and hide shield and
+      holds a wooden club studded with teeth.
+    seed: 1055
+  # Locathah (Locathah Rising)
+  locathah-lr:
+    prompt: >-
+      A fish-like humanoid with smooth yellow-green scales, a round fish face with large black
+      eyes and a small mouth, fin crests on the head and arms and webbed hands; wears a coral
+      breastplate and holds a trident.
+    seed: 1056
+  # Lorwyn Changeling
+  lorwyn-changeling:
+    prompt: >-
+      A playful shapeshifter with blue-green skin, tufts of tentacle-like fur, bulbous yellow
+      eyes with slit pupils and a lumpy body crudely imitating a person; wears a scarf and a
+      satchel, with a sprig of leaves sprouting from its head.
+    seed: 1057
+  loxodon:
+    prompt: >-
+      A huge elephant-headed humanoid with wrinkled grey skin, large fanned ears, a long trunk
+      and short ivory tusks; wears monk's robes with a beaded prayer necklace and leans on a
+      heavy wooden staff.
+    seed: 1058
+  lupin:
+    prompt: >-
+      A hulking wolf-like humanoid with bristling dark grey fur, a snarling wolf muzzle, pointed
+      ears, yellow eyes, clawed hands and a bushy tail; wears a torn hunter's coat and holds a
+      silver-edged hand axe.
+    seed: 1059
+  merfolk:
+    prompt: >-
+      A merfolk woman standing on land on two legs, with blue-green scaled skin, fin-like ears,
+      webbed fingers, long seaweed-green hair and pale eyes; wears a shell-and-leather tunic and
+      holds a trident.
+    seed: 1060
+  minotaur:
+    prompt: >-
+      A massive bull-headed humanoid with brown fur, large curved horns, a ring through the
+      nose, a muscular body and hooved feet; wears a heavy leather harness and holds a large
+      double-bladed axe.
+    seed: 1061
+  # Myconid (Unearthed Arcana)
+  myconid-ua:
+    prompt: >-
+      A walking mushroom person with a wide spotted red-and-cream cap for a head, a pale fleshy
+      stalk body, simple stubby arms and legs, small dark eyes and frilly gills like a ruffled
+      collar, faint spores drifting around it; holds a gnarled root staff.
+    seed: 1062
+  naga:
+    prompt: >-
+      A serpent-folk humanoid with a cobra-like hooded head, green-and-gold scales, a human
+      torso with arms, and a long snake tail instead of legs, coiled beneath; wears gold
+      armbands and a jewelled collar and holds a curved blade.
+    seed: 1063
+  orc:
+    prompt: >-
+      A tall, broad orc man with grey-green skin, prominent tusks from the lower jaw, a heavy
+      brow, black hair shaved at the sides and pointed ears; wears scale armour and a fur
+      mantle and holds a greataxe.
+    seed: 1064
+  # Owlfolk (Unearthed Arcana)
+  owlfolk-ua:
+    prompt: >-
+      A small, round, fluffy owl-person with soft grey speckled feathers, big round orange eyes,
+      ear tufts, a tiny beak, feathered wings on its back and arms with hands; wears a scholar's
+      scarf and holds a stack of books.
+    seed: 1065
+  # Owlin (Strixhaven)
+  owlin-scc:
+    prompt: >-
+      A tall owl-person with a heart-shaped white barn-owl face, dark eyes, tawny golden
+      feathers, large wings folded behind and taloned feet; wears an academic robe with a
+      waistcoat and holds a wand.
+    seed: 1066
+  plasmoid:
+    prompt: >-
+      An amorphous, translucent jelly-like humanoid with a vaguely human outline, glistening
+      amber-tinted body, a visible darker core floating inside and soft, shifting limbs;
+      wears only a belt with pouches and a cloak around its shoulders.
+    seed: 1067
+  # Rabbitfolk (Unearthed Arcana)
+  rabbitfolk-ua:
+    prompt: >-
+      A small, energetic rabbit-person with brown fur, floppy lop ears, a white tail, big
+      powerful hind legs and long feet; wears a travelling coat and a wide brimmed hat and
+      holds a walking stick.
+    seed: 1068
+  reborn:
+    prompt: >-
+      A pale woman with ashen grey skin, bloodless lips, faint stitched scars across her neck
+      and arm and lifeless eyes with a glint of resolve; wears an old-fashioned dark mourning
+      dress with a leather coat and holds a lantern.
+    seed: 1069
+  # Revenant (Unearthed Arcana)
+  revenant-ua:
+    prompt: >-
+      A grim, gaunt man with deathly pale skin, sunken cheeks, hollow eyes with a cold faint
+      glow and a long scar; wears a battered dark cloak over old mail armour and holds a
+      longsword with grim determination.
+    seed: 1070
+  rimekin:
+    prompt: >-
+      A slender humanoid made of pale blue-grey stone, wreathed entirely in icy blue flames
+      that flow like hair, glowing cold white eyes, frost covering its armour; wears pieces of
+      hoarfrost-coated plate and holds a frosty spear.
+    seed: 1071
+  satyr:
+    prompt: >-
+      A satyr with a human upper body, curly hair, a goatee, small curved ram horns and the
+      furry legs and cloven hooves of a goat; wears a loose open vest and holds a set of
+      panpipes.
+    seed: 1072
+  sea-elf:
+    prompt: >-
+      An elf woman with pointed ears, pale blue-green skin, long dark blue hair, webbed fingers
+      and toes and gill slits on the neck; wears a shell-adorned scale tunic and holds a
+      trident.
+    seed: 1073
+  shadar-kai:
+    prompt: >-
+      A gaunt elf with pointed ears, ghostly pale grey skin, dark hollow eyes, black hair and
+      piercings, a faint shadowy mist trailing from his body; wears black spiked leather armour
+      and chains and holds a spiked chain.
+    seed: 1074
+  shifter:
+    prompt: >-
+      A wild-looking human-like woman with bestial features: thick sideburns, a feline nose,
+      slightly pointed ears, amber cat-like eyes and small fangs; wears furs and leather and
+      holds two hand axes.
+    seed: 1075
+  simic-hybrid:
+    prompt: >-
+      A human augmented with animal parts: one arm ending in a crab-like claw, patches of
+      blue-grey shark-like skin, gill slits on the neck and small fins along the forearms;
+      wears a blue-green laboratory coat over light armour.
+    seed: 1076
+  siren:
+    prompt: >-
+      A bird-like humanoid with a human face, colourful parrot-like feathers in red, green and
+      blue, large wings folded on the back and taloned feet; wears a pirate's sash and jacket
+      and holds a curved cutlass.
+    seed: 1077
+  tabaxi:
+    prompt: >-
+      A lithe cat-like humanoid with spotted leopard fur, a feline face with green eyes,
+      pointed ears, whiskers, and a long tail; wears a dark leather jerkin with many pockets
+      and holds a pair of daggers.
+    seed: 1078
+  thri-kreen:
+    prompt: >-
+      A tall insectoid humanoid with four arms, a chitinous sandy-green carapace, compound eyes,
+      mandibles, antennae and long jointed legs; holds a glaive-like weapon in two hands and
+      wears a strap with a water skin.
+    seed: 1079
+  tiefling:
+    prompt: >-
+      A tiefling woman with red skin, large curving ram horns, solid golden eyes, black hair
+      and a long thin pointed tail; wears a dark violet travelling cloak and holds a flaming
+      spellbook.
+    seed: 1080
+  tortle:
+    prompt: >-
+      A turtle-like humanoid with a large domed shell on its back, a beaked turtle head, scaly
+      green-brown skin and thick clawed hands and feet; wears a sailor's belt and pouches and
+      holds a quarterstaff.
+    seed: 1081
+  triton:
+    prompt: >-
+      A noble sea humanoid with deep blue skin, silver-blue hair, webbed hands and feet, fin
+      crests on the head and forearms and dark eyes; wears ornate coral and scale armour and
+      holds a trident.
+    seed: 1082
+  vampire:
+    prompt: >-
+      A pale aristocratic vampire woman with white skin, crimson eyes, long dark hair and sharp
+      fangs; wears an elegant dark conquistador-era coat with a ruffled collar and holds a
+      rapier.
+    seed: 1083
+  vedalken:
+    prompt: >-
+      A tall, thin hairless humanoid with smooth blue skin, a long narrow face and calm grey
+      eyes; wears elegant scholar's robes and holds a brass astrolabe-like device.
+    seed: 1084
+  # Verdan (Acquisitions Inc.)
+  verdan-ai:
+    prompt: >-
+      A lean goblinoid with bright green skin, large pointed ears, sharp intelligent eyes and a
+      sly smile, a short spiky crest of dark hair; wears a dapper waistcoat and a scarf and
+      holds a quill and a ledger.
+    seed: 1085
+  # Viashino (Unearthed Arcana)
+  viashino-ua:
+    prompt: >-
+      A wiry lizard-like humanoid with red-orange scales, a slender snout, a frill of spines
+      down the back of the head and a long tail; wears light leather armour and holds a pair
+      of short curved blades.
+    seed: 1086
+  warforged:
+    prompt: >-
+      A constructed humanoid of wood, metal plates and stone joints, glowing eyes, a sigil on
+      the forehead and a rigid armoured body like a living suit of armour; holds a large shield
+      and a longsword.
+    seed: 1087
+  water-genasi:
+    prompt: >-
+      A man with smooth teal-blue skin glistening wet, flowing hair made of water, small gill
+      lines on the neck and a shimmer of droplets around him; wears a sea-green robe and holds
+      a coral staff.
+    seed: 1088
+  # Yuan-ti
+  yuan-ti:
+    prompt: >-
+      A human-like woman with serpentine features: scaly patches on her cheeks and arms,
+      slit-pupil yellow eyes, a forked tongue and a snake-like hairless head; wears dark robes
+      with gold jewellery and holds a wavy dagger.
+    seed: 1089
