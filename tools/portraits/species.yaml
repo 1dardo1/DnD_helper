@@ -1,0 +1,35 @@
+# Prompts for the species portraits (python -m portraits species, see README.md).
+# style: the common text put before every species prompt, so all pictures share one look.
+style: >-
+  Full-body character portrait for a fantasy field journal, ink and watercolour sketch on aged
+  parchment, warm sepia and ochre palette with muted reds, soft hand-drawn linework, plain
+  parchment background, single figure, centred, standing, no text, no border
+# negative: only used by providers that support negative prompts (Cloudflare's FLUX doesn't).
+negative: >-
+  text, letters, watermark, signature, frame, border, multiple figures, cropped head, photo,
+  3d render, modern clothing
+species:
+  # <id as in data/species.json>:
+  #   prompt: 1–3 sentences on what this species looks like
+  #   seed: fixed number (same prompt + seed = same picture; change it to get another one)
+  #   skip: true   -> no picture for this one
+  elf:
+    prompt: >-
+      A slender, graceful elf with long pointed ears, sharp elegant features and long flowing
+      hair, wearing a green travelling cloak over light leather armour, holding a longbow.
+    seed: 1101
+  dwarf:
+    prompt: >-
+      A short, broad and sturdy dwarf with a long braided beard decorated with metal rings,
+      wearing chainmail and a horned iron helmet, resting both hands on a battle axe.
+    seed: 1202
+  tabaxi:
+    prompt: >-
+      A lithe cat-like humanoid with a feline face, spotted tawny fur, a long tail and bright
+      curious eyes, wearing a loose traveller's shirt, sash and soft boots, in a nimble crouch.
+    seed: 1303
+  warforged:
+    prompt: >-
+      A tall humanoid construct made of dark wood fibres, steel plates and riveted joints, with
+      a smooth armoured head and glowing eyes, standing upright like a soldier.
+    seed: 1404

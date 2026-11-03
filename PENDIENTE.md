@@ -32,7 +32,7 @@ actualizaciones se instalan encima.
 ## 2. Cuenta de Cloudflare (imágenes de las especies con IA, gratis)
 
 Las imágenes se generan con Cloudflare Workers AI (modelo FLUX.1 schnell), gratis hasta unas
-230 imágenes al día.
+170 imágenes al día. Detalles y uso: `tools/portraits/README.md`.
 
 1. Crea una cuenta gratuita en <https://dash.cloudflare.com/sign-up>.
 2. Copia tu **Account ID** (aparece en el panel, en la columna de la derecha de
