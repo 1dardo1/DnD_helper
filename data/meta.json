@@ -2,7 +2,8 @@
   "generatedAt": "2026-10-30T17:28:19+00:00",
   "sources": {
     "2014": "https://dnd5e.wikidot.com",
-    "2024": "https://dnd2024.wikidot.com"
+    "2024": "https://dnd2024.wikidot.com",
+    "monsters": "https://api.open5e.com (SRD 5.2, CC-BY-4.0)"
   },
   "counts": {
     "class": 14,
@@ -13,7 +14,8 @@
     "species": 89,
     "background": 61,
     "item": 1346,
-    "rule": 84
+    "rule": 84,
+    "monster": 331
   },
   "byEdition": {
     "class": {
@@ -50,15 +52,18 @@
     "rule": {
       "2024": 39,
       "2014": 45
+    },
+    "monster": {
+      "2024": 331
     }
   },
   "pagesDownloaded": 0,
   "downloadFailures": 0,
   "parseFailures": 1,
-  "translatedAt": "2026-11-03T16:48:19+00:00",
+  "translatedAt": "2026-11-03T20:18:27+00:00",
   "translation": {
     "es": {
-      "texts": 16971,
+      "texts": 20263,
       "untranslated": 0,
       "requests": 0,
       "complete": true

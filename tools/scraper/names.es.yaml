@@ -1020,3 +1020,239 @@ Boilerdrak: Boilerdrak
 Ram: Ariete
 Mangonel: Mangonela
 Survivors: Supervivientes
+
+# Monstruos (SRD 5.2): nombres oficiales en español de los más conocidos; el resto los traduce
+# el traductor. Ojo: también se aplican a los rasgos y acciones con ese nombre.
+# Los que ya son nombre de otra entrada (Tough, Scout, Vampire…) usan la misma traducción.
+Adult Black Dragon: Dragón negro adulto
+Ancient Black Dragon: Dragón negro anciano
+Young Black Dragon: Dragón negro joven
+Black Dragon Wyrmling: Cría de dragón negro
+Adult Blue Dragon: Dragón azul adulto
+Ancient Blue Dragon: Dragón azul anciano
+Young Blue Dragon: Dragón azul joven
+Blue Dragon Wyrmling: Cría de dragón azul
+Adult Green Dragon: Dragón verde adulto
+Ancient Green Dragon: Dragón verde anciano
+Young Green Dragon: Dragón verde joven
+Green Dragon Wyrmling: Cría de dragón verde
+Adult Red Dragon: Dragón rojo adulto
+Ancient Red Dragon: Dragón rojo anciano
+Young Red Dragon: Dragón rojo joven
+Red Dragon Wyrmling: Cría de dragón rojo
+Adult White Dragon: Dragón blanco adulto
+Ancient White Dragon: Dragón blanco anciano
+Young White Dragon: Dragón blanco joven
+White Dragon Wyrmling: Cría de dragón blanco
+Adult Brass Dragon: Dragón de latón adulto
+Ancient Brass Dragon: Dragón de latón anciano
+Young Brass Dragon: Dragón de latón joven
+Brass Dragon Wyrmling: Cría de dragón de latón
+Adult Bronze Dragon: Dragón de bronce adulto
+Ancient Bronze Dragon: Dragón de bronce anciano
+Young Bronze Dragon: Dragón de bronce joven
+Bronze Dragon Wyrmling: Cría de dragón de bronce
+Adult Copper Dragon: Dragón de cobre adulto
+Ancient Copper Dragon: Dragón de cobre anciano
+Young Copper Dragon: Dragón de cobre joven
+Copper Dragon Wyrmling: Cría de dragón de cobre
+Adult Gold Dragon: Dragón de oro adulto
+Ancient Gold Dragon: Dragón de oro anciano
+Young Gold Dragon: Dragón de oro joven
+Gold Dragon Wyrmling: Cría de dragón de oro
+Adult Silver Dragon: Dragón de plata adulto
+Ancient Silver Dragon: Dragón de plata anciano
+Young Silver Dragon: Dragón de plata joven
+Silver Dragon Wyrmling: Cría de dragón de plata
+Aboleth: Aboleth
+Gelatinous Cube: Cubo gelatinoso
+Owlbear: Osolechuza
+Goblin Warrior: Guerrero goblin
+Goblin Boss: Jefe goblin
+Goblin Minion: Esbirro goblin
+Bugbear Warrior: Guerrero osgo
+Bugbear Stalker: Acechador osgo
+Hobgoblin Warrior: Guerrero hobgoblin
+Hobgoblin Captain: Capitán hobgoblin
+Kobold Warrior: Guerrero kobold
+Gnoll Warrior: Guerrero gnoll
+Sahuagin Warrior: Guerrero sahuagin
+Lich: Liche
+Mummy: Momia
+Mummy Lord: Señor de las momias
+Vampire Spawn: Engendro vampírico
+Vampire Familiar: Familiar vampírico
+Werewolf: Hombre lobo
+Wererat: Hombre rata
+Werebear: Hombre oso
+Wereboar: Hombre jabalí
+Weretiger: Hombre tigre
+Zombie: Zombi
+Ogre Zombie: Zombi ogro
+Skeleton: Esqueleto
+Minotaur Skeleton: Esqueleto de minotauro
+Warhorse Skeleton: Esqueleto de caballo de guerra
+Ghoul: Necrófago
+Ghast: Ghast
+Ghost: Fantasma
+Specter: Espectro
+Wight: Tumulario
+Will-o'-Wisp: Fuego fatuo
+Dragon Turtle: Tortuga dragón
+Half-Dragon: Semidragón
+Pseudodragon: Pseudodragón
+Basilisk: Basilisco
+Behir: Behir
+Bulette: Bulette
+Chimera: Quimera
+Cockatrice: Cocatriz
+Gorgon: Gorgona
+Griffon: Grifo
+Harpy: Arpía
+Hippogriff: Hipogrifo
+Hydra: Hidra
+Kraken: Kraken
+Manticore: Mantícora
+Medusa: Medusa
+Mimic: Mimeto
+Minotaur of Baphomet: Minotauro de Baphomet
+Pegasus: Pegaso
+Purple Worm: Gusano púrpura
+Rust Monster: Monstruo corrosivo
+Tarrasque: Tarasca
+Troll: Trol
+Unicorn: Unicornio
+Wyvern: Guiverno
+Roc: Roc
+Ankheg: Ankheg
+Chuul: Chuul
+Darkmantle: Manto oscuro
+Death Dog: Perro de la muerte
+Doppelganger: Doppelganger
+Ettercap: Ettercap
+Grick: Grick
+Grimlock: Grimlock
+Lamia: Lamia
+Merrow: Merrow
+Otyugh: Otyugh
+Phase Spider: Araña de fase
+Remorhaz: Remorhaz
+Winter Wolf: Lobo invernal
+Worg: Huargo
+Blink Dog: Perro intermitente
+Stirge: Estirge
+Gargoyle: Gárgola
+Invisible Stalker: Acechador invisible
+Dryad: Dríade
+Guardian Naga: Naga guardiana
+Spirit Naga: Naga espiritual
+Hill Giant: Gigante de las colinas
+Stone Giant: Gigante de piedra
+Frost Giant: Gigante de escarcha
+Fire Giant: Gigante de fuego
+Cloud Giant: Gigante de las nubes
+Storm Giant: Gigante de las tormentas
+Ettin: Ettin
+Ogre: Ogro
+Oni: Oni
+Air Elemental: Elemental de aire
+Earth Elemental: Elemental de tierra
+Fire Elemental: Elemental de fuego
+Water Elemental: Elemental de agua
+Dust Mephit: Mefit de polvo
+Ice Mephit: Mefit de hielo
+Magma Mephit: Mefit de magma
+Steam Mephit: Mefit de vapor
+Xorn: Xorn
+Salamander: Salamandra
+Djinni: Djinni
+Efreeti: Efreeti
+Magmin: Magmin
+Balor: Balor
+Bearded Devil: Diablo barbado
+Bone Devil: Diablo óseo
+Chain Devil: Diablo de cadenas
+Horned Devil: Diablo cornudo
+Ice Devil: Diablo de hielo
+Imp: Diablillo
+Quasit: Quasit
+Lemure: Lémur
+Dretch: Dretch
+Hezrou: Hezrou
+Glabrezu: Glabrezu
+Marilith: Marilith
+Nalfeshnee: Nalfeshnee
+Vrock: Vrock
+Succubus: Súcubo
+Incubus: Íncubo
+Hell Hound: Perro infernal
+Nightmare: Pesadilla
+Rakshasa: Rakshasa
+Erinyes: Erinia
+Deva: Deva
+Planetar: Planetar
+Solar: Solar
+Couatl: Couatl
+Green Hag: Saga verde
+Night Hag: Saga nocturna
+Sea Hag: Saga marina
+Black Pudding: Pudin negro
+Gray Ooze: Cieno gris
+Ochre Jelly: Jalea ocre
+Shambling Mound: Montículo andante
+Treant: Treant
+Shrieker Fungus: Hongo chillón
+Violet Fungus: Hongo violeta
+Awakened Shrub: Arbusto despertado
+Awakened Tree: Árbol despertado
+Animated Armor: Armadura animada
+Animated Flying Sword: Espada voladora animada
+Clay Golem: Gólem de arcilla
+Flesh Golem: Gólem de carne
+Iron Golem: Gólem de hierro
+Stone Golem: Gólem de piedra
+Shield Guardian: Guardián escudo
+Homunculus: Homúnculo
+Archmage: Archimago
+Bandit: Bandido
+Bandit Captain: Capitán bandido
+Commoner: Plebeyo
+Cultist: Sectario
+Cultist Fanatic: Sectario fanático
+Guard Captain: Capitán de la guardia
+Mage: Mago
+Pirate: Pirata
+Pirate Captain: Capitán pirata
+Priest: Sacerdote
+Spy: Espía
+Tough Boss: Jefe matón
+Warrior Veteran: Veterano
+Saber-Toothed Tiger: Tigre dientes de sable
+Dire Wolf: Lobo terrible
+Polar Bear: Oso polar
+Brown Bear: Oso pardo
+Black Bear: Oso negro
+Tyrannosaurus Rex: Tiranosaurio rex
+Killer Whale: Orca
+Riding Horse: Caballo de monta
+Draft Horse: Caballo de tiro
+Giant Spider: Araña gigante
+Swarm of Bats: Enjambre de murciélagos
+Swarm of Rats: Enjambre de ratas
+Swarm of Insects: Enjambre de insectos
+Swarm of Ravens: Enjambre de cuervos
+Swarm of Piranhas: Enjambre de pirañas
+Swarm of Venomous Snakes: Enjambre de serpientes venenosas
+Swarm of Crawling Claws: Enjambre de garras reptantes
+Multiattack: Ataque múltiple
+# sin nombre oficial seguro: se quedan en inglés (mejor que una traducción literal errónea)
+Cloaker: Cloaker
+Roper: Roper
+Wraith: Wraith
+Pit Fiend: Pit Fiend
+Gibbering Mouther: Gibbering Mouther
+Constrictor Snake: Serpiente constrictora
+Giant Constrictor Snake: Serpiente constrictora gigante
+Warrior Infantry: Soldado de infantería
+Troll Limb: Miembro de trol
+Azer Sentinel: Centinela azer
