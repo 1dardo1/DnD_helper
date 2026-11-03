@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="leather" cx="40%" cy="35%" r="80%">
+      <stop offset="0" stop-color="#5a3721"/><stop offset=".6" stop-color="#3b2416"/><stop offset="1" stop-color="#24150c"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6dc95"/><stop offset=".5" stop-color="#c9973e"/><stop offset="1" stop-color="#8a5f1d"/>
+    </linearGradient>
+    <radialGradient id="wax" cx="38%" cy="32%" r="75%">
+      <stop offset="0" stop-color="#c2382a"/><stop offset=".55" stop-color="#8e1b14"/><stop offset="1" stop-color="#5a0d08"/>
+    </radialGradient>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/>
+      <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .22 0"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#000" flood-opacity=".55"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" fill="url(#leather)"/>
+  <rect width="512" height="512" fill="#000" filter="url(#grain)"/>
+  <g transform="translate(256 256) scale(.8) translate(-256 -256)">
+    <path d="M376.2,135.8 L296.0,256.0 L376.2,376.2 L256.0,296.0 L135.8,376.2 L216.0,256.0 L135.8,135.8 L256.0,216.0Z" fill="url(#gold)" stroke="#5a3a12" stroke-width="3"/>
+    <path d="M256.0,24.0 L288.5,223.5 L488.0,256.0 L288.5,288.5 L256.0,488.0 L223.5,288.5 L24.0,256.0 L223.5,223.5Z" fill="url(#gold)" stroke="#5a3a12" stroke-width="3"/>
+    <path d="M403.0,256.0 L414.5,284.0 L393.2,305.9 L388.8,332.6 L370.1,351.8 L359.0,378.7 L328.1,380.9 L308.9,401.2 L282.1,404.2 L256.0,414.6 L231.1,397.0 L202.5,403.0 L180.5,386.8 L155.4,375.9 L146.4,348.0 L118.8,335.2 L114.6,307.5 L103.7,282.9 L111.9,256.0 L98.3,228.2 L115.9,205.0 L123.2,179.3 L144.3,162.3 L152.5,132.7 L182.4,128.6 L203.7,112.2 L230.3,110.4 L256.0,95.2 L281.2,113.0 L308.6,111.6 L330.8,126.4 L358.6,133.7 L366.0,163.7 L390.5,178.4 L397.7,204.4 L411.4,228.6Z" fill="url(#wax)" filter="url(#shadow)"/>
+    <circle cx="256" cy="256" r="128" fill="none" stroke="#5e0f0a" stroke-width="5" opacity=".7"/>
+    <circle cx="256" cy="256" r="124" fill="none" stroke="#e07a62" stroke-width="2" opacity=".35"/>
+    <path d="M256.0,138.0 L358.2,197.0 L358.2,315.0 L256.0,374.0 L153.8,315.0 L153.8,197.0Z" fill="#7c1710" stroke="#f0cf7e" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M256.0,208.8 L317.4,311.5 L194.6,311.5Z" fill="#a3261b"/>
+    <path d="M256.0,208.8 L317.4,311.5 M317.4,311.5 L194.6,311.5 M194.6,311.5 L256.0,208.8 M256.0,208.8 L256.0,138.0 M256.0,208.8 L358.2,197.0 M256.0,208.8 L153.8,197.0 M317.4,311.5 L358.2,197.0 M317.4,311.5 L358.2,315.0 M317.4,311.5 L256.0,374.0 M194.6,311.5 L256.0,374.0 M194.6,311.5 L153.8,315.0 M194.6,311.5 L153.8,197.0" stroke="#f0cf7e" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+</svg>

@@ -205,6 +205,8 @@ export const en = {
   'apkUpdate.text': 'Version 1.0.{build} is ready to install over this one.',
   'apkUpdate.download': 'Download',
   'apkUpdate.dismiss': 'Not now',
+  'appUpdate.ready': 'New version available',
+  'appUpdate.reload': 'Reload',
   'sheet.saveNotes': 'Save notes',
   'sheet.delete': 'Delete character',
   'sheet.confirmDelete': 'Delete {name}? It will also be removed from the cloud.',

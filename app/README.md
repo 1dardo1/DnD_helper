@@ -154,6 +154,16 @@ personajes solo en el dispositivo; con el token (Ajustes) sincronizan con el rep
 - **GitHub Pages** (`.github/workflows/pages.yml`): se publica en cada push a `app/` o `data/`.
   Hay que activarlo una vez en Settings → Pages → Source: *GitHub Actions* (en un repo privado
   Pages pide GitHub Pro; la web publicada es pública, pero no lleva personajes ni tokens).
+- **Instalar la web en el móvil**: ábrela en Chrome (Android) o Safari (iPhone) y usa *Añadir a
+  pantalla de inicio* (en Chrome puede salir como *Instalar aplicación*). Se abre a pantalla
+  completa con su icono (`public/icons/`, dibujados en `icon.svg`; `icon-512.png` sirve también
+  para la APK) y `public/manifest.webmanifest`.
+- **Sin conexión**: el service worker de Angular (`ngsw-config.json`, solo en la web publicada:
+  ni en desarrollo ni en la APK) guarda la aplicación; el compendio queda en IndexedDB al
+  consultarlo. Tras la primera visita con conexión, la web abre y enseña el compendio sin red
+  (lo que no se haya abierto aún no está). Los datos (`data/`) y la API de GitHub no pasan por su
+  caché. Cuando se publica una versión nueva, se descarga en segundo plano y la barra superior
+  ofrece *Recargar*.
 - **APK** (`.github/workflows/apk.yml`): Capacitor genera el proyecto Android en cada ejecución
   (la carpeta `android/` no se guarda). La APK queda como artefacto y en la release
   `android-latest`. Para poder instalar cada versión encima de la anterior, crea una clave una

@@ -207,6 +207,8 @@ export const es: Record<keyof typeof en, string> = {
   'apkUpdate.text': 'La versión 1.0.{build} está lista para instalarla encima de esta.',
   'apkUpdate.download': 'Descargar',
   'apkUpdate.dismiss': 'Ahora no',
+  'appUpdate.ready': 'Nueva versión disponible',
+  'appUpdate.reload': 'Recargar',
   'sheet.saveNotes': 'Guardar notas',
   'sheet.delete': 'Borrar personaje',
   'sheet.confirmDelete': '¿Borrar a {name}? También se borrará de la nube.',
