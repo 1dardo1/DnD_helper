@@ -16,6 +16,26 @@
 // Creation wizard: steps as bookmark ribbons, the form on the page, and the live preview
 // as a themed index card (side panel on desktop, below the form on phones).
 
+.draft-notice {
+  max-width: 44rem;
+
+  p {
+    margin: 0 0 var(--space-2);
+  }
+
+  .when {
+    opacity: 0.75;
+    font-size: 0.9em;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+  }
+}
+
 .steps {
   display: flex;
   gap: 0.3rem;

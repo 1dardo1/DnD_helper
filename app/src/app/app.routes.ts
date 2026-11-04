@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { unsavedEditGuard } from './features/creation/unsaved-edit.guard';
+
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'compendium' },
   {
@@ -35,6 +37,7 @@ export const routes: Routes = [
     path: 'characters/:id/edit',
     loadComponent: () =>
       import('./features/creation/character-create').then((m) => m.CharacterCreate),
+    canDeactivate: [unsavedEditGuard],
   },
   {
     path: 'characters/:id/level-up',
@@ -49,6 +52,18 @@ export const routes: Routes = [
     path: 'characters/:id',
     loadComponent: () =>
       import('./features/characters/character-sheet').then((m) => m.CharacterSheet),
+  },
+  {
+    path: 'dm',
+    loadComponent: () => import('./features/dm/dm-home').then((m) => m.DmHome),
+  },
+  {
+    path: 'dm/encounters',
+    loadComponent: () => import('./features/dm/encounter-list').then((m) => m.EncounterList),
+  },
+  {
+    path: 'dm/encounters/:id',
+    loadComponent: () => import('./features/dm/encounter-editor').then((m) => m.EncounterEditor),
   },
   {
     path: 'dm/combat',

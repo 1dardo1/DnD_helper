@@ -29,6 +29,14 @@
       <span class="links">
         <a class="btn" [routerLink]="['/characters', c.id, 'edit']">{{ 'sheet.edit' | t }}</a>
         <a class="btn" [routerLink]="['/characters', c.id, 'level-up']">{{ 'levelUp.link' | t }}</a>
+        <button type="button" class="btn" (click)="exportCharacter(c)">
+          {{ 'sheet.export' | t }}
+        </button>
+        @if (canShareFiles) {
+          <button type="button" class="btn" (click)="exportCharacter(c, true)">
+            {{ 'backup.share' | t }}
+          </button>
+        }
       </span>
     </p>
   </header>
@@ -38,6 +46,13 @@
       {{ 'sheet.inConflict' | t }}
       <a [routerLink]="['/characters', c.id, 'conflict']">{{ 'conflict.resolve' | t }}</a>
     </aside>
+  }
+
+  @if (hasEditDraft()) {
+    <p class="edit-draft" role="status">
+      ✎ {{ 'sheet.editDraft' | t }}
+      <a [routerLink]="['/characters', c.id, 'edit']">{{ 'sheet.editDraftContinue' | t }}</a>
+    </p>
   }
 
   @if (s.warnings.length) {

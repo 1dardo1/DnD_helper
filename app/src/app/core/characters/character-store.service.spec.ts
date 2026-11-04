@@ -110,6 +110,27 @@ describe('normalizeCharacter', () => {
 });
 
 describe('CharacterStore', () => {
+  it('imports backups as pending upload, replacing over the repo version', async () => {
+    const { store, repo } = setup();
+    const c = { ...newCharacter('Thorin', 'pc'), id: 'thorin' };
+    repo.set(c);
+    await store.pull(asSource(repo));
+    await store.remove('thorin'); // pending-delete: the import brings it back
+    const fromFile = { ...c, notes: 'from the backup', updatedAt: '2026-01-02T03:04:05.000Z' };
+    const fresh = { ...newCharacter('Lía', 'pc'), id: 'lia' };
+    await store.importCharacters([fromFile, fresh]);
+    expect(store.all().map((r) => [r.character.id, r.status])).toEqual([
+      ['lia', 'local'],
+      ['thorin', 'local'],
+    ]);
+    expect((await store.get('thorin'))!.character.updatedAt).toBe(fromFile.updatedAt);
+
+    await store.push(asSource(repo));
+    expect(repo.get('thorin')?.notes).toBe('from the backup');
+    expect(repo.get('lia')?.name).toBe('Lía');
+    expect(store.all().every((r) => r.status === 'synced')).toBe(true);
+  });
+
   it('saves on the device as not saved to the cloud', async () => {
     const { store } = setup();
     const r = await store.save(newCharacter('Thorin', 'test'));

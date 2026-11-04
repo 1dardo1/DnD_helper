@@ -1,4 +1,6 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, inject } from '@angular/core';
+
+import { EncounterStore } from './encounter-store.service';
 
 /**
  * What the combat tracker reads of an encounter made with the encounter builder
@@ -18,11 +20,8 @@ export interface EncounterSource {
   get(id: string): Promise<CombatEncounter | undefined>;
 }
 
-/**
- * Encounters for /dm/combat?encounter=<id>. Until the encounter builder is wired in, there are
- * none. Wiring: `factory: () => inject(EncounterStore)` (from ./encounter-store.service).
- */
+/** Encounters for /dm/combat?encounter=<id>: those of the encounter builder (tests may swap it). */
 export const ENCOUNTER_SOURCE = new InjectionToken<EncounterSource>('ENCOUNTER_SOURCE', {
   providedIn: 'root',
-  factory: () => ({ get: async () => undefined }),
+  factory: () => inject(EncounterStore),
 });
