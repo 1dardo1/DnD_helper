@@ -1143,4 +1143,8 @@ export const en = {
   'balance.warn.aboveHigh': 'Above High: the DMG has no budget beyond High; it may be deadly.',
   'optfilter.moreLevel': 'Options that unlock with more levels: {n}.',
   'optfilter.moreRequires': 'Options that appear once you pick the one they require: {n}.',
+  'spellchoice.alreadyAs': 'Already chosen as {cls}',
+  'spellchoice.alsoAs': 'Also chosen as {cls}',
+  'spellchoice.shared':
+    'Chosen for two classes at once: {count}. It is one spell on your list, but counts as a pick of each class.',
 };

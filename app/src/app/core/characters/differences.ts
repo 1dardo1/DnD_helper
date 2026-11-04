@@ -80,11 +80,17 @@ export function describeDifferences(
     mine.choices.options.map(optionName).sort().join(', '),
     theirs.choices.options.map(optionName).sort().join(', '),
   );
-  add(
-    'conflict.field.spells',
-    mine.choices.spells.map(spellName).sort().join(', '),
-    theirs.choices.spells.map(spellName).sort().join(', '),
-  );
+  // by class when both versions record it (the same spell for another class is a difference)
+  const byClass = !!mine.choices.spellsByClass && !!theirs.choices.spellsByClass;
+  const spellLine = (c: Character) =>
+    byClass
+      ? Object.entries(c.choices.spellsByClass!)
+          .filter(([, ids]) => ids.length)
+          .map(([k, ids]) => `${name(data.classes, k)}: ${ids.map(spellName).sort().join(', ')}`)
+          .sort()
+          .join('; ')
+      : c.choices.spells.map(spellName).sort().join(', ');
+  add('conflict.field.spells', spellLine(mine), spellLine(theirs));
   add(
     'conflict.field.armor',
     mine.equipped.armorId ? name(data.items, mine.equipped.armorId) : '',

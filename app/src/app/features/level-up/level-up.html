@@ -427,7 +427,8 @@
                     }
                   </ul>
                   @if (sp.cantrips) {
-                    @let takenC = chosenCount(c.choices.spells, sl.cantrips);
+                    @let mine = pickedOf(g.entry.id);
+                    @let takenC = chosenCount(mine, sl.cantrips);
                     <h3 [class.issue]="takenC > sp.cantrips.after">
                       {{ 'sheet.cantrips' | t }} ({{ takenC }} / {{ sp.cantrips.after }})
                     </h3>
@@ -435,12 +436,14 @@
                       multiple
                       [items]="sl.cantrips"
                       [facets]="spellFacets"
-                      [selected]="c.choices.spells"
+                      [selected]="mine"
+                      [marks]="spellMarks()[g.entry.id]"
                       [label]="'sheet.cantrips' | t"
                       (picked)="setSpell($event.id, $event.on)"
                     />
                   }
-                  @let takenP = chosenCount(c.choices.spells, sl.leveled);
+                  @let mineP = pickedOf(g.entry.id);
+                  @let takenP = chosenCount(mineP, sl.leveled);
                   <h3 [class.issue]="sp.prepared !== null && takenP > sp.prepared.after">
                     {{ 'sheet.prepared' | t }}
                     @if (sp.prepared) {
@@ -451,10 +454,14 @@
                     multiple
                     [items]="sl.leveled"
                     [facets]="spellFacets"
-                    [selected]="c.choices.spells"
+                    [selected]="mineP"
+                    [marks]="spellMarks()[g.entry.id]"
                     [label]="'sheet.prepared' | t"
                     (picked)="setSpell($event.id, $event.on)"
                   />
+                  @if (sharedSpells() > 0) {
+                    <p class="hint">{{ 'spellchoice.shared' | t: { count: sharedSpells() } }}</p>
+                  }
                 </fieldset>
               }
             }

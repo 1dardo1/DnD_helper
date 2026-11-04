@@ -13,6 +13,7 @@ import {
 import { TOOL_CHOICE, castingOf } from '../rules/engine';
 import { multiclassGains } from '../rules/multiclass';
 import { Sheet } from '../rules/sheet';
+import { countsFor, spellCasters, spellsByClassOf } from './spell-choices';
 import { ABILITIES, SKILL_ABILITY } from '../rules/tables';
 
 /**
@@ -576,6 +577,12 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
         kind: 'issue',
       });
 
+    const casters = spellCasters(
+      ch,
+      new Map(classes.map((k) => [k.id, k])),
+      new Map((ctx.subclasses ?? []).filter((k): k is Subclass => !!k).map((k) => [k.id, k])),
+    );
+    const pickedBy = spellsByClassOf(ch.choices, casters, ctx.spells);
     let emptySlots = 0;
     ch.classes.forEach((c, i) => {
       const cls = ctx.classes[i];
@@ -588,15 +595,12 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
           for (const n of featIssues(feat, ctx.sheet, ctx.species ?? null))
             out.choices.push({ ...n, params: { ...n.params, feat: feat.name } });
       }
-      // spell counts per caster (the class, or a subclass that casts on its own)
+      // spell picks per caster (the class, or a subclass that casts on its own): each class has
+      // its own allowance, a spell picked for another class doesn't count here
+      const caster = casters.find((k) => k.classId === c.id);
       const sc = castingOf(cls, ctx.subclasses?.[i]);
-      if (sc) {
-        const list = spellListOf(cls, sc);
-        const mine = ch.choices.spells
-          .map((id) => ctx.spells.get(id))
-          .filter((sp): sp is Spell => !!sp && sp.classes.includes(list));
-        const cantrips = mine.filter((sp) => sp.level === 0).length;
-        const leveled = mine.length - cantrips;
+      if (sc && caster) {
+        const { cantrips, leveled } = countsFor(pickedBy, caster, ctx.spells);
         const maxC = sc.cantripsByLevel?.[c.level - 1];
         const maxP = sc.preparedByLevel?.[c.level - 1];
         if (maxC !== undefined && cantrips > maxC)

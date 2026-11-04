@@ -52,7 +52,14 @@ export interface Character {
     abilityIncreases: { source: string; ability: Ability; amount: number; slot?: string }[];
     /** Class option ids (invocations, maneuvers, blood curses...). */
     options: string[];
+    /** Every spell the character has, once (kept for older versions of the app). */
     spells: string[];
+    /**
+     * The class each spell was picked for, by class id (cantrips and leveled spells together). The
+     * same spell can be under two classes: it is one spell but a pick from each. Absent in
+     * characters from before it existed; core/creation/spell-choices.ts works it out from `spells`.
+     */
+    spellsByClass?: Record<string, string[]>;
     /** Languages besides Common, and those granted by features (Druidic, Thieves' Cant). */
     languages: string[];
     /**

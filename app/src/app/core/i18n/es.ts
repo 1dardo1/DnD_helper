@@ -1160,4 +1160,8 @@ export const es: Record<keyof typeof en, string> = {
     'Por encima de Alto: la DMG no da presupuesto más allá de Alto; puede ser mortal.',
   'optfilter.moreLevel': 'Opciones que se desbloquean con más nivel: {n}.',
   'optfilter.moreRequires': 'Opciones que aparecen al elegir la que requieren: {n}.',
+  'spellchoice.alreadyAs': 'Ya elegido como {cls}',
+  'spellchoice.alsoAs': 'También elegido como {cls}',
+  'spellchoice.shared':
+    'Elegidos para dos clases a la vez: {count}. Es un solo hechizo en tu lista, pero cuenta como una elección de cada clase.',
 };
