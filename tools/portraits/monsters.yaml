@@ -1,41 +1,1765 @@
-# Prompts for the AI monster pictures (FLUX.1 schnell, Cloudflare Workers AI). Same format as
-# species.yaml; see README.md.
-# Full prompt sent to the model = style + ". " + English name + ": " + monster prompt.
-# style: the common prefix added before every monster description (one consistent bestiary look,
-# the same parchment palette as the species portraits).
-# The pictures go to media/monsters/ (not inside the app: they are published on GitHub Pages).
+# Prompts for the AI monster pictures (FLUX.1 schnell, Cloudflare Workers AI).
+# Full prompt sent to the model = style + ", " + monster prompt.
+# style: the common prefix added before every monster description (one consistent look)
 style: >-
-  Creature illustration for a fantasy bestiary, ink and watercolour sketch on
-  aged parchment, warm sepia and ochre palette with muted reds, soft hand-drawn
-  linework, plain parchment background, a single creature, centred, whole body
-  visible and fitting inside the picture with some margin, no text, no border
+  Full-body bestiary illustration for a fantasy field journal, ink and watercolour sketch on
+  aged parchment, warm sepia and ochre palette with muted reds, soft hand-drawn linework,
+  plain parchment background, single creature, centred, full body of the creature visible
+  from head to tail, no text, no border
 negative: >-
-  text, letters, caption, watermark, signature, frame, border, several creatures,
-  crowd, photo, photorealistic, 3d render, blurry, deformed, extra limbs,
-  cropped body, gore, nudity
+  text, letters, caption, watermark, signature, frame, border, multiple creatures, crowd,
+  photo, photorealistic, 3d render, blurry, deformed anatomy, extra limbs, cropped body,
+  gore, blood, nudity
 monsters:
-  goblin-warrior:
+  aboleth:
     prompt: >-
-      A small, wiry goblin with green-grey skin, a flat face with a wide toothy grin, long
-      pointed ears and yellow eyes; wears scraps of leather armour and a hide shield, holds a
-      notched scimitar and has a shortbow slung across its back; crouched and sneaky.
+      A large ancient fish-like amphibious creature, longer than a rowing boat, with a
+      blue-green slimy body, four long tentacles, a finned tail, three stacked red eyes on
+      its head and mucus-coated grey-pink belly, swimming in murky water.
     seed: 2001
-  owlbear:
+  adult-black-dragon:
     prompt: >-
-      A huge, heavy beast with the body of a brown bear covered in a mix of fur and feathers,
-      the head of a great horned owl with a sharp hooked beak and round furious eyes, thick
-      clawed forelegs; rearing up on its hind legs and screeching.
+      A huge adult black dragon, several times taller than a human, four-legged and winged,
+      with glossy black scales, a gaunt skull-like head with forward-curving horns, deep-set
+      eyes and frayed leathery wings; powerful and muscular, wings raised, acid drool
+      hanging from its jaws.
     seed: 2002
+  adult-blue-dragon:
+    prompt: >-
+      A huge adult blue dragon, several times taller than a human, four-legged and winged,
+      with deep sapphire-blue scales, a single great horn on its snout, frilled ears and a
+      thick armoured tail; powerful and muscular, wings raised, sparks crackling about its
+      jaws.
+    seed: 2003
+  adult-brass-dragon:
+    prompt: >-
+      A huge adult brass dragon, several times taller than a human, four-legged and winged,
+      with burnished brass-yellow scales, a broad fan-shaped head plate, a long slender neck
+      and wide sail-like wings; powerful and muscular, wings raised, a shimmer of heat
+      around it.
+    seed: 2004
+  adult-bronze-dragon:
+    prompt: >-
+      A huge adult bronze dragon, several times taller than a human, four-legged and winged,
+      with metallic bronze scales tinged sea-green, swept-back horns, a finned crest, webbed
+      claws and a paddle-like tail; powerful and muscular, wings raised, a faint glint of
+      static on its horns.
+    seed: 2005
+  adult-copper-dragon:
+    prompt: >-
+      A huge adult copper dragon, several times taller than a human, four-legged and winged,
+      with warm copper scales with a turquoise patina, long backswept segmented horns and a
+      sly playful grin; powerful and muscular, wings raised, a mischievous gleam in its
+      eyes.
+    seed: 2006
+  adult-gold-dragon:
+    prompt: >-
+      A huge adult gold dragon, several times taller than a human, four-legged and winged,
+      with shining gold scales, a wise whiskered face with tendril barbels, twin smooth
+      horns and long fin-like wings; powerful and muscular, wings raised, a calm regal
+      bearing.
+    seed: 2007
+  adult-green-dragon:
+    prompt: >-
+      A huge adult green dragon, several times taller than a human, four-legged and winged,
+      with emerald-green scales, a tall serrated crest from head to tail, a jagged chin
+      frill and curving horns; powerful and muscular, wings raised, wisps of greenish vapour
+      around its maw.
+    seed: 2008
   adult-red-dragon:
     prompt: >-
-      An enormous red dragon with crimson scales, two swept-back horns and a frill of spikes
-      along its neck and spine, vast bat-like wings half spread, a long tail and massive claws;
-      smoke curling from its nostrils and a glow of fire in its open jaws; proud and menacing,
-      seen from the side.
-    seed: 2003
+      A huge adult red dragon, several times taller than a human, four-legged and winged,
+      with crimson-red scales, a massive head crowned with spikes and swept horns, cheek
+      frills and huge bat-like wings; powerful and muscular, wings raised, a glow of embers
+      in its throat.
+    seed: 2009
+  adult-silver-dragon:
+    prompt: >-
+      A huge adult silver dragon, several times taller than a human, four-legged and winged,
+      with gleaming silver scales, a noble head with a shield-like frilled crest, a slight
+      beak-like snout and elegant wings; powerful and muscular, wings raised, frost-white
+      highlights on its scales.
+    seed: 2010
+  adult-white-dragon:
+    prompt: >-
+      A huge adult white dragon, several times taller than a human, four-legged and winged,
+      with frosty white scales tinged pale blue, a sleek flat head with a spiny crest, short
+      horns and icy spikes along its back; powerful and muscular, wings raised, rime and
+      icicles on its claws.
+    seed: 2011
+  air-elemental:
+    prompt: >-
+      A large swirling whirlwind of grey-white air and dust, taller than a man, with a vague
+      humanoid face and arms formed in the vortex, debris and leaves spinning inside.
+    seed: 2012
+  allosaurus:
+    prompt: >-
+      A large two-legged predatory dinosaur, bigger than a horse, with a long head full of
+      serrated teeth, small bony crests above the eyes, short clawed arms, olive-brown
+      striped hide and a long balancing tail, mid-stride.
+    seed: 2013
+  ancient-black-dragon:
+    prompt: >-
+      A colossal ancient black dragon, gargantuan and towering like a castle, four-legged
+      and winged, with glossy black scales, a gaunt skull-like head with forward-curving
+      horns, deep-set eyes and frayed leathery wings; battle-scarred weathered scales,
+      massive spikes and an enormous wingspan, acid drool hanging from its jaws.
+    seed: 2014
+  ancient-blue-dragon:
+    prompt: >-
+      A colossal ancient blue dragon, gargantuan and towering like a castle, four-legged and
+      winged, with deep sapphire-blue scales, a single great horn on its snout, frilled ears
+      and a thick armoured tail; battle-scarred weathered scales, massive spikes and an
+      enormous wingspan, sparks crackling about its jaws.
+    seed: 2015
+  ancient-brass-dragon:
+    prompt: >-
+      A colossal ancient brass dragon, gargantuan and towering like a castle, four-legged
+      and winged, with burnished brass-yellow scales, a broad fan-shaped head plate, a long
+      slender neck and wide sail-like wings; battle-scarred weathered scales, massive spikes
+      and an enormous wingspan, a shimmer of heat around it.
+    seed: 2016
+  ancient-bronze-dragon:
+    prompt: >-
+      A colossal ancient bronze dragon, gargantuan and towering like a castle, four-legged
+      and winged, with metallic bronze scales tinged sea-green, swept-back horns, a finned
+      crest, webbed claws and a paddle-like tail; battle-scarred weathered scales, massive
+      spikes and an enormous wingspan, a faint glint of static on its horns.
+    seed: 2017
+  ancient-copper-dragon:
+    prompt: >-
+      A colossal ancient copper dragon, gargantuan and towering like a castle, four-legged
+      and winged, with warm copper scales with a turquoise patina, long backswept segmented
+      horns and a sly playful grin; battle-scarred weathered scales, massive spikes and an
+      enormous wingspan, a mischievous gleam in its eyes.
+    seed: 2018
+  ancient-gold-dragon:
+    prompt: >-
+      A colossal ancient gold dragon, gargantuan and towering like a castle, four-legged and
+      winged, with shining gold scales, a wise whiskered face with tendril barbels, twin
+      smooth horns and long fin-like wings; battle-scarred weathered scales, massive spikes
+      and an enormous wingspan, a calm regal bearing.
+    seed: 2019
+  ancient-green-dragon:
+    prompt: >-
+      A colossal ancient green dragon, gargantuan and towering like a castle, four-legged
+      and winged, with emerald-green scales, a tall serrated crest from head to tail, a
+      jagged chin frill and curving horns; battle-scarred weathered scales, massive spikes
+      and an enormous wingspan, wisps of greenish vapour around its maw.
+    seed: 2020
+  ancient-red-dragon:
+    prompt: >-
+      A colossal ancient red dragon, gargantuan and towering like a castle, four-legged and
+      winged, with crimson-red scales, a massive head crowned with spikes and swept horns,
+      cheek frills and huge bat-like wings; battle-scarred weathered scales, massive spikes
+      and an enormous wingspan, a glow of embers in its throat.
+    seed: 2021
+  ancient-silver-dragon:
+    prompt: >-
+      A colossal ancient silver dragon, gargantuan and towering like a castle, four-legged
+      and winged, with gleaming silver scales, a noble head with a shield-like frilled
+      crest, a slight beak-like snout and elegant wings; battle-scarred weathered scales,
+      massive spikes and an enormous wingspan, frost-white highlights on its scales.
+    seed: 2022
+  ancient-white-dragon:
+    prompt: >-
+      A colossal ancient white dragon, gargantuan and towering like a castle, four-legged
+      and winged, with frosty white scales tinged pale blue, a sleek flat head with a spiny
+      crest, short horns and icy spikes along its back; battle-scarred weathered scales,
+      massive spikes and an enormous wingspan, rime and icicles on its claws.
+    seed: 2023
+  animated-armor:
+    prompt: >-
+      An empty suit of dented steel plate armour walking on its own, hollow and dark inside
+      the visor, holding nothing and raising armoured fists.
+    seed: 2024
+  animated-flying-sword:
+    prompt: >-
+      A small enchanted longsword floating upright in the air on its own, its blade gleaming
+      and the hilt wrapped in old leather, faint glow around it.
+    seed: 2025
+  animated-rug-of-smothering:
+    prompt: >-
+      A large ornate carpet with a faded red and ochre geometric pattern and tasselled
+      edges, rising up from the floor and curling like a living thing.
+    seed: 2026
+  ankheg:
+    prompt: >-
+      A large burrowing insect the size of a horse with a segmented brown chitin shell, six
+      clawed legs, long antennae and huge mandibles dripping acid.
+    seed: 2027
+  ankylosaurus:
+    prompt: >-
+      A huge low four-legged armoured dinosaur covered in bony plates and spikes along its
+      back and flanks, a broad flat head and a heavy bony club at the end of its tail, tan
+      and grey-green hide.
+    seed: 2028
+  ape:
+    prompt: >-
+      A powerful great ape the size of a man, shaggy dark-brown fur, long muscular arms,
+      knuckle-walking, with a heavy brow and a bare leathery face.
+    seed: 2029
+  archelon:
+    prompt: >-
+      A huge prehistoric sea turtle, larger than a rowing boat, with a leathery ridged
+      shell, a hooked beak and long paddle-like flippers, swimming.
+    seed: 2030
+  archmage:
+    prompt: >-
+      An elderly human woman archmage with long silver hair, piercing eyes and runic tattoos
+      on her hands, in flowing deep-blue robes embroidered with stars, holding a tall staff
+      topped with a glowing crystal, arcane sigils floating around her.
+    seed: 2031
+  assassin:
+    prompt: >-
+      A lean elf man assassin in close-fitting dark leather armour and a hooded cloak, face
+      half-masked, holding a slim dagger in each hand, a light crossbow slung at his hip.
+    seed: 2032
+  awakened-shrub:
+    prompt: >-
+      A small living bush with a leafy round body, twiggy arms and short root-like legs, two
+      dark knot eyes peering out.
+    seed: 2033
+  awakened-tree:
+    prompt: >-
+      A huge living oak tree with a face of knots and bark, thick branch arms and walking
+      root legs, leaves rustling.
+    seed: 2034
+  axe-beak:
+    prompt: >-
+      A large flightless bird taller than a man, with long powerful legs, stubby wings,
+      brown feathers and a huge axe-shaped hooked beak.
+    seed: 2035
+  azer-sentinel:
+    prompt: >-
+      A stocky dwarf-like man made of bronze metal skin, with hair and beard of living
+      flame, wearing a bronze kilt and holding a warhammer and shield.
+    seed: 2036
+  baboon:
+    prompt: >-
+      A small baboon with grey-olive fur, a long dog-like muzzle, a bare pinkish face and a
+      crooked tail, sitting on its haunches baring its teeth.
+    seed: 2037
+  badger:
+    prompt: >-
+      A tiny stocky badger with grey fur, a black-and-white striped face and strong digging
+      claws, sniffing the ground.
+    seed: 2038
+  balor:
+    prompt: >-
+      A huge demon twice the height of a giant, with dark-red skin, massive bat wings, ram
+      horns and a fanged bestial face, wreathed in flames, wielding a flaming whip and a
+      lightning-shaped longsword.
+    seed: 2039
+  bandit:
+    prompt: >-
+      A scruffy young human man bandit with a stubbled face and a ragged red scarf, wearing
+      patched leather armour, holding a scimitar and a light crossbow.
+    seed: 2040
+  bandit-captain:
+    prompt: >-
+      A confident middle-aged half-orc woman bandit leader with a scarred grin and braided
+      hair, in a studded leather coat with a fur collar and a wide belt, wielding a scimitar
+      and a dagger.
+    seed: 2041
+  barbed-devil:
+    prompt: >-
+      A man-sized devil covered entirely in sharp barbs and spikes, reddish-brown skin, a
+      long barbed tail, clawed hands and a leering face with small horns.
+    seed: 2042
+  basilisk:
+    prompt: >-
+      A long eight-legged reptile the size of a large dog, with dull brown-green scales, a
+      row of bony spines on its back, a toothy maw and glowing pale green eyes.
+    seed: 2043
+  bat:
+    prompt: >-
+      A tiny brown bat with leathery outstretched wings, big ears and a pug-like snout, in
+      flight.
+    seed: 2044
+  bearded-devil:
+    prompt: >-
+      A man-sized devil with reddish skin, pointed ears, small horns, a snaky writhing beard
+      of tendrils, bat-like wings and a long saw-toothed glaive.
+    seed: 2045
+  behir:
+    prompt: >-
+      A huge serpentine reptile with twelve clawed legs along its long blue scaled body, a
+      crocodilian head with two backswept horns, sparks of lightning about its jaws.
+    seed: 2046
+  berserker:
+    prompt: >-
+      A wild-haired muscular dwarf man berserker with a braided red beard and woad tattoos,
+      wearing hide armour and furs, roaring and swinging a huge greataxe.
+    seed: 2047
+  black-bear:
+    prompt: >-
+      A black bear with glossy black fur and a tan muzzle, standing on all fours, about the
+      size of a man.
+    seed: 2048
+  black-dragon-wyrmling:
+    prompt: >-
+      A dog-sized baby black dragon, about as tall as a human's waist, four-legged and
+      winged, with glossy black scales, a gaunt skull-like head with forward-curving horns,
+      deep-set eyes and frayed leathery wings; stubby wings, oversized head and big curious
+      eyes.
+    seed: 2049
+  black-pudding:
+    prompt: >-
+      A large heaving blob of glossy black ooze, as wide as a cart, oozing over the stones
+      with bubbles on its surface.
+    seed: 2050
+  blink-dog:
+    prompt: >-
+      A lean golden-yellow dog with a bright intelligent face, flickering in and out of
+      view, faint after-images around it.
+    seed: 2051
+  blood-hawk:
+    prompt: >-
+      A small hawk with rust-red and dark crimson plumage, a sharp hooked beak and cruel
+      talons, diving with wings swept back.
+    seed: 2052
+  blue-dragon-wyrmling:
+    prompt: >-
+      A dog-sized baby blue dragon, about as tall as a human's waist, four-legged and
+      winged, with deep sapphire-blue scales, a single great horn on its snout, frilled ears
+      and a thick armoured tail; stubby wings, oversized head and big curious eyes.
+    seed: 2053
+  boar:
+    prompt: >-
+      A wild boar with bristly dark-brown fur, a ridge of stiff hair on its back and sharp
+      curved tusks, charging.
+    seed: 2054
+  bone-devil:
+    prompt: >-
+      A large gaunt skeletal devil, taller than a man, with dried skin stretched over bones,
+      a skull-like head, tattered wings and a scorpion-like tail with a stinger.
+    seed: 2055
+  brass-dragon-wyrmling:
+    prompt: >-
+      A dog-sized baby brass dragon, about as tall as a human's waist, four-legged and
+      winged, with burnished brass-yellow scales, a broad fan-shaped head plate, a long
+      slender neck and wide sail-like wings; stubby wings, oversized head and big curious
+      eyes.
+    seed: 2056
+  bronze-dragon-wyrmling:
+    prompt: >-
+      A dog-sized baby bronze dragon, about as tall as a human's waist, four-legged and
+      winged, with metallic bronze scales tinged sea-green, swept-back horns, a finned
+      crest, webbed claws and a paddle-like tail; stubby wings, oversized head and big
+      curious eyes.
+    seed: 2057
+  brown-bear:
+    prompt: >-
+      A large brown bear with thick shaggy brown fur and a shoulder hump, rearing up on its
+      hind legs, taller than a man.
+    seed: 2058
+  bugbear-stalker:
+    prompt: >-
+      A tall hairy goblinoid with coarse brown fur, a bear-like snout and long arms, wearing
+      dark leather armour and a hood, carrying a javelin and a morningstar, moving
+      stealthily.
+    seed: 2059
+  bugbear-warrior:
+    prompt: >-
+      A tall muscular goblinoid covered in shaggy brown fur, with a bear-like snout and
+      pointed ears, wearing hide armour, gripping a spiked morningstar and a light hammer.
+    seed: 2060
   bulette:
     prompt: >-
-      A massive armoured burrowing beast like a shark crossed with an armadillo, a high
-      blue-grey dorsal crest of plates, a wide gaping mouth full of teeth and four short
-      powerful clawed legs; bursting out of the ground with clods of earth flying around it.
-    seed: 2004
+      A large heavily armoured burrowing beast with a grey-blue shell like a shark-fin
+      crest, a huge snapping mouth and four short clawed legs, erupting from the ground.
+    seed: 2061
+  camel:
+    prompt: >-
+      A tall one-humped camel with sandy tan fur, a long curved neck and knobbly legs,
+      wearing a simple woven saddle blanket.
+    seed: 2062
+  cat:
+    prompt: >-
+      A tiny tabby house cat with striped grey-brown fur, sitting upright with its tail
+      curled around its paws.
+    seed: 2063
+  centaur-trooper:
+    prompt: >-
+      A centaur with the torso of a strong human woman and the body of a chestnut horse,
+      wearing a leather breastplate, a longbow on her back and a long pike in hand.
+    seed: 2064
+  chain-devil:
+    prompt: >-
+      A man-sized devil wrapped in rusted iron chains that move like living snakes, with
+      grey-pale skin, a hooked-chain whip and a grim face.
+    seed: 2065
+  chimera:
+    prompt: >-
+      A large monster with the body of a lion, three heads (a lion, a horned goat and a red
+      dragon), leathery dragon wings and a snake-headed tail.
+    seed: 2066
+  chuul:
+    prompt: >-
+      A large crustacean-like aberration with a dark green lobster shell, four legs, two
+      huge pincers and a mass of writhing tentacles around its mouth.
+    seed: 2067
+  clay-golem:
+    prompt: >-
+      A large humanoid figure sculpted from reddish-brown clay, crude features, thick limbs,
+      cuneiform runes carved into its chest.
+    seed: 2068
+  cloaker:
+    prompt: >-
+      A large creature resembling a black leather cloak spread wide like a manta ray, with a
+      pale bony underside, small red eyes and a whip-like tail, floating in the air.
+    seed: 2069
+  cloud-giant:
+    prompt: >-
+      A huge giant three times the height of a man, with pale grey-blue skin, silver hair
+      and beard, in flowing white and silver robes and jewellery, holding a great
+      morningstar, wisps of cloud around his feet.
+    seed: 2070
+  cockatrice:
+    prompt: >-
+      A small creature with the body of a rooster and the long tail and wings of a
+      lizard-bat, scaly yellow-green legs and a red crest.
+    seed: 2071
+  commoner:
+    prompt: >-
+      A plain middle-aged human farmer woman in a simple linen dress, apron and headscarf,
+      holding a wooden pitchfork.
+    seed: 2072
+  constrictor-snake:
+    prompt: >-
+      A large constrictor snake, longer than a man is tall, thick-bodied with olive and
+      brown blotched scales, coiled and raising its head.
+    seed: 2073
+  copper-dragon-wyrmling:
+    prompt: >-
+      A dog-sized baby copper dragon, about as tall as a human's waist, four-legged and
+      winged, with warm copper scales with a turquoise patina, long backswept segmented
+      horns and a sly playful grin; stubby wings, oversized head and big curious eyes.
+    seed: 2074
+  couatl:
+    prompt: >-
+      A feathered serpent with iridescent rainbow-hued wings, a long sinuous body covered in
+      emerald and gold scales and feathers, golden eyes, coiled in flight.
+    seed: 2075
+  crab:
+    prompt: >-
+      A tiny shore crab with a reddish-brown shell, two raised pincers and spindly legs,
+      scuttling sideways.
+    seed: 2076
+  crocodile:
+    prompt: >-
+      A large crocodile with dark green armoured scales, a long toothy snout and a powerful
+      tail, lying low with jaws slightly open.
+    seed: 2077
+  cultist:
+    prompt: >-
+      A thin young human man cultist in a hooded dark-crimson robe with a strange sigil
+      stitched on the chest, holding a curved sickle, eyes fervent.
+    seed: 2078
+  cultist-fanatic:
+    prompt: >-
+      A gaunt older tiefling woman cult leader with small horns, in layered black and
+      crimson robes with a bone-and-iron amulet, raising a ritual dagger and a glowing hand.
+    seed: 2079
+  darkmantle:
+    prompt: >-
+      A small squid-like creature with a dark grey-black body and webbed tentacles spread
+      like a cloak, hanging from a cave ceiling.
+    seed: 2080
+  death-dog:
+    prompt: >-
+      A gaunt two-headed dog with mangy dark fur, red eyes and drooling fangs in both heads.
+    seed: 2081
+  deer:
+    prompt: >-
+      A slender deer with reddish-brown coat, white-spotted flanks, alert ears and small
+      antlers, standing poised.
+    seed: 2082
+  deva:
+    prompt: >-
+      A tall angel with silvery-grey skin, large white feathered wings, glowing golden eyes,
+      in gleaming silver armour and white robes, holding a mace.
+    seed: 2083
+  dire-wolf:
+    prompt: >-
+      A wolf the size of a pony with a thick shaggy grey-black coat, massive jaws and a
+      heavy brow, snarling.
+    seed: 2084
+  djinni:
+    prompt: >-
+      A large genie with blue skin, a powerful bare-chested upper body with gold armbands
+      and a silk turban, the lower body a swirling whirlwind of air, holding a scimitar.
+    seed: 2085
+  doppelganger:
+    prompt: >-
+      A thin grey-skinned humanoid with a smooth hairless head, large blank white eyes and
+      long spindly fingers, its body half-shifting into the shape of a human traveller.
+    seed: 2086
+  draft-horse:
+    prompt: >-
+      A massive draft horse with a chestnut coat, feathered white hooves, thick neck and a
+      plain leather work harness.
+    seed: 2087
+  dragon-turtle:
+    prompt: >-
+      A colossal sea turtle with a dragon-like head and neck, a rugged dark-green dome shell
+      covered in spikes, webbed clawed flippers and a golden-scaled underbelly, rising from
+      the sea.
+    seed: 2088
+  dretch:
+    prompt: >-
+      A small pot-bellied demon with mottled grey-green skin, spindly limbs, a sagging face
+      and dull eyes, hunched and miserable.
+    seed: 2089
+  drider:
+    prompt: >-
+      A large monster with the upper body of a dark-skinned drow elf with white hair, joined
+      at the waist to the body of a giant black spider, holding a longsword and a longbow.
+    seed: 2090
+  druid:
+    prompt: >-
+      A weathered halfling woman druid with braided grey hair and a cloak of leaves and
+      moss, wearing hide armour, holding a gnarled wooden staff with a sprig of mistletoe.
+    seed: 2091
+  dryad:
+    prompt: >-
+      A slender woman whose skin is like smooth pale bark, with hair of green leaves and
+      flowers, wearing a dress of woven leaves, standing beside an oak tree.
+    seed: 2092
+  dust-mephit:
+    prompt: >-
+      A small impish creature made of grey-brown dust and dirt, with batlike wings, glowing
+      eyes, crumbling at its edges in small dust clouds.
+    seed: 2093
+  eagle:
+    prompt: >-
+      A small eagle with dark-brown plumage, a white head and a hooked yellow beak, perched
+      with wings partly open.
+    seed: 2094
+  earth-elemental:
+    prompt: >-
+      A large hulking humanoid of rock and soil, taller than a man, with craggy boulder
+      fists, crystal eyes and moss and pebbles crumbling from its body.
+    seed: 2095
+  efreeti:
+    prompt: >-
+      A large genie with dark-red skin and black hair, horns of fire, wearing brass armour
+      and jewellery, the lower body a column of smoke and flame, holding a scimitar.
+    seed: 2096
+  elephant:
+    prompt: >-
+      A huge elephant with wrinkled grey skin, large fan-shaped ears, long ivory tusks and a
+      raised trunk.
+    seed: 2097
+  elk:
+    prompt: >-
+      A large elk with a tawny coat, a darker shaggy neck mane and a broad spread of
+      branching antlers.
+    seed: 2098
+  erinyes:
+    prompt: >-
+      A beautiful but stern woman devil with large black-feathered wings, small horns, ashen
+      skin and red eyes, in black plate armour, holding a longsword and a coiled rope.
+    seed: 2099
+  ettercap:
+    prompt: >-
+      A man-sized spider-like humanoid with a bloated purple-black abdomen, spindly hairy
+      limbs, clawed hands and venomous mandibles, spinning silk webs.
+    seed: 2100
+  ettin:
+    prompt: >-
+      A large two-headed giant twice the height of a man, each head with tangled hair and
+      different expressions, wearing furs and hide, swinging a battleaxe in one hand and a
+      morningstar in the other.
+    seed: 2101
+  fire-elemental:
+    prompt: >-
+      A large roaring humanoid shape of living fire, flickering orange and red flames, with
+      eyes of white-hot embers and trailing sparks.
+    seed: 2102
+  fire-giant:
+    prompt: >-
+      A huge giant three times the height of a man, with coal-black skin and flame-red hair
+      and beard, in heavy blackened iron plate armour, holding a huge greatsword.
+    seed: 2103
+  flesh-golem:
+    prompt: >-
+      A man-sized patchwork humanoid stitched together from different pale-grey bodies,
+      crude scars and iron bolts on its neck, wearing tattered trousers, hulking and
+      awkward.
+    seed: 2104
+  flying-snake:
+    prompt: >-
+      A tiny snake with bright green and gold scales and small feathered wings, gliding
+      through the air.
+    seed: 2105
+  frog:
+    prompt: >-
+      A tiny green frog with dark spots and big golden eyes, sitting on a lily pad.
+    seed: 2106
+  frost-giant:
+    prompt: >-
+      A huge giant three times the height of a man, with pale icy-blue skin, a long white
+      braided beard and hair, wearing furs and a horned iron helm, holding a greataxe.
+    seed: 2107
+  gargoyle:
+    prompt: >-
+      A man-sized winged creature of grey stone, with a demonic horned face, clawed hands
+      and feet and folded stone wings, crouched on a ledge.
+    seed: 2108
+  gelatinous-cube:
+    prompt: >-
+      A large transparent cube of greenish jelly filling a dungeon corridor, with bones,
+      coins and a rusty sword suspended inside it.
+    seed: 2109
+  ghast:
+    prompt: >-
+      A gaunt undead humanoid with taut grey-green skin, sunken glowing eyes, long claws and
+      a long tongue, hunched in tattered rags, surrounded by a faint stench haze.
+    seed: 2110
+  ghost:
+    prompt: >-
+      A translucent pale spirit of a woman in an old-fashioned dress, floating above the
+      ground, her lower body fading into mist, a sorrowful face.
+    seed: 2111
+  ghoul:
+    prompt: >-
+      A gaunt undead humanoid with greyish skin pulled over bones, sharp teeth, long jagged
+      claws and wild eyes, crouching in rags.
+    seed: 2112
+  giant-ape:
+    prompt: >-
+      A huge gorilla-like ape, three times the height of a man, with shaggy black fur, a
+      silver back, enormous arms and a bare leathery face, beating its chest.
+    seed: 2113
+  giant-badger:
+    prompt: >-
+      A giant badger the size of a large dog, grey fur, a black-and-white striped face and
+      long digging claws.
+    seed: 2114
+  giant-bat:
+    prompt: >-
+      A giant bat with a wingspan wider than a man is tall, dark leathery wings, a wrinkled
+      snout and large pointed ears, in flight.
+    seed: 2115
+  giant-boar:
+    prompt: >-
+      A boar the size of a horse, with bristling black-brown fur, a high spiny ridge of hair
+      and huge curved tusks.
+    seed: 2116
+  giant-centipede:
+    prompt: >-
+      A giant centipede longer than a man's arm, a segmented reddish-brown body, dozens of
+      legs and venomous pincer jaws.
+    seed: 2117
+  giant-constrictor-snake:
+    prompt: >-
+      A huge constrictor snake as long as a ship, thick as a tree trunk, with olive-green
+      scales and dark diamond patterning, coiled.
+    seed: 2118
+  giant-crab:
+    prompt: >-
+      A crab the size of a large dog with a barnacle-crusted reddish shell and two big
+      serrated pincers.
+    seed: 2119
+  giant-crocodile:
+    prompt: >-
+      A huge crocodile longer than a rowing boat, dark armoured scales, a massive toothy
+      snout and a thick powerful tail.
+    seed: 2120
+  giant-eagle:
+    prompt: >-
+      A giant eagle with a wingspan wider than a wagon, golden-brown plumage, a white head,
+      keen intelligent eyes and a hooked beak.
+    seed: 2121
+  giant-elk:
+    prompt: >-
+      A huge majestic elk taller than a horse, a silvery-tawny coat and vast branching
+      antlers that faintly shimmer.
+    seed: 2122
+  giant-fire-beetle:
+    prompt: >-
+      A beetle the size of a small dog with a dark shell and two glowing orange-red glands
+      above its eyes, lighting its surroundings.
+    seed: 2123
+  giant-fly:
+    prompt: >-
+      A giant fly the size of a horse with iridescent green-black body, huge red compound
+      eyes, bristly legs and translucent veined wings.
+    seed: 2124
+  giant-frog:
+    prompt: >-
+      A frog the size of a large dog, mottled green-brown skin, a wide mouth and bulging
+      yellow eyes.
+    seed: 2125
+  giant-goat:
+    prompt: >-
+      A giant mountain goat the size of a horse with shaggy white fur and thick curled
+      horns.
+    seed: 2126
+  giant-hyena:
+    prompt: >-
+      A hyena the size of a horse with a spotted tan coat, a sloping back, bristly mane and
+      powerful jaws.
+    seed: 2127
+  giant-lizard:
+    prompt: >-
+      A lizard as long as a horse, with mottled green-grey scales, a frilled throat and
+      splayed clawed legs.
+    seed: 2128
+  giant-octopus:
+    prompt: >-
+      A giant octopus with a reddish-brown bulbous head and eight long sucker-covered
+      tentacles spread wide, underwater.
+    seed: 2129
+  giant-owl:
+    prompt: >-
+      A giant owl larger than a man, with soft grey-brown feathers, large round amber eyes,
+      tufted ears and outspread wings.
+    seed: 2130
+  giant-rat:
+    prompt: >-
+      A rat the size of a small dog, with matted grey-brown fur, beady red eyes, yellow
+      incisors and a long naked tail.
+    seed: 2131
+  giant-scorpion:
+    prompt: >-
+      A giant scorpion as big as a horse with a glossy black-brown carapace, two huge
+      pincers and a curled segmented tail ending in a stinger.
+    seed: 2132
+  giant-seahorse:
+    prompt: >-
+      A seahorse as large as a horse, with a curled tail, a long snout, a spiny crest and
+      blue-green ridged plates, underwater.
+    seed: 2133
+  giant-shark:
+    prompt: >-
+      A huge shark longer than a ship's boat, grey back, white belly, a towering dorsal fin
+      and rows of teeth.
+    seed: 2134
+  giant-spider:
+    prompt: >-
+      A giant spider the size of a horse with a hairy black-brown body, eight long jointed
+      legs and clusters of shining eyes.
+    seed: 2135
+  giant-toad:
+    prompt: >-
+      A toad as big as a pony, with warty brown-olive skin, a wide gaping mouth and bulging
+      eyes.
+    seed: 2136
+  giant-venomous-snake:
+    prompt: >-
+      A snake as long as two men, olive-and-black banded scales, reared up with its hood
+      flared and fangs bared.
+    seed: 2137
+  giant-vulture:
+    prompt: >-
+      A vulture larger than a man, with a wingspan wider than a wagon, ragged dark-brown
+      feathers, a bald wrinkled red head, a cruel hooked beak and unusually intelligent
+      eyes, perched hunched on a rock.
+    seed: 2138
+  giant-wasp:
+    prompt: >-
+      A wasp the size of a man, with a yellow-and-black striped body, translucent wings,
+      compound eyes and a long stinger.
+    seed: 2139
+  giant-weasel:
+    prompt: >-
+      A weasel the size of a large dog, with a long sinuous body, brown fur with a cream
+      belly and sharp teeth.
+    seed: 2140
+  giant-wolf-spider:
+    prompt: >-
+      A spider the size of a large dog, with a furry brown-grey striped body and long hairy
+      legs, poised to pounce.
+    seed: 2141
+  gibbering-mouther:
+    prompt: >-
+      A man-sized amorphous blob of rubbery pinkish flesh covered with dozens of eyes and
+      mouths, oozing across the ground.
+    seed: 2142
+  glabrezu:
+    prompt: >-
+      A large demon with dark-red skin, a doglike horned head, four arms (two ending in huge
+      pincers and two in clawed hands), and a muscular body.
+    seed: 2143
+  gladiator:
+    prompt: >-
+      A tall muscular dark-skinned human woman gladiator with a crested bronze helmet, a
+      single pauldron, leather skirt and greaves, holding a spear and a round shield.
+    seed: 2144
+  gnoll-warrior:
+    prompt: >-
+      A tall hyena-headed humanoid with spotted tan fur and a bristly mane, wearing scraps
+      of hide armour and bone trinkets, holding a spear and a bow made of bone.
+    seed: 2145
+  goat:
+    prompt: >-
+      A goat with a shaggy brown and white coat, short curved horns and a little beard.
+    seed: 2146
+  goblin-boss:
+    prompt: >-
+      A small green-skinned goblinoid with pointed ears and a cunning grin, wearing a chain
+      shirt and a feathered hat, with a scimitar and a stolen shield.
+    seed: 2147
+  goblin-minion:
+    prompt: >-
+      A small scrawny green-skinned goblinoid with big pointed ears and sharp teeth, in
+      ragged clothes, clutching a dagger.
+    seed: 2148
+  goblin-warrior:
+    prompt: >-
+      A small green-skinned goblinoid with pointed ears and yellow eyes, wearing leather
+      armour, holding a scimitar and a shortbow.
+    seed: 2149
+  gold-dragon-wyrmling:
+    prompt: >-
+      A dog-sized baby gold dragon, about as tall as a human's waist, four-legged and
+      winged, with shining gold scales, a wise whiskered face with tendril barbels, twin
+      smooth horns and long fin-like wings; stubby wings, oversized head and big curious
+      eyes.
+    seed: 2150
+  gorgon:
+    prompt: >-
+      A large bull made of overlapping iron plates, with metal horns, glowing nostrils and
+      green vapour wafting from its mouth.
+    seed: 2151
+  gray-ooze:
+    prompt: >-
+      A man-sized slick puddle of grey ooze resembling wet stone, rising in a wave with a
+      faint metallic sheen.
+    seed: 2152
+  green-dragon-wyrmling:
+    prompt: >-
+      A dog-sized baby green dragon, about as tall as a human's waist, four-legged and
+      winged, with emerald-green scales, a tall serrated crest from head to tail, a jagged
+      chin frill and curving horns; stubby wings, oversized head and big curious eyes.
+    seed: 2153
+  green-hag:
+    prompt: >-
+      A crone-like witch with green skin, long tangled black hair, a hooked nose, long sharp
+      nails and a ragged shawl of moss and leaves.
+    seed: 2154
+  grick:
+    prompt: >-
+      A man-sized worm-like creature with a grey-green rubbery body and a head that splits
+      into four hooked tentacles around a beaked mouth.
+    seed: 2155
+  griffon:
+    prompt: >-
+      A large creature with the head, wings and front talons of a golden eagle and the hind
+      body of a tawny lion.
+    seed: 2156
+  grimlock:
+    prompt: >-
+      A man-sized eyeless grey-skinned humanoid with a smooth face, large ears, sharp teeth
+      and muscular limbs, wearing a loincloth, holding a bone club.
+    seed: 2157
+  guard:
+    prompt: >-
+      A young human man town guard in a chain shirt and a tabard, an open-faced steel cap,
+      holding a spear and a wooden shield.
+    seed: 2158
+  guard-captain:
+    prompt: >-
+      A stern grey-bearded dwarf man guard captain in polished breastplate and a red sash, a
+      plumed helm under his arm, a longsword at his hip and a javelin.
+    seed: 2159
+  guardian-naga:
+    prompt: >-
+      A large serpent with golden-green scales and a human face with serene eyes, a crest of
+      feathers, coiled majestically.
+    seed: 2160
+  half-dragon:
+    prompt: >-
+      A man-sized humanoid with red dragon scales covering much of his body, a reptilian
+      snout, small horns, clawed hands and small leathery wings, wearing scale armour.
+    seed: 2161
+  harpy:
+    prompt: >-
+      A creature with the upper body of a wild-haired woman and the wings, tail feathers and
+      taloned legs of a vulture, perched on a rock.
+    seed: 2162
+  hawk:
+    prompt: >-
+      A tiny hawk with brown-barred plumage and a hooked beak, perched with talons gripping
+      a branch.
+    seed: 2163
+  hell-hound:
+    prompt: >-
+      A big hound with rust-red and black fur, glowing red eyes and flames flickering around
+      its jaws.
+    seed: 2164
+  hezrou:
+    prompt: >-
+      A large toad-like demon with warty greenish skin, a bulbous head with a wide fanged
+      mouth, spiky back and muscular arms with claws.
+    seed: 2165
+  hill-giant:
+    prompt: >-
+      A huge giant three times the height of a man, crude and pot-bellied with ruddy skin
+      and tangled brown hair, wearing hides and furs, holding a tree-trunk club.
+    seed: 2166
+  hippogriff:
+    prompt: >-
+      A large creature with the head, wings and front talons of an eagle and the hind body
+      of a grey dappled horse.
+    seed: 2167
+  hippopotamus:
+    prompt: >-
+      A large hippopotamus with a barrel-shaped grey-pink body, a huge head and an open
+      mouth showing tusk-like teeth.
+    seed: 2168
+  hobgoblin-captain:
+    prompt: >-
+      A tall disciplined goblinoid with red-orange skin and a grey face, a stern expression,
+      in polished half-plate and a crested helm, holding a greatsword and a javelin.
+    seed: 2169
+  hobgoblin-warrior:
+    prompt: >-
+      A tall disciplined goblinoid with orange-red skin, dark hair and a flat nose, in chain
+      mail with a shield and longsword, a longbow on his back.
+    seed: 2170
+  homunculus:
+    prompt: >-
+      A tiny winged creature with leathery green skin, bat wings, a toothy grin, pointed
+      ears and a sharp tail, perched.
+    seed: 2171
+  horned-devil:
+    prompt: >-
+      A large devil with leathery wings, red-brown skin, a horned head, a spiky tail and a
+      three-pronged fork in its claws.
+    seed: 2172
+  hunter-shark:
+    prompt: >-
+      A large sleek shark longer than a man, grey and white, with a tall dorsal fin and a
+      mouth of jagged teeth, swimming.
+    seed: 2173
+  hydra:
+    prompt: >-
+      A huge reptilian monster with a bulky green scaled body, four legs and five long
+      serpentine necks each ending in a snapping dragon-like head.
+    seed: 2174
+  hyena:
+    prompt: >-
+      A spotted hyena with a sloping back, tan coat with dark spots, rounded ears and a
+      bristly mane.
+    seed: 2175
+  ice-devil:
+    prompt: >-
+      A large insectoid devil with a white-blue chitin body, bug-like head with mandibles, a
+      long spiked tail and a frosty spear.
+    seed: 2176
+  ice-mephit:
+    prompt: >-
+      A small impish creature of pale blue ice and frost, with jagged ice wings, icicle
+      claws and glowing white eyes.
+    seed: 2177
+  imp:
+    prompt: >-
+      A tiny devil with red skin, bat-like wings, small horns, a barbed tail and a
+      mischievous grin.
+    seed: 2178
+  incubus:
+    prompt: >-
+      A handsome man with dark hair and leathery bat wings, small horns and a slim tail, in
+      elegant clothes, smirking.
+    seed: 2179
+  invisible-stalker:
+    prompt: >-
+      A large faintly visible swirling vortex of air in a vaguely humanoid shape, only its
+      shimmering outline and the dust and leaves caught inside it hinting at its form.
+    seed: 2180
+  iron-golem:
+    prompt: >-
+      A large towering humanoid of blackened iron, armour-like plates, a featureless
+      helmeted face with glowing eyes, holding an iron sword.
+    seed: 2181
+  jackal:
+    prompt: >-
+      A small jackal with a sandy golden coat, large pointed ears and a bushy black-tipped
+      tail.
+    seed: 2182
+  killer-whale:
+    prompt: >-
+      A huge orca with glossy black and white markings, a tall dorsal fin and a toothy grin,
+      breaching.
+    seed: 2183
+  knight:
+    prompt: >-
+      A noble human woman knight in full gleaming plate armour with a heraldic surcoat, helm
+      with a plume, holding a greatsword point-down.
+    seed: 2184
+  kobold-warrior:
+    prompt: >-
+      A small reptilian humanoid with reddish-brown scales, a dog-like snout, small horns
+      and a tail, wearing leather scraps, holding a dagger and a sling.
+    seed: 2185
+  kraken:
+    prompt: >-
+      A colossal squid-like sea monster with a dark-green and purple body, two enormous
+      hooked tentacles and eight more, a huge eye and a beaked maw, rising from the sea.
+    seed: 2186
+  lamia:
+    prompt: >-
+      A large creature with the upper body of a beautiful woman with golden jewellery and
+      the lower body of a lion, holding a dagger.
+    seed: 2187
+  lemure:
+    prompt: >-
+      A man-sized blob-like devil of melting red-pink flesh with a vague humanoid face,
+      slumping forward.
+    seed: 2188
+  lich:
+    prompt: >-
+      A gaunt skeletal undead sorcerer of human height, dried grey skin over a skull face
+      with tiny glowing red pinpoint eyes, wearing tattered rich purple and black robes and
+      a tarnished circlet, holding a bone staff, a small ornate metal box hanging at its
+      belt.
+    seed: 2189
+  lion:
+    prompt: >-
+      A large male lion with a tawny coat and a thick dark mane, prowling.
+    seed: 2190
+  lizard:
+    prompt: >-
+      A tiny lizard with green-brown scales and a long tail, basking on a stone.
+    seed: 2191
+  mage:
+    prompt: >-
+      A middle-aged half-elf man mage with a neat goatee in purple and grey robes with a
+      hood, a spellbook on his belt, conjuring a small flame above his palm and holding a
+      quarterstaff.
+    seed: 2192
+  magma-mephit:
+    prompt: >-
+      A small impish creature as tall as a human's knee, made of dark cooling lava with
+      glowing orange cracks, stubby bat wings and a mischievous face, molten drops falling
+      from its claws.
+    seed: 2193
+  magmin:
+    prompt: >-
+      A small pot-bellied humanoid about knee-high to a man, with a body of dark crusted
+      magma glowing orange in the cracks, a round head topped with flickering flames and a
+      gleeful grin.
+    seed: 2194
+  mammoth:
+    prompt: >-
+      A huge woolly mammoth covered in long shaggy reddish-brown hair, with long curving
+      tusks and a high domed head.
+    seed: 2195
+  manticore:
+    prompt: >-
+      A large monster bigger than a horse with the body of a tawny lion, a lined bearded
+      human-like face with a shaggy mane, leathery dark bat wings and a tail ending in a
+      cluster of long iron-hard spikes.
+    seed: 2196
+  marilith:
+    prompt: >-
+      A large demon taller than a man, with the upper body of a woman with dark-green skin
+      and six arms each holding a curved sword, and the lower body of a long green-scaled
+      serpent, coiled to strike, a cold beautiful face.
+    seed: 2197
+  mastiff:
+    prompt: >-
+      A big muscular mastiff dog with a short fawn coat, a dark wrinkled face and a studded
+      leather collar.
+    seed: 2198
+  medusa:
+    prompt: >-
+      A woman of human height with fine green scales on her skin, a head of writhing live
+      snakes instead of hair, glowing golden eyes, wearing a flowing ochre robe and bronze
+      jewellery, holding a shortbow.
+    seed: 2199
+  merfolk-skirmisher:
+    prompt: >-
+      A merfolk man with the upper body of a lean human with sea-green skin and fins at his
+      ears and forearms, the lower body a long blue-green fish tail, holding a coral-tipped
+      spear and a seashell shield, underwater.
+    seed: 2200
+  merrow:
+    prompt: >-
+      A large hulking sea monster taller than a man, the upper body of a brutish ogre with
+      green scales and webbed clawed hands, the lower body a long fish tail, seaweed in its
+      hair, holding a barbed harpoon.
+    seed: 2201
+  mimic:
+    prompt: >-
+      A wooden iron-banded treasure chest the size of a crate, its lid opening into a mouth
+      with rows of jagged teeth and a long sticky tongue, sticky grey pseudopods emerging
+      from its sides.
+    seed: 2202
+  minotaur-of-baphomet:
+    prompt: >-
+      A large bull-headed humanoid twice the height of a man, with shaggy dark-brown fur, a
+      ring through its nose and long curved horns, muscular body with a leather harness and
+      loincloth, holding a huge double-bladed greataxe.
+    seed: 2203
+  minotaur-skeleton:
+    prompt: >-
+      A large animated skeleton of a bull-headed giant, twice the height of a man, with a
+      horned bovine skull, faint blue lights in its eye sockets and a rusty greataxe.
+    seed: 2204
+  mule:
+    prompt: >-
+      A sturdy brown mule with long ears, carrying a pack saddle with bundles.
+    seed: 2205
+  mummy:
+    prompt: >-
+      A human-sized undead wrapped in ancient yellowed linen bandages, a dried brown face
+      with glowing eyes peeking out, scarab amulet on its chest, arms outstretched.
+    seed: 2206
+  mummy-lord:
+    prompt: >-
+      A tall regal mummy wrapped in ancient bandages, wearing a golden funerary mask, a
+      broad jewelled collar of lapis and gold and a pharaoh's headdress, holding a
+      crook-shaped sceptre, glowing blue eyes.
+    seed: 2207
+  nalfeshnee:
+    prompt: >-
+      A large demon taller than a man, with a bloated hairy ape-like body, the head of a
+      tusked boar, ridiculously small feathered wings on its back and clawed hands,
+      dark-brown hide.
+    seed: 2208
+  night-hag:
+    prompt: >-
+      A crone-like fiend of human height with blue-black skin, a wild mane of white hair,
+      small horns, black eyes and long claws, wearing tattered dark robes, holding a glowing
+      gemstone heart.
+    seed: 2209
+  nightmare:
+    prompt: >-
+      A large black horse with glowing red eyes, a mane and tail of flickering flames, smoke
+      trailing from its nostrils and fiery hooves.
+    seed: 2210
+  noble:
+    prompt: >-
+      An elegant young human nobleman in a rich brocade doublet with lace cuffs, a velvet
+      cape and a feathered hat, a slim rapier at his hip.
+    seed: 2211
+  ochre-jelly:
+    prompt: >-
+      A large flowing mass of translucent yellow-brown jelly as wide as a cart, dripping and
+      clinging to a dungeon wall, a few bones visible inside.
+    seed: 2212
+  octopus:
+    prompt: >-
+      A small octopus with mottled reddish skin and curling tentacles, underwater.
+    seed: 2213
+  ogre:
+    prompt: >-
+      A large crude humanoid twice the height of a man with dull yellow-brown skin, a big
+      belly and a lumpy face with an underbite, wearing hides and a loincloth, holding a
+      spiked greatclub.
+    seed: 2214
+  ogre-zombie:
+    prompt: >-
+      A large undead ogre twice the height of a man, with grey-green decaying skin, empty
+      dull eyes and torn hides, shambling forward dragging a greatclub.
+    seed: 2215
+  oni:
+    prompt: >-
+      A large ogre-like humanoid twice the height of a man, with blue skin, two ivory horns,
+      tusks and wild black hair, wearing lacquered samurai-style armour and holding a long
+      glaive.
+    seed: 2216
+  otyugh:
+    prompt: >-
+      A large bloated creature on three thick legs, a round mottled grey-brown body with a
+      huge toothy mouth, two long tentacles ending in spiked pads and an eye stalk,
+      half-buried in refuse.
+    seed: 2217
+  owl:
+    prompt: >-
+      A tiny barn owl with pale golden-white feathers, a heart-shaped face and dark eyes,
+      perched.
+    seed: 2218
+  owlbear:
+    prompt: >-
+      A large beast bigger than a bear, with the body of a bear covered in brown feathers
+      and fur, the head of an owl with a sharp hooked beak, large round amber eyes, and big
+      clawed paws, rearing up.
+    seed: 2219
+  panther:
+    prompt: >-
+      A sleek black panther with glossy fur and green eyes, crouched low.
+    seed: 2220
+  pegasus:
+    prompt: >-
+      A large white horse with great feathered swan-like wings spread wide, a flowing silver
+      mane and tail, rearing proudly.
+    seed: 2221
+  phase-spider:
+    prompt: >-
+      A spider the size of a horse with a translucent violet-blue body, eight long legs and
+      clusters of glowing eyes, its outline flickering as it shifts between worlds.
+    seed: 2222
+  piranha:
+    prompt: >-
+      A tiny piranha fish with silver-grey scales, a red belly and an underbite of sharp
+      teeth.
+    seed: 2223
+  pirate:
+    prompt: >-
+      A wiry young human woman pirate with a bandana, earrings and a striped shirt under a
+      leather vest, a cutlass in hand and pistols tucked in her sash.
+    seed: 2224
+  pirate-captain:
+    prompt: >-
+      A swaggering older half-orc pirate captain with a tricorn hat, a long weathered red
+      coat with brass buttons, an eye patch, a cutlass and a parrot-feather plume.
+    seed: 2225
+  pit-fiend:
+    prompt: >-
+      A large powerful devil twice the height of a man with crimson scaled skin, huge bat
+      wings wrapped like a cloak, curved horns, a fanged face and a long tail, holding a
+      heavy flanged mace.
+    seed: 2226
+  planetar:
+    prompt: >-
+      A large angel twice the height of a man, with emerald-green skin, white feathered
+      wings, a hairless head, golden eyes and polished silver armour, holding a radiant
+      greatsword.
+    seed: 2227
+  plesiosaurus:
+    prompt: >-
+      A large marine reptile with a long serpentine neck, small head with needle teeth, a
+      broad body and four flippers, swimming.
+    seed: 2228
+  polar-bear:
+    prompt: >-
+      A large polar bear with thick creamy-white fur and a black nose, standing on all
+      fours.
+    seed: 2229
+  pony:
+    prompt: >-
+      A small shaggy pony with a dappled grey coat, thick mane and a simple saddle.
+    seed: 2230
+  priest:
+    prompt: >-
+      A dignified elderly gnome man priest in white and gold vestments over chain mail, a
+      holy symbol of a sun on his chest, holding a mace and a glowing hand.
+    seed: 2231
+  priest-acolyte:
+    prompt: >-
+      A young dark-haired human woman acolyte in a simple grey novice robe with a rope belt,
+      clutching a wooden holy symbol and a small club.
+    seed: 2232
+  pseudodragon:
+    prompt: >-
+      A tiny dragon the size of a cat, with reddish-bronze scales, a curious face with large
+      eyes, delicate bat-like wings and a long barbed tail, perched on a book.
+    seed: 2233
+  pteranodon:
+    prompt: >-
+      A flying reptile with leathery wings spanning wider than a man, a long toothless beak
+      and a backswept head crest, in flight.
+    seed: 2234
+  purple-worm:
+    prompt: >-
+      A gargantuan worm, as long as a street, with a ringed purple segmented body, a huge
+      round mouth filled with teeth and a stinger at its tail, bursting from the earth.
+    seed: 2235
+  quasit:
+    prompt: >-
+      A tiny demon the size of a cat, with warty green skin, small horns, a barbed tail,
+      clawed hands and a wicked grin.
+    seed: 2236
+  rakshasa:
+    prompt: >-
+      A human-sized fiend with the head of a tiger, orange and black striped fur, wearing
+      rich purple and gold silk robes and jewellery, its hands with palms turned backwards.
+    seed: 2237
+  rat:
+    prompt: >-
+      A tiny brown rat with a long pink tail and whiskers, sniffing.
+    seed: 2238
+  raven:
+    prompt: >-
+      A tiny glossy black raven with a thick beak, perched and cocking its head.
+    seed: 2239
+  red-dragon-wyrmling:
+    prompt: >-
+      A dog-sized baby red dragon, about as tall as a human's waist, four-legged and winged,
+      with crimson-red scales, a massive head crowned with spikes and swept horns, cheek
+      frills and huge bat-like wings; stubby wings, oversized head and big curious eyes.
+    seed: 2240
+  reef-shark:
+    prompt: >-
+      A sleek reef shark the size of a man, grey with black-tipped fins, swimming.
+    seed: 2241
+  remorhaz:
+    prompt: >-
+      A huge centipede-like monster as long as a ship, with icy blue-white chitin, dozens of
+      legs, glowing red-hot plates along its back and huge mandibles, in the snow.
+    seed: 2242
+  rhinoceros:
+    prompt: >-
+      A large rhinoceros with thick grey armour-like skin and two horns on its snout,
+      charging.
+    seed: 2243
+  riding-horse:
+    prompt: >-
+      A bay riding horse with a glossy brown coat, black mane and tail and a leather saddle
+      and bridle.
+    seed: 2244
+  roc:
+    prompt: >-
+      A gargantuan bird large enough to carry an elephant, with brown and gold feathers, a
+      huge hooked beak and enormous talons, wings spread.
+    seed: 2245
+  roper:
+    prompt: >-
+      A large stalagmite-shaped creature taller than a man, with grey stony skin, one large
+      yellow eye, a toothy mouth and six long sticky tendrils reaching out.
+    seed: 2246
+  rust-monster:
+    prompt: >-
+      A dog-sized insect-like creature with a rusty orange-brown chitin body, four legs, a
+      long tail with a flat bony paddle and two long feathery antennae.
+    seed: 2247
+  saber-toothed-tiger:
+    prompt: >-
+      A large prehistoric big cat with a muscular tawny body, faint stripes and two long
+      dagger-like upper fangs.
+    seed: 2248
+  sahuagin-warrior:
+    prompt: >-
+      A shark-like humanoid of human height with dark green scales and a paler belly, a fin
+      on its back and elbows, webbed clawed hands, black eyes and a mouth of sharp teeth,
+      holding a trident.
+    seed: 2249
+  salamander:
+    prompt: >-
+      A large creature longer than a horse, with the upper body of a fiery humanoid with
+      spiny red scales and burning eyes, the lower body a long red serpent tail, holding a
+      heated iron spear.
+    seed: 2250
+  satyr:
+    prompt: >-
+      A man of human height with the hairy legs and hooves of a goat, curly hair and small
+      curved horns, a playful grin, wearing a simple vest and holding pan pipes.
+    seed: 2251
+  scorpion:
+    prompt: >-
+      A tiny scorpion with an amber carapace, raised pincers and a curled stinging tail.
+    seed: 2252
+  scout:
+    prompt: >-
+      A lithe wood elf woman scout in green and brown leather armour and a hooded cloak, a
+      longbow in hand and a quiver on her back, crouched alert.
+    seed: 2253
+  sea-hag:
+    prompt: >-
+      A hunched hag of human height with pale green slimy skin, stringy seaweed hair,
+      fish-like eyes and webbed clawed fingers, draped in tattered nets and shells.
+    seed: 2254
+  seahorse:
+    prompt: >-
+      A tiny seahorse with a curled tail and ridged orange-yellow body, drifting upright.
+    seed: 2255
+  shadow:
+    prompt: >-
+      A human-sized silhouette of living darkness with faint pale eyes, its edges blurring
+      into wisps of shadow, reaching out with long dark fingers.
+    seed: 2256
+  shambling-mound:
+    prompt: >-
+      A large heap of rotting vegetation, vines, roots and moss shaped like a hulking
+      hunched humanoid, taller than a man, with no visible face.
+    seed: 2257
+  shield-guardian:
+    prompt: >-
+      A large construct taller than a man, built of stone, iron and wood, with a stylised
+      helmet-like head, a glowing amulet set in its chest and a big shield.
+    seed: 2258
+  shrieker-fungus:
+    prompt: >-
+      A man-sized mushroom with a pale ochre cap spotted with purple and a thick stalk,
+      standing in a damp cave.
+    seed: 2259
+  silver-dragon-wyrmling:
+    prompt: >-
+      A dog-sized baby silver dragon, about as tall as a human's waist, four-legged and
+      winged, with gleaming silver scales, a noble head with a shield-like frilled crest, a
+      slight beak-like snout and elegant wings; stubby wings, oversized head and big curious
+      eyes.
+    seed: 2260
+  skeleton:
+    prompt: >-
+      A human-sized animated skeleton wearing scraps of rusted armour, holding a shortsword
+      and a shortbow, faint lights in its eye sockets.
+    seed: 2261
+  solar:
+    prompt: >-
+      A large majestic angel twice the height of a man, with golden skin, six white
+      feathered wings, radiant eyes, gleaming golden armour, holding a flaming greatsword
+      and a longbow.
+    seed: 2262
+  specter:
+    prompt: >-
+      A human-sized translucent dark ghost with a hollow skull-like face and glowing eyes,
+      its lower body trailing off into wisps.
+    seed: 2263
+  sphinx-of-lore:
+    prompt: >-
+      A large creature bigger than a lion, with the body of a lion, the head of a woman
+      wearing a striped headdress and feathered falcon wings, a thoughtful expression.
+    seed: 2264
+  sphinx-of-valor:
+    prompt: >-
+      A large creature bigger than a lion, with the body of a lion, the head of a bearded
+      man wearing a royal striped headdress, and great feathered falcon wings, a stern
+      expression.
+    seed: 2265
+  sphinx-of-wonder:
+    prompt: >-
+      A tiny creature the size of a house cat, with the body of a lion cub, a curious human
+      face with large bright eyes, and small golden feathered wings.
+    seed: 2266
+  spider:
+    prompt: >-
+      A tiny black spider with long thin legs on a small web.
+    seed: 2267
+  spirit-naga:
+    prompt: >-
+      A large serpent longer than a horse, with glossy black scales banded in dull crimson
+      and a gaunt human face with lank black hair and cruel red eyes, coiled and rising to
+      strike.
+    seed: 2268
+  sprite:
+    prompt: >-
+      A tiny fairy no bigger than a hand, with shimmering dragonfly wings, pointed ears and
+      a stern little face, wearing a tunic of leaves and bark, holding a tiny shortbow.
+    seed: 2269
+  spy:
+    prompt: >-
+      An ordinary-looking human man in a plain grey cloak and travelling clothes, a hidden
+      dagger in his sleeve, a hand crossbow under the cloak, glancing sideways.
+    seed: 2270
+  steam-mephit:
+    prompt: >-
+      A small impish creature knee-high to a man, made of pale scalding steam and bubbling
+      water, with wispy translucent wings, a sly face and hot droplets dripping from its
+      claws.
+    seed: 2271
+  stirge:
+    prompt: >-
+      A tiny creature like a mosquito-bat, with a reddish-brown furry body, leathery wings,
+      four thin insect legs and a long needle-like proboscis.
+    seed: 2272
+  stone-giant:
+    prompt: >-
+      A huge giant three times the height of a man, with grey stone-like skin, a bald head
+      and dark eyes, wearing a simple kilt and carved stone armour, holding a greatclub.
+    seed: 2273
+  stone-golem:
+    prompt: >-
+      A large humanoid statue of grey granite, taller than a man, with blocky limbs, carved
+      runes across its chest and a stern featureless carved face, walking with heavy steps.
+    seed: 2274
+  storm-giant:
+    prompt: >-
+      A huge giant three times the height of a man, with dark violet-blue skin, long flowing
+      white hair and beard, in ornate bronze armour and a sea-green cloak, holding a
+      greatsword crackling with lightning.
+    seed: 2275
+  succubus:
+    prompt: >-
+      A beautiful dark-haired woman with dusky red skin, leathery bat wings, small curved
+      horns and a slim pointed tail, in an elegant dark gown, smiling enticingly.
+    seed: 2276
+  swarm-of-bats:
+    prompt: >-
+      A dense swirling cloud of dozens of small brown bats with leathery wings, in flight.
+    seed: 2277
+  swarm-of-crawling-claws:
+    prompt: >-
+      A scuttling mass of dozens of disembodied grey withered undead hands with long dirty
+      nails, crawling together on their fingers like spiders.
+    seed: 2278
+  swarm-of-insects:
+    prompt: >-
+      A buzzing swirling cloud of countless beetles, wasps and flies forming a vague dark
+      mass.
+    seed: 2279
+  swarm-of-piranhas:
+    prompt: >-
+      A churning school of dozens of small silver-and-red piranhas with bared teeth,
+      underwater.
+    seed: 2280
+  swarm-of-rats:
+    prompt: >-
+      A seething mass of dozens of grey-brown rats with long tails, scurrying together.
+    seed: 2281
+  swarm-of-ravens:
+    prompt: >-
+      A flapping swirling flock of dozens of black ravens.
+    seed: 2282
+  swarm-of-venomous-snakes:
+    prompt: >-
+      A writhing tangle of dozens of small banded venomous snakes, heads raised and hissing.
+    seed: 2283
+  tarrasque:
+    prompt: >-
+      A gargantuan reptilian monster as tall as a castle, with a massive armoured carapace,
+      two great forward horns, a huge mouth of teeth and a thick spiked tail, walking
+      upright on two legs, roaring.
+    seed: 2284
+  tiger:
+    prompt: >-
+      A large tiger with an orange coat and black stripes, prowling.
+    seed: 2285
+  tough:
+    prompt: >-
+      A burly bald human man street thug with a broken nose, wearing a padded leather
+      jerkin, holding a heavy wooden club.
+    seed: 2286
+  tough-boss:
+    prompt: >-
+      A hulking goliath woman gang boss with a shaved head and tattoos, wearing studded
+      leather and chain bracers, a warhammer resting on her shoulder.
+    seed: 2287
+  treant:
+    prompt: >-
+      A huge living oak three times the height of a man, with a wise bearded face in gnarled
+      brown bark, thick branch arms, walking root legs and a crown of green leaves with
+      birds' nests.
+    seed: 2288
+  triceratops:
+    prompt: >-
+      A huge four-legged horned dinosaur with a great bony neck frill, two long brow horns,
+      a short nose horn and a beaked mouth, olive and tan hide.
+    seed: 2289
+  troll:
+    prompt: >-
+      A large lanky humanoid taller than a man, with warty rubbery green skin, long gangly
+      arms ending in clawed hands, a long hooked nose, tusk-like teeth and a mop of wild
+      dark hair, hunched.
+    seed: 2290
+  troll-limb:
+    prompt: >-
+      A small disembodied troll arm with warty rubbery green skin and long black claws,
+      crawling across the ground on its fingers like a spider, with no wound shown.
+    seed: 2291
+  tyrannosaurus-rex:
+    prompt: >-
+      A huge two-legged predatory dinosaur, towering over a man, with an enormous head full
+      of serrated teeth, tiny arms, a thick tail and dark green-brown pebbly hide, roaring.
+    seed: 2292
+  unicorn:
+    prompt: >-
+      A large pure white horse with a single long spiral ivory horn on its forehead, a
+      flowing silvery mane, a goat-like beard tuft, cloven hooves and gentle wise eyes.
+    seed: 2293
+  vampire:
+    prompt: >-
+      A pale aristocratic man of human height with slicked-back dark hair, red eyes and
+      small fangs, in an elegant black doublet and a high-collared black and crimson cape.
+    seed: 2294
+  vampire-familiar:
+    prompt: >-
+      A pale gaunt human woman servant of a vampire in a dark high-collared servant's coat,
+      sunken eyes and a slight hunch, holding a dagger wreathed in shadow.
+    seed: 2295
+  vampire-spawn:
+    prompt: >-
+      A pale gaunt young human woman with sunken red eyes, sharp fangs and dirty clawed
+      fingernails, in ragged once-fine clothes, crouching hungrily.
+    seed: 2296
+  venomous-snake:
+    prompt: >-
+      A tiny venomous snake with banded red, black and yellow scales, coiled and ready to
+      strike.
+    seed: 2297
+  violet-fungus:
+    prompt: >-
+      A man-sized violet-purple mushroom with a lumpy cap and four long whip-like purple
+      tendrils dangling from its stalk, on a damp cave floor.
+    seed: 2298
+  vrock:
+    prompt: >-
+      A large vulture-like demon taller than a man, with ragged grey feathers, a long bare
+      neck, a hooked vulture beak, huge wings and humanoid arms and legs ending in talons.
+    seed: 2299
+  vulture:
+    prompt: >-
+      A vulture with dark-brown feathers, a bald wrinkled pinkish head and a hooked beak,
+      perched hunched.
+    seed: 2300
+  warhorse:
+    prompt: >-
+      A large powerful warhorse with a black coat, wearing a steel chamfron and a quilted
+      barding with a heavy saddle.
+    seed: 2301
+  warhorse-skeleton:
+    prompt: >-
+      A large animated horse skeleton wearing scraps of rusted chain barding and an old
+      saddle, pale blue lights burning in its empty eye sockets.
+    seed: 2302
+  warrior-infantry:
+    prompt: >-
+      A young human foot soldier in a simple chain shirt and helmet, holding a spear and a
+      round shield, standing at attention.
+    seed: 2303
+  warrior-veteran:
+    prompt: >-
+      A grizzled middle-aged dwarf woman veteran warrior with braided grey hair and a
+      scarred face, in battered splint armour, holding a longsword in both hands, a heavy
+      crossbow on her back.
+    seed: 2304
+  water-elemental:
+    prompt: >-
+      A large surging wave of blue-green water, taller than a man, shaped like a humanoid
+      with thick liquid arms, foam cresting its head and two dark eyes in the water.
+    seed: 2305
+  weasel:
+    prompt: >-
+      A tiny weasel with a long slim body, brown fur and a white belly, standing on its hind
+      legs.
+    seed: 2306
+  werebear:
+    prompt: >-
+      A towering hybrid of a man and a brown bear, taller than a human, with thick brown
+      fur, a bear's head with a gentle but fierce look, huge claws and torn woodsman's
+      clothes, holding a greataxe.
+    seed: 2307
+  wereboar:
+    prompt: >-
+      A stocky hybrid of a man and a boar, with bristly black fur, a boar's head with large
+      curved tusks, a ridge of stiff hair down its back, holding a spiked javelin.
+    seed: 2308
+  wererat:
+    prompt: >-
+      A wiry hybrid of a man and a rat, with mangy grey-brown fur, a rat's head with
+      whiskers and long incisors, a naked pink tail and a dark cloak, holding a hand
+      crossbow.
+    seed: 2309
+  weretiger:
+    prompt: >-
+      A sleek hybrid of a woman and a tiger, with orange black-striped fur, a tiger's head
+      with green eyes, clawed hands and silk sash clothing, holding a scimitar.
+    seed: 2310
+  werewolf:
+    prompt: >-
+      A tall hybrid of a man and a wolf, with shaggy grey-black fur, a wolf's head with
+      fangs and pointed ears, clawed hands and torn trousers, howling.
+    seed: 2311
+  white-dragon-wyrmling:
+    prompt: >-
+      A dog-sized baby white dragon, about as tall as a human's waist, four-legged and
+      winged, with frosty white scales tinged pale blue, a sleek flat head with a spiny
+      crest, short horns and icy spikes along its back; stubby wings, oversized head and big
+      curious eyes.
+    seed: 2312
+  wight:
+    prompt: >-
+      A gaunt undead warrior of human height with grey leathery skin, glowing pale eyes and
+      long dry hair, in old tarnished chain mail and a cloak, holding a longsword and a
+      longbow.
+    seed: 2313
+  will-o-wisp:
+    prompt: >-
+      A tiny floating ball of pale blue-white light the size of a fist, with a faint ghostly
+      face in its glow, hovering over marshy ground.
+    seed: 2314
+  winter-wolf:
+    prompt: >-
+      A wolf larger than a horse with shaggy white fur tinged pale blue, icy blue eyes,
+      frost on its whiskers and a cloud of freezing breath.
+    seed: 2315
+  wolf:
+    prompt: >-
+      A grey wolf with a thick coat, mid-stride.
+    seed: 2316
+  worg:
+    prompt: >-
+      A wolf larger than a horse with coarse dark charcoal fur, a heavy head, glowing red
+      eyes and a malevolent snarl.
+    seed: 2317
+  wraith:
+    prompt: >-
+      A dark hooded spectral figure of human height in tattered black robes, two burning
+      eyes in the hood's void, its body fading into wisps of shadow below the waist.
+    seed: 2318
+  wyvern:
+    prompt: >-
+      A large dragon-like creature bigger than a horse, with dark brown-green scales, two
+      clawed legs, leathery bat wings, a long neck, a toothy head and a long tail with a
+      curved venomous stinger.
+    seed: 2319
+  xorn:
+    prompt: >-
+      A creature the size of a man with a squat round body of mottled brown-grey stone,
+      three thick arms with claws and three stubby legs evenly around it, three eyes and a
+      large toothy mouth on top of its head.
+    seed: 2320
+  young-black-dragon:
+    prompt: >-
+      A young black dragon, larger than a horse, four-legged and winged, with glossy black
+      scales, a gaunt skull-like head with forward-curving horns, deep-set eyes and frayed
+      leathery wings; lean and agile, wings half spread, acid drool hanging from its jaws.
+    seed: 2321
+  young-blue-dragon:
+    prompt: >-
+      A young blue dragon, larger than a horse, four-legged and winged, with deep
+      sapphire-blue scales, a single great horn on its snout, frilled ears and a thick
+      armoured tail; lean and agile, wings half spread, sparks crackling about its jaws.
+    seed: 2322
+  young-brass-dragon:
+    prompt: >-
+      A young brass dragon, larger than a horse, four-legged and winged, with burnished
+      brass-yellow scales, a broad fan-shaped head plate, a long slender neck and wide
+      sail-like wings; lean and agile, wings half spread, a shimmer of heat around it.
+    seed: 2323
+  young-bronze-dragon:
+    prompt: >-
+      A young bronze dragon, larger than a horse, four-legged and winged, with metallic
+      bronze scales tinged sea-green, swept-back horns, a finned crest, webbed claws and a
+      paddle-like tail; lean and agile, wings half spread, a faint glint of static on its
+      horns.
+    seed: 2324
+  young-copper-dragon:
+    prompt: >-
+      A young copper dragon, larger than a horse, four-legged and winged, with warm copper
+      scales with a turquoise patina, long backswept segmented horns and a sly playful grin;
+      lean and agile, wings half spread, a mischievous gleam in its eyes.
+    seed: 2325
+  young-gold-dragon:
+    prompt: >-
+      A young gold dragon, larger than a horse, four-legged and winged, with shining gold
+      scales, a wise whiskered face with tendril barbels, twin smooth horns and long
+      fin-like wings; lean and agile, wings half spread, a calm regal bearing.
+    seed: 2326
+  young-green-dragon:
+    prompt: >-
+      A young green dragon, larger than a horse, four-legged and winged, with emerald-green
+      scales, a tall serrated crest from head to tail, a jagged chin frill and curving
+      horns; lean and agile, wings half spread, wisps of greenish vapour around its maw.
+    seed: 2327
+  young-red-dragon:
+    prompt: >-
+      A young red dragon, larger than a horse, four-legged and winged, with crimson-red
+      scales, a massive head crowned with spikes and swept horns, cheek frills and huge
+      bat-like wings; lean and agile, wings half spread, a glow of embers in its throat.
+    seed: 2328
+  young-silver-dragon:
+    prompt: >-
+      A young silver dragon, larger than a horse, four-legged and winged, with gleaming
+      silver scales, a noble head with a shield-like frilled crest, a slight beak-like snout
+      and elegant wings; lean and agile, wings half spread, frost-white highlights on its
+      scales.
+    seed: 2329
+  young-white-dragon:
+    prompt: >-
+      A young white dragon, larger than a horse, four-legged and winged, with frosty white
+      scales tinged pale blue, a sleek flat head with a spiny crest, short horns and icy
+      spikes along its back; lean and agile, wings half spread, rime and icicles on its
+      claws.
+    seed: 2330
+  zombie:
+    prompt: >-
+      A shambling human corpse with grey-green skin, vacant milky eyes, dirty torn peasant
+      clothes, arms reaching forward.
+    seed: 2331
