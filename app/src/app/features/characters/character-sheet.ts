@@ -1,6 +1,7 @@
 import { Component, computed, inject, input, resource, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
+import { BackupService } from '../../core/characters/backup.service';
 import { CharacterStore } from '../../core/characters/character-store.service';
 import { SyncService } from '../../core/characters/sync.service';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
@@ -46,6 +47,8 @@ export class CharacterSheet {
   private readonly i18n = inject(I18nService);
   private readonly data = inject(DataTextService);
   private readonly router = inject(Router);
+  private readonly backup = inject(BackupService);
+  protected readonly canShareFiles = this.backup.canShareFiles;
 
   /** Live cloud status (sync runs in the background after a save). */
   protected readonly status = computed(
@@ -124,6 +127,15 @@ export class CharacterSheet {
     if (!confirm(this.i18n.t('sheet.confirmDelete', { name: record.character.name }))) return;
     await this.sync.remove(record.character.id);
     await this.router.navigate(['/characters']);
+  }
+
+  /** The character file (as in the repo): a download, or the share sheet on phones. */
+  protected async exportCharacter(c: Character, share = false): Promise<void> {
+    try {
+      await this.backup.exportCharacter(c, share);
+    } catch (e) {
+      alert(this.i18n.t('common.error', { message: (e as Error).message }));
+    }
   }
 
   /** A list of game terms in the current language. */
