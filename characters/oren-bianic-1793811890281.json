@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-04T17:05:50.063Z",
+  "updatedAt": "2026-11-04T17:06:00.175Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -148,7 +148,14 @@
       "hideInactive": false,
       "scale": {},
       "types": {},
-      "creatures": {}
+      "creatures": {
+        "option:pact-of-the-chain|monster-imp": {
+          "on": true,
+          "damage": 0,
+          "temp": 0,
+          "used": {}
+        }
+      }
     }
   },
   "notes": "General de la casa de Don, terror de las brumas",
