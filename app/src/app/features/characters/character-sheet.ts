@@ -12,6 +12,8 @@ import { Character } from '../../core/models/character';
 import { computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { Sheet, SheetFeature, SheetWarning } from '../../core/rules/sheet';
+import { summonSourcesOf } from '../../core/summons/catalog';
+import { SummonCatalogService } from '../../core/summons/summon-catalog.service';
 import { ABILITIES } from '../../core/rules/tables';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { EquipmentPanel } from './equipment-panel';
@@ -75,6 +77,22 @@ export class CharacterSheet {
       return record ? { record, data, sheet: computeSheet(record.character, data) } : null;
     },
   });
+
+  /** The stat blocks of the summoning spells, read once (the button to the summons screen). */
+  private readonly summonCatalogs = inject(SummonCatalogService);
+  private readonly summonCatalog = resource({ loader: () => this.summonCatalogs.load() });
+  private readonly summonSources = computed(() => {
+    const v = this.view.value();
+    const catalog = this.summonCatalog.value();
+    if (!v || !catalog) return [];
+    return summonSourcesOf(v.record.character, v.sheet, v.data.subclasses, catalog);
+  });
+  protected readonly spellSummons = computed(
+    () => this.summonSources().filter((s) => s.kind === 'spell').length,
+  );
+  protected readonly featureSummons = computed(
+    () => this.summonSources().filter((s) => s.kind === 'feature').length,
+  );
 
   /** Unsaved changes left in the edit wizard (kept in this browser), to offer going back to them. */
   protected readonly hasEditDraft = computed(() => {

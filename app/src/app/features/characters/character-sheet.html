@@ -132,7 +132,14 @@
 
   @if (s.spellcasting.classes.length) {
     <section>
-      <h2>{{ 'sheet.spellcasting' | t }}</h2>
+      <div class="section-head">
+        <h2>{{ 'sheet.spellcasting' | t }}</h2>
+        @if (spellSummons(); as n) {
+          <a class="btn summons-link" [routerLink]="['/characters', c.id, 'invocaciones']">
+            ✦ {{ 'summons.button' | t: { n } }}
+          </a>
+        }
+      </div>
       @for (sc of s.spellcasting.classes; track sc.classId) {
         <div class="casting">
           <strong class="who">{{ className(s, sc.classId) }}</strong>
@@ -226,7 +233,14 @@
   />
 
   <section>
-    <h2>{{ 'sheet.features' | t }}</h2>
+    <div class="section-head">
+      <h2>{{ 'sheet.features' | t }}</h2>
+      @if (featureSummons(); as n) {
+        <a class="btn summons-link" [routerLink]="['/characters', c.id, 'invocaciones']">
+          ✦ {{ 'summons.button' | t: { n } }}
+        </a>
+      }
+    </div>
     @for (group of featureGroups(); track group.source.type + group.source.id + group.source.name) {
       <h3>{{ group.source.name | dataName }}</h3>
       @for (f of group.features; track $index) {

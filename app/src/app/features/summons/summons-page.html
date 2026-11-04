@@ -1,0 +1,166 @@
+@if (view.isLoading()) {
+  <p>{{ 'common.loading' | t }}</p>
+} @else if (view.error()) {
+  <app-load-error [error]="view.error()" />
+} @else if (view.value(); as v) {
+  <p>
+    <a class="back-link" [routerLink]="['/characters', id()]">← {{ v.sheet.name }}</a>
+  </p>
+  <h1>{{ 'summons.title' | t }}</h1>
+
+  @if (!v.sources.length) {
+    <p class="empty">{{ 'summons.none' | t }}</p>
+  } @else {
+    <p class="lead">{{ 'summons.intro' | t }}</p>
+
+    <div class="toolbar" role="group" [attr.aria-label]="'summons.title' | t">
+      <label class="hide">
+        <input
+          type="checkbox"
+          role="switch"
+          [checked]="summons().hideInactive"
+          (change)="hideInactive($any($event.target).checked)"
+        />
+        {{ 'summons.hideInactive' | t }}
+      </label>
+      <span class="count" aria-live="polite">{{
+        'summons.count' | t: { n: summonedTotal() }
+      }}</span>
+      <span class="spacer"></span>
+      <button type="button" [disabled]="!summonedTotal()" (click)="dismiss()">
+        {{ 'summons.dismissAll' | t }}
+      </button>
+      <button type="button" class="btn-ghost" (click)="reset()">↺ {{ 'summons.reset' | t }}</button>
+    </div>
+
+    @if (nothingOut()) {
+      <p class="empty">{{ 'summons.noneSummoned' | t }}</p>
+    }
+
+    @for (g of groups(); track g.source.id) {
+      <section class="source" [attr.data-coverage]="g.source.coverage">
+        <header>
+          <h2>{{ g.source.name | dataName: true }}</h2>
+          <span class="kind">
+            @if (g.source.kind === 'spell') {
+              {{ 'summons.level' | t: { level: g.source.minSlot } }}
+            } @else {
+              {{ 'summons.feature' | t }}
+            }
+          </span>
+          <a class="desc" [routerLink]="['/compendium', g.source.ref.type, g.source.ref.id]">{{
+            (g.source.kind === 'spell' ? 'summons.viewSpell' : 'summons.viewFeature') | t
+          }}</a>
+        </header>
+
+        @if (g.slots.length > 1 || g.source.typeChoices.length) {
+          <div class="choices">
+            @if (g.slots.length > 1) {
+              <label>
+                {{ 'summons.slotLevel' | t }}
+                <select [value]="g.slot" (change)="slotChosen(g.source, $event)">
+                  @for (l of g.slots; track l) {
+                    <option [value]="l" [selected]="l === g.slot">
+                      {{ 'summons.level' | t: { level: l } }}
+                    </option>
+                  }
+                </select>
+              </label>
+            }
+            @if (g.source.typeChoices.length) {
+              <label>
+                {{ 'summons.creatureType' | t }}
+                <select [value]="g.type" (change)="typeChosen(g.source, $event)">
+                  @for (t of g.source.typeChoices; track t) {
+                    <option [value]="t" [selected]="t === g.type">{{ typeName(t) }}</option>
+                  }
+                </select>
+              </label>
+            }
+          </div>
+        }
+        @if (g.source.fixedType) {
+          <p class="note">{{ 'summons.fixedType' | t: { type: typeName(g.source.fixedType) } }}</p>
+        }
+
+        @if (g.source.coverage === 'text') {
+          <article class="text-card">
+            <p>{{ 'summons.textOnly' | t }}</p>
+            <a class="btn" [routerLink]="['/compendium', g.source.ref.type, g.source.ref.id]">{{
+              (g.source.kind === 'spell' ? 'summons.viewSpell' : 'summons.viewFeature') | t
+            }}</a>
+          </article>
+        } @else {
+          <div class="cards">
+            @for (c of g.cards; track c.key) {
+              <app-monster-card
+                [class.off]="!c.on"
+                [instance]="c.instance"
+                [monster]="c.monster"
+                [label]="c.label"
+                [mutator]="c.mutate"
+                [ordered]="false"
+                [controls]="c.on"
+                statBlockKey="summons.fullSheet"
+                (statBlock)="openSheet(c)"
+              >
+                <label class="on">
+                  <input
+                    type="checkbox"
+                    role="switch"
+                    [checked]="c.on"
+                    (change)="toggle(c.key, $any($event.target).checked)"
+                  />
+                  {{ 'summons.summoned' | t }}
+                </label>
+              </app-monster-card>
+            }
+          </div>
+          @if (g.others.length) {
+            <details class="others">
+              <summary>{{ 'summons.others' | t: { n: g.others.length } }}</summary>
+              <ul>
+                @for (c of g.others; track c.key) {
+                  <li>
+                    <span class="name"
+                      >{{ c.label }}
+                      <small
+                        >{{ 'monster.ac' | t }} {{ c.monster.ac }} · {{ 'monster.hp' | t }}
+                        {{ c.monster.hp }}</small
+                      ></span
+                    >
+                    <button type="button" (click)="openSheet(c)">
+                      {{ 'summons.fullSheet' | t }}
+                    </button>
+                    <button type="button" class="primary" (click)="toggle(c.key, true)">
+                      {{ 'summons.summon' | t }}
+                    </button>
+                  </li>
+                }
+              </ul>
+            </details>
+          }
+        }
+      </section>
+    }
+  }
+} @else {
+  <p>{{ 'sheet.notFound' | t }}</p>
+}
+
+<dialog #dialog class="stat-dialog" (close)="shown.set(null)">
+  <div class="dialog-head">
+    <h2>{{ shown()?.label }}</h2>
+    <button type="button" (click)="closeSheet()" [attr.aria-label]="'combat.close' | t">✕</button>
+  </div>
+  @if (shown(); as c) {
+    <app-monster-stat-block [monster]="c.monster" />
+    @if (isCompendium(c)) {
+      <p class="compendium-link">
+        <a class="btn" [routerLink]="['/compendium', 'monster', c.monster.id]">{{
+          'summons.openCompendium' | t
+        }}</a>
+      </p>
+    }
+  }
+</dialog>
