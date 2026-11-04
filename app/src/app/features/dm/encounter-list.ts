@@ -37,6 +37,14 @@ import { RATING_KEY, encounterStats } from './encounter-stats';
           </span>
           <small>{{ e.updatedAt | localDate }}</small>
           <span class="actions">
+            @if (e.monsters.length) {
+              <a
+                class="btn btn-primary"
+                [routerLink]="['/dm/combat']"
+                [queryParams]="{ encounter: e.id }"
+                >{{ 'encounter.startCombat' | t }}</a
+              >
+            }
             <button type="button" class="btn-ghost" (click)="duplicate(e)">
               {{ 'encounters.duplicate' | t }}
             </button>

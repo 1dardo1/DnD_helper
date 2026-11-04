@@ -3,6 +3,19 @@
   @if (state().encounterName) {
     <p class="encounter">{{ state().encounterName }}</p>
   }
+  <div class="new">
+    @if (confirmNew()) {
+      <span class="confirm">{{ 'combat.newConfirm' | t }}</span>
+      <button type="button" class="btn-danger" (click)="startNew()">
+        {{ 'combat.newYes' | t }}
+      </button>
+      <button type="button" (click)="confirmNew.set(false)">{{ 'combat.cancel' | t }}</button>
+    } @else {
+      <button type="button" class="btn-ghost" (click)="confirmNew.set(true)">
+        {{ 'combat.new' | t }}
+      </button>
+    }
+  </div>
 </header>
 
 @if (pending(); as e) {
@@ -25,180 +38,126 @@
   <p class="issue" role="alert">{{ 'combat.encounter.missing' | t }}</p>
 }
 
+<details class="setup" [open]="setupOpen()" (toggle)="setupOpen.set($any($event.target).open)">
+  <summary>
+    <span class="title">{{ 'combat.edit' | t }}</span>
+    <span class="muted">{{
+      'combat.editSummary'
+        | t: { monsters: state().monsters.length, players: state().players.length }
+    }}</span>
+  </summary>
+  <app-combat-setup [monsters]="monsters.value() ?? []" [playerLabel]="playerLabel()" />
+</details>
+
+<ng-template #rowTpl let-r>
+  <li
+    [attr.data-kind]="r.kind"
+    [class.selected]="r.id === selected()?.id"
+    [class.down]="r.down"
+    [attr.data-id]="r.id"
+  >
+    @if (r.kind === 'player') {
+      <input
+        class="init"
+        type="number"
+        inputmode="numeric"
+        enterkeyhint="done"
+        [value]="r.initiative ?? ''"
+        placeholder="—"
+        [attr.aria-label]="'combat.initOf' | t: { name: r.label }"
+        (change)="setInit(r.id, $event)"
+      />
+      <span class="who">
+        <span class="name">{{ r.label }}</span>
+        <small>{{ 'combat.player' | t }}</small>
+      </span>
+    } @else {
+      <span class="init value">{{ r.initiative ?? '—' }}</span>
+      <button
+        type="button"
+        class="who"
+        [attr.aria-current]="r.id === selected()?.id ? 'true' : null"
+        (click)="select(r.id)"
+      >
+        <span class="name">{{ r.label }}</span>
+        <small>{{ r.down ? ('combat.defeated' | t) : r.meta }}</small>
+      </button>
+    }
+    @if (r.up || r.downMove) {
+      <span class="moves">
+        <button
+          type="button"
+          [disabled]="!r.up"
+          (click)="move(r.id, -1)"
+          [attr.aria-label]="'combat.up' | t"
+        >
+          ↑
+        </button>
+        <button
+          type="button"
+          [disabled]="!r.downMove"
+          (click)="move(r.id, 1)"
+          [attr.aria-label]="'combat.down' | t"
+        >
+          ↓
+        </button>
+      </span>
+    }
+  </li>
+</ng-template>
+
 <div class="layout" [class.wide]="wide()">
-  <div class="main-col">
-    @if (combatants().length) {
-      <div class="tools">
-        @if (monsterCount()) {
-          <button type="button" (click)="rollMonsters(!monstersUnrolled())">
-            🎲
-            {{ (monstersUnrolled() ? 'combat.rollMonsters' : 'combat.rerollMonsters') | t }}
-          </button>
-          <label class="check">
-            <input
-              type="checkbox"
-              [checked]="state().groupRolls"
-              (change)="setGroupRolls($any($event.target).checked)"
-            />
-            {{ 'combat.perGroup' | t }}
-          </label>
-        }
-        <button type="button" class="btn-ghost" (click)="sort()">{{ 'combat.sort' | t }}</button>
+  <section class="order-col" [attr.aria-label]="'combat.order' | t">
+    <div class="order-head">
+      <h2>{{ 'combat.order' | t }}</h2>
+      @if (state().monsters.length) {
+        <button type="button" class="btn-primary roll" (click)="roll()">
+          🎲 {{ (anyRolled() ? 'combat.reroll' : 'combat.roll') | t }}
+        </button>
+      }
+    </div>
+
+    @if (unrolledRows().length) {
+      <div class="unrolled">
+        <p class="unrolled-title">
+          <b>{{ 'combat.noRoll' | t }}</b>
+          <small>{{ 'combat.noRollHint' | t }}</small>
+        </p>
+        <ol class="order">
+          @for (r of unrolledRows(); track r.id) {
+            <ng-container *ngTemplateOutlet="rowTpl; context: { $implicit: r }" />
+          }
+        </ol>
       </div>
     }
 
-    <ol class="order" [attr.aria-label]="'combat.order' | t">
-      @for (c of combatants(); track c.id) {
-        @let isCurrent = c.id === currentId();
-        @let isSelected = c.id === selectedId();
-        <li
-          [class.current]="isCurrent"
-          [class.selected]="isSelected"
-          [attr.data-kind]="c.kind"
-          [attr.data-down]="downState(c)"
-          [attr.aria-current]="isCurrent ? 'step' : null"
-        >
-          <div class="row">
-            <input
-              class="init"
-              type="number"
-              inputmode="numeric"
-              [value]="c.initiative ?? ''"
-              [placeholder]="'combat.initShort' | t"
-              [attr.aria-label]="('monster.initiative' | t) + ' — ' + labels().get(c.id)"
-              (change)="setInit(c.id, $event)"
-            />
-            <button
-              type="button"
-              class="who"
-              [attr.aria-expanded]="isSelected"
-              (click)="select(c.id)"
-            >
-              <span class="name">
-                @if (isCurrent) {
-                  <span class="mark" aria-hidden="true">▶</span>
-                }
-                {{ labels().get(c.id) }}
-                @if (c.concentration) {
-                  <span class="conc" [title]="'combat.concentration' | t">◆</span>
-                }
-              </span>
-              @if (c.conditions.length || downState(c)) {
-                <span class="tags">
-                  @if (downState(c); as d) {
-                    <span class="tag down">{{ 'combat.' + d | t }}</span>
-                  }
-                  @for (k of c.conditions; track k.id) {
-                    <span class="tag"
-                      >{{ 'cond.' + k.id | t }}{{ k.rounds !== null ? ' ' + k.rounds : '' }}</span
-                    >
-                  }
-                </span>
-              }
-            </button>
-            <span class="ac" [title]="'combat.ac' | t">
-              <small>{{ 'monster.ac' | t }}</small>
-              {{ c.ac ?? '—' }}
-            </span>
-            <span class="hp" [class.low]="c.hp !== null && c.hpMax && c.hp * 2 <= c.hpMax">
-              <small>{{ 'monster.hp' | t }}</small>
-              {{ hpText(c) }}
-            </span>
-          </div>
-          @if (!wide() && isSelected) {
-            <app-combatant-panel
-              [combatant]="c"
-              [label]="labels().get(c.id) ?? ''"
-              [current]="isCurrent"
-              (statBlock)="showStatBlock($event)"
-            />
-          }
-        </li>
+    <ol class="order">
+      @for (r of rolledRows(); track r.id) {
+        <ng-container *ngTemplateOutlet="rowTpl; context: { $implicit: r }" />
       } @empty {
-        <li class="empty">{{ 'combat.empty' | t }}</li>
+        @if (!unrolledRows().length) {
+          <li class="empty">{{ 'combat.emptyOrder' | t }}</li>
+        }
       }
     </ol>
+  </section>
 
-    <details class="add" [open]="addOpen()" (toggle)="addOpen.set($any($event.target).open)">
-      <summary>+ {{ 'combat.add.title' | t }}</summary>
-      <app-add-combatants />
-    </details>
-
-    <footer class="end">
-      <p class="xp">
-        {{ 'combat.xp' | t: { xp: xp() } }}
-        @if (xpEach()) {
-          <span class="muted">{{ 'combat.xpEach' | t: { xp: xpEach() } }}</span>
-        }
-      </p>
-      @if (combatants().length) {
-        @if (confirmEnd()) {
-          <p class="confirm">{{ 'combat.endConfirm' | t }}</p>
-          <div class="cluster">
-            <button type="button" class="btn-danger" (click)="end()">
-              {{ 'combat.endYes' | t }}
-            </button>
-            <button type="button" (click)="confirmEnd.set(false)">
-              {{ 'combat.cancel' | t }}
-            </button>
-          </div>
-        } @else {
-          <button type="button" class="btn-ghost" (click)="confirmEnd.set(true)">
-            {{ 'combat.end' | t }}
-          </button>
-        }
+  <section class="card-col">
+    @if (selected(); as m) {
+      @for (x of [m]; track x.id) {
+        <app-monster-card
+          [instance]="x"
+          [monster]="byId().get(x.monsterId)"
+          [label]="selectedLabel() ?? ''"
+          (statBlock)="showStatBlock($event)"
+          (toOrder)="toOrder()"
+        />
       }
-    </footer>
-  </div>
-
-  @if (wide()) {
-    <aside class="side">
-      @if (selected(); as c) {
-        @for (x of [c]; track x.id) {
-          <app-combatant-panel
-            [combatant]="x"
-            [label]="labels().get(x.id) ?? ''"
-            [current]="x.id === currentId()"
-            (statBlock)="showStatBlock($event)"
-          />
-        }
-      } @else {
-        <p class="muted hint">{{ 'combat.pick' | t }}</p>
-      }
-    </aside>
-  }
-</div>
-
-@if (combatants().length) {
-  <nav class="turnbar" [attr.aria-label]="'combat.turns' | t">
-    @if (started()) {
-      <button
-        type="button"
-        class="prev"
-        (click)="previous()"
-        [attr.aria-label]="'combat.previous' | t"
-      >
-        ◀<span class="label"> {{ 'combat.previous' | t }}</span>
-      </button>
-      <p class="round" aria-live="polite">
-        <span class="n">{{ 'combat.round' | t: { n: state().round } }}</span>
-        <span class="whose">{{ labels().get(currentId() ?? '') }}</span>
-      </p>
-      <button type="button" class="btn-primary next" (click)="next()">
-        {{ 'combat.next' | t }} ▶
-      </button>
-    } @else {
-      <p class="round">
-        @if (unrolled()) {
-          <span class="whose">{{ 'combat.unrolled' | t: { count: unrolled() } }}</span>
-        }
-      </p>
-      <button type="button" class="btn-primary next" (click)="start()">
-        {{ 'combat.start' | t }} ▶
-      </button>
+    } @else if (state().monsters.length) {
+      <p class="muted hint">{{ 'combat.pick' | t }}</p>
     }
-  </nav>
-}
+  </section>
+</div>
 
 <dialog #dialog class="stat-dialog" (close)="statBlockId.set(null)">
   <div class="dialog-head">
@@ -207,9 +166,7 @@
       ✕
     </button>
   </div>
-  @if (statBlock.value(); as m) {
+  @if (statBlock(); as m) {
     <app-monster-stat-block [monster]="m" />
-  } @else if (statBlock.isLoading()) {
-    <p>{{ 'common.loading' | t }}</p>
   }
 </dialog>

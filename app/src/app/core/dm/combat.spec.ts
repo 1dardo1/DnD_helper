@@ -1,29 +1,29 @@
 import {
   CombatState,
   MonsterInfo,
-  addCombatant,
   addMonsters,
   applyDamage,
   applyHealing,
-  concentrationDc,
-  defeatedXp,
-  downState,
+  canMove,
   emptyCombat,
-  moveCombatant,
-  nextTurn,
+  hasCombat,
+  initiativeOrder,
+  isDefeated,
+  monsterGroups,
+  moveInOrder,
   normalizeCombat,
-  previousTurn,
-  removeCombatant,
-  rollHitDice,
+  removeLastOf,
+  removeMonster,
+  resetUse,
   rollMonsterInitiative,
-  setConditionRounds,
+  setHp,
   setInitiative,
+  setPlayerCount,
+  setPlayerName,
   setTemp,
-  sortByInitiative,
-  startCombat,
-  tickConditions,
-  toggleCombatCondition,
-  updateCombatant,
+  toggleUse,
+  updateMonster,
+  usedOf,
 } from './combat';
 
 const goblin: MonsterInfo = {
@@ -31,271 +31,230 @@ const goblin: MonsterInfo = {
   name: 'Goblin Warrior',
   ac: 15,
   hp: 10,
-  hitDice: '3d6',
   initiative: 2,
   dex: 15,
-  xp: 50,
 };
 const bugbear: MonsterInfo = {
   id: 'bugbear-warrior',
   name: 'Bugbear Warrior',
   ac: 14,
   hp: 33,
-  hitDice: '6d8 + 6',
-  initiative: null,
+  initiative: 2,
   dex: 14,
-  xp: 200,
+};
+const dragon: MonsterInfo = {
+  id: 'adult-red-dragon',
+  name: 'Adult Red Dragon',
+  ac: 19,
+  hp: 256,
+  initiative: 12,
+  dex: 10,
 };
 
-/** Rolls the given numbers in turn. */
-const rolls =
-  (...values: number[]) =>
-  () =>
-    values.shift() ?? 10;
+/** Rolls the given values in turn. */
+const rolls = (...values: number[]) => {
+  let i = 0;
+  return () => values[i++ % values.length];
+};
 
-const names = (s: CombatState) => s.combatants.map((c) => c.name + (c.number ?? ''));
-const current = (s: CombatState) => names(s)[s.turn];
+const ids = (s: CombatState) => initiativeOrder(s).map((e) => e.id);
 
-function party(): CombatState {
-  let s = addMonsters(emptyCombat(), goblin, 2);
-  s = addCombatant(s, { kind: 'custom', name: 'Ana', ac: 16, hpMax: 20, initBonus: 3, dex: 16 });
-  s = addCombatant(s, { kind: 'custom', name: 'Bo', initBonus: 1 });
+function table(): CombatState {
+  let s = emptyCombat(4);
+  s = addMonsters(s, goblin, 3);
+  s = addMonsters(s, bugbear, 1);
+  s = addMonsters(s, dragon, 1);
   return s;
 }
 
-/** party() with rolls 20, 15, 10, 5: Goblin 1, Goblin 2, Ana, Bo. */
-function rolled(): CombatState {
-  let s = party();
-  s.combatants.forEach((c, i) => (s = setInitiative(s, c.id, 20 - 5 * i)));
-  return s;
-}
+describe('setting up', () => {
+  it('starts with four unnamed players and nothing worth keeping', () => {
+    const s = emptyCombat();
+    expect(s.players.map((p) => p.id)).toEqual(['p1', 'p2', 'p3', 'p4']);
+    expect(hasCombat(s)).toBe(false);
+    expect(hasCombat(setPlayerName(s, 'p2', 'Ana'))).toBe(true);
+    expect(hasCombat(addMonsters(s, goblin, 1))).toBe(true);
+  });
 
-describe('adding combatants', () => {
-  it('numbers monsters after those of the same kind already there', () => {
-    let s = addMonsters(emptyCombat(), goblin, 3);
-    s = addMonsters(s, bugbear, 1);
-    s = removeCombatant(s, s.combatants[2].id);
-    s = addMonsters(s, goblin, 2);
-    expect(names(s)).toEqual([
-      'Goblin Warrior1',
-      'Goblin Warrior2',
-      'Bugbear Warrior1',
-      'Goblin Warrior3',
-      'Goblin Warrior4',
+  it('numbers the monsters of each kind and groups them', () => {
+    let s = table();
+    expect(s.monsters.map((m) => `${m.monsterId}#${m.number}`)).toEqual([
+      'goblin-warrior#1',
+      'goblin-warrior#2',
+      'goblin-warrior#3',
+      'bugbear-warrior#1',
+      'adult-red-dragon#1',
     ]);
-    expect(new Set(s.combatants.map((c) => c.id)).size).toBe(5);
+    expect(s.monsters[0]).toMatchObject({ ac: 15, hp: 10, hpMax: 10, temp: 0, initBonus: 2 });
+    s = removeLastOf(s, 'goblin-warrior');
+    expect(monsterGroups(s).map((g) => [g.monsterId, g.count])).toEqual([
+      ['goblin-warrior', 2],
+      ['bugbear-warrior', 1],
+      ['adult-red-dragon', 1],
+    ]);
+    s = addMonsters(s, goblin, 1);
+    expect(s.monsters.filter((m) => m.monsterId === 'goblin-warrior').map((m) => m.number)).toEqual(
+      [1, 2, 3],
+    );
+    expect(addMonsters(s, goblin, 0)).toBe(s);
   });
 
-  it('takes AC, HP, initiative bonus (or DEX modifier) and XP from the monster', () => {
-    const s = addMonsters(addMonsters(emptyCombat(), goblin, 1), bugbear, 1);
-    const [g, b] = s.combatants;
-    expect([g.ac, g.hp, g.hpMax, g.initBonus, g.xp]).toEqual([15, 10, 10, 2, 50]);
-    expect(b.initBonus).toBe(2);
+  it('without an initiative bonus in the data, uses the Dexterity modifier', () => {
+    const s = addMonsters(emptyCombat(0), { ...goblin, initiative: null, dex: 8 }, 1);
+    expect(s.monsters[0].initBonus).toBe(-1);
   });
 
-  it('can roll hit points from the hit dice', () => {
-    expect(rollHitDice('6d8 + 6', 33, () => 1)).toBe(12);
-    expect(rollHitDice('2d6 - 5', 2, () => 1)).toBe(1);
-    expect(rollHitDice('weird', 7, () => 1)).toBe(7);
-    const s = addMonsters(emptyCombat(), bugbear, 2, (m) => rollHitDice(m.hitDice, m.hp, (d) => d));
-    expect(s.combatants.map((c) => c.hp)).toEqual([54, 54]);
+  it('adds and removes players at the end', () => {
+    let s = setPlayerName(emptyCombat(2), 'p2', 'Bo');
+    s = setPlayerCount(s, 3);
+    expect(s.players.map((p) => [p.id, p.name])).toEqual([
+      ['p1', ''],
+      ['p2', 'Bo'],
+      ['p3', ''],
+    ]);
+    s = setPlayerCount(s, 1);
+    expect(s.players.map((p) => p.id)).toEqual(['p1']);
+    expect(setPlayerCount(s, -3).players).toEqual([]);
   });
 
-  it('keeps untracked AC and HP of custom entries as null', () => {
-    const s = addCombatant(emptyCombat(), { kind: 'custom', name: ' Bo ' });
-    expect(s.combatants[0]).toMatchObject({ name: 'Bo', ac: null, hp: null, hpMax: null });
+  it('removing the shown monster clears the selection', () => {
+    let s: CombatState = { ...table(), selectedId: 'm5' };
+    s = removeMonster(s, 'm5');
+    expect(s.selectedId).toBeNull();
+    expect(removeMonster(s, 'nope')).toBe(s);
   });
 });
 
 describe('initiative', () => {
-  it('sorts by roll, then bonus, then DEX, then the order they had; unrolled last', () => {
-    let s = party();
-    const [g1, g2, ana, bo] = s.combatants.map((c) => c.id);
-    s = setInitiative(s, g1, 12);
-    s = setInitiative(s, g2, 15);
-    s = setInitiative(s, ana, 12);
-    s = sortByInitiative(s);
-    expect(names(s)).toEqual(['Goblin Warrior2', 'Ana', 'Goblin Warrior1', 'Bo']);
-    // same roll and bonus: higher DEX first
-    s = updateCombatant(s, g1, { initBonus: 3, dex: 17 });
-    expect(names(sortByInitiative(s)).slice(1, 3)).toEqual(['Goblin Warrior1', 'Ana']);
-    s = setInitiative(s, bo, 1);
-    expect(names(sortByInitiative(s)).at(-1)).toBe('Bo');
+  it('rolls once per kind of monster by default, d20 + bonus', () => {
+    const s = rollMonsterInitiative(table(), rolls(10, 5, 3));
+    expect(s.monsters.map((m) => m.initiative)).toEqual([12, 12, 12, 7, 15]);
   });
 
-  it('keeps ties settled by hand when sorting again', () => {
-    let s = party();
-    for (const c of s.combatants)
-      s = updateCombatant(s, c.id, { initiative: 10, initBonus: 0, dex: 10 });
-    s = moveCombatant(s, s.combatants[3].id, -1);
-    expect(names(sortByInitiative(s))).toEqual(names(s));
-    expect(moveCombatant(s, s.combatants[0].id, -1)).toBe(s);
+  it('or once per monster', () => {
+    const s = rollMonsterInitiative({ ...table(), perMonster: true }, rolls(1, 2, 3, 4, 5));
+    expect(s.monsters.map((m) => m.initiative)).toEqual([3, 4, 5, 6, 17]);
   });
 
-  it('rolls d20 + bonus for monsters only, those not rolled yet unless all', () => {
-    let s = setInitiative(party(), 'c1', 30);
-    s = rollMonsterInitiative(s, rolls(5));
-    expect(s.combatants.map((c) => [c.name + (c.number ?? ''), c.initiative])).toEqual([
-      ['Goblin Warrior1', 30],
-      ['Goblin Warrior2', 7],
-      ['Ana', null],
-      ['Bo', null],
-    ]);
-    s = rollMonsterInitiative(s, rolls(1, 2), { all: true });
-    expect(s.combatants.map((c) => c.initiative)).toEqual([4, 3, null, null]);
+  it('a monster added later joins the roll of its kind', () => {
+    let s = rollMonsterInitiative(table(), rolls(10, 5, 3));
+    s = addMonsters(s, goblin, 1);
+    expect(s.monsters.at(-1)?.initiative).toBe(12);
+    s = addMonsters(s, { ...goblin, id: 'goblin-boss' }, 1);
+    expect(s.monsters.at(-1)?.initiative).toBeNull();
   });
 
-  it('rolls once per kind of monster when asked', () => {
-    let s = addMonsters(addMonsters(emptyCombat(), goblin, 3), bugbear, 1);
-    s = rollMonsterInitiative(s, rolls(10, 3), { perGroup: true });
-    expect(s.combatants.map((c) => c.initiative)).toEqual([12, 12, 12, 5]);
+  it('can roll only for those still without a roll', () => {
+    let s = rollMonsterInitiative(table(), rolls(10, 5, 3));
+    s = setInitiative(s, 'm8', null);
+    s = addMonsters(s, { ...goblin, id: 'goblin-boss' }, 1);
+    s = rollMonsterInitiative(s, rolls(1), { missing: true });
+    expect(s.monsters.map((m) => m.initiative)).toEqual([12, 12, 12, 3, 15, 3]);
   });
 
-  it('keeps the turn on whoever had it when the order changes', () => {
-    let s = startCombat(party());
-    s = nextTurn(s);
-    const who = current(s);
-    s = moveCombatant(s, s.combatants[s.turn].id, 1);
-    expect(current(s)).toBe(who);
-    s = setInitiative(s, s.combatants[s.turn].id, 25);
-    expect(current(sortByInitiative(s))).toBe(who);
-  });
-});
-
-describe('turns and rounds', () => {
-  it('starts at round 1 with the highest roll and wraps into a new round', () => {
-    let s = party();
-    s = setInitiative(s, 'c3', 20);
-    s = nextTurn(s); // starts the combat
-    expect([s.round, current(s)]).toEqual([1, 'Ana']);
-    for (let i = 0; i < 3; i++) s = nextTurn(s);
-    expect(s.round).toBe(1);
-    s = nextTurn(s);
-    expect([s.round, s.turn, current(s)]).toEqual([2, 0, 'Ana']);
+  it('sorts everyone in one column, the unrolled at the end', () => {
+    let s = rollMonsterInitiative(table(), rolls(10, 5, 3)); // goblins 12, bugbear 7, dragon 15
+    s = setInitiative(s, 'p1', 18);
+    s = setInitiative(s, 'p2', 7);
+    s = setInitiative(s, 'p3', 3);
+    expect(ids(s)).toEqual(['p1', 'm9', 'm5', 'm6', 'm7', 'p2', 'm8', 'p3', 'p4']);
+    // a changed value re-sorts
+    s = setInitiative(s, 'p3', 20);
+    expect(ids(s).slice(0, 2)).toEqual(['p3', 'p1']);
+    expect(initiativeOrder(s).at(-1)).toEqual({ kind: 'player', id: 'p4', initiative: null });
   });
 
-  it('goes back, also across rounds, but not before the start', () => {
-    let s = startCombat(party());
-    s = previousTurn(s);
-    expect([s.round, s.turn]).toEqual([1, 0]);
-    s = nextTurn(nextTurn(nextTurn(nextTurn(s))));
-    expect([s.round, s.turn]).toEqual([2, 0]);
-    s = previousTurn(s);
-    expect([s.round, s.turn]).toEqual([1, 3]);
+  it('ties: players first, then the higher bonus, then Dexterity', () => {
+    let s = addMonsters(emptyCombat(1), { ...goblin, initiative: 1, dex: 18 }, 1); // m2
+    s = addMonsters(s, { ...bugbear, initiative: 3 }, 1); // m3
+    s = addMonsters(s, { ...dragon, id: 'x', initiative: 1, dex: 20 }, 1); // m4
+    for (const id of ['p1', 'm2', 'm3', 'm4']) s = setInitiative(s, id, 10);
+    expect(ids(s)).toEqual(['p1', 'm3', 'm4', 'm2']);
   });
 
-  it('skips defeated monsters but not characters at 0 HP', () => {
-    let s = startCombat(rolled());
-    s = updateCombatant(s, 'c2', { hp: 0 });
-    s = updateCombatant(s, 'c3', { hp: 0 });
-    s = nextTurn(s);
-    expect(current(s)).toBe('Ana');
-    expect(downState(s.combatants[1])).toBe('dead');
-    expect(downState(s.combatants[2])).toBe('unconscious');
-    s = previousTurn(s);
-    expect(current(s)).toBe('Goblin Warrior1');
+  it('settles ties by hand, only among equal values', () => {
+    let s = emptyCombat(3);
+    s = setInitiative(s, 'p1', 15);
+    s = setInitiative(s, 'p2', 15);
+    s = setInitiative(s, 'p3', 9);
+    const order = initiativeOrder(s);
+    expect(canMove(order, 'p2', -1)).toBe(true);
+    expect(canMove(order, 'p2', 1)).toBe(false);
+    expect(canMove(order, 'p1', -1)).toBe(false);
+    s = moveInOrder(s, 'p2', -1);
+    expect(ids(s)).toEqual(['p2', 'p1', 'p3']);
+    expect(moveInOrder(s, 'p3', -1)).toBe(s);
+    // a new value for one of them forgets its place
+    s = setInitiative(s, 'p2', 4);
+    expect(ids(s)).toEqual(['p1', 'p3', 'p2']);
   });
 
-  it('removing a combatant keeps the turn on the right one', () => {
-    let s = nextTurn(nextTurn(startCombat(rolled()))); // Ana's turn
-    s = removeCombatant(s, 'c1');
-    expect(current(s)).toBe('Ana');
-    s = removeCombatant(s, 'c3');
-    expect(current(s)).toBe('Bo');
-    s = removeCombatant(s, 'c4');
-    expect(current(s)).toBe('Goblin Warrior2');
-  });
-});
-
-describe('condition durations', () => {
-  it('counts down at the start of the combatant turn and ends at 0', () => {
-    let s = startCombat(rolled()); // Goblin 1's turn
-    const ana = s.combatants[2].id;
-    let a = toggleCombatCondition(s.combatants[2], 'frightened');
-    a = toggleCombatCondition(a, 'prone');
-    a = setConditionRounds(a, 'frightened', 2);
-    s = updateCombatant(s, ana, { conditions: a.conditions });
-    s = nextTurn(s); // Goblin 2
-    expect(s.combatants[2].conditions).toHaveLength(2);
-    s = nextTurn(s); // Ana: 2 → 1
-    expect(s.combatants[2].conditions).toEqual([
-      { id: 'frightened', rounds: 1 },
-      { id: 'prone', rounds: null },
-    ]);
-    s = nextTurn(nextTurn(nextTurn(s))); // Bo, Goblin 1, Goblin 2
-    expect(s.combatants[2].conditions).toHaveLength(2);
-    s = nextTurn(s); // Ana again: ends
-    expect(s.combatants[2].conditions).toEqual([{ id: 'prone', rounds: null }]);
-    // going back undoes that countdown
-    s = previousTurn(s);
-    expect(s.combatants[2].conditions).toEqual([
-      { id: 'frightened', rounds: 1 },
-      { id: 'prone', rounds: null },
-    ]);
-  });
-
-  it('toggles off and treats empty or invalid durations as "until removed"', () => {
-    let c = addCombatant(emptyCombat(), { kind: 'custom', name: 'X' }).combatants[0];
-    c = toggleCombatCondition(c, 'poisoned');
-    expect(setConditionRounds(c, 'poisoned', 0).conditions[0].rounds).toBeNull();
-    expect(setConditionRounds(c, 'poisoned', 3.7).conditions[0].rounds).toBe(3);
-    expect(toggleCombatCondition(c, 'poisoned').conditions).toEqual([]);
-    expect(tickConditions([{ id: 'prone', rounds: 1 }])).toEqual([]);
+  it('a new roll forgets the ties settled for monsters', () => {
+    let s = rollMonsterInitiative(table(), rolls(10, 5, 3));
+    s = moveInOrder(s, 'm7', -1);
+    expect(
+      ids(s)
+        .filter((id) => id.startsWith('m'))
+        .slice(1, 4),
+    ).toEqual(['m5', 'm7', 'm6']);
+    s = rollMonsterInitiative(s, rolls(10, 5, 3));
+    expect(s.ties).toEqual({});
   });
 });
 
 describe('hit points', () => {
-  const ogre = () =>
-    addCombatant(emptyCombat(), { kind: 'custom', name: 'O', hpMax: 30, temp: 5 }).combatants[0];
+  const m = () => table().monsters[4];
 
   it('temporary HP absorb damage first; HP stop at 0', () => {
-    let c = applyDamage(ogre(), 8);
-    expect([c.hp, c.temp]).toEqual([27, 0]);
-    c = applyDamage(c, 100);
-    expect(c.hp).toBe(0);
-    expect(applyDamage(c, -3)).toBe(c);
+    let d = setTemp(m(), 10);
+    d = applyDamage(d, 25);
+    expect([d.hp, d.temp]).toEqual([241, 0]);
+    d = applyDamage(d, 999);
+    expect(d.hp).toBe(0);
+    expect(isDefeated(d)).toBe(true);
+    expect(applyDamage(d, -3)).toBe(d);
   });
 
-  it('heals up to the maximum, from 0 too', () => {
-    let c = applyDamage(ogre(), 40);
-    c = applyHealing(c, 4);
-    expect(c.hp).toBe(4);
-    expect(applyHealing(c, 100).hp).toBe(30);
-  });
-
-  it('new temporary HP replace the old ones', () => {
-    expect(setTemp(ogre(), 3).temp).toBe(3);
-    expect(setTemp(ogre(), -1).temp).toBe(0);
-  });
-
-  it('leaves untracked HP alone', () => {
-    const c = addCombatant(emptyCombat(), { kind: 'custom', name: 'P' }).combatants[0];
-    expect(applyDamage(c, 5).hp).toBeNull();
-    expect(applyHealing(c, 5)).toBe(c);
-  });
-
-  it('Concentration DC: half the damage, 10 to 30', () => {
-    expect([concentrationDc(5), concentrationDc(25), concentrationDc(100)]).toEqual([10, 12, 30]);
+  it('heals up to the maximum; temporary HP replace, not add', () => {
+    let d = applyDamage(m(), 50);
+    d = applyHealing(d, 80);
+    expect(d.hp).toBe(256);
+    d = setTemp(setTemp(d, 5), 3);
+    expect(d.temp).toBe(3);
+    expect(setHp(d, 300).hp).toBe(256);
+    expect(setHp(d, -2).hp).toBe(0);
+    expect(setHp(d, 40).hp).toBe(40);
   });
 });
 
-describe('totals and saving', () => {
-  it('adds up the XP of defeated monsters, removed ones included', () => {
-    let s = addMonsters(addMonsters(emptyCombat(), goblin, 3), bugbear, 1);
-    s = updateCombatant(s, 'c1', { hp: 0 });
-    s = updateCombatant(s, 'c4', { hp: 0 });
-    expect(defeatedXp(s)).toBe(250);
-    s = removeCombatant(s, 'c1');
-    s = removeCombatant(s, 'c2');
-    expect(defeatedXp(s)).toBe(250);
+describe('limited uses', () => {
+  it('ticks boxes from the left and unticks back', () => {
+    let d = table().monsters[4];
+    d = toggleUse(d, 'legendary', 0, 3);
+    expect(usedOf(d, 'legendary')).toBe(1);
+    d = toggleUse(d, 'legendary', 2, 3);
+    expect(usedOf(d, 'legendary')).toBe(3);
+    d = toggleUse(d, 'legendary', 1, 3);
+    expect(usedOf(d, 'legendary')).toBe(1);
+    d = toggleUse(d, 'actions:2', 0, 1);
+    expect(d.used).toEqual({ legendary: 1, 'actions:2': 1 });
+    d = resetUse(d, 'legendary');
+    expect(d.used).toEqual({ 'actions:2': 1 });
+    expect(resetUse(d, 'legendary')).toBe(d);
   });
 
-  it('reads back a saved state and rejects junk', () => {
-    const s = startCombat(party());
+  it('keeps the uses of each monster apart', () => {
+    let s = table();
+    s = updateMonster(s, 'm5', (x) => toggleUse(x, 'actions:0', 0, 1));
+    expect(s.monsters.map((x) => usedOf(x, 'actions:0'))).toEqual([1, 0, 0, 0, 0]);
+  });
+});
+
+describe('saved state', () => {
+  it('reads back what was saved and ignores the old tracker', () => {
+    const s = rollMonsterInitiative(table(), rolls(4));
     expect(normalizeCombat(JSON.parse(JSON.stringify(s)))).toEqual(s);
-    expect(normalizeCombat({ combatants: [{ id: 'x', kind: 'custom', name: 'A' }] })).toMatchObject(
-      { round: 0, combatants: [{ conditions: [], temp: 0 }] },
-    );
-    expect(normalizeCombat('nope')).toBeUndefined();
+    expect(normalizeCombat({ combatants: [], round: 2 })).toBeUndefined();
+    expect(normalizeCombat(null)).toBeUndefined();
   });
 });

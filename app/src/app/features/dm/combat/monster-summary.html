@@ -1,0 +1,173 @@
+<ng-template #usesTpl let-u>
+  @if (u.recharge) {
+    <button
+      type="button"
+      class="recharge"
+      [class.spent]="u.spent"
+      [attr.aria-pressed]="u.spent"
+      [title]="u.hint"
+      (click)="toggle(u, 0)"
+    >
+      <span class="box" aria-hidden="true">{{ u.spent ? '✗' : '' }}</span>
+      {{ u.label }} · {{ (u.spent ? 'combat.used' : 'combat.available') | t }}
+    </button>
+  } @else {
+    <span class="uses" [class.spent]="u.spent" role="group" [attr.aria-label]="u.label">
+      @if (u.label) {
+        <span class="label">{{ u.label }}</span>
+      }
+      @for (on of u.slots; track $index) {
+        <label class="slot">
+          <input
+            type="checkbox"
+            [checked]="on"
+            (change)="toggle(u, $index)"
+            [attr.aria-label]="'combat.use' | t: { n: $index + 1 }"
+          />
+        </label>
+      }
+    </span>
+  }
+</ng-template>
+
+<ng-template #actionTpl let-a>
+  <li class="act" [attr.data-kind]="a.kind" [class.spent]="a.uses?.spent">
+    <div class="top">
+      <span class="name">{{ a.name }}</span>
+      @if (a.note) {
+        <span class="note">({{ a.note }})</span>
+      }
+      @if (a.uses) {
+        <ng-container *ngTemplateOutlet="usesTpl; context: { $implicit: a.uses }" />
+      }
+    </div>
+    @if (a.uses?.recharge && a.uses.spent) {
+      <p class="hint">{{ a.uses.hint }}</p>
+    }
+    @if (a.hit) {
+      <div class="nums">
+        <span class="hit"
+          ><b>{{ a.hit }}</b> <small>{{ 'combat.toHit' | t }}</small></span
+        >
+        <span class="mode">{{ a.mode }}</span>
+        <span class="reach">{{ a.reach }}</span>
+        @if (a.attackNote) {
+          <small class="soft">({{ 'combat.attackNote' | t }})</small>
+        }
+      </div>
+    }
+    @if (a.save) {
+      <div class="nums">
+        <span class="save"
+          ><b>{{ a.save }}</b></span
+        >
+        @if (a.area) {
+          <span class="reach">{{ a.area }}</span>
+        }
+      </div>
+    }
+    @if (a.damage.length) {
+      <p class="dmg">
+        @if (a.save) {
+          <small>{{ 'combat.onFail' | t }}:</small>
+        }
+        @for (d of a.damage; track $index) {
+          @if (!$first) {
+            <span class="plus">+</span>
+          }
+          <span class="part" [class.cond]="d.conditional" [title]="damageTitle(d)"
+            ><b>{{ d.average }}</b> {{ d.dice }} {{ d.type }}{{ d.conditional ? '*' : '' }}</span
+          >
+        }
+        @if (a.half) {
+          <small>· {{ 'combat.half' | t }}</small>
+        }
+      </p>
+    }
+    @if (a.tags.length || (a.more && !a.summary)) {
+      <p class="tags">
+        @for (tag of a.tags; track tag) {
+          <span class="tag">{{ tag }}</span>
+        }
+        @if (a.more && !a.summary) {
+          <span class="tag more">{{ 'combat.moreEffects' | t }}</span>
+        }
+      </p>
+    }
+    @if (a.summary) {
+      <p class="sum">{{ a.summary }}</p>
+    }
+    @if (a.spellNumbers) {
+      <p class="nums">
+        <b>{{ a.spellNumbers }}</b>
+      </p>
+    }
+    @for (g of a.spells; track g.label) {
+      <div class="spells">
+        <span class="label">{{ g.label }}:</span>
+        @for (sp of g.spells; track sp.name) {
+          <span class="spell"
+            >{{ sp.name }}
+            @if (sp.uses) {
+              <ng-container *ngTemplateOutlet="usesTpl; context: { $implicit: sp.uses }" />
+            }
+            {{ $last ? '' : '·' }}</span
+          >
+        }
+      </div>
+    }
+    <details class="full">
+      <summary>{{ 'combat.fullText' | t }}</summary>
+      <div class="md" [innerHTML]="a.text | markdown"></div>
+    </details>
+  </li>
+</ng-template>
+
+@if (limitedTraits().length) {
+  <section class="sec">
+    <h3>{{ 'combat.limited' | t }}</h3>
+    <ul class="acts">
+      @for (a of limitedTraits(); track a.key) {
+        <ng-container *ngTemplateOutlet="actionTpl; context: { $implicit: a }" />
+      }
+    </ul>
+  </section>
+}
+
+@for (sec of sections(); track sec.key) {
+  <section class="sec" [attr.data-section]="sec.key">
+    <h3>
+      {{ 'monster.' + sec.key | t }}
+      @if (sec.uses; as u) {
+        <span class="legendary">
+          <ng-container *ngTemplateOutlet="usesTpl; context: { $implicit: u }" />
+          @if (sec.lair) {
+            <small class="soft">({{ sec.lair }})</small>
+          }
+          <button type="button" class="btn-ghost reset" (click)="reset(u.key)">
+            ↺ {{ 'combat.reset' | t }}
+          </button>
+        </span>
+      }
+    </h3>
+    <ul class="acts">
+      @for (a of sec.items; track a.key) {
+        <ng-container *ngTemplateOutlet="actionTpl; context: { $implicit: a }" />
+      }
+    </ul>
+  </section>
+}
+
+@if (otherTraits().length) {
+  <details class="traits">
+    <summary>{{ 'monster.traits' | t }} ({{ otherTraits().length }})</summary>
+    <ul class="trait-list">
+      @for (a of otherTraits(); track a.key) {
+        <li>
+          <b>{{ a.name }}.</b>
+          <span class="md" [innerHTML]="a.text | markdown"></span>
+        </li>
+      }
+    </ul>
+  </details>
+}

@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -6,7 +7,6 @@ import {
   OnInit,
   afterNextRender,
   computed,
-  effect,
   inject,
   resource,
   signal,
@@ -18,39 +18,47 @@ import { CharacterStore } from '../../../core/characters/character-store.service
 import { CompendiumService } from '../../../core/compendium/compendium.service';
 import {
   CombatState,
-  CombatantInput,
-  defeatedXp,
-  downState,
+  OrderEntry,
+  canMove,
   emptyCombat,
-  nextTurn,
-  previousTurn,
+  hasCombat,
+  initiativeOrder,
+  isDefeated,
+  moveInOrder,
   randomDie,
   rollMonsterInitiative,
   setInitiative,
-  sortByInitiative,
-  startCombat,
 } from '../../../core/dm/combat';
 import { CombatEncounter, ENCOUNTER_SOURCE } from '../../../core/dm/combat-encounter';
-import { addEncounter, characterCombatant } from '../../../core/dm/combat-sources';
+import { addEncounter } from '../../../core/dm/combat-sources';
 import { CombatStore } from '../../../core/dm/combat-store.service';
 import { DataTextService } from '../../../core/i18n/data-text.service';
 import { I18nService, TranslatePipe } from '../../../core/i18n/i18n.service';
-import { RulesDataService } from '../../../core/rules/rules-data.service';
 import { MonsterStatBlock } from '../../compendium/monster-stat-block';
-import { AddCombatants } from './add-combatants';
-import { CombatantPanel } from './combatant-panel';
+import { CombatSetup } from './combat-setup';
+import { MonsterCard } from './monster-card';
 
-/** Two columns (order | selected combatant) from this width; below, the panel opens in the list. */
+/** The order column beside the monster card from this width; below, the card goes under it. */
 const WIDE = '(min-width: 56rem)';
 
+interface Row extends OrderEntry {
+  label: string;
+  /** Monsters: "CA 15 · PG 7/10". */
+  meta: string;
+  down: boolean;
+  up: boolean;
+  downMove: boolean;
+}
+
 /**
- * The DM's initiative tracker (/dm/combat, ?encounter=<id> loads an encounter): combatants in
- * initiative order, whose turn it is and the round, hit points, conditions with a duration,
- * concentration and notes. Everything is saved on the device as it changes (CombatStore).
+ * The DM's combat helper (/dm/combat, ?encounter=<id> loads an encounter and rolls the monsters'
+ * initiative): one column with everyone in initiative order (players type what they rolled with
+ * their own dice) and the summary card of the monster tapped in it. No turns or rounds. Everything
+ * is saved on the device as it changes (CombatStore).
  */
 @Component({
   selector: 'app-combat-page',
-  imports: [TranslatePipe, AddCombatants, CombatantPanel, MonsterStatBlock],
+  imports: [TranslatePipe, NgTemplateOutlet, CombatSetup, MonsterCard, MonsterStatBlock],
   templateUrl: './combat-page.html',
   styleUrl: './combat-page.scss',
 })
@@ -64,98 +72,84 @@ export class CombatPage implements OnInit {
   private readonly i18n = inject(I18nService);
   private readonly data = inject(DataTextService);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly rules = inject(RulesDataService);
   private readonly injector = inject(Injector);
 
   protected readonly state = this.store.state;
-  protected readonly combatants = computed(() => this.state().combatants);
-  protected readonly started = computed(() => this.state().round > 0);
-  protected readonly currentId = computed(() =>
-    this.started() ? (this.combatants()[this.state().turn]?.id ?? null) : null,
-  );
-  /** The combatant whose panel is open: follows the turn, or the one tapped. */
-  protected readonly selectedId = signal<string | null>(null);
-  protected readonly selected = computed(
-    () => this.combatants().find((c) => c.id === this.selectedId()) ?? null,
-  );
   protected readonly wide = signal(false);
-  protected readonly addOpen = signal(false);
-  protected readonly confirmEnd = signal(false);
-  /** An encounter from ?encounter= waiting for "replace or add" (there's a combat already). */
+  protected readonly setupOpen = signal(!hasCombat(this.state()));
+  protected readonly confirmNew = signal(false);
+  /** An encounter from ?encounter= waiting for "replace, add or ignore" (a combat is going on). */
   protected readonly pending = signal<CombatEncounter | null>(null);
   protected readonly encounterMissing = signal(false);
 
-  protected readonly labels = computed(() => {
+  protected readonly monsters = resource({ loader: () => this.compendium.all('monster') });
+  protected readonly byId = computed(
+    () => new Map((this.monsters.value() ?? []).map((m) => [m.id, m])),
+  );
+
+  protected readonly playerLabel = computed(() => this.i18n.t('combat.player'));
+
+  private readonly labels = computed(() => {
     this.data.shownLanguage();
-    const list = this.combatants();
-    const many = new Map<string, number>();
-    for (const c of list) if (c.monsterId) many.set(c.monsterId, (many.get(c.monsterId) ?? 0) + 1);
-    return new Map(
-      list.map((c) => {
-        if (!c.monsterId) return [c.id, c.name];
-        const name = this.data.shortName(c.name);
-        const numbered = (many.get(c.monsterId) ?? 0) > 1 || (c.number ?? 1) > 1;
-        return [c.id, numbered ? `${name} ${c.number}` : name];
-      }),
-    );
+    const s = this.state();
+    const count = new Map<string, number>();
+    for (const m of s.monsters) count.set(m.monsterId, (count.get(m.monsterId) ?? 0) + 1);
+    const out = new Map<string, string>();
+    s.players.forEach((p, i) => out.set(p.id, p.name || `${this.playerLabel()} ${i + 1}`));
+    for (const m of s.monsters) {
+      const name = this.data.shortName(m.name);
+      out.set(
+        m.id,
+        (count.get(m.monsterId) ?? 0) > 1 || m.number > 1 ? `${name} ${m.number}` : name,
+      );
+    }
+    return out;
   });
 
-  protected readonly xp = computed(() => defeatedXp(this.state()));
-  protected readonly players = computed(
-    () => this.combatants().filter((c) => c.kind !== 'monster').length,
+  private readonly order = computed(() => initiativeOrder(this.state()));
+
+  private readonly rows = computed<Row[]>(() => {
+    const s = this.state();
+    const order = this.order();
+    const ac = this.i18n.t('monster.ac');
+    const hp = this.i18n.t('monster.hp');
+    const monsters = new Map(s.monsters.map((m) => [m.id, m]));
+    return order.map((e) => {
+      const m = monsters.get(e.id);
+      return {
+        ...e,
+        label: this.labels().get(e.id) ?? '',
+        meta: m ? `${ac} ${m.ac} · ${hp} ${m.hp}/${m.hpMax}${m.temp ? ` +${m.temp}` : ''}` : '',
+        down: !!m && isDefeated(m),
+        up: canMove(order, e.id, -1),
+        downMove: canMove(order, e.id, 1),
+      };
+    });
+  });
+  protected readonly rolledRows = computed(() => this.rows().filter((r) => r.initiative !== null));
+  protected readonly unrolledRows = computed(() =>
+    this.rows().filter((r) => r.initiative === null),
   );
-  /** Split among the party (the non-monster combatants). */
-  protected readonly xpEach = computed(() =>
-    this.players() ? Math.floor(this.xp() / this.players()) : 0,
+  protected readonly anyRolled = computed(() =>
+    this.state().monsters.some((m) => m.initiative !== null),
   );
-  protected readonly monsterCount = computed(
-    () => this.combatants().filter((c) => c.kind === 'monster').length,
-  );
-  protected readonly monstersUnrolled = computed(
-    () => this.combatants().filter((c) => c.kind === 'monster' && c.initiative === null).length,
-  );
-  protected readonly unrolled = computed(
-    () => this.combatants().filter((c) => c.initiative === null).length,
-  );
+
+  /** The monster whose card is shown: the one tapped, or the first in the order. */
+  protected readonly selected = computed(() => {
+    const s = this.state();
+    const chosen = s.monsters.find((m) => m.id === s.selectedId);
+    if (chosen) return chosen;
+    const first = this.order().find((e) => e.kind === 'monster');
+    return s.monsters.find((m) => m.id === first?.id) ?? null;
+  });
+  protected readonly selectedLabel = computed(() => this.labels().get(this.selected()?.id ?? ''));
 
   /** The monster whose stat block is shown in the dialog. */
   protected readonly statBlockId = signal<string | null>(null);
-  protected readonly statBlock = resource({
-    params: () => this.statBlockId() ?? undefined,
-    loader: ({ params }) => this.compendium.get('monster', params),
-  });
-  protected readonly statBlockName = computed(() =>
-    this.data.shortName(this.statBlock.value()?.name),
-  );
+  protected readonly statBlock = computed(() => this.byId().get(this.statBlockId() ?? ''));
   private readonly dialog = viewChild<ElementRef<HTMLDialogElement>>('dialog');
 
-  protected readonly downState = downState;
-
   constructor() {
-    // the panel follows the turn
-    effect(() => {
-      const id = this.currentId();
-      if (id) {
-        this.selectedId.set(id);
-        // after the view and the router's own scrolling (on a reload too)
-        afterNextRender(() => setTimeout(() => this.scrollToCurrent(), 50), {
-          injector: this.injector,
-        });
-      }
-    });
-    // a new combatant in the side column starts at its top
-    effect(() => {
-      this.selectedId();
-      afterNextRender(
-        () => this.host.nativeElement.querySelector('.side')?.scrollTo?.({ top: 0 }),
-        {
-          injector: this.injector,
-        },
-      );
-    });
-    effect(() => {
-      if (!this.combatants().length) this.addOpen.set(true);
-    });
     const media = typeof matchMedia === 'function' ? matchMedia(WIDE) : null;
     if (media) {
       this.wide.set(media.matches);
@@ -179,11 +173,12 @@ export class CombatPage implements OnInit {
       this.forgetQuery();
       return;
     }
-    if (!this.combatants().length) await this.loadEncounter(encounter, 'replace');
+    if (!hasCombat(this.state())) await this.loadEncounter(encounter, 'replace');
     else if (this.state().encounterId !== encounter.id) this.pending.set(encounter);
     else this.forgetQuery();
   }
 
+  /** Loads it and rolls the monsters' initiative straight away: the players only type theirs. */
   protected async loadEncounter(
     encounter: CombatEncounter,
     mode: 'replace' | 'add' | 'ignore',
@@ -191,26 +186,31 @@ export class CombatPage implements OnInit {
     this.pending.set(null);
     this.forgetQuery();
     if (mode === 'ignore') return;
-    const [monsters, characters] = await Promise.all([
+    const [monsters, names] = await Promise.all([
       this.compendium.all('monster'),
-      this.characterInputs(encounter),
+      this.characterNames(encounter),
     ]);
     const byId = new Map(monsters.map((m) => [m.id, m]));
-    const label = this.i18n.t('combat.player');
-    this.store.update((s) =>
-      addEncounter(mode === 'replace' ? emptyCombat() : s, encounter, byId, characters, label),
-    );
+    const d20 = randomDie(20);
+    this.store.update((s) => {
+      const base: CombatState =
+        mode === 'replace' ? { ...emptyCombat(0), perMonster: s.perMonster } : s;
+      const next = addEncounter(base, encounter, byId, names);
+      return { ...rollMonsterInitiative(next, d20, { missing: mode === 'add' }), selectedId: null };
+    });
+    this.setupOpen.set(false);
   }
 
-  private async characterInputs(e: CombatEncounter): Promise<Map<string, CombatantInput>> {
-    const ids = e.party.map((p) => p.characterId).filter((x): x is string => !!x);
-    const out = new Map<string, CombatantInput>();
-    if (!ids.length) return out;
-    const data = await this.rules.load();
-    for (const id of ids) {
-      const record = await this.characters.get(id);
-      const c = record && characterCombatant(record.character, data);
-      if (c) out.set(id, c);
+  private async characterNames(e: CombatEncounter): Promise<Map<string, string>> {
+    const out = new Map<string, string>();
+    for (const p of e.party) {
+      if (!p.characterId) continue;
+      try {
+        const record = await this.characters.get(p.characterId);
+        if (record?.character.name) out.set(p.characterId, record.character.name);
+      } catch {
+        // not on this device: the name typed in the encounter, or "Player N"
+      }
     }
     return out;
   }
@@ -224,10 +224,10 @@ export class CombatPage implements OnInit {
     });
   }
 
-  // -- order and turns -----------------------------------------------------------------------
+  // -- order ---------------------------------------------------------------------------------
 
-  protected select(id: string): void {
-    this.selectedId.update((s) => (s === id && !this.wide() ? null : id));
+  protected roll(): void {
+    this.store.update((s) => rollMonsterInitiative(s, randomDie(20)));
   }
 
   protected setInit(id: string, e: Event): void {
@@ -235,35 +235,30 @@ export class CombatPage implements OnInit {
     this.store.update((s) => setInitiative(s, id, v === '' ? null : +v));
   }
 
-  protected rollMonsters(all: boolean): void {
-    const perGroup = this.state().groupRolls;
-    this.store.update((s) => rollMonsterInitiative(s, randomDie(20), { perGroup, all }));
+  protected move(id: string, step: -1 | 1): void {
+    this.store.update((s) => moveInOrder(s, id, step));
   }
 
-  protected setGroupRolls(on: boolean): void {
-    this.store.update((s) => ({ ...s, groupRolls: on }));
+  protected select(id: string): void {
+    this.store.update((s) => (s.selectedId === id ? s : { ...s, selectedId: id }));
+    afterNextRender(() => this.scrollTo('.card-col', !this.wide()), { injector: this.injector });
   }
 
-  protected sort(): void {
-    this.store.update(sortByInitiative);
+  protected toOrder(): void {
+    this.scrollTo('.order-col', true);
   }
 
-  protected start(): void {
-    this.store.update(startCombat);
+  private scrollTo(selector: string, always: boolean): void {
+    const el = this.host.nativeElement.querySelector<HTMLElement>(selector);
+    if (!el || typeof el.scrollIntoView !== 'function') return;
+    const top = el.getBoundingClientRect().top;
+    if (always || top < 0) el.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
 
-  protected next(): void {
-    this.store.update(nextTurn);
-  }
-
-  protected previous(): void {
-    this.store.update(previousTurn);
-  }
-
-  protected end(): void {
+  protected startNew(): void {
     this.store.clear();
-    this.confirmEnd.set(false);
-    this.selectedId.set(null);
+    this.confirmNew.set(false);
+    this.setupOpen.set(true);
   }
 
   // -- stat block ----------------------------------------------------------------------------
@@ -277,15 +272,5 @@ export class CombatPage implements OnInit {
     this.dialog()?.nativeElement.close();
   }
 
-  private scrollToCurrent(): void {
-    const row = this.host.nativeElement.querySelector<HTMLElement>('li.current');
-    if (row && typeof row.scrollIntoView === 'function') {
-      row.scrollIntoView({ block: 'nearest' });
-    }
-  }
-
-  protected hpText(c: CombatState['combatants'][number]): string {
-    if (c.hp === null) return '—';
-    return c.temp ? `${c.hp}+${c.temp}` : `${c.hp}`;
-  }
+  protected readonly statBlockName = computed(() => this.data.shortName(this.statBlock()?.name));
 }

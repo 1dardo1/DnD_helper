@@ -1,0 +1,187 @@
+// One monster's summary card: big numbers and touch targets (≥ 44 px), little scrolling.
+:host {
+  display: block;
+}
+
+.card {
+  padding: 0.6rem 0.75rem 0.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--card);
+  box-shadow: var(--shadow-1);
+
+  &.down {
+    border-color: var(--danger);
+
+    h2 {
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+    }
+  }
+}
+
+button {
+  min-height: var(--tap);
+  padding: 0 0.8rem;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 0.5rem;
+
+  h2 {
+    margin: 0;
+    font-size: var(--fs-xl);
+    line-height: 1.15;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.25rem;
+    margin-left: auto;
+
+    button {
+      padding-inline: 0.5rem;
+      font-size: var(--fs-sm);
+      color: var(--ink-blue);
+    }
+  }
+}
+
+// the order column is beside the card on wide screens
+:host-context(.layout.wide) .order-link {
+  display: none;
+}
+
+.badge {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0 0.4rem;
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--danger);
+  vertical-align: middle;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.4rem 1.25rem;
+  margin: 0.4rem 0;
+  font-variant-numeric: lining-nums tabular-nums;
+
+  .k {
+    display: block;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+  }
+
+  strong {
+    font-size: 2rem;
+    line-height: 1;
+  }
+}
+
+.ac strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.8rem;
+  padding: 0.15rem 0.3rem 0.25rem;
+  border: 2px solid var(--ink);
+  border-radius: 0.2rem 0.2rem 1.4rem 1.4rem;
+}
+
+.hp {
+  flex: 1 1 9rem;
+  font-size: var(--fs-lg);
+
+  strong {
+    color: var(--ok);
+
+    &.low {
+      color: var(--danger);
+    }
+  }
+
+  .max {
+    color: var(--ink-soft);
+  }
+
+  .temp {
+    margin-left: 0.4rem;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--info);
+  }
+
+  .bar {
+    display: block;
+    height: 0.35rem;
+    margin-top: 0.3rem;
+    border-radius: 0.2rem;
+    background: linear-gradient(to right, var(--ok) var(--pct, 0%), var(--line) var(--pct, 0%));
+  }
+}
+
+.init {
+  strong {
+    font-size: var(--fs-xl);
+  }
+
+  small {
+    color: var(--ink-soft);
+  }
+}
+
+.hp-controls {
+  display: grid;
+  grid-template-columns: minmax(4rem, 1fr) repeat(3, auto);
+  gap: 0.35rem;
+  margin-bottom: 0.4rem;
+
+  input {
+    width: 100%;
+    min-height: var(--tap);
+    box-sizing: border-box;
+    font-size: 1.35rem;
+    text-align: center;
+  }
+
+  button {
+    padding-inline: 0.6rem;
+  }
+}
+
+@media (max-width: 26rem) {
+  .hp-controls {
+    grid-template-columns: 1fr 1fr 1fr;
+
+    label {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+.line {
+  margin: 0 0 0.2rem;
+  font-size: var(--fs-sm);
+  line-height: 1.35;
+
+  b {
+    margin-right: 0.25rem;
+  }
+}
+
+app-monster-summary {
+  margin-top: 0.5rem;
+}
