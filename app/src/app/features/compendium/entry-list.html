@@ -11,7 +11,18 @@
   }
 </h1>
 
-@if (entries.isLoading()) {
+@if (entryType() === 'background') {
+  <p class="create">
+    <button type="button" class="btn" (click)="creating.set(true)" data-testid="bg-create">
+      {{ 'homebrew.create' | t }}
+    </button>
+  </p>
+  @if (creating()) {
+    <app-background-editor (saved)="creating.set(false)" (closed)="creating.set(false)" />
+  }
+}
+
+@if (entries.isLoading() && !entries.hasValue()) {
   <p>{{ 'common.loading' | t }}</p>
 } @else if (entries.error()) {
   <app-load-error [error]="entries.error()" />

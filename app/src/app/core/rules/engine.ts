@@ -10,6 +10,7 @@ import {
   Spellcasting,
   Subclass,
 } from '../models/compendium';
+import { isCustomId } from '../homebrew/custom-background';
 import { multiclassGains } from './multiclass';
 import { Bonus, Sheet, SheetFeature, SheetWarning } from './sheet';
 import { ABILITIES, MULTICLASS_SLOTS, SKILL_ABILITY, modifier, proficiencyBonus } from './tables';
@@ -41,7 +42,14 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   ): T | undefined => {
     if (!id) return undefined;
     const found = map.get(id);
-    if (!found) warnings.push({ key: 'sheet.warn.notFound', params: { what, id } });
+    if (!found) {
+      // a custom background that isn't on this device (not synced yet): say so, don't just fail
+      const custom = what === 'background' && isCustomId(id);
+      warnings.push({
+        key: custom ? 'sheet.warn.customBackgroundMissing' : 'sheet.warn.notFound',
+        params: { what, id },
+      });
+    }
     return found;
   };
 
@@ -293,6 +301,11 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     })),
     species: species?.name ?? null,
     background: background?.name ?? null,
+    backgroundHomebrew: background?.custom
+      ? background.dmApproved
+        ? 'approved'
+        : 'pending'
+      : null,
     abilities,
     savingThrows,
     skills,

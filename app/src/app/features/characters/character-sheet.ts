@@ -19,6 +19,7 @@ import { SpellBook } from './spell-book';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
 import { PlayPanel } from './play-panel';
+import { HomebrewBadge } from '../homebrew/homebrew-badge';
 
 /** The character sheet: everything computed by the rules engine from the character's choices. */
 @Component({
@@ -35,6 +36,7 @@ import { PlayPanel } from './play-panel';
     SpellBook,
     EquipmentPanel,
     ClassThemeDirective,
+    HomebrewBadge,
   ],
   templateUrl: './character-sheet.html',
   styleUrl: './character-sheet.scss',

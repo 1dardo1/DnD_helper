@@ -1,0 +1,275 @@
+<dialog
+  #dialog
+  class="editor"
+  aria-labelledby="bg-editor-title"
+  (close)="onClosed()"
+  (cancel)="submitted.set(false)"
+>
+  <header class="head">
+    <h2 id="bg-editor-title">
+      {{ (background() ? 'homebrew.form.titleEdit' : 'homebrew.form.titleNew') | t }}
+    </h2>
+    <button type="button" class="btn-ghost" (click)="close()">
+      {{ 'homebrew.form.cancel' | t }}
+    </button>
+  </header>
+
+  @if (stage() === 'intro') {
+    <section class="dm-warning" role="note">
+      <h3>{{ 'homebrew.warn.title' | t }}</h3>
+      <p>{{ 'homebrew.warn.text' | t }}</p>
+      <p class="buttons">
+        <button type="button" class="btn btn-primary" (click)="stage.set('form')">
+          {{ 'homebrew.warn.continue' | t }}
+        </button>
+        <button type="button" class="btn" (click)="close()">
+          {{ 'homebrew.form.cancel' | t }}
+        </button>
+      </p>
+    </section>
+  } @else if (data.isLoading()) {
+    <p>{{ 'common.loading' | t }}</p>
+  } @else if (data.error()) {
+    <p role="alert">{{ 'common.error' | t: { message: '' + data.error() } }}</p>
+  } @else if (data.value(); as d) {
+    <div class="layout">
+      <form class="fields" (submit)="$event.preventDefault(); save()" novalidate>
+        <p class="dm-warning compact" role="note">
+          <strong>{{ 'homebrew.warn.title' | t }}.</strong> {{ 'homebrew.warn.text' | t }}
+        </p>
+
+        <label class="field" [class.bad]="hasError('name')">
+          <span class="label">{{ 'homebrew.form.name' | t }}</span>
+          <input
+            type="text"
+            maxlength="60"
+            autocomplete="off"
+            [value]="draft().name"
+            (input)="setName($any($event.target).value)"
+            data-testid="bg-name"
+          />
+        </label>
+
+        <label class="field" [class.bad]="hasError('description')">
+          <span class="label">{{ 'homebrew.form.description' | t }}</span>
+          <small>{{ 'homebrew.form.descriptionHint' | t }}</small>
+          <textarea
+            rows="4"
+            maxlength="1500"
+            [value]="draft().description"
+            (input)="setDescription($any($event.target).value)"
+            data-testid="bg-description"
+          ></textarea>
+        </label>
+
+        <fieldset [class.bad]="hasError('abilities')">
+          <legend>
+            {{ 'homebrew.form.abilities' | t }}
+            <span class="count">{{ draft().abilityScores.length }}/3</span>
+          </legend>
+          <small>{{ 'homebrew.form.abilitiesHint' | t }}</small>
+          <div class="chips">
+            @for (a of abilities; track a) {
+              <button
+                type="button"
+                class="chip"
+                [attr.aria-pressed]="has(draft().abilityScores, a)"
+                (click)="toggleAbility(a)"
+              >
+                {{ abilityName(a) }}
+              </button>
+            }
+          </div>
+        </fieldset>
+
+        <fieldset [class.bad]="hasError('feat')">
+          <legend>{{ 'homebrew.form.feat' | t }}</legend>
+          <app-picker
+            [items]="d.feats"
+            [selected]="draft().featId ? [draft().featId!] : []"
+            [label]="'homebrew.form.feat' | t"
+            [pageSize]="8"
+            (picked)="setFeat($event.id)"
+          />
+        </fieldset>
+
+        <fieldset [class.bad]="hasError('skills')">
+          <legend>
+            {{ 'homebrew.form.skills' | t }}
+            <span class="count">{{ draft().skills.length }}/2</span>
+          </legend>
+          <small>{{ 'homebrew.form.skillsHint' | t }}</small>
+          <div class="chips">
+            @for (s of skillIds; track s) {
+              <button
+                type="button"
+                class="chip"
+                [attr.aria-pressed]="has(draft().skills, s)"
+                (click)="toggleSkill(s)"
+              >
+                {{ skillName(s) }} <small>({{ skillAbility(s) }})</small>
+              </button>
+            }
+          </div>
+        </fieldset>
+
+        <fieldset [class.bad]="hasError('tool')">
+          <legend>{{ 'homebrew.form.tool' | t }}</legend>
+          <div class="radios">
+            <label>
+              <input
+                type="radio"
+                name="tool-mode"
+                [checked]="draft().tool.mode === 'specific'"
+                (change)="setToolMode('specific')"
+              />
+              {{ 'homebrew.form.toolSpecific' | t }}
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="tool-mode"
+                [checked]="draft().tool.mode === 'kind'"
+                (change)="setToolMode('kind')"
+              />
+              {{ 'homebrew.form.toolKind' | t }}
+            </label>
+          </div>
+          @if (draft().tool.mode === 'specific') {
+            <select
+              [attr.aria-label]="'homebrew.form.tool' | t"
+              (change)="setTool($any($event.target).value)"
+              data-testid="bg-tool"
+            >
+              <option value="" [selected]="!draft().tool.value">
+                {{ 'homebrew.form.toolPick' | t }}
+              </option>
+              @for (tool of d.tools; track tool.id) {
+                <option [value]="tool.name" [selected]="draft().tool.value === tool.name">
+                  {{ toolName(tool.name) }}
+                </option>
+              }
+            </select>
+          } @else {
+            <select
+              [attr.aria-label]="'homebrew.form.tool' | t"
+              (change)="setTool($any($event.target).value)"
+              data-testid="bg-tool"
+            >
+              <option value="" [selected]="!draft().tool.value">
+                {{ 'homebrew.form.toolKindPick' | t }}
+              </option>
+              @for (kind of toolKinds; track kind) {
+                <option [value]="kind" [selected]="draft().tool.value === kind">
+                  {{ kindName(kind) }}
+                </option>
+              }
+            </select>
+          }
+        </fieldset>
+
+        <fieldset [class.bad]="hasError('gold')">
+          <legend>{{ 'homebrew.form.equipment' | t }}</legend>
+          <small>{{ 'homebrew.form.equipmentHint' | t }}</small>
+          @if (draft().tool.value) {
+            <label class="inline">
+              <input
+                type="checkbox"
+                [checked]="draft().equipment.includeTool"
+                (change)="setIncludeTool($any($event.target).checked)"
+              />
+              {{ 'homebrew.form.includeTool' | t }}
+            </label>
+          }
+          @if (equipmentItems().length) {
+            <ul class="lines">
+              @for (line of equipmentItems(); track line.itemId) {
+                <li>
+                  <span class="line-name">{{ line.item?.name | dataName: true }}</span>
+                  <input
+                    type="number"
+                    min="1"
+                    max="99"
+                    class="qty"
+                    [attr.aria-label]="'homebrew.form.qty' | t: { name: line.item?.name ?? '' }"
+                    [value]="line.qty"
+                    (input)="setQty(line.index, $any($event.target).value)"
+                  />
+                  <button type="button" class="btn-ghost" (click)="removeItem(line.index)">
+                    {{ 'homebrew.form.remove' | t }}
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+          <label class="field">
+            <span class="label">{{ 'homebrew.form.searchItem' | t }}</span>
+            <input
+              type="search"
+              autocomplete="off"
+              [placeholder]="'homebrew.form.searchHint' | t"
+              [value]="query()"
+              (input)="query.set($any($event.target).value)"
+              data-testid="bg-item-search"
+            />
+          </label>
+          @if (results(); as found) {
+            <ul class="results">
+              @for (item of found; track item.id) {
+                <li>
+                  <button type="button" class="btn" (click)="addItem(item)">
+                    + {{ item.name | dataName: true }}
+                  </button>
+                </li>
+              } @empty {
+                <li class="none">{{ 'homebrew.form.noItems' | t }}</li>
+              }
+            </ul>
+          }
+          <label class="field gold">
+            <span class="label">{{ 'homebrew.form.gold' | t }}</span>
+            <input
+              type="number"
+              min="0"
+              step="1"
+              [value]="draft().equipment.gold"
+              (input)="setGold($any($event.target).value)"
+              data-testid="bg-gold"
+            />
+          </label>
+          <p class="equipment-text">
+            <span class="label">{{ 'homebrew.form.equipmentText' | t }}:</span>
+            <code>{{ preview()?.equipment || ('homebrew.form.noEquipment' | t) }}</code>
+          </p>
+        </fieldset>
+
+        @if (submitted() && errorTexts().length) {
+          <div class="errors" role="alert">
+            <strong>{{ 'homebrew.form.errors' | t }}</strong>
+            <ul>
+              @for (e of errorTexts(); track e) {
+                <li>{{ e }}</li>
+              }
+            </ul>
+          </div>
+        }
+
+        <p class="buttons">
+          <button type="submit" class="btn btn-primary" data-testid="bg-save">
+            {{ 'homebrew.form.save' | t }}
+          </button>
+          <button type="button" class="btn" (click)="close()">
+            {{ 'homebrew.form.cancel' | t }}
+          </button>
+        </p>
+      </form>
+
+      <aside class="preview" [attr.aria-label]="'homebrew.form.preview' | t">
+        <h3>{{ 'homebrew.form.preview' | t }}</h3>
+        @if (preview(); as p) {
+          <div class="card" data-testid="bg-preview"><app-entry-card [entry]="p" /></div>
+        }
+      </aside>
+    </div>
+  }
+</dialog>

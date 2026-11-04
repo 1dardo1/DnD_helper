@@ -40,6 +40,7 @@ describe('backup files', () => {
       version: 1,
       exportedAt: '2026-11-03T00:00:00.000Z',
       characters: [thorin, lia],
+      backgrounds: [],
     });
   });
 });

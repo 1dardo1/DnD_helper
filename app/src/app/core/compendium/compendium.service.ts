@@ -2,6 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 
 import { DATA_FILES, DataMeta, EntryByType, EntryType } from '../models/compendium';
 import { RepositoryService } from '../data/repository.service';
+import { HomebrewStore } from '../homebrew/homebrew-store.service';
 import { LocalDb } from '../storage/local-db';
 
 interface CachedFile<T> {
@@ -17,6 +18,7 @@ interface CachedFile<T> {
 export class CompendiumService {
   private readonly repo = inject(RepositoryService);
   private readonly db = inject(LocalDb);
+  private readonly homebrew = inject(HomebrewStore);
 
   private meta?: Promise<DataMeta>;
   private readonly files = new Map<string, Promise<unknown[]>>();
@@ -34,7 +36,17 @@ export class CompendiumService {
 
   /** The entries in English: what the rules use. */
   all<T extends EntryType>(type: T): Promise<EntryByType[T][]> {
+    if (type === 'background') return this.withCustomBackgrounds() as Promise<EntryByType[T][]>;
     return this.file(type, '') as Promise<EntryByType[T][]>;
+  }
+
+  /** The official backgrounds plus the user's own (HomebrewStore), flagged `custom`. */
+  private async withCustomBackgrounds(): Promise<EntryByType['background'][]> {
+    const [official] = await Promise.all([
+      this.file('background', '') as Promise<EntryByType['background'][]>,
+      this.homebrew.load(),
+    ]);
+    return [...official, ...this.homebrew.backgrounds()];
   }
 
   /**

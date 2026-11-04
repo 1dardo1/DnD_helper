@@ -1,9 +1,19 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, effect, inject, input, linkedSignal, resource } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  linkedSignal,
+  resource,
+  signal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
+import { HomebrewStore } from '../../core/homebrew/homebrew-store.service';
 import { DataTextService } from '../../core/i18n/data-text.service';
 import { I18nService, TranslatePipe, TranslationKey } from '../../core/i18n/i18n.service';
 import {
@@ -14,6 +24,7 @@ import {
   Item,
   Monster,
 } from '../../core/models/compendium';
+import { BackgroundEditor } from '../homebrew/background-editor';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { EntryCard } from '../../shared/picker/entry-card';
 import { ENTRY_FACETS, FacetKey, facetValues, sortByPrice } from '../../shared/picker/entry-facets';
@@ -72,6 +83,7 @@ const PAGE = 60;
     EntryCard,
     FilterBar,
     ClassThemeDirective,
+    BackgroundEditor,
   ],
   templateUrl: './entry-list.html',
   styleUrl: './entry-list.scss',
@@ -85,6 +97,7 @@ export class EntryList {
   private readonly data = inject(DataTextService);
   private readonly i18n = inject(I18nService);
   private readonly labels = inject(EntryLabels);
+  private readonly homebrew = inject(HomebrewStore);
   private readonly params = toSignal(this.route.queryParamMap, {
     initialValue: this.route.snapshot.queryParamMap,
   });
@@ -105,9 +118,12 @@ export class EntryList {
   );
 
   protected readonly entries = resource({
-    params: () => this.entryType(),
-    loader: ({ params }) => this.compendium.all(params) as Promise<Entry[]>,
+    // the revision: the user's own backgrounds changed
+    params: () => ({ type: this.entryType(), revision: this.homebrew.revision() }),
+    loader: ({ params }) => this.compendium.all(params.type) as Promise<Entry[]>,
   });
+  /** The "create your own background" form is open. */
+  protected readonly creating = signal(false);
 
   /** Sorted by the name shown (spells by level, feats by ability...), with the names to search by. */
   private readonly sorted = computed(() => {

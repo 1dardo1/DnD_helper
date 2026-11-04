@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { speciesFits } from '../../core/creation/creation-rules';
+import { HomebrewStore } from '../../core/homebrew/homebrew-store.service';
 import { plainPreview } from '../../shared/picker/entry-labels.service';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
 import { PhrasePipe, TermDomain, TermPipe, term } from '../../core/i18n/glossary';
@@ -29,6 +30,7 @@ import {
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { armorDex, prerequisitesText, slotsText, weaponProperty } from './entry-format';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
+import { CustomBackgroundPanel } from '../homebrew/custom-background-panel';
 import { LoadError } from './load-error';
 import { MonsterStatBlock } from './monster-stat-block';
 
@@ -50,6 +52,7 @@ import { EntryPortrait } from '../../shared/picker/entry-portrait';
     ClassThemeDirective,
     EntryPortrait,
     MonsterStatBlock,
+    CustomBackgroundPanel,
   ],
   templateUrl: './entry-detail.html',
   styleUrl: './entry-detail.scss',
@@ -61,13 +64,19 @@ export class EntryDetail {
   private readonly compendium = inject(CompendiumService);
   private readonly data = inject(DataTextService);
   private readonly i18n = inject(I18nService);
+  private readonly homebrew = inject(HomebrewStore);
 
   protected readonly entryType = computed<EntryType>(() =>
     ENTRY_TYPES.includes(this.type() as EntryType) ? (this.type() as EntryType) : 'class',
   );
 
   protected readonly entry = resource({
-    params: () => ({ type: this.entryType(), id: this.id() }),
+    // the revision: the user's own backgrounds changed (edited, approved...)
+    params: () => ({
+      type: this.entryType(),
+      id: this.id(),
+      revision: this.homebrew.revision(),
+    }),
     loader: ({ params }) =>
       this.compendium.get(params.type, params.id) as Promise<Entry | undefined>,
   });

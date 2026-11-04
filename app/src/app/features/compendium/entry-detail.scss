@@ -13,6 +13,10 @@
 
 .edition {
   @include nb.stamp;
+
+  &.custom {
+    --stamp: var(--info);
+  }
 }
 
 .adjustments {

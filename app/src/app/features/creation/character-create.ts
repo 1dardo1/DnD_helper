@@ -74,6 +74,8 @@ import { Picker } from '../../shared/picker/picker';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LeaveCheck } from './unsaved-edit.guard';
 import { LoadError } from '../compendium/load-error';
+import { BackgroundEditor } from '../homebrew/background-editor';
+import { HomebrewBadge } from '../homebrew/homebrew-badge';
 
 const DRAFT_KEY = 'dnd-helper.draft';
 
@@ -100,6 +102,8 @@ type ClassEntry = Character['classes'][number];
     ClassThemeDirective,
     Picker,
     EntryCard,
+    BackgroundEditor,
+    HomebrewBadge,
   ],
   templateUrl: './character-create.html',
   styleUrl: './character-create.scss',
@@ -632,6 +636,16 @@ export class CharacterCreate implements LeaveCheck {
   }
 
   // -- background ----------------------------------------------------------------------
+  /** The form to create a custom background is open. */
+  protected readonly creatingBackground = signal(false);
+
+  /** A custom background was just saved: reload the list and choose it for the character. */
+  protected useCreatedBackground(id: string): void {
+    this.creatingBackground.set(false);
+    this.data.reload();
+    this.setBackground(id);
+  }
+
   protected setBackground(id: string): void {
     this.patch((c) => {
       c.background = id ? { id, abilityIncreases: {} } : null;
