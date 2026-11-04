@@ -21,6 +21,7 @@ export const es: Record<keyof typeof en, string> = {
   'common.save': 'Guardar',
   'common.error': 'Algo ha fallado: {message}',
   'common.comingSoon': 'Próximamente.',
+  'common.cancel': 'Cancelar',
 
   'backup.title': 'Copia de seguridad',
   'backup.help':
@@ -995,14 +996,17 @@ export const es: Record<keyof typeof en, string> = {
   'combat.removeConfirm': 'Sí, quitar',
   'dm.title': 'Mesa del DM',
   'dm.intro':
-    'Herramientas para el Dungeon Master: prepara encuentros y llévalos a la mesa. Todo se guarda en este dispositivo.',
+    'Herramientas para el Dungeon Master: prepara encuentros y llévalos a la mesa. Los encuentros se guardan cifrados con tu contraseña.',
   'dm.encounters.title': 'Encuentros',
   'dm.encounters.desc':
     'Prepara combates con los monstruos del compendio y mira lo difíciles que son para tu grupo (reglas de 2024).',
   'dm.combat.title': 'Combate',
   'dm.combat.desc':
     'Control de iniciativa: turnos y asaltos, puntos de golpe, estados y concentración. El combate en curso se guarda en este dispositivo.',
-  'encounters.intro': 'Tus encuentros preparados, guardados solo en este dispositivo.',
+  'encounters.intro':
+    'Tus encuentros preparados, guardados en este dispositivo (GitHub no está configurado) y protegidos con tu contraseña.',
+  'encounters.introSynced':
+    'Tus encuentros preparados, en este dispositivo y en GitHub cifrados con tu contraseña: los jugadores que lean el repositorio no pueden abrirlos.',
   'encounters.new': 'Nuevo encuentro',
   'encounters.unnamed': 'Encuentro sin nombre',
   'encounters.summary': 'Grupo: {characters} · Criaturas: {creatures}',
@@ -1032,10 +1036,13 @@ export const es: Record<keyof typeof en, string> = {
     'Presupuesto de PX por personaje de la Guía del Dungeon Master (2024): el presupuesto es la suma de todos los personajes y los PX del encuentro, la suma de los de sus monstruos, sin multiplicador.',
   'encounter.party': 'Grupo',
   'encounter.partyCount': '({count})',
-  'encounter.quickCount': 'Personajes',
+  'encounter.quickCount': 'Jugadores',
+  'encounter.quickPlayersOfLevel': 'jugadores de nivel',
+  'encounter.mixedLevels':
+    '¿Niveles distintos? Cambia el nivel de cada personaje en la lista de abajo.',
   'encounter.level': 'Nivel',
   'encounter.levelN': 'nivel {level}',
-  'encounter.fill': 'Rellenar',
+  'encounter.fill': 'Poner grupo',
   'encounter.fromCharacters': 'Desde mis personajes',
   'encounter.characterN': 'Personaje {n}',
   'encounter.memberBudgetTitle': 'Presupuesto de PX de este personaje: Bajo / Moderado / Alto',
@@ -1055,4 +1062,79 @@ export const es: Record<keyof typeof en, string> = {
   'encounter.chosenOnly': 'Solo los del encuentro',
   'encounter.notes': 'Notas',
   'encounter.notesPlaceholder': 'Lugar, tácticas, tesoro…',
+  'encounter.lockedHelp':
+    'Este encuentro está protegido. Introduce su contraseña para abrirlo en este dispositivo.',
+  'encounter.password': 'Contraseña',
+  'encounter.protection.dm': 'la del DM',
+  'encounter.protection.own': 'una propia',
+  'encounter.protection.none': 'sin proteger aún',
+  'encounter.passwordHelp':
+    'El encuentro se cifra con esta contraseña antes de subirlo a GitHub. Sin ella nadie puede leerlo, y si se olvida no se puede recuperar.',
+  'encounter.useOwnPassword': 'Usar una contraseña propia',
+  'encounter.changeOwnPassword': 'Cambiar su contraseña',
+  'encounter.setOwnPassword': 'Proteger con esta contraseña',
+  'encounter.useDmPassword': 'Volver a la contraseña del DM',
+  'encounter.dmLocked': 'Desbloquea antes la contraseña del DM (lista de encuentros)',
+  'encounters.syncError': 'No se han podido sincronizar los encuentros',
+  'encounters.pending': '{count} sin subir a GitHub todavía',
+  'encounters.synced': 'Todos los encuentros guardados en GitHub (cifrados)',
+  'encounters.unprotected': '{count} esperando una contraseña para protegerse',
+  'encounters.create': 'Crear',
+  'encounters.ownPasswordHelp':
+    'Solo este encuentro: se abrirá con esta contraseña, no con la del DM. Escríbela dos veces.',
+  'encounters.dmPasswordLocked': 'Se protegerá con la contraseña del DM: introdúcela.',
+  'encounters.dmPasswordUsed': 'Se protegerá con la contraseña del DM.',
+  'encounters.useOwnPassword': 'Usar otra contraseña para este encuentro',
+  'encounters.locked': 'Encuentro protegido — introduce la contraseña',
+  'encounters.lockedDm': 'Se abre con la contraseña del DM.',
+  'encounters.lockedOwn': 'Tiene una contraseña propia.',
+  'vault.title': 'Contraseña del DM',
+  'vault.noneYet':
+    'Aún no la has creado. La elegirás con tu primer encuentro: una sola contraseña para todos.',
+  'vault.createHelp':
+    'Elige la contraseña del DM: una para todos tus encuentros. Nunca se sube ni se guarda; si la olvidas, no se podrán abrir. Escríbela dos veces.',
+  'vault.lockedHelp': 'Introdúcela para abrir tus encuentros en este dispositivo.',
+  'vault.unlockedHelp': 'Desbloqueada en este dispositivo.',
+  'vault.unlock': 'Desbloquear',
+  'vault.open': 'Abrir',
+  'vault.change': 'Cambiar contraseña',
+  'vault.changeHelp':
+    'Tus encuentros protegidos con ella se cifran de nuevo con la nueva. Los demás dispositivos pedirán la nueva.',
+  'vault.changeSubmit': 'Cambiar',
+  'vault.lock': 'Bloquear en este dispositivo',
+  'vault.lockConfirm':
+    '¿Bloquear los encuentros en este dispositivo? Para volver a abrirlos hará falta la contraseña.',
+  'vault.wrong': 'Contraseña incorrecta.',
+  'vault.password': 'Contraseña',
+  'vault.newPassword': 'Contraseña nueva',
+  'vault.passwordAgain': 'Repite la contraseña',
+  'vault.minLength': 'Al menos {min} caracteres.',
+  'vault.remember': 'Recordar en este dispositivo',
+  'vault.working': 'Un momento…',
+  'vault.tooShort': 'La contraseña necesita al menos {min} caracteres.',
+  'vault.mismatch': 'Las dos contraseñas no coinciden.',
+  'vault.empty': 'Escribe la contraseña.',
+  'balance.title': 'Equilibrar el combate',
+  'balance.target': 'Objetivo',
+  'balance.noParty': 'Añade el grupo para saber cuántos PX gastar.',
+  'balance.below': 'Faltan entre {min} y {max} PX para {target}.',
+  'balance.onTarget': 'Es {target}.',
+  'balance.room': 'Aún caben {room} PX.',
+  'balance.above': 'Sobran {over} PX para {target} (presupuesto {budget}).',
+  'balance.short.below': 'Objetivo {target}: faltan {min} PX',
+  'balance.short.onTarget': 'Objetivo {target}: conseguido',
+  'balance.short.above': 'Objetivo {target}: sobran {over} PX',
+  'balance.adjustments': 'Con los monstruos que tienes',
+  'balance.noAdjustment':
+    'Ningún cambio de uno solo de estos monstruos lo deja en el objetivo: combínalos o añade otros.',
+  'balance.add': 'Añade {count} × {name}',
+  'balance.remove': 'Quita {count} × {name}',
+  'balance.fits': 'Monstruos que encajan',
+  'balance.stillFit': 'Aún caben',
+  'balance.warn.highCr':
+    '{name}: VD {cr}, por encima del nivel del grupo ({level}); puede tumbar a un personaje en un turno.',
+  'balance.warn.manyCreatures':
+    '{creatures} criaturas para {characters} personajes: un combate largo y más difícil de prever.',
+  'balance.warn.aboveHigh':
+    'Por encima de Alto: la DMG no da presupuesto más allá de Alto; puede ser mortal.',
 };

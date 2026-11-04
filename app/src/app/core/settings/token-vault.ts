@@ -19,7 +19,9 @@ export const ENCRYPTED_TOKEN_PATH = 'app/public/token.enc.json';
 export const ENCRYPTED_TOKEN_URL = 'token.enc.json';
 
 export const MIN_PASSWORD_LENGTH = 12;
-const ITERATIONS = 600_000;
+/** PBKDF2 iterations for keys derived from a password (OWASP 2023 figure for SHA-256). */
+export const PASSWORD_ITERATIONS = 600_000;
+const ITERATIONS = PASSWORD_ITERATIONS;
 
 export async function encryptToken(
   token: string,
@@ -72,7 +74,11 @@ export async function fetchEncryptedToken(
   }
 }
 
-async function deriveKey(
+/**
+ * An AES-GCM 256 key from a password (PBKDF2-SHA-256). Not extractable: it can encrypt and decrypt
+ * but its bytes can't be read back, not even by this app (so it can be kept in IndexedDB).
+ */
+export async function deriveKey(
   password: string,
   salt: Uint8Array<ArrayBuffer>,
   iterations: number,
@@ -93,12 +99,12 @@ async function deriveKey(
   );
 }
 
-function toBase64(bytes: Uint8Array): string {
+export function toBase64(bytes: Uint8Array): string {
   let bin = '';
   for (const b of bytes) bin += String.fromCharCode(b);
   return btoa(bin);
 }
 
-function fromBase64(b64: string): Uint8Array<ArrayBuffer> {
+export function fromBase64(b64: string): Uint8Array<ArrayBuffer> {
   return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
 }

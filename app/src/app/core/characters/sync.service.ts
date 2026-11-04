@@ -1,6 +1,7 @@
 import { DestroyRef, Injectable, inject, signal } from '@angular/core';
 
 import { RepositoryService } from '../data/repository.service';
+import { EncounterStore } from '../dm/encounter-store.service';
 import { Character, CharacterRecord } from '../models/character';
 import { CharacterStore, SyncResult } from './character-store.service';
 
@@ -12,12 +13,15 @@ export type SyncState = 'idle' | 'syncing' | 'offline' | 'error';
 
 /**
  * Decides when characters are synchronised with the repo: when the app opens, when the
- * connection comes back, every few minutes while it's open, and right after a save.
+ * connection comes back, every few minutes while it's open, and right after a save. The DM's
+ * encounters (encrypted) are synchronised in the same round, after the characters, when the repo
+ * is GitHub.
  */
 @Injectable({ providedIn: 'root' })
 export class SyncService {
   private readonly store = inject(CharacterStore);
   private readonly repo = inject(RepositoryService);
+  private readonly encounters = inject(EncounterStore);
 
   readonly state = signal<SyncState>('idle');
   readonly lastSync = signal<string | null>(null);
@@ -67,6 +71,15 @@ export class SyncService {
     return record;
   }
 
+  /** Syncs once no other request has come for a few seconds (e.g. while editing an encounter). */
+  syncSoon(): void {
+    if (this.soon) clearTimeout(this.soon);
+    this.soon = setTimeout(() => {
+      this.soon = null;
+      void this.sync();
+    }, SOON_MS);
+  }
+
   /** Marks for deletion on the device, then tries to remove it from the repo. */
   async remove(id: string): Promise<void> {
     await this.store.remove(id);
@@ -113,6 +126,15 @@ export class SyncService {
     } catch (e) {
       this.lastError.set((e as Error).message);
       this.state.set(navigator.onLine ? 'error' : 'offline');
+    }
+    // Only to GitHub: the files served in development can't be written. Problems stay in
+    // EncounterStore.syncError and don't change the characters' state.
+    if (source.kind === 'github' && navigator.onLine) {
+      try {
+        await this.encounters.sync(source);
+      } catch {
+        // already in encounters.syncError
+      }
     }
   }
 }
