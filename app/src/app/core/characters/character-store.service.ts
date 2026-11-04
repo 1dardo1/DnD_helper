@@ -80,6 +80,26 @@ export class CharacterStore {
     return record;
   }
 
+  /**
+   * Adds or replaces characters from a backup file, as they are (keeping their updatedAt), marked
+   * as pending upload. A replaced character keeps its repo base, so the next push updates the
+   * repo file (or shows both versions if the repo changed meanwhile); one marked for deletion
+   * comes back.
+   */
+  async importCharacters(characters: Character[]): Promise<void> {
+    await this.load();
+    for (const character of characters) {
+      const previous = this.records().find((r) => r.character.id === character.id);
+      await this.write({
+        character,
+        status: previous?.status === 'conflict' ? 'conflict' : 'local',
+        baseSha: previous?.baseSha ?? null,
+        sentSha: null,
+        remote: previous?.status === 'conflict' ? previous.remote : null,
+      });
+    }
+  }
+
   /** Marks for deletion; a never-uploaded character is simply removed. */
   async remove(id: string): Promise<void> {
     const record = await this.get(id);

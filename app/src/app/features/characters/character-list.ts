@@ -7,12 +7,13 @@ import { CompendiumService } from '../../core/compendium/compendium.service';
 import { DataTextService } from '../../core/i18n/data-text.service';
 import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character } from '../../core/models/character';
+import { BackupPanel } from '../../shared/backup-panel';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 
 /** Characters on this device (plus any new ones in the repo), with their cloud status. */
 @Component({
   selector: 'app-character-list',
-  imports: [RouterLink, TranslatePipe, LocalDatePipe, ClassThemeDirective],
+  imports: [RouterLink, TranslatePipe, LocalDatePipe, ClassThemeDirective, BackupPanel],
   template: `
     <h1>{{ 'characters.title' | t }}</h1>
     <p>
@@ -51,6 +52,11 @@ import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
         <li>{{ 'characters.empty' | t }}</li>
       }
     </ul>
+
+    <section class="backup" aria-labelledby="backup-title">
+      <h2 id="backup-title">{{ 'backup.title' | t }}</h2>
+      <app-backup-panel />
+    </section>
   `,
   styles: `
     .characters {
@@ -116,6 +122,9 @@ import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
       margin-top: calc(-1 * var(--space-1));
       font-family: var(--font-note);
       font-size: var(--fs-lg);
+    }
+    .backup {
+      margin-top: var(--space-5);
     }
     .new {
       font-family: var(--font-note);

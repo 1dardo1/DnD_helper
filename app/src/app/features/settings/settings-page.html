@@ -82,3 +82,9 @@
     <p role="status">{{ message() }}</p>
   }
 </form>
+
+<section class="backup" aria-labelledby="backup-title">
+  <h2 id="backup-title">{{ 'backup.title' | t }}</h2>
+  <p>{{ 'backup.help' | t }}</p>
+  <app-backup-panel />
+</section>

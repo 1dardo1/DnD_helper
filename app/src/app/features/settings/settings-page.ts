@@ -13,12 +13,20 @@ import {
   encryptToken,
   fetchEncryptedToken,
 } from '../../core/settings/token-vault';
+import { BackupPanel } from '../../shared/backup-panel';
 
 @Component({
   selector: 'app-settings-page',
-  imports: [FormsModule, TranslatePipe],
+  imports: [FormsModule, TranslatePipe, BackupPanel],
   templateUrl: './settings-page.html',
   styles: `
+    .backup {
+      max-width: 34rem;
+      margin-top: var(--space-5);
+    }
+    .backup > p {
+      margin-top: 0;
+    }
     form {
       display: grid;
       gap: var(--space-4);

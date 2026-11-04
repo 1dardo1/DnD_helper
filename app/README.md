@@ -120,6 +120,23 @@ superior, que muestra el estado («Todo guardado en la nube», «N sin guardar e
   y se conserva esa versión.
 - Con «Ficheros locales» no se sube nada (solo lectura).
 
+### Copia de seguridad en un fichero
+
+Para no depender solo de GitHub y del token (`core/characters/backup.ts` y `backup.service.ts`):
+
+- **Exportar:** en la ficha, «Exportar» guarda ese personaje tal cual está en el repo
+  (`dnd-helper-<nombre>-<fecha>.json`). En la lista de personajes y en Ajustes, «Copia de seguridad»
+  guarda todos en `dnd-helper-copia-<fecha>.json` (`{ app: 'dnd-helper', kind: 'backup', version: 1,
+  exportedAt, characters: [...] }`). En la web se descarga; en los móviles cuyo navegador sabe compartir
+  ficheros aparece además «Compartir». En la app de Android se escribe en la caché de la app
+  (`@capacitor/filesystem`, sin permisos) y se abre el menú de compartir de Android
+  (`@capacitor/share`) para guardarlo en Drive o en Archivos, o enviarlo.
+- **Importar:** «Importar» acepta uno o varios ficheros: de un personaje, copias de seguridad o una
+  lista de personajes. Cada personaje se valida (y se pone al día) como los del repo; los que no estaban
+  se añaden como «No guardado en la nube» y se suben en la siguiente sincronización. Si ya hay uno con el
+  mismo id y es distinto, la app enseña cuál es más reciente y deja elegir: sustituir, conservar los dos
+  (el del fichero como «(copia)») u omitir. Al final, un resumen («3 importados, 1 omitido»).
+
 ## Ficha de personaje
 
 El fichero del personaje solo guarda decisiones; `core/rules/engine.ts` calcula el resto: puntuaciones
