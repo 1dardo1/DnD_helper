@@ -35,7 +35,9 @@
   </div>
 }
 @if (encounterMissing()) {
-  <p class="issue" role="alert">{{ 'combat.encounter.missing' | t }}</p>
+  <p class="issue" role="alert">
+    {{ (encounterLocked() ? 'combat.encounter.locked' : 'combat.encounter.missing') | t }}
+  </p>
 }
 
 <details class="setup" [open]="setupOpen()" (toggle)="setupOpen.set($any($event.target).open)">

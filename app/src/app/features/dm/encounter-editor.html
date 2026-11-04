@@ -4,7 +4,20 @@
   <p>{{ 'common.loading' | t }}</p>
 } @else if (missing()) {
   <h1>{{ 'dm.encounters.title' | t }}</h1>
-  <p>{{ 'encounter.notFound' | t }}</p>
+  @if (lockedHere()) {
+    <section class="unlock card">
+      <h2>{{ 'encounters.locked' | t }}</h2>
+      <p>{{ 'encounter.lockedHelp' | t }}</p>
+      <app-password-form
+        [submitLabel]="'vault.open' | t"
+        [busy]="passwordBusy()"
+        [error]="unlockError()"
+        (submitted)="unlock($event)"
+      />
+    </section>
+  } @else {
+    <p>{{ 'encounter.notFound' | t }}</p>
+  }
 } @else if (enc(); as e) {
   @let s = stats()!;
   @let g = gauge()!;
@@ -37,6 +50,19 @@
     <span class="verdict">{{ ratingKey[s.rating] | t }}</span>
     <span class="xp">{{ 'encounter.xpValue' | t: { xp: num(s.xp) } }}</span>
     <ng-container *ngTemplateOutlet="meter; context: { $implicit: true }" />
+    @if (balance(); as b) {
+      @if (b.status !== 'noParty') {
+        <span class="aim" [attr.data-status]="b.status">{{
+          'balance.short.' + b.status
+            | t
+              : {
+                  target: ratingKey[b.target] | t,
+                  min: num(b.missing),
+                  over: num(b.over),
+                }
+        }}</span>
+      }
+    }
   </div>
 
   <header class="head">
@@ -77,6 +103,21 @@
         </p>
       }
       <ng-container *ngTemplateOutlet="meter; context: { $implicit: false }" />
+      <fieldset class="target">
+        <legend>{{ 'balance.target' | t }}</legend>
+        @for (d of difficulties; track d) {
+          <label [attr.data-level]="d">
+            <input
+              type="radio"
+              name="target"
+              [value]="d"
+              [checked]="target() === d"
+              (change)="setTarget(d)"
+            />
+            {{ ratingKey[d] | t }}
+          </label>
+        }
+      </fieldset>
       <dl class="budgets">
         <div data-level="low" [class.reached]="s.xp > 0 && s.budget.low > 0">
           <dt>{{ 'encounter.rating.low' | t }}</dt>
@@ -117,7 +158,7 @@
 
         <div class="quick">
           <label>
-            {{ 'encounter.quickCount' | t }}
+            <span class="visually-hidden">{{ 'encounter.quickCount' | t }}</span>
             <input
               type="number"
               min="1"
@@ -127,16 +168,20 @@
               (input)="quickCount.set(+$any($event.target).value)"
             />
           </label>
+          <span aria-hidden="true">{{ 'encounter.quickPlayersOfLevel' | t }}</span>
           <label>
-            {{ 'encounter.level' | t }}
+            <span class="visually-hidden">{{ 'encounter.level' | t }}</span>
             <select (change)="quickLevel.set(+$any($event.target).value)">
               @for (l of levels; track l) {
                 <option [value]="l" [selected]="l === quickLevel()">{{ l }}</option>
               }
             </select>
           </label>
-          <button type="button" (click)="fillParty()">{{ 'encounter.fill' | t }}</button>
+          <button type="button" class="primary" (click)="fillParty()">
+            {{ 'encounter.fill' | t }}
+          </button>
         </div>
+        <p class="hint">{{ 'encounter.mixedLevels' | t }}</p>
 
         @if (characters().length) {
           <details class="saved">
@@ -291,6 +336,69 @@
         }
       </section>
 
+      @if (balance(); as b) {
+        <section class="balance" aria-labelledby="balance-title" aria-live="polite">
+          <h2 id="balance-title">{{ 'balance.title' | t }}</h2>
+          <p class="balance-status" [attr.data-status]="b.status">
+            {{
+              'balance.' + b.status
+                | t
+                  : {
+                      target: ratingKey[b.target] | t,
+                      min: num(b.missing),
+                      max: num(b.room),
+                      over: num(b.over),
+                      budget: num(b.budget),
+                    }
+            }}
+            @if (b.status === 'onTarget' && b.room > 0) {
+              {{ 'balance.room' | t: { room: num(b.room) } }}
+            }
+          </p>
+          @if (b.adjustments.length) {
+            <h3>{{ 'balance.adjustments' | t }}</h3>
+            <ul class="advice">
+              @for (a of b.adjustments; track a.monsterId) {
+                <li>
+                  <button type="button" (click)="applyAdjustment(a)">
+                    <span class="what">{{ adjustmentText(a) }}</span>
+                    <small>→ {{ 'encounter.xpValue' | t: { xp: num(a.xpAfter) } }}</small>
+                  </button>
+                </li>
+              }
+            </ul>
+          } @else if (b.status === 'above' || (b.status === 'below' && e.monsters.length)) {
+            <p class="hint">{{ 'balance.noAdjustment' | t }}</p>
+          }
+          @if (b.fits.length) {
+            <h3>{{ (b.status === 'onTarget' ? 'balance.stillFit' : 'balance.fits') | t }}</h3>
+            <ul class="advice">
+              @for (f of b.fits; track f.monsterId) {
+                @let mon = monsterById().get(f.monsterId);
+                <li>
+                  <button type="button" (click)="applyFit(f)">
+                    <span class="what"
+                      >+{{ f.count }} × {{ mon ? (mon.name | dataName: true) : f.monsterId }}</span
+                    >
+                    <small
+                      >{{ mon ? crLabel(mon) : '' }} · →
+                      {{ 'encounter.xpValue' | t: { xp: num(f.xpAfter) } }}</small
+                    >
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+          @if (b.warnings.length) {
+            <ul class="warnings">
+              @for (w of b.warnings; track $index) {
+                <li>{{ warningText(w) }}</li>
+              }
+            </ul>
+          }
+        </section>
+      }
+
       <section class="notes">
         <h2>
           <label for="encounter-notes">{{ 'encounter.notes' | t }}</label>
@@ -303,6 +411,45 @@
           (input)="setNotes($any($event.target).value)"
         ></textarea>
       </section>
+
+      <details class="password">
+        <summary>
+          {{ 'encounter.password' | t }}:
+          {{ 'encounter.protection.' + protection() | t }}
+        </summary>
+        <p class="hint">{{ 'encounter.passwordHelp' | t }}</p>
+        @if (settingPassword()) {
+          <app-password-form
+            mode="new"
+            cancelable
+            [submitLabel]="'encounter.setOwnPassword' | t"
+            [busy]="passwordBusy()"
+            (submitted)="useOwnPassword($event)"
+            (cancelled)="settingPassword.set(false)"
+          />
+        } @else {
+          <p class="password-actions">
+            <button type="button" (click)="settingPassword.set(true)">
+              {{
+                (protection() === 'own'
+                  ? 'encounter.changeOwnPassword'
+                  : 'encounter.useOwnPassword'
+                ) | t
+              }}
+            </button>
+            @if (protection() === 'own') {
+              <button
+                type="button"
+                [disabled]="!dmUnlocked()"
+                [title]="dmUnlocked() ? '' : ('encounter.dmLocked' | t)"
+                (click)="useDmPassword()"
+              >
+                {{ 'encounter.useDmPassword' | t }}
+              </button>
+            }
+          </p>
+        }
+      </details>
     </div>
   </div>
 }

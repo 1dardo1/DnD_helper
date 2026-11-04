@@ -18,10 +18,18 @@ export interface CombatEncounter {
 /** Where encounters are read from. EncounterStore fits it as it is. */
 export interface EncounterSource {
   get(id: string): Promise<CombatEncounter | undefined>;
+  /** It exists but is protected and not unlocked on this device (call after get). */
+  isLocked?(id: string): boolean;
 }
 
 /** Encounters for /dm/combat?encounter=<id>: those of the encounter builder (tests may swap it). */
 export const ENCOUNTER_SOURCE = new InjectionToken<EncounterSource>('ENCOUNTER_SOURCE', {
   providedIn: 'root',
-  factory: () => inject(EncounterStore),
+  factory: () => {
+    const store = inject(EncounterStore);
+    return {
+      get: (id) => store.get(id),
+      isLocked: (id) => store.locked().some((l) => l.id === id),
+    };
+  },
 });

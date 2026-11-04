@@ -81,6 +81,7 @@ export class CombatPage implements OnInit {
   /** An encounter from ?encounter= waiting for "replace, add or ignore" (a combat is going on). */
   protected readonly pending = signal<CombatEncounter | null>(null);
   protected readonly encounterMissing = signal(false);
+  protected readonly encounterLocked = signal(false);
 
   protected readonly monsters = resource({ loader: () => this.compendium.all('monster') });
   protected readonly byId = computed(
@@ -161,7 +162,11 @@ export class CombatPage implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.queryParamMap.get('encounter');
-    if (id) void this.openEncounter(id);
+    if (id) {
+      // straight to the order and the cards: no setup step
+      this.setupOpen.set(false);
+      void this.openEncounter(id);
+    }
   }
 
   // -- encounter -----------------------------------------------------------------------------
@@ -169,6 +174,7 @@ export class CombatPage implements OnInit {
   private async openEncounter(id: string): Promise<void> {
     const encounter = await this.encounters.get(id);
     if (!encounter) {
+      this.encounterLocked.set(!!this.encounters.isLocked?.(id));
       this.encounterMissing.set(true);
       this.forgetQuery();
       return;

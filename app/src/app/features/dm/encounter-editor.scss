@@ -247,24 +247,154 @@ input.name {
   display: none;
 }
 
+// -- target difficulty ------------------------------------------------------------------------
+
+.target {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: var(--space-2) 0 var(--space-3);
+  padding: var(--space-1) var(--space-2) var(--space-2);
+
+  label {
+    flex: 1 1 auto;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-left: 0.3rem solid var(--zone);
+    font-family: var(--font-title);
+  }
+
+  label:has(:checked) {
+    background: var(--zone);
+    border-color: var(--line-strong);
+    font-weight: 700;
+  }
+
+  [data-level='low'] {
+    --zone: var(--zone-low);
+  }
+  [data-level='moderate'] {
+    --zone: var(--zone-moderate);
+  }
+  [data-level='high'] {
+    --zone: var(--zone-high);
+  }
+}
+
 // -- party --------------------------------------------------------------------------------------
 
+// "4 players of level 3": a sentence, large, the first thing in the section
 .quick {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
   gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-title);
+  font-size: var(--fs-lg);
+  background: color-mix(in srgb, var(--card) 70%, transparent);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
 
-  label {
-    display: flex;
-    flex-direction: column;
-    font-size: var(--fs-sm);
-    color: var(--ink-soft);
+  input,
+  select {
+    min-height: var(--tap);
+    font-size: var(--fs-lg);
   }
 
   input {
-    width: 5rem;
+    width: 4.5rem;
   }
+}
+
+.quick + .hint {
+  margin: var(--space-1) 0 0;
+}
+
+// -- balancing advice ---------------------------------------------------------------------------
+
+.balance {
+  @include nb.card;
+
+  > h2 {
+    margin-top: 0;
+  }
+
+  h3 {
+    margin: var(--space-3) 0 var(--space-1);
+    font-size: var(--fs-md);
+  }
+}
+
+.balance-status {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: var(--fs-lg);
+
+  &[data-status='onTarget'] {
+    color: var(--ok);
+  }
+  &[data-status='above'] {
+    color: var(--danger);
+  }
+}
+
+.advice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    margin: 0;
+  }
+
+  button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: var(--tap);
+    text-align: left;
+  }
+
+  .what {
+    font-family: var(--font-title);
+    font-weight: 700;
+  }
+
+  small {
+    color: var(--ink-soft);
+  }
+}
+
+.warnings {
+  margin: var(--space-3) 0 0;
+  padding-left: 1.2rem;
+  color: var(--danger);
+
+  li::marker {
+    content: '⚠ ';
+  }
+}
+
+// -- password -----------------------------------------------------------------------------------
+
+.password {
+  summary {
+    font-family: var(--font-title);
+  }
+
+  .password-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+}
+
+.unlock {
+  max-width: 32rem;
 }
 
 .saved {
@@ -493,8 +623,21 @@ input.name {
       font-variant-numeric: tabular-nums;
     }
 
-    .gauge {
+    .gauge,
+    .aim {
       grid-column: 1 / -1;
+    }
+
+    .aim {
+      font-size: var(--fs-sm);
+      color: var(--ink-soft);
+
+      &[data-status='onTarget'] {
+        color: var(--ok);
+      }
+      &[data-status='above'] {
+        color: var(--danger);
+      }
     }
   }
 

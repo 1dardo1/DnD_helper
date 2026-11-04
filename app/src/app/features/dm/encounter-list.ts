@@ -1,29 +1,174 @@
-import { Component, computed, inject, resource } from '@angular/core';
+import { Component, computed, inject, resource, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
+import { SyncService } from '../../core/characters/sync.service';
 import { CompendiumService } from '../../core/compendium/compendium.service';
+import { RepositoryService } from '../../core/data/repository.service';
 import { Encounter } from '../../core/dm/encounter';
 import { EncounterStore } from '../../core/dm/encounter-store.service';
 import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 import { RATING_KEY, encounterStats } from './encounter-stats';
+import { PasswordForm, PasswordSubmit } from './password-form';
 
-/** The DM's saved encounters: open, create, duplicate, delete. */
+/**
+ * The DM's saved encounters: open, create (with the DM's password, or one of its own), duplicate,
+ * delete; the DM's password (unlock, change, lock), and encounters this device can't open yet.
+ */
 @Component({
   selector: 'app-encounter-list',
-  imports: [RouterLink, TranslatePipe, LocalDatePipe],
+  imports: [RouterLink, TranslatePipe, LocalDatePipe, PasswordForm],
   template: `
     <a class="back-link" routerLink="/dm">← {{ 'dm.title' | t }}</a>
     <h1>{{ 'dm.encounters.title' | t }}</h1>
-    <p>{{ 'encounters.intro' | t }}</p>
-    <p>
-      <button type="button" class="primary" (click)="create()">+ {{ 'encounters.new' | t }}</button>
-    </p>
+    <p>{{ (github() ? 'encounters.introSynced' : 'encounters.intro') | t }}</p>
+
+    <!-- the DM's password -->
+    <section class="vault" [attr.data-state]="vaultState()" aria-labelledby="vault-title">
+      <h2 id="vault-title">{{ 'vault.title' | t }}</h2>
+      @switch (vaultState()) {
+        @case ('none') {
+          <p>{{ 'vault.noneYet' | t }}</p>
+        }
+        @case ('locked') {
+          <p>{{ 'vault.lockedHelp' | t }}</p>
+          <app-password-form
+            [submitLabel]="'vault.unlock' | t"
+            [busy]="busy() === 'unlock'"
+            [error]="unlockError()"
+            (submitted)="unlockDm($event)"
+          />
+        }
+        @case ('unlocked') {
+          <p>
+            {{ 'vault.unlockedHelp' | t }}
+            @if (!changing()) {
+              <span class="vault-actions">
+                <button type="button" (click)="changing.set(true)">
+                  {{ 'vault.change' | t }}
+                </button>
+                <button type="button" class="btn-ghost" (click)="lock()">
+                  {{ 'vault.lock' | t }}
+                </button>
+              </span>
+            }
+          </p>
+          @if (changing()) {
+            <p class="muted">{{ 'vault.changeHelp' | t }}</p>
+            <app-password-form
+              mode="new"
+              cancelable
+              [submitLabel]="'vault.changeSubmit' | t"
+              [busy]="busy() === 'change'"
+              (submitted)="changeDm($event)"
+              (cancelled)="changing.set(false)"
+            />
+          }
+        }
+      }
+      @if (github()) {
+        <p class="sync-line" role="status">
+          @if (store.syncError(); as err) {
+            <span class="issue" [title]="err">{{ 'encounters.syncError' | t }}</span>
+          } @else if (store.pending()) {
+            {{ 'encounters.pending' | t: { count: store.pending() } }}
+          } @else {
+            {{ 'encounters.synced' | t }}
+          }
+          @if (store.unprotected()) {
+            · {{ 'encounters.unprotected' | t: { count: store.unprotected() } }}
+          }
+        </p>
+      } @else if (store.unprotected()) {
+        <p class="sync-line">{{ 'encounters.unprotected' | t: { count: store.unprotected() } }}</p>
+      }
+    </section>
+
+    @if (!creating()) {
+      <p>
+        <button type="button" class="primary" (click)="startCreate()">
+          + {{ 'encounters.new' | t }}
+        </button>
+      </p>
+    } @else {
+      <section class="create card" aria-labelledby="create-title">
+        <h2 id="create-title">{{ 'encounters.new' | t }}</h2>
+        <app-password-form
+          cancelable
+          [mode]="createMode()"
+          [hidePassword]="!ownPassword() && vaultState() === 'unlocked'"
+          [submitLabel]="'encounters.create' | t"
+          [busy]="busy() === 'create'"
+          [error]="createError()"
+          (submitted)="create($event)"
+          (cancelled)="creating.set(false)"
+        >
+          <label class="field">
+            {{ 'encounter.name' | t }}
+            <input
+              type="text"
+              name="name"
+              [value]="newName()"
+              (input)="newName.set($any($event.target).value)"
+            />
+          </label>
+          <p class="muted">
+            @if (ownPassword()) {
+              {{ 'encounters.ownPasswordHelp' | t }}
+            } @else {
+              @switch (vaultState()) {
+                @case ('none') {
+                  {{ 'vault.createHelp' | t }}
+                }
+                @case ('locked') {
+                  {{ 'encounters.dmPasswordLocked' | t }}
+                }
+                @default {
+                  {{ 'encounters.dmPasswordUsed' | t }}
+                }
+              }
+            }
+          </p>
+          <label>
+            <input
+              type="checkbox"
+              name="own"
+              [checked]="ownPassword()"
+              (change)="ownPassword.set($any($event.target).checked)"
+            />
+            {{ 'encounters.useOwnPassword' | t }}
+          </label>
+        </app-password-form>
+      </section>
+    }
 
     <ul class="encounters">
+      @for (l of store.locked(); track l.id) {
+        <li class="locked">
+          <span class="name">{{ 'encounters.locked' | t }}</span>
+          <span class="summary">{{
+            (l.dmPassword ? 'encounters.lockedDm' : 'encounters.lockedOwn') | t
+          }}</span>
+          <small>{{ l.updatedAt | localDate }}</small>
+          @if (opening() === l.id) {
+            <app-password-form
+              cancelable
+              [submitLabel]="'vault.open' | t"
+              [busy]="busy() === l.id"
+              [error]="unlockError()"
+              (submitted)="unlockOne(l.id, $event)"
+              (cancelled)="opening.set(null)"
+            />
+          } @else {
+            <span class="actions">
+              <button type="button" (click)="startOpen(l.id)">{{ 'vault.open' | t }}</button>
+            </span>
+          }
+        </li>
+      }
       @for (e of store.all(); track e.id) {
         @let s = stats(e);
         <li>
-          <a class="name" [routerLink]="['/dm/encounters', e.id]">{{
+          <a class="name link" [routerLink]="['/dm/encounters', e.id]">{{
             e.name || ('encounters.unnamed' | t)
           }}</a>
           @if (s.rating !== 'none') {
@@ -54,11 +199,58 @@ import { RATING_KEY, encounterStats } from './encounter-stats';
           </span>
         </li>
       } @empty {
-        <li class="empty">{{ 'encounters.empty' | t }}</li>
+        @if (!store.locked().length) {
+          <li class="empty">{{ 'encounters.empty' | t }}</li>
+        }
       }
     </ul>
   `,
   styles: `
+    .vault {
+      margin: var(--space-3) 0 var(--space-4);
+      padding: var(--space-3) var(--space-4);
+      border-left: 0.35rem solid var(--vault, var(--line-strong));
+      background: color-mix(in srgb, var(--card) 60%, transparent);
+      border-radius: var(--radius-sm);
+    }
+    .vault[data-state='locked'] {
+      --vault: var(--warn);
+    }
+    .vault[data-state='unlocked'] {
+      --vault: var(--ok);
+    }
+    .vault h2 {
+      margin: 0 0 var(--space-1);
+      font-size: var(--fs-lg);
+    }
+    .vault p {
+      margin: 0 0 var(--space-2);
+    }
+    .vault-actions {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-left: var(--space-2);
+    }
+    .sync-line {
+      font-size: var(--fs-sm);
+      color: var(--ink-soft);
+    }
+    .create {
+      margin-bottom: var(--space-4);
+    }
+    .create h2 {
+      margin-top: 0;
+    }
+    .field {
+      display: grid;
+      gap: 0.15rem;
+      font-size: var(--fs-sm);
+      color: var(--ink-soft);
+    }
+    .field input {
+      font-size: var(--fs-md);
+    }
     .encounters {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
@@ -83,6 +275,13 @@ import { RATING_KEY, encounterStats } from './encounter-stats';
       color: var(--ink-soft);
       font-style: italic;
     }
+    li.locked {
+      border-style: dashed;
+      background: color-mix(in srgb, var(--card) 55%, var(--paper-2));
+    }
+    li.locked app-password-form {
+      flex: 1 1 100%;
+    }
     li:focus-within {
       outline: 3px solid var(--focus);
       outline-offset: 2px;
@@ -98,12 +297,15 @@ import { RATING_KEY, encounterStats } from './encounter-stats';
       text-decoration: none;
       overflow-wrap: anywhere;
     }
-    .name::after {
+    .locked .name {
+      color: var(--ink-soft);
+    }
+    .link::after {
       content: '';
       position: absolute;
       inset: 0;
     }
-    .name:focus-visible {
+    .link:focus-visible {
       outline: none;
     }
     .summary,
@@ -147,9 +349,12 @@ import { RATING_KEY, encounterStats } from './encounter-stats';
 })
 export class EncounterList {
   protected readonly store = inject(EncounterStore);
+  private readonly vault = this.store.vault;
   private readonly compendium = inject(CompendiumService);
   private readonly router = inject(Router);
   private readonly i18n = inject(I18nService);
+  private readonly sync = inject(SyncService);
+  private readonly repo = inject(RepositoryService);
   protected readonly ratingKey = RATING_KEY;
 
   private readonly monsters = resource({ loader: () => this.compendium.all('monster') });
@@ -157,6 +362,29 @@ export class EncounterList {
     () => new Map((this.monsters.value() ?? []).map((m) => [m.id, m.xp])),
   );
   protected readonly xpLoaded = computed(() => !!this.monsters.value());
+
+  /** Encounters go to the repo (GitHub is set up). */
+  protected readonly github = computed(() => this.repo.source()?.kind === 'github');
+
+  protected readonly vaultState = computed<'none' | 'locked' | 'unlocked'>(() =>
+    !this.vault.hasDmPassword() ? 'none' : this.vault.dmKey() ? 'unlocked' : 'locked',
+  );
+
+  /** What's being worked on (key derivation takes a moment): 'create', 'unlock', an id... */
+  protected readonly busy = signal<string | null>(null);
+  protected readonly unlockError = signal<string | null>(null);
+  protected readonly createError = signal<string | null>(null);
+  protected readonly changing = signal(false);
+  protected readonly creating = signal(false);
+  protected readonly newName = signal('');
+  protected readonly ownPassword = signal(false);
+  /** The locked encounter whose password is being asked. */
+  protected readonly opening = signal<string | null>(null);
+
+  /** A new password is typed twice: the DM's the first time, or one of its own. */
+  protected readonly createMode = computed(() =>
+    this.ownPassword() || this.vaultState() === 'none' ? 'new' : 'current',
+  );
 
   constructor() {
     void this.store.load();
@@ -170,17 +398,93 @@ export class EncounterList {
     return n.toLocaleString(this.i18n.language());
   }
 
-  protected async create(): Promise<void> {
-    const e = await this.store.create(this.i18n.t('encounters.defaultName'));
-    await this.router.navigate(['/dm/encounters', e.id]);
+  // -- the DM's password ------------------------------------------------------------------------
+
+  protected async unlockDm({ password, remember }: PasswordSubmit): Promise<void> {
+    await this.run('unlock', async () => {
+      const ok = await this.store.unlockDm(password, remember);
+      this.unlockError.set(ok ? null : 'vault.wrong');
+      if (ok) this.sync.syncSoon();
+    });
+  }
+
+  protected async changeDm({ password, remember }: PasswordSubmit): Promise<void> {
+    await this.run('change', async () => {
+      await this.store.changeDmPassword(password, remember);
+      this.changing.set(false);
+      void this.sync.sync();
+    });
+  }
+
+  protected async lock(): Promise<void> {
+    if (!confirm(this.i18n.t('vault.lockConfirm'))) return;
+    await this.store.lock();
+  }
+
+  protected startOpen(id: string): void {
+    this.unlockError.set(null);
+    this.opening.set(id);
+  }
+
+  protected async unlockOne(id: string, { password, remember }: PasswordSubmit): Promise<void> {
+    await this.run(id, async () => {
+      const ok = await this.store.unlock(id, password, remember);
+      this.unlockError.set(ok ? null : 'vault.wrong');
+      if (ok) {
+        this.opening.set(null);
+        this.sync.syncSoon();
+      }
+    });
+  }
+
+  // -- encounters ---------------------------------------------------------------------------------
+
+  protected startCreate(): void {
+    this.newName.set(this.i18n.t('encounters.defaultName'));
+    this.ownPassword.set(false);
+    this.createError.set(null);
+    this.creating.set(true);
+  }
+
+  protected async create({ password, remember }: PasswordSubmit): Promise<void> {
+    await this.run('create', async () => {
+      this.createError.set(null);
+      let key;
+      if (this.ownPassword()) {
+        key = await this.vault.newKey(password, remember);
+      } else if (this.vaultState() === 'none') {
+        await this.store.createDmPassword(password, remember);
+      } else if (this.vaultState() === 'locked') {
+        if (!(await this.store.unlockDm(password, remember))) {
+          this.createError.set('vault.wrong');
+          return;
+        }
+      }
+      const e = await this.store.create(this.newName().trim(), key);
+      this.creating.set(false);
+      this.sync.syncSoon();
+      await this.router.navigate(['/dm/encounters', e.id]);
+    });
   }
 
   protected async duplicate(e: Encounter): Promise<void> {
     await this.store.duplicate(e.id, this.i18n.t('encounters.copyName', { name: e.name }));
+    this.sync.syncSoon();
   }
 
   protected async remove(e: Encounter): Promise<void> {
     if (!confirm(this.i18n.t('encounters.confirmDelete', { name: e.name }))) return;
     await this.store.remove(e.id);
+    this.sync.syncSoon();
+  }
+
+  private async run(what: string, work: () => Promise<void>): Promise<void> {
+    if (this.busy()) return;
+    this.busy.set(what);
+    try {
+      await work();
+    } finally {
+      this.busy.set(null);
+    }
   }
 }
