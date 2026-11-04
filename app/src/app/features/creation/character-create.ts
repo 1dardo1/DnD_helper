@@ -39,9 +39,17 @@ import {
   subclassesFor,
   toolChoices,
 } from '../../core/creation/creation-rules';
+import {
+  browserStorage,
+  readEditDraft,
+  removeEditDraft,
+  restoreEditDraft,
+  sameContent,
+  writeEditDraft,
+} from '../../core/creation/edit-draft';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TermPipe, term } from '../../core/i18n/glossary';
-import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
+import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, newCharacter, normalizeCharacter } from '../../core/models/character';
 import { Ability, ClassOption, DndClass, Feat, Feature, Item } from '../../core/models/compendium';
 import { castingOf, computeSheet } from '../../core/rules/engine';
@@ -64,6 +72,7 @@ import { defaultOrder } from '../../shared/picker/entry-order';
 import { EntryCard } from '../../shared/picker/entry-card';
 import { Picker } from '../../shared/picker/picker';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
+import { LeaveCheck } from './unsaved-edit.guard';
 import { LoadError } from '../compendium/load-error';
 
 const DRAFT_KEY = 'dnd-helper.draft';
@@ -77,10 +86,12 @@ type ClassEntry = Character['classes'][number];
  */
 @Component({
   selector: 'app-character-create',
+  host: { '(window:beforeunload)': 'onBeforeUnload($event)' },
   imports: [
     RouterLink,
     NgTemplateOutlet,
     TranslatePipe,
+    LocalDatePipe,
     TermPipe,
     DataNamePipe,
     DataTextPipe,
@@ -93,7 +104,7 @@ type ClassEntry = Character['classes'][number];
   templateUrl: './character-create.html',
   styleUrl: './character-create.scss',
 })
-export class CharacterCreate {
+export class CharacterCreate implements LeaveCheck {
   /** Route parameter when editing an existing character (characters/:id/edit). */
   readonly id = input<string>();
   private readonly compendium = inject(CompendiumService);
@@ -124,6 +135,23 @@ export class CharacterCreate {
   protected readonly step = signal<Step>('class');
   protected readonly draft = signal<Character>(newCharacter('', ''));
   private loadedFor: string | null | undefined = undefined;
+  /** Editing: the saved character the draft is compared with (null until it's loaded). */
+  private readonly editBase = signal<Character | null>(null);
+  /** Editing: unsaved changes from a previous visit were put back (shown until dismissed). */
+  protected readonly restored = signal<{
+    outdated: boolean;
+    conflicts: number;
+    savedAt: string;
+    updatedAt: string;
+    updatedBy: string;
+  } | null>(null);
+  /** Editing: the last change could not be kept in this browser (storage full or blocked). */
+  private readonly unpersisted = signal(false);
+  /** Editing: there are changes not saved to the character yet. */
+  protected readonly dirty = computed(() => {
+    const base = this.editBase();
+    return !!this.id() && !!base && !sameContent(this.draft(), base);
+  });
 
   /** Everything the wizard offers choices from. */
   protected readonly data = resource({
@@ -322,7 +350,9 @@ export class CharacterCreate {
       if (this.loadedFor === key) return;
       this.loadedFor = key;
       if (id) {
-        void this.store.get(id).then((r) => r && this.draft.set(normalizeCharacter(r.character)!));
+        void this.store
+          .get(id)
+          .then((r) => r && this.loadForEdit(normalizeCharacter(r.character)!));
       } else {
         this.draft.set(loadDraft() ?? this.blank());
       }
@@ -331,6 +361,51 @@ export class CharacterCreate {
     effect(() => {
       if (!this.id()) saveDraft(this.draft());
     });
+    // ...and the unsaved edits of an existing one, per character, until saved or discarded.
+    effect(() => {
+      const id = this.id();
+      const base = this.editBase();
+      const draft = this.draft();
+      if (!id || !base || draft.id !== id) return;
+      if (sameContent(draft, base)) {
+        removeEditDraft(browserStorage(), id);
+        this.unpersisted.set(false);
+      } else {
+        this.unpersisted.set(!writeEditDraft(browserStorage(), { character: draft, base }));
+      }
+    });
+  }
+
+  /** Editing: shows the saved character, or the unsaved changes left from a previous visit. */
+  private loadForEdit(stored: Character): void {
+    const storage = browserStorage();
+    const saved = readEditDraft(storage, stored.id);
+    const r = restoreEditDraft(saved, stored);
+    if (!r) removeEditDraft(storage, stored.id);
+    this.editBase.set(r?.base ?? stored);
+    this.draft.set(r?.character ?? stored);
+    this.restored.set(
+      r && saved
+        ? {
+            outdated: r.outdated,
+            conflicts: r.conflicts.length,
+            savedAt: saved.savedAt,
+            updatedAt: stored.updatedAt,
+            updatedBy: stored.updatedBy,
+          }
+        : null,
+    );
+  }
+
+  /** Leaving with unsaved edits is free: they stay as a draft. Ask only if they couldn't be kept. */
+  canLeave(): boolean {
+    if (!this.dirty() || !this.unpersisted()) return true;
+    return confirm(this.i18n.t('create.leaveUnsaved'));
+  }
+
+  /** Same for closing or reloading the page, only when the edits live nowhere else. */
+  protected onBeforeUnload(e: BeforeUnloadEvent): void {
+    if (this.dirty() && this.unpersisted()) e.preventDefault();
   }
 
   /** A new character starts with one empty class row to fill in. */
@@ -923,7 +998,10 @@ export class CharacterCreate {
     const classes = this.draft().classes.filter((k) => k.id);
     const ch = { ...this.draft(), id, name, classes, dataVersion: d?.meta.generatedAt ?? null };
     await this.sync.save(ch);
-    if (!this.id()) clearDraft();
+    if (this.id()) {
+      this.editBase.set(this.draft());
+      removeEditDraft(browserStorage(), ch.id);
+    } else clearDraft();
     await this.router.navigate(['/characters', ch.id]);
   }
 
@@ -939,8 +1017,14 @@ export class CharacterCreate {
   protected async discard(): Promise<void> {
     const id = this.id();
     if (!id || !confirm(this.i18n.t('create.confirmDiscard'))) return;
+    removeEditDraft(browserStorage(), id);
+    this.restored.set(null);
     const r = await this.store.get(id);
-    if (r) this.draft.set(normalizeCharacter(r.character)!);
+    if (r) {
+      const stored = normalizeCharacter(r.character)!;
+      this.editBase.set(stored);
+      this.draft.set(stored);
+    }
     this.step.set('class');
   }
 }

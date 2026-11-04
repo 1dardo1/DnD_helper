@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { CharacterStore } from '../../core/characters/character-store.service';
 import { SyncService } from '../../core/characters/sync.service';
+import { browserStorage, readEditDraft, restoreEditDraft } from '../../core/creation/edit-draft';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TermDomain, TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
@@ -68,6 +69,16 @@ export class CharacterSheet {
       const [record, data] = await Promise.all([this.store.get(params.id), this.rules.load()]);
       return record ? { record, data, sheet: computeSheet(record.character, data) } : null;
     },
+  });
+
+  /** Unsaved changes left in the edit wizard (kept in this browser), to offer going back to them. */
+  protected readonly hasEditDraft = computed(() => {
+    const record = this.view.value()?.record;
+    if (!record) return false;
+    return !!restoreEditDraft(
+      readEditDraft(browserStorage(), record.character.id),
+      record.character,
+    );
   });
 
   /** Features grouped by where they come from (class, subclass, species, feats). */

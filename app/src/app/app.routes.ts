@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { unsavedEditGuard } from './features/creation/unsaved-edit.guard';
+
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'compendium' },
   {
@@ -35,6 +37,7 @@ export const routes: Routes = [
     path: 'characters/:id/edit',
     loadComponent: () =>
       import('./features/creation/character-create').then((m) => m.CharacterCreate),
+    canDeactivate: [unsavedEditGuard],
   },
   {
     path: 'characters/:id/level-up',

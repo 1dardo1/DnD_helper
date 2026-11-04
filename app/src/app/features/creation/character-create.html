@@ -7,6 +7,37 @@
   }
 </header>
 
+@if (restored(); as r) {
+  <aside class="sticky draft-notice" role="status">
+    <p>
+      {{ 'create.draftRestored' | t }}
+      @if (r.savedAt) {
+        <span class="when">({{ r.savedAt | localDate }})</span>
+      }
+    </p>
+    @if (r.outdated) {
+      <p class="outdated">
+        ⚠
+        {{
+          'create.draftOutdated'
+            | t: { date: (r.updatedAt | localDate), device: r.updatedBy || '?' }
+        }}
+        @if (r.conflicts) {
+          {{ 'create.draftConflicts' | t: { n: r.conflicts } }}
+        }
+      </p>
+    }
+    <p class="actions">
+      <button type="button" class="btn" (click)="restored.set(null)">
+        {{ 'create.draftKeep' | t }}
+      </button>
+      <button type="button" class="btn-ghost" (click)="discard()">
+        {{ 'create.draftDiscard' | t }}
+      </button>
+    </p>
+  </aside>
+}
+
 @if (data.isLoading()) {
   <p>{{ 'common.loading' | t }}</p>
 } @else if (data.error()) {
