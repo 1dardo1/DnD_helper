@@ -2,10 +2,11 @@ import { Component, computed, inject, input } from '@angular/core';
 
 import { DataNamePipe } from '../../core/i18n/data-text.service';
 import { TranslatePipe } from '../../core/i18n/i18n.service';
+import { PictureKind } from '../../core/media/pictures';
 import { Entry, Subclass } from '../../core/models/compendium';
 import { themeFor } from '../theme/class-theme';
 import { EntryLabels } from './entry-labels.service';
-import { SpeciesPortrait } from './species-portrait';
+import { EntryPortrait } from './entry-portrait';
 
 /**
  * The summary card of an entry of any type (name, a kicker line and a few facts). Only inline
@@ -13,11 +14,11 @@ import { SpeciesPortrait } from './species-portrait';
  */
 @Component({
   selector: 'app-entry-card',
-  imports: [DataNamePipe, SpeciesPortrait, TranslatePipe],
+  imports: [DataNamePipe, EntryPortrait, TranslatePipe],
   template: `
     @let s = summary();
-    @if (entry().type === 'species') {
-      <app-species-portrait class="thumb" [speciesId]="entry().id" />
+    @if (pictureKind(); as k) {
+      <app-entry-portrait class="thumb" [kind]="k" [entryId]="entry().id" />
     }
     <span class="head">
       @if (icon(); as i) {
@@ -83,6 +84,12 @@ import { SpeciesPortrait } from './species-portrait';
 })
 export class EntryCard {
   readonly entry = input.required<Entry>();
+
+  /** Species and monster cards: their picture on top, if there is one. */
+  protected readonly pictureKind = computed((): PictureKind | null => {
+    const t = this.entry().type;
+    return t === 'species' || t === 'monster' ? t : null;
+  });
 
   /** Class and subclass cards: the class icon in its own colours (also outside a themed list). */
   protected readonly icon = computed(() => {

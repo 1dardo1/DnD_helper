@@ -33,7 +33,7 @@ import { LoadError } from './load-error';
 import { MonsterStatBlock } from './monster-stat-block';
 
 /** Detail page for any entry, with the fields of its type and links to related entries. */
-import { SpeciesPortrait } from '../../shared/picker/species-portrait';
+import { EntryPortrait } from '../../shared/picker/entry-portrait';
 
 @Component({
   selector: 'app-entry-detail',
@@ -48,7 +48,7 @@ import { SpeciesPortrait } from '../../shared/picker/species-portrait';
     MarkdownPipe,
     LoadError,
     ClassThemeDirective,
-    SpeciesPortrait,
+    EntryPortrait,
     MonsterStatBlock,
   ],
   templateUrl: './entry-detail.html',

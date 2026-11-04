@@ -401,7 +401,12 @@
 
       @case ('species') {
         @let sp = asSpecies(e);
-        <app-species-portrait class="full" [speciesId]="sp.id" [alt]="sp.name | dataName" />
+        <app-entry-portrait
+          class="full"
+          kind="species"
+          [entryId]="sp.id"
+          [alt]="sp.name | dataName"
+        />
         <dl class="fields">
           <dt>{{ 'compendium.creatureType' | t }}</dt>
           <dd>{{ sp.creatureType | term: 'creatureType' }}</dd>
@@ -558,6 +563,12 @@
       }
 
       @case ('monster') {
+        <app-entry-portrait
+          class="full"
+          kind="monster"
+          [entryId]="e.id"
+          [alt]="e.name | dataName"
+        />
         <app-monster-stat-block [monster]="asMonster(e)" />
         <p class="credit">
           <small

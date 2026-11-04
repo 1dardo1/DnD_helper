@@ -1,0 +1,41 @@
+# Prompts for the AI monster pictures (FLUX.1 schnell, Cloudflare Workers AI). Same format as
+# species.yaml; see README.md.
+# Full prompt sent to the model = style + ". " + English name + ": " + monster prompt.
+# style: the common prefix added before every monster description (one consistent bestiary look,
+# the same parchment palette as the species portraits).
+# The pictures go to media/monsters/ (not inside the app: they are published on GitHub Pages).
+style: >-
+  Creature illustration for a fantasy bestiary, ink and watercolour sketch on
+  aged parchment, warm sepia and ochre palette with muted reds, soft hand-drawn
+  linework, plain parchment background, a single creature, centred, whole body
+  visible and fitting inside the picture with some margin, no text, no border
+negative: >-
+  text, letters, caption, watermark, signature, frame, border, several creatures,
+  crowd, photo, photorealistic, 3d render, blurry, deformed, extra limbs,
+  cropped body, gore, nudity
+monsters:
+  goblin-warrior:
+    prompt: >-
+      A small, wiry goblin with green-grey skin, a flat face with a wide toothy grin, long
+      pointed ears and yellow eyes; wears scraps of leather armour and a hide shield, holds a
+      notched scimitar and has a shortbow slung across its back; crouched and sneaky.
+    seed: 2001
+  owlbear:
+    prompt: >-
+      A huge, heavy beast with the body of a brown bear covered in a mix of fur and feathers,
+      the head of a great horned owl with a sharp hooked beak and round furious eyes, thick
+      clawed forelegs; rearing up on its hind legs and screeching.
+    seed: 2002
+  adult-red-dragon:
+    prompt: >-
+      An enormous red dragon with crimson scales, two swept-back horns and a frill of spikes
+      along its neck and spine, vast bat-like wings half spread, a long tail and massive claws;
+      smoke curling from its nostrils and a glow of fire in its open jaws; proud and menacing,
+      seen from the side.
+    seed: 2003
+  bulette:
+    prompt: >-
+      A massive armoured burrowing beast like a shark crossed with an armadillo, a high
+      blue-grey dorsal crest of plates, a wide gaping mouth full of teeth and four short
+      powerful clawed legs; bursting out of the ground with clods of earth flying around it.
+    seed: 2004

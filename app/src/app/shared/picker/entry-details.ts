@@ -6,7 +6,7 @@ import { PhrasePipe } from '../../core/i18n/glossary';
 import { TranslatePipe } from '../../core/i18n/i18n.service';
 import { Background, Entry, Spell, Species } from '../../core/models/compendium';
 import { MarkdownPipe } from '../markdown.pipe';
-import { SpeciesPortrait } from './species-portrait';
+import { EntryPortrait } from './entry-portrait';
 
 /** The full text of an entry, shown when a picker card is expanded ("Ver más"). */
 @Component({
@@ -18,7 +18,7 @@ import { SpeciesPortrait } from './species-portrait';
     DataTextPipe,
     PhrasePipe,
     MarkdownPipe,
-    SpeciesPortrait,
+    EntryPortrait,
   ],
   template: `
     @let e = entry();
@@ -42,7 +42,7 @@ import { SpeciesPortrait } from './species-portrait';
       </p>
     }
     @if (species()) {
-      <app-species-portrait class="full" [speciesId]="e.id" [alt]="e.name | dataName" />
+      <app-entry-portrait class="full" kind="species" [entryId]="e.id" [alt]="e.name | dataName" />
     }
     <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
     @if (spell()?.higherLevels; as h) {
