@@ -1,0 +1,308 @@
+<a class="back-link" routerLink="/dm/encounters">← {{ 'dm.encounters.title' | t }}</a>
+
+@if (loading()) {
+  <p>{{ 'common.loading' | t }}</p>
+} @else if (missing()) {
+  <h1>{{ 'dm.encounters.title' | t }}</h1>
+  <p>{{ 'encounter.notFound' | t }}</p>
+} @else if (enc(); as e) {
+  @let s = stats()!;
+  @let g = gauge()!;
+
+  <ng-template #meter let-compact>
+    <div
+      class="gauge"
+      [class.compact]="compact"
+      role="meter"
+      [attr.aria-label]="'encounter.difficulty' | t"
+      aria-valuemin="0"
+      [attr.aria-valuemax]="g.max"
+      [attr.aria-valuenow]="s.xp"
+      [attr.aria-valuetext]="ratingKey[s.rating] | t"
+      [style.--low]="pct(g.marks.low)"
+      [style.--moderate]="pct(g.marks.moderate)"
+      [style.--high]="pct(g.marks.high)"
+    >
+      <span class="fill" [style.width]="pct(g.fill)"></span>
+      @if (s.budget.high > 0) {
+        <span class="tick" [style.left]="pct(g.marks.low)"></span>
+        <span class="tick" [style.left]="pct(g.marks.moderate)"></span>
+        <span class="tick" [style.left]="pct(g.marks.high)"></span>
+      }
+    </div>
+  </ng-template>
+
+  <!-- phones: the verdict stays in view while adding monsters -->
+  <div class="strip" [attr.data-rating]="s.rating">
+    <span class="verdict">{{ ratingKey[s.rating] | t }}</span>
+    <span class="xp">{{ 'encounter.xpValue' | t: { xp: num(s.xp) } }}</span>
+    <ng-container *ngTemplateOutlet="meter; context: { $implicit: true }" />
+  </div>
+
+  <header class="head">
+    <label class="name-field">
+      <span class="visually-hidden">{{ 'encounter.name' | t }}</span>
+      <input
+        class="name"
+        type="text"
+        [value]="e.name"
+        [placeholder]="'encounters.unnamed' | t"
+        (input)="rename($any($event.target).value)"
+      />
+    </label>
+    <div class="actions">
+      <button
+        type="button"
+        class="primary"
+        [disabled]="!e.monsters.length"
+        [title]="e.monsters.length ? '' : ('encounter.startNeedsMonsters' | t)"
+        (click)="startCombat()"
+      >
+        {{ 'encounter.startCombat' | t }}
+      </button>
+      <button type="button" (click)="duplicate()">{{ 'encounters.duplicate' | t }}</button>
+      <button type="button" class="danger" (click)="remove()">
+        {{ 'encounters.delete' | t }}
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="difficulty" [attr.data-rating]="s.rating" aria-live="polite">
+      <h2>{{ 'encounter.difficulty' | t }}</h2>
+      <p class="verdict">{{ ratingKey[s.rating] | t }}</p>
+      @if (s.rating === 'none') {
+        <p class="hint">
+          {{ (s.characters ? 'encounter.needMonsters' : 'encounter.needParty') | t }}
+        </p>
+      }
+      <ng-container *ngTemplateOutlet="meter; context: { $implicit: false }" />
+      <dl class="budgets">
+        <div data-level="low" [class.reached]="s.xp > 0 && s.budget.low > 0">
+          <dt>{{ 'encounter.rating.low' | t }}</dt>
+          <dd>{{ num(s.budget.low) }}</dd>
+        </div>
+        <div data-level="moderate" [class.reached]="s.xp > s.budget.low && s.budget.low > 0">
+          <dt>{{ 'encounter.rating.moderate' | t }}</dt>
+          <dd>{{ num(s.budget.moderate) }}</dd>
+        </div>
+        <div data-level="high" [class.reached]="s.xp > s.budget.moderate && s.budget.low > 0">
+          <dt>{{ 'encounter.rating.high' | t }}</dt>
+          <dd>{{ num(s.budget.high) }}</dd>
+        </div>
+      </dl>
+      <dl class="totals">
+        <div>
+          <dt>{{ 'encounter.encounterXp' | t }}</dt>
+          <dd>{{ num(s.xp) }}</dd>
+        </div>
+        <div>
+          <dt>{{ 'encounter.partyXp' | t }}</dt>
+          <dd>{{ num(s.xp) }}</dd>
+        </div>
+        <div>
+          <dt>{{ 'encounter.xpEach' | t }}</dt>
+          <dd>{{ s.characters ? num(s.xpEach) : '—' }}</dd>
+        </div>
+      </dl>
+      <p class="rules">{{ 'encounter.rulesNote' | t }}</p>
+    </aside>
+
+    <div class="sections">
+      <section class="party">
+        <h2>
+          {{ 'encounter.party' | t }}
+          <small>{{ 'encounter.partyCount' | t: { count: e.party.length } }}</small>
+        </h2>
+
+        <div class="quick">
+          <label>
+            {{ 'encounter.quickCount' | t }}
+            <input
+              type="number"
+              min="1"
+              max="12"
+              inputmode="numeric"
+              [value]="quickCount()"
+              (input)="quickCount.set(+$any($event.target).value)"
+            />
+          </label>
+          <label>
+            {{ 'encounter.level' | t }}
+            <select (change)="quickLevel.set(+$any($event.target).value)">
+              @for (l of levels; track l) {
+                <option [value]="l" [selected]="l === quickLevel()">{{ l }}</option>
+              }
+            </select>
+          </label>
+          <button type="button" (click)="fillParty()">{{ 'encounter.fill' | t }}</button>
+        </div>
+
+        @if (characters().length) {
+          <details class="saved">
+            <summary>{{ 'encounter.fromCharacters' | t }}</summary>
+            <ul>
+              @for (c of characters(); track c.id) {
+                <li>
+                  <label class="inline">
+                    <input
+                      type="checkbox"
+                      [checked]="linked().has(c.id)"
+                      (change)="toggleCharacter(c, $any($event.target).checked)"
+                    />
+                    {{ c.name }}
+                    <small>{{ 'encounter.levelN' | t: { level: c.level } }}</small>
+                  </label>
+                </li>
+              }
+            </ul>
+          </details>
+        }
+
+        <ol class="members">
+          @for (p of e.party; track $index) {
+            <li [class.linked]="p.characterId">
+              <span class="who">{{ memberLabel(p, $index) }}</span>
+              @if (p.characterId) {
+                <span class="level">{{ 'encounter.levelN' | t: { level: p.level } }}</span>
+              } @else {
+                <label class="level">
+                  <span class="visually-hidden">{{ memberLabel(p, $index) }}:</span>
+                  {{ 'encounter.level' | t }}
+                  <select (change)="setLevel($index, $any($event.target).value)">
+                    @for (l of levels; track l) {
+                      <option [value]="l" [selected]="l === p.level">{{ l }}</option>
+                    }
+                  </select>
+                </label>
+              }
+              <small class="budget" [title]="'encounter.memberBudgetTitle' | t">{{
+                memberBudget(p.level)
+              }}</small>
+              <button
+                type="button"
+                class="btn-ghost remove"
+                [attr.aria-label]="'encounter.removeMember' | t: { name: memberLabel(p, $index) }"
+                (click)="removeMember($index)"
+              >
+                ✕
+              </button>
+            </li>
+          } @empty {
+            <li class="empty">{{ 'encounter.noParty' | t }}</li>
+          }
+        </ol>
+        <p>
+          <button type="button" (click)="addMember()">+ {{ 'encounter.addMember' | t }}</button>
+        </p>
+      </section>
+
+      <section class="foes">
+        <h2>
+          {{ 'encounter.monsters' | t }}
+          <small>{{ 'encounter.creatureCount' | t: { count: s.creatures } }}</small>
+        </h2>
+        @if (monsters.error()) {
+          <app-load-error [error]="monsters.error()" />
+        }
+        <ul class="foe-list">
+          @for (m of e.monsters; track m.monsterId) {
+            @let mon = monsterById().get(m.monsterId);
+            <li>
+              <span class="foe">
+                <a [routerLink]="['/compendium', 'monster', m.monsterId]">{{
+                  mon ? (mon.name | dataName) : m.monsterId
+                }}</a>
+                @if (mon) {
+                  <small
+                    >{{ crLabel(mon) }} ·
+                    {{ 'encounter.xpEachMonster' | t: { xp: num(mon.xp) } }}</small
+                  >
+                }
+              </span>
+              <span class="stepper">
+                <button
+                  type="button"
+                  [attr.aria-label]="
+                    (m.count === 1 ? 'encounter.removeMonster' : 'encounter.oneLess') | t
+                  "
+                  (click)="step(m, -1)"
+                >
+                  −
+                </button>
+                <output [attr.aria-label]="'encounter.quantity' | t">{{ m.count }}</output>
+                <button
+                  type="button"
+                  [attr.aria-label]="'encounter.oneMore' | t"
+                  (click)="step(m, 1)"
+                >
+                  +
+                </button>
+              </span>
+              <span class="subtotal">{{
+                'encounter.xpValue' | t: { xp: num((mon?.xp ?? 0) * m.count) }
+              }}</span>
+            </li>
+          } @empty {
+            <li class="empty">{{ 'encounter.noMonsters' | t }}</li>
+          }
+        </ul>
+        <p>
+          <button
+            type="button"
+            [class.primary]="!e.monsters.length && !adding()"
+            [attr.aria-expanded]="adding()"
+            (click)="adding.set(!adding())"
+          >
+            {{ (adding() ? 'encounter.closePicker' : 'encounter.addMonsters') | t }}
+          </button>
+        </p>
+        @if (adding()) {
+          @if (monsters.value(); as list) {
+            <app-picker
+              multiple
+              [items]="list"
+              [facets]="monsterFacets"
+              [selected]="chosenMonsters()"
+              [label]="'encounter.monsters' | t"
+              [chosenOnlyLabel]="'encounter.chosenOnly' | t"
+              (picked)="pick($event)"
+            >
+              <ng-template #card let-item>
+                <span class="mcard">
+                  <span class="card-head">
+                    <span class="card-name">{{ item.name | dataName }}</span>
+                    <span class="card-xp">{{ 'encounter.xpValue' | t: { xp: num(item.xp) } }}</span>
+                  </span>
+                  <span class="card-kicker">{{ kicker(item) }}</span>
+                  <span class="card-facts"
+                    >{{ 'monster.ac' | t }} {{ item.ac }} · {{ 'monster.hp' | t }}
+                    {{ item.hp }}</span
+                  >
+                </span>
+              </ng-template>
+              <ng-template #details let-item>
+                <app-monster-stat-block [monster]="item" />
+              </ng-template>
+            </app-picker>
+          } @else if (monsters.isLoading()) {
+            <p>{{ 'common.loading' | t }}</p>
+          }
+        }
+      </section>
+
+      <section class="notes">
+        <h2>
+          <label for="encounter-notes">{{ 'encounter.notes' | t }}</label>
+        </h2>
+        <textarea
+          id="encounter-notes"
+          rows="4"
+          [value]="e.notes"
+          [placeholder]="'encounter.notesPlaceholder' | t"
+          (input)="setNotes($any($event.target).value)"
+        ></textarea>
+      </section>
+    </div>
+  </div>
+}

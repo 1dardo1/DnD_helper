@@ -17,6 +17,7 @@ $wide: 60rem;
   --ribbon-characters: #2f5a34;
   --ribbon-create: #27466f;
   --ribbon-settings: #7a5a1c;
+  --ribbon-dm: #1d5656;
   --ribbon-other: #5a2d63;
 }
 
@@ -165,6 +166,14 @@ nav {
       )};
   }
 
+  [data-icon='/dm'] {
+    --ribbon: var(--ribbon-dm);
+    // a d20
+    --icon: #{nb.svg(
+        "<path d='M12 2.5l8.5 4.9v9.2L12 21.5l-8.5-4.9V7.4z'/><path d='M12 7.5l4.5 7.5h-9zM12 2.5v5M3.5 7.4l4 7.6M20.5 7.4l-4 7.6M7.5 15L12 21.5l4.5-6.5'/>"
+      )};
+  }
+
   [data-icon='/settings'] {
     --ribbon: var(--ribbon-settings);
     --icon: #{nb.svg(
@@ -173,7 +182,12 @@ nav {
   }
 
   // any future entry
-  a:not([data-icon^='/compendium'], [data-icon^='/characters'], [data-icon^='/settings']) {
+  a:not(
+    [data-icon^='/compendium'],
+    [data-icon^='/characters'],
+    [data-icon^='/dm'],
+    [data-icon^='/settings']
+  ) {
     --icon: #{nb.svg(
         "<path d='M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z'/>"
       )};
@@ -442,5 +456,19 @@ main {
     margin: 0;
     padding: 1.25rem 1rem calc(5.75rem + env(safe-area-inset-bottom));
     border-radius: 0;
+  }
+}
+
+// Narrow phones: five tabs in the strap, so slightly smaller labels and icons.
+@media (max-width: 26.5rem) {
+  nav a {
+    padding-inline: 0.05rem;
+    font-size: 0.76rem;
+    letter-spacing: -0.01em;
+
+    &::before {
+      width: 1.3rem;
+      height: 1.3rem;
+    }
   }
 }
