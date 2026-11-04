@@ -61,6 +61,14 @@ categorías, competencias…) no se traduce.
   3 horas, retoma lo que falte y no hace nada cuando la traducción está completa.
 - `python -m dndscraper --no-translate` extrae sin traducir; `python -m dndscraper.translate` solo traduce.
 
+## Planos del artífice (Replicar objeto mágico)
+
+`dndscraper.plans` convierte las tablas «Magic Item Plans» de la clase Artífice (2024) en opciones del
+grupo `magic-item-plan` (con `itemId` del objeto del compendio, `attunement` y el nivel mínimo). Tres filas
+(objeto mágico común, maravilloso poco común y raro) llevan `itemPick`: el jugador elige el objeto. La
+extracción lo ejecuta tras fusionar; sin red se puede regenerar con `python -m dndscraper.plans` y luego
+`python -m dndscraper.translate --offline` (los nombres en `names.es.yaml`).
+
 ## Imágenes de las especies
 
 El extractor no busca imágenes. Las de las especies las pone el usuario a mano en

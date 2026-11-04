@@ -156,6 +156,20 @@ def validate(root: Path) -> list[str]:
             errors.append(f"monster '{e['id']}': no traits nor actions")
         if any(not a.get("name") or not a.get("description") for k in parts for a in e[k]):
             errors.append(f"monster '{e['id']}': trait or action without a name or text")
+    item_ids = {e["id"] for e in data["item"]}
+    plans = [e for e in data["option"] if e.get("group") == "magic-item-plan"]
+    if not any(e.get("itemId") for e in plans) or not any(e.get("itemPick") for e in plans):
+        errors.append("artificer magic item plans missing (python -m dndscraper.plans)")
+    for e in plans:   # every plan is a real compendium item, or a kind of item to pick
+        where = f"options.json[{e['id']}]"
+        if e.get("classId") != "artificer" or not isinstance(e.get("prerequisites", {}).get("level"), int):
+            errors.append(f"{where}: plan without class or level")
+        if bool(e.get("itemId")) == bool(e.get("itemPick")):
+            errors.append(f"{where}: needs exactly one of itemId / itemPick")
+        elif e.get("itemId") and e["itemId"] not in item_ids:
+            errors.append(f"{where}: unknown item '{e['itemId']}'")
+        if e.get("attunement") not in (True, False, None):
+            errors.append(f"{where}: bad attunement {e.get('attunement')!r}")
     feat_ids = {e["id"] for e in data["feat"]}
     for e in data["feat"]:
         if e["edition"] == "2014" and e["category"] in ("general", "racial") and \

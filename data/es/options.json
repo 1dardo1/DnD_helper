@@ -702,6 +702,1005 @@
     ]
   },
   {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": false,
+    "id": "magic-item-plan/alchemy-jug",
+    "name": "Jarra alquímica",
+    "description": "Esta jarra de cerámica parece poder contener un galón de líquido y pesa 12 libras, ya sea llena o vacía. La jarra chapotea cuando se agita, incluso si está vacía.\n\nPuedes tomar un acción de Magia y nombrar un líquido de la tabla Líquidos de la jarra de Alchemy para hacer que la jarra produzca el líquido elegido. Luego, puedes descorchar la jarra como un acción de Usar y verter ese líquido, hasta 2 galones por minuto. La cantidad máxima de líquido que puede producir la jarra depende del líquido que hayas nombrado.\n\nUna vez que la jarra empieza a producir un líquido, no puede producir otro diferente, o más de uno que haya alcanzado su máximo, hasta el siguiente amanecer.\n\n#### Líquidos de jarra de alquimia\n\n| Líquido | Máx. Cantidad |\n|---|---|\n| Ácido | 8 onzas |\n| Veneno básico | 4 onzas |\n| Cerveza | 4 galones |\n| Miel | 1 galón |\n| Mayonesa | 2 galones |\n| Aceite | 1 cuarto |\n| Vinagre | 2 galones |\n| Agua dulce | 8 galones |\n| Agua, sal | 12 galones |\n| Vino | 1 galón |",
+    "itemId": "alchemy-jug"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 10+ Artífice",
+      "level": 10
+    },
+    "attunement": true,
+    "id": "magic-item-plan/armor-of-resistance",
+    "name": "Armadura de resistencia",
+    "description": "Tienes resistencia a un tipo de daño mientras usas esta armadura. El DM elige el tipo o lo determina aleatoriamente tirando en la siguiente tabla.\n\n| 1d10 | Tipo de daño |\n|---|---|\n| 1 | Ácido |\n| 2 | Frío |\n| 3 | Fuego |\n| 4 | Fuerza |\n| 5 | Rayo |\n| 6 | Necrótico |\n| 7 | Veneno |\n| 8 | Psíquico |\n| 9 | Radiante |\n| 10 | Trueno |",
+    "itemId": "armor-of-resistance"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": false,
+    "id": "magic-item-plan/armor-plus-1",
+    "name": "Armadura +1",
+    "description": "Tienes una bonificación de Clase de Armadura mientras usas esta armadura. La bonificación está determinada por su rareza.",
+    "itemId": "armor-1-2-or-3"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 14+ Artífice",
+      "level": 14
+    },
+    "attunement": false,
+    "id": "magic-item-plan/armor-plus-2",
+    "name": "Armadura +2",
+    "description": "Tienes una bonificación de Clase de Armadura mientras usas esta armadura. La bonificación está determinada por su rareza.",
+    "itemId": "armor-1-2-or-3"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 14+ Artífice",
+      "level": 14
+    },
+    "attunement": true,
+    "id": "magic-item-plan/arrow-catching-shield",
+    "name": "Escudo atrapaflechas",
+    "description": "Obtienes una bonificación de +2 a Clase de Armadura contra las tiradas de ataque a distancia mientras empuñas este escudo. Esta bonificación se suma a la bonificación normal del Escudo a CA.\n\nSiempre que un atacante haga una tirada de ataque a distancia contra un objetivo a 5 pies de ti, puedes realizar una Reacción para convertirte en el objetivo del ataque.",
+    "itemId": "arrow-catching-shield"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": false,
+    "id": "magic-item-plan/bag-of-holding",
+    "name": "Bolsa de contención",
+    "description": "Esta bolsa tiene un espacio interior considerablemente mayor que sus dimensiones exteriores: aproximadamente 2 pies cuadrados y 4 pies de profundidad en el interior. La bolsa puede contener hasta 500 libras, sin exceder un volumen de 64 pies cúbicos. La bolsa pesa 5 libras, independientemente de su contenido. Recuperar un artículo de la bolsa requiere un acción de Usar.\n\nSi la bolsa es sobrecargada, perforada o rota, se destruye y su contenido se dispersa en el Plano Astral. Si se da la vuelta a la bolsa, su contenido se derrama ileso, pero hay que enderezar la bolsa antes de poder volver a utilizarla. La bolsa contiene suficiente aire para 10 minutos de respiración, dividido por la cantidad de criaturas que respiran en su interior.\n\nColocar una bolsa de almacenamiento dentro de un espacio extradimensional creado por una mochila práctica, un agujero portátil o un elemento similar de Heward destruye instantáneamente ambos elementos y abre una puerta al plano astral. La puerta se origina donde se colocó un elemento dentro del otro. Cualquier criatura dentro de una Esfera de 10 pies de radio centrada en la puerta es succionada a través de ella hacia una ubicación aleatoria en el Plano Astral. Entonces la puerta se cierra. La puerta es unidireccional y no se puede volver a abrir.",
+    "itemId": "bag-of-holding"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": false,
+    "id": "magic-item-plan/boots-of-elvenkind",
+    "name": "Botas élficas",
+    "description": "Mientras usas estas botas, tus pasos no hacen ruido, independientemente de la superficie por la que te mueves. También tienes Ventaja en las pruebas de Destreza (Sigilo).",
+    "itemId": "boots-of-elvenkind"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": true,
+    "id": "magic-item-plan/boots-of-the-winding-path",
+    "name": "Botas del camino sinuoso",
+    "description": "Mientras usas estas botas, puedes tomar un acción adicional para teletransportarte hasta 15 pies a un espacio desocupado que puedas ver. Debes haber ocupado ese espacio en algún momento durante el turno actual.",
+    "itemId": "boots-of-the-winding-path"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": false,
+    "id": "magic-item-plan/cap-of-water-breathing",
+    "name": "Gorro de respirar bajo el agua",
+    "description": "Mientras usas esta gorra bajo el agua, puedes tomar un acción de Magia para crear una burbuja de aire alrededor de tu cabeza. Esta burbuja te permite respirar normalmente bajo el agua. Esta burbuja permanece contigo hasta que retiras la tapa o ya no estás bajo el agua.",
+    "itemId": "cap-of-water-breathing"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": true,
+    "id": "magic-item-plan/cloak-of-elvenkind",
+    "name": "Capa élfica",
+    "description": "Mientras usas esta capa, se realizan pruebas de Sabiduría (Percepción) para percibir que tienes Desventaja, y tienes Ventaja en las pruebas de Destreza (Sigilo).",
+    "itemId": "cloak-of-elvenkind"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": false,
+    "id": "magic-item-plan/cloak-of-the-manta-ray",
+    "name": "Capa de la mantarraya",
+    "description": "Mientras usas esta capa, puedes respirar bajo el agua y tienes una velocidad de nado de 60 pies.",
+    "itemId": "cloak-of-the-manta-ray"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": null,
+    "id": "magic-item-plan/common-magic-item",
+    "name": "Objeto mágico común",
+    "description": "Elige un objeto mágico común que no sea una poción, un pergamino ni esté maldito. Puedes aprender esta opción varias veces, pero debes seleccionar un elemento diferente cada vez. Cada elemento seleccionado cuenta como un plan diferente.",
+    "itemPick": {
+      "rarity": "common",
+      "wondrous": false
+    }
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 10+ Artífice",
+      "level": 10
+    },
+    "attunement": false,
+    "id": "magic-item-plan/dagger-of-venom",
+    "name": "Daga venenosa",
+    "description": "Obtienes una bonificación de +1 a las tiradas de ataque y de daño realizadas con esta arma mágica.\n\nPuedes tomar un acción adicional para cubrir mágicamente la hoja con veneno. El veneno permanece durante 1 minuto o hasta que un ataque con esta arma golpee a una criatura. Esa criatura debe tener éxito en CD 15 Constitución tirada de salvación o recibir 2d10 de daño por Veneno y tener la condición de Envenenado durante 1 minuto. El arma no podrá volver a usarse de esta manera hasta el próximo amanecer.",
+    "itemId": "dagger-of-venom"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 10+ Artífice",
+      "level": 10
+    },
+    "attunement": false,
+    "id": "magic-item-plan/elven-chain",
+    "name": "Cota de malla élfica",
+    "description": "Obtienes una bonificación de +1 a Clase de Armadura mientras usas esta armadura. Se te considera entrenado con esta armadura incluso si careces de entrenamiento con armadura Media o Pesada.",
+    "itemId": "elven-chain"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": true,
+    "id": "magic-item-plan/eyes-of-charming",
+    "name": "Lentes de encantamiento",
+    "description": "Estas lentes de cristal se colocan sobre los ojos. Tienen 3 cargas. Mientras los usas, puedes gastar 1 o más cargas para lanzar Charm Person (ahorra CD 13). Por 1 carga, lanzas la versión de nivel 1 del conjuro. Aumentas el nivel del conjuro en uno por cada carga adicional que gastas. Las lentes recuperan todas las cargas gastadas diariamente al amanecer.",
+    "itemId": "eyes-of-charming"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": false,
+    "id": "magic-item-plan/eyes-of-minute-seeing",
+    "name": "Lentes de visión minuciosa",
+    "description": "Estas lentes de cristal se colocan sobre los ojos. Mientras los usas, tu visión mejora significativamente hasta un rango de 1 pie, lo que te otorga visión en la oscuridad dentro de ese rango y Ventaja en las pruebas de Inteligencia (Investigación) realizadas para examinar algo dentro de ese rango.",
+    "itemId": "eyes-of-minute-seeing"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 14+ Artífice",
+      "level": 14
+    },
+    "attunement": true,
+    "id": "magic-item-plan/flame-tongue",
+    "name": "Lengua de fuego",
+    "description": "Mientras sostienes esta arma mágica, puedes tomar un acción adicional y usar una palabra de comando para provocar que las llamas envuelvan la parte del arma que causa daño. Estas llamas arrojan luz brillante en un radio de 40 pies y luz tenue en 40 pies adicionales. Mientras el arma está en llamas, causa 2d6 de daño de Fuego adicional con cada golpe. Las llamas duran hasta que tomas un acción adicional para dar la orden nuevamente o hasta que sueltas, guardas o enfundas el arma.",
+    "itemId": "flame-tongue"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": false,
+    "id": "magic-item-plan/gloves-of-thievery",
+    "name": "Guantes de ladrón",
+    "description": "Estos guantes son imperceptibles mientras se usan. Mientras los usas, obtienes una bonificación de +5 a las pruebas de Destreza (Juego de manos).",
+    "itemId": "gloves-of-thievery"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": false,
+    "id": "magic-item-plan/goggles-of-night",
+    "name": "Gafas de noche",
+    "description": "Mientras usa estos lentes oscuros, tiene visión en la oscuridad hasta 60 pies. Si ya tienes visión en la oscuridad, usar las gafas aumenta su alcance en 60 pies.",
+    "itemId": "goggles-of-night"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": false,
+    "id": "magic-item-plan/lantern-of-revealing",
+    "name": "Linterna de la revelación",
+    "description": "Mientras está encendida, esta linterna con capucha arde durante 6 horas con 1 litro de aceite, arrojando luz brillante en un radio de 30 pies y luz tenue durante 30 pies adicionales. Las criaturas y objetos invisibles son visibles siempre que estén bajo la luz brillante de la linterna. Puedes tomar un acción de Usar para bajar el capó, reduciendo la luz de la linterna a Luz tenue en un radio de 5 pies.",
+    "itemId": "lantern-of-revealing"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": true,
+    "id": "magic-item-plan/manifold-tool",
+    "name": "Herramienta múltiple",
+    "description": "Esta herramienta toma la forma de una llave inglesa, un destornillador u otra herramienta básica. Como acción de Magia, puedes tocar el elemento y transformarlo en un tipo de Herramientas de artesano de tu elección. Cualquiera que sea la forma que adopte la herramienta, usted será competente cuando la utilice.",
+    "itemId": "manifold-tool"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": true,
+    "id": "magic-item-plan/mind-sharpener",
+    "name": "Afilador de mentes",
+    "description": "El artículo tiene 4 cargas. Cuando fallas una Constitución tirada de salvación para mantener la Concentración, puedes realizar una Reacción y gastar 1 de las cargas del objeto para tener éxito. El objeto recupera 1d4 cargas gastadas diariamente al amanecer.",
+    "itemId": "mind-sharpener"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": true,
+    "id": "magic-item-plan/necklace-of-adaption",
+    "name": "Collar de adaptación",
+    "description": "Mientras usa este collar, puede respirar normalmente en cualquier entorno y tiene Ventaja en tiradas de salvación para evitar o finalizar la condición de Envenenamiento.",
+    "itemId": "necklace-of-adaptation"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": false,
+    "id": "magic-item-plan/pipes-of-haunting",
+    "name": "Flauta del espanto",
+    "description": "Estas tuberías tienen 3 cargas y recuperan 1d3 cargas gastadas diariamente al amanecer. Puedes tomar acción de Magia para reproducirlos y gastar 1 carga para crear una melodía espeluznante y fascinante. Cada criatura de tu elección a menos de 30 pies de ti debe tener éxito con CD 15 de Sabiduría tirada de salvación o tener la condición de Asustado durante 1 minuto. Una criatura que falla la salvación la repite al final de cada uno de sus turnos, finalizando el efecto sobre sí misma si tiene éxito. Una criatura que tiene éxito en su salvación es inmune al efecto de estas tuberías durante 24 horas.",
+    "itemId": "pipes-of-haunting"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": true,
+    "id": "magic-item-plan/radiant-weapon",
+    "name": "Arma radiante",
+    "description": "Esta arma mágica otorga un bono de +1 a las tiradas de ataque y daño realizadas con ella. Mientras lo sostienes, puedes tomar un acción adicional para hacer que emita luz brillante en un radio de 30 pies y luz tenue en 30 pies adicionales. Puedes apagar la luz como acción adicional.\n\nEl arma tiene 4 cargas. Puedes realizar una Reacción inmediatamente después de ser golpeado por una tirada de ataque para gastar 1 de las cargas del arma y obligar al atacante a hacer una Constitución CD 15 tirada de salvación. Si falla la salvación, el atacante queda cegado hasta el final de su siguiente turno. El arma recupera 1d4 cargas gastadas diariamente al amanecer.",
+    "itemId": "radiant-weapon-ua"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 14+ Artífice",
+      "level": 14
+    },
+    "attunement": null,
+    "id": "magic-item-plan/rare-wondrous-item",
+    "name": "Objeto maravilloso raro",
+    "description": "Elige un objeto raro y maravilloso que no esté maldito. Puedes aprender esta opción varias veces, pero debes seleccionar un elemento diferente cada vez. Cada elemento seleccionado cuenta como un plan diferente.",
+    "itemPick": {
+      "rarity": "rare",
+      "wondrous": true
+    }
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": true,
+    "id": "magic-item-plan/repeating-shot",
+    "name": "Tiro repetido",
+    "description": "Esta arma mágica otorga una bonificación de +1 a las tiradas de ataque y daño realizadas con ella cuando se usa para realizar un ataque a distancia, e ignora la propiedad de Carga si tiene esa propiedad.\n\nSi el arma carece de munición, produce la suya propia, creando automáticamente una pieza de munición mágica cuando el portador realiza una tirada de ataque a distancia con ella. La munición creada por el arma desaparece en el instante en que alcanza o falla un objetivo.",
+    "itemId": "repeating-shot"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": false,
+    "id": "magic-item-plan/repulsion-shield",
+    "name": "Escudo de repulsión",
+    "description": "You gain a +1 bonus to Clase de Armadura while wielding this shield.\n\nEl escudo tiene 4 cargas. Mientras lo sostienes, cuando una criatura Grande o más pequeña a 5 pies de ti te golpea con una tirada de ataque cuerpo a cuerpo, puedes realizar una Reacción para gastar 1 de las cargas del escudo y empujar al atacante hasta 15 pies de inmediato. The shield regains 1d4 expended charges daily at dawn.",
+    "itemId": "repulsion-shield"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": false,
+    "id": "magic-item-plan/returning-weapon",
+    "name": "Arma que regresa",
+    "description": "Esta arma mágica otorga una bonificación de +1 a las tiradas de ataque y daño realizadas con ella, y regresa a tu mano inmediatamente después de usarla para realizar una tirada de ataque a distancia.",
+    "itemId": "returning-weapon"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 10+ Artífice",
+      "level": 10
+    },
+    "attunement": true,
+    "id": "magic-item-plan/ring-of-feather-falling",
+    "name": "Anillo de caída de pluma",
+    "description": "Cuando te caes mientras usas este anillo, desciendes 60 pies por ronda y no sufres daño por la caída.",
+    "itemId": "ring-of-feather-falling"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 14+ Artífice",
+      "level": 14
+    },
+    "attunement": true,
+    "id": "magic-item-plan/ring-of-free-action",
+    "name": "Anillo de acción libre",
+    "description": "Mientras uses este anillo, terreno difícil no te costará movimiento adicional. Además, la magia no puede reducir ninguna de tus velocidades ni provocar que tengas la condición de Paralizado o Apresado.",
+    "itemId": "ring-of-free-action"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 10+ Artífice",
+      "level": 10
+    },
+    "attunement": true,
+    "id": "magic-item-plan/ring-of-jumping",
+    "name": "Anillo de salto",
+    "description": "Mientras usas este anillo, puedes lanzar Saltar desde él, pero solo puedes apuntar a ti mismo cuando lo hagas.",
+    "itemId": "ring-of-jumping"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 10+ Artífice",
+      "level": 10
+    },
+    "attunement": true,
+    "id": "magic-item-plan/ring-of-mind-shielding",
+    "name": "Anillo de protección mental",
+    "description": "Mientras usas este anillo, eres inmune a la magia que permite a otras criaturas leer tus pensamientos, determinar si estás mintiendo, conocer tu alineación o tu tipo de criatura. Las criaturas pueden comunicarse telepáticamente contigo sólo si lo permites.\n\nPuedes tomar un acción de Magia para que el anillo se vuelva imperceptible hasta que tomes otro acción de Magia para hacerlo perceptible, hasta que te quites el anillo o hasta que mueras.\n\nSi mueres mientras llevas el anillo, tu alma entra en él, a menos que ya albergue un alma. Puedes permanecer en el ring o partir hacia el más allá. Mientras tu alma esté en el anillo, puedes comunicarte telepáticamente con cualquier criatura que lo lleve. Un usuario no puede impedir esta comunicación telepática.",
+    "itemId": "ring-of-mind-shielding"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 14+ Artífice",
+      "level": 14
+    },
+    "attunement": true,
+    "id": "magic-item-plan/ring-of-protection",
+    "name": "Anillo de protección",
+    "description": "Obtienes una bonificación de +1 a Clase de Armadura y tiradas de salvación mientras usas este anillo.",
+    "itemId": "ring-of-protection"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": false,
+    "id": "magic-item-plan/ring-of-swimming",
+    "name": "Anillo de natación",
+    "description": "Tienes una velocidad de nado de 40 pies mientras usas este anillo.",
+    "itemId": "ring-of-swimming"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 14+ Artífice",
+      "level": 14
+    },
+    "attunement": true,
+    "id": "magic-item-plan/ring-of-the-ram",
+    "name": "Anillo del carnero",
+    "description": "Este anillo tiene 3 cargas y recupera 1d3 cargas gastadas diariamente al amanecer. Mientras usas el anillo, puedes tomar un acción de Magia para gastar de 1 a 3 cargas y realizar un ataque de conjuro a distancia contra una criatura que puedas ver a 60 pies de ti. El anillo produce una cabeza de carnero espectral y realiza su tirada de ataque con una bonificación de +7. En un golpe, por cada carga que gastas, el objetivo sufre 2d10 de daño de Fuerza y ​​es empujado a 5 pies de ti.\n\nAlternativamente, puedes gastar de 1 a 3 de las cargas del anillo como acción de Magia para intentar romper un objeto no mágico que puedas ver a 60 pies de ti y que no esté usado ni transportado. El anillo realiza una prueba de Fuerza con una bonificación de +5 por cada carga que gastes.",
+    "itemId": "ring-of-the-ram"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": false,
+    "id": "magic-item-plan/ring-of-water-walking",
+    "name": "Anillo de caminar sobre el agua",
+    "description": "Mientras usas este anillo, lanzas Water Walk desde él, apuntando solo a ti mismo.",
+    "itemId": "ring-of-water-walking"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": false,
+    "id": "magic-item-plan/rope-of-climbing",
+    "name": "Cuerda de escalada",
+    "description": "Esta cuerda de 60 pies de largo puede soportar hasta 3000 libras. Mientras sostienes un extremo de la cuerda, puedes tomar un acción de Magia para ordenarle al otro extremo de la cuerda que se anime y se mueva hacia el destino que elijas, hasta la longitud de la cuerda alejada de ti. Ese extremo se mueve 10 pies en tu turno cuando le ordenas por primera vez y 10 pies al comienzo de cada uno de tus turnos posteriores hasta llegar a su destino o hasta que le dices que se detenga. También puede decirle a la cuerda que se sujete firmemente a un objeto o que se desabroche, que se anude o se desanude, o que se enrolle para transportarla.\n\nSi le dice a la cuerda que se anude, aparecerán nudos grandes a intervalos de 1 pie a lo largo de la cuerda. Mientras está anudada, la cuerda se acorta a una longitud de 50 pies y otorga ventaja a pruebas de característica que sube usando la cuerda.\n\nLa cuerda tiene CA 20, HP 20 e inmunidad al veneno y al daño psíquico. Recupera 1 punto de golpe cada 5 minutos siempre que tenga al menos 1 punto de golpe. Si la cuerda cae a 0 puntos de golpe, se destruye.",
+    "itemId": "rope-of-climbing"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": false,
+    "id": "magic-item-plan/sending-stones",
+    "name": "Piedras de recado",
+    "description": "Las piedras de envío vienen en pares, y cada piedra está tallada para que coincida con la otra, de modo que la combinación se reconozca fácilmente. Mientras tocas una piedra, puedes lanzar Envío desde ella. El objetivo es el portador de la otra piedra. Si ninguna criatura lleva la otra piedra, lo sabrás tan pronto como uses la piedra y no lances el conjuro.\n\nUna vez que se lanza *Envío* usando cualquiera de las piedras, las piedras no se pueden volver a usar hasta el siguiente amanecer. Si una de las piedras de un par se destruye, la otra deja de ser mágica.",
+    "itemId": "sending-stones"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": false,
+    "id": "magic-item-plan/sentinel-shield",
+    "name": "Escudo centinela",
+    "description": "Mientras sostienes este escudo, tienes ventaja en las tiradas de iniciativa y en las pruebas de sabiduría (percepción). El Escudo está adornado con el símbolo de un ojo.",
+    "itemId": "sentinel-shield"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": false,
+    "id": "magic-item-plan/shield-plus-1",
+    "name": "Escudo +1",
+    "description": "Mientras sostienes este escudo, tienes una bonificación de Clase de Armadura determinada por la rareza del escudo, además de la bonificación normal del escudo de CA.",
+    "itemId": "shield-1-2-or-3"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 10+ Artífice",
+      "level": 10
+    },
+    "attunement": false,
+    "id": "magic-item-plan/shield-plus-2",
+    "name": "Escudo +2",
+    "description": "Mientras sostienes este escudo, tienes una bonificación de Clase de Armadura determinada por la rareza del escudo, además de la bonificación normal del escudo de CA.",
+    "itemId": "shield-1-2-or-3"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": true,
+    "id": "magic-item-plan/spell-refueling-ring",
+    "name": "Anillo de reabastecimiento de conjuros",
+    "description": "Mientras usa este anillo, puede recuperar un espacio de conjuro gastado como acción adicional. El slot recuperado puede ser de nivel 3 o inferior. Una vez usado, el anillo no se puede volver a utilizar hasta el amanecer siguiente.",
+    "itemId": "spell-refueling-ring"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 10+ Artífice",
+      "level": 10
+    },
+    "attunement": null,
+    "id": "magic-item-plan/uncommon-wondrous-item",
+    "name": "Objeto maravilloso poco común",
+    "description": "Elige un objeto maravilloso poco común que no esté maldito. Puedes aprender esta opción varias veces, pero debes seleccionar un elemento diferente cada vez. Cada elemento seleccionado cuenta como un plan diferente.",
+    "itemPick": {
+      "rarity": "uncommon",
+      "wondrous": true
+    }
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": false,
+    "id": "magic-item-plan/wand-of-magic-detection",
+    "name": "Varita de detección mágica",
+    "description": "Esta varita tiene 3 cargas. Mientras lo sostienes, puedes gastar 1 carga para lanzar Detect Magic desde él. La varita recupera 1d3 cargas gastadas diariamente al amanecer.",
+    "itemId": "wand-of-magic-detection"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": false,
+    "id": "magic-item-plan/wand-of-magic-missiles",
+    "name": "Varita de proyectiles mágicos",
+    "description": "Esta varita tiene 7 cargas. Mientras lo sostienes, no puedes gastar más de 3 cargas para lanzar Magic Missile desde él. Por 1 carga, lanzas la versión de nivel 1 del conjuro. Puedes aumentar el nivel del conjuro en 1 por cada carga adicional que gastes.\n\n**Recuperación de cargas.** La varita recupera 1d6 + 1 cargas gastadas diariamente al amanecer. Si gastas la última carga de la varita, tira 1d20. Con un 1, la varita se convierte en cenizas y se destruye.",
+    "itemId": "wand-of-magic-missiles"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": false,
+    "id": "magic-item-plan/wand-of-secrets",
+    "name": "Varita de secretos",
+    "description": "Esta varita tiene 3 cargas y recupera 1d3 cargas gastadas diariamente al amanecer. Mientras la sostienes, puedes tomar un acción de Magia para gastar 1 carga, y si hay una puerta secreta o trampa a 60 pies de ti, la varita pulsa y apunta a la más cercana a ti.",
+    "itemId": "wand-of-secrets"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": true,
+    "id": "magic-item-plan/wand-of-the-war-mage-plus-1",
+    "name": "Varita del mago de guerra +1",
+    "description": "Mientras sostienes esta varita, obtienes una bonificación a las tiradas de ataque con conjuros determinadas por la rareza de la varita. Además, ignoras la Media Cobertura cuando haces una tirada de ataque con conjuros.",
+    "itemId": "wand-of-the-war-mage-1-2-or-3"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 10+ Artífice",
+      "level": 10
+    },
+    "attunement": true,
+    "id": "magic-item-plan/wand-of-the-war-mage-plus-2",
+    "name": "Varita del mago de guerra +2",
+    "description": "Mientras sostienes esta varita, obtienes una bonificación a las tiradas de ataque con conjuros determinadas por la rareza de la varita. Además, ignoras la Media Cobertura cuando haces una tirada de ataque con conjuros.",
+    "itemId": "wand-of-the-war-mage-1-2-or-3"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": true,
+    "id": "magic-item-plan/wand-of-web",
+    "name": "Varita de telaraña",
+    "description": "Esta varita tiene 7 cargas. Mientras lo sostienes, puedes gastar 1 carga para lanzar Web (guarda CD 13) desde él.\n\n**Recuperación de cargas.** La varita recupera 1d6 + 1 cargas gastadas diariamente al amanecer. Si gastas la última carga de la varita, tira 1d20. Con un 1, la varita se convierte en cenizas y se destruye.",
+    "itemId": "wand-of-web"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 6+ Artífice",
+      "level": 6
+    },
+    "attunement": true,
+    "id": "magic-item-plan/weapon-of-warning",
+    "name": "Arma de advertencia",
+    "description": "Siempre que esta arma esté a tu alcance y estés en sintonía con ella, tú y tus aliados dentro de un radio de 30 pies obtendréis los siguientes beneficios.\n\n**Alarma.** El arma despierta mágicamente a cada sujeto que está durmiendo de forma natural cuando comienza el combate. Este beneficio no despierta al sujeto del sueño inducido mágicamente.\n\n**Preparación sobrenatural.** Cada sujeto tiene Ventaja en sus tiradas de Iniciativa.",
+    "itemId": "weapon-of-warning"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": false,
+    "id": "magic-item-plan/weapon-plus-1",
+    "name": "Arma +1",
+    "description": "Tienes una bonificación a las tiradas de ataque y de daño realizadas con esta arma mágica. La bonificación está determinada por la rareza del arma.",
+    "itemId": "weapon-1-2-or-3"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 10+ Artífice",
+      "level": 10
+    },
+    "attunement": false,
+    "id": "magic-item-plan/weapon-plus-2",
+    "name": "Arma +2",
+    "description": "Tienes una bonificación a las tiradas de ataque y de daño realizadas con esta arma mágica. La bonificación está determinada por la rareza del arma.",
+    "itemId": "weapon-1-2-or-3"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 2+ Artífice",
+      "level": 2
+    },
+    "attunement": false,
+    "id": "magic-item-plan/wraps-of-unarmed-power-plus-1",
+    "name": "Vendas de poder sin armas +1",
+    "description": "Mientras usas estas envolturas, tienes una bonificación a las tiradas de ataque y de daño realizadas con tus golpes desarmados. La bonificación está determinada por la rareza de las envolturas, y esos golpes causan tu elección de daño de Fuerza o su tipo de daño normal.",
+    "itemId": "wraps-of-unarmed-power"
+  },
+  {
+    "type": "option",
+    "edition": "2024",
+    "source": "UA3 - Actualizaciones de Eberron (27.02.2025)",
+    "url": "https://dnd2024.wikidot.com/ua:class-artificer2",
+    "group": "magic-item-plan",
+    "classId": "artificer",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Nivel 10+ Artífice",
+      "level": 10
+    },
+    "attunement": false,
+    "id": "magic-item-plan/wraps-of-unarmed-power-plus-2",
+    "name": "Vendas de poder sin armas +2",
+    "description": "Mientras usas estas envolturas, tienes una bonificación a las tiradas de ataque y de daño realizadas con tus golpes desarmados. La bonificación está determinada por la rareza de las envolturas, y esos golpes causan tu elección de daño de Fuerza o su tipo de daño normal.",
+    "itemId": "wraps-of-unarmed-power"
+  },
+  {
     "id": "maneuver/ambush",
     "type": "option",
     "name": "Emboscada",

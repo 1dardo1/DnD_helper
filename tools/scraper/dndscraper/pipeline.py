@@ -11,7 +11,7 @@ from pathlib import Path
 
 import yaml
 
-from . import backgrounds, classes, feats, items, rules, species, spells
+from . import backgrounds, classes, feats, items, plans, rules, species, spells
 from .common import ALL_CLASSES, CLASSES_2024
 from .crawl import SITES, Crawler
 from .html import Page, clean, parse_page, slug
@@ -647,6 +647,7 @@ def run(root: Path, offline: bool = False, delay: float = 0.5, translate: bool =
     e14 = r.parse_2014()
     successors = load_successors(root / "tools/scraper/successors.yaml")
     merged = drop_dragonmarks(prune_options(merge(e14, e24, successors, report), report), report)
+    merged = plans.add_plans(merged, report)   # artificer magic item plans (options), from the class + items
     apply_multiclass_gains(merged, root / "tools/scraper/multiclass.yaml", report)
     meta = write(merged, root / "data", report, crawler, root / "tools/scraper/report.md")
     from .monsters import run as monsters_run   # SRD 5.2 creatures (data/monsters.json), not from the wikis
