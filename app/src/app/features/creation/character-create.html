@@ -497,10 +497,13 @@
                         ({{ taken }} / {{ g.count }})
                       }
                     </legend>
-                    @for (o of g.options; track o.id) {
+                    @let v = optionView(g.options, r.entry.level, c.choices.options);
+                    @for (o of v.shown; track o.id) {
+                      @let lock = optionLocks(o, r.entry.level, g.options, c.choices.options);
+                      @let note = optionNote(o, g.options);
                       <label
                         class="inline"
-                        [class.issue]="optionTooHigh(o, r.entry.level)"
+                        [class.issue]="lock.level > 0 || lock.requires.length > 0"
                         [title]="o.prerequisites?.raw | dataText"
                       >
                         <input
@@ -509,10 +512,24 @@
                           (change)="setOption(o.id, checked($event))"
                         />
                         {{ o.name | dataName }}
-                        @if (optionTooHigh(o, r.entry.level)) {
+                        @if (lock.level > 0 || lock.requires.length > 0) {
                           <small>⚠ {{ o.prerequisites?.raw | dataText }}</small>
+                        } @else if (note) {
+                          <small>{{ note | dataText }}</small>
                         }
                       </label>
+                    }
+                    @if (v.hiddenByLevel > 0) {
+                      <p>
+                        <small>{{ 'optfilter.moreLevel' | t: { n: v.hiddenByLevel } }}</small>
+                      </p>
+                    }
+                    @if (v.hiddenByRequirement > 0) {
+                      <p>
+                        <small>{{
+                          'optfilter.moreRequires' | t: { n: v.hiddenByRequirement }
+                        }}</small>
+                      </p>
                     }
                   </fieldset>
                 }

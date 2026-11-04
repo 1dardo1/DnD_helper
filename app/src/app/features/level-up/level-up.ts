@@ -10,9 +10,12 @@ import {
   TOOL_GROUPS,
   featIssues,
   featsForSlot,
+  optionLocks,
+  optionUncheckedNote,
   review,
   spellsFor,
   subclassesFor,
+  visibleOptions,
 } from '../../core/creation/creation-rules';
 import {
   SheetChange,
@@ -518,10 +521,9 @@ export class LevelUp {
     }));
   }
 
-  /** Options above the class level are listed but flagged. */
-  protected optionTooHigh(o: ClassOption, level: number): boolean {
-    return (o.prerequisites?.level ?? 0) > level;
-  }
+  protected readonly optionView = visibleOptions;
+  protected readonly optionLocks = optionLocks;
+  protected readonly optionNote = optionUncheckedNote;
 
   // -- save ---------------------------------------------------------------------------------------
   protected async save(): Promise<void> {

@@ -188,7 +188,7 @@ export function optionGroupsFor(
     (o) => o.classId === cls.id && (!o.subclassId || o.subclassId === subclassId),
   );
   const groups = new Map<string, ClassOption[]>();
-  // options above the level are listed too: the wizard warns instead of hiding them
+  // every option is returned (sorted); the screens hide the locked ones with visibleOptions()
   for (const o of mine) groups.set(o.group, [...(groups.get(o.group) ?? []), o]);
   return [...groups.entries()].map(([group, opts]) => {
     const col = cls.progression.columns.find((c) => OPTION_COUNT_COLUMN[group]?.test(c));
@@ -204,6 +204,84 @@ export function optionGroupsFor(
       count: Number.isNaN(value) ? null : value,
     };
   });
+}
+
+/** Ids of the options of the same group that this one requires (e.g. "Pact of the Blade Invocation"). */
+export function requiredOptions(o: ClassOption, all: ClassOption[]): ClassOption[] {
+  const out: ClassOption[] = [];
+  for (const part of (o.prerequisites?.raw ?? '').split(',')) {
+    const m = part.trim().match(/^(.+?) Invocation$/i);
+    const name = m?.[1].toLowerCase();
+    const found =
+      name &&
+      all.find(
+        (x) => x.group === o.group && x.classId === o.classId && x.name.toLowerCase() === name,
+      );
+    if (found && found.id !== o.id) out.push(found);
+  }
+  return out;
+}
+
+/** The part of a prerequisite text that the data does not let us check (cantrip, subclass...). */
+export function optionUncheckedNote(o: ClassOption, all: ClassOption[]): string {
+  const raw = o.prerequisites?.raw;
+  if (!raw) return '';
+  const known = new Set(requiredOptions(o, all).map((x) => `${x.name} invocation`.toLowerCase()));
+  return raw
+    .split(',')
+    .map((p) => p.trim())
+    .filter((p) => p && !/^level \d+\+/i.test(p) && !/^\d+(st|nd|rd|th) level$/i.test(p))
+    .filter((p) => !known.has(p.toLowerCase()))
+    .join(', ');
+}
+
+export interface OptionLocks {
+  /** Required class level above the character's (0 = none). */
+  level: number;
+  /** Required options (same group) not chosen yet. */
+  requires: ClassOption[];
+}
+
+/** What keeps the character from taking an option now, from the structured prerequisites. */
+export function optionLocks(
+  o: ClassOption,
+  level: number,
+  all: ClassOption[],
+  chosen: readonly string[],
+): OptionLocks {
+  const need = o.prerequisites?.level ?? 0;
+  return {
+    level: need > level ? need : 0,
+    requires: requiredOptions(o, all).filter((r) => !chosen.includes(r.id)),
+  };
+}
+
+export interface VisibleOptions {
+  /** Takeable options, plus already-chosen ones that no longer qualify (flagged by the screen). */
+  shown: ClassOption[];
+  /** Hidden for the class level: they unlock when the class levels up. */
+  hiddenByLevel: number;
+  /** Hidden until the option they require is chosen. */
+  hiddenByRequirement: number;
+}
+
+/**
+ * What a class option list shows: the options whose class level and required options are met,
+ * and any option already chosen (so a saved choice can always be seen and unchecked).
+ */
+export function visibleOptions(
+  options: ClassOption[],
+  level: number,
+  chosen: readonly string[],
+): VisibleOptions {
+  const out: VisibleOptions = { shown: [], hiddenByLevel: 0, hiddenByRequirement: 0 };
+  for (const o of options) {
+    const locks = optionLocks(o, level, options, chosen);
+    if (chosen.includes(o.id) || (!locks.level && !locks.requires.length)) out.shown.push(o);
+    else if (locks.level) out.hiddenByLevel++;
+    else out.hiddenByRequirement++;
+  }
+  return out;
 }
 
 export type Step =

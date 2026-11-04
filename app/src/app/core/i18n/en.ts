@@ -471,7 +471,6 @@ export const en = {
   'levelUp.gain': '+{n} at this level',
   'levelUp.uncounted': "The class table doesn't say how many you learn: check the feature text.",
   'levelUp.showOptions': 'Options ({count})',
-  'levelUp.optionLevel': 'level {level}',
   'levelUp.gainCantrips': 'Cantrips: +{n}',
   'levelUp.gainPrepared': 'Prepared spells: +{n}',
   'levelUp.newSpellLevel': 'You can now choose level {level} spells.',
@@ -1142,4 +1141,6 @@ export const en = {
   'balance.warn.manyCreatures':
     '{creatures} creatures for {characters} characters: a long fight that is harder to predict.',
   'balance.warn.aboveHigh': 'Above High: the DMG has no budget beyond High; it may be deadly.',
+  'optfilter.moreLevel': 'Options that unlock with more levels: {n}.',
+  'optfilter.moreRequires': 'Options that appear once you pick the one they require: {n}.',
 };

@@ -477,7 +477,6 @@ export const es: Record<keyof typeof en, string> = {
   'levelUp.uncounted':
     'La tabla de la clase no dice cuántas aprendes: consulta el texto del rasgo.',
   'levelUp.showOptions': 'Opciones ({count})',
-  'levelUp.optionLevel': 'nivel {level}',
   'levelUp.gainCantrips': 'Trucos: +{n}',
   'levelUp.gainPrepared': 'Conjuros preparados: +{n}',
   'levelUp.newSpellLevel': 'Ya puedes elegir conjuros de nivel {level}.',
@@ -1159,4 +1158,6 @@ export const es: Record<keyof typeof en, string> = {
     '{creatures} criaturas para {characters} personajes: un combate largo y más difícil de prever.',
   'balance.warn.aboveHigh':
     'Por encima de Alto: la DMG no da presupuesto más allá de Alto; puede ser mortal.',
+  'optfilter.moreLevel': 'Opciones que se desbloquean con más nivel: {n}.',
+  'optfilter.moreRequires': 'Opciones que aparecen al elegir la que requieren: {n}.',
 };

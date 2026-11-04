@@ -31,6 +31,9 @@ import {
   featSlots,
   featsForSlot,
   optionGroupsFor,
+  optionLocks,
+  optionUncheckedNote,
+  visibleOptions,
   pointBuyCost,
   review,
   skillPicks,
@@ -824,10 +827,9 @@ export class CharacterCreate implements LeaveCheck {
     }));
   }
 
-  /** Options above the class level are listed but flagged. */
-  protected optionTooHigh(o: ClassOption, level: number): boolean {
-    return (o.prerequisites?.level ?? 0) > level;
-  }
+  protected readonly optionView = visibleOptions;
+  protected readonly optionLocks = optionLocks;
+  protected readonly optionNote = optionUncheckedNote;
 
   protected setSlotFeat(slot: string, featId: string): void {
     this.patch((c) => {

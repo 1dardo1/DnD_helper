@@ -361,25 +361,40 @@
                     <small>{{ 'levelUp.uncounted' | t }}</small>
                   </p>
                 }
+                @let v = optionView(og.options, g.level, c.choices.options);
                 <details [open]="!og.uncounted">
-                  <summary>{{ 'levelUp.showOptions' | t: { count: og.options.length } }}</summary>
-                  @for (o of og.options; track o.id) {
-                    <label class="inline" [class.issue]="optionTooHigh(o, g.level)">
+                  <summary>{{ 'levelUp.showOptions' | t: { count: v.shown.length } }}</summary>
+                  @for (o of v.shown; track o.id) {
+                    @let lock = optionLocks(o, g.level, og.options, c.choices.options);
+                    @let note = optionNote(o, og.options);
+                    <label
+                      class="inline"
+                      [class.issue]="lock.level > 0 || lock.requires.length > 0"
+                    >
                       <input
                         type="checkbox"
                         [checked]="c.choices.options.includes(o.id)"
                         (change)="setOption(o.id, checked($event))"
                       />
                       {{ o.name | dataName }}
-                      @if (optionTooHigh(o, g.level)) {
-                        <small
-                          >⚠
-                          {{
-                            'levelUp.optionLevel' | t: { level: o.prerequisites?.level ?? '' }
-                          }}</small
-                        >
+                      @if (lock.level > 0 || lock.requires.length > 0) {
+                        <small>⚠ {{ o.prerequisites?.raw | dataText }}</small>
+                      } @else if (note) {
+                        <small>{{ note | dataText }}</small>
                       }
                     </label>
+                  }
+                  @if (v.hiddenByLevel > 0) {
+                    <p>
+                      <small>{{ 'optfilter.moreLevel' | t: { n: v.hiddenByLevel } }}</small>
+                    </p>
+                  }
+                  @if (v.hiddenByRequirement > 0) {
+                    <p>
+                      <small>{{
+                        'optfilter.moreRequires' | t: { n: v.hiddenByRequirement }
+                      }}</small>
+                    </p>
                   }
                 </details>
               </fieldset>

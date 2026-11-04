@@ -9,6 +9,9 @@ import {
   maxSpellLevel,
   multiclassIssues,
   optionGroupsFor,
+  optionLocks,
+  optionUncheckedNote,
+  visibleOptions,
   pointBuyCost,
   review,
   skillPicks,
@@ -102,6 +105,81 @@ describe('creation rules', () => {
       'Devil Sight',
       'Witch Sight',
     ]);
+  });
+
+  describe('class options above the level', () => {
+    const opt = (name: string, raw: string | null, level?: number) =>
+      ({
+        id: `eldritch-invocation/${name.toLowerCase().replace(/ /g, '-')}`,
+        name,
+        group: 'eldritch-invocation',
+        classId: 'warlock',
+        subclassId: null,
+        prerequisites: raw ? { raw, level } : null,
+      }) as unknown as ClassOption;
+    const all = [
+      opt('Pact of the Blade', null),
+      opt('Armor of Shadows', null),
+      opt('Devil Sight', 'Level 2+ Warlock', 2),
+      opt('Witch Sight', 'Level 15+ Warlock', 15),
+      opt('Eldritch Smite', 'Level 5+ Warlock, Pact of the Blade Invocation', 5),
+      opt('Agonizing Blast', 'Level 2+ Warlock, a Warlock Cantrip That Deals Damage', 2),
+    ];
+    const names = (xs: ClassOption[]) => xs.map((o) => o.name);
+
+    it('hides options that need a higher level', () => {
+      const v = visibleOptions(all, 1, []);
+      expect(names(v.shown)).toEqual(['Pact of the Blade', 'Armor of Shadows']);
+      expect(v.hiddenByLevel).toBe(4);
+      expect(names(visibleOptions(all, 2, []).shown)).toEqual([
+        'Pact of the Blade',
+        'Armor of Shadows',
+        'Devil Sight',
+        'Agonizing Blast',
+      ]);
+      expect(visibleOptions(all, 15, []).hiddenByLevel).toBe(0);
+    });
+
+    it('hides options whose required invocation is not chosen yet', () => {
+      const v = visibleOptions(all, 5, []);
+      expect(names(v.shown)).not.toContain('Eldritch Smite');
+      expect(v.hiddenByRequirement).toBe(1);
+      const blade = 'eldritch-invocation/pact-of-the-blade';
+      expect(names(visibleOptions(all, 5, [blade]).shown)).toContain('Eldritch Smite');
+    });
+
+    it('keeps an already chosen option visible even if it no longer qualifies', () => {
+      const witch = 'eldritch-invocation/witch-sight';
+      const v = visibleOptions(all, 3, [witch]);
+      expect(names(v.shown)).toContain('Witch Sight');
+      expect(v.hiddenByLevel).toBe(1); // Eldritch Smite (level 5); Witch Sight stays as chosen
+    });
+
+    it('reports the locks of a chosen option and the text it cannot check', () => {
+      const smite = all[4];
+      expect(optionLocks(smite, 3, all, [])).toMatchObject({ level: 5 });
+      expect(optionLocks(smite, 3, all, []).requires.map((o) => o.name)).toEqual([
+        'Pact of the Blade',
+      ]);
+      expect(optionLocks(smite, 5, all, [all[0].id])).toEqual({ level: 0, requires: [] });
+      expect(optionUncheckedNote(smite, all)).toBe('');
+      expect(optionUncheckedNote(all[5], all)).toBe('a Warlock Cantrip That Deals Damage');
+      expect(optionUncheckedNote(all[3], all)).toBe('');
+    });
+  });
+
+  it('offers only spell levels the class can cast at its level', () => {
+    const sc = {
+      slotsByLevel: [[2], [3], [4, 2], [4, 3], [4, 3, 2]],
+    } as unknown as Parameters<typeof spellsFor>[1];
+    const spell = (id: string, level: number) =>
+      ({ id, name: id, level, classes: ['wizard'] }) as unknown as Spell;
+    const spells = [spell('a', 0), spell('b', 1), spell('c', 2), spell('d', 3), spell('e', 4)];
+    const ids = (lvl: number) => spellsFor('wizard', sc, lvl, spells).leveled.map((s) => s.id);
+    expect(ids(1)).toEqual(['b']);
+    expect(ids(3)).toEqual(['b', 'c']);
+    expect(ids(5)).toEqual(['b', 'c', 'd']);
+    expect(spellsFor('wizard', sc, 1, spells).cantrips.map((s) => s.id)).toEqual(['a']);
   });
 
   it('reads the "Ability Score Improvemnt" typo in the Blood Hunter table as an ASI', () => {
