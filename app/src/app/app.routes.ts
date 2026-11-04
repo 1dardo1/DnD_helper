@@ -51,6 +51,18 @@ export const routes: Routes = [
       import('./features/characters/character-sheet').then((m) => m.CharacterSheet),
   },
   {
+    path: 'dm',
+    loadComponent: () => import('./features/dm/dm-home').then((m) => m.DmHome),
+  },
+  {
+    path: 'dm/encounters',
+    loadComponent: () => import('./features/dm/encounter-list').then((m) => m.EncounterList),
+  },
+  {
+    path: 'dm/encounters/:id',
+    loadComponent: () => import('./features/dm/encounter-editor').then((m) => m.EncounterEditor),
+  },
+  {
     path: 'settings',
     loadComponent: () => import('./features/settings/settings-page').then((m) => m.SettingsPage),
   },

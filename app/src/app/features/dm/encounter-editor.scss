@@ -1,0 +1,531 @@
+// The encounter builder: the difficulty (a gauge on a vellum card) beside the party, the
+// monsters and the notes. Phones: one column, with a small strip that keeps the verdict in view.
+@use '../../shared/theme/notebook' as nb;
+
+$phone: 44.99rem;
+
+:host {
+  display: block;
+
+  --zone-low: color-mix(in srgb, var(--ok) 30%, var(--card));
+  --zone-moderate: color-mix(in srgb, var(--warn) 32%, var(--card));
+  --zone-high: color-mix(in srgb, var(--danger) 30%, var(--card));
+  --zone-above: color-mix(in srgb, var(--danger) 55%, var(--ink));
+}
+
+[data-rating] {
+  --rating: var(--ink-soft);
+}
+[data-rating='low'] {
+  --rating: var(--ok);
+}
+[data-rating='moderate'] {
+  --rating: var(--warn);
+}
+[data-rating='high'],
+[data-rating='aboveHigh'] {
+  --rating: var(--danger);
+}
+
+h2 small {
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}
+
+// -- header -----------------------------------------------------------------------------------
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.name-field {
+  flex: 1 1 18rem;
+  min-width: 0;
+}
+
+input.name {
+  width: 100%;
+  font-family: var(--font-title);
+  font-size: var(--fs-2xl);
+  color: var(--accent);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+// -- layout -------------------------------------------------------------------------------------
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 19rem;
+  grid-template-areas: 'main side';
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.sections {
+  grid-area: main;
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+
+  > section > h2:first-child {
+    margin-top: 0;
+  }
+}
+
+.difficulty {
+  grid-area: side;
+  position: sticky;
+  top: 6.5rem;
+  @include nb.card;
+  border-top: 0.4rem solid var(--rating);
+
+  h2 {
+    margin: 0;
+    font-size: var(--fs-lg);
+  }
+}
+
+.verdict {
+  margin: var(--space-1) 0 var(--space-2);
+  font-family: var(--font-title);
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--rating);
+}
+
+.hint,
+.rules {
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}
+
+.rules {
+  margin: var(--space-3) 0 0;
+  font-style: italic;
+}
+
+// -- the gauge ----------------------------------------------------------------------------------
+
+.gauge {
+  position: relative;
+  height: 1.6rem;
+  margin: var(--space-2) 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    to right,
+    var(--zone-low) 0 var(--low),
+    var(--zone-moderate) var(--low) var(--moderate),
+    var(--zone-high) var(--moderate) var(--high),
+    var(--zone-above) var(--high) 100%
+  );
+  overflow: hidden;
+
+  &.compact {
+    height: 0.6rem;
+    margin: 0;
+  }
+}
+
+// the encounter's XP: an ink bar over the coloured zones, ending in a mark
+.fill {
+  position: absolute;
+  top: 28%;
+  bottom: 28%;
+  left: 0;
+  background: var(--ink);
+  border-radius: 0 2px 2px 0;
+  transition: width 0.2s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -0.35rem;
+    bottom: -0.35rem;
+    right: -2px;
+    width: 4px;
+    background: var(--ink);
+    border-radius: 2px;
+  }
+
+  .compact & {
+    top: 32%;
+    bottom: 32%;
+
+    &::after {
+      top: -0.2rem;
+      bottom: -0.2rem;
+    }
+  }
+}
+
+.tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 2px solid color-mix(in srgb, var(--ink) 55%, transparent);
+}
+
+.budgets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-1);
+  margin: 0 0 var(--space-3);
+
+  > div {
+    padding: 0.15rem 0.35rem;
+    border-left: 0.35rem solid var(--zone);
+    opacity: 0.75;
+  }
+
+  .reached {
+    opacity: 1;
+  }
+
+  [data-level='low'] {
+    --zone: var(--zone-low);
+  }
+  [data-level='moderate'] {
+    --zone: var(--zone-moderate);
+  }
+  [data-level='high'] {
+    --zone: var(--zone-high);
+  }
+
+  dt {
+    font-size: var(--fs-xs);
+    color: var(--ink-soft);
+  }
+
+  dd {
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: var(--fs-md);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.totals {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--line);
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  dt {
+    color: var(--ink-soft);
+  }
+
+  dd {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// phones only (see the media query below)
+.strip {
+  display: none;
+}
+
+// -- party --------------------------------------------------------------------------------------
+
+.quick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-2) var(--space-3);
+
+  label {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--fs-sm);
+    color: var(--ink-soft);
+  }
+
+  input {
+    width: 5rem;
+  }
+}
+
+.saved {
+  margin: var(--space-3) 0;
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    margin: 0;
+  }
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap);
+  }
+
+  small {
+    color: var(--ink-soft);
+  }
+}
+
+.members,
+.foe-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-3) 0;
+  padding: 0;
+  list-style: none;
+
+  > li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-3);
+    margin: 0;
+    padding: var(--space-1) var(--space-1) var(--space-1) var(--space-3);
+    background: color-mix(in srgb, var(--card) 70%, transparent);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+  }
+
+  > li.empty {
+    padding: var(--space-2) var(--space-3);
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+}
+
+.members {
+  .who {
+    flex: 1 1 8rem;
+    min-width: 0;
+    font-family: var(--font-title);
+    font-size: var(--fs-md);
+  }
+
+  .linked .who {
+    color: var(--accent);
+  }
+
+  .level {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  select {
+    min-height: 2.25rem;
+  }
+
+  .budget {
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .remove {
+    min-width: var(--tap);
+    min-height: var(--tap);
+    padding: 0;
+    color: var(--danger);
+  }
+}
+
+// -- monsters -----------------------------------------------------------------------------------
+
+.foe-list > li {
+  padding-block: var(--space-2);
+}
+
+.foe {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 10rem;
+  min-width: 0;
+
+  a {
+    font-family: var(--font-title);
+    font-size: var(--fs-md);
+  }
+
+  small {
+    color: var(--ink-soft);
+  }
+}
+
+.stepper {
+  display: inline-flex;
+  align-items: center;
+
+  button {
+    width: var(--tap);
+    min-height: var(--tap);
+    padding: 0;
+    font-size: var(--fs-lg);
+  }
+
+  output {
+    min-width: 2.25rem;
+    font-family: var(--font-title);
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.subtotal {
+  min-width: 5.5rem;
+  padding-right: var(--space-2);
+  font-family: var(--font-title);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+// picker cards
+.mcard {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  text-align: left;
+  gap: 0.1rem;
+  line-height: 1.25;
+}
+
+.card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 var(--space-2);
+}
+
+.card-name {
+  font-family: var(--font-title);
+  font-weight: 700;
+}
+
+.card-xp {
+  font-size: var(--fs-sm);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.card-kicker,
+.card-facts {
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}
+
+// -- notes ----------------------------------------------------------------------------------
+
+.notes textarea {
+  width: 100%;
+}
+
+// -- tablets: the difficulty above, full width ----------------------------------------------
+
+@media (max-width: 62rem) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'side'
+      'main';
+  }
+
+  .difficulty {
+    position: static;
+  }
+}
+
+// -- phones -------------------------------------------------------------------------------------
+
+@media (max-width: $phone) {
+  .strip {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0.2rem var(--space-3);
+    margin: var(--space-2) -1rem 0;
+    padding: var(--space-2) 1rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line-strong);
+    box-shadow: 0 4px 8px -6px rgb(0 0 0 / 0.4);
+
+    .verdict {
+      margin: 0;
+      font-size: var(--fs-lg);
+    }
+
+    .xp {
+      justify-self: end;
+      font-family: var(--font-title);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .gauge {
+      grid-column: 1 / -1;
+    }
+  }
+
+  input.name {
+    font-size: var(--fs-xl);
+  }
+
+  .actions {
+    width: 100%;
+
+    .primary {
+      flex: 1 1 100%;
+    }
+
+    button:not(.primary) {
+      flex: 1;
+    }
+  }
+
+  .subtotal {
+    min-width: 0;
+    margin-left: auto;
+  }
+
+  // the strip already shows them
+  .difficulty > .verdict,
+  .difficulty > .gauge {
+    display: none;
+  }
+
+  .difficulty h2 {
+    margin-bottom: var(--space-2);
+  }
+}

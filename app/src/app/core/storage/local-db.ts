@@ -2,15 +2,16 @@ import { Injectable, signal } from '@angular/core';
 
 /**
  * Minimal key-value store on IndexedDB, the browser's on-device database.
- * compendium → cached data/*.json (to work offline); characters → CharacterRecord by id.
+ * compendium → cached data/*.json (to work offline); characters → CharacterRecord by id;
+ * encounters → the DM's Encounter by id (version 2; this device only).
  * Where IndexedDB isn't available (some private modes, tests) it keeps data in memory
  * for the session and says so through `persistent`.
  */
-export type StoreName = 'compendium' | 'characters';
+export type StoreName = 'compendium' | 'characters' | 'encounters';
 
 const DB_NAME = 'dnd-helper';
-const DB_VERSION = 1;
-const STORES: StoreName[] = ['compendium', 'characters'];
+const DB_VERSION = 2;
+const STORES: StoreName[] = ['compendium', 'characters', 'encounters'];
 
 @Injectable({ providedIn: 'root' })
 export class LocalDb {

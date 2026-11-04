@@ -27,6 +27,7 @@ export class App {
     { path: '/compendium', label: 'nav.compendium' },
     { path: '/characters', label: 'nav.characters' },
     { path: '/characters/new', label: 'nav.create' },
+    { path: '/dm', label: 'nav.dm' },
     { path: '/settings', label: 'nav.settings' },
   ] as const;
 
