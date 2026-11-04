@@ -115,7 +115,7 @@ function slug(s: string): string {
   );
 }
 
-function uniqueId(list: InventoryEntry[], base: string): string {
+export function uniqueId(list: InventoryEntry[], base: string): string {
   let id = base;
   for (let n = 2; list.some((e) => e.id === id); n++) id = `${base}-${n}`;
   return id;

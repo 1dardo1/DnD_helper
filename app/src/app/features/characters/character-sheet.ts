@@ -21,6 +21,7 @@ import { SpellBook } from './spell-book';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
 import { PlayPanel } from './play-panel';
+import { ReplicatePanel } from './replicate-panel';
 import { HomebrewBadge } from '../homebrew/homebrew-badge';
 
 /** The character sheet: everything computed by the rules engine from the character's choices. */
@@ -37,6 +38,7 @@ import { HomebrewBadge } from '../homebrew/homebrew-badge';
     PlayPanel,
     SpellBook,
     EquipmentPanel,
+    ReplicatePanel,
     ClassThemeDirective,
     HomebrewBadge,
   ],

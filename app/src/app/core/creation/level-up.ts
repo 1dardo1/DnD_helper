@@ -1,3 +1,4 @@
+import { PLAN_GROUP } from '../artificer/plans';
 import { Character } from '../models/character';
 import { Ability, ClassOption, DndClass, Feat, Spellcasting, Subclass } from '../models/compendium';
 import { castingOf } from '../rules/engine';
@@ -127,7 +128,10 @@ export function levelGains(
         before: before.get(g.group) ?? 0,
         uncounted: g.count === null,
       }))
-      .filter((g) => g.uncounted || g.count! > g.before),
+      // the plans list stays open at every Artificer level: one plan may be replaced
+      .filter(
+        (g) => g.uncounted || g.count! > g.before || (g.group === PLAN_GROUP && g.count! > 0),
+      ),
     multiclass: !entryBefore && !startingClass ? multiclassGains(cls) : null,
   };
 }

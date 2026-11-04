@@ -521,39 +521,44 @@
                         ({{ taken }} / {{ g.count }})
                       }
                     </legend>
-                    @let v = optionView(g.options, r.entry.level, c.choices.options);
-                    @for (o of v.shown; track o.id) {
-                      @let lock = optionLocks(o, r.entry.level, g.options, c.choices.options);
-                      @let note = optionNote(o, g.options);
-                      <label
-                        class="inline"
-                        [class.issue]="lock.level > 0 || lock.requires.length > 0"
-                        [title]="o.prerequisites?.raw | dataText"
-                      >
-                        <input
-                          type="checkbox"
+                    @if (g.group === planGroup) {
+                      <app-plan-chooser
+                        [options]="g.options"
+                        [level]="r.entry.level"
+                        [chosen]="c.choices.options"
+                        [items]="allItems()"
+                        (toggled)="setOption($event.id, $event.on)"
+                      />
+                    } @else {
+                      @let v = optionView(g.options, r.entry.level, c.choices.options);
+                      @for (o of v.shown; track o.id) {
+                        @let lock = optionLocks(o, r.entry.level, g.options, c.choices.options);
+                        @let note = optionNote(o, g.options);
+                        <app-option-row
+                          [option]="o"
                           [checked]="c.choices.options.includes(o.id)"
-                          (change)="setOption(o.id, checked($event))"
+                          [issue]="lock.level > 0 || lock.requires.length > 0"
+                          [warning]="
+                            lock.level > 0 || lock.requires.length > 0
+                              ? (o.prerequisites?.raw ?? '')
+                              : ''
+                          "
+                          [note]="note"
+                          (toggled)="setOption(o.id, $event)"
                         />
-                        {{ o.name | dataName }}
-                        @if (lock.level > 0 || lock.requires.length > 0) {
-                          <small>⚠ {{ o.prerequisites?.raw | dataText }}</small>
-                        } @else if (note) {
-                          <small>{{ note | dataText }}</small>
-                        }
-                      </label>
-                    }
-                    @if (v.hiddenByLevel > 0) {
-                      <p>
-                        <small>{{ 'optfilter.moreLevel' | t: { n: v.hiddenByLevel } }}</small>
-                      </p>
-                    }
-                    @if (v.hiddenByRequirement > 0) {
-                      <p>
-                        <small>{{
-                          'optfilter.moreRequires' | t: { n: v.hiddenByRequirement }
-                        }}</small>
-                      </p>
+                      }
+                      @if (v.hiddenByLevel > 0) {
+                        <p>
+                          <small>{{ 'optfilter.moreLevel' | t: { n: v.hiddenByLevel } }}</small>
+                        </p>
+                      }
+                      @if (v.hiddenByRequirement > 0) {
+                        <p>
+                          <small>{{
+                            'optfilter.moreRequires' | t: { n: v.hiddenByRequirement }
+                          }}</small>
+                        </p>
+                      }
                     }
                   </fieldset>
                 }

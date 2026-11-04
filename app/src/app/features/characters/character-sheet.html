@@ -232,6 +232,8 @@
     (changed)="saveCharacter($event)"
   />
 
+  <app-replicate-panel [character]="c" (changed)="saveCharacter($event)" />
+
   <section>
     <div class="section-head">
       <h2>{{ 'sheet.features' | t }}</h2>

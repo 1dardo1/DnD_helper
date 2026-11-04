@@ -103,6 +103,12 @@
     flex: 1;
   }
 
+  .made {
+    display: block;
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+
   .equipped .name {
     font-weight: 700;
   }

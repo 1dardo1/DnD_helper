@@ -78,7 +78,10 @@ import {
 } from '../../core/rules/starting-equipment';
 import { ABILITIES } from '../../core/rules/tables';
 import { SettingsService } from '../../core/settings/settings.service';
+import { PLAN_GROUP, isPickId, plansTaken } from '../../core/artificer/plans';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
+import { OptionRow } from '../../shared/option-row';
+import { PlanChooser } from '../../shared/plan-chooser';
 import { ENTRY_FACETS } from '../../shared/picker/entry-facets';
 import { defaultOrder } from '../../shared/picker/entry-order';
 import { EntryCard } from '../../shared/picker/entry-card';
@@ -110,6 +113,8 @@ type ClassEntry = Character['classes'][number];
     DataNamePipe,
     DataTextPipe,
     MarkdownPipe,
+    OptionRow,
+    PlanChooser,
     LoadError,
     ClassThemeDirective,
     Picker,
@@ -666,7 +671,9 @@ export class CharacterCreate implements LeaveCheck {
     c.choices.featSlots = c.choices.featSlots.filter((s) => !mine(s.slot));
     c.choices.abilityIncreases = c.choices.abilityIncreases.filter((i) => !mine(i.slot));
     c.choices.toolChoices = c.choices.toolChoices.filter((t) => !t.slot.endsWith(`:${classId}`));
-    c.choices.options = c.choices.options.filter((o) => !options.has(o));
+    c.choices.options = c.choices.options.filter(
+      (o) => !options.has(o) && !(classId === 'artificer' && isPickId(o)),
+    );
     // only the picks made for that class: a spell also picked for another class stays
     Object.assign(c.choices, spellFields(dropClassSpells(c.choices.spellsByClass ?? {}, classId)));
     const offered = new Set(
@@ -883,6 +890,11 @@ export class CharacterCreate implements LeaveCheck {
     }));
   }
 
+  protected readonly planGroup = PLAN_GROUP;
+  /** Every compendium item, for the plan pickers. */
+  protected readonly allItems = computed(() => [
+    ...(this.data.value()?.rules.items.values() ?? []),
+  ]);
   protected readonly optionView = visibleOptions;
   protected readonly optionLocks = optionLocks;
   protected readonly optionNote = optionUncheckedNote;
@@ -955,6 +967,8 @@ export class CharacterCreate implements LeaveCheck {
   }
 
   protected chosenCount(ids: string[], of: { id: string }[]): number {
+    if (of.length && (of[0] as { group?: string }).group === PLAN_GROUP)
+      return plansTaken(ids, of as ClassOption[]);
     const set = new Set(of.map((x) => x.id));
     return ids.filter((id) => set.has(id)).length;
   }

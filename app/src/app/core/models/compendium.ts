@@ -132,6 +132,12 @@ export interface ClassOption extends Entry {
   classId: string | null;
   subclassId: string | null;
   prerequisites: Prerequisites | null;
+  /** Magic item plans (artificer): the compendium item this plan makes. */
+  itemId?: string;
+  /** Plans: true / false from the table, null when it varies. */
+  attunement?: boolean | null;
+  /** Plans that stand for a kind of item: the player picks the item (each one is a plan). */
+  itemPick?: { rarity: string; wondrous: boolean };
 }
 
 export interface Spell extends Entry {

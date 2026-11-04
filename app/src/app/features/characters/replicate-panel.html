@@ -1,0 +1,156 @@
+@if (level() >= 2) {
+  <section class="replicate">
+    <h2>{{ 'plans.title' | t }}</h2>
+    <p class="count" [class.full]="created().length >= max()">
+      {{ 'plans.created' | t: { n: created().length, max: max() } }}
+      <small
+        >·
+        {{
+          'plans.known' | t: { n: plans().length, max: counts()?.known ?? plans().length }
+        }}</small
+      >
+    </p>
+    <p class="rule">
+      <small>{{ 'plans.rule' | t }}</small>
+    </p>
+    @if (message()) {
+      <p class="notice" role="status">{{ message() }}</p>
+    }
+
+    <h3>{{ 'plans.createdTitle' | t }}</h3>
+    <ul class="list">
+      @for (c of created(); track c.inventoryId) {
+        <li>
+          <div class="line">
+            <span class="name">
+              @if (c.item) {
+                <a [routerLink]="['/compendium', 'item', c.item.id]">{{
+                  c.name | dataName: true
+                }}</a>
+              } @else {
+                {{ c.name }}
+              }
+              @if (c.plan?.attunement === true) {
+                <em class="badge">{{ 'plans.attune' | t }}</em>
+              }
+            </span>
+            @if (tinker() && canTransmute() && free().length) {
+              <button type="button" class="btn-ghost" (click)="transforming.set(c.inventoryId)">
+                {{ 'plans.transform' | t }}
+              </button>
+            }
+            <button
+              type="button"
+              class="btn-ghost"
+              (click)="remove(c.inventoryId)"
+              [attr.aria-label]="('plans.delete' | t) + ': ' + c.name"
+            >
+              {{ 'plans.delete' | t }}
+            </button>
+          </div>
+          @if (transforming() === c.inventoryId) {
+            <label class="pick">
+              {{ 'plans.transformInto' | t }}
+              <select (change)="transform(c.inventoryId, value($event))">
+                <option value="">—</option>
+                @for (p of free(); track p.id) {
+                  <option [value]="p.id">{{ p.name | dataName: true }}</option>
+                }
+              </select>
+            </label>
+          }
+        </li>
+      } @empty {
+        <li class="muted">{{ 'plans.none' | t }}</li>
+      }
+    </ul>
+
+    <h3>{{ 'plans.knownTitle' | t }}</h3>
+    <ul class="list">
+      @for (p of plans(); track p.id) {
+        <li>
+          <div class="line">
+            <span class="name">
+              {{ p.name | dataName: true }}
+              @if (p.attunement === true) {
+                <em class="badge">{{ 'plans.attune' | t }}</em>
+              }
+            </span>
+            <button type="button" class="make" [disabled]="!free().includes(p)" (click)="create(p)">
+              {{ (free().includes(p) ? 'plans.make' : 'plans.made') | t }}
+            </button>
+          </div>
+        </li>
+      } @empty {
+        <li class="muted">{{ 'plans.noPlans' | t }}</li>
+      }
+    </ul>
+    @if (tinker()) {
+      <p class="rule">
+        <small>{{ 'plans.tinker' | t }}</small>
+      </p>
+    }
+  </section>
+
+  <dialog #dialog class="rest-dialog" (close)="prompt() && keep()" aria-labelledby="rest-title">
+    <h2 id="rest-title">{{ 'plans.restTitle' | t }}</h2>
+    <p class="rule">
+      <small>{{ 'plans.restRule' | t }}</small>
+    </p>
+    @if (mode() === 'ask') {
+      <ul class="list">
+        @for (c of created(); track c.inventoryId) {
+          <li>{{ c.name | dataName: true }}</li>
+        } @empty {
+          <li class="muted">{{ 'plans.none' | t }}</li>
+        }
+      </ul>
+      <div class="actions">
+        <button type="button" class="primary" autofocus (click)="keep()">
+          {{ 'plans.keepAll' | t }}
+        </button>
+        <button type="button" (click)="mode.set('change')">{{ 'plans.change' | t }}</button>
+      </div>
+    } @else {
+      <h3>{{ 'plans.removeTitle' | t }}</h3>
+      <ul class="list">
+        @for (c of created(); track c.inventoryId) {
+          <li>
+            <label class="check">
+              <input
+                type="checkbox"
+                [checked]="removing().includes(c.inventoryId)"
+                (change)="toggle('removing', c.inventoryId, checked($event))"
+              />
+              {{ c.name | dataName: true }}
+            </label>
+          </li>
+        } @empty {
+          <li class="muted">{{ 'plans.none' | t }}</li>
+        }
+      </ul>
+      <h3>{{ 'plans.makeTitle' | t: { max: max() } }}</h3>
+      <ul class="list">
+        @for (p of makeable(); track p.id) {
+          <li>
+            <label class="check">
+              <input
+                type="checkbox"
+                [checked]="making().includes(p.id)"
+                (change)="toggle('making', p.id, checked($event))"
+              />
+              {{ p.name | dataName: true }}
+              @if (p.attunement === true) {
+                <em class="badge">{{ 'plans.attune' | t }}</em>
+              }
+            </label>
+          </li>
+        }
+      </ul>
+      <div class="actions">
+        <button type="button" class="primary" (click)="apply()">{{ 'plans.apply' | t }}</button>
+        <button type="button" (click)="keep()">{{ 'plans.keepAll' | t }}</button>
+      </div>
+    }
+  </dialog>
+}

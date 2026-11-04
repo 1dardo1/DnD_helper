@@ -1,3 +1,4 @@
+import { PLAN_GROUP } from '../artificer/plans';
 import { Character } from '../models/character';
 import {
   Ability,
@@ -169,6 +170,7 @@ const OPTION_COUNT_COLUMN: Record<string, RegExp> = {
   'eldritch-invocation': /invocation/i,
   'blood-curse': /blood curse/i,
   'artificer-infusion': /infusion/i,
+  'magic-item-plan': /plans known/i,
 };
 
 export interface OptionGroup {
@@ -191,20 +193,23 @@ export function optionGroupsFor(
   const groups = new Map<string, ClassOption[]>();
   // every option is returned (sorted); the screens hide the locked ones with visibleOptions()
   for (const o of mine) groups.set(o.group, [...(groups.get(o.group) ?? []), o]);
-  return [...groups.entries()].map(([group, opts]) => {
-    const col = cls.progression.columns.find((c) => OPTION_COUNT_COLUMN[group]?.test(c));
-    const value = col ? parseInt(cls.progression.rows[level - 1]?.values[col] ?? '', 10) : NaN;
-    return {
-      group,
-      // by the level they require (none = 1), as the wizard and level-up list them
-      options: opts.sort(
-        (a, b) =>
-          (a.prerequisites?.level ?? 1) - (b.prerequisites?.level ?? 1) ||
-          a.name.localeCompare(b.name),
-      ),
-      count: Number.isNaN(value) ? null : value,
-    };
-  });
+  return [...groups.entries()]
+    .map(([group, opts]) => {
+      const col = cls.progression.columns.find((c) => OPTION_COUNT_COLUMN[group]?.test(c));
+      const value = col ? parseInt(cls.progression.rows[level - 1]?.values[col] ?? '', 10) : NaN;
+      return {
+        group,
+        // by the level they require (none = 1), as the wizard and level-up list them
+        options: opts.sort(
+          (a, b) =>
+            (a.prerequisites?.level ?? 1) - (b.prerequisites?.level ?? 1) ||
+            a.name.localeCompare(b.name),
+        ),
+        count: Number.isNaN(value) ? null : value,
+      };
+      // plans only exist from the level that gives the first ("-" before): nothing to show yet
+    })
+    .filter((g) => g.group !== PLAN_GROUP || g.count !== null);
 }
 
 /** Ids of the options of the same group that this one requires (e.g. "Pact of the Blade Invocation"). */

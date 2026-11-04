@@ -352,8 +352,10 @@
                 <legend [class.issue]="og.count !== null && taken > og.count">
                   {{ groupLabel(og.group) }}
                   @if (og.count !== null) {
-                    ({{ taken }} / {{ og.count }}) ·
-                    {{ 'levelUp.gain' | t: { n: og.count - og.before } }}
+                    ({{ taken }} / {{ og.count }})
+                    @if (og.count > og.before) {
+                      · {{ 'levelUp.gain' | t: { n: og.count - og.before } }}
+                    }
                   }
                 </legend>
                 @if (og.uncounted) {
@@ -361,42 +363,54 @@
                     <small>{{ 'levelUp.uncounted' | t }}</small>
                   </p>
                 }
-                @let v = optionView(og.options, g.level, c.choices.options);
-                <details [open]="!og.uncounted">
-                  <summary>{{ 'levelUp.showOptions' | t: { count: v.shown.length } }}</summary>
-                  @for (o of v.shown; track o.id) {
-                    @let lock = optionLocks(o, g.level, og.options, c.choices.options);
-                    @let note = optionNote(o, og.options);
-                    <label
-                      class="inline"
-                      [class.issue]="lock.level > 0 || lock.requires.length > 0"
-                    >
-                      <input
-                        type="checkbox"
+                @if (og.group === planGroup) {
+                  <p class="hint">
+                    <small>{{ 'plans.replaceHint' | t }}</small>
+                  </p>
+                  @if (planReplaced() > 1) {
+                    <p class="issue">⚠ {{ 'plans.replaceTooMany' | t }}</p>
+                  }
+                  <app-plan-chooser
+                    [options]="og.options"
+                    [level]="g.level"
+                    [chosen]="c.choices.options"
+                    [items]="allItems()"
+                    (toggled)="setOption($event.id, $event.on)"
+                  />
+                } @else {
+                  @let v = optionView(og.options, g.level, c.choices.options);
+                  <details [open]="!og.uncounted">
+                    <summary>{{ 'levelUp.showOptions' | t: { count: v.shown.length } }}</summary>
+                    @for (o of v.shown; track o.id) {
+                      @let lock = optionLocks(o, g.level, og.options, c.choices.options);
+                      @let note = optionNote(o, og.options);
+                      <app-option-row
+                        [option]="o"
                         [checked]="c.choices.options.includes(o.id)"
-                        (change)="setOption(o.id, checked($event))"
+                        [issue]="lock.level > 0 || lock.requires.length > 0"
+                        [warning]="
+                          lock.level > 0 || lock.requires.length > 0
+                            ? (o.prerequisites?.raw ?? '')
+                            : ''
+                        "
+                        [note]="note"
+                        (toggled)="setOption(o.id, $event)"
                       />
-                      {{ o.name | dataName }}
-                      @if (lock.level > 0 || lock.requires.length > 0) {
-                        <small>⚠ {{ o.prerequisites?.raw | dataText }}</small>
-                      } @else if (note) {
-                        <small>{{ note | dataText }}</small>
-                      }
-                    </label>
-                  }
-                  @if (v.hiddenByLevel > 0) {
-                    <p>
-                      <small>{{ 'optfilter.moreLevel' | t: { n: v.hiddenByLevel } }}</small>
-                    </p>
-                  }
-                  @if (v.hiddenByRequirement > 0) {
-                    <p>
-                      <small>{{
-                        'optfilter.moreRequires' | t: { n: v.hiddenByRequirement }
-                      }}</small>
-                    </p>
-                  }
-                </details>
+                    }
+                    @if (v.hiddenByLevel > 0) {
+                      <p>
+                        <small>{{ 'optfilter.moreLevel' | t: { n: v.hiddenByLevel } }}</small>
+                      </p>
+                    }
+                    @if (v.hiddenByRequirement > 0) {
+                      <p>
+                        <small>{{
+                          'optfilter.moreRequires' | t: { n: v.hiddenByRequirement }
+                        }}</small>
+                      </p>
+                    }
+                  </details>
+                }
               </fieldset>
             }
 

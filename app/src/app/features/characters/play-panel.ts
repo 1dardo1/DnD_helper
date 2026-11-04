@@ -1,5 +1,6 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
 
+import { promptAfterLongRest } from '../../core/artificer/replicated-state';
 import { DataNamePipe } from '../../core/i18n/data-text.service';
 import { TermPipe } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
@@ -176,7 +177,13 @@ export class PlayPanel {
 
   protected longRest(): void {
     if (!confirm(this.i18n.t('play.confirmLong'))) return;
-    this.emit({ ...longRest(this.state()), spellSwap: swapsAfterLongRest(this.sheet()) });
+    const artificer = this.sheet().classes.find((k) => k.id === 'artificer')?.level ?? 0;
+    this.emit(
+      promptAfterLongRest(
+        { ...longRest(this.state()), spellSwap: swapsAfterLongRest(this.sheet()) },
+        artificer,
+      ),
+    );
   }
 
   private emit(next: PlayState): void {

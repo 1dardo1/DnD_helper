@@ -1,3 +1,4 @@
+import { ReplicatedItem, normalizeReplicated } from '../artificer/replicated-state';
 import { SummonsState, normalizeSummons } from '../summons/summon-state';
 import { Ability } from './compendium';
 
@@ -107,6 +108,10 @@ export interface Character {
     spellSwap: Record<string, 'any' | 'one'>;
     /** Creatures summoned by spells and features (absent until the first one is marked). */
     summons?: SummonsState;
+    /** Items created with Replicate Magic Item, oldest first (absent: none). */
+    replicated?: ReplicatedItem[];
+    /** A Long Rest asked whether to keep or change the created items; cleared once answered. */
+    replicatePrompt?: boolean;
   };
   notes: string;
 }
@@ -117,8 +122,12 @@ export interface InventoryEntry {
   name: string;
   qty: number;
   equipped: boolean;
-  /** 'start': put there by the wizard's starting equipment (rebuilt when that choice changes). */
-  source?: 'start';
+  /**
+   * 'start': put there by the wizard's starting equipment (rebuilt when that choice changes).
+   * 'replicate': created by the Artificer's Replicate Magic Item (planId says from which plan).
+   */
+  source?: 'start' | 'replicate';
+  planId?: string;
 }
 
 export interface Coins {
@@ -223,6 +232,10 @@ function normalizeState(base: Character['state'], raw: Character['state'] | unde
   const summons = normalizeSummons(raw?.summons);
   if (summons) state.summons = summons;
   else delete state.summons;
+  const replicated = normalizeReplicated(raw?.replicated);
+  if (replicated.length) state.replicated = replicated;
+  else delete state.replicated;
+  if (raw?.replicatePrompt !== true) delete state.replicatePrompt;
   return state;
 }
 

@@ -116,10 +116,14 @@
           <span class="name">
             @if (r.item) {
               <a [routerLink]="['/compendium', 'item', r.item.id]">{{
-                r.item.name | dataName: true
+                (r.entry.source === 'replicate' && r.entry.name ? r.entry.name : r.item.name)
+                  | dataName: true
               }}</a>
             } @else {
               {{ r.entry.name || r.entry.itemId }}
+            }
+            @if (r.entry.source === 'replicate') {
+              <small class="made">✦ {{ 'plans.madeWith' | t }}</small>
             }
           </span>
           <input

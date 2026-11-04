@@ -53,7 +53,10 @@ import { swapRule } from '../../core/play/spell-swap';
 import { computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { Sheet } from '../../core/rules/sheet';
+import { PLAN_GROUP, plansReplaced, plansTaken } from '../../core/artificer/plans';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
+import { OptionRow } from '../../shared/option-row';
+import { PlanChooser } from '../../shared/plan-chooser';
 import { ENTRY_FACETS } from '../../shared/picker/entry-facets';
 import { defaultOrder } from '../../shared/picker/entry-order';
 import { Picker } from '../../shared/picker/picker';
@@ -74,6 +77,8 @@ type Step = 'class' | 'hp' | 'subclass' | 'feats' | 'choices' | 'summary';
     DataNamePipe,
     DataTextPipe,
     MarkdownPipe,
+    OptionRow,
+    PlanChooser,
     LoadError,
     Picker,
   ],
@@ -312,6 +317,8 @@ export class LevelUp {
   }
 
   protected chosenCount(ids: string[], of: { id: string }[]): number {
+    if (of.length && (of[0] as { group?: string }).group === PLAN_GROUP)
+      return plansTaken(ids, of as ClassOption[]);
     const set = new Set(of.map((x) => x.id));
     return ids.filter((id) => set.has(id)).length;
   }
@@ -586,6 +593,17 @@ export class LevelUp {
     });
   }
 
+  /** Plans known before this level that the draft no longer has (the rules allow one). */
+  protected readonly planReplaced = computed(() => {
+    const d = this.data.value();
+    const ch = this.draft();
+    return d?.original && ch ? plansReplaced(d.original.choices.options, ch.choices.options) : 0;
+  });
+  protected readonly planGroup = PLAN_GROUP;
+  /** Every compendium item, for the plan pickers. */
+  protected readonly allItems = computed(() => [
+    ...(this.data.value()?.rules.items.values() ?? []),
+  ]);
   protected readonly optionView = visibleOptions;
   protected readonly optionLocks = optionLocks;
   protected readonly optionNote = optionUncheckedNote;
