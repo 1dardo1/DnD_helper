@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 
+import { HomebrewStore } from '../homebrew/homebrew-store.service';
 import { I18nService } from '../i18n/i18n.service';
 import { Character } from '../models/character';
 import {
@@ -34,6 +35,7 @@ export interface ReadFile extends ParsedFile {
 export class BackupService {
   private readonly store = inject(CharacterStore);
   private readonly i18n = inject(I18nService);
+  private readonly homebrew = inject(HomebrewStore);
 
   readonly native = Capacitor.isNativePlatform();
 
@@ -44,13 +46,14 @@ export class BackupService {
     return this.export(characterFileName(c.name), backupText(c), share);
   }
 
-  /** All the characters on this device (null: there are none). */
+  /** All the characters and custom backgrounds on this device (null: there are none). */
   async exportAll(share = false): Promise<ExportOutcome | null> {
-    await this.store.load();
+    await Promise.all([this.store.load(), this.homebrew.load()]);
     const characters = this.store.all().map((r) => r.character);
-    if (!characters.length) return null;
+    const backgrounds = this.homebrew.backgrounds();
+    if (!characters.length && !backgrounds.length) return null;
     const name = backupFileName(this.i18n.t('backup.fileWord'));
-    return this.export(name, backupText(backupOf(characters)), share);
+    return this.export(name, backupText(backupOf(characters, new Date(), backgrounds)), share);
   }
 
   /** Reads each chosen file; unreadable ones come back with an error. */
@@ -60,7 +63,13 @@ export class BackupService {
       try {
         out.push({ fileName: file.name, ...parseImportText(await file.text()) });
       } catch {
-        out.push({ fileName: file.name, characters: [], invalid: 0, error: 'not-json' });
+        out.push({
+          fileName: file.name,
+          characters: [],
+          backgrounds: [],
+          invalid: 0,
+          error: 'not-json',
+        });
       }
     }
     return out;

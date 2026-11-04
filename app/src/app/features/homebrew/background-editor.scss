@@ -1,0 +1,280 @@
+// The custom background form: a dialog on the notebook page, with a live preview card beside it.
+
+:host {
+  display: contents;
+}
+
+.editor {
+  box-sizing: border-box;
+  width: min(62rem, calc(100vw - 1rem));
+  max-height: calc(100dvh - 1rem);
+  padding: 0 var(--space-4) var(--space-4);
+  overflow: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-page);
+
+  &::backdrop {
+    background: rgb(0 0 0 / 0.55);
+  }
+}
+
+.head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  background: var(--paper);
+
+  h2 {
+    margin: 0;
+    font-size: var(--fs-lg);
+
+    @media (min-width: 40rem) {
+      font-size: var(--fs-xl);
+    }
+  }
+}
+
+// "your DM has to approve it": a wax-red note, the same in the intro and above the form
+.dm-warning {
+  margin: var(--space-3) 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--warn);
+  border-left-width: 5px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--warn) 10%, var(--card));
+
+  h3 {
+    margin: 0 0 var(--space-2);
+    color: var(--warn);
+  }
+
+  p {
+    margin: 0 0 var(--space-2);
+  }
+
+  &.compact {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--fs-sm);
+  }
+}
+
+.layout {
+  display: grid;
+  gap: var(--space-4);
+
+  @media (min-width: 52rem) {
+    grid-template-columns: minmax(0, 1fr) 17rem;
+    align-items: start;
+  }
+}
+
+.fields {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.field {
+  display: grid;
+  gap: 0.25rem;
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.label {
+  font-family: var(--font-title);
+  font-size: var(--fs-md);
+}
+
+small {
+  color: var(--ink-soft);
+}
+
+fieldset {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+
+  legend {
+    padding: 0 var(--space-2);
+    font-family: var(--font-title);
+    font-size: var(--fs-md);
+  }
+
+  select {
+    max-width: 100%;
+  }
+}
+
+.count {
+  margin-left: 0.4rem;
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}
+
+// something to fix, after pressing "Save"
+.bad,
+fieldset.bad {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 1px var(--danger);
+  border-radius: var(--radius-sm);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  min-height: var(--tap);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: 1.4rem;
+  background: var(--card);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+
+  &[aria-pressed='true'] {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--on-accent);
+
+    small {
+      color: inherit;
+    }
+  }
+}
+
+.radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+
+  label {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+  }
+}
+
+.inline {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.lines,
+.results {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lines li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+
+  .line-name {
+    flex: 1 1 8rem;
+  }
+
+  .qty {
+    width: 4.5rem;
+  }
+}
+
+.results {
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+
+  .btn {
+    width: 100%;
+    text-align: left;
+  }
+
+  .none {
+    color: var(--ink-soft);
+  }
+}
+
+.gold input {
+  max-width: 8rem;
+}
+
+.equipment-text {
+  margin: 0;
+  font-size: var(--fs-sm);
+
+  code {
+    display: block;
+    margin-top: 0.2rem;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+}
+
+.errors {
+  padding: var(--space-3);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--danger) 8%, var(--card));
+  scroll-margin-top: 4rem;
+
+  ul {
+    margin: var(--space-1) 0 0;
+    padding-left: 1.2rem;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.preview {
+  min-width: 0;
+
+  @media (min-width: 52rem) {
+    position: sticky;
+    top: 3.5rem;
+  }
+
+  h3 {
+    margin: 0 0 var(--space-2);
+  }
+
+  .card {
+    display: grid;
+    gap: 0.15rem;
+    padding: var(--space-3);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    background: var(--card);
+    box-shadow: var(--shadow-1);
+  }
+}

@@ -22,6 +22,9 @@
       }
       @if (s.background) {
         · {{ s.background | dataName }}
+        @if (s.backgroundHomebrew; as h) {
+          <app-homebrew-badge variant="inline" [approved]="h === 'approved'" />
+        }
       }
     </p>
     <p class="actions-line">

@@ -87,6 +87,19 @@
     --stamp: var(--warn);
   }
 
+  // the user's own backgrounds (homebrew): blue "custom", amber while the DM hasn't approved
+  .mark[data-tone='custom'] {
+    --stamp: var(--info);
+  }
+
+  .mark[data-tone='pending'] {
+    --stamp: var(--warn);
+  }
+
+  .mark[data-tone='approved'] {
+    --stamp: var(--ok);
+  }
+
   // racial feats: the species that can take them, as red stamps under the name
   .species {
     display: flex;

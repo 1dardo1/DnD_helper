@@ -10,12 +10,21 @@
   <article [appClassTheme]="e">
     <h1>{{ e.name | dataName }}</h1>
     <p class="meta">
-      <span class="edition">{{ 'common.edition' | t: { edition: e.edition } }}</span>
+      @if (e.custom) {
+        <span class="edition custom">{{ 'homebrew.edition' | t }}</span>
+      } @else {
+        <span class="edition">{{ 'common.edition' | t: { edition: e.edition } }}</span>
+      }
       @if (e.source) {
         <span>{{ 'common.source' | t }}: {{ e.source | dataText }}</span>
       }
-      <a [href]="e.url" target="_blank" rel="noopener">{{ 'compendium.originalPage' | t }}</a>
+      @if (e.url) {
+        <a [href]="e.url" target="_blank" rel="noopener">{{ 'compendium.originalPage' | t }}</a>
+      }
     </p>
+    @if (e.custom) {
+      <app-custom-background-panel [background]="$any(e)" />
+    }
 
     @if (e.adjustments?.length) {
       <aside class="adjustments">

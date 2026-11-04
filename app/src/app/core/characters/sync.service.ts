@@ -2,6 +2,7 @@ import { DestroyRef, Injectable, inject, signal } from '@angular/core';
 
 import { RepositoryService } from '../data/repository.service';
 import { EncounterStore } from '../dm/encounter-store.service';
+import { HomebrewStore } from '../homebrew/homebrew-store.service';
 import { Character, CharacterRecord } from '../models/character';
 import { CharacterStore, SyncResult } from './character-store.service';
 
@@ -15,13 +16,14 @@ export type SyncState = 'idle' | 'syncing' | 'offline' | 'error';
  * Decides when characters are synchronised with the repo: when the app opens, when the
  * connection comes back, every few minutes while it's open, and right after a save. The DM's
  * encounters (encrypted) are synchronised in the same round, after the characters, when the repo
- * is GitHub.
+ * is GitHub, and so are the user's own backgrounds (homebrew/backgrounds/).
  */
 @Injectable({ providedIn: 'root' })
 export class SyncService {
   private readonly store = inject(CharacterStore);
   private readonly repo = inject(RepositoryService);
   private readonly encounters = inject(EncounterStore);
+  private readonly homebrew = inject(HomebrewStore);
 
   readonly state = signal<SyncState>('idle');
   readonly lastSync = signal<string | null>(null);
@@ -134,6 +136,11 @@ export class SyncService {
         await this.encounters.sync(source);
       } catch {
         // already in encounters.syncError
+      }
+      try {
+        await this.homebrew.sync(source);
+      } catch {
+        // custom backgrounds stay on the device and are sent on the next round
       }
     }
   }

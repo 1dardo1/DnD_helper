@@ -205,7 +205,31 @@
             [label]="'create.background' | t"
             (picked)="setBackground($event.id)"
           />
+          <p class="create-own">
+            <button
+              type="button"
+              class="btn"
+              (click)="creatingBackground.set(true)"
+              data-testid="bg-create"
+            >
+              {{ 'homebrew.createFromWizard' | t }}
+            </button>
+          </p>
+          @if (creatingBackground()) {
+            <app-background-editor
+              (saved)="useCreatedBackground($event.id)"
+              (closed)="creatingBackground.set(false)"
+            />
+          }
           @if (background(); as b) {
+            @if (b.custom) {
+              <p class="create-own">
+                <app-homebrew-badge [approved]="!!b.dmApproved" />
+              </p>
+              @if (!b.dmApproved) {
+                <p>{{ 'homebrew.approve.pendingNote' | t }}</p>
+              }
+            }
             <p>
               {{ 'create.backgroundGives' | t }}: {{ b.feat | dataName }} ·
               {{ b.skills.map(skillLabel).join(', ') }}

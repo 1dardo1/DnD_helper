@@ -32,7 +32,7 @@ import { EntryPortrait } from './entry-portrait';
       }
       <span class="name">{{ entry().name | dataName }}</span>
       @for (m of s.marks; track m.text) {
-        <abbr class="mark" [title]="m.title">{{ m.text }}</abbr>
+        <abbr class="mark" [attr.data-tone]="m.tone" [title]="m.title">{{ m.text }}</abbr>
       }
       @if (entry().edition === '2014') {
         <span class="mark edition">2014</span>

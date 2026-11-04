@@ -10,6 +10,8 @@ import {
 import { BackupService } from '../core/characters/backup.service';
 import { CharacterStore } from '../core/characters/character-store.service';
 import { SyncService } from '../core/characters/sync.service';
+import { CustomBackground } from '../core/homebrew/custom-background';
+import { HomebrewStore } from '../core/homebrew/homebrew-store.service';
 import {
   I18nService,
   LocalDatePipe,
@@ -183,6 +185,7 @@ export class BackupPanel {
   protected readonly backup = inject(BackupService);
   private readonly store = inject(CharacterStore);
   private readonly sync = inject(SyncService);
+  private readonly homebrew = inject(HomebrewStore);
   private readonly i18n = inject(I18nService);
 
   protected readonly choiceList: ConflictChoice[] = ['replace', 'both', 'skip'];
@@ -192,6 +195,8 @@ export class BackupPanel {
   /** Problems with the files read, shown with the summary. */
   private fileProblems: string[] = [];
   private invalid = 0;
+  /** Custom backgrounds imported from the files read (shown with the summary). */
+  private backgroundsLine = '';
   protected readonly messages = signal<string[]>([]);
 
   protected async exportAll(share: boolean): Promise<void> {
@@ -221,6 +226,7 @@ export class BackupPanel {
       .filter((f) => f.error)
       .map((f) => this.i18n.t(errorKey[f.error!], { file: f.fileName }));
     this.invalid = read.reduce((n, f) => n + f.invalid, 0);
+    await this.importBackgrounds(read.flatMap((f) => f.backgrounds));
     await this.store.load();
     const items = planImport(
       read.flatMap((f) => f.characters),
@@ -270,10 +276,29 @@ export class BackupPanel {
       result.skipped ? this.count('skipped', result.skipped) : '',
       this.invalid ? this.count('invalid', this.invalid) : '',
     ].filter(Boolean);
-    this.messages.set([
-      ...this.fileProblems,
-      items.length || this.invalid ? parts.join(', ') + '.' : this.i18n.t('backup.nothing'),
-    ]);
+    this.messages.set(
+      [
+        ...this.fileProblems,
+        items.length || this.invalid
+          ? parts.join(', ') + '.'
+          : this.backgroundsLine
+            ? ''
+            : this.i18n.t('backup.nothing'),
+        this.backgroundsLine,
+      ].filter(Boolean),
+    );
+  }
+
+  private async importBackgrounds(list: CustomBackground[]): Promise<void> {
+    this.backgroundsLine = '';
+    if (!list.length) return;
+    const plan = await this.homebrew.importBackgrounds(list);
+    const n = plan.added + plan.updated;
+    if (n) void this.sync.sync();
+    this.backgroundsLine = this.i18n.t('homebrew.backup.imported', {
+      count: n,
+      skipped: plan.skipped,
+    });
   }
 
   private count(what: 'imported' | 'skipped' | 'invalid', n: number): string {

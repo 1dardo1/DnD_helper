@@ -1,4 +1,5 @@
 import { toJsonText } from '../data/data-source';
+import { CustomBackground, normalizeCustomBackground } from '../homebrew/custom-background';
 import { Character, normalizeCharacter } from '../models/character';
 
 /**
@@ -6,7 +7,8 @@ import { Character, normalizeCharacter } from '../models/character';
  * file contains, how one is read back, and what importing it would do. BackupService does the I/O.
  *
  *  - One character: the character JSON exactly as in the repo (characters/<id>.json).
- *  - All of them: { app: 'dnd-helper', kind: 'backup', version: 1, exportedAt, characters: [...] }.
+ *  - All of them: { app: 'dnd-helper', kind: 'backup', version: 1, exportedAt, characters: [...],
+ *    backgrounds: [...] } (the user's own backgrounds; files from before them lack the field).
  */
 export const BACKUP_APP = 'dnd-helper';
 export const BACKUP_VERSION = 1;
@@ -17,15 +19,22 @@ export interface BackupFile {
   version: typeof BACKUP_VERSION;
   exportedAt: string;
   characters: Character[];
+  /** The user's own backgrounds (absent in files made before they existed). */
+  backgrounds: CustomBackground[];
 }
 
-export function backupOf(characters: Character[], now = new Date()): BackupFile {
+export function backupOf(
+  characters: Character[],
+  now = new Date(),
+  backgrounds: CustomBackground[] = [],
+): BackupFile {
   return {
     app: BACKUP_APP,
     kind: 'backup',
     version: BACKUP_VERSION,
     exportedAt: now.toISOString(),
     characters,
+    backgrounds,
   };
 }
 
@@ -74,6 +83,8 @@ export function isSafeId(id: string): boolean {
 export interface ParsedFile {
   /** Valid characters found in the file. */
   characters: Character[];
+  /** Valid custom backgrounds found in the file (backups only). */
+  backgrounds: CustomBackground[];
   /** Entries that aren't characters (or have an unsafe id). */
   invalid: number;
   /** The file isn't JSON, or isn't a character, a backup or a list of characters. */
@@ -86,21 +97,26 @@ export function parseImportText(text: string): ParsedFile {
   try {
     raw = JSON.parse(text.replace(/^﻿/, ''));
   } catch {
-    return { characters: [], invalid: 0, error: 'not-json' };
+    return { characters: [], backgrounds: [], invalid: 0, error: 'not-json' };
   }
   if (Array.isArray(raw)) return parseEntries(raw);
   if (raw && typeof raw === 'object') {
     const o = raw as Record<string, unknown>;
     if (o['kind'] === 'backup' && Array.isArray(o['characters'])) {
       if (typeof o['version'] === 'number' && o['version'] > BACKUP_VERSION) {
-        return { characters: [], invalid: 0, error: 'newer-version' };
+        return { characters: [], backgrounds: [], invalid: 0, error: 'newer-version' };
       }
-      return parseEntries(o['characters']);
+      const parsed = parseEntries(o['characters']);
+      const raw = Array.isArray(o['backgrounds']) ? o['backgrounds'] : [];
+      const backgrounds = raw
+        .map((b) => normalizeCustomBackground(b))
+        .filter((b): b is CustomBackground => !!b);
+      return { ...parsed, backgrounds, invalid: parsed.invalid + raw.length - backgrounds.length };
     }
     const c = validCharacter(raw);
-    if (c) return { characters: [c], invalid: 0 };
+    if (c) return { characters: [c], backgrounds: [], invalid: 0 };
   }
-  return { characters: [], invalid: 0, error: 'unknown-format' };
+  return { characters: [], backgrounds: [], invalid: 0, error: 'unknown-format' };
 }
 
 function parseEntries(entries: unknown[]): ParsedFile {
@@ -111,7 +127,7 @@ function parseEntries(entries: unknown[]): ParsedFile {
     if (c) characters.push(c);
     else invalid++;
   }
-  return { characters, invalid };
+  return { characters, backgrounds: [], invalid };
 }
 
 function validCharacter(raw: unknown): Character | null {

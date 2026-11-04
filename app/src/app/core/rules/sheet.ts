@@ -15,6 +15,8 @@ export interface Sheet {
   }[];
   species: string | null;
   background: string | null;
+  /** The background is the user's own: waiting for the DM's approval, or approved. */
+  backgroundHomebrew: 'pending' | 'approved' | null;
 
   abilities: Record<Ability, { score: number; modifier: number; base: number; bonuses: Bonus[] }>;
   savingThrows: Record<Ability, { modifier: number; proficient: boolean }>;
@@ -82,6 +84,10 @@ export interface SheetFeature {
 
 /** Something the engine couldn't work out; key is a UI text (sheet.warn.*), params fill it in. */
 export interface SheetWarning {
-  key: 'sheet.warn.notFound' | 'sheet.warn.noSubclass' | 'sheet.warn.twoPacts';
+  key:
+    | 'sheet.warn.notFound'
+    | 'sheet.warn.customBackgroundMissing'
+    | 'sheet.warn.noSubclass'
+    | 'sheet.warn.twoPacts';
   params?: Record<string, string>;
 }

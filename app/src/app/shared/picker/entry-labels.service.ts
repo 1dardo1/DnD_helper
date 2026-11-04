@@ -41,7 +41,7 @@ export interface CardSummary {
   kicker: string;
   facts: { label: string; value: string }[];
   /** Short marks next to the name (C = concentration, R = ritual...), with their meaning. */
-  marks: { text: string; title: string }[];
+  marks: { text: string; title: string; tone?: 'custom' | 'pending' | 'approved' }[];
   /** The start of the description, as plain text (feats: what they do at a glance). */
   preview?: string;
   /** Racial feats: the names of the species that can take them. */
@@ -179,7 +179,10 @@ export class EntryLabels {
         text = this.term('optionGroup', value);
         break;
       case 'edition':
-        text = this.t('common.edition', { edition: value });
+        text =
+          value === 'custom'
+            ? this.t('homebrew.edition')
+            : this.t('common.edition', { edition: value });
         break;
       case 'castingTime':
       case 'price':
@@ -431,8 +434,26 @@ export class EntryLabels {
         },
         ...(tool ? [{ label: this.t('picker.tool'), value: this.proficiency(tool) }] : []),
       ],
-      marks: [],
+      marks: b.custom ? this.customMarks(b) : [],
     };
+  }
+
+  /** The user's own backgrounds: "Custom" and whether the DM approved it (honour system). */
+  private customMarks(b: Background): CardSummary['marks'] {
+    return [
+      { text: this.t('homebrew.mark'), title: this.t('homebrew.markTitle'), tone: 'custom' },
+      b.dmApproved
+        ? {
+            text: this.t('homebrew.markApproved'),
+            title: this.t('homebrew.markApprovedTitle'),
+            tone: 'approved',
+          }
+        : {
+            text: this.t('homebrew.markPending'),
+            title: this.t('homebrew.markPendingTitle'),
+            tone: 'pending',
+          },
+    ];
   }
 
   private speciesSummary(s: Species): CardSummary {

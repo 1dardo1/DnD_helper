@@ -31,6 +31,10 @@ export interface Entry {
   replaced?: string[];
   /** Changes made to adapt a 2014 entry to 2024 rules. */
   adjustments?: string[];
+  /** Made by the user (homebrew, core/homebrew), not part of the extracted compendium. */
+  custom?: boolean;
+  /** Custom entries: the user says the DM approved it (honour system). */
+  dmApproved?: boolean;
 }
 
 export interface Feature {

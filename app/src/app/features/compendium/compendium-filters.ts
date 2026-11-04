@@ -54,7 +54,7 @@ export function filterValues(e: Entry, key: FilterKey): string[] {
     case 'group':
       return e.type === 'option' ? [(e as EntryByType['option']).group] : [];
     case 'edition':
-      return [e.edition];
+      return [e.custom ? 'custom' : e.edition];
   }
 }
 
