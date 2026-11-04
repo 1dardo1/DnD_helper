@@ -139,6 +139,83 @@ export const ENTRY_FACETS: Record<EntryType, FacetKey[]> = {
   rule: ['category'],
 };
 
+/**
+ * What a facet's values are like, which decides what the filter bar offers for it:
+ * - `binary`: every entry of the type has exactly one of two exclusive values (Yes/No, magic /
+ *   mundane...), so excluding one is the same as ticking the other: no ✕, no O/Y.
+ * - `single`: each entry has at most one value (school, level, size class...): "all at once" can
+ *   never hold, so no O/Y, but excluding a value (everything but Evocation) still means something.
+ * - `multi`: an entry can have several values (classes, damage types...): ✕ and O/Y both apply.
+ * A facet where only some entries have a value (the "attunement" of items, which only magic items
+ * have) is NOT binary even when its values are yes/no: excluding "yes" keeps the entries without it.
+ */
+export type FacetKind = 'binary' | 'single' | 'multi';
+
+const B: FacetKind = 'binary';
+const S: FacetKind = 'single';
+const M: FacetKind = 'multi';
+
+/** Every facet of every type must declare its kind (a test checks it against `ENTRY_FACETS`). */
+export const FACET_KINDS: Record<EntryType, Partial<Record<FacetKey, FacetKind>>> = {
+  class: { primary: M, caster: S, hitDie: S, armor: M, saves: M, edition: S },
+  subclass: { class: S, casting: S, edition: S },
+  option: { group: S, class: S, minLevel: S, prerequisite: B, edition: S },
+  spell: {
+    level: S,
+    school: S,
+    castingTime: M, // the casting unit plus "ritual"
+    concentration: B,
+    class: M,
+    duration: S,
+    ritual: B,
+    components: M,
+    range: S,
+    area: M, // "yes" plus its shapes
+    resolve: M,
+    damage: M,
+    edition: S,
+  },
+  feat: { category: S, increase: M, prerequisite: M, repeatable: B, edition: S },
+  species: { size: M, speed: M, darkvision: S, creatureType: S, edition: S },
+  background: { feat: S, ability: M, skill: M, tool: S, edition: S },
+  item: {
+    category: S,
+    magic: B,
+    rarity: S,
+    price: S,
+    attunement: S, // only magic items have it
+    weaponKind: S, // only weapons
+    weaponRange: S, // only weapons
+    damage: M,
+    property: M,
+    mastery: S,
+    armorKind: S,
+    stealth: S, // only armor
+    edition: S,
+  },
+  monster: {
+    cr: S,
+    creatureType: S,
+    size: M, // a "Medium or Small" creature lists several
+    movement: M,
+    legendary: B,
+    spellcaster: B,
+    category: S,
+    immunity: M,
+    resistance: M,
+    conditionImmunity: M,
+    senses: M,
+    alignment: S,
+    challenge: S,
+  },
+  rule: { category: S },
+};
+
+/** The kind of a facet for a type; an undeclared one is treated as multi (the permissive one). */
+export function facetKind(type: EntryType, key: FacetKey): FacetKind {
+  return FACET_KINDS[type][key] ?? 'multi';
+}
+
 export const PRIMARY_FACETS: Record<EntryType, number> = {
   class: 4,
   subclass: 3,

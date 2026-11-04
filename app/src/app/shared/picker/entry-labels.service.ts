@@ -30,6 +30,7 @@ import {
   crText,
   isFeatKind,
   weaponTraining,
+  facetKind,
 } from './entry-facets';
 import { FacetView } from './filter-bar';
 import { modeKey } from './picker-filters';
@@ -334,7 +335,10 @@ export class EntryLabels {
         more: !primary.includes(key),
         mode: selection[modeKey(key)] === 'and' ? ('and' as const) : ('or' as const),
         // "all at once" only makes sense where an entry can have several values
-        canAnd: items.some((i) => facetValues(i, key).length > 1),
+        canCombine:
+          facetKind(type, key) === 'multi' && items.some((i) => facetValues(i, key).length > 1),
+        // on a yes/no facet, excluding one option is just ticking the other
+        canExclude: facetKind(type, key) !== 'binary',
         options: facetOptionsFor(items, key, (v) => this.optionLabel(type, key, v)),
       }))
       .filter((f) => f.options.length > 1 || f.selected);
