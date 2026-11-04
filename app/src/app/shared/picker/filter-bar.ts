@@ -12,10 +12,12 @@ export interface FacetView {
   selected: string;
   /** Less used: shown under "Más filtros". */
   more?: boolean;
-  /** How included values combine: any of them, or all at once (only when `canAnd`). */
+  /** How included values combine: any of them, or all at once (only when `canCombine`). */
   mode: 'or' | 'and';
   /** Whether an entry can have several values of this facet, so "all at once" means something. */
-  canAnd: boolean;
+  canCombine: boolean;
+  /** False on binary facets, where excluding a value is the same as ticking the other one. */
+  canExclude: boolean;
 }
 
 /** Wider screens show the filters open; phones start with them folded under "Filtros". */
@@ -43,7 +45,7 @@ function wideScreen(): boolean {
             <span class="chip">{{ n }}</span>
           }
         </summary>
-        @if (f.canAnd) {
+        @if (f.canCombine) {
           <div class="mode" role="group" [attr.aria-label]="'picker.mode' | t">
             <button
               type="button"
@@ -74,16 +76,19 @@ function wideScreen(): boolean {
                 />
                 {{ o.label }}
               </label>
-              <button
-                type="button"
-                class="exclude"
-                [attr.aria-pressed]="isOff(f, o.value)"
-                [attr.aria-label]="('picker.exclude' | t) + ': ' + o.label"
-                [title]="'picker.excludeHint' | t"
-                (click)="facetChange.emit({ key: f.key, value: excluded(f, o.value) })"
-              >
-                ✕
-              </button>
+              <!-- an old link with "!yes" on a binary facet still shows its ✕, to undo it -->
+              @if (f.canExclude || isOff(f, o.value)) {
+                <button
+                  type="button"
+                  class="exclude"
+                  [attr.aria-pressed]="isOff(f, o.value)"
+                  [attr.aria-label]="('picker.exclude' | t) + ': ' + o.label"
+                  [title]="'picker.excludeHint' | t"
+                  (click)="facetChange.emit({ key: f.key, value: excluded(f, o.value) })"
+                >
+                  ✕
+                </button>
+              }
             </li>
           }
         </ul>
@@ -227,6 +232,8 @@ function wideScreen(): boolean {
       li label {
         display: flex;
         align-items: center;
+        flex: 1;
+        min-width: 0;
         gap: 0.45rem;
         min-height: 2rem;
         font-size: var(--fs-sm);
