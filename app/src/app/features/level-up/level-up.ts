@@ -33,6 +33,14 @@ import {
   withSlotAbility,
   withSlotFeat,
 } from '../../core/creation/level-up';
+import {
+  sharedCount,
+  spellCasters,
+  spellFields,
+  spellMarks,
+  spellsByClassOf,
+  toggleSpellFor,
+} from '../../core/creation/spell-choices';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
@@ -104,12 +112,30 @@ export class LevelUp {
         this.compendium.all('option'),
         this.compendium.getMeta(),
       ]);
-      const original = record ? normalizeCharacter(record.character) : null;
+      const stored = record ? normalizeCharacter(record.character) : null;
+      const spellsById = new Map(spells.map((s) => [s.id, s]));
+      // an older character gets its spells assigned to classes now (as it is, before the level)
+      const original =
+        stored && stored.choices.spells.length && !stored.choices.spellsByClass
+          ? {
+              ...stored,
+              choices: {
+                ...stored.choices,
+                ...spellFields(
+                  spellsByClassOf(
+                    stored.choices,
+                    spellCasters(stored, rules.classes, rules.subclasses),
+                    spellsById,
+                  ),
+                ),
+              },
+            }
+          : stored;
       return {
         original,
         rules,
         spells,
-        spellsById: new Map(spells.map((s) => [s.id, s])),
+        spellsById,
         options,
         meta,
         classes: [...rules.classes.values()].sort((a, b) => a.name.localeCompare(b.name)),
@@ -166,6 +192,34 @@ export class LevelUp {
     const ch = this.draft();
     return d && ch ? computeSheet(ch, d.rules) : null;
   });
+
+  /** The spells picked for each caster of the draft (a spell of another class doesn't count). */
+  private readonly casters = computed(() => {
+    const d = this.data.value();
+    const ch = this.draft();
+    return d && ch ? spellCasters(ch, d.rules.classes, d.rules.subclasses) : [];
+  });
+  protected readonly pickedBy = computed(() => {
+    const ch = this.draft();
+    return ch
+      ? spellsByClassOf(ch.choices, this.casters(), this.data.value()?.spellsById ?? new Map())
+      : {};
+  });
+  private static readonly NONE: string[] = [];
+  protected readonly spellMarks = computed(() => {
+    const classes = this.data.value()?.rules.classes;
+    return spellMarks(
+      this.pickedBy(),
+      this.casters(),
+      (id) => this.dataText.shortName(classes?.get(id)?.name ?? id),
+      (also, cls) => this.i18n.t(also ? 'spellchoice.alsoAs' : 'spellchoice.alreadyAs', { cls }),
+    );
+  });
+  protected readonly sharedSpells = computed(() => sharedCount(this.pickedBy()));
+
+  protected pickedOf(classId: string): string[] {
+    return this.pickedBy()[classId] ?? LevelUp.NONE;
+  }
 
   /** Only the steps this level needs. */
   protected readonly steps = computed<Step[]>(() => {
@@ -511,11 +565,22 @@ export class LevelUp {
     }));
   }
 
+  /** Picks or drops a spell for the class gaining the level; other classes keep their picks. */
   protected setSpell(id: string, on: boolean): void {
-    this.patch((c) => ({
-      ...c,
-      choices: { ...c.choices, spells: this.toggle(c.choices.spells, id, on) },
-    }));
+    const d = this.data.value();
+    const classId = this.classId();
+    if (!d || !classId) return;
+    this.patch((c) => {
+      const by = spellsByClassOf(
+        c.choices,
+        spellCasters(c, d.rules.classes, d.rules.subclasses),
+        d.spellsById,
+      );
+      return {
+        ...c,
+        choices: { ...c.choices, ...spellFields(toggleSpellFor(by, classId, id, on)) },
+      };
+    });
   }
 
   /** Options above the class level are listed but flagged. */

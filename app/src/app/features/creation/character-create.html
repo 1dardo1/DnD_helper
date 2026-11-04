@@ -518,8 +518,9 @@
                 }
 
                 @if (r.spells; as sl) {
-                  @let nC = chosenCount(c.choices.spells, sl.cantrips);
-                  @let nP = chosenCount(c.choices.spells, sl.leveled);
+                  @let mine = pickedOf(r.entry.id);
+                  @let nC = chosenCount(mine, sl.cantrips);
+                  @let nP = chosenCount(mine, sl.leveled);
                   <fieldset>
                     <legend>{{ 'sheet.spellcasting' | t }}</legend>
                     @if (sl.cantripCount !== null) {
@@ -530,9 +531,10 @@
                         multiple
                         [items]="sl.cantrips"
                         [facets]="spellFacets"
-                        [selected]="c.choices.spells"
+                        [selected]="mine"
+                        [marks]="spellMarks()[r.entry.id]"
                         [label]="'sheet.cantrips' | t"
-                        (picked)="setSpell($event.id, $event.on)"
+                        (picked)="setSpell(r.entry.id, $event.id, $event.on)"
                       />
                     }
                     <h3 [class.issue]="sl.preparedCount !== null && nP > sl.preparedCount">
@@ -545,10 +547,14 @@
                       multiple
                       [items]="sl.leveled"
                       [facets]="spellFacets"
-                      [selected]="c.choices.spells"
+                      [selected]="mine"
+                      [marks]="spellMarks()[r.entry.id]"
                       [label]="'sheet.prepared' | t"
-                      (picked)="setSpell($event.id, $event.on)"
+                      (picked)="setSpell(r.entry.id, $event.id, $event.on)"
                     />
+                    @if (sharedSpells() > 0) {
+                      <p class="hint">{{ 'spellchoice.shared' | t: { count: sharedSpells() } }}</p>
+                    }
                   </fieldset>
                 }
               }

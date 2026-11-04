@@ -1159,4 +1159,8 @@ export const es: Record<keyof typeof en, string> = {
     '{creatures} criaturas para {characters} personajes: un combate largo y más difícil de prever.',
   'balance.warn.aboveHigh':
     'Por encima de Alto: la DMG no da presupuesto más allá de Alto; puede ser mortal.',
+  'spellchoice.alreadyAs': 'Ya elegido como {cls}',
+  'spellchoice.alsoAs': 'También elegido como {cls}',
+  'spellchoice.shared':
+    'Elegidos para dos clases a la vez: {count}. Es un solo hechizo en tu lista, pero cuenta como una elección de cada clase.',
 };

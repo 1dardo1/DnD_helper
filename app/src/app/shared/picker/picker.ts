@@ -67,6 +67,8 @@ export class Picker<T extends PickItem> {
   readonly label = input('');
   /** Text of the "only the chosen" checkbox (multiple choice); default "Solo los elegidos". */
   readonly chosenOnlyLabel = input('');
+  /** A short note on the card of some items, by id (e.g. "already chosen as Warlock"). */
+  readonly marks = input<Readonly<Record<string, string>>>({});
   /** id + true (chosen) / false (unticked, multiple only). */
   readonly picked = output<{ id: string; on: boolean }>();
 

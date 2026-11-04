@@ -42,7 +42,11 @@
             @for (s of c.available; track s.id) {
               <li>
                 <label>
-                  <input type="checkbox" [checked]="isChosen(s.id)" (change)="toggle(s.id)" />
+                  <input
+                    type="checkbox"
+                    [checked]="isChosen(c.classId, s.id)"
+                    (change)="toggle(c.classId, s.id)"
+                  />
                   <small>{{ 'spell.levelShort' | t: { level: s.level } }}</small>
                   {{ s.name | dataName }}
                 </label>
@@ -83,7 +87,7 @@
           <select [value]="swapIn()" (change)="swapIn.set(value($event))">
             <option value="">—</option>
             @for (s of c.available; track s.id) {
-              @if (!isChosen(s.id)) {
+              @if (!isChosen(c.classId, s.id)) {
                 <option [value]="s.id">
                   {{ 'spell.levelShort' | t: { level: s.level } }} · {{ s.name | dataName }}
                 </option>

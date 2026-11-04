@@ -83,6 +83,14 @@
   }
 }
 
+// A note about the item that is not part of its card ("already chosen as Warlock").
+.mark {
+  margin: 0 var(--space-3);
+  font-family: var(--font-title);
+  font-size: var(--fs-sm);
+  color: var(--ink-blue);
+}
+
 .pick-more {
   align-self: flex-end;
   min-height: var(--tap);

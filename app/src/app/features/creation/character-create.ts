@@ -47,6 +47,15 @@ import {
   sameContent,
   writeEditDraft,
 } from '../../core/creation/edit-draft';
+import {
+  dropClassSpells,
+  sharedCount,
+  spellCasters,
+  spellFields,
+  spellMarks,
+  spellsByClassOf,
+  toggleSpellFor,
+} from '../../core/creation/spell-choices';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
@@ -227,6 +236,31 @@ export class CharacterCreate implements LeaveCheck {
       .map((r) => r.cls)
       .filter((c): c is DndClass => !!c),
   );
+  /** The casters among the classes, and the spells picked for each of them. */
+  private readonly casters = computed(() => {
+    const d = this.data.value();
+    return d ? spellCasters(this.draft(), d.rules.classes, d.rules.subclasses) : [];
+  });
+  private static readonly NONE: string[] = [];
+  protected readonly pickedBy = computed(() =>
+    spellsByClassOf(
+      this.draft().choices,
+      this.casters(),
+      this.data.value()?.spellsById ?? new Map(),
+    ),
+  );
+  /** Per class: its spells that are also picked for another class, with a note saying so. */
+  protected readonly spellMarks = computed(() => {
+    const classes = this.data.value()?.rules.classes;
+    return spellMarks(
+      this.pickedBy(),
+      this.casters(),
+      (id) => this.dataText.shortName(classes?.get(id)?.name ?? id),
+      (also, cls) => this.i18n.t(also ? 'spellchoice.alsoAs' : 'spellchoice.alreadyAs', { cls }),
+    );
+  });
+  /** Spells picked for two classes at once: one spell, but a pick from each class. */
+  protected readonly sharedSpells = computed(() => sharedCount(this.pickedBy()));
   protected readonly totalLevel = computed(() =>
     this.draft().classes.reduce((n, c) => n + c.level, 0),
   );
@@ -416,7 +450,17 @@ export class CharacterCreate implements LeaveCheck {
 
   // -- generic helpers -----------------------------------------------------------------
   protected patch(fn: (c: Character) => Character): void {
-    this.draft.update((c) => fn(structuredClone(c)));
+    this.draft.update((c) => fn(this.withSpellClasses(structuredClone(c))));
+  }
+
+  /** A character from before spells were recorded by class gets them worked out first. */
+  private withSpellClasses(c: Character): Character {
+    const d = this.data.value();
+    if (d && c.choices.spells.length && !c.choices.spellsByClass) {
+      const casters = spellCasters(c, d.rules.classes, d.rules.subclasses);
+      Object.assign(c.choices, spellFields(spellsByClassOf(c.choices, casters, d.spellsById)));
+    }
+    return c;
   }
 
   protected value(e: Event): string {
@@ -612,14 +656,12 @@ export class CharacterCreate implements LeaveCheck {
     const options = new Set(
       (this.data.value()?.options ?? []).filter((o) => o.classId === classId).map((o) => o.id),
     );
-    const spells = new Set(
-      (this.data.value()?.spells ?? []).filter((s) => s.classes.includes(classId)).map((s) => s.id),
-    );
     c.choices.featSlots = c.choices.featSlots.filter((s) => !mine(s.slot));
     c.choices.abilityIncreases = c.choices.abilityIncreases.filter((i) => !mine(i.slot));
     c.choices.toolChoices = c.choices.toolChoices.filter((t) => !t.slot.endsWith(`:${classId}`));
     c.choices.options = c.choices.options.filter((o) => !options.has(o));
-    c.choices.spells = c.choices.spells.filter((s) => !spells.has(s));
+    // only the picks made for that class: a spell also picked for another class stays
+    Object.assign(c.choices, spellFields(dropClassSpells(c.choices.spellsByClass ?? {}, classId)));
     const offered = new Set(
       skillPicks(
         c.classes
@@ -881,11 +923,19 @@ export class CharacterCreate implements LeaveCheck {
     });
   }
 
-  protected setSpell(id: string, on: boolean): void {
+  /** Picks or drops a spell for one class; the other classes keep their own picks. */
+  protected setSpell(classId: string, id: string, on: boolean): void {
     this.patch((c) => {
-      c.choices.spells = this.toggle(c.choices.spells, id, on);
+      const d = this.data.value();
+      const casters = d ? spellCasters(c, d.rules.classes, d.rules.subclasses) : [];
+      const by = spellsByClassOf(c.choices, casters, d?.spellsById ?? new Map());
+      Object.assign(c.choices, spellFields(toggleSpellFor(by, classId, id, on)));
       return c;
     });
+  }
+
+  protected pickedOf(classId: string): string[] {
+    return this.pickedBy()[classId] ?? CharacterCreate.NONE;
   }
 
   protected chosenCount(ids: string[], of: { id: string }[]): number {

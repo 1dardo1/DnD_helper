@@ -3,11 +3,19 @@ import { RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { spellListOf, spellsFor } from '../../core/creation/creation-rules';
+import {
+  isChosenFor,
+  replaceSpellFor,
+  spellCasters,
+  spellFields,
+  spellsByClassOf,
+  spellsOf,
+  toggleSpellFor,
+} from '../../core/creation/spell-choices';
 import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character } from '../../core/models/character';
 import { Spell } from '../../core/models/compendium';
-import { replaceSpell } from '../../core/play/spell-swap';
 import { castingOf } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { defaultOrder } from '../../shared/picker/entry-order';
@@ -54,12 +62,24 @@ export class SpellBook {
   protected readonly swapOut = signal('');
   protected readonly swapIn = signal('');
 
+  /** The spells picked for each class (worked out for characters from before they were kept). */
+  private readonly picked = computed(() => {
+    const d = this.data.value();
+    const ch = this.character();
+    if (!d) return {};
+    return spellsByClassOf(
+      ch.choices,
+      spellCasters(ch, d.rules.classes, d.rules.subclasses),
+      new Map(d.spells.map((s) => [s.id, s])),
+    );
+  });
+
   protected readonly casters = computed<Caster[]>(() => {
     const d = this.data.value();
     if (!d) return [];
     const ch = this.character();
     const byId = new Map(d.spells.map((s) => [s.id, s]));
-    const chosen = ch.choices.spells.map((id) => byId.get(id)).filter((s): s is Spell => !!s);
+    const by = this.picked();
     const out: Caster[] = [];
     for (const entry of ch.classes) {
       const cls = d.rules.classes.get(entry.id);
@@ -68,8 +88,12 @@ export class SpellBook {
       const sc = castingOf(cls, sub);
       if (!sc) continue;
       const list = spellListOf(cls, sc);
-      // by level (cantrips by name), as the compendium lists them
-      const mine = this.shown(chosen.filter((s) => s.classes.includes(list)));
+      // what was picked for this class (by level, cantrips by name, as the compendium lists them)
+      const mine = this.shown(
+        spellsOf(by, cls.id)
+          .map((id) => byId.get(id))
+          .filter((s): s is Spell => !!s),
+      );
       out.push({
         classId: cls.id,
         name: cls.name,
@@ -88,24 +112,29 @@ export class SpellBook {
     return defaultOrder(spells, (s) => this.dataText.shortName(s.name));
   }
 
-  protected isChosen(id: string): boolean {
-    return this.character().choices.spells.includes(id);
+  protected isChosen(classId: string, id: string): boolean {
+    return isChosenFor(this.picked(), classId, id);
   }
 
-  protected toggle(id: string): void {
-    const ch = this.character();
-    const spells = this.isChosen(id)
-      ? ch.choices.spells.filter((s) => s !== id)
-      : [...ch.choices.spells, id];
-    this.changed.emit({ ...ch, choices: { ...ch.choices, spells } });
+  private withPicks(ch: Character, by: Record<string, string[]>): Character {
+    return { ...ch, choices: { ...ch.choices, ...spellFields(by) } };
+  }
+
+  protected toggle(classId: string, id: string): void {
+    const on = !this.isChosen(classId, id);
+    this.changed.emit(
+      this.withPicks(this.character(), toggleSpellFor(this.picked(), classId, id, on)),
+    );
   }
 
   protected swapOne(c: Caster): void {
-    const ch = this.character();
-    const spells = replaceSpell(ch.choices.spells, this.swapOut(), this.swapIn());
+    const ch = this.withPicks(
+      this.character(),
+      replaceSpellFor(this.picked(), c.classId, this.swapOut(), this.swapIn()),
+    );
     this.swapOut.set('');
     this.swapIn.set('');
-    this.finish(c, { ...ch, choices: { ...ch.choices, spells } });
+    this.finish(c, ch);
   }
 
   /** Done changing (or not changing) this class's spells: the swap is used up. */

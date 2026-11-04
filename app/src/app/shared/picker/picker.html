@@ -16,6 +16,9 @@
         <app-entry-card [entry]="asEntry(item)" />
       }
     </button>
+    @if (marks()[item.id]; as mark) {
+      <small class="mark">{{ mark }}</small>
+    }
     <button
       type="button"
       class="pick-more btn-ghost"

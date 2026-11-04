@@ -1142,4 +1142,8 @@ export const en = {
   'balance.warn.manyCreatures':
     '{creatures} creatures for {characters} characters: a long fight that is harder to predict.',
   'balance.warn.aboveHigh': 'Above High: the DMG has no budget beyond High; it may be deadly.',
+  'spellchoice.alreadyAs': 'Already chosen as {cls}',
+  'spellchoice.alsoAs': 'Also chosen as {cls}',
+  'spellchoice.shared':
+    'Chosen for two classes at once: {count}. It is one spell on your list, but counts as a pick of each class.',
 };
