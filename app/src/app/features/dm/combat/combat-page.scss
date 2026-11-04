@@ -1,0 +1,394 @@
+// Initiative tracker: the order on the left (or alone, on phones, with the panel opening inside
+// the row), the selected combatant on the right, and the turn bar pinned to the bottom.
+:host {
+  display: block;
+  // room under the app's sticky top strap (none on phones, two rows on tablets) and above the
+  // turn bar, for the side panel and for scrolling the current row into view
+  --above: 1rem;
+  --below: 5.5rem;
+}
+
+@media (min-width: 45rem) and (max-width: 74.99rem) {
+  :host {
+    --above: 7rem;
+  }
+}
+
+@media (min-width: 75rem) {
+  :host {
+    --above: 4.5rem;
+  }
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 1rem;
+
+  h1 {
+    margin: 0 0 0.5rem;
+  }
+
+  .encounter {
+    margin: 0;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+}
+
+.banner {
+  margin: 0 0 1rem;
+
+  p {
+    margin: 0 0 0.5rem;
+  }
+}
+
+button {
+  min-height: var(--tap);
+}
+
+.layout.wide {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.side {
+  position: sticky;
+  top: var(--above);
+  max-height: calc(100dvh - var(--above) - var(--below));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.hint {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: var(--tap);
+}
+
+// -- the order -------------------------------------------------------------------------------
+
+.order {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  > li {
+    margin: 0;
+    scroll-margin: var(--above) 0 calc(var(--below) + 5rem);
+    border: 1px solid var(--line);
+    border-left: 0.35rem solid var(--line-strong);
+    border-radius: var(--radius-md);
+    background: var(--card);
+    box-shadow: var(--shadow-1);
+  }
+
+  > li[data-kind='monster'] {
+    border-left-color: var(--accent-2);
+  }
+
+  > li[data-kind='character'],
+  > li[data-kind='custom'] {
+    border-left-color: var(--info);
+  }
+
+  > li.selected {
+    border-color: var(--line-strong);
+  }
+
+  > li.current {
+    border-color: var(--accent);
+    border-left-width: 0.6rem;
+    border-left-color: var(--accent);
+    background: linear-gradient(var(--highlight), var(--highlight)), var(--card);
+    box-shadow:
+      0 0 0 1px var(--accent),
+      var(--shadow-2);
+  }
+
+  > li[data-down] .row {
+    opacity: 0.6;
+  }
+
+  > li[data-down='dead'] .name {
+    text-decoration: line-through;
+  }
+
+  > li.empty {
+    padding: 1rem;
+    border-left-width: 1px;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 3.4rem minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.5rem 0.3rem 0.35rem;
+}
+
+.init {
+  width: 100%;
+  min-height: var(--tap);
+  box-sizing: border-box;
+  padding: 0 0.2rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.who {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  min-height: 3rem;
+  margin: 0;
+  padding: 0.15rem 0.25rem;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover,
+  &:active {
+    background: none;
+    transform: none;
+  }
+}
+
+.name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--fs-md);
+  font-weight: 600;
+
+  .current & {
+    font-size: var(--fs-lg);
+  }
+}
+
+.mark {
+  color: var(--accent);
+}
+
+.conc {
+  color: var(--info);
+  margin-left: 0.2rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  margin-top: 0.1rem;
+}
+
+.tag {
+  padding: 0 0.35rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  line-height: 1.4;
+  color: var(--ink-soft);
+
+  &.down {
+    border-color: var(--danger);
+    color: var(--danger);
+    font-weight: 600;
+  }
+}
+
+.ac,
+.hp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 2.6rem;
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  line-height: 1.1;
+  font-variant-numeric: lining-nums tabular-nums;
+
+  small {
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+  }
+}
+
+.hp {
+  min-width: 3.2rem;
+
+  &.low {
+    color: var(--danger);
+  }
+}
+
+// -- below the order -------------------------------------------------------------------------
+
+.add {
+  margin: 0 0 1rem;
+
+  > summary {
+    min-height: var(--tap);
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+
+.end {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--line-strong);
+
+  p {
+    margin: 0;
+  }
+
+  .confirm {
+    flex-basis: 100%;
+    font-weight: 600;
+    color: var(--danger);
+  }
+}
+
+.xp {
+  font-weight: 600;
+}
+
+// -- the turn bar ----------------------------------------------------------------------------
+
+.turnbar {
+  position: sticky;
+  z-index: 5;
+  bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem -0.5rem 0;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+  box-shadow: var(--shadow-2);
+
+  button {
+    min-height: 3.25rem;
+    font-size: var(--fs-md);
+  }
+
+  .next {
+    flex: 0 0 auto;
+    padding-inline: 1.2rem;
+    font-weight: 700;
+  }
+}
+
+.round {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.15;
+  text-align: center;
+
+  .n {
+    font-family: var(--font-title);
+    font-size: var(--fs-lg);
+    color: var(--accent);
+  }
+
+  .whose {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--fs-sm);
+  }
+}
+
+// the bottom navigation strap of phones is fixed: sit above it
+@media (max-width: 44.99rem) {
+  .turnbar {
+    bottom: calc(4.55rem + env(safe-area-inset-bottom));
+    margin-inline: -0.25rem;
+
+    .prev .label {
+      display: none;
+    }
+  }
+}
+
+// -- stat block dialog -----------------------------------------------------------------------
+
+.stat-dialog {
+  width: min(44rem, calc(100vw - 1.5rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 0 1rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-page);
+
+  &::backdrop {
+    background: rgb(0 0 0 / 0.55);
+  }
+}
+
+.dialog-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  background: var(--paper);
+
+  h2 {
+    margin: 0;
+  }
+}

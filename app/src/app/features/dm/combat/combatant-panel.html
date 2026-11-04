@@ -1,0 +1,139 @@
+@let c = combatant();
+<section class="panel" [class.current]="current()" [attr.aria-label]="label()">
+  <header>
+    <h2>
+      {{ label() }}
+      @if (down(); as d) {
+        <span class="down" [attr.data-down]="d">{{ 'combat.' + d | t }}</span>
+      }
+    </h2>
+    @if (c.monsterId) {
+      <div class="links">
+        <button type="button" class="btn-ghost" (click)="statBlock.emit(c.monsterId)">
+          {{ 'combat.statBlock' | t }}
+        </button>
+        <a [routerLink]="['/compendium/monster', c.monsterId]">{{ 'combat.compendium' | t }}</a>
+      </div>
+    } @else if (c.characterId) {
+      <div class="links">
+        <a [routerLink]="['/characters', c.characterId]">{{ 'combat.sheet' | t }}</a>
+      </div>
+    }
+  </header>
+
+  <div class="stats">
+    <div class="ac" [title]="'combat.ac' | t">
+      <span class="k">{{ 'monster.ac' | t }}</span>
+      <strong>{{ c.ac ?? '—' }}</strong>
+    </div>
+    <label class="init">
+      <span class="k">{{ 'monster.initiative' | t }}</span>
+      <input
+        type="number"
+        inputmode="numeric"
+        [value]="c.initiative ?? ''"
+        (change)="initiative($event)"
+      />
+    </label>
+    @if (c.hp !== null) {
+      <div class="hp" aria-live="polite">
+        <span class="k">{{ 'monster.hp' | t }}</span>
+        <strong>{{ c.hp }}</strong> / {{ c.hpMax }}
+        @if (c.temp) {
+          <span class="temp">+{{ c.temp }} {{ 'play.temp' | t }}</span>
+        }
+        <span class="bar" [style.--pct.%]="hpPercent()"></span>
+      </div>
+    }
+  </div>
+
+  @if (c.hp !== null) {
+    <div class="hp-controls">
+      <label>
+        <span class="visually-hidden">{{ 'play.amount' | t }}</span>
+        <input
+          type="number"
+          inputmode="numeric"
+          min="0"
+          [placeholder]="'play.amount' | t"
+          [value]="amount() ?? ''"
+          (input)="amount.set(num($event))"
+          (keydown.enter)="damage()"
+        />
+      </label>
+      <button type="button" class="dmg" (click)="damage()">{{ 'play.damage' | t }}</button>
+      <button type="button" class="heal" (click)="heal()">{{ 'play.heal' | t }}</button>
+      <button type="button" (click)="temp()">{{ 'combat.temp' | t }}</button>
+    </div>
+  }
+
+  <label class="toggle conc" [class.on]="c.concentration">
+    <input
+      type="checkbox"
+      [checked]="c.concentration"
+      (change)="concentration($any($event.target).checked)"
+    />
+    {{ 'combat.concentration' | t }}
+  </label>
+  @if (concentrationCheck(); as dc) {
+    <p class="warning" role="alert">{{ 'combat.concentrationSave' | t: { dc } }}</p>
+  }
+
+  <fieldset class="conditions">
+    <legend>{{ 'play.conditions' | t }}</legend>
+    <div class="chips">
+      @for (id of conditions; track id) {
+        <button
+          type="button"
+          class="cond"
+          [class.on]="active().has(id)"
+          [attr.aria-pressed]="active().has(id)"
+          (click)="toggle(id)"
+        >
+          {{ 'cond.' + id | t }}
+        </button>
+      }
+    </div>
+    @if (c.conditions.length) {
+      <ul class="durations">
+        @for (k of c.conditions; track k.id) {
+          <li>
+            <span>{{ 'cond.' + k.id | t }}</span>
+            <label>
+              <input
+                type="number"
+                inputmode="numeric"
+                min="0"
+                [placeholder]="'∞'"
+                [value]="k.rounds ?? ''"
+                (change)="rounds(k.id, $event)"
+              />
+              {{ 'combat.rounds' | t }}
+            </label>
+          </li>
+        }
+      </ul>
+    }
+  </fieldset>
+
+  <label class="notes">
+    <span>{{ 'combat.notes' | t }}</span>
+    <textarea rows="2" [value]="c.notes" (input)="notes($event)"></textarea>
+  </label>
+
+  <div class="order">
+    <button type="button" (click)="move(-1)" [attr.aria-label]="'combat.up' | t">↑</button>
+    <button type="button" (click)="move(1)" [attr.aria-label]="'combat.down' | t">↓</button>
+    <button type="button" (click)="resort()">{{ 'combat.sort' | t }}</button>
+    @if (confirmRemove()) {
+      <button type="button" class="danger" (click)="remove()">
+        {{ 'combat.removeConfirm' | t }}
+      </button>
+      <button type="button" (click)="confirmRemove.set(false)">{{ 'combat.cancel' | t }}</button>
+    } @else {
+      <button type="button" class="btn-ghost" (click)="confirmRemove.set(true)">
+        {{ 'combat.remove' | t }}
+      </button>
+    }
+  </div>
+</section>

@@ -51,6 +51,10 @@ export const routes: Routes = [
       import('./features/characters/character-sheet').then((m) => m.CharacterSheet),
   },
   {
+    path: 'dm/combat',
+    loadComponent: () => import('./features/dm/combat/combat-page').then((m) => m.CombatPage),
+  },
+  {
     path: 'settings',
     loadComponent: () => import('./features/settings/settings-page').then((m) => m.SettingsPage),
   },
