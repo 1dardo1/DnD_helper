@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-04T17:11:42.419Z",
+  "updatedAt": "2026-11-04T17:26:37.669Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -114,15 +114,148 @@
     }
   },
   "equipped": {
-    "armorId": null,
+    "armorId": "plate-armor",
     "shield": false
   },
   "equipment": "",
   "inventory": [
     {
-      "id": "pearl",
+      "id": "heavy-crossbow",
+      "itemId": "heavy-crossbow",
+      "name": "",
+      "qty": 1,
+      "equipped": true
+    },
+    {
+      "id": "plate-armor",
+      "itemId": "plate-armor",
+      "name": "",
+      "qty": 1,
+      "equipped": true
+    },
+    {
+      "id": "warm-fungal-clothing",
+      "itemId": "warm-fungal-clothing",
+      "name": "",
+      "qty": 1,
+      "equipped": false
+    },
+    {
+      "id": "pearl-100gold-35gold",
       "itemId": null,
-      "name": "pearl",
+      "name": "pearl 100gold(35gold)",
+      "qty": 1,
+      "equipped": false
+    },
+    {
+      "id": "string",
+      "itemId": "string",
+      "name": "",
+      "qty": 300,
+      "equipped": false
+    },
+    {
+      "id": "spikes-iron",
+      "itemId": "spikes-iron",
+      "name": "",
+      "qty": 20,
+      "equipped": false
+    },
+    {
+      "id": "rope",
+      "itemId": "rope",
+      "name": "",
+      "qty": 250,
+      "equipped": false
+    },
+    {
+      "id": "grappling-hook",
+      "itemId": "grappling-hook",
+      "name": "",
+      "qty": 1,
+      "equipped": false
+    },
+    {
+      "id": "caltrops",
+      "itemId": "caltrops",
+      "name": "",
+      "qty": 20,
+      "equipped": false
+    },
+    {
+      "id": "ball-bearings",
+      "itemId": "ball-bearings",
+      "name": "",
+      "qty": 20,
+      "equipped": false
+    },
+    {
+      "id": "mochila-con-lona",
+      "itemId": null,
+      "name": "mochila con lona",
+      "qty": 1,
+      "equipped": false
+    },
+    {
+      "id": "sleeping-bag",
+      "itemId": null,
+      "name": "sleeping bag",
+      "qty": 1,
+      "equipped": false
+    },
+    {
+      "id": "torch",
+      "itemId": "torch",
+      "name": "",
+      "qty": 5,
+      "equipped": false
+    },
+    {
+      "id": "pedernal",
+      "itemId": null,
+      "name": "pedernal",
+      "qty": 1,
+      "equipped": false
+    },
+    {
+      "id": "waterskin",
+      "itemId": "waterskin",
+      "name": "",
+      "qty": 1,
+      "equipped": false
+    },
+    {
+      "id": "colgante-morado-runico",
+      "itemId": null,
+      "name": "Colgante Morado Runico",
+      "qty": 1,
+      "equipped": false
+    },
+    {
+      "id": "monoculo-ver-tras-niebla-1uso-dia",
+      "itemId": null,
+      "name": "Monoculo ver tras niebla 1uso/dia",
+      "qty": 1,
+      "equipped": false
+    },
+    {
+      "id": "wand-of-cloud-of-dagers-7-charges-regains-1d6-1-at-dawn",
+      "itemId": null,
+      "name": "Wand of cloud of dagers 7 charges regains 1d6+1 at Dawn",
+      "qty": 1,
+      "equipped": false
+    },
+    {
+      "id": "cast-off-armor",
+      "itemId": "cast-off-armor",
+      "name": "",
+      "qty": 1,
+      "equipped": false
+    },
+    {
+      "id": "snipers-bracelet",
+      "itemId": "snipers-bracelet",
+      "name": "",
       "qty": 1,
       "equipped": false
     }
@@ -153,12 +286,12 @@
     "exhaustion": 0,
     "spellSwap": {},
     "summons": {
-      "hideInactive": false,
+      "hideInactive": true,
       "scale": {},
       "types": {},
       "creatures": {
         "option:pact-of-the-chain|monster-imp": {
-          "on": false,
+          "on": true,
           "damage": 0,
           "temp": 0,
           "used": {}
@@ -168,10 +301,10 @@
   },
   "notes": "General de la casa de Don, terror de las brumas",
   "money": {
-    "pp": 0,
-    "gp": 200,
-    "ep": 0,
+    "cp": 0,
     "sp": 0,
-    "cp": 0
+    "ep": 0,
+    "gp": 65,
+    "pp": 0
   }
 }
