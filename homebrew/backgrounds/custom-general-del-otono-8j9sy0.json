@@ -1,0 +1,32 @@
+{
+  "id": "custom-general-del-otono-8j9sy0",
+  "type": "background",
+  "name": "general del otoño",
+  "edition": "2024",
+  "source": null,
+  "description": "Un exgeneral de la nacion del otoño lider del trisquel de defensa encabeza la proteccion de las fronteras",
+  "url": "",
+  "abilityScores": [
+    "DEX",
+    "INT",
+    "WIS"
+  ],
+  "feat": "Familiar Friend",
+  "featId": "familiar-friend",
+  "skills": [
+    "acrobatics",
+    "stealth"
+  ],
+  "tools": "Choose one kind of Artisan's Tools",
+  "equipment": "Choose A or B: (A) Artisan's Tools (same as above), 50 GP; or (B) 50 GP",
+  "custom": true,
+  "dmApproved": false,
+  "createdAt": "2026-11-04T16:44:00.446Z",
+  "updatedAt": "2026-11-04T16:44:00.446Z",
+  "updatedBy": "Linux armv81",
+  "equipmentDraft": {
+    "items": [],
+    "gold": 50,
+    "includeTool": true
+  }
+}
