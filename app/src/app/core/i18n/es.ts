@@ -837,6 +837,17 @@ export const es: Record<keyof typeof en, string> = {
   'create.discard': 'Descartar cambios',
   'create.confirmRestart': '¿Borrar todo lo elegido y empezar el personaje desde cero?',
   'create.confirmDiscard': '¿Descartar los cambios sin guardar y volver al personaje guardado?',
+  'create.draftRestored': 'Tienes cambios sin guardar de la última vez.',
+  'create.draftOutdated':
+    'El personaje se guardó después ({date}, {device}): el borrador partía de una versión anterior. Se han incorporado esos cambios; revísalo antes de guardar.',
+  'create.draftConflicts':
+    'En {n} apartado(s) cambiaron las dos versiones: se mantiene tu borrador.',
+  'create.draftKeep': 'Seguir',
+  'create.draftDiscard': 'Descartar',
+  'create.leaveUnsaved':
+    'Tienes cambios sin guardar y este navegador no ha podido guardarlos como borrador. ¿Salir y perderlos?',
+  'sheet.editDraft': 'Tienes cambios sin guardar en la edición de este personaje.',
+  'sheet.editDraftContinue': 'Continuar editando',
   'picker.facet.cr': 'Valor de desafío',
   'picker.facet.challenge': 'VD exacto',
   'picker.facet.movement': 'Movimiento',

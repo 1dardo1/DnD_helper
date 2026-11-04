@@ -824,6 +824,16 @@ export const en = {
   'create.discard': 'Discard changes',
   'create.confirmRestart': 'Clear everything chosen and start the character from scratch?',
   'create.confirmDiscard': 'Discard the unsaved changes and go back to the saved character?',
+  'create.draftRestored': 'You have unsaved changes from last time.',
+  'create.draftOutdated':
+    'The character was saved afterwards ({date}, {device}): the draft started from an older version. Those changes have been brought in; check it before saving.',
+  'create.draftConflicts': 'In {n} section(s) both versions changed: your draft is kept.',
+  'create.draftKeep': 'Continue',
+  'create.draftDiscard': 'Discard',
+  'create.leaveUnsaved':
+    'You have unsaved changes and this browser could not keep them as a draft. Leave and lose them?',
+  'sheet.editDraft': 'This character has unsaved edits.',
+  'sheet.editDraftContinue': 'Continue editing',
   'picker.facet.cr': 'Challenge rating',
   'picker.facet.challenge': 'Exact CR',
   'picker.facet.movement': 'Movement',

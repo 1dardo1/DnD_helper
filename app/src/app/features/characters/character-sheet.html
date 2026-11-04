@@ -40,6 +40,13 @@
     </aside>
   }
 
+  @if (hasEditDraft()) {
+    <p class="edit-draft" role="status">
+      ✎ {{ 'sheet.editDraft' | t }}
+      <a [routerLink]="['/characters', c.id, 'edit']">{{ 'sheet.editDraftContinue' | t }}</a>
+    </p>
+  }
+
   @if (s.warnings.length) {
     <aside class="warnings" role="note">
       <strong>{{ 'sheet.warnings' | t }}</strong>
