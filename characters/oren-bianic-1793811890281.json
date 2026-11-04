@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-04T17:10:30.325Z",
+  "updatedAt": "2026-11-04T17:11:31.465Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -118,15 +118,7 @@
     "shield": false
   },
   "equipment": "",
-  "inventory": [
-    {
-      "id": "travelers-pearl",
-      "itemId": "travelers-pearl",
-      "name": "",
-      "qty": 1,
-      "equipped": false
-    }
-  ],
+  "inventory": [],
   "state": {
     "hpCurrent": null,
     "hpTemp": 0,
