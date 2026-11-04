@@ -13,7 +13,7 @@ import { term } from '../../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../../core/i18n/i18n.service';
 import { Monster } from '../../../core/models/compendium';
 import { EntryLabels } from '../../../shared/picker/entry-labels.service';
-import { MonsterSummary } from './monster-summary';
+import { CombatMutator, MonsterSummary } from './monster-summary';
 
 const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -35,11 +35,14 @@ const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
           }
         </h2>
         <div class="links">
-          <button type="button" class="btn-ghost order-link" (click)="toOrder.emit()">
-            ↑ {{ 'combat.toOrder' | t }}
-          </button>
+          <ng-content />
+          @if (ordered()) {
+            <button type="button" class="btn-ghost order-link" (click)="toOrder.emit()">
+              ↑ {{ 'combat.toOrder' | t }}
+            </button>
+          }
           <button type="button" class="btn-ghost" (click)="statBlock.emit(m.monsterId)">
-            {{ 'combat.statBlock' | t }}
+            {{ statBlockKey() | t }}
           </button>
         </div>
       </header>
@@ -60,36 +63,40 @@ const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
           }
           <span class="bar" [style.--pct.%]="hpPercent()"></span>
         </div>
-        <div class="init">
-          <span class="k">{{ 'combat.initiative' | t }}</span>
-          <strong>{{ m.initiative ?? '—' }}</strong>
-          <small>({{ signed(m.initBonus) }})</small>
-        </div>
+        @if (ordered()) {
+          <div class="init">
+            <span class="k">{{ 'combat.initiative' | t }}</span>
+            <strong>{{ m.initiative ?? '—' }}</strong>
+            <small>({{ signed(m.initBonus) }})</small>
+          </div>
+        }
       </div>
 
-      <div class="hp-controls">
-        <label>
-          <span class="visually-hidden">{{ 'combat.amount' | t }}</span>
-          <input
-            type="number"
-            inputmode="numeric"
-            min="0"
-            [placeholder]="'combat.amount' | t"
-            [value]="amount() ?? ''"
-            (input)="amount.set(num($event))"
-            (keydown.enter)="damage()"
-          />
-        </label>
-        <button type="button" class="btn-danger" [disabled]="!amount()" (click)="damage()">
-          − {{ 'combat.damage' | t }}
-        </button>
-        <button type="button" [disabled]="!amount()" (click)="heal()">
-          + {{ 'combat.heal' | t }}
-        </button>
-        <button type="button" [disabled]="amount() === null" (click)="temp()">
-          {{ 'combat.setTemp' | t }}
-        </button>
-      </div>
+      @if (controls()) {
+        <div class="hp-controls">
+          <label>
+            <span class="visually-hidden">{{ 'combat.amount' | t }}</span>
+            <input
+              type="number"
+              inputmode="numeric"
+              min="0"
+              [placeholder]="'combat.amount' | t"
+              [value]="amount() ?? ''"
+              (input)="amount.set(num($event))"
+              (keydown.enter)="damage()"
+            />
+          </label>
+          <button type="button" class="btn-danger" [disabled]="!amount()" (click)="damage()">
+            − {{ 'combat.damage' | t }}
+          </button>
+          <button type="button" [disabled]="!amount()" (click)="heal()">
+            + {{ 'combat.heal' | t }}
+          </button>
+          <button type="button" [disabled]="amount() === null" (click)="temp()">
+            {{ 'combat.setTemp' | t }}
+          </button>
+        </div>
+      }
 
       @if (monster(); as mon) {
         <p class="line">
@@ -100,7 +107,7 @@ const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
             <b>{{ d.key | t }}</b> {{ d.value }}
           </p>
         }
-        <app-monster-summary [monster]="mon" [instance]="m" />
+        <app-monster-summary [monster]="mon" [instance]="m" [mutator]="mutator()" />
       }
     </article>
   `,
@@ -114,6 +121,17 @@ export class MonsterCard {
   readonly instance = input.required<CombatMonster>();
   readonly monster = input<Monster | undefined>();
   readonly label = input.required<string>();
+  /**
+   * Where changes go: by default the combat tracker; another host (the character's summoned
+   * creatures) passes its own function.
+   */
+  readonly mutator = input<CombatMutator | null>(null);
+  /** The initiative and the link to the order column (the combat tracker). */
+  readonly ordered = input(true);
+  /** Damage, healing and temporary hit points. */
+  readonly controls = input(true);
+  /** Text of the button that opens the full stat block (a translation key). */
+  readonly statBlockKey = input<string>('combat.statBlock');
   readonly statBlock = output<string>();
   readonly toOrder = output<void>();
 
@@ -161,7 +179,9 @@ export class MonsterCard {
 
   private change(f: (m: CombatMonster) => CombatMonster): void {
     const id = this.instance().id;
-    this.store.update((s) => updateMonster(s, id, f));
+    const mutate = this.mutator();
+    if (mutate) mutate(f);
+    else this.store.update((s) => updateMonster(s, id, f));
     this.amount.set(null);
   }
 

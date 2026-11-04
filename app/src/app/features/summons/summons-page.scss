@@ -1,0 +1,186 @@
+// Summonable creatures: a toolbar, then a section per spell or feature with the combat helper's
+// monster cards. Phone first (cards stack), columns from tablet width.
+:host {
+  display: block;
+}
+
+.lead,
+.note {
+  color: var(--ink-soft);
+}
+
+.empty {
+  padding: var(--space-3);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-md);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--card);
+
+  .count {
+    font-family: var(--font-note);
+    color: var(--ink-soft);
+  }
+
+  .spacer {
+    flex: 1 1 0;
+  }
+
+  button {
+    min-height: var(--tap);
+  }
+}
+
+.source {
+  margin-bottom: var(--space-5);
+
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 var(--space-3);
+    margin-bottom: var(--space-2);
+
+    h2 {
+      margin: 0;
+    }
+
+    .kind {
+      font-family: var(--font-note);
+      color: var(--ink-soft);
+    }
+
+    .desc {
+      margin-left: auto;
+      font-size: var(--fs-sm);
+    }
+  }
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-3);
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  select {
+    min-height: var(--tap);
+  }
+}
+
+.text-card {
+  padding: var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--card);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+  gap: var(--space-3);
+  align-items: start;
+
+  app-monster-card {
+    min-width: 0;
+
+    &.off {
+      opacity: 0.82;
+    }
+  }
+}
+
+// the "summoned" switch sits in the card's header
+.on {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.others {
+  margin-top: var(--space-3);
+
+  summary {
+    cursor: pointer;
+    min-height: var(--tap);
+    display: flex;
+    align-items: center;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .name {
+    flex: 1 1 10rem;
+
+    small {
+      margin-left: 0.4rem;
+      color: var(--ink-soft);
+    }
+  }
+
+  button {
+    min-height: var(--tap);
+  }
+}
+
+.stat-dialog {
+  width: min(44rem, calc(100vw - 1.5rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 0 1rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-page);
+
+  &::backdrop {
+    background: rgb(0 0 0 / 0.55);
+  }
+}
+
+.dialog-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  background: var(--paper);
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.compendium-link {
+  margin: var(--space-3) 0 0;
+}

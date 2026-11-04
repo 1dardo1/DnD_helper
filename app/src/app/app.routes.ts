@@ -49,6 +49,10 @@ export const routes: Routes = [
       import('./features/characters/character-conflict').then((m) => m.CharacterConflict),
   },
   {
+    path: 'characters/:id/invocaciones',
+    loadComponent: () => import('./features/summons/summons-page').then((m) => m.SummonsPage),
+  },
+  {
     path: 'characters/:id',
     loadComponent: () =>
       import('./features/characters/character-sheet').then((m) => m.CharacterSheet),

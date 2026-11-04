@@ -1,3 +1,4 @@
+import { SummonsState, normalizeSummons } from '../summons/summon-state';
 import { Ability } from './compendium';
 
 /**
@@ -97,6 +98,8 @@ export interface Character {
      * Druid, Wizard...) or 'one' (Paladin, Ranger). Cleared once changed or dismissed.
      */
     spellSwap: Record<string, 'any' | 'one'>;
+    /** Creatures summoned by spells and features (absent until the first one is marked). */
+    summons?: SummonsState;
   };
   notes: string;
 }
@@ -208,6 +211,14 @@ function inventoryFromEquipped(equipped: Character['equipped'] | undefined): Inv
   return out;
 }
 
+function normalizeState(base: Character['state'], raw: Character['state'] | undefined) {
+  const state = { ...base, ...(raw ?? {}) };
+  const summons = normalizeSummons(raw?.summons);
+  if (summons) state.summons = summons;
+  else delete state.summons;
+  return state;
+}
+
 export function normalizeCharacter(raw: unknown): Character | null {
   if (!raw || typeof raw !== 'object') return null;
   const c = raw as Partial<Character>;
@@ -221,7 +232,7 @@ export function normalizeCharacter(raw: unknown): Character | null {
     choices: { ...base.choices, ...(c.choices ?? {}) },
     equipped: { ...base.equipped, ...(c.equipped ?? {}) },
     inventory: c.inventory ?? inventoryFromEquipped(c.equipped),
-    state: { ...base.state, ...(c.state ?? {}) },
+    state: normalizeState(base.state, c.state),
     classes: (c.classes ?? []).map((k) => ({
       ...k,
       hp: k.hp ?? [],

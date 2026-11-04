@@ -21,6 +21,9 @@ import { I18nService, TranslatePipe } from '../../../core/i18n/i18n.service';
 import { Monster, MonsterFeature } from '../../../core/models/compendium';
 import { MarkdownPipe } from '../../../shared/markdown.pipe';
 
+/** Applies a change to the monster of a card (damage, a limited use ticked…). */
+export type CombatMutator = (f: (m: CombatMonster) => CombatMonster) => void;
+
 /** Checkboxes of a limited use. */
 interface UsesView {
   key: string;
@@ -97,6 +100,8 @@ export class MonsterSummary {
 
   readonly monster = input.required<Monster>();
   readonly instance = input.required<CombatMonster>();
+  /** Where changes go; by default the combat tracker. */
+  readonly mutator = input<CombatMutator | null>(null);
 
   private readonly parsed = computed(() => parseMonster(this.monster()));
   /** The translated monster (same structure and order), or the English one. */
@@ -266,15 +271,20 @@ export class MonsterSummary {
   }
 
   protected toggle(u: UsesView, index: number): void {
-    const id = this.instance().id;
-    this.store.update((s) =>
-      updateMonster(s, id, (m) => toggleUse(m, u.key, index, u.slots.length)),
-    );
+    this.change((m) => toggleUse(m, u.key, index, u.slots.length));
   }
 
   protected reset(key: string): void {
-    const id = this.instance().id;
-    this.store.update((s) => updateMonster(s, id, (m) => resetUse(m, key)));
+    this.change((m) => resetUse(m, key));
+  }
+
+  private change(f: (m: CombatMonster) => CombatMonster): void {
+    const mutate = this.mutator();
+    if (mutate) mutate(f);
+    else {
+      const id = this.instance().id;
+      this.store.update((s) => updateMonster(s, id, f));
+    }
   }
 
   protected damageTitle(d: DamageView): string {

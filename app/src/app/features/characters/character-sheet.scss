@@ -38,6 +38,25 @@
   }
 }
 
+// Section title with a button at the top right (summonable creatures)
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-3);
+  margin-bottom: var(--space-2);
+
+  h2 {
+    margin: 0;
+  }
+
+  .summons-link {
+    margin-left: auto;
+    white-space: nowrap;
+  }
+}
+
 // Spellcasting class: ability, save DC, attack... as small labelled figures
 .casting {
   margin-bottom: var(--space-3);
