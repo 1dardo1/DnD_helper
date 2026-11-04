@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "id": "oren-bianic-1793811890281",
+  "name": "Oren Bianic",
+  "dataVersion": "2026-10-30T17:28:19+00:00",
+  "updatedAt": "2026-11-04T17:04:50.281Z",
+  "updatedBy": "Linux armv81",
+  "species": {
+    "id": "gnome",
+    "variant": null
+  },
+  "size": null,
+  "background": {
+    "id": "custom-general-del-otono-8j9sy0",
+    "abilityIncreases": {
+      "INT": 2,
+      "DEX": 1
+    }
+  },
+  "classes": [
+    {
+      "id": "artificer",
+      "level": 3,
+      "subclassId": "artificer/artillerist-ua",
+      "hp": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "id": "warlock",
+      "level": 1,
+      "subclassId": null,
+      "hp": [
+        null
+      ]
+    }
+  ],
+  "abilityScores": {
+    "method": "manual",
+    "base": {
+      "STR": 10,
+      "DEX": 13,
+      "CON": 11,
+      "INT": 16,
+      "WIS": 10,
+      "CHA": 13
+    }
+  },
+  "choices": {
+    "skills": [
+      "arcana",
+      "perception"
+    ],
+    "expertise": [],
+    "saves": [],
+    "feats": [],
+    "featSlots": [],
+    "abilityIncreases": [],
+    "options": [
+      "eldritch-invocation/pact-of-the-chain"
+    ],
+    "spells": [
+      "true-strike",
+      "guidance",
+      "absorb-elements",
+      "cure-wounds",
+      "disguise-self",
+      "grease",
+      "mind-sliver",
+      "minor-illusion",
+      "speak-with-animals",
+      "unseen-servant"
+    ],
+    "languages": [
+      "Gnomish",
+      "Elvish"
+    ],
+    "toolChoices": [
+      {
+        "slot": "background",
+        "tools": [
+          "Smith's Tools"
+        ]
+      },
+      {
+        "slot": "class:artificer",
+        "tools": [
+          "Tinker's Tools"
+        ]
+      }
+    ],
+    "spellsByClass": {
+      "artificer": [
+        "true-strike",
+        "guidance",
+        "absorb-elements",
+        "cure-wounds",
+        "disguise-self",
+        "grease"
+      ],
+      "warlock": [
+        "mind-sliver",
+        "minor-illusion",
+        "speak-with-animals",
+        "unseen-servant"
+      ]
+    },
+    "startingEquipment": {
+      "class": "B",
+      "background": "B",
+      "bought": []
+    }
+  },
+  "equipped": {
+    "armorId": null,
+    "shield": false
+  },
+  "equipment": "",
+  "inventory": [],
+  "state": {
+    "hpCurrent": null,
+    "hpTemp": 0,
+    "spentSlots": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "resources": {},
+    "pactSlotsSpent": 0,
+    "hitDiceSpent": {},
+    "deathSaves": {
+      "successes": 0,
+      "failures": 0
+    },
+    "heroicInspiration": false,
+    "conditions": [],
+    "exhaustion": 0,
+    "spellSwap": {}
+  },
+  "notes": "General de la casa de Don, terror de las brumas",
+  "money": {
+    "pp": 0,
+    "gp": 200,
+    "ep": 0,
+    "sp": 0,
+    "cp": 0
+  }
+}
