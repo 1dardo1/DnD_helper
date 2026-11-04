@@ -68,6 +68,11 @@
                   "glob": "*.json",
                   "input": ".dev-data/characters",
                   "output": "characters"
+                },
+                {
+                  "glob": "*",
+                  "input": ".dev-data/monsters",
+                  "output": "monsters"
                 }
               ]
             },

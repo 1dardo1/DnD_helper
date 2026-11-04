@@ -1,5 +1,6 @@
 // Copies the repo's data/ and characters/ JSON files into .dev-data/, which the development
-// build serves as /data and /characters (Angular only serves folders inside the project).
+// build serves as /data and /characters (Angular only serves folders inside the project), and the
+// monster pictures (media/monsters/) as /monsters.
 import {
   cpSync,
   existsSync,
@@ -34,20 +35,34 @@ writeFileSync(
 );
 console.log('dev data copied to .dev-data/');
 
-// public/species/index.json: the ids of the species pictures (public/species/<id>.webp), so the
-// app only asks for the ones that exist. Committed (the builds use it as is); rewritten here, so
-// `npm start` / `npm test` keep it up to date when pictures are added or removed.
-const pictures = join(app, 'public', 'species');
-const ids = existsSync(pictures)
-  ? readdirSync(pictures)
-      .filter((f) => f.endsWith('.webp'))
-      .map((f) => f.slice(0, -'.webp'.length))
-      .sort()
-  : [];
-const manifest = join(pictures, 'index.json');
-const json = JSON.stringify(ids, null, 2) + '\n';
-if (!existsSync(manifest) || readFileSync(manifest, 'utf8') !== json) {
-  mkdirSync(pictures, { recursive: true });
-  writeFileSync(manifest, json);
-  console.log(`species pictures: ${ids.length} listed in public/species/index.json`);
+// <folder>/index.json: the ids of the pictures in a folder (<id>.webp), so the app only asks for the
+// ones that exist. Committed (the builds use it as is); rewritten here, so `npm start` / `npm test`
+// keep it up to date when pictures are added or removed. tools/portraits writes it the same way.
+function writeIndex(pictures, label) {
+  const ids = existsSync(pictures)
+    ? readdirSync(pictures)
+        .filter((f) => f.endsWith('.webp'))
+        .map((f) => f.slice(0, -'.webp'.length))
+        .sort()
+    : [];
+  const manifest = join(pictures, 'index.json');
+  const json = JSON.stringify(ids, null, 2) + '\n';
+  if (!existsSync(manifest) || readFileSync(manifest, 'utf8') !== json) {
+    mkdirSync(pictures, { recursive: true });
+    writeFileSync(manifest, json);
+    console.log(`${label} pictures: ${ids.length} listed in ${manifest}`);
+  }
 }
+
+// Species: public/species/, inside the app.
+writeIndex(join(app, 'public', 'species'), 'species');
+
+// Monsters: ../media/monsters/, outside the app (only published on GitHub Pages, see
+// media/monsters/README.md). The development server serves this copy as monsters/.
+const monsters = join(app, '..', 'media', 'monsters');
+writeIndex(monsters, 'monster');
+mkdirSync(join(out, 'monsters'), { recursive: true });
+cpSync(monsters, join(out, 'monsters'), {
+  recursive: true,
+  filter: (p) => p === monsters || p.endsWith('.webp') || p.endsWith('/index.json'),
+});

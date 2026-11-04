@@ -28,11 +28,16 @@ def parse_args(argv=None) -> argparse.Namespace:
     ap.add_argument("--limit", type=int, default=0, help="como mucho N imágenes en esta ejecución")
     ap.add_argument("--dry-run", action="store_true", help="solo decir qué haría (no genera ni escribe nada)")
     ap.add_argument(
+        "--status",
+        action="store_true",
+        help="solo escribir pictures=<carpeta>, total=<con prompt> y pending=<sin imagen> (para la acción)",
+    )
+    ap.add_argument(
         "--out",
         type=Path,
         default=None,
         help="carpeta de salida (imágenes, index.json, generated.json y review.html); "
-        "por defecto app/public/<kind>/ y tools/portraits/",
+        "por defecto app/public/species/ o media/monsters/, y tools/portraits/",
     )
     ap.add_argument("--prompts", type=Path, default=None, help="fichero de prompts (por defecto tools/portraits/<kind>.yaml)")
     ap.add_argument("--review", type=Path, default=None, help="dónde escribir review.html")
@@ -71,6 +76,8 @@ def main(argv=None) -> int:
     review_path = args.review or ((out / "review.html") if out else (catalog.HERE / "review.html"))
 
     cat = catalog.load(kind, prompts_path=args.prompts)
+    if args.status:
+        return _status(cat, pictures)
     for w in cat.warnings:
         print(f"aviso: {w}")
     record = Record(record_path)
@@ -165,6 +172,18 @@ def _generate(provider: Provider, cat: Catalog, record: Record, pictures: Path, 
         done.append(e.id)
         print(f"  ok ({len(webp) // 1024} KB)")
     return done, failed, stop, fatal
+
+
+def _status(cat: Catalog, pictures: Path) -> int:
+    """key=value lines for $GITHUB_OUTPUT: where the pictures go and how many are still missing."""
+    drawable = [e for e in cat.entries if e.drawable]
+    pending = sum(1 for e in drawable if not (pictures / f"{e.id}.webp").exists())
+    try:
+        where = pictures.resolve().relative_to(catalog.REPO).as_posix()
+    except ValueError:
+        where = str(pictures)
+    print(f"pictures={where}\ntotal={len(drawable)}\npending={pending}")
+    return 0
 
 
 def _now() -> str:

@@ -37,5 +37,26 @@
         "urls": ["https://fonts.googleapis.com/**", "https://fonts.gstatic.com/**"]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "monster-index",
+      "urls": ["monsters/index.json"],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 1,
+        "maxAge": "30d",
+        "timeout": "4s"
+      }
+    },
+    {
+      "name": "monster-pictures",
+      "urls": ["monsters/*.webp"],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 400,
+        "maxAge": "30d"
+      }
+    }
   ]
 }

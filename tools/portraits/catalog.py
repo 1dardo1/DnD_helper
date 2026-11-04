@@ -21,7 +21,17 @@ class Kind:
     data: Path  # data/<kind>.json (list of {id, name, ...})
     data_es: Path  # data/es/<kind>.json (Spanish names), optional
     prompts: Path  # tools/portraits/<kind>.yaml
-    pictures: Path  # app/public/<kind>/: <id>.webp + index.json
+    pictures: Path  # where <id>.webp + index.json go (see PICTURES)
+
+
+# Where each kind's pictures live, relative to the repo. The species are few (89 × ~50 KB) and ship
+# inside the app (web and Android). The monsters are many (331 × ~50 KB ≈ 16 MB): they stay out of
+# the app build (the APK would grow) and are only published on GitHub Pages (pages.yml copies
+# media/monsters/ to <site>/monsters/), where the app loads them from (media/monsters/README.md).
+PICTURES = {
+    "species": Path("app/public/species"),
+    "monsters": Path("media/monsters"),
+}
 
 
 def kind(name: str) -> Kind:
@@ -30,12 +40,11 @@ def kind(name: str) -> Kind:
         data=REPO / "data" / f"{name}.json",
         data_es=REPO / "data" / "es" / f"{name}.json",
         prompts=HERE / f"{name}.yaml",
-        pictures=REPO / "app" / "public" / name,
+        pictures=REPO / PICTURES[name],
     )
 
 
-# Only species for now; monsters later: add "monsters" here and write tools/portraits/monsters.yaml.
-KINDS = {"species": kind("species")}
+KINDS = {name: kind(name) for name in PICTURES}
 
 
 @dataclass

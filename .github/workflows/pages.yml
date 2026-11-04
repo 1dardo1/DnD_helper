@@ -3,11 +3,13 @@ name: Publicar la app en GitHub Pages
 # Construye la app con los datos dentro (data/) y la publica en
 # https://<usuario>.github.io/DnD_helper/. Sin token de GitHub la web enseña el compendio y guarda
 # los personajes solo en el dispositivo; con el token (Ajustes) sincroniza con el repo como siempre.
+# Las imágenes de los monstruos (media/monsters/) solo se publican aquí, en <web>/monsters/: no van
+# dentro de la app (ni de la APK), que las pide a esta web.
 # Hace falta activar Pages una vez: Settings → Pages → Source: "GitHub Actions".
 on:
   push:
     branches: [claude/practical-ride-qnr51a]
-    paths: ["app/**", "data/**", ".github/workflows/pages.yml"]
+    paths: ["app/**", "data/**", "media/**", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -36,6 +38,13 @@ jobs:
       - name: Build (with the repo name as base path)
         run: npx ng build -c production,bundled --base-href "/${{ github.event.repository.name }}/"
       - run: node scripts/bundle-data.mjs dist/app/browser
+      - name: Monster pictures (only on the web, not in the APK; see media/monsters/README.md)
+        # media/monsters/ -> <site>/monsters/: the app (web and Android) loads them from here
+        run: |
+          mkdir -p dist/app/browser/monsters
+          find ../media/monsters -maxdepth 1 -type f \( -name '*.webp' -o -name index.json \) \
+            -exec cp {} dist/app/browser/monsters/ \;
+          echo "$(find dist/app/browser/monsters -name '*.webp' | wc -l) monster pictures published"
       - uses: actions/upload-pages-artifact@v5
         with:
           path: app/dist/app/browser
