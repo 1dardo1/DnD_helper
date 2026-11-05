@@ -3,7 +3,7 @@
   "id": "kassasdin-1793879600138",
   "name": "Kassasdin",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-05T17:32:32.442Z",
+  "updatedAt": "2026-11-05T17:32:47.120Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "human",
@@ -131,7 +131,7 @@
       "itemId": "dagger",
       "name": "",
       "qty": 2,
-      "equipped": true,
+      "equipped": false,
       "source": "start"
     },
     {
@@ -211,7 +211,7 @@
       "itemId": "scimitar",
       "name": "",
       "qty": 1,
-      "equipped": false,
+      "equipped": true,
       "source": "start"
     },
     {
