@@ -3,7 +3,7 @@
   "id": "sibyl-1793915635728",
   "name": "Sibyl",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-05T21:55:50.341Z",
+  "updatedAt": "2026-11-05T21:56:52.196Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "aasimar",
@@ -256,7 +256,8 @@
       0
     ],
     "resources": {
-      "trait:species:healing-hands:healing-hands": 0
+      "trait:species:healing-hands:healing-hands": 1,
+      "ranger:favored enemy": 2
     },
     "pactSlotsSpent": 0,
     "hitDiceSpent": {},
