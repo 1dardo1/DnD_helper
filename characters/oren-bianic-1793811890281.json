@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-05T07:56:02.835Z",
+  "updatedAt": "2026-11-05T07:56:13.718Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -251,7 +251,7 @@
       "equipped": true,
       "source": "replicate",
       "planId": "common:cast-off-armor",
-      "baseId": "padded-armor"
+      "baseId": "half-plate-armor"
     }
   ],
   "state": {
