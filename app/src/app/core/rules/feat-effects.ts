@@ -1,4 +1,11 @@
 import { Ability, Feat } from '../models/compendium';
+import { joinBroken } from './trait-effects';
+
+/** What the parser reads: a feat, a class or species feature, an option... (name and text). */
+export interface RuleText {
+  name: string;
+  description: string;
+}
 
 /**
  * What a feat gives beyond its text, worked out from the text itself (spells it grants, free casts,
@@ -29,18 +36,20 @@ export interface FeatSpellGrant {
   cantrip: boolean | null;
   /** One cast without a spell slot, back after a Long Rest. */
   free: boolean;
+  /** Can be cast whenever without a spell slot, with no limit (Eldritch Invocations like Armor of Shadows). */
+  atWill: boolean;
   /** Can also be cast with spell slots. */
   slots: boolean;
-  /** How many free casts: one, or the spellcasting modifier (Lich Ascension). */
-  freeUses: 1 | 'mod';
+  /** How many free casts: one, the spellcasting modifier (Lich Ascension) or the Proficiency Bonus. */
+  freeUses: 1 | 'mod' | 'pb';
 }
 
 /** A countable use of a feat. */
 export interface FeatUseRule {
   /** Name of the benefit ("Luck Points", "Helpful Friend"); the feat name when it has none. */
   label: string;
-  /** 'pb': equal to the Proficiency Bonus. */
-  max: 'pb' | number;
+  /** 'pb': equal to the Proficiency Bonus; an ability: its modifier (minimum 1). */
+  max: 'pb' | Ability | number;
   rest: 'long' | 'short-or-long';
 }
 
@@ -65,7 +74,7 @@ export interface FeatRules {
   resistances: string[];
 }
 
-const slug = (name: string) =>
+export const slug = (name: string) =>
   name
     .toLowerCase()
     .replace(/['’]/g, '')
@@ -86,10 +95,10 @@ function splitNames(raw: string): string[] {
 
 const plain = (s: string) => s.replace(/\*+/g, '').replace(/\s+/g, ' ').trim();
 
-const cache = new WeakMap<Feat, FeatRules>();
+const cache = new WeakMap<RuleText, FeatRules>();
 
 /** What the text of a feat gives. Memoised per feat object. */
-export function featRules(feat: Feat): FeatRules {
+export function featRules(feat: RuleText): FeatRules {
   const hit = cache.get(feat);
   if (hit) return hit;
   const rules = parseFeat(feat);
@@ -97,7 +106,7 @@ export function featRules(feat: Feat): FeatRules {
   return rules;
 }
 
-function parseFeat(feat: Feat): FeatRules {
+function parseFeat(feat: RuleText): FeatRules {
   const text = feat.description ?? '';
   const out: FeatRules = {
     spells: [],
@@ -111,7 +120,7 @@ function parseFeat(feat: Feat): FeatRules {
     weapons: [],
     resistances: [],
   };
-  const paragraphs = text
+  const paragraphs = joinBroken(text)
     .split(/\n+/)
     .map((p) => p.trim())
     .filter((p) => p && !p.startsWith('|') && !p.startsWith('#'));
@@ -131,8 +140,15 @@ function parseFeat(feat: Feat): FeatRules {
       );
     const grants: { name: string; cantrip: boolean | null; minLevel: number }[] = [];
     // "You learn the Minor Illusion cantrip" / "You know the Shocking Grasp cantrip"
-    for (const m of p.matchAll(/You (?:learn|know) the ([A-Z][\w' ’-]+?) (cantrip|spell)\b/g))
+    for (const m of p.matchAll(
+      /You (?:also )?(?:learn|know) the ([A-Z][\w' ’-]+?) (cantrip|spell)\b/g,
+    ))
       grants.push({ name: m[1], cantrip: m[2] === 'cantrip' ? true : null, minLevel: 1 });
+    // "You can cast Mage Armor on yourself without expending a spell slot" (Eldritch Invocations)
+    for (const m of p.matchAll(
+      /[Yy]ou can (?:also )?cast ([A-Z][\w'’ /-]+?)(?: on yourself)?(?: once)? without (?:expending )?a spell slot/g,
+    ))
+      grants.push({ name: m[1], cantrip: null, minLevel: 1 });
     // "You always have the Find Familiar spell prepared" / "the A and B spells prepared"
     for (const m of p.matchAll(
       /(When you reach character level (\d+), you also )?always have (?:the|that spell and the) (.+?) spells? prepared/gi,
@@ -142,6 +158,8 @@ function parseFeat(feat: Feat): FeatRules {
     for (const g of grants) {
       if (out.spells.some((s) => s.id === slug(g.name))) continue;
       const isCantrip = g.cantrip === true;
+      // "can cast it as a Magic action without expending a spell slot" with no rest: at will
+      const atWill = casts && !/Long Rest|Short Rest|number of times|\bonce\b|\btwice\b/i.test(p);
       out.spells.push({
         name: g.name,
         id: slug(g.name),
@@ -149,10 +167,13 @@ function parseFeat(feat: Feat): FeatRules {
         cantrip: g.cantrip === false ? false : g.cantrip,
         // the free cast is for the spells ("always have ... prepared"), not for cantrips
         free: free && !isCantrip,
+        atWill: atWill && !isCantrip,
         slots: !isCantrip && slots,
         freeUses: /a number of times equal to your spellcasting ability modifier/i.test(p)
           ? 'mod'
-          : 1,
+          : /a number of times equal to your Proficiency Bonus/i.test(p)
+            ? 'pb'
+            : 1,
       });
     }
 
@@ -168,19 +189,24 @@ function parseFeat(feat: Feat): FeatRules {
     }
 
     // -- uses per rest -----------------------------------------------------------------
-    if (!(casts && !/Bonus Action/i.test(p)) || /number of times/i.test(p)) {
+    // (a paragraph that gives spells counts its free casts as spell uses, not as a second counter)
+    if (!(casts && !/Bonus Action/i.test(p)) || (/number of times/i.test(p) && !grants.length)) {
       const rest = /Short or Long Rest/i.test(p)
         ? 'short-or-long'
         : /Long Rest/i.test(p)
           ? 'long'
           : null;
       const label = heading && heading !== 'Cantrip' ? heading : feat.name;
-      if (
-        rest &&
-        /(?:a number of times|Luck Points) equal to your Proficiency Bonus/i.test(p) &&
-        /regain|recover/i.test(p)
-      ) {
-        add(out.uses, { label, max: 'pb', rest });
+      const count =
+        /(?:a (?:total )?number of times|Luck Points) equal to your (?:Proficiency Bonus|(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) modifier)/i.exec(
+          p,
+        );
+      if (rest && count && /regain|recover/i.test(p)) {
+        add(out.uses, {
+          label,
+          max: count[1] ? (count[1].slice(0, 3).toUpperCase() as Ability) : 'pb',
+          rest,
+        });
       } else if (
         rest &&
         !casts &&

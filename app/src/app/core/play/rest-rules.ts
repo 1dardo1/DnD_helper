@@ -30,6 +30,7 @@ export const REST_RULES: Record<string, RestRule> = {
   // -- uses that come from a feature, not from a column (see playResources) --
   'bardic inspiration': { short: 'all', shortFromLevel: 5 },
   'action surge': { short: 'all' },
+  'superiority dice': { short: 'all' },
   'blood maledict': { short: 'all' },
   'stroke of luck': { short: 'all' },
   'hybrid transformation': { short: 'all' }, // Blood Hunter, Order of the Lycan
