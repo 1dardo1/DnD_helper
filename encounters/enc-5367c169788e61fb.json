@@ -1,0 +1,13 @@
+{
+  "app": "dnd-helper",
+  "kind": "encounter",
+  "version": 1,
+  "id": "enc-5367c169788e61fb",
+  "updatedAt": "2026-11-05T08:52:37.318Z",
+  "enc": {
+    "iterations": 600000,
+    "salt": "URLiZ/tWkvgQNOMR/fYn6Q==",
+    "iv": "N4W8+jEt04xOj4e8",
+    "data": "U79kWM1Vd73N9WxX1L/qrT+LO6uQiy3UKCtXMQshWFnK4JjUUNJnYc+z7itIX627fdZYTJ2NU/Tju8W9yf+k7aslL2jirisxs/19BBXcK79c+GtnP8Tb9zxIMi807+rg71Db/SBsHHj1YLPB9ssvwOeBvAPAhjc4x2N0OMvvxHIHZxWM3xC2vM7s60gtLkQTfmNWP9M8Gm3cCooS2Pigyewm7FCnQwwgg1XDtejEZjk="
+  }
+}
