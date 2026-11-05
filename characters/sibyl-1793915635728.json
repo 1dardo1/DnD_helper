@@ -3,7 +3,7 @@
   "id": "sibyl-1793915635728",
   "name": "Sibyl",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-05T21:54:52.577Z",
+  "updatedAt": "2026-11-05T21:55:00.922Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "aasimar",
@@ -133,7 +133,7 @@
       "itemId": "longbow",
       "name": "",
       "qty": 1,
-      "equipped": false,
+      "equipped": true,
       "source": "start"
     },
     {
@@ -141,7 +141,7 @@
       "itemId": "arrows",
       "name": "",
       "qty": 20,
-      "equipped": false,
+      "equipped": true,
       "source": "start"
     },
     {
