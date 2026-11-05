@@ -3,7 +3,7 @@
   "id": "kassasdin-1793879600138",
   "name": "Kassasdin",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-05T13:56:52.527Z",
+  "updatedAt": "2026-11-05T13:59:30.016Z",
   "updatedBy": "diegoW11",
   "species": {
     "id": "human",
@@ -41,18 +41,22 @@
     }
   },
   "choices": {
-    "skills": [],
+    "skills": [
+      "perception",
+      "survival",
+      "animal-handling"
+    ],
     "expertise": [],
     "saves": [],
     "feats": [],
     "featSlots": [
       {
-        "slot": "species",
-        "featId": "vampire-hunter"
-      },
-      {
         "slot": "ranger:2",
         "featId": "blessed-warrior"
+      },
+      {
+        "slot": "species",
+        "featId": "portal-jumper"
       }
     ],
     "abilityIncreases": [],
@@ -77,9 +81,43 @@
       ]
     },
     "startingEquipment": {
-      "class": null,
+      "class": "B",
       "background": "A",
-      "bought": []
+      "bought": [
+        {
+          "itemId": "longbow",
+          "qty": 1
+        },
+        {
+          "itemId": "handaxe",
+          "qty": 3
+        },
+        {
+          "itemId": "javelin",
+          "qty": 2
+        },
+        {
+          "itemId": "spear",
+          "qty": 2
+        },
+        {
+          "itemId": "scimitar",
+          "qty": 1
+        },
+        {
+          "itemId": "arrows",
+          "qty": 20
+        },
+        {
+          "itemId": "grenade-smoke",
+          "qty": 1
+        }
+      ]
+    },
+    "featChoices": {
+      "species": {
+        "resistance": "Psychic"
+      }
     }
   },
   "equipped": {
@@ -135,6 +173,62 @@
       "qty": 1,
       "equipped": false,
       "source": "start"
+    },
+    {
+      "id": "longbow",
+      "itemId": "longbow",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "handaxe",
+      "itemId": "handaxe",
+      "name": "",
+      "qty": 3,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "javelin",
+      "itemId": "javelin",
+      "name": "",
+      "qty": 2,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "spear",
+      "itemId": "spear",
+      "name": "",
+      "qty": 2,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "scimitar",
+      "itemId": "scimitar",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "arrows",
+      "itemId": "arrows",
+      "name": "",
+      "qty": 20,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "grenade-smoke",
+      "itemId": "grenade-smoke",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
     }
   ],
   "state": {
@@ -166,7 +260,7 @@
   "notes": "Personaje de Diego",
   "money": {
     "pp": 0,
-    "gp": 16,
+    "gp": 3,
     "ep": 0,
     "sp": 0,
     "cp": 0
