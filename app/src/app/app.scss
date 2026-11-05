@@ -367,7 +367,9 @@ main {
 // Phone: header scrolls away; navigation becomes a leather strap at the bottom.
 @media (max-width: $phone) {
   .topbar {
-    position: static;
+    // still a positioning context (not sticky any more): keeps its ::after stitch under its own
+    // edge instead of escaping to the page's initial containing block and landing mid-list
+    position: relative;
     grid-template-columns: 1fr auto;
     grid-template-areas:
       'brand lang'
