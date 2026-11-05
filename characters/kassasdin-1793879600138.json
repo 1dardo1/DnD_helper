@@ -3,7 +3,7 @@
   "id": "kassasdin-1793879600138",
   "name": "Kassasdin",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-05T16:05:53.090Z",
+  "updatedAt": "2026-11-05T17:32:24.646Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "human",
@@ -131,7 +131,7 @@
       "itemId": "dagger",
       "name": "",
       "qty": 2,
-      "equipped": false,
+      "equipped": true,
       "source": "start"
     },
     {
@@ -179,7 +179,7 @@
       "itemId": "longbow",
       "name": "",
       "qty": 1,
-      "equipped": false,
+      "equipped": true,
       "source": "start"
     },
     {
@@ -187,7 +187,7 @@
       "itemId": "handaxe",
       "name": "",
       "qty": 3,
-      "equipped": false,
+      "equipped": true,
       "source": "start"
     },
     {
