@@ -1460,6 +1460,19 @@ export const es: Record<keyof typeof en, string> = {
   'plans.attune': 'Sintonización',
   'plans.replaceHint': 'Al subir de nivel puedes cambiar un plano que conoces por otro.',
   'plans.replaceTooMany': 'Solo puedes cambiar un plano por nivel.',
+  'plans.edit': 'Cambiar planos',
+  'plans.editTitle': 'Cambiar planos conocidos',
+  'plans.editHint':
+    'Normalmente los planos se cambian al subir de nivel (uno por nivel), pero aquí puedes ajustar la lista cuando quieras. Los objetos ya creados no se pierden.',
+  'plans.editOver':
+    'Tienes {n} plano(s) por encima del máximo conocido ({max}). Puedes guardar igualmente.',
+  'plans.editLevel': 'Algún plano marcado requiere un nivel de Artificiero mayor que el tuyo.',
+  'plans.editKeeps': '{n} objeto(s) creado(s) pertenece(n) a planos que has quitado; se conservan.',
+  'plans.editSave': 'Guardar planos',
+  'plans.editCancel': 'Cancelar',
+  'plans.orphan': 'plano ya no conocido',
+  'plans.orphanHint':
+    'Algún objeto creado ya no está entre tus planos conocidos. Se conserva hasta que lo elimines.',
   'plans.title': 'Replicar objeto mágico',
   'plans.created': 'Creados: {n} / {max}',
   'plans.known': 'planos conocidos: {n} / {max}',

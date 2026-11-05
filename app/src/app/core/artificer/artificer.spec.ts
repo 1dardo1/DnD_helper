@@ -8,6 +8,11 @@ import { levelGains } from '../creation/level-up';
 import {
   PLAN_GROUP,
   isPickable,
+  orphanedPlanIds,
+  planLevelIssues,
+  planOverflow,
+  togglePlanChoice,
+  withPlanChoices,
   knownPlans,
   pickableItems,
   pickSlots,
@@ -252,5 +257,43 @@ describe('replicated: long rest and old characters', () => {
     const back = normalizeCharacter(JSON.parse(JSON.stringify(ch)))!;
     expect(createdItems(back).length).toBe(1);
     expect(back.inventory[0].source).toBe('replicate');
+  });
+});
+
+describe('plans: change the list at any time', () => {
+  const a = `${PLAN_GROUP}/alchemy-jug`;
+  const b = `${PLAN_GROUP}/bag-of-holding`;
+
+  it('toggles a plan keeping the order', () => {
+    expect(togglePlanChoice([a], b, true)).toEqual([a, b]);
+    expect(togglePlanChoice([a, b], a, false)).toEqual([b]);
+    expect(togglePlanChoice([a], a, true)).toEqual([a]);
+  });
+
+  it('replaces only the plans inside choices.options', () => {
+    const next = withPlanChoices(['other/x', a, 'rare:foo'], [b, 'uncommon:bar', b, 'junk']);
+    expect(next).toEqual(['other/x', b, 'uncommon:bar']);
+  });
+
+  it('counts the plans over the known maximum', () => {
+    expect(planOverflow([a, b, 'other/x'], 2)).toBe(0);
+    expect(planOverflow([a, b, 'rare:foo'], 2)).toBe(1);
+  });
+
+  it('flags plans above the Artificer level', () => {
+    const high = plans.find((p) => (p.prerequisites?.level ?? 1) >= 6 && !p.itemPick)!;
+    expect(planLevelIssues([high.id, a], plans, 2)).toEqual([high.id]);
+    expect(planLevelIssues([high.id], plans, high.prerequisites!.level!)).toEqual([]);
+  });
+
+  it('finds created items whose plan was removed and keeps them in the character', () => {
+    expect(orphanedPlanIds([a, b], [b])).toEqual([a]);
+    const ch = createReplicated(artificerAt(6), ref('alchemy-jug'), 3, itemMap).character;
+    const planIds = createdItems(ch).map((r) => r.planId);
+    expect(orphanedPlanIds(planIds, withPlanChoices([], [b]))).toEqual([a]);
+    expect(createdItems(ch)).toHaveLength(1);
+    const inv = createdItems(ch)[0].inventoryId;
+    expect(transformReplicated(ch, inv, ref('bag-of-holding'), itemMap)).not.toBeNull();
+    expect(createdItems(removeReplicated(ch, inv, itemMap))).toHaveLength(0);
   });
 });

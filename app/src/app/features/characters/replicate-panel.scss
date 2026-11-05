@@ -138,3 +138,31 @@ h3 {
   align-items: center;
   gap: var(--space-2);
 }
+
+.badge.warn {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.edit-plans {
+  margin-top: var(--space-2);
+  min-height: var(--tap);
+}
+
+.editor {
+  margin-top: var(--space-3);
+  padding: var(--space-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+
+    button {
+      min-height: var(--tap);
+    }
+  }
+}

@@ -12,7 +12,16 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { knownPlans, planCounts, ResolvedPlan } from '../../core/artificer/plans';
+import {
+  PLAN_GROUP,
+  knownPlans,
+  planCounts,
+  planLevelIssues,
+  planOverflow,
+  ResolvedPlan,
+  togglePlanChoice,
+  withPlanChoices,
+} from '../../core/artificer/plans';
 import {
   PlanRef,
   ReplicatedItem,
@@ -40,7 +49,9 @@ import { CompendiumService } from '../../core/compendium/compendium.service';
 import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character } from '../../core/models/character';
+import { ClassOption } from '../../core/models/compendium';
 import { RulesDataService } from '../../core/rules/rules-data.service';
+import { PlanChooser } from '../../shared/plan-chooser';
 
 /** Transmute Magic Item comes with the Artificer's level 6 Magic Item Tinker. */
 const TINKER_LEVEL = 6;
@@ -52,7 +63,7 @@ const TINKER_LEVEL = 6;
  */
 @Component({
   selector: 'app-replicate-panel',
-  imports: [RouterLink, TranslatePipe, DataNamePipe],
+  imports: [RouterLink, TranslatePipe, DataNamePipe, PlanChooser],
   templateUrl: './replicate-panel.html',
   styleUrl: './replicate-panel.scss',
 })
@@ -98,6 +109,7 @@ export class ReplicatePanel {
         item: this.data.value()?.rules.items.get(r.itemId),
         name: this.character().inventory.find((e) => e.id === r.inventoryId)?.name || r.itemId,
         plan: this.plans().find((p) => p.id === r.planId),
+        orphan: !this.plans().some((p) => p.id === r.planId),
         maxCharges: maxCharges(this.data.value()?.rules.items.get(r.itemId)),
         drainLevel: drainSlotLevel(this.data.value()?.rules.items.get(r.itemId)),
       }))
@@ -136,6 +148,52 @@ export class ReplicatePanel {
     const used = new Set(this.created().map((c) => c.planId));
     return this.plans().filter((p) => !used.has(p.id));
   });
+  // -- change the plans known (any time; the rules allow one swap per level, we do not block) --
+
+  /** Plans being edited (null: the editor is closed). */
+  protected readonly editing = signal<string[] | null>(null);
+  protected readonly groupOptions = computed<ClassOption[]>(() => {
+    const d = this.data.value();
+    return d ? [...d.options.values()].filter((o) => o.group === PLAN_GROUP) : [];
+  });
+  protected readonly allItems = computed(() => [
+    ...(this.data.value()?.rules.items.values() ?? []),
+  ]);
+  protected readonly overflow = computed(() => {
+    const draft = this.editing();
+    return draft ? planOverflow(draft, this.counts()?.known ?? Infinity) : 0;
+  });
+  protected readonly levelIssues = computed(() => {
+    const draft = this.editing();
+    return draft ? planLevelIssues(draft, this.groupOptions(), this.level()) : [];
+  });
+  protected readonly removedWithItem = computed(() => {
+    const draft = this.editing();
+    if (!draft) return 0;
+    return this.created().filter((c) => !draft.includes(c.planId)).length;
+  });
+  protected readonly orphanCount = computed(() => this.created().filter((c) => c.orphan).length);
+
+  protected startEdit(): void {
+    this.editing.set(this.plans().map((p) => p.id));
+  }
+
+  protected editToggle(id: string, on: boolean): void {
+    this.editing.update((l) => (l ? togglePlanChoice(l, id, on) : l));
+  }
+
+  protected saveEdit(): void {
+    const draft = this.editing();
+    if (!draft) return;
+    const ch = this.character();
+    this.editing.set(null);
+    this.message.set('');
+    this.changed.emit({
+      ...ch,
+      choices: { ...ch.choices, options: withPlanChoices(ch.choices.options, draft) },
+    });
+  }
+
   protected readonly prompt = computed(
     () => this.level() >= 2 && this.character().state.replicatePrompt === true,
   );

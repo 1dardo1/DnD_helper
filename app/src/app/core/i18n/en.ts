@@ -1439,6 +1439,18 @@ export const en = {
   'plans.attune': 'Attunement',
   'plans.replaceHint': 'When you gain a level you can replace one plan you know with another.',
   'plans.replaceTooMany': 'You can replace only one plan per level.',
+  'plans.edit': 'Change plans',
+  'plans.editTitle': 'Change plans known',
+  'plans.editHint':
+    'Plans are normally swapped when you level up (one per level), but here you can adjust the list at any time. Items already created are not lost.',
+  'plans.editOver': 'You have {n} plan(s) over the maximum known ({max}). You can still save.',
+  'plans.editLevel': 'A ticked plan requires a higher Artificer level than yours.',
+  'plans.editKeeps': '{n} created item(s) belong to plans you removed; they are kept.',
+  'plans.editSave': 'Save plans',
+  'plans.editCancel': 'Cancel',
+  'plans.orphan': 'plan no longer known',
+  'plans.orphanHint':
+    'A created item is no longer among your plans known. It is kept until you delete it.',
   'plans.title': 'Replicate Magic Item',
   'plans.created': 'Created: {n} / {max}',
   'plans.known': 'plans known: {n} / {max}',

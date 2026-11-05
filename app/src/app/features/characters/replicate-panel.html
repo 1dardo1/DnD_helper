@@ -33,6 +33,9 @@
               @if (c.plan?.attunement === true) {
                 <em class="badge">{{ 'plans.attune' | t }}</em>
               }
+              @if (c.orphan) {
+                <em class="badge warn">{{ 'plans.orphan' | t }}</em>
+              }
             </span>
             @if (tinker() && canTransmute() && free().length) {
               <button type="button" class="btn-ghost" (click)="transforming.set(c.inventoryId)">
@@ -163,6 +166,50 @@
         <li class="muted">{{ 'plans.noPlans' | t }}</li>
       }
     </ul>
+    @if (orphanCount()) {
+      <p class="notice" role="status">{{ 'plans.orphanHint' | t }}</p>
+    }
+    @if (editing(); as draft) {
+      <div class="editor">
+        <h3>{{ 'plans.editTitle' | t }}</h3>
+        <p class="rule">
+          <small>{{ 'plans.editHint' | t }}</small>
+        </p>
+        <p class="count" [class.full]="overflow() > 0">
+          {{ 'plans.known' | t: { n: draft.length, max: counts()?.known ?? draft.length } }}
+        </p>
+        @if (overflow() > 0) {
+          <p class="notice" role="status">
+            {{ 'plans.editOver' | t: { n: overflow(), max: counts()?.known ?? 0 } }}
+          </p>
+        }
+        @if (levelIssues().length) {
+          <p class="notice" role="status">{{ 'plans.editLevel' | t }}</p>
+        }
+        @if (removedWithItem()) {
+          <p class="notice" role="status">
+            {{ 'plans.editKeeps' | t: { n: removedWithItem() } }}
+          </p>
+        }
+        <app-plan-chooser
+          [options]="groupOptions()"
+          [level]="level()"
+          [chosen]="draft"
+          [items]="allItems()"
+          (toggled)="editToggle($event.id, $event.on)"
+        />
+        <div class="actions">
+          <button type="button" class="primary" (click)="saveEdit()">
+            {{ 'plans.editSave' | t }}
+          </button>
+          <button type="button" (click)="editing.set(null)">{{ 'plans.editCancel' | t }}</button>
+        </div>
+      </div>
+    } @else {
+      <button type="button" class="btn-ghost edit-plans" (click)="startEdit()">
+        {{ 'plans.edit' | t }}
+      </button>
+    }
     @if (tinker()) {
       <p class="rule">
         <small>{{ 'plans.tinker' | t }}</small>

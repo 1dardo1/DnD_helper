@@ -113,6 +113,49 @@ export function pickSlots(groupOptions: readonly ClassOption[], level: number): 
     .sort((a, b) => (a.prerequisites?.level ?? 1) - (b.prerequisites?.level ?? 1));
 }
 
+/** Adds or drops one choice id, keeping the order (a new one goes last). */
+export function togglePlanChoice(chosen: readonly string[], id: string, on: boolean): string[] {
+  const rest = chosen.filter((x) => x !== id);
+  return on ? [...rest, id] : rest;
+}
+
+/**
+ * Swaps the plans inside `choices.options` for a new list. The choices that are not plans keep
+ * their place and the plans go at the end; repeated ids are dropped.
+ */
+export function withPlanChoices(options: readonly string[], plans: readonly string[]): string[] {
+  return [
+    ...new Set([...options.filter((id) => !isPlanChoice(id)), ...plans.filter(isPlanChoice)]),
+  ];
+}
+
+/** How many plans in a list of choices go over the number of plans known (0: within the limit). */
+export function planOverflow(chosen: readonly string[], known: number): number {
+  return Math.max(0, chosen.filter(isPlanChoice).length - known);
+}
+
+/** Fixed plans in the list whose level requirement is above `level`. */
+export function planLevelIssues(
+  chosen: readonly string[],
+  groupOptions: readonly ClassOption[],
+  level: number,
+): string[] {
+  const byId = new Map(groupOptions.map((o) => [o.id, o]));
+  return chosen.filter((id) => {
+    const o = byId.get(id);
+    return !!o && (o.prerequisites?.level ?? 1) > level;
+  });
+}
+
+/** Plan ids of created items (Replicate Magic Item) that are no longer among the plans known. */
+export function orphanedPlanIds(
+  createdPlanIds: readonly string[],
+  chosen: readonly string[],
+): string[] {
+  const known = new Set(chosen);
+  return createdPlanIds.filter((id) => !known.has(id));
+}
+
 /** How many of the plans known before a level up are not known after it (one may be replaced). */
 export function plansReplaced(before: readonly string[], after: readonly string[]): number {
   const now = new Set(after);
