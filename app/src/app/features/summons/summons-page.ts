@@ -2,10 +2,13 @@ import {
   Component,
   ElementRef,
   computed,
+  effect,
   inject,
   input,
+  output,
   resource,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -92,6 +95,22 @@ const slug = (s: string) =>
 export class SummonsPage {
   /** Route parameter. */
   readonly id = input.required<string>();
+  /** Inside the character sheet's tab: no back link nor title (the tab says it). */
+  readonly embedded = input(false);
+  /** The character after a change, so the sheet that hosts this page doesn't keep a stale one. */
+  readonly changed = output<Character>();
+  /** The host's current character: its play state may change meanwhile (rests from the sheet bar). */
+  readonly character = input<Character | null>(null);
+
+  constructor() {
+    effect(() => {
+      const c = this.character();
+      const v = untracked(() => this.view.value());
+      if (c && v && v.record.character !== c) {
+        this.view.set({ ...v, record: { ...v.record, character: c } });
+      }
+    });
+  }
 
   private readonly store = inject(CharacterStore);
   private readonly sync = inject(SyncService);
@@ -223,6 +242,7 @@ export class SummonsPage {
       state: { ...v.record.character.state, summons: next },
     };
     this.view.set({ ...v, record: { ...v.record, character } });
+    this.changed.emit(character);
     this.saves = this.saves
       .then(() => this.sync.saveSoon(character))
       .then(
