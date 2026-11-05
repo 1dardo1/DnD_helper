@@ -204,11 +204,19 @@ export interface PdfSpell {
   concentration: boolean;
   ritual: boolean;
   material: boolean;
-  /** Duration, class, the feat that gives it... */
+  /** Duration, the feat that gives it... */
   notes: string;
   /** A leveled spell prepared for a class. */
   prepared: boolean;
 }
+
+/**
+ * A row of the spell list: a spell, or a group header (one caster's own name, ability, DC and
+ * attack) shown before its spells when the character has several spellcasting classes, so their
+ * spells, DC and attack never get mixed in the same table. It takes one row's height, same as a
+ * spell, so the page-filling and pagination logic stays the same either way.
+ */
+export type PdfSpellRow = PdfSpell | { header: string };
 
 export interface SheetPdfInput {
   labels: PdfLabels;
@@ -253,7 +261,7 @@ export interface SheetPdfInput {
     /** "Preparados: 4 / 6". */
     summary: string;
   } | null;
-  spells: PdfSpell[];
+  spells: PdfSpellRow[];
   /** One line per item ("Espada larga x1 (equipado)"). */
   equipment: string[];
   coins: { cp: number; sp: number; ep: number; gp: number; pp: number };
@@ -547,10 +555,12 @@ function colX(x: number, w: number): number[] {
 
 const ROW_H = 19;
 
-/** Draws as many rows as fit in the height; returns how many. */
+const isSpellHeader = (r: PdfSpellRow): r is { header: string } => 'header' in r;
+
+/** Draws as many rows as fit in the height; returns how many (headers count as a row too). */
 function spellRows(
   pg: Pg,
-  rows: PdfSpell[],
+  rows: PdfSpellRow[],
   x: number,
   y: number,
   w: number,
@@ -578,7 +588,7 @@ function spellRows(
       color: o.color ?? 'ink',
       align: o.align ?? 'left',
     });
-  rows.slice(0, fit).forEach((s, i) => {
+  rows.slice(0, fit).forEach((r, i) => {
     const top = y + i * ROW_H;
     const mid = top + ROW_H / 2;
     pg.ops.push({
@@ -590,6 +600,21 @@ function spellRows(
       color: 'soft',
       lw: 0.5,
     });
+    if (isSpellHeader(r)) {
+      const f = fitText(toWinAnsi(r.header), w - 6, 7, 5, pg.m, true);
+      pg.ops.push({
+        k: 'text',
+        x: x + 3,
+        y: mid + 2.5,
+        text: f.text,
+        size: f.size,
+        bold: true,
+        color: 'accent',
+        align: 'left',
+      });
+      return;
+    }
+    const s = r;
     if (s.prepared) {
       pg.ops.push({ k: 'diamond', cx: xs[0] + cw[0] / 2, cy: mid, r: 3.2, filled: true });
     }
@@ -1048,7 +1073,7 @@ function abilityBox(
 // -- page 2 ----------------------------------------------------------------------------------------
 
 /** Returns the spells that did not fit the list. */
-function page2(pg: Pg, d: SheetPdfInput, appendix: Appendix[]): PdfSpell[] {
+function page2(pg: Pg, d: SheetPdfInput, appendix: Appendix[]): PdfSpellRow[] {
   const L = d.labels;
   const sc = d.spellcasting;
 
@@ -1229,7 +1254,7 @@ function composeExtras(
   appendix: Appendix[],
   spillAttacks: string[],
   fullFeatures: PdfFeature[],
-  spells: PdfSpell[],
+  spells: PdfSpellRow[],
 ): Pg[] {
   const L = d.labels;
   const pages: Pg[] = [];

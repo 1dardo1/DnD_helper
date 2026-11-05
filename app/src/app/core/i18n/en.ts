@@ -1641,6 +1641,7 @@ export const en = {
   'pdf.working': 'Making the PDF…',
   'pdf.dcShort': 'DC',
   'pdf.atkShort': 'Atk',
+  'pdf.knownPlans': 'Known plans: {list}',
   'pdf.characterName': 'Character name',
   'pdf.background': 'Background',
   'pdf.class': 'Class',

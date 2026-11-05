@@ -1666,6 +1666,7 @@ export const es: Record<keyof typeof en, string> = {
   'pdf.working': 'Generando el PDF…',
   'pdf.dcShort': 'CD',
   'pdf.atkShort': 'Atq.',
+  'pdf.knownPlans': 'Planos conocidos: {list}',
   'pdf.characterName': 'Nombre del personaje',
   'pdf.background': 'Trasfondo',
   'pdf.class': 'Clase',

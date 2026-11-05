@@ -1,3 +1,4 @@
+import { knownPlans } from '../artificer/plans';
 import { enhancementsByHost } from '../characters/enhancement';
 import { gearOf } from '../characters/magic-base';
 import { spellCasters, spellsByClassOf, spellsOf } from '../creation/spell-choices';
@@ -9,7 +10,18 @@ import { WeaponEntry, attacksFor } from '../rules/attacks';
 import { RulesData } from '../rules/engine';
 import { Sheet } from '../rules/sheet';
 import { ABILITIES } from '../rules/tables';
-import { PDF_LABEL_KEYS, PdfFeature, PdfLabels, PdfSpell, SheetPdfInput } from './sheet-pdf';
+import { stripReferenceTables } from './reference-tables';
+import {
+  PDF_LABEL_KEYS,
+  PdfFeature,
+  PdfLabels,
+  PdfSpell,
+  PdfSpellRow,
+  SheetPdfInput,
+} from './sheet-pdf';
+
+/** The two features whose book text is a full table of every magic item plan that exists. */
+const MAGIC_ITEM_PLANS_FEATURES = new Set(['Replicate Magical Item', 'Magic Item Tinker']);
 
 /** What the PDF needs to know about the app: the character and its data, and the language. */
 export interface PdfSource {
@@ -156,6 +168,23 @@ function attacksOf(src: PdfSource): SheetPdfInput['attacks'] {
   });
 }
 
+/** The plans a character knows, as one compact line ("Known plans: X, Y, Z"); '' if none/unknown. */
+function knownPlansLine(src: PdfSource): string {
+  const { character: ch, rules, t, shortName } = src;
+  if (!rules.options) return '';
+  const plans = knownPlans(ch.choices.options, rules.options, rules.items);
+  if (!plans.length) return '';
+  return t('pdf.knownPlans', { list: join(plans.map((p) => shortName(p.name))) });
+}
+
+/** A feature's text for the PDF: the book's rule, minus any reference table of every book option. */
+function featureText(src: PdfSource, f: { name: string; description: string }): string {
+  const stripped = stripReferenceTables(src.text(f.description));
+  if (!MAGIC_ITEM_PLANS_FEATURES.has(f.name)) return stripped;
+  const line = knownPlansLine(src);
+  return line ? (stripped ? `${stripped}\n\n${line}` : line) : stripped;
+}
+
 function featuresOf(src: PdfSource): PdfFeature[] {
   const { sheet: s, t, shortName } = src;
   const groupOf = (type: string): PdfFeature['group'] =>
@@ -172,7 +201,7 @@ function featuresOf(src: PdfSource): PdfFeature[] {
           ? t('compendium.level', { level: f.level })
           : '',
       source: shortName(f.source.name),
-      text: src.text(f.description),
+      text: featureText(src, f),
     });
     bySource.set(key, list);
   }
@@ -198,14 +227,16 @@ function featuresOf(src: PdfSource): PdfFeature[] {
   return out;
 }
 
-/** Spellcasting numbers and the list: the picks of each class, then the spells of the feats. */
+/** Spellcasting numbers and the list: the picks of each class (in its own group when there are
+ * several casters, so their spells, DC and attack never mix), then the spells of the feats. */
 function spellsOf_(src: PdfSource): Pick<SheetPdfInput, 'spellcasting' | 'spells'> {
   const { character: ch, sheet: s, t } = src;
   const byId = new Map(src.spells.map((sp) => [sp.id, sp]));
   const casters = spellCasters(ch, src.rules.classes, src.rules.subclasses);
   const picked = spellsByClassOf(ch.choices, casters, byId);
-  const several = casters.length > 1;
-  const spells: PdfSpell[] = [];
+  const sc = s.spellcasting;
+  const several = sc.classes.length > 1;
+  const spells: PdfSpellRow[] = [];
   const row = (sp: Spell, notes: string, prepared: boolean): PdfSpell => {
     const tr = src.entry('spell', sp);
     return {
@@ -220,7 +251,7 @@ function spellsOf_(src: PdfSource): Pick<SheetPdfInput, 'spellcasting' | 'spells
       prepared,
     };
   };
-  for (const c of casters) {
+  for (const c of sc.classes) {
     const cls = src.rules.classes.get(c.classId);
     const mine = spellsOf(picked, c.classId)
       .map((id) => byId.get(id))
@@ -228,15 +259,20 @@ function spellsOf_(src: PdfSource): Pick<SheetPdfInput, 'spellcasting' | 'spells
       .sort(
         (a, b) => a.level - b.level || src.shortName(a.name).localeCompare(src.shortName(b.name)),
       );
+    if (several) {
+      spells.push({
+        header: join(
+          [
+            src.shortName(cls?.name),
+            `${t(`abbr.${c.ability}` as TranslationKey)} ${t('pdf.dcShort')} ${c.saveDc} · ${t('pdf.atkShort')} ${c.attack >= 0 ? '+' : ''}${c.attack}`,
+          ],
+          ' · ',
+        ),
+      });
+    }
     for (const sp of mine) {
       const tr = src.entry('spell', sp);
-      spells.push(
-        row(
-          sp,
-          join([several ? src.shortName(cls?.name) : '', tr.duration ?? sp.duration], ' · '),
-          sp.level > 0,
-        ),
-      );
+      spells.push(row(sp, tr.duration ?? sp.duration, sp.level > 0));
     }
   }
   const featRows = s.featSpells
@@ -272,7 +308,6 @@ function spellsOf_(src: PdfSource): Pick<SheetPdfInput, 'spellcasting' | 'spells
     );
   }
 
-  const sc = s.spellcasting;
   const counts = sc.classes
     .filter((c) => c.prepared !== null)
     .map((c) => {
