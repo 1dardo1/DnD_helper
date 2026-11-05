@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-05T07:28:15.996Z",
+  "updatedAt": "2026-11-05T08:00:35.830Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -59,7 +59,11 @@
     "featSlots": [],
     "abilityIncreases": [],
     "options": [
-      "eldritch-invocation/pact-of-the-chain"
+      "eldritch-invocation/pact-of-the-chain",
+      "magic-item-plan/alchemy-jug",
+      "common:cast-off-armor",
+      "magic-item-plan/repeating-shot",
+      "magic-item-plan/goggles-of-night"
     ],
     "spells": [
       "true-strike",
@@ -114,11 +118,21 @@
     }
   },
   "equipped": {
-    "armorId": null,
+    "armorId": "cast-off-armor",
     "shield": false
   },
   "equipment": "",
   "inventory": [
+    {
+      "id": "replicated-cast-off-armor",
+      "itemId": "cast-off-armor",
+      "name": "Cast-Off Armor",
+      "qty": 1,
+      "equipped": true,
+      "source": "replicate",
+      "planId": "common:cast-off-armor",
+      "baseId": "half-plate-armor"
+    },
     {
       "id": "snipers-bracelet",
       "itemId": "snipers-bracelet",
@@ -277,14 +291,28 @@
           "used": {}
         }
       }
-    }
+    },
+    "replicated": [
+      {
+        "planId": "common:cast-off-armor",
+        "itemId": "cast-off-armor",
+        "inventoryId": "replicated-cast-off-armor",
+        "createdAt": "2026-11-05T07:54:34.639Z"
+      },
+      {
+        "planId": "magic-item-plan/repeating-shot",
+        "itemId": "repeating-shot",
+        "inventoryId": "replicated-repeating-shot",
+        "createdAt": "2026-11-05T07:58:00.108Z"
+      }
+    ]
   },
   "notes": "General de la casa de Don, terror de las brumas",
   "money": {
-    "cp": 0,
-    "sp": 0,
+    "pp": 0,
+    "gp": 200,
     "ep": 0,
-    "gp": 65,
-    "pp": 0
+    "sp": 0,
+    "cp": 0
   }
 }
