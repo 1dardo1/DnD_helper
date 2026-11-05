@@ -30,7 +30,9 @@ import {
   expertiseCount,
   featIssues,
   featSlots,
+  SPECIES_SLOT,
   featsForSlot,
+  featsForSpecies,
   optionGroupsFor,
   optionLocks,
   optionUncheckedNote,
@@ -40,6 +42,7 @@ import {
   skillPicks,
   spellListOf,
   spellsFor,
+  speciesFeatKind,
   subclassesFor,
   toolChoices,
 } from '../../core/creation/creation-rules';
@@ -64,9 +67,16 @@ import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/dat
 import { baseLabel } from '../../core/characters/base-label';
 import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
-import { Character, newCharacter, normalizeCharacter } from '../../core/models/character';
+import {
+  Character,
+  FeatChoice,
+  newCharacter,
+  normalizeCharacter,
+} from '../../core/models/character';
 import { Ability, ClassOption, DndClass, Feat, Feature, Item } from '../../core/models/compendium';
 import { castingOf, computeSheet } from '../../core/rules/engine';
+import { FeatSource, listOfFeatName } from '../../core/rules/feat-effects';
+import { FeatChoices } from '../../shared/feat-choices';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import {
   BoughtItem,
@@ -122,6 +132,7 @@ type ClassEntry = Character['classes'][number];
     LoadError,
     ClassThemeDirective,
     Picker,
+    FeatChoices,
     EntryCard,
     BackgroundEditor,
     HomebrewBadge,
@@ -715,8 +726,47 @@ export class CharacterCreate implements LeaveCheck {
     this.patch((c) => {
       c.background = id ? { id, abilityIncreases: {} } : null;
       c.choices.toolChoices = c.choices.toolChoices.filter((t) => t.slot !== 'background');
+      // what the old background's feat asked is not valid for the new one
+      this.dropFeatChoice(c, 'background');
       return c;
     });
+  }
+
+  // -- the choices a feat asks (spellcasting ability, spell list and spells, skills, tools...) --
+  /** The background's origin feat, with where it came from. */
+  protected readonly backgroundFeat = computed<FeatSource | null>(() => {
+    const bg = this.background();
+    const feat = bg?.featId ? this.data.value()?.rules.feats.get(bg.featId) : undefined;
+    return feat ? { key: 'background', feat, fixedList: listOfFeatName(bg?.feat) } : null;
+  });
+
+  /** The feat a species gives (Human's Versatile: an origin feat; Custom Lineage: any feat). */
+  protected readonly speciesFeatKind = computed(() => speciesFeatKind(this.species()));
+  protected readonly speciesFeats = computed(() =>
+    featsForSpecies(this.speciesFeatKind(), this.data.value()?.feats ?? []),
+  );
+
+  /** A feat that sits in a slot ("species", "fighter:4"), with where it came from. */
+  protected slotSource(slot: string): FeatSource | null {
+    const feat = this.slotFeatEntry(slot);
+    return feat ? { key: slot, feat } : null;
+  }
+
+  protected featChoice(key: string): FeatChoice | undefined {
+    return this.draft().choices.featChoices?.[key];
+  }
+
+  protected setFeatChoice(key: string, choice: FeatChoice): void {
+    this.patch((c) => {
+      c.choices.featChoices = { ...(c.choices.featChoices ?? {}), [key]: choice };
+      return c;
+    });
+  }
+
+  private dropFeatChoice(c: Character, key: string): void {
+    if (!c.choices.featChoices?.[key]) return;
+    const { [key]: _gone, ...rest } = c.choices.featChoices;
+    c.choices.featChoices = rest;
   }
 
   /** "2-1" (+2 to one, +1 to another) or "1-1-1" (+1 to all three). */
@@ -754,8 +804,14 @@ export class CharacterCreate implements LeaveCheck {
   // -- species, size, languages ----------------------------------------------------------
   protected setSpecies(id: string): void {
     this.patch((c) => {
+      const changed = c.species?.id !== id;
       c.species = id ? { id, variant: null } : null;
       c.size = null;
+      // the feat of the old species (Human's Versatile) doesn't carry over
+      if (changed) {
+        c.choices.featSlots = c.choices.featSlots.filter((s) => s.slot !== SPECIES_SLOT);
+        this.dropFeatChoice(c, SPECIES_SLOT);
+      }
       return c;
     });
   }
@@ -919,6 +975,7 @@ export class CharacterCreate implements LeaveCheck {
         { slot, featId: featId || null },
       ];
       c.choices.abilityIncreases = c.choices.abilityIncreases.filter((i) => i.slot !== slot);
+      this.dropFeatChoice(c, slot);
       return c;
     });
   }

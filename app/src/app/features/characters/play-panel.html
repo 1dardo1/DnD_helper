@@ -209,12 +209,20 @@
         <legend>{{ 'play.resources' | t }}</legend>
         @for (r of resources(); track r.key) {
           @let used = usedOf(r);
-          @let name = r.labelKey ? (r.labelKey | t) : (r.name | term: 'column');
+          @let name =
+            r.labelKey
+              ? (r.labelKey | t)
+              : r.feat
+                ? (r.name | dataName: true)
+                : (r.name | term: 'column');
           <div class="row">
             <span class="label">
               {{ name }}
               @if (className(r.classId); as cls) {
                 <small>({{ cls | dataName: true }})</small>
+              }
+              @if (r.feat; as feat) {
+                <small>({{ 'sheet.featSource' | t: { name: (feat | dataName: true) } }})</small>
               }
             </span>
             @if (r.max <= maxPips) {

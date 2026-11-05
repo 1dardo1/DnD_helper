@@ -237,6 +237,14 @@
                 · {{ backgroundTools() }}
               }
             </p>
+            @if (backgroundFeat(); as src) {
+              <app-feat-choices
+                [source]="src"
+                [choice]="featChoice(src.key)"
+                [spells]="d.spells"
+                (changed)="setFeatChoice(src.key, $event)"
+              />
+            }
             <fieldset>
               <legend>{{ 'create.backgroundIncreases' | t }}</legend>
               <label class="inline">
@@ -332,6 +340,27 @@
                 </select>
               </label>
             }
+          }
+          @if (speciesFeatKind()) {
+            <fieldset data-testid="species-feat">
+              <legend>{{ 'create.speciesFeat' | t }}</legend>
+              <app-picker
+                [items]="speciesFeats()"
+                [facets]="featFacets"
+                [selected]="slotFeat('species') ? [slotFeat('species')] : []"
+                [label]="'create.speciesFeat' | t"
+                [pageSize]="12"
+                (picked)="setSlotFeat('species', $event.id)"
+              />
+              @if (slotSource('species'); as src) {
+                <app-feat-choices
+                  [source]="src"
+                  [choice]="featChoice(src.key)"
+                  [spells]="d.spells"
+                  (changed)="setFeatChoice(src.key, $event)"
+                />
+              }
+            </fieldset>
           }
           <fieldset>
             <legend>{{ 'create.languages' | t: { count: c.choices.languages.length } }}</legend>
@@ -494,6 +523,14 @@
                     />
                     @for (n of problems; track n.key) {
                       <p class="issue">⚠ {{ noteText(n) }}</p>
+                    }
+                    @if (slotSource(s.slot); as src) {
+                      <app-feat-choices
+                        [source]="src"
+                        [choice]="featChoice(src.key)"
+                        [spells]="d.spells"
+                        (changed)="setFeatChoice(src.key, $event)"
+                      />
                     }
                     @for (n of range(fp.picks); track n) {
                       <label>

@@ -1,5 +1,5 @@
 import { PLAN_GROUP } from '../artificer/plans';
-import { Character } from '../models/character';
+import { Character, FeatChoice } from '../models/character';
 import { Ability, ClassOption, DndClass, Feat, Spellcasting, Subclass } from '../models/compendium';
 import { castingOf } from '../rules/engine';
 import { MulticlassGains, multiclassGains } from '../rules/multiclass';
@@ -181,6 +181,18 @@ export function withSlotFeat(ch: Character, slot: string, featId: string): Chara
     { slot, featId: featId || null },
   ];
   c.choices.abilityIncreases = c.choices.abilityIncreases.filter((i) => i.slot !== slot);
+  // what the previous feat asked (spells, skills...) is not valid for the new one
+  if (c.choices.featChoices?.[slot]) {
+    const { [slot]: _gone, ...rest } = c.choices.featChoices;
+    c.choices.featChoices = rest;
+  }
+  return c;
+}
+
+/** Stores what a feat in a slot asked the player to choose (see core/rules/feat-effects.ts). */
+export function withFeatChoice(ch: Character, key: string, choice: FeatChoice): Character {
+  const c = structuredClone(ch);
+  c.choices.featChoices = { ...(c.choices.featChoices ?? {}), [key]: choice };
   return c;
 }
 

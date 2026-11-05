@@ -103,6 +103,45 @@
   }
 }
 
+// Spells given by feats: one card each with its origin, DC and free-cast note
+.feat-spells {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: var(--space-2) var(--space-3);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+  }
+
+  .spell-name {
+    font-weight: 700;
+    text-decoration: none;
+
+    small {
+      font-weight: 400;
+      color: var(--ink-soft);
+    }
+  }
+
+  .origin,
+  .facts {
+    font-size: var(--fs-sm);
+    color: var(--ink-soft);
+  }
+
+  .issue {
+    color: var(--danger, #b3261e);
+  }
+}
+
 // Stat boxes and ability scores: hand-drawn boxes on the page.
 .stats,
 .abilities {

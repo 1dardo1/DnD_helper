@@ -8,6 +8,9 @@ import { Recovery, recover, restKey, restRule } from './rest-rules';
  */
 export type PlayState = Character['state'];
 
+/** classId of the resources that come from a feat. */
+export const FEAT_CLASS = 'feat';
+
 /** A class resource with a number of uses to spend. */
 export interface PlayResource {
   /** Key in state.resources: "<classId>:<normalised name>". */
@@ -20,6 +23,8 @@ export interface PlayResource {
   max: number;
   /** What a Short Rest recovers (a Long Rest recovers everything). */
   short: Recovery;
+  /** English name of the feat it comes from (free casts and uses of feats); absent for classes. */
+  feat?: string;
 }
 
 /**
@@ -193,6 +198,17 @@ export function playResources(sheet: Sheet): PlayResource[] {
     const max = f.uses(lvl, mod);
     if (max > 0) resources.push(make(f.classId, f.name, max, f.labelKey));
   }
+  // free casts and benefits of feats (Find Familiar once per Long Rest, Luck Points...)
+  for (const u of sheet.featUses ?? [])
+    resources.push({
+      key: u.key,
+      classId: FEAT_CLASS,
+      name: u.label,
+      labelKey: u.labelKey,
+      max: u.max,
+      short: u.rest === 'short-or-long' ? 'all' : 0,
+      feat: u.feat,
+    });
   return resources;
 }
 

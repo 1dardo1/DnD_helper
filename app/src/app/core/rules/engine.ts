@@ -1,4 +1,4 @@
-import { Character } from '../models/character';
+import { Character, FeatChoice } from '../models/character';
 import {
   Ability,
   Background,
@@ -12,8 +12,16 @@ import {
 } from '../models/compendium';
 import { wornGear } from '../characters/magic-base';
 import { isCustomId } from '../homebrew/custom-background';
+import {
+  FeatSource,
+  abilityRule,
+  featList,
+  featPicks,
+  featRules,
+  listOfFeatName,
+} from './feat-effects';
 import { multiclassGains } from './multiclass';
-import { Bonus, Sheet, SheetFeature, SheetWarning } from './sheet';
+import { Bonus, Sheet, SheetFeatSpell, SheetFeatUse, SheetFeature, SheetWarning } from './sheet';
 import { ABILITIES, MULTICLASS_SLOTS, SKILL_ABILITY, modifier, proficiencyBonus } from './tables';
 
 /** The compendium entries the engine looks things up in, by id. */
@@ -66,18 +74,22 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   const pb = proficiencyBonus(totalLevel);
   const species = find(data.species, ch.species?.id, 'species');
   const background = find(data.backgrounds, ch.background?.id, 'background');
-  // background origin feat + feats taken at ASI / Fighting Style / Epic Boon levels + any other
-  const slotFeats = (ch.choices.featSlots ?? [])
-    .map((s) => s.featId)
-    .filter((id): id is string => !!id);
-  const featIds = [
-    ...new Set([
-      ...(background?.featId ? [background.featId] : []),
-      ...slotFeats,
-      ...ch.choices.feats,
-    ]),
-  ];
-  const feats = featIds.map((id) => find(data.feats, id, 'feat')).filter((f): f is Feat => !!f);
+  // background origin feat + the species' feat (Human's Versatile) + feats taken at ASI / Fighting
+  // Style / Epic Boon levels + any other. Each remembers where it came from: its choices are kept
+  // under that key (character.choices.featChoices).
+  const featSources: FeatSource[] = [];
+  const addFeat = (key: string, id: string | null | undefined, fixedList?: string) => {
+    const feat = find(data.feats, id, 'feat');
+    if (!feat) return;
+    // only a repeatable feat (Magic Initiate) can be taken twice
+    if (featSources.some((x) => x.feat.id === feat.id) && !feat.repeatable) return;
+    featSources.push({ key, feat, fixedList });
+  };
+  addFeat('background', background?.featId, listOfFeatName(background?.feat));
+  for (const s of ch.choices.featSlots ?? []) if (s.featId) addFeat(s.slot, s.featId);
+  for (const id of ch.choices.feats) addFeat(`feat:${id}`, id);
+  const feats = featSources.map((x) => x.feat);
+  const choiceOf = (src: FeatSource): FeatChoice => ch.choices.featChoices?.[src.key] ?? {};
 
   // -- features ------------------------------------------------------------------------
   const features: SheetFeature[] = [];
@@ -120,11 +132,18 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       );
     }
   }
-  for (const f of feats) {
+  for (const src of featSources) {
+    const f = src.feat;
+    // Magic Initiate (Cleric) / Magic Initiate (Wizard): the same feat twice, told apart by its list
+    const list = f.repeatable ? featList(src, choiceOf(src)) : null;
+    const name =
+      list && !f.name.includes('(')
+        ? `${f.name} (${list[0].toUpperCase()}${list.slice(1)})`
+        : f.name;
     features.push({
-      name: f.name,
+      name,
       level: 1,
-      source: { type: 'feat', id: f.id, name: f.name },
+      source: { type: 'feat', id: f.id, name },
       description: f.description,
     });
   }
@@ -152,13 +171,17 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   // -- saves, skills, initiative -------------------------------------------------------
   const saveProf = new Set<Ability>([...(classes[0]?.cls.savingThrows ?? []), ...ch.choices.saves]);
   const savingThrows = {} as Sheet['savingThrows'];
+  // Resilient: proficiency in the saving throw of the ability it raised
+  for (const inc of ch.choices.abilityIncreases)
+    if (inc.source === 'resilient') saveProf.add(inc.ability);
   for (const a of ABILITIES) {
     savingThrows[a] = {
       proficient: saveProf.has(a),
       modifier: mod(a) + (saveProf.has(a) ? pb : 0),
     };
   }
-  const proficient = new Set([...(background?.skills ?? []), ...ch.choices.skills]);
+  const featSkills = featSources.flatMap((x) => choiceOf(x).skills ?? []);
+  const proficient = new Set([...(background?.skills ?? []), ...ch.choices.skills, ...featSkills]);
   const expertise = new Set(ch.choices.expertise);
   const jack = has('Jack of All Trades');
   const skills = Object.entries(SKILL_ABILITY).map(([id, ability]) => {
@@ -187,7 +210,8 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       hpMax += Math.max(gainedHp + mod('CON'), 1);
     }
   });
-  if (feats.some((f) => f.id === 'tough')) hpMax += 2 * totalLevel;
+  // Tough (twice the level), Boon of Fortitude (+40): read from the feats' text
+  for (const f of feats) hpMax += featRules(f).hpPerLevel * totalLevel + featRules(f).hpFlat;
   if (has('Dwarven Toughness')) hpMax += totalLevel;
   const dice = new Map<number, number>();
   for (const c of classes) dice.set(c.cls.hitDie, (dice.get(c.cls.hitDie) ?? 0) + c.level);
@@ -204,10 +228,12 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   let armorClass: Sheet['armorClass'];
   if (armor && armor.kind !== 'shield' && armor.baseAC !== null) {
     const dex = armor.dexCap === null ? mod('DEX') : Math.min(mod('DEX'), armor.dexCap);
+    // Defense (+1 while wearing armor)
+    const defense = feats.reduce((n, f) => n + featRules(f).ac, 0);
     armorClass = {
-      value: armor.baseAC + worn.armorBonus + dex + shield,
+      value: armor.baseAC + worn.armorBonus + dex + shield + defense,
       // heavy armor adds no Dexterity; medium armor caps it
-      formula: `${armor.baseAC}${armor.dexCap === 0 ? '' : armor.dexCap === null ? ' + DEX' : ` + DEX (max ${armor.dexCap})`}${plus}${shield ? ' + shield' : ''}`,
+      formula: `${armor.baseAC}${armor.dexCap === 0 ? '' : armor.dexCap === null ? ' + DEX' : ` + DEX (max ${armor.dexCap})`}${plus}${shield ? ' + shield' : ''}${defense ? ` + ${defense}` : ''}`,
     };
   } else if (has('Unarmored Defense') && classes.some((c) => c.cls.id === 'monk') && !shield) {
     armorClass = { value: 10 + mod('DEX') + mod('WIS'), formula: '10 + DEX + WIS' };
@@ -225,6 +251,8 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
 
   const speed: Record<string, number> = { ...(species?.speed ?? { walk: 30 }) };
   if (has('Fast Movement') && armor?.kind !== 'heavy') speed['walk'] += 10;
+  // Speedy (+10), Transmuted Anatomy (+5)
+  speed['walk'] += feats.reduce((n, f) => n + featRules(f).speed, 0);
   const monk = classes.find((c) => c.cls.id === 'monk');
   if (monk && !armor && !shield) {
     const bonus = parseInt(
@@ -283,6 +311,9 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   }
   if (pactCasters.length > 1) warnings.push({ key: 'sheet.warn.twoPacts' });
 
+  // -- what the feats give: spells, uses, proficiencies ----------------------------------------
+  const granted = featGrants(featSources, ch, abilities, pb, totalLevel);
+
   // -- class resources -----------------------------------------------------------------
   const resources = classes.flatMap((c) =>
     c.cls.progression.columns
@@ -333,6 +364,8 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       ch,
       classes.map((c) => c.cls),
       background,
+      granted.tools,
+      featSources.flatMap((x) => featRules(x.feat).weapons),
     ),
     // Common, the chosen ones, and those a feature teaches (Druid's Druidic, Rogue's Thieves' Cant)
     languages: [
@@ -340,10 +373,15 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
         'Common',
         ...ch.choices.languages,
         ...FEATURE_LANGUAGES.filter((l) => features.some((f) => f.name === l)),
+        ...granted.languages(ch.choices.languages),
       ]),
     ],
     resources,
     features,
+    featSpells: granted.spells,
+    featUses: granted.uses,
+    resistances: granted.resistances,
+    featMissing: granted.missing,
     warnings,
   };
 }
@@ -362,6 +400,8 @@ function proficiencies(
   ch: Character,
   classes: DndClass[],
   background: Background | undefined,
+  featTools: string[] = [],
+  featWeapons: string[] = [],
 ): Sheet['proficiencies'] {
   const [first, ...rest] = classes;
   const armor = [...(first?.proficiencies.armor ?? [])];
@@ -376,7 +416,8 @@ function proficiencies(
     weapons.push(...g.weapons);
     tools.push(...g.tools);
   }
-  tools.push(...ch.choices.toolChoices.flatMap((c) => c.tools));
+  tools.push(...ch.choices.toolChoices.flatMap((c) => c.tools), ...featTools);
+  weapons.push(...featWeapons);
   const unique = (xs: string[]) => [...new Map(xs.map((x) => [x.toLowerCase(), x])).values()];
   return {
     armor: unique(armor.flatMap(armorName)),
@@ -411,4 +452,183 @@ function gained(list: Feature[], level: number, source: SheetFeature['source']):
   return list
     .filter((f) => f.level <= level)
     .map((f) => ({ name: f.name, level: f.level, source, description: f.description }));
+}
+
+// -- feats ----------------------------------------------------------------------------------------
+
+const SLOTLESS_FREE = /without (?:expending )?a spell slot/i;
+
+/**
+ * Everything the feats give besides their text: the spells (and the casting ability, DC and
+ * attack of each), the counters of free casts and of "PB times per rest" benefits, the tools,
+ * languages and damage resistances the player picked, and the choices not made yet.
+ */
+function featGrants(
+  sources: FeatSource[],
+  ch: Character,
+  abilities: Sheet['abilities'],
+  pb: number,
+  totalLevel: number,
+) {
+  const spells: SheetFeatSpell[] = [];
+  const uses: SheetFeatUse[] = [];
+  const tools: string[] = [];
+  const langs: string[] = [];
+  const resistances: string[] = [];
+  const missing: Sheet['featMissing'] = [];
+  let draconic = false;
+  const pickedLang: string[] = [];
+
+  // INT, WIS or CHA: the best one when the player hasn't chosen yet
+  const best = (['INT', 'WIS', 'CHA'] as Ability[]).reduce((a, b) =>
+    abilities[b].modifier > abilities[a].modifier ? b : a,
+  );
+
+  for (const src of sources) {
+    const feat = src.feat;
+    const rules = featRules(feat);
+    const picks = featPicks(feat);
+    const choice = ch.choices.featChoices?.[src.key] ?? {};
+    const need = (what: Sheet['featMissing'][number]['what']) =>
+      missing.push({ feat: feat.name, key: src.key, what });
+
+    // spellcasting ability
+    const rule = abilityRule(feat);
+    let ability: Ability = best;
+    let chosen = true;
+    if (rule.mode === 'fixed') ability = rule.ability;
+    else if (rule.mode === 'increased')
+      ability = ch.choices.abilityIncreases.find((i) => i.source === feat.id)?.ability ?? best;
+    else if (rule.mode === 'choice') {
+      if (choice.ability) ability = choice.ability;
+      else chosen = false;
+    } else {
+      // "the one chosen for the Faithful Companion benefit of your Familiar Friend feat"
+      const other = sources.find((o) => o !== src && ch.choices.featChoices?.[o.key]?.ability);
+      if (other) ability = ch.choices.featChoices![other.key].ability!;
+    }
+    const dc = 8 + pb + abilities[ability].modifier;
+    const attack = pb + abilities[ability].modifier;
+    const key = (what: string) => `feat:${src.key}:${what}`;
+
+    const addSpell = (g: {
+      id: string;
+      name: string;
+      cantrip: boolean | null;
+      free: boolean;
+      slots: boolean;
+      freeUses?: 1 | 'mod';
+    }) => {
+      const freeKey = g.free ? key(g.id) : null;
+      spells.push({
+        id: g.id,
+        name: g.name,
+        cantrip: g.cantrip,
+        feat: { id: feat.id, name: feat.name },
+        sourceKey: src.key,
+        ability,
+        abilityChosen: chosen,
+        saveDc: dc,
+        attack,
+        freeKey,
+        slots: g.slots,
+      });
+      if (freeKey)
+        uses.push({
+          key: freeKey,
+          label: g.name,
+          labelKey: null,
+          feat: feat.name,
+          kind: 'spell',
+          max: g.freeUses === 'mod' ? Math.max(1, abilities[ability].modifier) : 1,
+          rest: 'long',
+        });
+    };
+
+    // the spells the text names
+    for (const g of rules.spells) if (g.minLevel <= totalLevel) addSpell(g);
+
+    // the spells the player picked
+    const list = featList(src, choice);
+    const text = feat.description ?? '';
+    if (picks.list && !list) need('list');
+    if (picks.cantrips) {
+      const got = (choice.cantrips ?? []).slice(0, picks.cantrips.count);
+      if (got.length < picks.cantrips.count) need('cantrips');
+      for (const id of got)
+        addSpell({ id, name: nameOf(id), cantrip: true, free: false, slots: false });
+    }
+    if (picks.spell) {
+      if (!choice.spell) need('spell');
+      else {
+        // Magic Initiate / Fey Touched: cast once without a slot per Long Rest, or with slots
+        const free = SLOTLESS_FREE.test(text) && /Long Rest/i.test(text);
+        addSpell({
+          id: choice.spell,
+          name: nameOf(choice.spell),
+          cantrip: false,
+          free,
+          slots: true,
+        });
+      }
+    }
+    if (!chosen && (rules.spells.length || picks.cantrips || picks.spell)) need('ability');
+
+    // uses: Luck Points, "PB times per Long Rest", "once per Long Rest"
+    const several = rules.uses.length > 1;
+    for (const u of rules.uses)
+      uses.push({
+        key: key(slugOf(u.label)),
+        label: several ? `${feat.name}: ${u.label}` : feat.name,
+        labelKey: feat.id === 'lucky' ? 'play.res.luckPoints' : null,
+        feat: feat.name,
+        kind: 'use',
+        max: u.max === 'pb' ? pb : u.max,
+        rest: u.rest,
+      });
+
+    // proficiencies and the rest of the picks
+    const wantSkills = (picks.skills?.count ?? 0) + (picks.skillsOrTools ?? 0);
+    const gotSkills =
+      (choice.skills ?? []).length + (picks.skillsOrTools ? (choice.tools ?? []).length : 0);
+    const wantTools = picks.tools?.count ?? 0;
+    const gotTools = picks.tools ? (choice.tools ?? []).length : 0;
+    if (gotSkills < wantSkills || gotTools < wantTools) need('proficiencies');
+    tools.push(...(choice.tools ?? []));
+    if (picks.language) {
+      draconic = true;
+      pickedLang.push(...(choice.languages ?? []));
+    }
+    langs.push(...rules.languages);
+    if (picks.resistance && choice.resistance) resistances.push(choice.resistance);
+    resistances.push(...rules.resistances);
+  }
+
+  return {
+    spells,
+    uses,
+    tools,
+    resistances,
+    missing,
+    /**
+     * The languages the feats teach: Thieves' Cant (Harper Agent), and Draconic (Cult of the
+     * Dragon Initiate) or, when the character already knows it, the language the player picked.
+     */
+    languages: (known: string[]): string[] => {
+      const out = langs.filter((l) => !known.includes(l) || l === "Thieves' Cant");
+      if (draconic) out.push(...(known.includes('Draconic') ? pickedLang : ['Draconic']));
+      return out;
+    },
+  };
+}
+
+const slugOf = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+
+/** "minor-illusion" -> "Minor Illusion" (the compendium's own name replaces it on screen). */
+function nameOf(id: string): string {
+  return id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }

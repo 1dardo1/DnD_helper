@@ -130,7 +130,7 @@
     (changed)="saveCharacter($event)"
   />
 
-  @if (s.spellcasting.classes.length) {
+  @if (s.spellcasting.classes.length || featSpells().length) {
     <section>
       <div class="section-head">
         <h2>{{ 'sheet.spellcasting' | t }}</h2>
@@ -185,6 +185,50 @@
         <p>{{ 'sheet.pact' | t: { slots: pact.slots, level: pact.level } }}</p>
       }
       <app-spell-book [character]="c" (changed)="saveCharacter($event)" />
+      @if (featSpells().length) {
+        <h3>{{ 'sheet.featSpells' | t }}</h3>
+        <ul class="feat-spells" data-testid="feat-spells">
+          @for (fs of featSpells(); track fs.sourceKey + fs.id) {
+            <li>
+              @let kind =
+                fs.level === 0
+                  ? ('spell.cantrip' | t)
+                  : fs.level !== null
+                    ? ('spell.levelShort' | t: { level: fs.level })
+                    : '';
+              @if (fs.known) {
+                <a [routerLink]="['/compendium', 'spell', fs.id]" class="spell-name">
+                  <small>{{ kind }}</small>
+                  {{ fs.name | dataName: true }}
+                </a>
+              } @else {
+                <span class="spell-name">
+                  <small>{{ kind }}</small>
+                  {{ fs.name | dataName: true }}
+                </span>
+              }
+              <span class="origin">{{
+                'sheet.featSource' | t: { name: (fs.feat.name | dataName: true) }
+              }}</span>
+              <span class="facts">
+                {{ 'abbr.' + fs.ability | t }} · {{ 'sheet.saveDc' | t }} {{ fs.saveDc }} ·
+                {{ 'sheet.spellAttack' | t }} {{ signed(fs.attack) }}
+                @if (fs.freeKey) {
+                  · {{ 'sheet.featSpell.free' | t }} ({{ freeLeft(c, s, fs.freeKey) }})
+                }
+                @if (fs.slots && fs.level !== 0) {
+                  · {{ 'sheet.featSpell.slots' | t }}
+                }
+              </span>
+              @if (!fs.abilityChosen) {
+                <span class="facts issue">{{
+                  'sheet.featSpell.noAbility' | t: { ability: ('abbr.' + fs.ability | t) }
+                }}</span>
+              }
+            </li>
+          }
+        </ul>
+      }
     </section>
   }
 
@@ -262,6 +306,13 @@
       }
     }
   </section>
+
+  @if (s.resistances.length) {
+    <p>
+      <strong>{{ 'sheet.resistances' | t }}:</strong>
+      {{ terms(s.resistances, 'damage') }}
+    </p>
+  }
 
   @if (s.resources.length) {
     <details class="fold">

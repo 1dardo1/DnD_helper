@@ -32,6 +32,7 @@ import {
   weaponTraining,
   facetKind,
 } from './entry-facets';
+import { abilityRule, featPicks, featRules } from '../../core/rules/feat-effects';
 import { FacetView } from './filter-bar';
 import { modeKey } from './picker-filters';
 import { SIZE_PREFIX, speciesNames } from './racial-feats';
@@ -544,10 +545,48 @@ export class EntryLabels {
         ...(f.repeatable
           ? [{ label: this.t('compendium.repeatable'), value: this.t('compendium.yes') }]
           : []),
+        // the spells it gives and what the player will have to choose
+        ...(this.featGrants(f)
+          ? [{ label: this.t('picker.grants'), value: this.featGrants(f) }]
+          : []),
+        ...(this.featChoose(f)
+          ? [
+              {
+                label: this.t('picker.choose'),
+                value: this.featChoose(f),
+              },
+            ]
+          : []),
       ],
       marks: [],
       preview: plainPreview(this.data.text(f.description)),
     };
+  }
+
+  /** "Encontrar familiar" for a feat that gives that spell (from its text); '' if it gives none. */
+  private featGrants(f: Feat): string {
+    return featRules(f)
+      .spells.map((sp) => this.data.shortName(sp.name))
+      .join(', ');
+  }
+
+  /** What the player picks for the feat (spell list, cantrips, skills...), as a short line. */
+  private featChoose(f: Feat): string {
+    const p = featPicks(f);
+    const parts: string[] = [];
+    if (abilityRule(f).mode === 'choice') parts.push(this.t('featchoice.ability'));
+    if (p.list) parts.push(this.t('featchoice.list'));
+    if (p.cantrips) parts.push(`${p.cantrips.count} ${this.t('sheet.cantrips').toLowerCase()}`);
+    if (p.spell) parts.push(this.t('featchoice.spell', { level: p.spell.level }));
+    if (p.skillsOrTools)
+      parts.push(
+        `${p.skillsOrTools} ${this.t('featchoice.group.skills').toLowerCase()} / ${this.t('featchoice.group.tools').toLowerCase()}`,
+      );
+    if (p.skills)
+      parts.push(`${p.skills.count} ${this.t('featchoice.group.skills').toLowerCase()}`);
+    if (p.tools) parts.push(`${p.tools.count} ${this.t('featchoice.group.tools').toLowerCase()}`);
+    if (p.resistance) parts.push(this.t('featchoice.resistance'));
+    return parts.join(' · ');
   }
 
   private itemSummary(i: Item): CardSummary {
