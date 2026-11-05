@@ -1,0 +1,11 @@
+{
+  "app": "dnd-helper",
+  "kind": "dm-key",
+  "version": 1,
+  "iterations": 600000,
+  "salt": "URLiZ/tWkvgQNOMR/fYn6Q==",
+  "check": {
+    "iv": "IySiPWyrp/H0ydSw",
+    "data": "QnauBVr8Le5sPQQzLqVusM+HKsOi1/i1UthxT8zRid9G"
+  }
+}
