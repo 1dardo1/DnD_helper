@@ -1,9 +1,32 @@
-import { Component, computed, inject, input, resource, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { NgTemplateOutlet } from '@angular/common';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  computed,
+  effect,
+  inject,
+  input,
+  resource,
+  signal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { BackupService } from '../../core/characters/backup.service';
 import { CharacterStore } from '../../core/characters/character-store.service';
+import {
+  SHEET_TABS,
+  SheetTab,
+  readLastTab,
+  resolveTab,
+  tabFromUrl,
+  tabLink,
+  visibleTabs,
+  writeLastTab,
+} from '../../core/characters/sheet-tabs';
 import { SyncService } from '../../core/characters/sync.service';
 import { browserStorage, readEditDraft, restoreEditDraft } from '../../core/creation/edit-draft';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
@@ -25,11 +48,13 @@ import { LoadError } from '../compendium/load-error';
 import { PlayPanel } from './play-panel';
 import { ReplicatePanel } from './replicate-panel';
 import { HomebrewBadge } from '../homebrew/homebrew-badge';
+import { SummonsPage } from '../summons/summons-page';
 
 /** The character sheet: everything computed by the rules engine from the character's choices. */
 @Component({
   selector: 'app-character-sheet',
   imports: [
+    NgTemplateOutlet,
     RouterLink,
     TranslatePipe,
     TermPipe,
@@ -44,6 +69,7 @@ import { HomebrewBadge } from '../homebrew/homebrew-badge';
     ReplicatePanel,
     ClassThemeDirective,
     HomebrewBadge,
+    SummonsPage,
   ],
   templateUrl: './character-sheet.html',
   styleUrl: './character-sheet.scss',
@@ -69,6 +95,10 @@ export class CharacterSheet {
   protected readonly notesDraft = signal<string | null>(null);
 
   protected readonly abilities = ABILITIES;
+
+  constructor() {
+    this.initTabs();
+  }
 
   /** Changes when the character shows up (a first visit can arrive before the pull brings it). */
   private readonly present = computed(() =>
@@ -134,6 +164,125 @@ export class CharacterSheet {
     }
     return [...groups.values()].map((fs) => ({ source: fs[0].source, features: fs }));
   });
+
+  /** The groups split the way the official sheet does: class, species traits, feats/background. */
+  protected readonly classGroups = computed(() =>
+    this.featureGroups().filter((g) => g.source.type === 'class' || g.source.type === 'subclass'),
+  );
+  protected readonly speciesGroups = computed(() =>
+    this.featureGroups().filter((g) => g.source.type === 'species'),
+  );
+  protected readonly otherGroups = computed(() =>
+    this.featureGroups().filter((g) => !['class', 'subclass', 'species'].includes(g.source.type)),
+  );
+
+  // -- tabs -------------------------------------------------------------------------------
+
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly url = signal(this.router.url);
+  /** The tab the URL names (null on the bare character URL). */
+  private readonly requested = computed(() => tabFromUrl(this.url(), this.id()));
+
+  /** The tabs this character has (the summons ones need the stat blocks to be read). */
+  protected readonly tabs = computed<SheetTab[]>(() => {
+    const v = this.view.value();
+    if (!v) return [];
+    return visibleTabs(v.sheet, {
+      featSpells: v.sheet.featSpells.length,
+      summonSources: this.summonSources().length,
+      summoned: Object.keys(v.record.character.state.summons?.creatures ?? {}).length,
+    });
+  });
+  protected readonly tab = computed(() => resolveTab(this.requested(), this.tabs()));
+  protected readonly tabLink = tabLink;
+  protected readonly allTabs = SHEET_TABS;
+  private readonly tabsReady = computed(
+    () => !!this.view.value() && !this.summonCatalog.isLoading(),
+  );
+
+  private initTabs(): void {
+    this.router.events
+      .pipe(takeUntilDestroyed())
+      .subscribe((e) => e instanceof NavigationEnd && this.url.set(e.urlAfterRedirects));
+
+    // The bare URL goes to the last tab used; a tab this character doesn't have, to the summary.
+    // Replacing the URL keeps the back button from bouncing.
+    effect(() => {
+      if (!this.tabsReady()) return;
+      const id = this.id();
+      const requested = this.requested();
+      const tabs = this.tabs();
+      const wanted =
+        requested === null ? readLastTab(browserStorage(), id) : (requested as SheetTab | null);
+      const target = resolveTab(wanted, tabs);
+      if (requested === target) return;
+      void this.router.navigate(tabLink(id, target), { replaceUrl: true });
+    });
+
+    // remember the tab of each character
+    effect(() => {
+      if (this.tabsReady() && this.requested() === this.tab()) {
+        writeLastTab(browserStorage(), this.id(), this.tab());
+      }
+    });
+
+    // keep the active tab in view in the (scrolling) strip of a phone
+    effect(() => {
+      this.tab();
+      setTimeout(() => {
+        const strip = this.host.nativeElement.querySelector<HTMLElement>('.tabs');
+        const on = strip?.querySelector<HTMLElement>('[aria-current]');
+        if (strip && on)
+          strip.scrollLeft = on.offsetLeft - (strip.clientWidth - on.offsetWidth) / 2;
+        this.measure();
+      });
+    });
+
+    const destroyRef = inject(DestroyRef);
+    afterNextRender(() => {
+      const measure = () => this.measure();
+      window.addEventListener('resize', measure);
+      void document.fonts?.ready.then(measure);
+      destroyRef.onDestroy(() => {
+        window.removeEventListener('resize', measure);
+        this.barObserver?.disconnect();
+      });
+    });
+  }
+
+  private barObserver?: ResizeObserver;
+  private observedBar: Element | null = null;
+
+  /**
+   * The sticky vitals bar sits under the app's top strap (sticky too, with ribbons hanging below
+   * it; on phones the strap scrolls away) and the tabs under the bar: both heights go to CSS.
+   */
+  private measure(): void {
+    const style = this.host.nativeElement.style;
+    const strap = document.querySelector<HTMLElement>('.topbar');
+    let top = 0;
+    if (strap && getComputedStyle(strap).position === 'sticky') {
+      top = strap.getBoundingClientRect().bottom;
+      strap.querySelectorAll('nav a').forEach((a) => {
+        top = Math.max(top, a.getBoundingClientRect().bottom);
+      });
+    }
+    style.setProperty('--sheet-top', `${Math.ceil(top)}px`);
+    const bar = this.host.nativeElement.querySelector('.sheet-bar');
+    if (bar && bar !== this.observedBar && typeof ResizeObserver !== 'undefined') {
+      this.barObserver?.disconnect();
+      this.barObserver = new ResizeObserver(() => this.measure());
+      this.barObserver.observe(bar);
+      this.observedBar = bar;
+    }
+    if (bar) style.setProperty('--bar-h', `${bar.getBoundingClientRect().height}px`);
+  }
+
+  /** The summons tab saved its own change: keep the sheet's copy up to date (no second save). */
+  protected summonsChanged(character: Character): void {
+    const v = this.view.value();
+    if (v) this.view.set({ ...v, record: { ...v.record, character } });
+  }
 
   protected async saveNotes(): Promise<void> {
     const record = this.view.value()?.record;

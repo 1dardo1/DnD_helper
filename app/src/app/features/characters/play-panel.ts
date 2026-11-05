@@ -52,6 +52,12 @@ export class PlayPanel {
   readonly sheet = input.required<Sheet>();
   readonly state = input.required<PlayState>();
   readonly changed = output<PlayState>();
+  /**
+   * Which piece of the panel: the hit points block (with death saves, conditions and Hit Dice),
+   * spell slots, class resources, or the compact bar (HP, AC, initiative and rests) that stays
+   * on every tab of the sheet.
+   */
+  readonly part = input<'hp' | 'slots' | 'resources' | 'bar'>('hp');
   private readonly i18n = inject(I18nService);
 
   protected readonly maxPips = MAX_PIPS;

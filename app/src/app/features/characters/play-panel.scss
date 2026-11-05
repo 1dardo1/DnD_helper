@@ -195,9 +195,7 @@ input[type='number'] {
   gap: 0 1rem;
   align-items: start;
 
-  @media (min-width: 52rem) {
-    grid-template-columns: 1fr 1fr;
-  }
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
 }
 
 .conditions > summary {
@@ -217,4 +215,138 @@ input[type='number'] {
   color: var(--paper);
   font-size: 0.85em;
   text-align: center;
+}
+
+// Compact bar that stays on every tab: HP / AC / initiative, quick damage and heal, rests.
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+
+  button {
+    min-height: 2.5rem;
+    min-width: 2.5rem;
+    padding: 0 0.7rem;
+    font-size: 0.95rem;
+  }
+
+  input[type='number'] {
+    min-height: 2.5rem;
+    width: 4.75rem;
+    font-size: 1.05rem;
+  }
+}
+
+.bar-stats {
+  display: flex;
+  align-items: stretch;
+  gap: 0.4rem;
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 3.6rem;
+    padding: 0.1rem 0.55rem;
+    line-height: 1.1;
+    background: var(--card);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+
+    small {
+      font-family: var(--font-note);
+      font-size: var(--fs-xs);
+      color: var(--ink-soft);
+    }
+
+    strong {
+      font-size: 1.35rem;
+      font-weight: 600;
+      font-variant-numeric: lining-nums;
+      color: var(--accent);
+    }
+
+    .max,
+    .temp {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+    }
+
+    &.hp {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0 0.25rem;
+
+      small {
+        flex: 1 0 100%;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.bar-hp,
+.bar-rests {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.bar-rests {
+  margin-left: auto;
+}
+
+@media (max-width: 30rem) {
+  .bar {
+    gap: 0.35rem 0.5rem;
+  }
+
+  .bar-hp,
+  .bar-rests {
+    flex: 1 1 auto;
+  }
+
+  .bar-hp input {
+    flex: 1 1 3.5rem;
+    min-width: 0;
+    width: auto;
+  }
+
+  .bar-rests {
+    margin-left: 0;
+    flex: 0 0 auto;
+  }
+
+  .bar-rests button,
+  .bar-hp button {
+    flex: 1 1 auto;
+  }
+}
+
+// the slots / resources fieldsets on their own (Spells tab, Summary)
+.slots-box {
+  margin-top: 0;
+}
+
+@media (max-width: 40rem) {
+  .bar-rests {
+    order: 1;
+    margin-left: auto;
+    flex: 0 0 auto;
+  }
+
+  .bar-hp {
+    order: 2;
+    flex: 1 1 100%;
+  }
+
+  .bar-stats .stat {
+    min-width: 3.1rem;
+    padding-inline: 0.4rem;
+  }
 }

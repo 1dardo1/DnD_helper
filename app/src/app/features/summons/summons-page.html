@@ -3,10 +3,12 @@
 } @else if (view.error()) {
   <app-load-error [error]="view.error()" />
 } @else if (view.value(); as v) {
-  <p>
-    <a class="back-link" [routerLink]="['/characters', id()]">← {{ v.sheet.name }}</a>
-  </p>
-  <h1>{{ 'summons.title' | t }}</h1>
+  @if (!embedded()) {
+    <p>
+      <a class="back-link" [routerLink]="['/characters', id()]">← {{ v.sheet.name }}</a>
+    </p>
+    <h1>{{ 'summons.title' | t }}</h1>
+  }
 
   @if (!v.sources.length) {
     <p class="empty">{{ 'summons.none' | t }}</p>

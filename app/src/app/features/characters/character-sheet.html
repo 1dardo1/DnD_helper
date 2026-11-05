@@ -2,6 +2,24 @@
   <a class="back-link" routerLink="/characters">← {{ 'characters.title' | t }}</a>
 </p>
 
+<!-- Features grouped by source (class, species, feats): used by the Features tab. -->
+<ng-template #groupsTpl let-groups>
+  @for (group of groups; track group.source.type + group.source.id + group.source.name) {
+    <h3>{{ group.source.name | dataName }}</h3>
+    @for (f of group.features; track $index) {
+      <details class="feature">
+        <summary>
+          @if (group.source.type === 'class' || group.source.type === 'subclass') {
+            <small>{{ 'compendium.level' | t: { level: f.level } }}</small>
+          }
+          {{ f.name | dataName }}
+        </summary>
+        <div class="md" [innerHTML]="f.description | dataText | markdown"></div>
+      </details>
+    }
+  }
+</ng-template>
+
 @if (view.isLoading()) {
   <p>{{ 'common.loading' | t }}</p>
 } @else if (view.error()) {
@@ -70,300 +88,388 @@
     </aside>
   }
 
-  <section class="stats">
-    <div>
-      <small>{{ 'sheet.armorClass' | t }}</small
-      ><strong>{{ s.armorClass.value }}</strong>
-      @if (s.armorClass.formula.includes('+')) {
-        <small>{{ formula(s.armorClass.formula) }}</small>
-      }
-    </div>
-    <div>
-      <small>{{ 'sheet.hitPoints' | t }}</small
-      ><strong>{{ s.hitPoints.current }} / {{ s.hitPoints.max }}</strong>
-      @if (s.hitPoints.temp) {
-        <small>+{{ s.hitPoints.temp }}</small>
-      }
-    </div>
-    <div>
-      <small>{{ 'sheet.initiative' | t }}</small
-      ><strong>{{ signed(s.initiative) }}</strong>
-    </div>
-    <div>
-      <small>{{ 'sheet.proficiencyBonus' | t }}</small
-      ><strong>{{ signed(s.proficiencyBonus) }}</strong>
-    </div>
-    <div>
-      <small>{{ 'sheet.speed' | t }}</small>
-      @for (sp of speeds(s); track sp.kind) {
-        <strong>{{ 'sheet.feet' | t: { n: sp.value } }}</strong>
-        @if (sp.kind !== 'walk') {
-          <small>{{ sp.kind | term: 'speed' }}</small>
-        }
-      }
-    </div>
-    <div>
-      <small>{{ 'sheet.passivePerception' | t }}</small
-      ><strong>{{ s.passivePerception }}</strong>
-    </div>
-    <div>
-      <small>{{ 'sheet.hitDice' | t }}</small>
-      <strong>
-        @for (d of s.hitPoints.hitDice; track d.die) {
-          {{ d.count }}d{{ d.die }}
-        }
-      </strong>
-    </div>
-    @if (s.darkvision) {
-      <div>
-        <small>{{ 'sheet.darkvision' | t }}</small
-        ><strong>{{ 'sheet.feet' | t: { n: s.darkvision } }}</strong>
-      </div>
-    }
-  </section>
+  <!-- Sticky: hit points, AC, initiative and rests stay in reach on every tab. -->
+  <div class="sheet-bar">
+    <app-play-panel part="bar" [sheet]="s" [state]="c.state" (changed)="saveState($event)" />
+  </div>
 
-  <app-play-panel [sheet]="s" [state]="c.state" (changed)="saveState($event)" />
+  <div class="sheet-shell">
+    <nav class="tabs" [attr.aria-label]="'sheet.tabs' | t">
+      @for (tb of tabs(); track tb) {
+        <a
+          [routerLink]="tabLink(c.id, tb)"
+          [attr.data-tab]="tb"
+          [class.active]="tab() === tb"
+          [attr.aria-current]="tab() === tb ? 'page' : null"
+          >{{ 'sheet.tab.' + tb | t }}</a
+        >
+      }
+    </nav>
+    <div class="sheet-content">
+      @switch (tab()) {
+        @case ('resumen') {
+          <div class="page summary" data-page="resumen">
+            <div class="col-side">
+              <section class="abilities-block">
+                <h2>{{ 'sheet.abilities' | t }}</h2>
+                <div class="abilities">
+                  @for (a of abilities; track a) {
+                    <div class="ability" [title]="'ability.' + a | t">
+                      <div class="score">
+                        <small>{{ 'abbr.' + a | t }}</small>
+                        <strong>{{ signed(s.abilities[a].modifier) }}</strong>
+                        <span>{{ s.abilities[a].score }}</span>
+                      </div>
+                      <ul class="skills">
+                        <li
+                          [attr.data-proficiency]="s.savingThrows[a].proficient ? 'full' : 'none'"
+                        >
+                          <span class="mark">{{ s.savingThrows[a].proficient ? '●' : '○' }}</span>
+                          <span>{{ 'sheet.savingThrow' | t }}</span>
+                          <strong>{{ signed(s.savingThrows[a].modifier) }}</strong>
+                        </li>
+                        @for (sk of skillsOf(s, a); track sk.id) {
+                          <li [attr.data-proficiency]="sk.proficiency">
+                            <span class="mark">{{
+                              sk.proficiency === 'expertise'
+                                ? '◆'
+                                : sk.proficiency === 'full'
+                                  ? '●'
+                                  : sk.proficiency === 'half'
+                                    ? '◐'
+                                    : '○'
+                            }}</span>
+                            <span>{{ 'skill.' + sk.id | t }}</span>
+                            <strong>{{ signed(sk.modifier) }}</strong>
+                          </li>
+                        }
+                      </ul>
+                    </div>
+                  }
+                </div>
+              </section>
+            </div>
 
-  <app-equipment-panel
-    part="attacks"
-    [character]="c"
-    [sheet]="s"
-    (changed)="saveCharacter($event)"
-  />
-
-  @if (s.spellcasting.classes.length || featSpells().length) {
-    <section>
-      <div class="section-head">
-        <h2>{{ 'sheet.spellcasting' | t }}</h2>
-        @if (spellSummons(); as n) {
-          <a class="btn summons-link" [routerLink]="['/characters', c.id, 'invocaciones']">
-            ✦ {{ 'summons.button' | t: { n } }}
-          </a>
-        }
-      </div>
-      @for (sc of s.spellcasting.classes; track sc.classId) {
-        <div class="casting">
-          <strong class="who">{{ className(s, sc.classId) }}</strong>
-          <dl>
-            <div>
-              <dt>{{ 'sheet.spellAbility' | t }}</dt>
-              <dd>{{ 'abbr.' + sc.ability | t }}</dd>
-            </div>
-            <div>
-              <dt>{{ 'sheet.saveDc' | t }}</dt>
-              <dd>{{ sc.saveDc }}</dd>
-            </div>
-            <div>
-              <dt>{{ 'sheet.spellAttack' | t }}</dt>
-              <dd>{{ signed(sc.attack) }}</dd>
-            </div>
-            @if (sc.cantrips !== null) {
-              <div>
-                <dt>{{ 'sheet.cantrips' | t }}</dt>
-                <dd>{{ sc.cantrips }}</dd>
-              </div>
-            }
-            @if (sc.prepared !== null) {
-              <div>
-                <dt>{{ 'sheet.prepared' | t }}</dt>
-                <dd>{{ sc.prepared }}</dd>
-              </div>
-            }
-          </dl>
-        </div>
-      }
-      @if (slotLevels(s).length) {
-        <p>
-          {{ 'sheet.slots' | t }}:
-          @for (sl of slotLevels(s); track sl.level) {
-            <span class="slot"
-              >{{ 'spell.levelShort' | t: { level: sl.level } }} × {{ sl.count }}</span
-            >
-          }
-        </p>
-      }
-      @if (s.spellcasting.pact; as pact) {
-        <p>{{ 'sheet.pact' | t: { slots: pact.slots, level: pact.level } }}</p>
-      }
-      <app-spell-book [character]="c" (changed)="saveCharacter($event)" />
-      @if (featSpells().length) {
-        <h3>{{ 'sheet.featSpells' | t }}</h3>
-        <ul class="feat-spells" data-testid="feat-spells">
-          @for (fs of featSpells(); track fs.sourceKey + fs.id) {
-            <li>
-              @let kind =
-                fs.level === 0
-                  ? ('spell.cantrip' | t)
-                  : fs.level !== null
-                    ? ('spell.levelShort' | t: { level: fs.level })
-                    : '';
-              @if (fs.known) {
-                <a [routerLink]="['/compendium', 'spell', fs.id]" class="spell-name">
-                  <small>{{ kind }}</small>
-                  {{ fs.name | dataName: true }}
-                </a>
-              } @else {
-                <span class="spell-name">
-                  <small>{{ kind }}</small>
-                  {{ fs.name | dataName: true }}
-                </span>
-              }
-              <span class="origin">{{
-                'sheet.featSource' | t: { name: (fs.feat.name | dataName: true) }
-              }}</span>
-              <span class="facts">
-                {{ 'abbr.' + fs.ability | t }} · {{ 'sheet.saveDc' | t }} {{ fs.saveDc }} ·
-                {{ 'sheet.spellAttack' | t }} {{ signed(fs.attack) }}
-                @if (fs.freeKey) {
-                  · {{ 'sheet.featSpell.free' | t }} ({{ freeLeft(c, s, fs.freeKey) }})
+            <div class="col-main">
+              <section class="stats">
+                <div>
+                  <small>{{ 'sheet.armorClass' | t }}</small
+                  ><strong>{{ s.armorClass.value }}</strong>
+                  @if (s.armorClass.formula.includes('+')) {
+                    <small>{{ formula(s.armorClass.formula) }}</small>
+                  }
+                </div>
+                <div>
+                  <small>{{ 'sheet.hitPoints' | t }}</small
+                  ><strong>{{ s.hitPoints.current }} / {{ s.hitPoints.max }}</strong>
+                  @if (s.hitPoints.temp) {
+                    <small>+{{ s.hitPoints.temp }}</small>
+                  }
+                </div>
+                <div>
+                  <small>{{ 'sheet.initiative' | t }}</small
+                  ><strong>{{ signed(s.initiative) }}</strong>
+                </div>
+                <div>
+                  <small>{{ 'sheet.proficiencyBonus' | t }}</small
+                  ><strong>{{ signed(s.proficiencyBonus) }}</strong>
+                </div>
+                <div>
+                  <small>{{ 'sheet.speed' | t }}</small>
+                  @for (sp of speeds(s); track sp.kind) {
+                    <strong>{{ 'sheet.feet' | t: { n: sp.value } }}</strong>
+                    @if (sp.kind !== 'walk') {
+                      <small>{{ sp.kind | term: 'speed' }}</small>
+                    }
+                  }
+                </div>
+                @if (s.size.length) {
+                  <div>
+                    <small>{{ 'sheet.size' | t }}</small
+                    ><strong class="word">{{ terms(s.size, 'size', ' / ') }}</strong>
+                  </div>
                 }
-                @if (fs.slots && fs.level !== 0) {
-                  · {{ 'sheet.featSpell.slots' | t }}
+                <div>
+                  <small>{{ 'sheet.passivePerception' | t }}</small
+                  ><strong>{{ s.passivePerception }}</strong>
+                </div>
+                <div>
+                  <small>{{ 'sheet.hitDice' | t }}</small>
+                  <strong>
+                    @for (d of s.hitPoints.hitDice; track d.die) {
+                      {{ d.count }}d{{ d.die }}
+                    }
+                  </strong>
+                </div>
+                @if (s.darkvision) {
+                  <div>
+                    <small>{{ 'sheet.darkvision' | t }}</small
+                    ><strong>{{ 'sheet.feet' | t: { n: s.darkvision } }}</strong>
+                  </div>
                 }
-              </span>
-              @if (!fs.abilityChosen) {
-                <span class="facts issue">{{
-                  'sheet.featSpell.noAbility' | t: { ability: ('abbr.' + fs.ability | t) }
-                }}</span>
-              }
-            </li>
-          }
-        </ul>
-      }
-    </section>
-  }
+              </section>
 
-  <section>
-    <h2>{{ 'sheet.abilities' | t }}</h2>
-    <div class="abilities">
-      @for (a of abilities; track a) {
-        <div class="ability" [title]="'ability.' + a | t">
-          <div class="score">
-            <small>{{ 'abbr.' + a | t }}</small>
-            <strong>{{ signed(s.abilities[a].modifier) }}</strong>
-            <span>{{ s.abilities[a].score }}</span>
+              <app-play-panel
+                part="hp"
+                [sheet]="s"
+                [state]="c.state"
+                (changed)="saveState($event)"
+              />
+
+              <app-play-panel
+                part="resources"
+                [sheet]="s"
+                [state]="c.state"
+                (changed)="saveState($event)"
+              />
+
+              <app-equipment-panel
+                part="attacks"
+                [character]="c"
+                [sheet]="s"
+                (changed)="saveCharacter($event)"
+              />
+            </div>
           </div>
-          <ul class="skills">
-            <li [attr.data-proficiency]="s.savingThrows[a].proficient ? 'full' : 'none'">
-              <span class="mark">{{ s.savingThrows[a].proficient ? '●' : '○' }}</span>
-              <span>{{ 'sheet.savingThrow' | t }}</span>
-              <strong>{{ signed(s.savingThrows[a].modifier) }}</strong>
-            </li>
-            @for (sk of skillsOf(s, a); track sk.id) {
-              <li [attr.data-proficiency]="sk.proficiency">
-                <span class="mark">{{
-                  sk.proficiency === 'expertise'
-                    ? '◆'
-                    : sk.proficiency === 'full'
-                      ? '●'
-                      : sk.proficiency === 'half'
-                        ? '◐'
-                        : '○'
-                }}</span>
-                <span>{{ 'skill.' + sk.id | t }}</span>
-                <strong>{{ signed(sk.modifier) }}</strong>
-              </li>
-            }
-          </ul>
-        </div>
-      }
-    </div>
-  </section>
-
-  <app-equipment-panel
-    part="inventory"
-    [character]="c"
-    [sheet]="s"
-    (changed)="saveCharacter($event)"
-  />
-
-  <app-replicate-panel
-    [character]="c"
-    [slots]="s.spellcasting.slots"
-    (changed)="saveCharacter($event)"
-  />
-
-  <section>
-    <div class="section-head">
-      <h2>{{ 'sheet.features' | t }}</h2>
-      @if (featureSummons(); as n) {
-        <a class="btn summons-link" [routerLink]="['/characters', c.id, 'invocaciones']">
-          ✦ {{ 'summons.button' | t: { n } }}
-        </a>
-      }
-    </div>
-    @for (group of featureGroups(); track group.source.type + group.source.id + group.source.name) {
-      <h3>{{ group.source.name | dataName }}</h3>
-      @for (f of group.features; track $index) {
-        <details class="feature">
-          <summary>
-            @if (group.source.type === 'class' || group.source.type === 'subclass') {
-              <small>{{ 'compendium.level' | t: { level: f.level } }}</small>
-            }
-            {{ f.name | dataName }}
-          </summary>
-          <div class="md" [innerHTML]="f.description | dataText | markdown"></div>
-        </details>
-      }
-    }
-  </section>
-
-  @if (s.resistances.length) {
-    <p>
-      <strong>{{ 'sheet.resistances' | t }}:</strong>
-      {{ terms(s.resistances, 'damage') }}
-    </p>
-  }
-
-  @if (s.resources.length) {
-    <details class="fold">
-      <summary>
-        <h2>{{ 'sheet.resources' | t }}</h2>
-      </summary>
-      <dl class="pairs">
-        @for (r of s.resources; track r.classId + r.name) {
-          <dt>{{ r.name | term: 'column' }}</dt>
-          <dd>{{ r.value }}</dd>
         }
-      </dl>
-    </details>
-  }
 
-  <details class="fold">
-    <summary>
-      <h2>{{ 'sheet.proficiencies' | t }}</h2>
-    </summary>
-    <dl class="pairs">
-      <dt>{{ 'sheet.armor' | t }}</dt>
-      <dd>{{ terms(s.proficiencies.armor, 'armor') || '—' }}</dd>
-      <dt>{{ 'sheet.weapons' | t }}</dt>
-      <dd>{{ terms(s.proficiencies.weapons, 'weapon') || '—' }}</dd>
-      <dt>{{ 'sheet.tools' | t }}</dt>
-      <dd>{{ terms(s.proficiencies.tools, 'tool') || '—' }}</dd>
-      <dt>{{ 'sheet.languages' | t }}</dt>
-      <dd>{{ terms(s.languages, 'language') }}</dd>
-      @if (s.size.length) {
-        <dt>{{ 'sheet.size' | t }}</dt>
-        <dd>{{ terms(s.size, 'size', ' / ') }}</dd>
+        @case ('rasgos') {
+          <div class="page features" data-page="rasgos">
+            <section class="class-features">
+              <div class="section-head">
+                <h2>{{ 'sheet.classFeatures' | t }}</h2>
+                @if (featureSummons(); as n) {
+                  <a class="btn summons-link" [routerLink]="tabLink(c.id, 'invocaciones')">
+                    ✦ {{ 'summons.button' | t: { n } }}
+                  </a>
+                }
+              </div>
+              <ng-container *ngTemplateOutlet="groupsTpl; context: { $implicit: classGroups() }" />
+            </section>
+
+            <div class="col-side">
+              @if (speciesGroups().length) {
+                <section>
+                  <h2>{{ 'sheet.speciesTraits' | t }}</h2>
+                  <ng-container
+                    *ngTemplateOutlet="groupsTpl; context: { $implicit: speciesGroups() }"
+                  />
+                </section>
+              }
+
+              @if (otherGroups().length) {
+                <section>
+                  <h2>{{ 'sheet.featsAndBackground' | t }}</h2>
+                  <ng-container
+                    *ngTemplateOutlet="groupsTpl; context: { $implicit: otherGroups() }"
+                  />
+                </section>
+              }
+
+              <section>
+                <h2>{{ 'sheet.training' | t }}</h2>
+                <dl class="pairs">
+                  <dt>{{ 'sheet.armor' | t }}</dt>
+                  <dd>{{ terms(s.proficiencies.armor, 'armor') || '—' }}</dd>
+                  <dt>{{ 'sheet.weapons' | t }}</dt>
+                  <dd>{{ terms(s.proficiencies.weapons, 'weapon') || '—' }}</dd>
+                  <dt>{{ 'sheet.tools' | t }}</dt>
+                  <dd>{{ terms(s.proficiencies.tools, 'tool') || '—' }}</dd>
+                  <dt>{{ 'sheet.languages' | t }}</dt>
+                  <dd>{{ terms(s.languages, 'language') }}</dd>
+                  @if (s.resistances.length) {
+                    <dt>{{ 'sheet.resistances' | t }}</dt>
+                    <dd>{{ terms(s.resistances, 'damage') }}</dd>
+                  }
+                </dl>
+              </section>
+
+              @if (s.resources.length) {
+                <details class="fold">
+                  <summary>
+                    <h2>{{ 'sheet.resources' | t }}</h2>
+                  </summary>
+                  <dl class="pairs">
+                    @for (r of s.resources; track r.classId + r.name) {
+                      <dt>{{ r.name | term: 'column' }}</dt>
+                      <dd>{{ r.value }}</dd>
+                    }
+                  </dl>
+                </details>
+              }
+            </div>
+          </div>
+        }
+
+        @case ('conjuros') {
+          <div class="page spells" data-page="conjuros">
+            <section class="casting-block">
+              <div class="section-head">
+                <h2>{{ 'sheet.spellcasting' | t }}</h2>
+                @if (spellSummons(); as n) {
+                  <a class="btn summons-link" [routerLink]="tabLink(c.id, 'invocaciones')">
+                    ✦ {{ 'summons.button' | t: { n } }}
+                  </a>
+                }
+              </div>
+              <div class="casting-row">
+                @for (sc of s.spellcasting.classes; track sc.classId) {
+                  <div class="casting">
+                    <strong class="who">{{ className(s, sc.classId) }}</strong>
+                    <dl>
+                      <div>
+                        <dt>{{ 'sheet.spellAbility' | t }}</dt>
+                        <dd>{{ 'abbr.' + sc.ability | t }}</dd>
+                      </div>
+                      <div>
+                        <dt>{{ 'sheet.saveDc' | t }}</dt>
+                        <dd>{{ sc.saveDc }}</dd>
+                      </div>
+                      <div>
+                        <dt>{{ 'sheet.spellAttack' | t }}</dt>
+                        <dd>{{ signed(sc.attack) }}</dd>
+                      </div>
+                      @if (sc.cantrips !== null) {
+                        <div>
+                          <dt>{{ 'sheet.cantrips' | t }}</dt>
+                          <dd>{{ sc.cantrips }}</dd>
+                        </div>
+                      }
+                      @if (sc.prepared !== null) {
+                        <div>
+                          <dt>{{ 'sheet.prepared' | t }}</dt>
+                          <dd>{{ sc.prepared }}</dd>
+                        </div>
+                      }
+                    </dl>
+                  </div>
+                }
+                <div class="slots-col">
+                  <app-play-panel
+                    part="slots"
+                    [sheet]="s"
+                    [state]="c.state"
+                    (changed)="saveState($event)"
+                  />
+                  @if (s.spellcasting.pact; as pact) {
+                    <p>{{ 'sheet.pact' | t: { slots: pact.slots, level: pact.level } }}</p>
+                  }
+                </div>
+              </div>
+            </section>
+
+            <div class="spell-cols">
+              @if (s.spellcasting.classes.length) {
+                <section class="spell-list">
+                  <app-spell-book [character]="c" (changed)="saveCharacter($event)" />
+                </section>
+              }
+
+              <div class="col-side">
+                @if (featSpells().length) {
+                  <section>
+                    <h3>{{ 'sheet.featSpells' | t }}</h3>
+                    <ul class="feat-spells" data-testid="feat-spells">
+                      @for (fs of featSpells(); track fs.sourceKey + fs.id) {
+                        <li>
+                          @let kind =
+                            fs.level === 0
+                              ? ('spell.cantrip' | t)
+                              : fs.level !== null
+                                ? ('spell.levelShort' | t: { level: fs.level })
+                                : '';
+                          @if (fs.known) {
+                            <a [routerLink]="['/compendium', 'spell', fs.id]" class="spell-name">
+                              <small>{{ kind }}</small>
+                              {{ fs.name | dataName: true }}
+                            </a>
+                          } @else {
+                            <span class="spell-name">
+                              <small>{{ kind }}</small>
+                              {{ fs.name | dataName: true }}
+                            </span>
+                          }
+                          <span class="origin">{{
+                            'sheet.featSource' | t: { name: (fs.feat.name | dataName: true) }
+                          }}</span>
+                          <span class="facts">
+                            {{ 'abbr.' + fs.ability | t }} · {{ 'sheet.saveDc' | t }}
+                            {{ fs.saveDc }} · {{ 'sheet.spellAttack' | t }} {{ signed(fs.attack) }}
+                            @if (fs.freeKey) {
+                              · {{ 'sheet.featSpell.free' | t }} ({{ freeLeft(c, s, fs.freeKey) }})
+                            }
+                            @if (fs.slots && fs.level !== 0) {
+                              · {{ 'sheet.featSpell.slots' | t }}
+                            }
+                          </span>
+                          @if (!fs.abilityChosen) {
+                            <span class="facts issue">{{
+                              'sheet.featSpell.noAbility'
+                                | t: { ability: ('abbr.' + fs.ability | t) }
+                            }}</span>
+                          }
+                        </li>
+                      }
+                    </ul>
+                  </section>
+                }
+
+                <app-replicate-panel
+                  [character]="c"
+                  [slots]="s.spellcasting.slots"
+                  (changed)="saveCharacter($event)"
+                />
+              </div>
+            </div>
+          </div>
+        }
+
+        @case ('equipo') {
+          <div class="page equipment" data-page="equipo">
+            <app-equipment-panel
+              part="inventory"
+              [character]="c"
+              [sheet]="s"
+              (changed)="saveCharacter($event)"
+            />
+          </div>
+        }
+
+        @case ('invocaciones') {
+          <div class="page summons" data-page="invocaciones">
+            <app-summons-page
+              [id]="c.id"
+              [embedded]="true"
+              [character]="c"
+              (changed)="summonsChanged($event)"
+            />
+          </div>
+        }
+
+        @case ('notas') {
+          <div class="page notes" data-page="notas">
+            <section>
+              <h2>{{ 'sheet.notes' | t }}</h2>
+              <textarea
+                rows="10"
+                [value]="notesDraft() ?? c.notes"
+                (input)="notesDraft.set($any($event.target).value)"
+                [attr.aria-label]="'sheet.notes' | t"
+              ></textarea>
+              <p class="actions">
+                <button type="button" (click)="saveNotes()" [disabled]="notesDraft() === null">
+                  {{ 'sheet.saveNotes' | t }}
+                </button>
+                <button type="button" class="danger" (click)="remove()">
+                  {{ 'sheet.delete' | t }}
+                </button>
+              </p>
+            </section>
+          </div>
+        }
       }
-    </dl>
-  </details>
-
-  <section>
-    <h2>{{ 'sheet.notes' | t }}</h2>
-    <textarea
-      rows="5"
-      [value]="notesDraft() ?? c.notes"
-      (input)="notesDraft.set($any($event.target).value)"
-      [attr.aria-label]="'sheet.notes' | t"
-    ></textarea>
-    <p class="actions">
-      <button type="button" (click)="saveNotes()" [disabled]="notesDraft() === null">
-        {{ 'sheet.saveNotes' | t }}
-      </button>
-      <button type="button" class="danger" (click)="remove()">{{ 'sheet.delete' | t }}</button>
-    </p>
-  </section>
+    </div>
+  </div>
 } @else {
   <p>{{ 'sheet.notFound' | t }}</p>
 }

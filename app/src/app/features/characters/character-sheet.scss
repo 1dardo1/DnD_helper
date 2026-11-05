@@ -397,3 +397,214 @@ textarea {
   gap: var(--space-3);
   justify-content: space-between;
 }
+
+// -- Tabs: the sheet split into pages, like the sections of the official sheet ---------------
+
+// Sticky vitals bar: hit points / AC / initiative / rests, on every tab. The sheet sets
+// --sheet-top (the height of the app's sticky strap, 0 on phones) and --bar-h (this bar's).
+.sheet-bar {
+  position: sticky;
+  top: var(--sheet-top, 0px);
+  z-index: 8;
+  margin: 0 calc(-1 * var(--space-2));
+  padding: var(--space-2) var(--space-2) 0.4rem;
+  background: var(--paper);
+
+  app-play-panel {
+    display: block;
+    min-width: 0;
+  }
+}
+
+// Phones and tablets: the tab strip sticks right under the bar. Wide screens: a rail on the left.
+.sheet-shell {
+  display: flex;
+  flex-direction: column;
+  margin: 0 calc(-1 * var(--space-2));
+  padding: 0 var(--space-2);
+}
+
+.sheet-content {
+  min-width: 0;
+  padding-top: var(--space-3);
+}
+
+.tabs {
+  position: sticky;
+  top: calc(var(--sheet-top, 0px) + var(--bar-h, 5rem));
+  z-index: 7;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  margin: 0 calc(-1 * var(--space-2));
+  padding: 0.3rem var(--space-2) 0.45rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line-strong);
+  box-shadow: 0 3px 6px -3px rgb(0 0 0 / 0.25);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  a {
+    flex: 1 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--tap, 2.75rem);
+    padding: 0.35rem 0.8rem;
+    font-family: var(--font-title);
+    font-size: var(--fs-md);
+    line-height: 1.1;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--ink);
+    background: var(--card);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+
+    &:hover {
+      border-color: var(--accent);
+    }
+
+    &.active {
+      color: var(--paper);
+      background: var(--accent);
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    gap: 0.2rem;
+
+    a {
+      padding-inline: 0.45rem;
+      font-size: var(--fs-sm);
+    }
+  }
+}
+
+@media (min-width: 64rem) {
+  .sheet-shell {
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    column-gap: var(--space-5);
+    align-items: start;
+  }
+
+  .tabs {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    background: none;
+    border-bottom: 0;
+    box-shadow: none;
+    top: calc(var(--sheet-top, 0px) + var(--bar-h, 5rem) + var(--space-3));
+    margin-top: var(--space-3);
+
+    a {
+      flex: none;
+      justify-content: flex-start;
+      padding-inline: 0.9rem;
+    }
+  }
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+// Summary: abilities and skills in a narrow column on the left (as in the official sheet), the
+// rest on the right. One column on phones and tablets, with the vitals first.
+.summary {
+  .col-main,
+  .col-side {
+    display: contents;
+  }
+
+  .abilities-block {
+    order: 2;
+  }
+
+  .stats strong.word {
+    font-size: var(--fs-lg);
+  }
+
+  @media (min-width: 64rem) {
+    display: grid;
+    grid-template-columns: minmax(19rem, 23rem) minmax(0, 1fr);
+    column-gap: var(--space-5);
+    align-items: start;
+
+    .col-main,
+    .col-side {
+      display: block;
+      min-width: 0;
+    }
+
+    .col-side {
+      order: -1;
+    }
+
+    .abilities {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-2);
+    }
+  }
+}
+
+.features {
+  @media (min-width: 64rem) {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    column-gap: var(--space-5);
+    align-items: start;
+  }
+}
+
+.spells {
+  .casting-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-2) var(--space-5);
+
+    > * {
+      flex: 1 1 20rem;
+      min-width: 0;
+    }
+
+    .casting dl {
+      max-width: none;
+    }
+  }
+
+  .spell-cols {
+    display: grid;
+    gap: var(--space-2) var(--space-5);
+    align-items: start;
+
+    @media (min-width: 64rem) {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    }
+  }
+
+  .col-side,
+  .spell-list {
+    min-width: 0;
+  }
+}
+
+.page > section,
+.col-side > section,
+.class-features {
+  min-width: 0;
+}
