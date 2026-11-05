@@ -71,6 +71,33 @@ export function featSlots(cls: DndClass, level: number): FeatSlot[] {
   return out;
 }
 
+/** Slot (in choices.featSlots) of the feat a species gives, such as Human's Versatile. */
+export const SPECIES_SLOT = 'species';
+
+/**
+ * The feat a species lets you choose: 'origin' (Human's Versatile: "an Origin feat of your
+ * choice") or 'any' (Custom Lineage: "one feat of your choice for which you qualify"); null if none.
+ */
+export function speciesFeatKind(species: Species | undefined): 'origin' | 'any' | null {
+  const traits = species?.traits ?? [];
+  if (traits.some((t) => /origin feat of your choice/i.test(t.description))) return 'origin';
+  if (traits.some((t) => t.name === 'Feat' && /one feat of your choice/i.test(t.description)))
+    return 'any';
+  return null;
+}
+
+/** The feats a species' feat can be: origin feats, plus the general ones for 'any'. */
+export function featsForSpecies(kind: 'origin' | 'any' | null, feats: Feat[]): Feat[] {
+  if (!kind) return [];
+  return feats
+    .filter(
+      (f) =>
+        f.edition === '2024' &&
+        (f.category === 'origin' || (kind === 'any' && f.category === 'general')),
+    )
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
 /** What the feat rules need of the character's species: its id and the sizes it can be. */
 export interface SpeciesRef {
   id: string;
@@ -551,6 +578,18 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
   if (!ch.species) miss('species', 'create.missing.species');
   else if (ctx.species?.variants.length && !ch.species.variant)
     miss('species', 'create.missing.variant');
+  if (
+    speciesFeatKind(ctx.species) &&
+    !ch.choices.featSlots.some((f) => f.slot === SPECIES_SLOT && f.featId)
+  )
+    miss('species', 'create.missing.speciesFeat');
+  // what the feats ask: spellcasting ability, spell list and spells, skills, tools...
+  for (const m of ctx.sheet?.featMissing ?? [])
+    miss(
+      m.key === 'background' ? 'background' : m.key === SPECIES_SLOT ? 'species' : 'choices',
+      `create.missing.feat.${m.what}`,
+      { feat: m.feat },
+    );
   if (ctx.species && ctx.species.size.length > 1 && !ch.size)
     miss('species', 'create.missing.size');
   const chosen = ch.choices.languages;

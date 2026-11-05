@@ -1,6 +1,7 @@
 import { Component, computed, inject, input, resource, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
+import { CompendiumService } from '../../core/compendium/compendium.service';
 import { BackupService } from '../../core/characters/backup.service';
 import { CharacterStore } from '../../core/characters/character-store.service';
 import { SyncService } from '../../core/characters/sync.service';
@@ -78,6 +79,21 @@ export class CharacterSheet {
       const [record, data] = await Promise.all([this.store.get(params.id), this.rules.load()]);
       return record ? { record, data, sheet: computeSheet(record.character, data) } : null;
     },
+  });
+
+  /** Every spell, to give the spells of the feats their level (some feats only say "spell"). */
+  private readonly compendium = inject(CompendiumService);
+  private readonly allSpells = resource({ loader: () => this.compendium.all('spell') });
+
+  /** The spells the feats give (Familiar Friend's Find Familiar...): cantrips first, then by level. */
+  protected readonly featSpells = computed(() => {
+    const byId = new Map((this.allSpells.value() ?? []).map((sp) => [sp.id, sp]));
+    return (this.view.value()?.sheet.featSpells ?? [])
+      .map((fs) => {
+        const known = byId.get(fs.id);
+        return { ...fs, level: known?.level ?? (fs.cantrip ? 0 : null), known: !!known };
+      })
+      .sort((a, b) => (a.level ?? 1) - (b.level ?? 1) || a.name.localeCompare(b.name));
   });
 
   /** The stat blocks of the summoning spells, read once (the button to the summons screen). */
@@ -198,6 +214,13 @@ export class CharacterSheet {
 
   protected skillsOf(sheet: Sheet, ability: string) {
     return sheet.skills.filter((sk) => sk.ability === ability);
+  }
+
+  /** Uses left of a feat's free cast ("1/1"), from the play state. */
+  protected freeLeft(c: Character, sheet: Sheet, key: string | null): string | null {
+    const use = key ? sheet.featUses.find((u) => u.key === key) : null;
+    if (!use) return null;
+    return `${use.max - Math.min(c.state.resources[use.key] ?? 0, use.max)}/${use.max}`;
   }
 
   protected signed(n: number): string {

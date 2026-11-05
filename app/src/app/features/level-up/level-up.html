@@ -244,6 +244,14 @@
                   </select>
                 </label>
               }
+              @if (slotSource(s.slot); as src) {
+                <app-feat-choices
+                  [source]="src"
+                  [choice]="featChoice(src.key)"
+                  [spells]="d.spells"
+                  (changed)="setFeatChoice(src.key, $event)"
+                />
+              }
               @if (feat) {
                 <details>
                   <summary>{{ feat.name | dataName }}</summary>

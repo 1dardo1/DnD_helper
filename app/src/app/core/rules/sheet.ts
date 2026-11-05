@@ -61,8 +61,53 @@ export interface Sheet {
   /** Values of each class's table at its current level (Rages, Focus Points, Hemocraft Die...). */
   resources: { classId: string; name: string; value: string }[];
   features: SheetFeature[];
+  /** Spells the feats give (Familiar Friend's Find Familiar, Magic Initiate's picks...). */
+  featSpells: SheetFeatSpell[];
+  /** Countable uses of the feats (Luck Points, free casts, benefits "PB times per Long Rest"). */
+  featUses: SheetFeatUse[];
+  /** Damage types the character resists because of a feat (Portal Jumper). */
+  resistances: string[];
+  /** Choices a feat asks for that are not made yet (the sheet works with what is there). */
+  featMissing: {
+    feat: string;
+    key: string;
+    what: 'ability' | 'list' | 'cantrips' | 'spell' | 'proficiencies';
+  }[];
   /** Things the engine couldn't resolve (ids not in the compendium, missing choices...). */
   warnings: SheetWarning[];
+}
+
+export interface SheetFeatSpell {
+  /** Id in the compendium; name is the English one. */
+  id: string;
+  name: string;
+  /** True for a cantrip, false for a leveled spell, null when only the compendium knows. */
+  cantrip: boolean | null;
+  feat: { id: string; name: string };
+  /** Where the feat came from: "background", "species" or a feat slot. */
+  sourceKey: string;
+  ability: Ability;
+  /** The ability was picked by the player (otherwise it's the best of INT, WIS, CHA). */
+  abilityChosen: boolean;
+  saveDc: number;
+  attack: number;
+  /** Key of the use counter when it can be cast once without a spell slot per Long Rest. */
+  freeKey: string | null;
+  /** Can also be cast with spell slots. */
+  slots: boolean;
+}
+
+export interface SheetFeatUse {
+  /** Key in state.resources: "feat:<source>:<benefit>". */
+  key: string;
+  /** English name of the benefit (or of the spell, for a free cast). */
+  label: string;
+  /** UI text key for a benefit with its own name ("play.res.luckPoints"). */
+  labelKey: string | null;
+  feat: string;
+  kind: 'use' | 'spell';
+  max: number;
+  rest: 'long' | 'short-or-long';
 }
 
 export interface Bonus {

@@ -34,6 +34,7 @@ import {
   withHpGained,
   withLevelHp,
   withSlotAbility,
+  withFeatChoice,
   withSlotFeat,
 } from '../../core/creation/level-up';
 import {
@@ -47,7 +48,9 @@ import {
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
-import { Character, normalizeCharacter } from '../../core/models/character';
+import { Character, FeatChoice, normalizeCharacter } from '../../core/models/character';
+import { FeatSource } from '../../core/rules/feat-effects';
+import { FeatChoices } from '../../shared/feat-choices';
 import { Ability, ClassOption, DndClass, Feat, Species } from '../../core/models/compendium';
 import { swapRule } from '../../core/play/spell-swap';
 import { computeSheet } from '../../core/rules/engine';
@@ -81,6 +84,7 @@ type Step = 'class' | 'hp' | 'subclass' | 'feats' | 'choices' | 'summary';
     PlanChooser,
     LoadError,
     Picker,
+    FeatChoices,
   ],
   templateUrl: './level-up.html',
   styleUrl: './level-up.scss',
@@ -497,6 +501,20 @@ export class LevelUp {
   protected slotAbility(slot: string, n: number): string {
     const ch = this.draft();
     return ch ? slotAbility(ch, slot, n) : '';
+  }
+
+  /** A feat in a slot, with where it came from (its choices are kept under the slot). */
+  protected slotSource(slot: string): FeatSource | null {
+    const feat = this.slotFeatEntry(slot);
+    return feat ? { key: slot, feat } : null;
+  }
+
+  protected featChoice(key: string): FeatChoice | undefined {
+    return this.draft()?.choices.featChoices?.[key];
+  }
+
+  protected setFeatChoice(key: string, choice: FeatChoice): void {
+    this.patch((c) => withFeatChoice(c, key, choice));
   }
 
   protected setSlotFeat(slot: string, featId: string): void {

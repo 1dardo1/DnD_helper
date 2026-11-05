@@ -37,6 +37,7 @@
   "weapon": {
     "simple weapons": "Armas sencillas",
     "martial weapons": "Armas marciales",
+    "improvised weapons": "Armas improvisadas",
     "simple": "sencilla",
     "martial": "marcial",
     "simple weapons and martial weapons that have the finesse or light property": "Armas sencillas y armas marciales con la propiedad sutil o ligera",

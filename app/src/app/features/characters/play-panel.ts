@@ -101,6 +101,7 @@ export class PlayPanel {
   }
 
   protected className(id: string): string | null {
+    if (id === 'feat') return null;
     const classes = this.sheet().classes;
     return classes.length > 1 ? (classes.find((c) => c.id === id)?.name ?? id) : null;
   }

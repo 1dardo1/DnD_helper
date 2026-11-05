@@ -51,6 +51,12 @@ export interface Character {
      * general feat), Fighting Style, Epic Boon. slot = "<classId>:<level>".
      */
     featSlots: { slot: string; featId: string | null }[];
+    /**
+     * What each feat asks the player to choose (spellcasting ability, spell list and spells, skills,
+     * tools...), by where the feat came from: "background", "species", a feat slot ("fighter:4")
+     * or "feat:<id>". See core/rules/feat-effects.ts.
+     */
+    featChoices?: Record<string, FeatChoice>;
     /** Ability increases other than the background's (ASIs, half feats...), by feat and slot. */
     abilityIncreases: { source: string; ability: Ability; amount: number; slot?: string }[];
     /** Class option ids (invocations, maneuvers, blood curses...). */
@@ -119,6 +125,23 @@ export interface Character {
     tempSlots?: TempSlot[];
   };
   notes: string;
+}
+
+/** The player's choices for one feat; what is asked depends on the feat (feat-effects.ts). */
+export interface FeatChoice {
+  /** Spellcasting ability, where the feat lets you choose INT, WIS or CHA. */
+  ability?: Ability;
+  /** Spell list picked for Magic Initiate: 'cleric' | 'druid' | 'wizard'. */
+  list?: string;
+  /** Spell ids picked as cantrips / as the leveled spell. */
+  cantrips?: string[];
+  spell?: string;
+  /** Skill ids (Skilled, Purple Dragon Rook...), tools and languages picked. */
+  skills?: string[];
+  tools?: string[];
+  languages?: string[];
+  /** Damage type picked (Portal Jumper's Resistance). */
+  resistance?: string;
 }
 
 export interface InventoryEntry {
