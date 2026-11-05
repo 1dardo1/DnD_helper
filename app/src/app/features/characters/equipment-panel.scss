@@ -103,6 +103,31 @@
     flex: 1;
   }
 
+  // the base weapon or armor of a magic item, and its bonus
+  .gear {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.75rem;
+    margin-top: 0.15rem;
+    font-weight: 400;
+    font-size: var(--fs-sm);
+
+    label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    select {
+      max-width: 11rem;
+    }
+
+    .issue {
+      color: var(--danger);
+    }
+  }
+
   .made {
     display: block;
     font-weight: 400;
@@ -175,6 +200,38 @@
       min-width: 2rem;
       padding: 0 0.3rem;
     }
+  }
+}
+
+.pending {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius, 0.5rem);
+
+  p {
+    flex-basis: 100%;
+    margin: 0;
+  }
+
+  small {
+    display: block;
+    color: var(--ink-soft);
+  }
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .actions {
+    display: inline-flex;
+    gap: 0.5rem;
   }
 }
 

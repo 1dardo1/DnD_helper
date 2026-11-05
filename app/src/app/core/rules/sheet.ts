@@ -88,6 +88,7 @@ export interface SheetWarning {
     | 'sheet.warn.notFound'
     | 'sheet.warn.customBackgroundMissing'
     | 'sheet.warn.noSubclass'
-    | 'sheet.warn.twoPacts';
+    | 'sheet.warn.twoPacts'
+    | 'sheet.warn.armorBase';
   params?: Record<string, string>;
 }

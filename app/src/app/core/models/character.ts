@@ -128,6 +128,13 @@ export interface InventoryEntry {
    */
   source?: 'start' | 'replicate';
   planId?: string;
+  /**
+   * Magic weapons, armor and ammunition (core/characters/magic-base.ts): the compendium item the
+   * player chose as its base (Longsword for "Weapon, +1", Chain Mail for "Armor of Resistance").
+   */
+  baseId?: string;
+  /** The +1, +2 or +3 chosen for the items that come in all three. */
+  bonus?: number;
 }
 
 export interface Coins {

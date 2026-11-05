@@ -1,20 +1,35 @@
 import { Character, InventoryEntry } from '../models/character';
 import { Item } from '../models/compendium';
+import { GearChoice, armorSlot, gearKind } from './magic-base';
 
 /**
  * Inventory changes. Equipping armor or a shield also sets character.equipped, which the rules
  * engine reads for Armor Class: only one armor and one shield can be worn at a time.
  */
 
-const isShield = (item: Item | undefined) => item?.armor?.kind === 'shield';
-const isArmor = (item: Item | undefined) => !!item?.armor && !isShield(item);
+const isShield = (item: Item | undefined) => armorSlot(item) === 'shield';
+const isArmor = (item: Item | undefined) => armorSlot(item) === 'armor';
 
 export function canEquip(item: Item | undefined): boolean {
-  return !!item && (!!item.weapon || !!item.armor);
+  const kind = gearKind(item);
+  return !!item && (!!item.weapon || !!item.armor || (!!kind && kind !== 'ammunition'));
 }
 
-export function addItem(ch: Character, item: Item | null, name = ''): Character {
-  const same = ch.inventory.find((e) => (item ? e.itemId === item.id : e.name === name));
+/**
+ * Adds an item (stacking with the same one). Magic weapons and armor carry the base and bonus
+ * chosen (core/characters/magic-base.ts): the same item with another base is another entry.
+ */
+export function addItem(
+  ch: Character,
+  item: Item | null,
+  name = '',
+  gear: GearChoice = {},
+): Character {
+  const same = ch.inventory.find((e) =>
+    item
+      ? e.itemId === item.id && e.baseId === gear.baseId && e.bonus === gear.bonus
+      : e.name === name,
+  );
   const inventory = same
     ? ch.inventory.map((e) => (e === same ? { ...e, qty: e.qty + 1 } : e))
     : [
@@ -25,9 +40,28 @@ export function addItem(ch: Character, item: Item | null, name = ''): Character 
           name: item ? '' : name.trim(),
           qty: 1,
           equipped: false,
+          ...(item && gear.baseId ? { baseId: gear.baseId } : {}),
+          ...(item && gear.bonus ? { bonus: gear.bonus } : {}),
         },
       ];
   return { ...ch, inventory };
+}
+
+/** Changes the base and/or the bonus of a magic weapon or armor (undefined: leave as is). */
+export function setGear(ch: Character, id: string, gear: GearChoice): Character {
+  return {
+    ...ch,
+    inventory: ch.inventory.map((e) => {
+      if (e.id !== id) return e;
+      const { baseId, bonus, ...rest } = e;
+      const next = { baseId, bonus, ...gear };
+      return {
+        ...rest,
+        ...(next.baseId ? { baseId: next.baseId } : {}),
+        ...(next.bonus ? { bonus: next.bonus } : {}),
+      };
+    }),
+  };
 }
 
 export function removeEntry(ch: Character, id: string, items: Map<string, Item>): Character {
@@ -83,8 +117,11 @@ export function wearArmor(
   armorId: string | null,
   items: Map<string, Item>,
 ): Character {
+  // an inventory entry id (two magic armors can be the same item), or an item id
+  const wearable = (e: InventoryEntry) => isArmor(e.itemId ? items.get(e.itemId) : undefined);
   const entry = armorId
-    ? ch.inventory.find((e) => e.itemId === armorId && isArmor(items.get(armorId)))
+    ? (ch.inventory.find((e) => e.id === armorId && wearable(e)) ??
+      ch.inventory.find((e) => e.itemId === armorId && wearable(e)))
     : undefined;
   if (armorId && !entry) return ch;
   const c: Character = {

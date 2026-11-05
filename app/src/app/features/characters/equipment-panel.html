@@ -19,6 +19,9 @@
                 <strong>{{
                   a.entryId ? (a.name | dataName: true) : ('sheet.unarmedStrike' | t)
                 }}</strong>
+                @if (a.base) {
+                  <small> ({{ a.base | dataName }})</small>
+                }
                 @if (!a.equipped) {
                   <small> · {{ 'sheet.notEquipped' | t }}</small>
                 }
@@ -125,6 +128,67 @@
             @if (r.entry.source === 'replicate') {
               <small class="made">✦ {{ 'plans.madeWith' | t }}</small>
             }
+            @if (r.magic; as m) {
+              <span class="gear">
+                @if (m.bases.length > 1) {
+                  <label>
+                    {{ 'gear.base' | t }}
+                    <select
+                      [attr.aria-label]="('gear.base' | t) + ': ' + r.item?.name"
+                      (change)="setBase(r.entry, text($event))"
+                    >
+                      @if (!r.gear?.base) {
+                        <option value="" selected>{{ 'gear.choose' | t }}</option>
+                      }
+                      @for (b of m.bases; track b.id) {
+                        <option [value]="b.id" [selected]="b.id === r.gear?.base?.id">
+                          {{ b.name | dataName }}
+                        </option>
+                      }
+                    </select>
+                  </label>
+                } @else if (r.gear?.base) {
+                  <span>{{ 'gear.base' | t }}: {{ r.gear!.base!.name | dataName }}</span>
+                }
+                @if (m.bonuses.length > 1) {
+                  <label>
+                    {{ 'gear.bonus' | t }}
+                    <select
+                      [attr.aria-label]="('gear.bonus' | t) + ': ' + r.item?.name"
+                      (change)="setBonus(r.entry, text($event))"
+                    >
+                      @for (o of m.bonuses; track o.bonus) {
+                        <option [value]="o.bonus" [selected]="o.bonus === r.gear?.bonus">
+                          +{{ o.bonus }}
+                        </option>
+                      }
+                    </select>
+                  </label>
+                } @else if (r.gear?.bonus) {
+                  <strong>+{{ r.gear!.bonus }}</strong>
+                }
+                @if (r.gear?.unresolved) {
+                  <small class="issue">{{ 'gear.pick' | t }}</small>
+                } @else if (r.armor; as a) {
+                  <small>
+                    {{ 'gear.ac' | t: { ac: (a.baseAC ?? 0) + (r.gear?.bonus ?? 0) } }}
+                    @if (a.strength) {
+                      · {{ 'gear.str' | t: { n: a.strength } }}
+                    }
+                    @if (a.stealthDisadvantage) {
+                      · {{ 'gear.stealth' | t }}
+                    }
+                  </small>
+                } @else if (r.gear?.kind === 'weapon' && r.gear?.base?.weapon; as w) {
+                  <small>
+                    {{ w.damage[0]?.dice }} {{ w.damage[0]?.type | term: 'damage' }}
+                    @if (w.mastery) {
+                      · {{ 'sheet.mastery' | t }}: {{ w.mastery | term: 'mastery' }}
+                    }
+                  </small>
+                }
+              </span>
+            }
           </span>
           <input
             type="number"
@@ -171,6 +235,54 @@
         <li class="muted">{{ 'sheet.noItems' | t }}</li>
       }
     </ul>
+
+    @if (pending(); as p) {
+      <div
+        class="pending"
+        role="group"
+        [attr.aria-label]="'gear.chooseFor' | t: { name: p.item.name }"
+      >
+        <p>
+          <strong>{{ p.item.name | dataName: true }}</strong>
+          <small>{{ 'gear.chooseHint' | t }}</small>
+        </p>
+        @if (p.bases.length > 1) {
+          <label>
+            {{ 'gear.base' | t }}
+            <select (change)="pendingPatch({ baseId: text($event) })">
+              <option value="" [selected]="!p.baseId">{{ 'gear.choose' | t }}</option>
+              @for (b of p.bases; track b.id) {
+                <option [value]="b.id" [selected]="b.id === p.baseId">
+                  {{ b.name | dataName }}
+                </option>
+              }
+            </select>
+          </label>
+        }
+        @if (p.bonuses.length > 1) {
+          <label>
+            {{ 'gear.bonus' | t }}
+            <select (change)="pendingPatch({ bonus: +text($event) })">
+              @for (o of p.bonuses; track o.bonus) {
+                <option [value]="o.bonus" [selected]="o.bonus === p.bonus">+{{ o.bonus }}</option>
+              }
+            </select>
+          </label>
+        }
+        <span class="actions">
+          <button
+            type="button"
+            [disabled]="p.bases.length > 1 && !p.baseId"
+            (click)="confirmPending()"
+          >
+            {{ 'gear.add' | t }}
+          </button>
+          <button type="button" class="btn-ghost" (click)="pending.set(null)">
+            {{ 'gear.cancel' | t }}
+          </button>
+        </span>
+      </div>
+    }
 
     <div class="add">
       <input

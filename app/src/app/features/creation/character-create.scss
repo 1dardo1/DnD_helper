@@ -437,6 +437,30 @@ h3.issue {
     color: var(--ink-soft);
   }
 
+  // a magic weapon or armor being bought: which one it is
+  .buying {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-4);
+    margin: var(--space-3) 0;
+    padding: var(--space-3);
+    border: 1px solid var(--line);
+
+    p {
+      flex-basis: 100%;
+      margin: 0;
+    }
+
+    small {
+      display: block;
+    }
+
+    .shop-price {
+      margin: 0;
+    }
+  }
+
   // projected into the picker's card button: take the width next to the ring
   .shop-card {
     flex: 1;

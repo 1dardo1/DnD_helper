@@ -6,9 +6,19 @@ import {
   canEquip,
   moveEntry,
   removeEntry,
+  setGear,
   setQty,
   toggleEquip,
 } from '../../core/characters/inventory';
+import {
+  BonusOption,
+  armorStats,
+  baseCandidates,
+  bonusOptions,
+  gearChoices,
+  gearKind,
+  gearOf,
+} from '../../core/characters/magic-base';
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TermPipe } from '../../core/i18n/glossary';
@@ -49,11 +59,23 @@ export class EquipmentPanel {
   protected readonly reordering = signal(false);
 
   protected readonly entries = computed(() => {
-    const byId = this.items.value()?.byId;
-    return this.character().inventory.map((e) => ({
-      entry: e,
-      item: e.itemId ? byId?.get(e.itemId) : undefined,
-    }));
+    const v = this.items.value();
+    return this.character().inventory.map((e) => {
+      const item = e.itemId ? v?.byId.get(e.itemId) : undefined;
+      const gear = v ? gearOf(e, item, v.byId) : null;
+      // a magic weapon, armor or shield: its base (to choose or to change) and bonus
+      const magic =
+        v && item && gearKind(item)
+          ? { bases: baseCandidates(item, v.all), bonuses: bonusOptions(item) }
+          : null;
+      return {
+        entry: e,
+        item,
+        gear,
+        magic,
+        armor: gear && gear.kind === 'armor' && magic ? armorStats(gear) : null,
+      };
+    });
   });
 
   protected readonly attacks = computed(() => {
@@ -61,12 +83,27 @@ export class EquipmentPanel {
       // ammunition (Arrows, Bolts...) is listed as a weapon without damage: it is no attack
       .filter(
         (e) =>
-          !!e.item?.weapon &&
-          (e.item.weapon.damage.length > 0 || e.item.weapon.properties.length > 0),
+          e.gear?.kind === 'weapon' &&
+          !!e.gear.base?.weapon &&
+          (e.gear.base.weapon.damage.length > 0 || e.gear.base.weapon.properties.length > 0),
       )
-      .map((e) => ({ id: e.entry.id, equipped: e.entry.equipped, item: e.item! }));
+      .map((e) => ({
+        id: e.entry.id,
+        equipped: e.entry.equipped,
+        item: e.gear!.base!,
+        magic: e.magic ? { item: e.item!, bonus: e.gear!.bonus } : undefined,
+      }));
     return attacksFor(this.sheet(), weapons);
   });
+
+  /** A magic item whose base (and bonus) is being asked before it is added. */
+  protected readonly pending = signal<{
+    item: Item;
+    bases: Item[];
+    bonuses: BonusOption[];
+    baseId: string;
+    bonus: number;
+  } | null>(null);
 
   /**
    * Compendium items matching the search (English or translated name): the best matches first
@@ -91,10 +128,44 @@ export class EquipmentPanel {
   protected readonly canEquip = canEquip;
 
   protected add(item: Item | null): void {
-    const map = this.items.value()?.byId;
-    if (!map) return;
-    this.changed.emit(addItem(this.character(), item, item ? '' : this.query()));
+    const v = this.items.value();
+    if (!v) return;
+    const choices = item ? gearChoices(item, v.all) : null;
+    if (item && choices) {
+      // several bases fit (or "+1, +2 or +3"): ask before adding
+      this.pending.set({
+        item,
+        ...choices,
+        baseId: choices.bases.length === 1 ? choices.bases[0].id : '',
+        bonus: choices.bonuses[0]?.bonus ?? 0,
+      });
+    } else this.changed.emit(addItem(this.character(), item, item ? '' : this.query()));
     this.query.set('');
+  }
+
+  protected confirmPending(): void {
+    const p = this.pending();
+    if (!p || (p.bases.length > 1 && !p.baseId)) return;
+    this.changed.emit(
+      addItem(this.character(), p.item, '', {
+        ...(p.baseId ? { baseId: p.baseId } : {}),
+        ...(p.bonuses.length > 1 ? { bonus: p.bonus } : {}),
+      }),
+    );
+    this.pending.set(null);
+  }
+
+  protected pendingPatch(patch: { baseId?: string; bonus?: number }): void {
+    const p = this.pending();
+    if (p) this.pending.set({ ...p, ...patch });
+  }
+
+  protected setBase(e: InventoryEntry, baseId: string): void {
+    if (baseId) this.changed.emit(setGear(this.character(), e.id, { baseId }));
+  }
+
+  protected setBonus(e: InventoryEntry, bonus: string): void {
+    this.changed.emit(setGear(this.character(), e.id, { bonus: Number(bonus) }));
   }
 
   protected equip(e: InventoryEntry): void {

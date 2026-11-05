@@ -10,6 +10,7 @@ import {
   Spellcasting,
   Subclass,
 } from '../models/compendium';
+import { wornGear } from '../characters/magic-base';
 import { isCustomId } from '../homebrew/custom-background';
 import { multiclassGains } from './multiclass';
 import { Bonus, Sheet, SheetFeature, SheetWarning } from './sheet';
@@ -192,27 +193,33 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   for (const c of classes) dice.set(c.cls.hitDie, (dice.get(c.cls.hitDie) ?? 0) + c.level);
 
   // -- armor class and speed -------------------------------------------------------------
-  const armor = find(data.items, ch.equipped.armorId, 'item')?.armor;
-  const shield = ch.equipped.shield ? 2 : 0;
+  // magic armor (Armor +1, Armor of Resistance...) is worn as the base armor the player chose
+  const worn = wornGear(ch, data.items);
+  const armor = worn.armor;
+  const shield = worn.shield;
+  if (worn.unresolved)
+    warnings.push({ key: 'sheet.warn.armorBase', params: { name: worn.unresolved } });
+  const magic = worn.armorBonus + Math.max(0, shield - 2);
+  const plus = magic ? ` + ${magic}` : '';
   let armorClass: Sheet['armorClass'];
   if (armor && armor.kind !== 'shield' && armor.baseAC !== null) {
     const dex = armor.dexCap === null ? mod('DEX') : Math.min(mod('DEX'), armor.dexCap);
     armorClass = {
-      value: armor.baseAC + dex + shield,
+      value: armor.baseAC + worn.armorBonus + dex + shield,
       // heavy armor adds no Dexterity; medium armor caps it
-      formula: `${armor.baseAC}${armor.dexCap === 0 ? '' : armor.dexCap === null ? ' + DEX' : ` + DEX (max ${armor.dexCap})`}${shield ? ' + shield' : ''}`,
+      formula: `${armor.baseAC}${armor.dexCap === 0 ? '' : armor.dexCap === null ? ' + DEX' : ` + DEX (max ${armor.dexCap})`}${plus}${shield ? ' + shield' : ''}`,
     };
   } else if (has('Unarmored Defense') && classes.some((c) => c.cls.id === 'monk') && !shield) {
     armorClass = { value: 10 + mod('DEX') + mod('WIS'), formula: '10 + DEX + WIS' };
   } else if (has('Unarmored Defense')) {
     armorClass = {
       value: 10 + mod('DEX') + mod('CON') + shield,
-      formula: `10 + DEX + CON${shield ? ' + shield' : ''}`,
+      formula: `10 + DEX + CON${plus}${shield ? ' + shield' : ''}`,
     };
   } else {
     armorClass = {
       value: 10 + mod('DEX') + shield,
-      formula: `10 + DEX${shield ? ' + shield' : ''}`,
+      formula: `10 + DEX${plus}${shield ? ' + shield' : ''}`,
     };
   }
 
