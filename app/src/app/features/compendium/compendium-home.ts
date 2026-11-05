@@ -36,6 +36,10 @@ import { LoadError } from './load-error';
             <small>{{ 'compendium.entries' | t: { count: m.counts[type] ?? 0 } }}</small>
           </li>
         }
+        <li>
+          <a routerLink="/compendium/crafting">{{ 'crafting.title' | t }}</a>
+          <small>{{ 'crafting.blurb' | t }}</small>
+        </li>
       </ul>
       <p>
         <small>{{ 'compendium.dataVersion' | t: { date: m.generatedAt | localDate } }}</small>

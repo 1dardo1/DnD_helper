@@ -27,10 +27,12 @@ import {
   Spellcasting,
   Subclass,
 } from '../../core/models/compendium';
+import { spellBinding } from '../../core/spell-items/spell-items';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { armorDex, prerequisitesText, slotsText, weaponProperty } from './entry-format';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { CustomBackgroundPanel } from '../homebrew/custom-background-panel';
+import { AddSpellItem } from './add-spell-item';
 import { LoadError } from './load-error';
 import { MonsterStatBlock } from './monster-stat-block';
 
@@ -53,6 +55,7 @@ import { EntryPortrait } from '../../shared/picker/entry-portrait';
     EntryPortrait,
     MonsterStatBlock,
     CustomBackgroundPanel,
+    AddSpellItem,
   ],
   templateUrl: './entry-detail.html',
   styleUrl: './entry-detail.scss',
@@ -140,6 +143,7 @@ export class EntryDetail {
   protected asFeat(e: Entry): Feat {
     return e as Feat;
   }
+  protected readonly spellBinding = spellBinding;
   protected asItem(e: Entry): Item {
     return e as Item;
   }

@@ -128,10 +128,17 @@
     }
   }
 
-  .made {
+  .made,
+  .held {
     display: block;
     font-weight: 400;
     color: var(--ink-soft);
+  }
+
+  .use {
+    flex: none;
+    font-size: var(--fs-sm);
+    padding-inline: 0.5rem;
   }
 
   .equipped .name {
@@ -241,6 +248,11 @@
   input {
     width: 100%;
     max-width: 28rem;
+  }
+
+  .results button small {
+    display: block;
+    color: var(--ink-soft);
   }
 
   .results {

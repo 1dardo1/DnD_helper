@@ -406,6 +406,14 @@
           }
         </dl>
         <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
+        @if (spellBinding(i)) {
+          <app-add-spell-item [item]="i" />
+        }
+        <p>
+          <a [routerLink]="['/compendium', 'crafting']" [queryParams]="{ item: i.id }">{{
+            'crafting.howToCraft' | t
+          }}</a>
+        </p>
       }
 
       @case ('species') {

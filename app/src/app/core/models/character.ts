@@ -140,6 +140,8 @@ export interface InventoryEntry {
   baseId?: string;
   /** The +1, +2 or +3 chosen for the items that come in all three. */
   bonus?: number;
+  /** Items that hold a spell of the player's choice (Spell Scroll...): the spell's id. */
+  spellId?: string;
 }
 
 export interface Coins {
