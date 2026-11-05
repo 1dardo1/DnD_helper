@@ -128,6 +128,8 @@ export interface InventoryEntry {
    */
   source?: 'start' | 'replicate';
   planId?: string;
+  /** Items that hold a spell of the player's choice (Spell Scroll...): the spell's id. */
+  spellId?: string;
 }
 
 export interface Coins {

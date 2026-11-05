@@ -14,16 +14,24 @@ import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service
 import { TermPipe } from '../../core/i18n/glossary';
 import { TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, Coins, InventoryEntry } from '../../core/models/character';
-import { Item } from '../../core/models/compendium';
+import { Item, Spell } from '../../core/models/compendium';
 import { WeaponEntry, attacksFor } from '../../core/rules/attacks';
 import { Sheet } from '../../core/rules/sheet';
+import {
+  addSpellItem,
+  consumeSpellItem,
+  isScroll,
+  levelStats,
+  spellBinding,
+} from '../../core/spell-items/spell-items';
+import { SpellItemPicker } from '../../shared/spell-item-picker';
 import { defaultOrder } from '../../shared/picker/entry-order';
 import { normalise, rankName } from '../compendium/compendium-search';
 
 /** Attacks with the carried weapons, and the inventory (add, equip, remove). */
 @Component({
   selector: 'app-equipment-panel',
-  imports: [RouterLink, TranslatePipe, TermPipe, DataNamePipe],
+  imports: [RouterLink, TranslatePipe, TermPipe, DataNamePipe, SpellItemPicker],
   templateUrl: './equipment-panel.html',
   styleUrl: './equipment-panel.scss',
 })
@@ -39,8 +47,15 @@ export class EquipmentPanel {
 
   private readonly items = resource({
     loader: async () => {
-      const all = await this.compendium.all('item');
-      return { all, byId: new Map(all.map((i) => [i.id, i])) };
+      const [all, spells] = await Promise.all([
+        this.compendium.all('item'),
+        this.compendium.all('spell'),
+      ]);
+      return {
+        all,
+        byId: new Map(all.map((i) => [i.id, i])),
+        spells: new Map(spells.map((s) => [s.id, s])),
+      };
     },
   });
 
@@ -53,6 +68,7 @@ export class EquipmentPanel {
     return this.character().inventory.map((e) => ({
       entry: e,
       item: e.itemId ? byId?.get(e.itemId) : undefined,
+      held: this.held(e),
     }));
   });
 
@@ -89,10 +105,40 @@ export class EquipmentPanel {
   });
 
   protected readonly canEquip = canEquip;
+  protected readonly spellBinding = spellBinding;
+
+  /** Item waiting for the player to choose its spell (Spell Scroll...). */
+  protected readonly choosing = signal<Item | null>(null);
+  protected readonly choosingBinding = computed(() => spellBinding(this.choosing()));
+
+  /** The spell an item holds, with the DC and attack bonus its level gives. */
+  private held(e: InventoryEntry) {
+    const item = e.itemId ? this.items.value()?.byId.get(e.itemId) : undefined;
+    const spell = e.spellId ? this.items.value()?.spells.get(e.spellId) : undefined;
+    if (!spell) return null;
+    const b = spellBinding(item);
+    return { spell, stats: b ? levelStats(b, spell.level) : undefined, scroll: isScroll(item) };
+  }
+
+  protected pickSpell(spell: Spell): void {
+    const item = this.choosing();
+    if (!item) return;
+    this.changed.emit(addSpellItem(this.character(), item, spell.id));
+    this.choosing.set(null);
+    this.query.set('');
+  }
+
+  protected useUp(e: InventoryEntry): void {
+    this.changed.emit(consumeSpellItem(this.character(), e.id));
+  }
 
   protected add(item: Item | null): void {
     const map = this.items.value()?.byId;
     if (!map) return;
+    if (item && spellBinding(item)) {
+      this.choosing.set(item);
+      return;
+    }
     this.changed.emit(addItem(this.character(), item, item ? '' : this.query()));
     this.query.set('');
   }

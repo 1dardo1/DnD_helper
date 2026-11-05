@@ -15,6 +15,10 @@ export const routes: Routes = [
       import('./features/compendium/compendium-search-page').then((m) => m.CompendiumSearchPage),
   },
   {
+    path: 'compendium/crafting',
+    loadComponent: () => import('./features/compendium/crafting-page').then((m) => m.CraftingPage),
+  },
+  {
     path: 'compendium/:type',
     loadComponent: () => import('./features/compendium/entry-list').then((m) => m.EntryList),
   },

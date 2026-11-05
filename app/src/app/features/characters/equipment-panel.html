@@ -125,6 +125,21 @@
             @if (r.entry.source === 'replicate') {
               <small class="made">✦ {{ 'plans.madeWith' | t }}</small>
             }
+            @if (r.held; as h) {
+              <small class="held">
+                <a [routerLink]="['/compendium', 'spell', h.spell.id]">{{
+                  'spellitem.line' | t: { spell: (h.spell.name | dataName) }
+                }}</a>
+                ({{
+                  h.spell.level === 0
+                    ? ('spellitem.cantripLow' | t)
+                    : ('spellitem.levelN' | t: { n: h.spell.level })
+                }})
+                @if (h.stats; as st) {
+                  · {{ 'spellitem.stats' | t: { dc: st.dc, attack: signed(st.attack) } }}
+                }
+              </small>
+            }
           </span>
           <input
             type="number"
@@ -156,6 +171,11 @@
               </button>
             </span>
           }
+          @if (!reordering() && r.held?.scroll) {
+            <button type="button" class="use" (click)="useUp(r.entry)">
+              {{ 'spellitem.use' | t }}
+            </button>
+          }
           @if (!reordering()) {
             <button
               type="button"
@@ -184,7 +204,12 @@
         <ul class="results">
           @for (i of results(); track i.id) {
             <li>
-              <button type="button" (click)="add(i)">+ {{ i.name | dataName }}</button>
+              <button type="button" (click)="add(i)">
+                + {{ i.name | dataName }}
+                @if (spellBinding(i)) {
+                  <small>· {{ 'spellitem.anySpell' | t }}</small>
+                }
+              </button>
             </li>
           }
           <li>
@@ -195,6 +220,15 @@
         </ul>
       }
     </div>
+
+    @if (choosing(); as it) {
+      <app-spell-item-picker
+        [item]="it"
+        [binding]="choosingBinding()!"
+        (picked)="pickSpell($event)"
+        (cancelled)="choosing.set(null)"
+      />
+    }
 
     @if (character().equipment) {
       <details class="fold">
