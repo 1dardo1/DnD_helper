@@ -698,15 +698,23 @@
           </section>
           @if (bought().length) {
             <ul class="basket" [attr.aria-label]="'create.equip.bought' | t">
-              @for (b of bought(); track b.itemId) {
+              @for (b of bought(); track b.itemId + b.baseId + b.bonus) {
                 <li>
-                  <span class="name">{{ b.item.name | dataName: true }}</span>
+                  <span class="name"
+                    >{{ b.item.name | dataName: true }}
+                    @if (b.baseId && b.base) {
+                      <small>({{ b.base.name | dataName }})</small>
+                    }
+                    @if (b.bonus) {
+                      <small>+{{ b.bonus }}</small>
+                    }
+                  </span>
                   <span class="qty">× {{ b.qty }}</span>
                   <span class="price">{{ coins(b.price * b.qty) }}</span>
                   <button
                     type="button"
                     class="btn-ghost"
-                    (click)="unbuy(b.itemId)"
+                    (click)="unbuy(b)"
                     [attr.aria-label]="'create.equip.giveBack' | t"
                   >
                     −
@@ -714,7 +722,7 @@
                   <button
                     type="button"
                     class="btn-ghost"
-                    (click)="buy(b.itemId)"
+                    (click)="buy(b.itemId, { baseId: b.baseId, bonus: b.bonus })"
                     [disabled]="b.price > goldLeft()"
                     [attr.aria-label]="'create.equip.buy' | t"
                   >
@@ -744,6 +752,58 @@
                   </button>
                 }
               </div>
+              @if (buying(); as p) {
+                <div
+                  class="buying"
+                  role="group"
+                  [attr.aria-label]="'gear.chooseFor' | t: { name: p.item.name }"
+                >
+                  <p>
+                    <strong>{{ p.item.name | dataName: true }}</strong>
+                    <small>{{ 'gear.chooseHint' | t }}</small>
+                  </p>
+                  @if (p.bases.length > 1) {
+                    <label>
+                      {{ 'gear.base' | t }}
+                      <select (change)="buyingPatch({ baseId: value($event) })">
+                        <option value="" [selected]="!p.baseId">{{ 'gear.choose' | t }}</option>
+                        @for (b of p.bases; track b.id) {
+                          <option [value]="b.id" [selected]="b.id === p.baseId">
+                            {{ b.name | dataName }}
+                          </option>
+                        }
+                      </select>
+                    </label>
+                  }
+                  @if (p.bonuses.length > 1) {
+                    <label>
+                      {{ 'gear.bonus' | t }}
+                      <select (change)="buyingPatch({ bonus: +value($event) })">
+                        @for (o of p.bonuses; track o.bonus) {
+                          <option [value]="o.bonus" [selected]="o.bonus === p.bonus">
+                            +{{ o.bonus }}
+                          </option>
+                        }
+                      </select>
+                    </label>
+                  }
+                  <span class="shop-price" [class.dear]="buyingPrice() > goldLeft()">
+                    {{ 'gear.price' | t: { price: coins(buyingPrice()) } }}
+                  </span>
+                  <span class="actions">
+                    <button
+                      type="button"
+                      [disabled]="(p.bases.length > 1 && !p.baseId) || buyingPrice() > goldLeft()"
+                      (click)="confirmBuying()"
+                    >
+                      {{ 'create.equip.buy' | t }}
+                    </button>
+                    <button type="button" class="btn-ghost" (click)="buying.set(null)">
+                      {{ 'gear.cancel' | t }}
+                    </button>
+                  </span>
+                </div>
+              }
               <app-picker
                 [items]="shopVisible()"
                 [selected]="ownedIds()"
@@ -752,7 +812,7 @@
                 multiple
                 [pageSize]="24"
                 [label]="'create.equip.shop' | t"
-                (picked)="buy($event.id)"
+                (picked)="pick($event.id)"
               >
                 <ng-template #card let-item>
                   @let price = shopPrice(item) ?? 0;
@@ -778,8 +838,13 @@
             <select [disabled]="!carriedArmor().length" (change)="patch(withArmor(value($event)))">
               <option value="" [selected]="!c.equipped.armorId">{{ 'create.noArmor' | t }}</option>
               @for (a of carriedArmor(); track a.id) {
-                <option [value]="a.id" [selected]="a.id === c.equipped.armorId">
-                  {{ a.name | dataName }} ({{ a.armor?.kind | term: 'armor' }})
+                <option [value]="a.id" [selected]="a.equipped">
+                  {{ a.item.name | dataName }}
+                  @if (a.item.magic && a.base) {
+                    ({{ a.base.name | dataName }})
+                  } @else if (a.item.armor) {
+                    ({{ a.item.armor.kind | term: 'armor' }})
+                  }
                 </option>
               }
             </select>

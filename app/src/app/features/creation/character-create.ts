@@ -16,6 +16,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { CharacterStore } from '../../core/characters/character-store.service';
 import { wearArmor, wearShield } from '../../core/characters/inventory';
+import { BonusOption, armorSlot, gearChoices, gearOf } from '../../core/characters/magic-base';
 import { SyncService } from '../../core/characters/sync.service';
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import {
@@ -67,12 +68,14 @@ import { Ability, ClassOption, DndClass, Feat, Feature, Item } from '../../core/
 import { castingOf, computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import {
+  BoughtItem,
   StartingChoice,
   applyStartingEquipment,
   goldLeftCp,
   goldOnlyPackage,
   itemIndex,
   parseStartingEquipment,
+  sameBought,
   shopCatalog,
   shopPriceCp,
 } from '../../core/rules/starting-equipment';
@@ -315,9 +318,14 @@ export class CharacterCreate implements LeaveCheck {
   );
   protected readonly bought = computed(() =>
     this.startChoice()
-      .bought.map((b) => ({ ...b, item: this.items.get(b.itemId)!, price: 0 }))
+      .bought.map((b) => ({
+        ...b,
+        item: this.items.get(b.itemId)!,
+        base: b.baseId ? this.items.get(b.baseId) : undefined,
+        price: 0,
+      }))
       .filter((b) => b.item)
-      .map((b) => ({ ...b, price: shopPriceCp(b.item) ?? 0 })),
+      .map((b) => ({ ...b, price: shopPriceCp(b.item, b.bonus) ?? 0 })),
   );
   /** Everything that can be bought: items with a price, magic ones at the DMG price. */
   protected readonly shopItems = computed(() => shopCatalog(this.items.values()));
@@ -334,19 +342,19 @@ export class CharacterCreate implements LeaveCheck {
     const max = mode === 'start' ? this.startGold() : this.goldLeft();
     return this.shopItems().filter((i) => (shopPriceCp(i) ?? Infinity) <= max);
   });
-  /** The armors (not shields) the character carries: the only ones that can be worn. */
-  protected readonly carriedArmor = computed(() => {
-    const seen = new Set<string>();
-    return this.draft()
-      .inventory.map((e) => (e.itemId ? this.items.get(e.itemId) : undefined))
-      .filter(
-        (i): i is Item =>
-          !!i?.armor && i.armor.kind !== 'shield' && !seen.has(i.id) && !!seen.add(i.id),
-      );
-  });
+  /** The armors (not shields) the character carries, magic ones with their base: the ones to wear. */
+  protected readonly carriedArmor = computed(() =>
+    this.draft()
+      .inventory.map((e) => ({ entry: e, item: e.itemId ? this.items.get(e.itemId) : undefined }))
+      .filter((x) => armorSlot(x.item) === 'armor')
+      .map((x) => {
+        const gear = gearOf(x.entry, x.item, this.items)!;
+        return { id: x.entry.id, item: x.item!, base: gear.base, equipped: x.entry.equipped };
+      }),
+  );
   protected readonly carriesShield = computed(() =>
     this.draft().inventory.some(
-      (e) => e.itemId && this.items.get(e.itemId)?.armor?.kind === 'shield',
+      (e) => e.itemId && armorSlot(this.items.get(e.itemId)) === 'shield',
     ),
   );
   /** How many of each item the character carries (packages, purchases and hand-added). */
@@ -1014,22 +1022,65 @@ export class CharacterCreate implements LeaveCheck {
     this.applyStart({ ...this.startChoice(), [kind]: letter });
   }
 
-  /** Buys one more (if the gold left is enough). */
-  protected buy(itemId: string): void {
+  /** A magic weapon or armor in the shop whose base (and +N) is being asked before buying it. */
+  protected readonly buying = signal<{
+    item: Item;
+    bases: Item[];
+    bonuses: BonusOption[];
+    baseId: string;
+    bonus: number;
+  } | null>(null);
+
+  /** The shop's pick: bought at once, or after choosing the base when several fit. */
+  protected pick(itemId: string): void {
     const item = this.items.get(itemId);
-    const price = item ? shopPriceCp(item) : null;
+    const choices = item ? gearChoices(item, this.items.values()) : null;
+    if (!item || !choices) return this.buy(itemId);
+    this.buying.set({
+      item,
+      ...choices,
+      baseId: choices.bases.length === 1 ? choices.bases[0].id : '',
+      bonus: choices.bonuses[0]?.bonus ?? 0,
+    });
+  }
+
+  protected buyingPatch(patch: { baseId?: string; bonus?: number }): void {
+    const b = this.buying();
+    if (b) this.buying.set({ ...b, ...patch });
+  }
+
+  protected buyingPrice(): number {
+    const b = this.buying();
+    return b ? (shopPriceCp(b.item, b.bonuses.length > 1 ? b.bonus : undefined) ?? 0) : 0;
+  }
+
+  protected confirmBuying(): void {
+    const b = this.buying();
+    if (!b || (b.bases.length > 1 && !b.baseId)) return;
+    const affordable = this.buyingPrice() <= this.goldLeft();
+    this.buy(b.item.id, {
+      ...(b.baseId ? { baseId: b.baseId } : {}),
+      ...(b.bonuses.length > 1 ? { bonus: b.bonus } : {}),
+    });
+    if (affordable) this.buying.set(null);
+  }
+
+  /** Buys one more (if the gold left is enough). */
+  protected buy(itemId: string, gear: { baseId?: string; bonus?: number } = {}): void {
+    const item = this.items.get(itemId);
+    const price = item ? shopPriceCp(item, gear.bonus) : null;
     if (price === null || price > this.goldLeft()) return;
     const bought = [...this.startChoice().bought];
-    const i = bought.findIndex((b) => b.itemId === itemId);
+    const i = bought.findIndex((x) => sameBought(x, itemId, gear));
     if (i >= 0) bought[i] = { ...bought[i], qty: bought[i].qty + 1 };
-    else bought.push({ itemId, qty: 1 });
+    else bought.push({ itemId, qty: 1, ...gear });
     this.applyStart({ ...this.startChoice(), bought });
   }
 
   /** Gives one back. */
-  protected unbuy(itemId: string): void {
+  protected unbuy(line: BoughtItem): void {
     const bought = this.startChoice()
-      .bought.map((b) => (b.itemId === itemId ? { ...b, qty: b.qty - 1 } : b))
+      .bought.map((b) => (sameBought(b, line.itemId, line) ? { ...b, qty: b.qty - 1 } : b))
       .filter((b) => b.qty > 0);
     this.applyStart({ ...this.startChoice(), bought });
   }

@@ -1,6 +1,7 @@
 import { Character, Coins, InventoryEntry } from '../models/character';
 import { Item } from '../models/compendium';
 import { toggleEquip } from '../characters/inventory';
+import { GearChoice, armorSlot, bonusOptions } from '../characters/magic-base';
 
 /**
  * Starting equipment as the 2024 books give it: "Choose A or B: (A) Chain Mail, 8 Javelins, ...
@@ -26,11 +27,23 @@ export interface EquipmentPackage {
   gold: number;
 }
 
+/**
+ * An item bought in the shop. Magic weapons and armor carry the base (and the +1, +2 or +3) the
+ * player chose, and the same item with another base is another line.
+ */
+export interface BoughtItem extends GearChoice {
+  itemId: string;
+  qty: number;
+}
+
+export const sameBought = (a: BoughtItem, itemId: string, gear: GearChoice = {}) =>
+  a.itemId === itemId && a.baseId === gear.baseId && a.bonus === gear.bonus;
+
 /** What the wizard remembers of the choice (letters), and what was bought with the gold. */
 export interface StartingChoice {
   class: string | null;
   background: string | null;
-  bought: { itemId: string; qty: number }[];
+  bought: BoughtItem[];
   /** 'gold': no packages, only their gold, to buy everything (absent: the book's packages). */
   mode?: 'packages' | 'gold';
 }
@@ -170,12 +183,18 @@ export const MAGIC_PRICE_GP: Record<string, number> = {
 };
 
 /** Shop price in copper: the listed cost, or the DMG price by rarity (half for consumables). */
-export function shopPriceCp(item: Item): number | null {
+export function shopPriceCp(item: Item, bonus?: number): number | null {
   if (item.cost) {
     const rate = COIN_CP[item.cost.unit.toLowerCase()];
     return rate === undefined ? null : item.cost.amount * rate;
   }
-  const gp = item.magic?.rarity ? MAGIC_PRICE_GP[item.magic.rarity] : undefined;
+  // "Weapon, +1, +2 or +3": the rarity (and the price) go with the bonus, the lowest one by default
+  const options = bonusOptions(item);
+  const rarity =
+    (options.find((o) => o.bonus === bonus) ?? options[0])?.rarity ??
+    item.magic?.rarity ??
+    undefined;
+  const gp = rarity ? MAGIC_PRICE_GP[rarity] : undefined;
   if (gp === undefined) return null;
   const consumable = /potion|scroll/.test(item.magic!.type);
   return (consumable ? gp / 2 : gp) * 100;
@@ -204,7 +223,7 @@ export function goldLeftCp(
   );
   const spent = choice.bought.reduce((sum, b) => {
     const it = items.get(b.itemId);
-    return sum + (it ? (shopPriceCp(it) ?? 0) * b.qty : 0);
+    return sum + (it ? (shopPriceCp(it, b.bonus) ?? 0) * b.qty : 0);
   }, 0);
   return gold * 100 - spent;
 }
@@ -225,9 +244,13 @@ export function applyStartingEquipment(
   index: Map<string, Item>,
 ): Character {
   const inventory: InventoryEntry[] = ch.inventory.filter((e) => e.source !== 'start');
-  const add = (itemId: string | null, name: string, qty: number) => {
+  const add = (itemId: string | null, name: string, qty: number, gear: GearChoice = {}) => {
     const same = inventory.find(
-      (e) => e.source === 'start' && (itemId ? e.itemId === itemId : e.name === name),
+      (e) =>
+        e.source === 'start' &&
+        (itemId
+          ? e.itemId === itemId && e.baseId === gear.baseId && e.bonus === gear.bonus
+          : e.name === name),
     );
     if (same) {
       same.qty += qty;
@@ -243,6 +266,8 @@ export function applyStartingEquipment(
       qty,
       equipped: false,
       source: 'start',
+      ...(itemId && gear.baseId ? { baseId: gear.baseId } : {}),
+      ...(itemId && gear.bonus ? { bonus: gear.bonus } : {}),
     });
   };
   for (const k of ['class', 'background'] as const) {
@@ -256,7 +281,8 @@ export function applyStartingEquipment(
       } else add(line.itemId, line.name, line.qty);
     }
   }
-  for (const b of choice.bought) if (items.has(b.itemId)) add(b.itemId, '', b.qty);
+  for (const b of choice.bought)
+    if (items.has(b.itemId)) add(b.itemId, '', b.qty, { baseId: b.baseId, bonus: b.bonus });
 
   let out: Character = {
     ...ch,
@@ -274,10 +300,7 @@ export function applyStartingEquipment(
     },
   };
   const fresh = inventory.filter((e) => e.source === 'start' && e.itemId);
-  const armor = fresh.find((e) => {
-    const a = items.get(e.itemId!)?.armor;
-    return a && a.kind !== 'shield';
-  });
+  const armor = fresh.find((e) => armorSlot(items.get(e.itemId!)) === 'armor');
   if (armor && !out.equipped.armorId) out = toggleEquip(out, armor.id, items);
   const shield = fresh.find((e) => isShield(items, e));
   if (shield && !out.equipped.shield) out = toggleEquip(out, shield.id, items);
@@ -285,7 +308,7 @@ export function applyStartingEquipment(
 }
 
 const isShield = (items: Map<string, Item>, e: InventoryEntry) =>
-  !!e.itemId && items.get(e.itemId)?.armor?.kind === 'shield';
+  !!e.itemId && armorSlot(items.get(e.itemId)) === 'shield';
 
 function slug(s: string): string {
   return (

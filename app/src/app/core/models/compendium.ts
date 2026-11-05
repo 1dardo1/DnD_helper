@@ -223,6 +223,8 @@ export interface Item extends Entry {
     subtype: string | null;
     attunement: boolean;
     attunementBy: string | null;
+    /** The line as the source gives it: "Weapon (Any), Uncommon (+1), Rare (+2)...". */
+    raw?: string;
   };
 }
 
