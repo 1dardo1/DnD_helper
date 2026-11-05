@@ -24,6 +24,18 @@ import {
   removeReplicated,
   transformReplicated,
 } from '../../core/artificer/replicated-state';
+import {
+  SlotSource,
+  availableSlotLevels,
+  availableTempSlots,
+  canDrain,
+  chargeMagicItem,
+  chargesLeft,
+  drainMagicItem,
+  drainSlotLevel,
+  maxCharges,
+  setCharges,
+} from '../../core/artificer/tinker';
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
@@ -46,6 +58,8 @@ const TINKER_LEVEL = 6;
 })
 export class ReplicatePanel {
   readonly character = input.required<Character>();
+  /** Spell slots per level (index 0 = level 1), to pay for Charge Magic Item. */
+  readonly slots = input<readonly number[]>([]);
   readonly changed = output<Character>();
 
   private readonly rules = inject(RulesDataService);
@@ -78,13 +92,43 @@ export class ReplicatePanel {
     return d ? knownPlans(this.character().choices.options, d.options, d.rules.items) : [];
   });
   protected readonly created = computed(() =>
-    createdItems(this.character()).map((r) => ({
-      ...r,
-      item: this.data.value()?.rules.items.get(r.itemId),
-      name: this.character().inventory.find((e) => e.id === r.inventoryId)?.name || r.itemId,
-      plan: this.plans().find((p) => p.id === r.planId),
-    })),
+    createdItems(this.character())
+      .map((r) => ({
+        ...r,
+        item: this.data.value()?.rules.items.get(r.itemId),
+        name: this.character().inventory.find((e) => e.id === r.inventoryId)?.name || r.itemId,
+        plan: this.plans().find((p) => p.id === r.planId),
+        maxCharges: maxCharges(this.data.value()?.rules.items.get(r.itemId)),
+        drainLevel: drainSlotLevel(this.data.value()?.rules.items.get(r.itemId)),
+      }))
+      .map((c) => ({
+        ...c,
+        charges: c.maxCharges ? chargesLeft(this.character(), c.inventoryId, c.maxCharges) : 0,
+      })),
   );
+  protected readonly drainFree = computed(() => canDrain(this.character()));
+  protected readonly tempSlots = computed(() => this.character().state.tempSlots ?? []);
+  /** Slots that can pay for Charge Magic Item: normal levels with one left, then extra ones. */
+  protected readonly chargeSources = computed(() => {
+    const st = this.character().state;
+    const slots = this.slots();
+    const out: { value: string; source: SlotSource; level: number; left: number | null }[] = [];
+    for (const level of availableSlotLevels(st, slots))
+      out.push({
+        value: `s${level}`,
+        source: { kind: 'slot', level },
+        level,
+        left: slots[level - 1] - Math.min(slots[level - 1], st.spentSlots[level - 1] ?? 0),
+      });
+    for (const t of availableTempSlots(st))
+      out.push({
+        value: `t${t.index}`,
+        source: { kind: 'temp', index: t.index },
+        level: t.level,
+        left: null,
+      });
+    return out;
+  });
   protected readonly tinker = computed(() => this.level() >= TINKER_LEVEL);
   protected readonly canTransmute = computed(() => canTransmute(this.character()));
   /** Plans without a created item yet. */
@@ -100,6 +144,8 @@ export class ReplicatePanel {
   protected readonly message = signal('');
   /** Creation whose Transmute target is being picked (inventory id). */
   protected readonly transforming = signal<string | null>(null);
+  /** Creation whose Charge Magic Item slot is being picked (inventory id). */
+  protected readonly charging = signal<string | null>(null);
   /** Long Rest question: 'ask' (keep / change) or 'change' (pick what goes and what is made). */
   protected readonly mode = signal<'ask' | 'change'>('ask');
   protected readonly removing = signal<string[]>([]);
@@ -153,6 +199,37 @@ export class ReplicatePanel {
     this.transforming.set(null);
     this.message.set('');
     if (next) this.changed.emit(next);
+  }
+
+  protected charge(inventoryId: string, value: string): void {
+    const items = this.data.value()?.rules.items;
+    const src = this.chargeSources().find((x) => x.value === value);
+    if (!items || !src) return;
+    const next = chargeMagicItem(this.character(), inventoryId, src.source, this.slots(), items);
+    this.charging.set(null);
+    if (!next) return;
+    const name = this.created().find((c) => c.inventoryId === inventoryId)?.name ?? '';
+    this.message.set(this.i18n.t('plans.chargeDone', { name: this.dataText.shortName(name) }));
+    this.changed.emit(next);
+  }
+
+  protected adjustCharges(inventoryId: string, max: number, delta: number): void {
+    const cur = chargesLeft(this.character(), inventoryId, max);
+    this.changed.emit(setCharges(this.character(), inventoryId, cur + delta, max));
+  }
+
+  protected drain(inventoryId: string): void {
+    const items = this.data.value()?.rules.items;
+    const c = this.created().find((x) => x.inventoryId === inventoryId);
+    if (!items || !c?.drainLevel) return;
+    const name = this.dataText.shortName(c.name);
+    if (!confirm(this.i18n.t('plans.drainConfirm', { name, level: c.drainLevel }))) return;
+    const next = drainMagicItem(this.character(), inventoryId, items);
+    if (!next) return;
+    this.charging.set(null);
+    this.transforming.set(null);
+    this.message.set(this.i18n.t('plans.drainDone', { name, level: c.drainLevel }));
+    this.changed.emit(next);
   }
 
   // -- Long Rest question --

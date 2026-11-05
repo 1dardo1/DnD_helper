@@ -147,7 +147,7 @@
   </div>
 
   <div class="cols">
-    @if (slots().length || sheet().spellcasting.pact) {
+    @if (slots().length || sheet().spellcasting.pact || tempSlots().length) {
       <fieldset>
         <legend>{{ 'play.slots' | t }}</legend>
         @for (sl of slots(); track sl.level) {
@@ -165,6 +165,21 @@
               }
             </span>
             <small>{{ 'play.left' | t: { left: sl.max - sl.spent, max: sl.max } }}</small>
+          </div>
+        }
+        @for (t of tempSlots(); track $index) {
+          <div class="row">
+            <span class="label">{{ 'play.tempSlot' | t: { level: t.level } }}</span>
+            <span class="pips">
+              <input
+                type="checkbox"
+                class="pip"
+                [checked]="t.spent"
+                (change)="setTempSpent($index, !t.spent)"
+                [attr.aria-label]="'play.tempSlotPip' | t: { level: t.level }"
+              />
+            </span>
+            <small>{{ 'play.left' | t: { left: t.spent ? 0 : 1, max: 1 } }}</small>
           </div>
         }
         @if (sheet().spellcasting.pact; as pact) {

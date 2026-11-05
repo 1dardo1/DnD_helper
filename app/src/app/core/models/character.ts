@@ -1,4 +1,5 @@
 import { ReplicatedItem, normalizeReplicated } from '../artificer/replicated-state';
+import { TempSlot, normalizeCharges, normalizeTempSlots } from '../artificer/tinker';
 import { SummonsState, normalizeSummons } from '../summons/summon-state';
 import { Ability } from './compendium';
 
@@ -112,6 +113,10 @@ export interface Character {
     replicated?: ReplicatedItem[];
     /** A Long Rest asked whether to keep or change the created items; cleared once answered. */
     replicatePrompt?: boolean;
+    /** Charges left of created items with charges, by inventory id (absent: full). */
+    charges?: Record<string, number>;
+    /** Extra slots from Drain Magic Item; they disappear at the end of a Long Rest. */
+    tempSlots?: TempSlot[];
   };
   notes: string;
 }
@@ -236,6 +241,12 @@ function normalizeState(base: Character['state'], raw: Character['state'] | unde
   if (replicated.length) state.replicated = replicated;
   else delete state.replicated;
   if (raw?.replicatePrompt !== true) delete state.replicatePrompt;
+  const charges = normalizeCharges(raw?.charges);
+  if (Object.keys(charges).length) state.charges = charges;
+  else delete state.charges;
+  const tempSlots = normalizeTempSlots(raw?.tempSlots);
+  if (tempSlots.length) state.tempSlots = tempSlots;
+  else delete state.tempSlots;
   return state;
 }
 

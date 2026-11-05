@@ -39,6 +39,17 @@
                 {{ 'plans.transform' | t }}
               </button>
             }
+            @if (tinker() && c.drainLevel) {
+              <button
+                type="button"
+                class="btn-ghost"
+                [disabled]="!drainFree()"
+                [title]="(drainFree() ? 'plans.drain' : 'plans.drainUsed') | t"
+                (click)="drain(c.inventoryId)"
+              >
+                {{ 'plans.drain' | t }}
+              </button>
+            }
             <button
               type="button"
               class="btn-ghost"
@@ -48,6 +59,58 @@
               {{ 'plans.delete' | t }}
             </button>
           </div>
+          @if (c.maxCharges; as max) {
+            <div class="charges">
+              <button
+                type="button"
+                class="btn-ghost step"
+                [disabled]="c.charges <= 0"
+                [attr.aria-label]="('plans.chargeLess' | t) + ': ' + c.name"
+                (click)="adjustCharges(c.inventoryId, max, -1)"
+              >
+                −
+              </button>
+              <span class="count-charges">{{
+                'plans.charges' | t: { n: c.charges, max: max }
+              }}</span>
+              <button
+                type="button"
+                class="btn-ghost step"
+                [disabled]="c.charges >= max"
+                [attr.aria-label]="('plans.chargeMore' | t) + ': ' + c.name"
+                (click)="adjustCharges(c.inventoryId, max, 1)"
+              >
+                +
+              </button>
+              @if (tinker() && c.charges < max) {
+                <button
+                  type="button"
+                  class="btn-ghost"
+                  [disabled]="!chargeSources().length"
+                  [title]="chargeSources().length ? '' : ('plans.chargeNoSlots' | t)"
+                  (click)="charging.set(charging() === c.inventoryId ? null : c.inventoryId)"
+                >
+                  {{ 'plans.charge' | t }}
+                </button>
+              }
+            </div>
+            @if (charging() === c.inventoryId) {
+              <label class="pick">
+                {{ 'plans.chargeWith' | t }}
+                <select (change)="charge(c.inventoryId, value($event))">
+                  <option value="">—</option>
+                  @for (s of chargeSources(); track s.value) {
+                    <option [value]="s.value">
+                      {{
+                        (s.left === null ? 'plans.chargeTemp' : 'plans.chargeSlot')
+                          | t: { level: s.level, left: s.left ?? 0 }
+                      }}
+                    </option>
+                  }
+                </select>
+              </label>
+            }
+          }
           @if (transforming() === c.inventoryId) {
             <label class="pick">
               {{ 'plans.transformInto' | t }}
@@ -64,6 +127,21 @@
         <li class="muted">{{ 'plans.none' | t }}</li>
       }
     </ul>
+
+    @if (tempSlots().length) {
+      <h3>{{ 'plans.tempTitle' | t }}</h3>
+      <ul class="list temp">
+        @for (t of tempSlots(); track $index) {
+          <li>
+            <strong>{{ 'plans.tempSlot' | t: { level: t.level } }}</strong>
+            <em class="badge">{{ (t.spent ? 'plans.tempSpent' : 'plans.tempFree') | t }}</em>
+          </li>
+        }
+      </ul>
+      <p class="rule">
+        <small>{{ 'plans.tempRule' | t }}</small>
+      </p>
+    }
 
     <h3>{{ 'plans.knownTitle' | t }}</h3>
     <ul class="list">

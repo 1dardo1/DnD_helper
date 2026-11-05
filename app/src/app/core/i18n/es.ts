@@ -1374,7 +1374,7 @@ export const es: Record<keyof typeof en, string> = {
   'plans.made': 'Creado',
   'plans.noPlans': 'Aún no conoces ningún plano: elígelos al subir de nivel.',
   'plans.tinker':
-    'Manitas de objetos mágicos: también puedes transformar un objeto creado en otro de tus planos, una vez por descanso largo.',
+    'Manitas de objetos mágicos: también puedes transformar un objeto creado en otro de tus planos, una vez por descanso largo; cargarlo con un espacio de conjuro y drenarlo para obtener un espacio temporal.',
   'plans.restTitle': 'Descanso largo: objetos creados con Replicar objeto mágico',
   'plans.restRule':
     'Los objetos creados duran hasta que los sustituyas: solo desaparecen si superas tu máximo (el más antiguo) o mueres.',
@@ -1383,6 +1383,29 @@ export const es: Record<keyof typeof en, string> = {
   'plans.removeTitle': 'Objetos que quitas',
   'plans.makeTitle': 'Objetos que creas (máximo {max})',
   'plans.apply': 'Aplicar',
+  'plans.charges': 'Cargas {n} / {max}',
+  'plans.chargeLess': 'Quitar una carga',
+  'plans.chargeMore': 'Añadir una carga',
+  'plans.charge': 'Cargar',
+  'plans.chargeWith': 'Gastar un espacio para recargar (recupera tantas cargas como su nivel):',
+  'plans.chargeSlot': 'Nivel {level} (quedan {left})',
+  'plans.chargeTemp': 'Espacio extra de nivel {level}',
+  'plans.chargeNoSlots': 'No te quedan espacios de conjuro.',
+  'plans.chargeDone': '{name} recupera cargas.',
+  'plans.drain': 'Drenar',
+  'plans.drainUsed': 'Drenar (usado hasta el descanso largo)',
+  'plans.drainConfirm':
+    '¿Drenar {name}? El objeto desaparece y obtienes un espacio de conjuro temporal de nivel {level} hasta el próximo descanso largo.',
+  'plans.drainDone': '{name} drenado: espacio extra de nivel {level} hasta el descanso largo.',
+  'plans.drainRarity':
+    'Solo se pueden drenar objetos Comunes (nivel 1), Poco comunes o Raros (nivel 2).',
+  'plans.tempTitle': 'Espacios extra (Drenar objeto mágico)',
+  'plans.tempSlot': 'Nivel {level}',
+  'plans.tempSpent': 'gastado',
+  'plans.tempFree': 'disponible',
+  'plans.tempRule': 'Desaparecen al terminar un descanso largo.',
+  'play.tempSlot': 'Extra (Drenar) nivel {level}',
+  'play.tempSlotPip': 'Espacio extra de nivel {level}',
   'plans.vanished': 'Ha desaparecido: {names}.',
   'plans.madeWith': 'Creado con Replicar objeto mágico (artificiero)',
 };

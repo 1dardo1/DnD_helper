@@ -232,7 +232,11 @@
     (changed)="saveCharacter($event)"
   />
 
-  <app-replicate-panel [character]="c" (changed)="saveCharacter($event)" />
+  <app-replicate-panel
+    [character]="c"
+    [slots]="s.spellcasting.slots"
+    (changed)="saveCharacter($event)"
+  />
 
   <section>
     <div class="section-head">

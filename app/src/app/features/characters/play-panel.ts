@@ -1,6 +1,7 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
 
 import { promptAfterLongRest } from '../../core/artificer/replicated-state';
+import { setTempSlotSpent } from '../../core/artificer/tinker';
 import { DataNamePipe } from '../../core/i18n/data-text.service';
 import { TermPipe } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
@@ -82,6 +83,7 @@ export class PlayPanel {
       }))
       .filter((s) => s.max > 0),
   );
+  protected readonly tempSlots = computed(() => this.state().tempSlots ?? []);
   protected readonly conModifier = computed(() => this.sheet().abilities.CON.modifier);
   protected readonly hitDice = computed(() =>
     this.sheet().hitPoints.hitDice.map((d) => ({
@@ -132,6 +134,10 @@ export class PlayPanel {
 
   protected tapSlot(level: number, max: number, spent: number, index: number): void {
     this.emit(setSpentSlots(this.state(), level, tapPip(spent, index), max));
+  }
+
+  protected setTempSpent(index: number, spent: boolean): void {
+    this.emit(setTempSlotSpent(this.state(), index, spent));
   }
 
   protected tapPact(max: number, index: number): void {

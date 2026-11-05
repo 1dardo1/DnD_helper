@@ -1,4 +1,5 @@
 import { removeEntry, uniqueId } from '../characters/inventory';
+import { dropCharges } from './tinker';
 import type { Character } from '../models/character';
 import type { Item } from '../models/compendium';
 
@@ -118,7 +119,7 @@ export function removeReplicated(
   items: Map<string, Item>,
 ): Character {
   const rest = createdItems(ch).filter((r) => r.inventoryId !== inventoryId);
-  return withState(removeEntry(ch, inventoryId, items), rest);
+  return withState(dropCharges(removeEntry(ch, inventoryId, items), inventoryId), rest);
 }
 
 /**
@@ -135,7 +136,7 @@ export function transformReplicated(
   const list = createdItems(ch);
   const old = list.find((r) => r.inventoryId === inventoryId);
   if (!old || !canTransmute(ch) || list.some((r) => r.planId === plan.planId)) return null;
-  const without = removeEntry(ch, inventoryId, items);
+  const without = dropCharges(removeEntry(ch, inventoryId, items), inventoryId);
   const id = uniqueId(without.inventory, `replicated-${plan.itemId}`);
   const at = ch.inventory.findIndex((e) => e.id === inventoryId);
   const inventory = [...without.inventory];

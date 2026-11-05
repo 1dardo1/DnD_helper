@@ -322,8 +322,9 @@ export function shortRest(state: PlayState, resources: PlayResource[]): PlayStat
  * HP are lost and Exhaustion goes down one level. Heroic Inspiration and conditions are kept.
  */
 export function longRest(state: PlayState): PlayState {
+  const { tempSlots: _temp, ...rest } = state; // extra slots from Drain Magic Item end here
   return {
-    ...state,
+    ...rest,
     hpCurrent: null,
     hpTemp: 0,
     spentSlots: [0, 0, 0, 0, 0, 0, 0, 0, 0],
