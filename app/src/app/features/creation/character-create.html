@@ -769,7 +769,7 @@
                         <option value="" [selected]="!p.baseId">{{ 'gear.choose' | t }}</option>
                         @for (b of p.bases; track b.id) {
                           <option [value]="b.id" [selected]="b.id === p.baseId">
-                            {{ b.name | dataName }}
+                            {{ baseLabel(b) }}
                           </option>
                         }
                       </select>

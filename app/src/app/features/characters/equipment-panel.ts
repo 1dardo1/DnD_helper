@@ -22,7 +22,7 @@ import {
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TermPipe } from '../../core/i18n/glossary';
-import { TranslatePipe } from '../../core/i18n/i18n.service';
+import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, Coins, InventoryEntry } from '../../core/models/character';
 import { Item, Spell } from '../../core/models/compendium';
 import { WeaponEntry, attacksFor } from '../../core/rules/attacks';
@@ -34,6 +34,7 @@ import {
   levelStats,
   spellBinding,
 } from '../../core/spell-items/spell-items';
+import { baseLabel } from '../../core/characters/base-label';
 import { SpellItemPicker } from '../../shared/spell-item-picker';
 import { defaultOrder } from '../../shared/picker/entry-order';
 import { normalise, rankName } from '../compendium/compendium-search';
@@ -54,6 +55,7 @@ export class EquipmentPanel {
 
   private readonly compendium = inject(CompendiumService);
   private readonly dataText = inject(DataTextService);
+  private readonly i18n = inject(I18nService);
 
   private readonly items = resource({
     loader: async () => {
@@ -167,6 +169,10 @@ export class EquipmentPanel {
 
   protected useUp(e: InventoryEntry): void {
     this.changed.emit(consumeSpellItem(this.character(), e.id));
+  }
+
+  protected baseLabel(b: Item): string {
+    return baseLabel(b, this.i18n, this.dataText);
   }
 
   protected add(item: Item | null): void {

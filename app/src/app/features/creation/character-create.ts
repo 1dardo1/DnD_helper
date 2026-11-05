@@ -61,6 +61,7 @@ import {
   toggleSpellFor,
 } from '../../core/creation/spell-choices';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
+import { baseLabel } from '../../core/characters/base-label';
 import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, newCharacter, normalizeCharacter } from '../../core/models/character';
@@ -505,6 +506,10 @@ export class CharacterCreate implements LeaveCheck {
 
   protected readonly skillLabel = (s: string) => this.i18n.t(`skill.${s}` as never);
   protected readonly abilityLabel = (a: string) => this.i18n.t(`ability.${a}` as never);
+
+  protected baseLabel(b: Item): string {
+    return baseLabel(b, this.i18n, this.dataText);
+  }
 
   /** Option group label: the glossary's, else "eldritch-invocation" → "Eldritch Invocation". */
   protected groupLabel(group: string): string {
