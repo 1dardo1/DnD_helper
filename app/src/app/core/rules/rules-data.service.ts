@@ -9,13 +9,14 @@ export class RulesDataService {
   private readonly compendium = inject(CompendiumService);
 
   async load(): Promise<RulesData> {
-    const [classes, subclasses, species, backgrounds, feats, items] = await Promise.all([
+    const [classes, subclasses, species, backgrounds, feats, items, options] = await Promise.all([
       this.compendium.all('class'),
       this.compendium.all('subclass'),
       this.compendium.all('species'),
       this.compendium.all('background'),
       this.compendium.all('feat'),
       this.compendium.all('item'),
+      this.compendium.all('option'),
     ]);
     const byId = <T extends { id: string }>(xs: T[]) => new Map(xs.map((x) => [x.id, x]));
     return {
@@ -25,6 +26,7 @@ export class RulesDataService {
       backgrounds: byId(backgrounds),
       feats: byId(feats),
       items: byId(items),
+      options: byId(options),
     };
   }
 }

@@ -99,8 +99,17 @@ describe('computeSheet', () => {
     },
     features: [
       feature('Rage', 1),
-      feature('Unarmored Defense', 1),
-      feature('Fast Movement', 5),
+      {
+        name: 'Unarmored Defense',
+        level: 1,
+        description:
+          "While you aren't wearing any armor, your base Armor Class equals 10 plus your Dexterity and Constitution modifiers. You can use a Shield and still gain this benefit.",
+      },
+      {
+        name: 'Fast Movement',
+        level: 5,
+        description: "Your speed increases by 10 feet while you aren't wearing Heavy armor.",
+      },
       feature('Brutal Strike', 9),
     ],
   });
@@ -116,7 +125,15 @@ describe('computeSheet', () => {
     size: ['Medium'],
     speed: { walk: 30 },
     darkvision: 120,
-    traits: [feature('Darkvision', 1), feature('Dwarven Toughness', 1)],
+    traits: [
+      feature('Darkvision', 1),
+      {
+        name: 'Dwarven Toughness',
+        level: 1,
+        description:
+          'Your Hit Point maximum increases by 1, and it increases by 1 again whenever you gain a level.',
+      },
+    ],
     variants: [],
   };
   const soldier: Background = {

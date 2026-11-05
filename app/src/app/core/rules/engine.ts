@@ -2,6 +2,7 @@ import { Character, FeatChoice } from '../models/character';
 import {
   Ability,
   Background,
+  ClassOption,
   DndClass,
   Feat,
   Feature,
@@ -14,13 +15,17 @@ import { wornGear } from '../characters/magic-base';
 import { isCustomId } from '../homebrew/custom-background';
 import {
   FeatSource,
+  FeatSpellGrant,
+  RuleText,
   abilityRule,
   featList,
   featPicks,
   featRules,
+  slug,
   listOfFeatName,
 } from './feat-effects';
 import { multiclassGains } from './multiclass';
+import { TraitRules, traitRules } from './trait-effects';
 import { Bonus, Sheet, SheetFeatSpell, SheetFeatUse, SheetFeature, SheetWarning } from './sheet';
 import { ABILITIES, MULTICLASS_SLOTS, SKILL_ABILITY, modifier, proficiencyBonus } from './tables';
 
@@ -32,6 +37,8 @@ export interface RulesData {
   backgrounds: Map<string, Background>;
   feats: Map<string, Feat>;
   items: Map<string, Item>;
+  /** Class options (invocations, maneuvers, metamagic...); absent = none known. */
+  options?: Map<string, ClassOption>;
 }
 
 /** Progression columns that are spellcasting, not class resources. */
@@ -147,7 +154,35 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       description: f.description,
     });
   }
+  // chosen class options (invocations, maneuvers, metamagic...) are listed with the class
+  const chosenOptions: { opt: ClassOption; classLevel: number; classId: string }[] = [];
+  for (const id of ch.choices.options ?? []) {
+    const opt = data.options?.get(id);
+    const c = opt && classes.find((k) => k.cls.id === opt.classId);
+    if (!opt || !c) continue;
+    chosenOptions.push({ opt, classLevel: c.level, classId: c.cls.id });
+    const sub = opt.subclassId ? data.subclasses.get(opt.subclassId) : undefined;
+    features.push({
+      name: opt.name,
+      level: opt.prerequisites?.level ?? 1,
+      source: sub
+        ? { type: 'subclass', id: sub.id, name: sub.name }
+        : { type: 'class', id: c.cls.id, name: c.cls.name },
+      description: opt.description,
+    });
+  }
   const has = (name: string) => features.some((f) => f.name.toLowerCase() === name.toLowerCase());
+
+  // -- what the text of every trait, feature, option and feat gives -----------------------------
+  const traits = traitSources(
+    classes,
+    species,
+    ch.species?.variant ?? null,
+    totalLevel,
+    chosenOptions,
+    featSources,
+  );
+  const fx = (t: TraitSource): TraitRules => traitRules(t.text, { situational: t.situational });
 
   // -- abilities -----------------------------------------------------------------------
   const epicSources = new Set(feats.filter((f) => f.category === 'epic-boon').map((f) => f.id));
@@ -181,7 +216,13 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     };
   }
   const featSkills = featSources.flatMap((x) => choiceOf(x).skills ?? []);
-  const proficient = new Set([...(background?.skills ?? []), ...ch.choices.skills, ...featSkills]);
+  const traitSkills = traits.flatMap((t) => fx(t).skills);
+  const proficient = new Set([
+    ...(background?.skills ?? []),
+    ...ch.choices.skills,
+    ...featSkills,
+    ...traitSkills,
+  ]);
   const expertise = new Set(ch.choices.expertise);
   const jack = has('Jack of All Trades');
   const skills = Object.entries(SKILL_ABILITY).map(([id, ability]) => {
@@ -198,7 +239,10 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   const perception = skills.find((s) => s.id === 'perception')!.modifier;
   // 2024 Alert: "Initiative Proficiency"
   const alert = feats.some((f) => /initiative proficiency/i.test(f.description));
-  const initiative = mod('DEX') + (alert ? pb : 0);
+  const iniPb = alert || traits.some((t) => fx(t).initiative.pb);
+  const iniAbilities = new Set(traits.flatMap((t) => fx(t).initiative.abilities));
+  const initiative =
+    mod('DEX') + (iniPb ? pb : 0) + [...iniAbilities].reduce((n, a) => n + mod(a), 0);
 
   // -- hit points ----------------------------------------------------------------------
   let hpMax = 0;
@@ -212,7 +256,11 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   });
   // Tough (twice the level), Boon of Fortitude (+40): read from the feats' text
   for (const f of feats) hpMax += featRules(f).hpPerLevel * totalLevel + featRules(f).hpFlat;
-  if (has('Dwarven Toughness')) hpMax += totalLevel;
+  // Dwarven Toughness, Draconic Resilience...: "increases by N, and by M whenever you gain a level"
+  for (const t of traits) {
+    const g = fx(t).hpGrowth;
+    if (g) hpMax += g.base + g.per * Math.max(0, t.scope - t.level);
+  }
   const dice = new Map<number, number>();
   for (const c of classes) dice.set(c.cls.hitDie, (dice.get(c.cls.hitDie) ?? 0) + c.level);
 
@@ -235,22 +283,32 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       // heavy armor adds no Dexterity; medium armor caps it
       formula: `${armor.baseAC}${armor.dexCap === 0 ? '' : armor.dexCap === null ? ' + DEX' : ` + DEX (max ${armor.dexCap})`}${plus}${shield ? ' + shield' : ''}${defense ? ` + ${defense}` : ''}`,
     };
-  } else if (has('Unarmored Defense') && classes.some((c) => c.cls.id === 'monk') && !shield) {
-    armorClass = { value: 10 + mod('DEX') + mod('WIS'), formula: '10 + DEX + WIS' };
-  } else if (has('Unarmored Defense')) {
-    armorClass = {
-      value: 10 + mod('DEX') + mod('CON') + shield,
-      formula: `10 + DEX + CON${plus}${shield ? ' + shield' : ''}`,
-    };
   } else {
-    armorClass = {
-      value: 10 + mod('DEX') + shield,
-      formula: `10 + DEX${plus}${shield ? ' + shield' : ''}`,
-    };
+    // no armor: 10 + DEX, or the best "base Armor Class" a feature gives (Unarmored Defense,
+    // Draconic Resilience...), or Mage Armor cast at will (Armor of Shadows)
+    const alts = traits.flatMap((t) => fx(t).unarmored);
+    const mageArmor = traits.some((t) =>
+      featRules(t.text).spells.some((sp) => sp.id === 'mage-armor' && sp.atWill),
+    );
+    if (mageArmor) alts.push({ base: 13, abilities: ['DEX'], shield: true });
+    const tail = `${plus}${shield ? ' + shield' : ''}`;
+    armorClass = { value: 10 + mod('DEX') + shield, formula: `10 + DEX${tail}` };
+    for (const u of alts) {
+      if (!u.shield && shield) continue;
+      const value = u.base + u.abilities.reduce((n, x) => n + mod(x), 0) + shield;
+      if (value > armorClass.value)
+        armorClass = { value, formula: `${u.base} + ${u.abilities.join(' + ')}${tail}` };
+    }
   }
 
   const speed: Record<string, number> = { ...(species?.speed ?? { walk: 30 }) };
-  if (has('Fast Movement') && armor?.kind !== 'heavy') speed['walk'] += 10;
+  // "Your Speed increases to 35 feet" (Wood Elf)
+  speed['walk'] = Math.max(speed['walk'], ...traits.map((t) => fx(t).speedTo));
+  // Fast Movement, Roving: lost in Heavy armor
+  for (const t of traits)
+    for (const b of fx(t).armorSpeed)
+      if (b.unless === 'heavy' ? armor?.kind !== 'heavy' : !armor && !shield)
+        speed['walk'] += b.amount;
   // Speedy (+10), Transmuted Anatomy (+5)
   speed['walk'] += feats.reduce((n, f) => n + featRules(f).speed, 0);
   const monk = classes.find((c) => c.cls.id === 'monk');
@@ -261,6 +319,24 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     );
     if (bonus) speed['walk'] += bonus;
   }
+  // Fly / Swim / Climb Speed ("equal to your Speed" or a number of feet)
+  for (const t of traits)
+    for (const m of fx(t).speeds) {
+      const v = m.value === 'speed' ? speed['walk'] : m.value;
+      speed[m.kind] = Math.max(speed[m.kind] ?? 0, v);
+    }
+
+  // -- senses --------------------------------------------------------------------------------
+  const senses: Sheet['senses'] = [];
+  if (species?.darkvision)
+    senses.push({ kind: 'darkvision', range: species.darkvision, source: species.name });
+  for (const t of traits)
+    for (const x of fx(t).senses) {
+      const have = senses.find((y) => y.kind === x.kind);
+      if (!have) senses.push({ ...x, source: t.name });
+      else if (x.range > have.range) Object.assign(have, { range: x.range, source: t.name });
+    }
+  const darkvision = senses.find((x) => x.kind === 'darkvision')?.range ?? null;
 
   // -- spellcasting --------------------------------------------------------------------
   // A class casts through its own table, or through its subclass's (Eldritch Knight, Profane Soul...).
@@ -313,6 +389,36 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
 
   // -- what the feats give: spells, uses, proficiencies ----------------------------------------
   const granted = featGrants(featSources, ch, abilities, pb, totalLevel);
+  const fromTraits = traitGrants({
+    traits,
+    species,
+    variantName: ch.species?.variant ?? null,
+    subclasses: classes.flatMap((c) => (c.sub ? [{ sub: c.sub, level: c.level }] : [])),
+    ch,
+    abilities,
+    spellAbility: (classId) => spellClasses.find((x) => x.classId === classId)?.ability,
+    pb,
+    totalLevel,
+  });
+  granted.spells.push(...fromTraits.spells);
+  granted.uses.push(...fromTraits.uses);
+  granted.missing.push(...fromTraits.missing);
+  const resistances = [
+    ...new Set([
+      ...granted.resistances,
+      ...traits.flatMap((t) => fx(t).resistances),
+      ...fromTraits.resistances,
+    ]),
+  ];
+  const traitTools = traits.flatMap((t) => fx(t).tools);
+
+  // -- fighting styles and class numbers that go into the attacks ------------------------------
+  const combat = combatOf(
+    classes,
+    traits.map((t) => ({ t, r: fx(t) })),
+    abilities,
+    chosenOptions,
+  );
 
   // -- class resources -----------------------------------------------------------------
   const resources = classes.flatMap((c) =>
@@ -357,15 +463,17 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     },
     armorClass,
     speed,
-    darkvision: species?.darkvision ?? null,
+    darkvision,
+    senses: senses.filter((x) => x.kind !== 'darkvision'),
     size: ch.size ? [ch.size] : (species?.size ?? []),
     spellcasting: { classes: spellClasses, slots, pact },
     proficiencies: proficiencies(
       ch,
       classes.map((c) => c.cls),
       background,
-      granted.tools,
+      [...granted.tools, ...traitTools],
       featSources.flatMap((x) => featRules(x.feat).weapons),
+      feats,
     ),
     // Common, the chosen ones, and those a feature teaches (Druid's Druidic, Rogue's Thieves' Cant)
     languages: [
@@ -380,7 +488,8 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     features,
     featSpells: granted.spells,
     featUses: granted.uses,
-    resistances: granted.resistances,
+    resistances,
+    combat,
     featMissing: granted.missing,
     warnings,
   };
@@ -402,6 +511,7 @@ function proficiencies(
   background: Background | undefined,
   featTools: string[] = [],
   featWeapons: string[] = [],
+  feats: Feat[] = [],
 ): Sheet['proficiencies'] {
   const [first, ...rest] = classes;
   const armor = [...(first?.proficiencies.armor ?? [])];
@@ -418,6 +528,17 @@ function proficiencies(
   }
   tools.push(...ch.choices.toolChoices.flatMap((c) => c.tools), ...featTools);
   weapons.push(...featWeapons);
+  // Lightly / Moderately / Heavily Armored, Martial Weapon Training, Chef, Poisoner
+  for (const f of feats) {
+    const t = f.description ?? '';
+    for (const m of t.matchAll(/training with (Light|Medium|Heavy) armor( and Shields)?/gi)) {
+      armor.push(`${m[1]} armor`);
+      if (m[2]) armor.push('Shields');
+    }
+    if (/proficiency with Martial weapons/i.test(t)) weapons.push('Martial weapons');
+    for (const tool of ["Cook's Utensils", "Poisoner's Kit"])
+      if (new RegExp(`proficiency with ${tool}`, 'i').test(t)) tools.push(tool);
+  }
   const unique = (xs: string[]) => [...new Map(xs.map((x) => [x.toLowerCase(), x])).values()];
   return {
     armor: unique(armor.flatMap(armorName)),
@@ -517,7 +638,8 @@ function featGrants(
       cantrip: boolean | null;
       free: boolean;
       slots: boolean;
-      freeUses?: 1 | 'mod';
+      atWill?: boolean;
+      freeUses?: 1 | 'mod' | 'pb';
     }) => {
       const freeKey = g.free ? key(g.id) : null;
       spells.push({
@@ -532,6 +654,7 @@ function featGrants(
         attack,
         freeKey,
         slots: g.slots,
+        atWill: g.atWill,
       });
       if (freeKey)
         uses.push({
@@ -540,7 +663,12 @@ function featGrants(
           labelKey: null,
           feat: feat.name,
           kind: 'spell',
-          max: g.freeUses === 'mod' ? Math.max(1, abilities[ability].modifier) : 1,
+          max:
+            g.freeUses === 'mod'
+              ? Math.max(1, abilities[ability].modifier)
+              : g.freeUses === 'pb'
+                ? pb
+                : 1,
           rest: 'long',
         });
     };
@@ -583,7 +711,12 @@ function featGrants(
         labelKey: feat.id === 'lucky' ? 'play.res.luckPoints' : null,
         feat: feat.name,
         kind: 'use',
-        max: u.max === 'pb' ? pb : u.max,
+        max:
+          u.max === 'pb'
+            ? pb
+            : typeof u.max === 'string'
+              ? Math.max(1, abilities[u.max].modifier)
+              : u.max,
         rest: u.rest,
       });
 
@@ -631,4 +764,301 @@ const slugOf = (s: string) =>
 /** "minor-illusion" -> "Minor Illusion" (the compendium's own name replaces it on screen). */
 function nameOf(id: string): string {
   return id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+// -- traits: species, class, subclass, options and feats read for what their text gives ----------
+
+/** A piece of text that can give something: a trait, a feature, a chosen option, a feat. */
+interface TraitSource {
+  kind: 'class' | 'subclass' | 'species' | 'option' | 'feat';
+  name: string;
+  text: RuleText;
+  /** Level it is gained at (class level for class features; 1 for species). */
+  level: number;
+  /** Levels the character has in what grants it (class level, or the total level). */
+  scope: number;
+  classId?: string;
+  /** Only holds in a situation (Rage, Wild Shape, a form): resistances and senses are not applied. */
+  situational: boolean;
+}
+
+const SITUATIONAL = /\bRage\b|Wild Shape|Starry Form|transform/i;
+
+/** "**Level 3:** Ray of Sickness" lines of a species variant (lineage, legacy, ancestry). */
+export function variantLines(text: string): { level: number; text: string }[] {
+  return [...text.matchAll(/\*\*Level (\d+):\*\*\s*(.+)/g)].map((m) => ({
+    level: Number(m[1]),
+    text: m[2].trim(),
+  }));
+}
+
+function traitSources(
+  classes: { cls: DndClass; sub?: Subclass; level: number }[],
+  species: Species | undefined,
+  variantName: string | null,
+  totalLevel: number,
+  options: { opt: ClassOption; classLevel: number; classId: string }[],
+  feats: FeatSource[],
+): TraitSource[] {
+  const out: TraitSource[] = [];
+  for (const c of classes) {
+    for (const f of c.cls.features)
+      if (f.level <= c.level)
+        out.push({
+          kind: 'class',
+          name: f.name,
+          text: f,
+          level: f.level,
+          scope: c.level,
+          classId: c.cls.id,
+          situational: SITUATIONAL.test(f.description),
+        });
+    for (const f of c.sub?.features ?? [])
+      if (f.level <= c.level)
+        out.push({
+          kind: 'subclass',
+          name: f.name,
+          text: f,
+          level: f.level,
+          scope: c.level,
+          classId: c.cls.id,
+          situational: SITUATIONAL.test(f.description),
+        });
+  }
+  const specie = (name: string, text: RuleText) =>
+    out.push({ kind: 'species', name, text, level: 1, scope: totalLevel, situational: false });
+  for (const t of species?.traits ?? []) specie(t.name, t);
+  const variant = species?.variants.find((v) => v.name === variantName);
+  if (variant) {
+    const lines = variantLines(variant.description);
+    if (lines.length) {
+      for (const l of lines)
+        if (l.level === 1) specie(variant.name, { name: variant.name, description: l.text });
+    } else specie(variant.name, { name: variant.name, description: variant.description });
+    for (const t of variant.traits) specie(t.name, t);
+  }
+  for (const o of options)
+    out.push({
+      kind: 'option',
+      name: o.opt.name,
+      text: o.opt,
+      level: o.opt.prerequisites?.level ?? 1,
+      scope: o.classLevel,
+      classId: o.classId,
+      situational: false,
+    });
+  for (const f of feats)
+    out.push({
+      kind: 'feat',
+      name: f.feat.name,
+      text: f.feat,
+      level: 1,
+      scope: totalLevel,
+      situational: false,
+    });
+  return out;
+}
+
+/** Spells, uses and resistances that species, classes, subclasses and options give. */
+function traitGrants(a: {
+  traits: TraitSource[];
+  species: Species | undefined;
+  variantName: string | null;
+  subclasses: { sub: Subclass; level: number }[];
+  ch: Character;
+  abilities: Sheet['abilities'];
+  spellAbility: (classId: string) => Ability | undefined;
+  pb: number;
+  totalLevel: number;
+}) {
+  const spells: SheetFeatSpell[] = [];
+  const uses: SheetFeatUse[] = [];
+  const resistances: string[] = [];
+  const missing: Sheet['featMissing'] = [];
+  const mod = (x: Ability) => a.abilities[x].modifier;
+  const best = (['INT', 'WIS', 'CHA'] as Ability[]).reduce((x, y) => (mod(y) > mod(x) ? y : x));
+
+  // species: one spellcasting ability for the lineage / legacy / ancestry, chosen by the player
+  const speciesRules = (a.species?.traits ?? []).map((t) => featRules(t));
+  const speciesChoice = speciesRules.some((r) => r.ability.mode === 'choice');
+  const speciesPicked = a.ch.choices.featChoices?.['species']?.ability;
+  const speciesFixed = speciesRules.find((r) => r.ability.mode === 'fixed')?.ability;
+
+  const add = (
+    t: { kind: TraitSource['kind']; name: string; id: string; classId?: string },
+    g: FeatSpellGrant,
+    over: { always?: boolean; own?: Ability | null } = {},
+  ) => {
+    let ability: Ability = best;
+    let chosen = true;
+    if (over.own) ability = over.own;
+    else if (t.kind === 'species') {
+      if (speciesPicked) ability = speciesPicked;
+      else if (speciesChoice) chosen = false;
+      else if (speciesFixed && speciesFixed.mode === 'fixed') ability = speciesFixed.ability;
+    } else {
+      const c = t.classId ? a.spellAbility(t.classId) : undefined;
+      if (c) ability = c;
+    }
+    const free = g.free && t.kind !== 'class';
+    const key = `trait:${t.kind}:${t.id}:${g.id}`;
+    spells.push({
+      id: g.id,
+      name: g.name,
+      cantrip: g.cantrip,
+      feat: { id: t.id, name: t.name },
+      sourceKey: `${t.kind}:${t.id}`,
+      origin: t.kind === 'feat' ? 'feat' : t.kind,
+      always: over.always ?? (g.cantrip === false && !g.free && !g.atWill),
+      atWill: g.atWill,
+      ability,
+      abilityChosen: chosen,
+      saveDc: 8 + a.pb + mod(ability),
+      attack: a.pb + mod(ability),
+      freeKey: free ? key : null,
+      slots: g.slots,
+    });
+    if (free)
+      uses.push({
+        key,
+        label: g.name,
+        labelKey: null,
+        feat: t.name,
+        kind: 'spell',
+        max: g.freeUses === 'pb' ? a.pb : g.freeUses === 'mod' ? Math.max(1, mod(ability)) : 1,
+        rest: 'long',
+      });
+  };
+
+  for (const t of a.traits) {
+    if (t.kind === 'feat') continue;
+    const rules = featRules(t.text);
+    const id = slugOf(t.name);
+    const own = rules.ability.mode === 'fixed' ? rules.ability.ability : null;
+    for (const g of rules.spells) if (g.minLevel <= a.totalLevel) add({ ...t, id }, g, { own });
+    if (t.kind === 'class') continue; // class counters come from the class table / play-state
+    const several = rules.uses.length > 1;
+    for (const u of rules.uses) {
+      const ability = typeof u.max === 'string' && u.max !== 'pb' ? u.max : null;
+      uses.push({
+        key: `trait:${t.kind}:${id}:${slugOf(u.label)}`,
+        label: several ? `${t.name}: ${u.label}` : t.name,
+        labelKey: null,
+        feat: t.name,
+        kind: 'use',
+        max: u.max === 'pb' ? a.pb : ability ? Math.max(1, mod(ability)) : (u.max as number),
+        rest: u.rest,
+      });
+    }
+  }
+
+  // lineage / legacy spells of a species variant: "Level 3: Faerie Fire", "Level 5: Darkness"
+  const variant = a.species?.variants.find((v) => v.name === a.variantName);
+  if (a.species && variant) {
+    const trait = a.species.traits.find((t) =>
+      /always have that spell prepared/i.test(t.description),
+    );
+    const text = trait?.description ?? '';
+    const free = /without a spell slot/i.test(text) && /Long Rest/i.test(text);
+    const slots = /using any spell slots/i.test(text);
+    for (const l of variantLines(variant.description))
+      if (l.level > 1 && l.level <= a.totalLevel)
+        for (const name of l.text.split(/\s*,\s*|\s+and\s+/).map((n) => n.trim())) {
+          if (!/^[A-Z]/.test(name)) continue;
+          add(
+            { kind: 'species', name: variant.name, id: slugOf(variant.name) },
+            {
+              name,
+              id: slug(name),
+              minLevel: l.level,
+              cantrip: false,
+              free,
+              atWill: false,
+              slots,
+              freeUses: 1,
+            },
+            { always: true },
+          );
+        }
+  }
+
+  // domain, oath, circle... spells: always prepared from the class level in the table
+  for (const { sub, level } of a.subclasses)
+    for (const row of sub.spells ?? [])
+      if (row.classLevel <= level)
+        for (const name of row.spells)
+          add(
+            { kind: 'subclass', name: sub.name, id: slugOf(sub.name), classId: sub.classId },
+            {
+              name,
+              id: slug(name),
+              minLevel: 1,
+              cantrip: null,
+              free: false,
+              atWill: false,
+              slots: true,
+              freeUses: 1,
+            },
+            { always: true },
+          );
+  return { spells, uses, resistances, missing };
+}
+
+// -- combat ----------------------------------------------------------------------------------------
+
+/** Notes for the effects a fighting style or feat has that the attack table can't apply by itself. */
+const COMBAT_NOTES: Record<string, string> = {
+  'Great Weapon Fighting': 'gwf',
+  'Two-Weapon Fighting': 'twf',
+  Protection: 'protection',
+  Interception: 'interception',
+  'Great Weapon Master': 'gwm',
+  Sharpshooter: 'sharpshooter',
+  'Unarmed Fighting': 'unarmed',
+};
+
+function combatOf(
+  classes: { cls: DndClass; level: number }[],
+  traits: { t: TraitSource; r: TraitRules }[],
+  abilities: Sheet['abilities'],
+  options: { opt: ClassOption }[],
+): Sheet['combat'] {
+  const col = (cls: DndClass, level: number, name: string) =>
+    cls.progression.rows[level - 1]?.values[name] ?? '';
+  const monk = classes.find((c) => c.cls.id === 'monk');
+  const martial = monk ? col(monk.cls, monk.level, 'Martial Arts').toLowerCase() : '';
+  const combat: Sheet['combat'] = {
+    rangedAttack: traits.reduce((n, x) => n + x.r.attack.ranged, 0),
+    duelingDamage: traits.reduce((n, x) => n + x.r.attack.duelingDamage, 0),
+    thrownDamage: traits.reduce((n, x) => n + x.r.attack.thrownDamage, 0),
+    martialArts: /^\d+d\d+$/.test(martial) ? martial : null,
+    unarmedFighting: traits.some((x) => x.t.kind === 'feat' && x.t.name === 'Unarmed Fighting'),
+    masterySlots: classes.reduce(
+      (n, c) => n + (parseInt(col(c.cls, c.level, 'Weapon Mastery'), 10) || 0),
+      0,
+    ),
+    notes: [],
+  };
+  for (const { t } of traits) {
+    const id = t.kind === 'feat' ? COMBAT_NOTES[t.name] : undefined;
+    if (id) combat.notes.push({ id, source: t.name });
+  }
+  const barb = classes.find((c) => c.cls.id === 'barbarian');
+  if (barb) {
+    const dmg = col(barb.cls, barb.level, 'Rage Damage');
+    if (dmg) combat.notes.push({ id: 'rage', source: 'Rage', params: { n: dmg } });
+  }
+  const rogue = classes.find((c) => c.cls.id === 'rogue');
+  if (rogue) {
+    const dice = col(rogue.cls, rogue.level, 'Sneak Attack');
+    if (dice) combat.notes.push({ id: 'sneak', source: 'Sneak Attack', params: { n: dice } });
+  }
+  for (const { opt } of options)
+    if (opt.id === 'eldritch-invocation/agonizing-blast')
+      combat.notes.push({
+        id: 'agonizing',
+        source: opt.name,
+        params: { n: Math.max(0, abilities.CHA.modifier) },
+      });
+  return combat;
 }

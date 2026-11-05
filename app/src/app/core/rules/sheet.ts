@@ -38,7 +38,15 @@ export interface Sheet {
   armorClass: { value: number; formula: string };
   speed: Record<string, number>;
   darkvision: number | null;
+  /** Senses besides Darkvision (Blindsight, Truesight, Tremorsense, Devil's Sight) and where they come from. */
+  senses: {
+    kind: 'darkvision' | 'blindsight' | 'tremorsense' | 'truesight' | 'devils-sight';
+    range: number;
+    source: string;
+  }[];
   size: string[];
+  /** Bonuses of fighting styles and class features that go into the attacks table. */
+  combat: CombatInfo;
 
   spellcasting: {
     classes: {
@@ -77,7 +85,30 @@ export interface Sheet {
   warnings: SheetWarning[];
 }
 
+export interface CombatInfo {
+  /** Archery (+2) and the like: bonus to attack rolls with Ranged weapons. */
+  rangedAttack: number;
+  /** Dueling: damage with a one-handed Melee weapon and no other weapon. */
+  duelingDamage: number;
+  /** Thrown Weapon Fighting: damage with a Thrown weapon in a ranged attack. */
+  thrownDamage: number;
+  /** Monk's Martial Arts die ("1d8") or null. */
+  martialArts: string | null;
+  /** Unarmed Fighting style. */
+  unarmedFighting: boolean;
+  /** Weapon Mastery: how many kinds the classes allow (0 = none) and the ones picked (null = not picked). */
+  masterySlots: number;
+  /** Reminders of effects that need a roll or a choice: id of a UI text and its parameters. */
+  notes: { id: string; source: string; params?: Record<string, string | number> }[];
+}
+
 export interface SheetFeatSpell {
+  /** Where it comes from: absent = a feat. */
+  origin?: 'feat' | 'species' | 'class' | 'subclass' | 'option';
+  /** Always prepared (domain, oath and circle spells) and does not count against the prepared spells. */
+  always?: boolean;
+  /** Can be cast whenever without a spell slot (Armor of Shadows, Mask of Many Faces...). */
+  atWill?: boolean;
   /** Id in the compendium; name is the English one. */
   id: string;
   name: string;

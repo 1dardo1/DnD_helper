@@ -72,12 +72,24 @@
                     {{ a.mastery | term: 'mastery' }}</small
                   >
                 }
+                @for (n of a.notes; track n.id) {
+                  <small class="note"> · {{ 'combat.note.' + n.id | t: n.params }}</small>
+                }
               </td>
             </tr>
           }
         </tbody>
       </table>
     </div>
+    @if (sheet().combat.notes.length) {
+      <ul class="combat-notes" data-testid="combat-notes">
+        @for (n of sheet().combat.notes; track n.id) {
+          <li>
+            <strong>{{ n.source | dataName }}:</strong> {{ 'combat.note.' + n.id | t: n.params }}
+          </li>
+        }
+      </ul>
+    }
   </section>
 } @else {
   <section>

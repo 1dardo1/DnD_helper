@@ -119,6 +119,12 @@
         ><strong>{{ 'sheet.feet' | t: { n: s.darkvision } }}</strong>
       </div>
     }
+    @for (x of s.senses; track x.kind) {
+      <div>
+        <small>{{ 'sheet.sense.' + x.kind | t }}</small
+        ><strong>{{ 'sheet.feet' | t: { n: x.range } }}</strong>
+      </div>
+    }
   </section>
 
   <app-play-panel [sheet]="s" [state]="c.state" (changed)="saveState($event)" />
@@ -215,6 +221,11 @@
                 {{ 'sheet.spellAttack' | t }} {{ signed(fs.attack) }}
                 @if (fs.freeKey) {
                   · {{ 'sheet.featSpell.free' | t }} ({{ freeLeft(c, s, fs.freeKey) }})
+                }
+                @if (fs.atWill) {
+                  · {{ 'sheet.featSpell.atWill' | t }}
+                } @else if (fs.always) {
+                  · {{ 'sheet.featSpell.always' | t }}
                 }
                 @if (fs.slots && fs.level !== 0) {
                   · {{ 'sheet.featSpell.slots' | t }}

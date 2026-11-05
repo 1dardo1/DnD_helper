@@ -29,6 +29,8 @@ export interface Attack {
   magic: number;
   /** Upgrades of the weapon from other magic items (Repeating Shot). */
   upgrades: AttackUpgrade[];
+  /** Effects the line already includes or that go with it (fighting styles...): UI text id and parameters. */
+  notes: { id: string; params?: Record<string, string | number> }[];
 }
 
 /** What an upgrade does to one attack line. */
@@ -81,6 +83,8 @@ export function proficientWith(weapons: string[], item: Item): boolean {
   });
 }
 
+const faces = (dice: string) => Number(/d(\d+)/.exec(dice)?.[1] ?? 1);
+
 const signed = (n: number) => (n > 0 ? `+${n}` : n < 0 ? `${n}` : '');
 
 /**
@@ -94,13 +98,23 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
   for (const { id, equipped, item, magic, upgrades = [] } of weapons) {
     const w = item.weapon;
     if (!w) continue;
-    const ability: Ability = prop(item, 'finesse')
-      ? mod('DEX') > mod('STR')
-        ? 'DEX'
-        : 'STR'
-      : w.ranged
-        ? 'DEX'
-        : 'STR';
+    const combat = sheet.combat;
+    const notes: Attack['notes'] = [];
+    // Martial Arts: Monk weapons are Simple Melee weapons without Two-Handed or Heavy
+    const monkWeapon =
+      !!combat?.martialArts &&
+      !w.ranged &&
+      (w.kind === 'simple' || item.name === 'Shortsword') &&
+      !prop(item, 'two-handed') &&
+      !prop(item, 'heavy');
+    const ability: Ability =
+      prop(item, 'finesse') || monkWeapon
+        ? mod('DEX') > mod('STR')
+          ? 'DEX'
+          : 'STR'
+        : w.ranged
+          ? 'DEX'
+          : 'STR';
     const proficient = proficientWith(sheet.proficiencies.weapons, item);
     const m = mod(ability);
     // an upgrade for ranged attacks does not reach the melee use of a Thrown weapon
@@ -112,38 +126,65 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
       freeAmmo: u.freeAmmo,
     }));
     const plus = (magic?.bonus ?? 0) + ups.reduce((n, u) => n + (u.applied ? u.plus : 0), 0);
-    const dice = w.damage[0]?.dice ?? '1';
+    // Archery: +2 to attack rolls with Ranged weapons; Dueling: +2 damage with one hand
+    const styleAttack = w.ranged ? (combat?.rangedAttack ?? 0) : 0;
+    if (styleAttack) notes.push({ id: 'archery', params: { n: styleAttack } });
+    const oneHanded = !w.ranged && !prop(item, 'two-handed');
+    const dueling = oneHanded ? (combat?.duelingDamage ?? 0) : 0;
+    if (dueling) notes.push({ id: 'dueling', params: { n: dueling } });
+    const thrownStyle = prop(item, 'thrown') ? (combat?.thrownDamage ?? 0) : 0;
+    if (thrownStyle) notes.push({ id: 'thrown', params: { n: thrownStyle } });
+    let dice = w.damage[0]?.dice ?? '1';
+    if (monkWeapon && combat?.martialArts && faces(combat.martialArts) > faces(dice)) {
+      dice = combat.martialArts;
+      notes.push({ id: 'martial', params: { die: dice } });
+    }
     const versatileDie = /\(([^)]+)\)/.exec(prop(item, 'versatile') ?? '')?.[1] ?? null;
     const thrown = /(\d+\/\d+)/.exec(prop(item, 'thrown') ?? '')?.[1] ?? null;
     out.push({
       entryId: id,
       name: magic ? magic.item.name : item.name,
       ability,
-      bonus: m + plus + (proficient ? pb : 0),
+      bonus: m + plus + styleAttack + (proficient ? pb : 0),
       proficient,
-      damage: `${dice}${signed(m + plus)}`,
+      damage: `${dice}${signed(m + plus + dueling)}`,
       damageType: w.damage[0]?.type ?? '',
-      versatile: versatileDie ? `${versatileDie}${signed(m + plus)}` : null,
+      versatile: versatileDie ? `${versatileDie}${signed(m + plus + dueling)}` : null,
       reach: w.ranged ? null : prop(item, 'reach') ? 10 : 5,
       range: w.ranged ? w.range : thrown,
       properties: w.properties.map((p) => p.replace(/\s*\(.*$/, '')),
-      mastery: w.mastery,
+      // only the classes with Weapon Mastery use it (the choice of kinds is the player's)
+      mastery: combat && sheet.classes.length && combat.masterySlots === 0 ? null : w.mastery,
       equipped,
       base: magic ? item.name : null,
       magic: plus,
       upgrades: ups,
+      notes,
     });
   }
   // equipped weapons first
   out.sort((a, b) => Number(b.equipped) - Number(a.equipped));
-  const str = mod('STR');
+  const combat = sheet.combat;
+  const unarmedAbility: Ability = combat?.martialArts && mod('DEX') > mod('STR') ? 'DEX' : 'STR';
+  const str = mod(unarmedAbility);
+  const notes: Attack['notes'] = [];
+  // Martial Arts die, or Unarmed Fighting (1d6, 1d8 with no weapon or shield), or 1 + STR
+  let unarmedDie: string | null = null;
+  if (combat?.martialArts) {
+    unarmedDie = combat.martialArts;
+    notes.push({ id: 'martial', params: { die: unarmedDie } });
+  }
+  if (combat?.unarmedFighting && faces('1d6') > faces(unarmedDie ?? '1d1')) {
+    unarmedDie = '1d6';
+    notes.push({ id: 'unarmedFighting' });
+  }
   out.push({
     entryId: '',
     name: 'Unarmed Strike',
-    ability: 'STR',
+    ability: unarmedAbility,
     bonus: str + pb,
     proficient: true,
-    damage: `${Math.max(0, 1 + str)}`,
+    damage: unarmedDie ? `${unarmedDie}${signed(str)}` : `${Math.max(0, 1 + str)}`,
     damageType: 'bludgeoning',
     versatile: null,
     reach: 5,
@@ -154,6 +195,7 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
     base: null,
     magic: 0,
     upgrades: [],
+    notes,
   });
   return out;
 }

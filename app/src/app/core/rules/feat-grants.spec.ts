@@ -32,7 +32,7 @@ function fighter(
   return {
     ...c,
     classes: [{ id: 'fighter', level: over.level ?? 1, subclassId: null, hp: [] }],
-    species: { id: 'dwarf', variant: null },
+    species: { id: 'halfling', variant: null },
     background: { id: background, abilityIncreases: {} },
     abilityScores: { method: 'standard', base: SCORES },
     choices: { ...c.choices, ...over.choices },

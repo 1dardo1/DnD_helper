@@ -97,6 +97,14 @@ const FEATURE_USES: {
     uses: (l) => (l >= 17 ? 3 : l >= 13 ? 2 : 1),
   },
   {
+    classId: 'fighter',
+    subclassId: 'fighter/battle-master',
+    name: 'Superiority Dice',
+    labelKey: 'play.res.superiorityDice',
+    from: 3,
+    uses: (l) => (l >= 15 ? 6 : l >= 7 ? 5 : 4),
+  },
+  {
     classId: 'monk',
     name: 'Uncanny Metabolism',
     labelKey: 'play.res.uncannyMetabolism',
