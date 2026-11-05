@@ -480,6 +480,12 @@ h3.issue {
     border-radius: 999px;
   }
 
+  // what the chosen base is (kind, AC, damage...), under its selector, not inside the option
+  .base-summary {
+    flex-basis: 100%;
+    color: var(--ink-soft);
+  }
+
   .shop-price {
     display: block;
     margin-top: 0.2rem;

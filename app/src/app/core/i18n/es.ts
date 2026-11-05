@@ -1618,4 +1618,6 @@ export const es: Record<keyof typeof en, string> = {
   'play.tempSlotPip': 'Espacio extra de nivel {level}',
   'plans.vanished': 'Ha desaparecido: {names}.',
   'plans.madeWith': 'Creado con Replicar objeto mágico (artificiero)',
+  'plans.madeShort': 'Replicado',
+  'gear.up.change': 'Cambiar arma',
 };

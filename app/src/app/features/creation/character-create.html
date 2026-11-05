@@ -832,11 +832,14 @@
                         <option value="" [selected]="!p.baseId">{{ 'gear.choose' | t }}</option>
                         @for (b of p.bases; track b.id) {
                           <option [value]="b.id" [selected]="b.id === p.baseId">
-                            {{ baseLabel(b) }}
+                            {{ baseName(b) }}
                           </option>
                         }
                       </select>
                     </label>
+                    @if (pickedSummary(p.bases, p.baseId); as sm) {
+                      <small class="base-summary">{{ sm }}</small>
+                    }
                   }
                   @if (p.bonuses.length > 1) {
                     <label>

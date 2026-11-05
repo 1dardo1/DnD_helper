@@ -1594,4 +1594,6 @@ export const en = {
   'play.tempSlotPip': 'Extra level {level} slot',
   'plans.vanished': 'Vanished: {names}.',
   'plans.madeWith': 'Created with Replicate Magic Item (Artificer)',
+  'plans.madeShort': 'Replicated',
+  'gear.up.change': 'Change weapon',
 };

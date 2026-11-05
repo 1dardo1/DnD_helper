@@ -9,8 +9,13 @@ import { Item } from '../models/compendium';
  * "Arco largo · 1d8 perforante · Alcance 150/600 · usa Des".
  */
 export function baseLabel(b: Item, i18n: I18nService, data: DataTextService): string {
+  return [data.name(b.name), baseSummary(b, i18n)].filter(Boolean).join(' · ');
+}
+
+/** The label without the name, for a line under the selector: "medium · AC 15 · Stealth...". */
+export function baseSummary(b: Item, i18n: I18nService): string {
   const lang = i18n.language();
-  const parts: string[] = [data.name(b.name)];
+  const parts: string[] = [];
   if (b.armor) {
     if (b.armor.kind !== 'shield') parts.push(term(lang, 'armor', b.armor.kind));
     parts.push(i18n.t('gear.ac', { ac: b.armor.baseAC ?? 0 }));

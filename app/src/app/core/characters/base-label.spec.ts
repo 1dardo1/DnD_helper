@@ -1,4 +1,4 @@
-import { baseLabel } from './base-label';
+import { baseLabel, baseSummary } from './base-label';
 import { Item } from '../models/compendium';
 
 const i18n = {
@@ -41,5 +41,15 @@ describe('baseLabel', () => {
     expect(baseLabel(b, i18n as never, data as never)).toBe(
       'Longbow · 1d8 piercing · Range 150/600 · uses DEX',
     );
+  });
+});
+
+describe('baseSummary', () => {
+  it('is the label without the name', () => {
+    const b = {
+      name: 'Half Plate Armor',
+      armor: { kind: 'medium', baseAC: 15, dexCap: 2, strength: null, stealthDisadvantage: true },
+    } as unknown as Item;
+    expect(baseSummary(b, i18n as never)).toBe('medium · AC 15 · Stealth disadvantage');
   });
 });
