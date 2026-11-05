@@ -3,7 +3,7 @@
   "id": "kassasdin-1793879600138",
   "name": "Kassasdin",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-05T22:09:00.992Z",
+  "updatedAt": "2026-11-05T22:09:15.399Z",
   "updatedBy": "pc Carlos",
   "species": {
     "id": "human",
@@ -254,7 +254,7 @@
     },
     "heroicInspiration": false,
     "conditions": [],
-    "exhaustion": 1,
+    "exhaustion": 0,
     "spellSwap": {}
   },
   "notes": "Buscaba a su hija por el ártico y se perdió en el vacío, una dimensión horrible e infernal llena de monstruosidades eldritch. Salió y le cambió la personalidad. No recuerda mucho de lo que vivió, pero sabe hablar idiomas relacionados con este submundo. Solo sabe que tiene una hija, aunque no recuerda ni su nombre, ni su apariencia.",
