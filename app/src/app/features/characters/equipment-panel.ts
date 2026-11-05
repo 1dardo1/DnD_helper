@@ -11,10 +11,18 @@ import {
   toggleEquip,
 } from '../../core/characters/inventory';
 import {
+  AppliedEnhancement,
+  Host,
+  enhancementHosts,
+  enhancementsByHost,
+  hostOf,
+} from '../../core/characters/enhancement';
+import {
   BonusOption,
   armorStats,
   baseCandidates,
   bonusOptions,
+  enhancementOf,
   gearChoices,
   gearKind,
   gearOf,
@@ -85,11 +93,17 @@ export class EquipmentPanel {
         v && item && gearKind(item)
           ? { bases: baseCandidates(item, v.all), bonuses: bonusOptions(item) }
           : null;
+      const spec = enhancementOf(item);
+      const hosts = spec && v ? enhancementHosts(item, this.character().inventory, v.byId) : [];
+      const state = spec && v ? hostOf(e, this.character().inventory, v.byId) : null;
+      const hostBonus = state?.state === 'ok' ? state.host.gear.bonus : 0;
       return {
         entry: e,
         item,
         gear,
         magic,
+        // an upgrade of a weapon of the inventory: its host, the weapons it can go on
+        upgrade: spec && state ? { spec, state, hosts, hostBonus } : null,
         armor: gear && gear.kind === 'armor' && magic ? armorStats(gear) : null,
         held: this.held(e),
       };
@@ -97,6 +111,10 @@ export class EquipmentPanel {
   });
 
   protected readonly attacks = computed(() => {
+    const v = this.items.value();
+    const byHost = v
+      ? enhancementsByHost(this.character().inventory, v.byId)
+      : new Map<string, AppliedEnhancement[]>();
     const weapons: WeaponEntry[] = this.entries()
       // ammunition (Arrows, Bolts...) is listed as a weapon without damage: it is no attack
       .filter(
@@ -110,6 +128,13 @@ export class EquipmentPanel {
         equipped: e.entry.equipped,
         item: e.gear!.base!,
         magic: e.magic ? { item: e.item!, bonus: e.gear!.bonus } : undefined,
+        upgrades: (byHost.get(e.entry.id) ?? []).map((u) => ({
+          item: u.item,
+          bonus: u.spec.bonus,
+          rangedOnly: u.spec.rangedOnly,
+          ignoresLoading: u.spec.ignoresLoading,
+          freeAmmo: u.spec.freeAmmo,
+        })),
       }));
     return attacksFor(this.sheet(), weapons);
   });
@@ -121,6 +146,9 @@ export class EquipmentPanel {
     bonuses: BonusOption[];
     baseId: string;
     bonus: number;
+    /** Upgrade of a weapon of the inventory: the weapons it can go on (maybe none). */
+    hosts?: Host[];
+    hostId?: string;
   } | null>(null);
 
   /**
@@ -182,6 +210,20 @@ export class EquipmentPanel {
       this.choosing.set(item);
       return;
     }
+    if (item && enhancementOf(item)) {
+      const hosts = enhancementHosts(item, this.character().inventory, v.byId);
+      this.pending.set({
+        item,
+        bases: [],
+        bonuses: [],
+        baseId: '',
+        bonus: 0,
+        hosts,
+        hostId: hosts.length === 1 ? hosts[0].entry.id : '',
+      });
+      this.query.set('');
+      return;
+    }
     const choices = item ? gearChoices(item, v.all) : null;
     if (item && choices) {
       // several bases fit (or "+1, +2 or +3"): ask before adding
@@ -198,22 +240,36 @@ export class EquipmentPanel {
   protected confirmPending(): void {
     const p = this.pending();
     if (!p || (p.bases.length > 1 && !p.baseId)) return;
+    if (p.hosts && !p.hostId) return;
     this.changed.emit(
       addItem(this.character(), p.item, '', {
         ...(p.baseId ? { baseId: p.baseId } : {}),
+        ...(p.hostId ? { onEntryId: p.hostId } : {}),
         ...(p.bonuses.length > 1 ? { bonus: p.bonus } : {}),
       }),
     );
     this.pending.set(null);
   }
 
-  protected pendingPatch(patch: { baseId?: string; bonus?: number }): void {
+  protected pendingPatch(patch: { baseId?: string; bonus?: number; hostId?: string }): void {
     const p = this.pending();
     if (p) this.pending.set({ ...p, ...patch });
   }
 
   protected setBase(e: InventoryEntry, baseId: string): void {
     if (baseId) this.changed.emit(setGear(this.character(), e.id, { baseId }));
+  }
+
+  protected setHost(e: InventoryEntry, onEntryId: string): void {
+    if (onEntryId) this.changed.emit(setGear(this.character(), e.id, { onEntryId }));
+  }
+
+  /** "Sniper's Bracelet (Longbow)" / "Longbow": a weapon of the inventory, to choose as a host. */
+  protected hostLabel(h: Host): string {
+    const name = this.dataText.name(h.gear.item.name);
+    return h.gear.item === h.gear.base || !h.gear.base
+      ? name
+      : `${name} (${this.dataText.name(h.gear.base.name)})`;
   }
 
   protected setBonus(e: InventoryEntry, bonus: string): void {

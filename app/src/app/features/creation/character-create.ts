@@ -16,7 +16,14 @@ import { Router, RouterLink } from '@angular/router';
 
 import { CharacterStore } from '../../core/characters/character-store.service';
 import { wearArmor, wearShield } from '../../core/characters/inventory';
-import { BonusOption, armorSlot, gearChoices, gearOf } from '../../core/characters/magic-base';
+import { Host, enhancementHosts } from '../../core/characters/enhancement';
+import {
+  BonusOption,
+  armorSlot,
+  enhancementOf,
+  gearChoices,
+  gearOf,
+} from '../../core/characters/magic-base';
 import { SyncService } from '../../core/characters/sync.service';
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import {
@@ -506,6 +513,33 @@ export class CharacterCreate implements LeaveCheck {
 
   protected readonly skillLabel = (s: string) => this.i18n.t(`skill.${s}` as never);
   protected readonly abilityLabel = (a: string) => this.i18n.t(`ability.${a}` as never);
+
+  /** "Sniper's Bracelet (Longbow)" / "Longbow": a carried weapon an upgrade can go on. */
+  protected hostLabel(h: Host): string {
+    const name = this.dataText.name(h.gear.item.name);
+    return h.gear.item === h.gear.base || !h.gear.base
+      ? name
+      : `${name} (${this.dataText.name(h.gear.base.name)})`;
+  }
+
+  protected hostName(h: NonNullable<BoughtItem['host']>): string {
+    const name = (id?: string) => this.dataText.name(this.items.get(id ?? '')?.name ?? id);
+    return h.baseId ? `${name(h.itemId)} · ${name(h.baseId)}` : name(h.itemId);
+  }
+
+  /** Does the weapon an upgrade of the basket was bought for still come with the inventory? */
+  protected hostKept(b: BoughtItem): boolean {
+    const h = b.host;
+    return (
+      !h ||
+      this.draft().inventory.some(
+        (e) =>
+          e.itemId === h.itemId &&
+          e.baseId === h.baseId &&
+          !enhancementOf(this.items.get(h.itemId)),
+      )
+    );
+  }
 
   protected baseLabel(b: Item): string {
     return baseLabel(b, this.i18n, this.dataText);
@@ -1034,11 +1068,33 @@ export class CharacterCreate implements LeaveCheck {
     bonuses: BonusOption[];
     baseId: string;
     bonus: number;
+    /** An upgrade of a weapon already carried: the weapons it can go on (maybe none). */
+    hosts?: Host[];
+    hostId?: string;
   } | null>(null);
 
   /** The shop's pick: bought at once, or after choosing the base when several fit. */
   protected pick(itemId: string): void {
     const item = this.items.get(itemId);
+    if (item && enhancementOf(item)) {
+      // an upgrade needs a weapon already in the inventory (the packages' or bought before)
+      const hosts = enhancementHosts(item, this.draft().inventory, this.items).filter(
+        (h, i, all) =>
+          all.findIndex(
+            (o) => o.entry.itemId === h.entry.itemId && o.entry.baseId === h.entry.baseId,
+          ) === i,
+      );
+      this.buying.set({
+        item,
+        bases: [],
+        bonuses: [],
+        baseId: '',
+        bonus: 0,
+        hosts,
+        hostId: hosts.length === 1 ? hosts[0].entry.id : '',
+      });
+      return;
+    }
     const choices = item ? gearChoices(item, this.items.values()) : null;
     if (!item || !choices) return this.buy(itemId);
     this.buying.set({
@@ -1049,7 +1105,7 @@ export class CharacterCreate implements LeaveCheck {
     });
   }
 
-  protected buyingPatch(patch: { baseId?: string; bonus?: number }): void {
+  protected buyingPatch(patch: { baseId?: string; bonus?: number; hostId?: string }): void {
     const b = this.buying();
     if (b) this.buying.set({ ...b, ...patch });
   }
@@ -1062,8 +1118,18 @@ export class CharacterCreate implements LeaveCheck {
   protected confirmBuying(): void {
     const b = this.buying();
     if (!b || (b.bases.length > 1 && !b.baseId)) return;
+    const host = b.hosts?.find((h) => h.entry.id === b.hostId);
+    if (b.hosts && !host) return;
     const affordable = this.buyingPrice() <= this.goldLeft();
     this.buy(b.item.id, {
+      ...(host
+        ? {
+            host: {
+              itemId: host.entry.itemId!,
+              ...(host.entry.baseId ? { baseId: host.entry.baseId } : {}),
+            },
+          }
+        : {}),
       ...(b.baseId ? { baseId: b.baseId } : {}),
       ...(b.bonuses.length > 1 ? { bonus: b.bonus } : {}),
     });
@@ -1071,7 +1137,7 @@ export class CharacterCreate implements LeaveCheck {
   }
 
   /** Buys one more (if the gold left is enough). */
-  protected buy(itemId: string, gear: { baseId?: string; bonus?: number } = {}): void {
+  protected buy(itemId: string, gear: Pick<BoughtItem, 'baseId' | 'bonus' | 'host'> = {}): void {
     const item = this.items.get(itemId);
     const price = item ? shopPriceCp(item, gear.bonus) : null;
     if (price === null || price > this.goldLeft()) return;

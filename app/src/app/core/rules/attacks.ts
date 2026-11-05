@@ -27,6 +27,20 @@ export interface Attack {
   base: string | null;
   /** Magic bonus already added to the attack roll and the damage (0 for plain weapons). */
   magic: number;
+  /** Upgrades of the weapon from other magic items (Repeating Shot). */
+  upgrades: AttackUpgrade[];
+}
+
+/** What an upgrade does to one attack line. */
+export interface AttackUpgrade {
+  /** English name of the upgrade. */
+  name: string;
+  plus: number;
+  /** Its bonus is already in the attack and damage of the line (else only for ranged use). */
+  applied: boolean;
+  /** The weapon has Loading and the upgrade ignores it. */
+  ignoresLoading: boolean;
+  freeAmmo: boolean;
 }
 
 /** What the attacks table needs of an inventory entry. */
@@ -37,6 +51,14 @@ export interface WeaponEntry {
   item: Item;
   /** A magic weapon (Weapon +1, Vorpal Sword...): the item itself and its bonus. */
   magic?: { item: Item; bonus: number };
+  /** Upgrades put on this weapon (core/characters/enhancement.ts). */
+  upgrades?: {
+    item: Item;
+    bonus: number;
+    rangedOnly: boolean;
+    ignoresLoading: boolean;
+    freeAmmo: boolean;
+  }[];
 }
 
 const prop = (item: Item, name: string) =>
@@ -69,7 +91,7 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
   const mod = (a: Ability) => sheet.abilities[a].modifier;
   const pb = sheet.proficiencyBonus;
   const out: Attack[] = [];
-  for (const { id, equipped, item, magic } of weapons) {
+  for (const { id, equipped, item, magic, upgrades = [] } of weapons) {
     const w = item.weapon;
     if (!w) continue;
     const ability: Ability = prop(item, 'finesse')
@@ -81,7 +103,15 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
         : 'STR';
     const proficient = proficientWith(sheet.proficiencies.weapons, item);
     const m = mod(ability);
-    const plus = magic?.bonus ?? 0;
+    // an upgrade for ranged attacks does not reach the melee use of a Thrown weapon
+    const ups: AttackUpgrade[] = upgrades.map((u) => ({
+      name: u.item.name,
+      plus: u.bonus,
+      applied: !u.rangedOnly || !!w.ranged,
+      ignoresLoading: u.ignoresLoading && !!prop(item, 'loading'),
+      freeAmmo: u.freeAmmo,
+    }));
+    const plus = (magic?.bonus ?? 0) + ups.reduce((n, u) => n + (u.applied ? u.plus : 0), 0);
     const dice = w.damage[0]?.dice ?? '1';
     const versatileDie = /\(([^)]+)\)/.exec(prop(item, 'versatile') ?? '')?.[1] ?? null;
     const thrown = /(\d+\/\d+)/.exec(prop(item, 'thrown') ?? '')?.[1] ?? null;
@@ -101,6 +131,7 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
       equipped,
       base: magic ? item.name : null,
       magic: plus,
+      upgrades: ups,
     });
   }
   // equipped weapons first
@@ -122,6 +153,7 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
     equipped: true,
     base: null,
     magic: 0,
+    upgrades: [],
   });
   return out;
 }

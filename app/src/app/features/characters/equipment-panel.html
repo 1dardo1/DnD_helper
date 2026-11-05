@@ -25,6 +25,18 @@
                 @if (!a.equipped) {
                   <small> · {{ 'sheet.notEquipped' | t }}</small>
                 }
+                @for (u of a.upgrades; track u.name) {
+                  <small class="upgrade">
+                    {{ u.name | dataName }}:
+                    {{ (u.applied ? 'gear.up.applied' : 'gear.up.rangedOnly') | t: { n: u.plus } }}
+                    @if (u.ignoresLoading) {
+                      · {{ 'gear.up.ignores' | t }} {{ 'Loading' | term: 'property' }}
+                    }
+                    @if (u.freeAmmo) {
+                      · {{ 'gear.up.freeAmmo' | t }}
+                    }
+                  </small>
+                }
               </td>
               <td class="hit">
                 <strong>{{ signed(a.bonus) }}</strong>
@@ -189,6 +201,51 @@
                 }
               </span>
             }
+            @if (r.upgrade; as up) {
+              <span class="gear">
+                @if (up.state.state === 'ok') {
+                  <label>
+                    {{ 'gear.up.on' | t }}
+                    <select
+                      [attr.aria-label]="('gear.up.on' | t) + ': ' + r.item?.name"
+                      (change)="setHost(r.entry, text($event))"
+                    >
+                      @for (h of up.hosts; track h.entry.id) {
+                        <option [value]="h.entry.id" [selected]="h.entry.id === r.entry.onEntryId">
+                          {{ hostLabel(h) }}
+                        </option>
+                      }
+                    </select>
+                  </label>
+                  @if (up.hostBonus) {
+                    <small>{{
+                      'gear.up.stack' | t: { n: up.hostBonus, total: up.hostBonus + up.spec.bonus }
+                    }}</small>
+                  }
+                } @else {
+                  @if (up.hosts.length) {
+                    <label>
+                      {{ 'gear.up.on' | t }}
+                      <select
+                        [attr.aria-label]="('gear.up.on' | t) + ': ' + r.item?.name"
+                        (change)="setHost(r.entry, text($event))"
+                      >
+                        <option value="" selected>{{ 'gear.choose' | t }}</option>
+                        @for (h of up.hosts; track h.entry.id) {
+                          <option [value]="h.entry.id">{{ hostLabel(h) }}</option>
+                        }
+                      </select>
+                    </label>
+                  }
+                  <small class="issue">{{
+                    (up.state.state === 'broken' ? 'gear.up.broken' : 'gear.up.pick') | t
+                  }}</small>
+                  @if (!up.hosts.length) {
+                    <small class="issue">{{ 'gear.up.noHost' | t }}</small>
+                  }
+                }
+              </span>
+            }
             @if (r.held; as h) {
               <small class="held">
                 <a [routerLink]="['/compendium', 'spell', h.spell.id]">{{
@@ -266,6 +323,23 @@
           <strong>{{ p.item.name | dataName: true }}</strong>
           <small>{{ 'gear.chooseHint' | t }}</small>
         </p>
+        @if (p.hosts) {
+          @if (p.hosts.length) {
+            <label>
+              {{ 'gear.up.on' | t }}
+              <select (change)="pendingPatch({ hostId: text($event) })">
+                <option value="" [selected]="!p.hostId">{{ 'gear.choose' | t }}</option>
+                @for (h of p.hosts; track h.entry.id) {
+                  <option [value]="h.entry.id" [selected]="h.entry.id === p.hostId">
+                    {{ hostLabel(h) }}
+                  </option>
+                }
+              </select>
+            </label>
+          } @else {
+            <p class="issue" role="alert">{{ 'gear.up.noHost' | t }}</p>
+          }
+        }
         @if (p.bases.length > 1) {
           <label>
             {{ 'gear.base' | t }}
@@ -292,7 +366,7 @@
         <span class="actions">
           <button
             type="button"
-            [disabled]="p.bases.length > 1 && !p.baseId"
+            [disabled]="(p.bases.length > 1 && !p.baseId) || (!!p.hosts && !p.hostId)"
             (click)="confirmPending()"
           >
             {{ 'gear.add' | t }}

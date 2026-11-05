@@ -27,7 +27,10 @@ export function addItem(
 ): Character {
   const same = ch.inventory.find((e) =>
     item
-      ? e.itemId === item.id && e.baseId === gear.baseId && e.bonus === gear.bonus
+      ? e.itemId === item.id &&
+        e.baseId === gear.baseId &&
+        e.bonus === gear.bonus &&
+        e.onEntryId === gear.onEntryId
       : e.name === name,
   );
   const inventory = same
@@ -42,23 +45,25 @@ export function addItem(
           equipped: false,
           ...(item && gear.baseId ? { baseId: gear.baseId } : {}),
           ...(item && gear.bonus ? { bonus: gear.bonus } : {}),
+          ...(item && gear.onEntryId ? { onEntryId: gear.onEntryId } : {}),
         },
       ];
   return { ...ch, inventory };
 }
 
-/** Changes the base and/or the bonus of a magic weapon or armor (undefined: leave as is). */
+/** Changes the base, the bonus and/or the host weapon of a magic weapon, armor or upgrade (undefined: leave as is). */
 export function setGear(ch: Character, id: string, gear: GearChoice): Character {
   return {
     ...ch,
     inventory: ch.inventory.map((e) => {
       if (e.id !== id) return e;
-      const { baseId, bonus, ...rest } = e;
-      const next = { baseId, bonus, ...gear };
+      const { baseId, bonus, onEntryId, ...rest } = e;
+      const next = { baseId, bonus, onEntryId, ...gear };
       return {
         ...rest,
         ...(next.baseId ? { baseId: next.baseId } : {}),
         ...(next.bonus ? { bonus: next.bonus } : {}),
+        ...(next.onEntryId ? { onEntryId: next.onEntryId } : {}),
       };
     }),
   };

@@ -698,7 +698,10 @@
           </section>
           @if (bought().length) {
             <ul class="basket" [attr.aria-label]="'create.equip.bought' | t">
-              @for (b of bought(); track b.itemId + b.baseId + b.bonus) {
+              @for (
+                b of bought();
+                track b.itemId + b.baseId + b.bonus + b.host?.itemId + b.host?.baseId
+              ) {
                 <li>
                   <span class="name"
                     >{{ b.item.name | dataName: true }}
@@ -707,6 +710,12 @@
                     }
                     @if (b.bonus) {
                       <small>+{{ b.bonus }}</small>
+                    }
+                    @if (b.host; as h) {
+                      <small> ({{ 'gear.up.on' | t }}: {{ hostName(h) }}) </small>
+                      @if (!hostKept(b)) {
+                        <small class="issue"> · {{ 'gear.up.lost' | t }}</small>
+                      }
                     }
                   </span>
                   <span class="qty">× {{ b.qty }}</span>
@@ -722,7 +731,7 @@
                   <button
                     type="button"
                     class="btn-ghost"
-                    (click)="buy(b.itemId, { baseId: b.baseId, bonus: b.bonus })"
+                    (click)="buy(b.itemId, { baseId: b.baseId, bonus: b.bonus, host: b.host })"
                     [disabled]="b.price > goldLeft()"
                     [attr.aria-label]="'create.equip.buy' | t"
                   >
@@ -762,6 +771,23 @@
                     <strong>{{ p.item.name | dataName: true }}</strong>
                     <small>{{ 'gear.chooseHint' | t }}</small>
                   </p>
+                  @if (p.hosts) {
+                    @if (p.hosts.length) {
+                      <label>
+                        {{ 'gear.up.on' | t }}
+                        <select (change)="buyingPatch({ hostId: value($event) })">
+                          <option value="" [selected]="!p.hostId">{{ 'gear.choose' | t }}</option>
+                          @for (h of p.hosts; track h.entry.id) {
+                            <option [value]="h.entry.id" [selected]="h.entry.id === p.hostId">
+                              {{ hostLabel(h) }}
+                            </option>
+                          }
+                        </select>
+                      </label>
+                    } @else {
+                      <p class="issue" role="alert">{{ 'gear.up.hostFirst' | t }}</p>
+                    }
+                  }
                   @if (p.bases.length > 1) {
                     <label>
                       {{ 'gear.base' | t }}
@@ -793,7 +819,11 @@
                   <span class="actions">
                     <button
                       type="button"
-                      [disabled]="(p.bases.length > 1 && !p.baseId) || buyingPrice() > goldLeft()"
+                      [disabled]="
+                        (p.bases.length > 1 && !p.baseId) ||
+                        (!!p.hosts && !p.hostId) ||
+                        buyingPrice() > goldLeft()
+                      "
                       (click)="confirmBuying()"
                     >
                       {{ 'create.equip.buy' | t }}

@@ -31,13 +31,30 @@ export interface EquipmentPackage {
  * An item bought in the shop. Magic weapons and armor carry the base (and the +1, +2 or +3) the
  * player chose, and the same item with another base is another line.
  */
-export interface BoughtItem extends GearChoice {
+export interface BoughtItem extends Pick<GearChoice, 'baseId' | 'bonus'> {
   itemId: string;
   qty: number;
+  /** An upgrade of a weapon (Repeating Shot): the weapon it goes on, which is already carried. */
+  host?: HostRef;
 }
 
-export const sameBought = (a: BoughtItem, itemId: string, gear: GearChoice = {}) =>
-  a.itemId === itemId && a.baseId === gear.baseId && a.bonus === gear.bonus;
+/** A weapon of the starting inventory, told by its item and base (entries have no id yet). */
+export interface HostRef {
+  itemId: string;
+  baseId?: string;
+}
+
+const sameHost = (a?: HostRef, b?: HostRef) => a?.itemId === b?.itemId && a?.baseId === b?.baseId;
+
+export const sameBought = (
+  a: BoughtItem,
+  itemId: string,
+  gear: Pick<BoughtItem, 'baseId' | 'bonus' | 'host'> = {},
+) =>
+  a.itemId === itemId &&
+  a.baseId === gear.baseId &&
+  a.bonus === gear.bonus &&
+  sameHost(a.host, gear.host);
 
 /** What the wizard remembers of the choice (letters), and what was bought with the gold. */
 export interface StartingChoice {
@@ -244,12 +261,22 @@ export function applyStartingEquipment(
   index: Map<string, Item>,
 ): Character {
   const inventory: InventoryEntry[] = ch.inventory.filter((e) => e.source !== 'start');
-  const add = (itemId: string | null, name: string, qty: number, gear: GearChoice = {}) => {
+  // the weapon each bought upgrade goes on, until the whole inventory is there
+  const hosts = new Map<string, HostRef>();
+  const add = (
+    itemId: string | null,
+    name: string,
+    qty: number,
+    gear: Pick<BoughtItem, 'baseId' | 'bonus' | 'host'> = {},
+  ) => {
     const same = inventory.find(
       (e) =>
         e.source === 'start' &&
         (itemId
-          ? e.itemId === itemId && e.baseId === gear.baseId && e.bonus === gear.bonus
+          ? e.itemId === itemId &&
+            e.baseId === gear.baseId &&
+            e.bonus === gear.bonus &&
+            sameHost(hosts.get(e.id), gear.host)
           : e.name === name),
     );
     if (same) {
@@ -269,6 +296,7 @@ export function applyStartingEquipment(
       ...(itemId && gear.baseId ? { baseId: gear.baseId } : {}),
       ...(itemId && gear.bonus ? { bonus: gear.bonus } : {}),
     });
+    if (gear.host) hosts.set(id, gear.host);
   };
   for (const k of ['class', 'background'] as const) {
     const pkg = packages[k]?.find((p) => p.letter === choice[k]);
@@ -282,7 +310,16 @@ export function applyStartingEquipment(
     }
   }
   for (const b of choice.bought)
-    if (items.has(b.itemId)) add(b.itemId, '', b.qty, { baseId: b.baseId, bonus: b.bonus });
+    if (items.has(b.itemId))
+      add(b.itemId, '', b.qty, { baseId: b.baseId, bonus: b.bonus, host: b.host });
+  // link each upgrade to its weapon; if the weapon is not carried any more it stays without one
+  for (const [id, ref] of hosts) {
+    const target = inventory.find(
+      (e) => e.id !== id && e.itemId === ref.itemId && e.baseId === ref.baseId,
+    );
+    const entry = inventory.find((e) => e.id === id);
+    if (entry && target) entry.onEntryId = target.id;
+  }
 
   let out: Character = {
     ...ch,

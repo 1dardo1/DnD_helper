@@ -12,8 +12,37 @@ import { Item } from '../models/compendium';
 export type GearKind = 'weapon' | 'armor' | 'shield' | 'ammunition';
 type ArmorStats = NonNullable<Item['armor']>;
 
-/** The part of an inventory entry that says which base and bonus were chosen. */
-export type GearChoice = Pick<InventoryEntry, 'baseId' | 'bonus'>;
+/** The part of an inventory entry that says which base, bonus and host weapon were chosen. */
+export type GearChoice = Pick<InventoryEntry, 'baseId' | 'bonus' | 'onEntryId'>;
+
+/**
+ * Magic items that are no weapon but an upgrade of a weapon the character already owns ("Any
+ * Simple or Martial with the Ammunition Property"): they need a host weapon of the inventory
+ * (core/characters/enhancement.ts), not a base of the compendium. What they do is in their text;
+ * the property the host must have is in their subtype.
+ */
+export interface EnhancementSpec {
+  /** Property the host weapon needs ("ammunition"). */
+  property: string;
+  /** +N to attack and damage rolls with the host weapon. */
+  bonus: number;
+  /** Only for ranged attacks (a Thrown weapon used in melee does not get it). */
+  rangedOnly: boolean;
+  ignoresLoading: boolean;
+  /** Makes its own (magic) ammunition when the weapon has none. */
+  freeAmmo: boolean;
+}
+
+const ENHANCEMENTS: Record<string, Omit<EnhancementSpec, 'property'>> = {
+  'repeating-shot': { bonus: 1, rangedOnly: true, ignoresLoading: true, freeAmmo: true },
+};
+
+export function enhancementOf(item: Item | undefined): EnhancementSpec | null {
+  const spec = item?.magic ? ENHANCEMENTS[item.id] : undefined;
+  if (!item || !spec) return null;
+  const property = /with the (\w+) property/i.exec(item.magic?.subtype ?? '')?.[1] ?? 'ammunition';
+  return { ...spec, property: property.toLowerCase() };
+}
 
 /** Magic items that are listed as weapons but have their own stats (a boomerang...). */
 const NO_BASE = new Set(['storm-boomerang']);
@@ -27,7 +56,8 @@ const AMMUNITION = /^(any )?(ammunition|arrows?|sling bullets?|bolts?|bullets?|n
 
 /** Which kind of base a magic item needs; null: none (not a magic weapon, armor or shield). */
 export function gearKind(item: Item | undefined): GearKind | null {
-  if (!item?.magic || item.weapon || item.armor || NO_BASE.has(item.id)) return null;
+  if (!item?.magic || item.weapon || item.armor || NO_BASE.has(item.id) || enhancementOf(item))
+    return null;
   const type = item.magic.type;
   const sub = subtype(item);
   if (type === 'shield') return 'shield';
@@ -192,7 +222,6 @@ const CONDITIONAL = new Set([
   'duskcrusher',
   'fedifensor',
   'hammer-of-runic-focus',
-  'repeating-shot',
   'star-razor',
 ]);
 
