@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-05T07:55:39.537Z",
+  "updatedAt": "2026-11-05T07:55:56.510Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -118,7 +118,7 @@
     }
   },
   "equipped": {
-    "armorId": null,
+    "armorId": "cast-off-armor",
     "shield": false
   },
   "equipment": "",
@@ -248,9 +248,10 @@
       "itemId": "cast-off-armor",
       "name": "Cast-Off Armor",
       "qty": 1,
-      "equipped": false,
+      "equipped": true,
       "source": "replicate",
-      "planId": "common:cast-off-armor"
+      "planId": "common:cast-off-armor",
+      "baseId": "plate-armor"
     }
   ],
   "state": {
