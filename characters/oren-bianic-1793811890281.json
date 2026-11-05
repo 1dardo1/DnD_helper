@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-04T17:26:37.669Z",
+  "updatedAt": "2026-11-05T07:26:00.687Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -257,7 +257,8 @@
       "itemId": "snipers-bracelet",
       "name": "",
       "qty": 1,
-      "equipped": false
+      "equipped": true,
+      "baseId": "heavy-crossbow"
     }
   ],
   "state": {
