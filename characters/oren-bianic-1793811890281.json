@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-05T07:28:02.517Z",
+  "updatedAt": "2026-11-05T07:28:15.996Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -119,13 +119,6 @@
   },
   "equipment": "",
   "inventory": [
-    {
-      "id": "cast-off-armor",
-      "itemId": "cast-off-armor",
-      "name": "",
-      "qty": 1,
-      "equipped": false
-    },
     {
       "id": "snipers-bracelet",
       "itemId": "snipers-bracelet",
