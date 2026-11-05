@@ -199,7 +199,6 @@
       width: 100%;
       max-width: none;
       min-width: 0;
-      text-overflow: ellipsis;
       color: var(--ink);
     }
 
@@ -278,6 +277,39 @@
 
     .equip {
       font-size: var(--fs-sm);
+    }
+  }
+
+  // phones: the base armor / weapon selector, the AC line and the held spell take the whole
+  // width of the row (under the equip button and the quantity) instead of the name column
+  @media (max-width: 44.99rem) {
+    &:not(.reordering) li:not(.attached) {
+      > .name {
+        display: contents;
+      }
+
+      > .equip,
+      > .equip-spacer,
+      > .name > .title,
+      > .qty,
+      > .remove {
+        grid-row: 1;
+      }
+
+      > .name > .title {
+        grid-column: 2;
+        align-self: start;
+      }
+
+      > .name > .gear,
+      > .name > .held,
+      > .name > .use {
+        grid-column: 1 / -1;
+      }
+
+      > .name > .use {
+        justify-self: start;
+      }
     }
   }
 

@@ -73,6 +73,7 @@ import { SummonsPage } from '../summons/summons-page';
   ],
   templateUrl: './character-sheet.html',
   styleUrl: './character-sheet.scss',
+  host: { '(document:click)': 'outsideClick($event)' },
 })
 export class CharacterSheet {
   /** Route parameter. */
@@ -376,6 +377,60 @@ export class CharacterSheet {
 
   protected signed(n: number): string {
     return n >= 0 ? `+${n}` : `${n}`;
+  }
+
+  /** Actions menu of the header (phones and tablets). */
+  protected readonly menuOpen = signal(false);
+
+  /** Level up is offered until level 20. */
+  protected canLevelUp(c: Character): boolean {
+    return c.classes.reduce((n, k) => n + k.level, 0) < 20;
+  }
+
+  /** Keyboard in the menu: Escape closes, arrows / Home / End move between the items. */
+  protected menuKey(e: KeyboardEvent): void {
+    const root = e.currentTarget as HTMLElement;
+    if (e.key === 'Escape' && this.menuOpen()) {
+      e.preventDefault();
+      this.menuOpen.set(false);
+      root.querySelector<HTMLElement>('.menu-button')?.focus();
+      return;
+    }
+    const keys = ['ArrowDown', 'ArrowUp', 'Home', 'End'];
+    if (!keys.includes(e.key)) return;
+    const items = Array.from(
+      root.querySelectorAll<HTMLElement>('[role="menuitem"]:not(:disabled)'),
+    );
+    if (!this.menuOpen()) {
+      if (e.key !== 'ArrowDown') return;
+      e.preventDefault();
+      this.menuOpen.set(true);
+      setTimeout(() => root.querySelector<HTMLElement>('[role="menuitem"]')?.focus());
+      return;
+    }
+    if (!items.length) return;
+    e.preventDefault();
+    const i = items.indexOf(document.activeElement as HTMLElement);
+    const next =
+      e.key === 'Home'
+        ? 0
+        : e.key === 'End'
+          ? items.length - 1
+          : e.key === 'ArrowDown'
+            ? (i + 1) % items.length
+            : (i - 1 + items.length) % items.length;
+    items[next].focus();
+  }
+
+  /** A click outside the menu closes it. */
+  protected outsideClick(e: Event): void {
+    if (this.menuOpen() && !(e.target as HTMLElement).closest?.('.menu')) this.menuOpen.set(false);
+  }
+
+  /** Focus left the menu: close it. */
+  protected menuFocusOut(e: FocusEvent): void {
+    const root = e.currentTarget as HTMLElement;
+    if (e.relatedTarget && !root.contains(e.relatedTarget as Node)) this.menuOpen.set(false);
   }
 
   protected classLine(sheet: Sheet): string {

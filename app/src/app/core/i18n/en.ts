@@ -385,6 +385,7 @@ export const en = {
   'create.missing.skills': 'Choose {count} more class skill(s).',
   'create.missing.feats': '{count} feat choice(s) left.',
   'create.missing.name': 'Give your character a name.',
+  'sheet.actions': 'Actions',
   'sheet.edit': 'Edit',
   'sheet.export': 'Export',
   'create.startingClass': 'Starting class',

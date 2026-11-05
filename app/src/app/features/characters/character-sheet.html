@@ -32,8 +32,19 @@
     [appClassTheme]="{ classId: c.classes[0]?.id, subclassId: c.classes[0]?.subclassId }"
     appClassThemeScope="parent"
   >
-    <h1>{{ s.name }}</h1>
-    <p>
+    <div class="title-row">
+      <h1>{{ s.name }}</h1>
+      <span
+        class="chip"
+        [attr.data-status]="status() ?? v.record.status"
+        [title]="'characters.status.' + (status() ?? v.record.status) | t"
+        ><span aria-hidden="true">☁</span>
+        <span class="label">{{
+          'characters.status.' + (status() ?? v.record.status) | t
+        }}</span></span
+      >
+    </div>
+    <p class="subtitle">
       {{ classLine(s) }}
       @if (s.species) {
         · {{ s.species | dataName }}
@@ -45,9 +56,9 @@
         }
       }
     </p>
-    <p class="actions-line">
-      <span class="status">{{ 'characters.status.' + (status() ?? v.record.status) | t }}</span>
-      <span class="links">
+    <div class="actions-line">
+      <!-- Wide screens: all the buttons in a row. -->
+      <span class="links wide">
         <a class="btn" [routerLink]="['/characters', c.id, 'edit']">{{ 'sheet.edit' | t }}</a>
         <a class="btn" [routerLink]="['/characters', c.id, 'level-up']">{{ 'levelUp.link' | t }}</a>
         <button type="button" class="btn" (click)="exportCharacter(c)">
@@ -60,7 +71,58 @@
         }
         <app-export-pdf-button [character]="c" />
       </span>
-    </p>
+      <!-- Phones and tablets: level up (when it applies) and one actions menu. -->
+      <span class="links compact">
+        @if (canLevelUp(c)) {
+          <a class="btn" [routerLink]="['/characters', c.id, 'level-up']">{{
+            'levelUp.link' | t
+          }}</a>
+        }
+        <span class="menu" (keydown)="menuKey($event)" (focusout)="menuFocusOut($event)">
+          <button
+            type="button"
+            class="btn menu-button"
+            aria-haspopup="menu"
+            [attr.aria-expanded]="menuOpen()"
+            [attr.aria-label]="'sheet.actions' | t"
+            [title]="'sheet.actions' | t"
+            (click)="menuOpen.set(!menuOpen())"
+          >
+            ⋯
+          </button>
+          @if (menuOpen()) {
+            <div class="menu-list" role="menu" [attr.aria-label]="'sheet.actions' | t">
+              <a
+                role="menuitem"
+                class="btn"
+                [routerLink]="['/characters', c.id, 'edit']"
+                (click)="menuOpen.set(false)"
+                >{{ 'sheet.edit' | t }}</a
+              >
+              <button
+                type="button"
+                role="menuitem"
+                class="btn"
+                (click)="menuOpen.set(false); exportCharacter(c)"
+              >
+                {{ 'sheet.export' | t }}
+              </button>
+              @if (canShareFiles) {
+                <button
+                  type="button"
+                  role="menuitem"
+                  class="btn"
+                  (click)="menuOpen.set(false); exportCharacter(c, true)"
+                >
+                  {{ 'backup.share' | t }}
+                </button>
+              }
+              <app-export-pdf-button [character]="c" menuItem (done)="menuOpen.set(false)" />
+            </div>
+          }
+        </span>
+      </span>
+    </div>
   </header>
 
   @if (status() === 'conflict') {
@@ -78,14 +140,17 @@
   }
 
   @if (s.warnings.length) {
-    <aside class="warnings" role="note">
-      <strong>{{ 'sheet.warnings' | t }}</strong>
+    <details class="warnings" role="note">
+      <summary>
+        <strong>{{ 'sheet.warnings' | t }}</strong>
+        <span class="count">{{ s.warnings.length }}</span>
+      </summary>
       <ul>
         @for (w of s.warnings; track w) {
           <li>{{ warning(w) }}</li>
         }
       </ul>
-    </aside>
+    </details>
   }
 
   <!-- Sticky: hit points, AC, initiative and rests stay in reach on every tab. -->
@@ -152,24 +217,6 @@
 
             <div class="col-main">
               <section class="stats">
-                <div>
-                  <small>{{ 'sheet.armorClass' | t }}</small
-                  ><strong>{{ s.armorClass.value }}</strong>
-                  @if (s.armorClass.formula.includes('+')) {
-                    <small>{{ formula(s.armorClass.formula) }}</small>
-                  }
-                </div>
-                <div>
-                  <small>{{ 'sheet.hitPoints' | t }}</small
-                  ><strong>{{ s.hitPoints.current }} / {{ s.hitPoints.max }}</strong>
-                  @if (s.hitPoints.temp) {
-                    <small>+{{ s.hitPoints.temp }}</small>
-                  }
-                </div>
-                <div>
-                  <small>{{ 'sheet.initiative' | t }}</small
-                  ><strong>{{ signed(s.initiative) }}</strong>
-                </div>
                 <div>
                   <small>{{ 'sheet.proficiencyBonus' | t }}</small
                   ><strong>{{ signed(s.proficiencyBonus) }}</strong>

@@ -7,26 +7,75 @@
 }
 
 .identity {
-  margin-bottom: var(--space-4);
+  position: relative;
+  margin-bottom: var(--space-2);
 
-  h1 {
-    margin-bottom: 0.3rem;
-  }
-
-  p {
+  .title-row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-2) var(--space-3);
-    margin-bottom: var(--space-2);
+    gap: var(--space-1) var(--space-2);
+    padding-right: 7.5rem; // room for the buttons, which sit on the same line
+    min-height: var(--tap, 2.75rem);
+
+    h1 {
+      min-width: 0;
+      margin: 0;
+      font-size: clamp(1.4rem, 1rem + 2vw, 2rem);
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+    }
   }
 
-  > p:first-of-type {
+  // Cloud status: a small chip next to the name
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0 0.5rem;
+    font-size: var(--fs-xs);
+    line-height: 1.6;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    white-space: nowrap;
+
+    &[data-status='synced'] {
+      color: var(--accent);
+    }
+
+    &[data-status='conflict'] {
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+
+    @media (max-width: 40rem) {
+      .label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+      }
+    }
+  }
+
+  // class level · species: two lines at most
+  .subtitle {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    margin: 0 0 var(--space-1);
     font-family: var(--font-note);
-    font-size: var(--fs-lg);
+    font-size: var(--fs-md);
+    line-height: 1.3;
   }
 
-  // Edit / Level up: buttons, not small links, so they are easy to hit on a phone
+  .actions-line {
+    margin: 0;
+  }
+
   .links {
     display: flex;
     flex-wrap: wrap;
@@ -34,6 +83,72 @@
 
     .btn {
       padding-inline: 0.8rem;
+    }
+  }
+
+  // Phones and tablets: level up + "⋯" menu, top right next to the name. Wide: a row of buttons.
+  .links.wide {
+    display: none;
+  }
+
+  .links.compact {
+    position: absolute;
+    top: 0;
+    right: 0;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .menu {
+    position: relative;
+  }
+
+  .menu-button {
+    min-width: var(--tap, 2.75rem);
+    font-size: 1.4rem;
+    line-height: 1;
+  }
+
+  .menu-list {
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    right: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 11rem;
+    padding: 0.4rem;
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-2, 0 6px 16px rgb(0 0 0 / 0.3));
+
+    .btn,
+    app-export-pdf-button .btn {
+      justify-content: flex-start;
+      width: 100%;
+      text-align: left;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    margin-bottom: var(--space-4);
+
+    .title-row {
+      padding-right: 0;
+    }
+
+    .links.compact {
+      display: none;
+    }
+
+    .links.wide {
+      display: flex;
+    }
+
+    .actions-line {
+      margin-top: var(--space-2);
     }
   }
 }
@@ -357,9 +472,29 @@ details.fold {
 .warnings {
   @include nb.sticky-note;
   max-width: 44rem;
+  margin-block: var(--space-2);
+  padding-block: 0.25rem;
 
   ul {
     margin: var(--space-2) 0 0;
+  }
+
+  // "To review · 3": one line, opens on tap
+  > summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 2.25rem;
+    cursor: pointer;
+  }
+
+  .count {
+    min-width: 1.5rem;
+    padding: 0 0.4rem;
+    font-weight: 700;
+    text-align: center;
+    border: 1px solid currentcolor;
+    border-radius: 999px;
   }
 }
 

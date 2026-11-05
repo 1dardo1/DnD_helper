@@ -388,6 +388,7 @@ export const es: Record<keyof typeof en, string> = {
   'create.missing.skills': 'Elige {count} habilidad(es) de clase más.',
   'create.missing.feats': 'Quedan {count} dote(s) por elegir.',
   'create.missing.name': 'Ponle nombre a tu personaje.',
+  'sheet.actions': 'Acciones',
   'sheet.edit': 'Editar',
   'sheet.export': 'Exportar',
   'create.startingClass': 'Clase inicial',

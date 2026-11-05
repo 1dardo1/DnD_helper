@@ -122,12 +122,11 @@
       <div class="col">
         <fieldset class="hp">
           <legend>{{ 'play.hp' | t }}</legend>
-          <p class="hp-now" aria-live="polite">
-            <strong>{{ hp() }}</strong> / {{ maxHp() }}
-            @if (state().hpTemp) {
-              <span class="temp">+{{ state().hpTemp }} {{ 'play.temp' | t }}</span>
-            }
-          </p>
+          @if (state().hpTemp) {
+            <p class="hp-now" aria-live="polite">
+              <span class="temp">{{ state().hpTemp }} {{ 'play.temp' | t }}</span>
+            </p>
+          }
           <label class="amount">
             <span>{{ 'play.amount' | t }}</span>
             <input
@@ -139,8 +138,6 @@
             />
           </label>
           <div class="buttons">
-            <button type="button" (click)="damage()">{{ 'play.damage' | t }}</button>
-            <button type="button" (click)="heal()">{{ 'play.heal' | t }}</button>
             <button type="button" (click)="setTemp()">{{ 'play.setTemp' | t }}</button>
             <button type="button" (click)="setHp()">{{ 'play.setHp' | t }}</button>
           </div>
