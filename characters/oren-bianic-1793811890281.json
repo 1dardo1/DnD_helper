@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-05T07:26:00.687Z",
+  "updatedAt": "2026-11-05T07:27:31.999Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -114,25 +114,11 @@
     }
   },
   "equipped": {
-    "armorId": "plate-armor",
+    "armorId": null,
     "shield": false
   },
   "equipment": "",
   "inventory": [
-    {
-      "id": "heavy-crossbow",
-      "itemId": "heavy-crossbow",
-      "name": "",
-      "qty": 1,
-      "equipped": true
-    },
-    {
-      "id": "plate-armor",
-      "itemId": "plate-armor",
-      "name": "",
-      "qty": 1,
-      "equipped": true
-    },
     {
       "id": "warm-fungal-clothing",
       "itemId": "warm-fungal-clothing",
@@ -239,16 +225,16 @@
       "equipped": false
     },
     {
-      "id": "wand-of-cloud-of-dagers-7-charges-regains-1d6-1-at-dawn",
-      "itemId": null,
-      "name": "Wand of cloud of dagers 7 charges regains 1d6+1 at Dawn",
+      "id": "cast-off-armor",
+      "itemId": "cast-off-armor",
+      "name": "",
       "qty": 1,
       "equipped": false
     },
     {
-      "id": "cast-off-armor",
-      "itemId": "cast-off-armor",
-      "name": "",
+      "id": "wand-of-cloud-of-dagers-7-charges-regains-1d6-1-at-dawn",
+      "itemId": null,
+      "name": "Wand of cloud of dagers 7 charges regains 1d6+1 at Dawn",
       "qty": 1,
       "equipped": false
     },
