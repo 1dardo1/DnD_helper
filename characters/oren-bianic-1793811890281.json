@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-05T08:41:06.007Z",
+  "updatedAt": "2026-11-05T12:40:56.391Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -290,12 +290,12 @@
     "exhaustion": 0,
     "spellSwap": {},
     "summons": {
-      "hideInactive": true,
+      "hideInactive": false,
       "scale": {},
       "types": {},
       "creatures": {
         "option:pact-of-the-chain|monster-imp": {
-          "on": true,
+          "on": false,
           "damage": 0,
           "temp": 0,
           "used": {}
