@@ -92,41 +92,119 @@
   }
 }
 
+// One row = a fixed grid: equip | content | quantity | remove (or the ↑ ↓ when rearranging).
 .inventory {
+  --eq: 6.5rem;
+  --qty: 4rem;
+  --act: 2.75rem;
+
   list-style: none;
   margin: 0;
   padding: 0;
 
   li {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.25rem 0;
+    display: grid;
+    grid-template-columns: var(--eq) minmax(0, 1fr) var(--qty) var(--act);
+    align-items: start;
+    column-gap: 0.5rem;
+    padding: 0.55rem 0;
     border-bottom: 1px dashed var(--line);
+
+    // the controls share the height of the first line of the content
+    > .equip,
+    > .qty,
+    > .remove,
+    > .move {
+      align-self: start;
+    }
+
+    > .equip,
+    > .equip-spacer,
+    > .qty,
+    > .remove,
+    > .move button {
+      min-height: 2.25rem;
+    }
+
+    // an upgrade linked to a weapon: a smaller sub-row under it, indented with a connector
+    &.attached {
+      padding: 0.2rem 0 0.4rem;
+      font-size: var(--fs-sm);
+
+      > .name {
+        position: relative;
+        padding-left: 1.1rem;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0.35rem;
+          top: -0.45rem;
+          bottom: 50%;
+          width: 0.6rem;
+          border-left: 2px solid var(--line);
+          border-bottom: 2px solid var(--line);
+          border-bottom-left-radius: 0.4rem;
+        }
+      }
+
+      > .qty,
+      > .remove {
+        min-height: 1.9rem;
+      }
+
+      > .qty {
+        font-size: var(--fs-sm);
+      }
+    }
   }
 
   .name {
-    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.5rem;
+    min-height: 2.25rem;
+    align-content: center;
+  }
+
+  li.attached .title {
+    min-height: 1.9rem;
   }
 
   // the base weapon or armor of a magic item, and its bonus
   .gear {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.25rem 0.75rem;
-    margin-top: 0.15rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.2rem;
+    margin-bottom: 0.2rem;
     font-weight: 400;
     font-size: var(--fs-sm);
 
     label {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      color: var(--ink-soft);
     }
 
+    // the selector takes the whole width of the text column
     select {
-      max-width: 11rem;
+      width: 100%;
+      max-width: none;
+      min-width: 0;
+      text-overflow: ellipsis;
+      color: var(--ink);
+    }
+
+    .line {
+      color: var(--ink-soft);
     }
 
     .issue {
@@ -134,30 +212,47 @@
     }
   }
 
+  .change-host {
+    align-self: flex-start;
+    min-height: 0;
+    padding: 0 0.4rem;
+    font-size: var(--fs-sm);
+  }
+
   .made,
   .held {
-    display: block;
     font-weight: 400;
     color: var(--ink-soft);
   }
 
+  .held {
+    display: block;
+  }
+
+  .made {
+    white-space: nowrap;
+  }
+
   .use {
-    flex: none;
+    margin-top: 0.25rem;
     font-size: var(--fs-sm);
     padding-inline: 0.5rem;
   }
 
-  .equipped .name {
+  .equipped > .name .title a {
     font-weight: 700;
   }
 
   .qty {
-    width: 4rem;
+    width: 100%;
+    min-width: 0;
     text-align: center;
   }
 
   .equip {
-    min-width: 7rem;
+    width: 100%;
+    min-width: 0;
+    padding-inline: 0.3rem;
   }
 
   .equip.on {
@@ -165,44 +260,50 @@
     color: var(--paper);
   }
 
-  .equip-spacer {
-    min-width: 7rem;
-  }
-
-  .name {
+  .remove {
+    width: 100%;
     min-width: 0;
+    padding-inline: 0;
   }
 
-  // phones: narrower controls so the name keeps the room
+  // phones: narrower columns so the text keeps the room
   @media (max-width: 44.99rem) {
+    --eq: 4.8rem;
+    --qty: 3.8rem;
+    --act: 2.5rem;
+
     li {
-      gap: 0.25rem;
+      column-gap: 0.3rem;
     }
 
-    .equip,
-    .equip-spacer {
-      min-width: 0;
-      width: 4.8rem;
-      padding-inline: 0.2rem;
+    .equip {
       font-size: var(--fs-sm);
-    }
-
-    .qty {
-      width: 2.6rem;
-    }
-
-    .remove {
-      min-width: 2.5rem;
-      padding-inline: 0;
     }
   }
 
   // Rearranging: the name, the quantity and two big arrows
-  &.reordering .move button {
-    min-width: var(--tap);
-    min-height: var(--tap);
-    padding: 0;
-    font-size: var(--fs-lg);
+  &.reordering {
+    --act: 5rem;
+    --eq: 0px;
+
+    li {
+      column-gap: 0;
+    }
+
+    .name {
+      padding-inline: 0 0.5rem;
+    }
+
+    li.attached > .name {
+      padding-left: 1.1rem;
+    }
+
+    .move button {
+      min-width: var(--tap);
+      min-height: var(--tap);
+      padding: 0;
+      font-size: var(--fs-lg);
+    }
   }
 
   // ↑ ↓: the player's own order

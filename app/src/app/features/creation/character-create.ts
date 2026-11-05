@@ -71,7 +71,7 @@ import {
   toggleSpellFor,
 } from '../../core/creation/spell-choices';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
-import { baseLabel } from '../../core/characters/base-label';
+import { baseSummary } from '../../core/characters/base-label';
 import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 import {
@@ -552,8 +552,14 @@ export class CharacterCreate implements LeaveCheck {
     );
   }
 
-  protected baseLabel(b: Item): string {
-    return baseLabel(b, this.i18n, this.dataText);
+  /** Option text of a base: its name; the details go in a line under the selector. */
+  protected baseName(b: Item): string {
+    return this.dataText.shortName(b.name);
+  }
+
+  protected pickedSummary(bases: Item[], baseId: string): string {
+    const b = bases.find((x) => x.id === baseId);
+    return b ? baseSummary(b, this.i18n) : '';
   }
 
   /** Option group label: the glossary's, else "eldritch-invocation" → "Eldritch Invocation". */

@@ -4,7 +4,6 @@ import { RouterLink } from '@angular/router';
 import {
   addItem,
   canEquip,
-  moveEntry,
   removeEntry,
   setGear,
   setQty,
@@ -42,7 +41,8 @@ import {
   levelStats,
   spellBinding,
 } from '../../core/spell-items/spell-items';
-import { baseLabel } from '../../core/characters/base-label';
+import { baseSummary } from '../../core/characters/base-label';
+import { displayOrder, groupEntries, moveGroup } from '../../core/characters/inventory-order';
 import { SpellItemPicker } from '../../shared/spell-item-picker';
 import { defaultOrder } from '../../shared/picker/entry-order';
 import { normalise, rankName } from '../compendium/compendium-search';
@@ -85,7 +85,18 @@ export class EquipmentPanel {
 
   protected readonly entries = computed(() => {
     const v = this.items.value();
-    return this.character().inventory.map((e) => {
+    const inv = this.character().inventory;
+    const groups = groupEntries(inv);
+    // what each group can do when rearranging: it only moves among its equipped / stowed peers
+    const canUp = new Set<string>();
+    const canDown = new Set<string>();
+    groups.forEach((g, i) => {
+      const same = (j: number) => !!groups[j]?.entry.equipped === !!g.entry.equipped;
+      if (i > 0 && same(i - 1)) canUp.add(g.entry.id);
+      if (i < groups.length - 1 && same(i + 1)) canDown.add(g.entry.id);
+    });
+    const attachedIds = new Set(groups.flatMap((g) => g.attached.map((a) => a.id)));
+    return displayOrder(inv).map((e) => {
       const item = e.itemId ? v?.byId.get(e.itemId) : undefined;
       const gear = v ? gearOf(e, item, v.byId) : null;
       // a magic weapon, armor or shield: its base (to choose or to change) and bonus
@@ -99,6 +110,10 @@ export class EquipmentPanel {
       const hostBonus = state?.state === 'ok' ? state.host.gear.bonus : 0;
       return {
         entry: e,
+        /** Linked to a weapon of the inventory: listed right below it, moves with it. */
+        attached: attachedIds.has(e.id),
+        canUp: canUp.has(e.id),
+        canDown: canDown.has(e.id),
         item,
         gear,
         magic,
@@ -199,9 +214,21 @@ export class EquipmentPanel {
     this.changed.emit(consumeSpellItem(this.character(), e.id));
   }
 
-  protected baseLabel(b: Item): string {
-    return baseLabel(b, this.i18n, this.dataText);
+  /** The option text of a base: only its name; the details go in a line under the selector. */
+  protected baseName(b: Item): string {
+    return this.dataText.shortName(b.name);
   }
+
+  protected baseSummary(b: Item | undefined | null): string {
+    return b ? baseSummary(b, this.i18n) : '';
+  }
+
+  protected pendingSummary(bases: Item[], baseId: string): string {
+    return this.baseSummary(bases.find((b) => b.id === baseId));
+  }
+
+  /** The upgrade whose weapon is being changed (its selector is shown). */
+  protected readonly changingHost = signal<string | null>(null);
 
   protected add(item: Item | null): void {
     const v = this.items.value();
@@ -262,6 +289,7 @@ export class EquipmentPanel {
 
   protected setHost(e: InventoryEntry, onEntryId: string): void {
     if (onEntryId) this.changed.emit(setGear(this.character(), e.id, { onEntryId }));
+    this.changingHost.set(null);
   }
 
   /** "Sniper's Bracelet (Longbow)" / "Longbow": a weapon of the inventory, to choose as a host. */
@@ -287,7 +315,9 @@ export class EquipmentPanel {
   }
 
   protected move(e: InventoryEntry, delta: number): void {
-    this.changed.emit(moveEntry(this.character(), e.id, delta));
+    const ch = this.character();
+    const inventory = moveGroup(ch.inventory, e.id, delta < 0 ? -1 : 1);
+    if (inventory !== ch.inventory) this.changed.emit({ ...ch, inventory });
   }
 
   protected qty(e: InventoryEntry, ev: Event): void {

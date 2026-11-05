@@ -1691,4 +1691,6 @@ export const en = {
   'pdf.noName': 'Unnamed',
   'pdf.abilityShort': 'Abil.',
   'pdf.modShort': 'Mod.',
+  'plans.madeShort': 'Replicated',
+  'gear.up.change': 'Change weapon',
 };

@@ -111,10 +111,11 @@
       </p>
     }
     <ul class="inventory" [class.reordering]="reordering()">
-      @for (r of entries(); track r.entry.id; let first = $first, last = $last) {
-        <li [class.equipped]="r.entry.equipped">
+      @for (r of entries(); track r.entry.id) {
+        <li [class.equipped]="r.entry.equipped" [class.attached]="r.attached">
           <!-- while rearranging: no Equip / ✕, so the arrows get big buttons -->
-          @if (reordering()) {
+          @if (reordering() || r.attached) {
+            <span class="equip-spacer"></span>
           } @else if (canEquip(r.item)) {
             <button
               type="button"
@@ -128,23 +129,30 @@
           } @else {
             <span class="equip-spacer"></span>
           }
-          <span class="name">
-            @if (r.item) {
-              <a [routerLink]="['/compendium', 'item', r.item.id]">{{
-                (r.entry.source === 'replicate' && r.entry.name ? r.entry.name : r.item.name)
-                  | dataName: true
-              }}</a>
-            } @else {
-              {{ r.entry.name || r.entry.itemId }}
-            }
-            @if (r.entry.source === 'replicate') {
-              <small class="made">✦ {{ 'plans.madeWith' | t }}</small>
-            }
+          <div class="name">
+            <div class="title">
+              @if (r.item) {
+                <a [routerLink]="['/compendium', 'item', r.item.id]">{{
+                  (r.entry.source === 'replicate' && r.entry.name ? r.entry.name : r.item.name)
+                    | dataName: true
+                }}</a>
+              } @else {
+                <span>{{ r.entry.name || r.entry.itemId }}</span>
+              }
+              @if (r.entry.source === 'replicate') {
+                <small
+                  class="made"
+                  [title]="'plans.madeWith' | t"
+                  [attr.aria-label]="'plans.madeWith' | t"
+                  >✦ {{ 'plans.madeShort' | t }}</small
+                >
+              }
+            </div>
             @if (r.magic; as m) {
-              <span class="gear">
+              <div class="gear">
                 @if (m.bases.length > 1) {
                   <label>
-                    {{ 'gear.base' | t }}
+                    <span class="cap">{{ 'gear.base' | t }}</span>
                     <select
                       [attr.aria-label]="('gear.base' | t) + ': ' + r.item?.name"
                       (change)="setBase(r.entry, text($event))"
@@ -154,17 +162,19 @@
                       }
                       @for (b of m.bases; track b.id) {
                         <option [value]="b.id" [selected]="b.id === r.gear?.base?.id">
-                          {{ baseLabel(b) }}
+                          {{ baseName(b) }}
                         </option>
                       }
                     </select>
                   </label>
                 } @else if (r.gear?.base) {
-                  <span>{{ 'gear.base' | t }}: {{ r.gear!.base!.name | dataName }}</span>
+                  <span class="line"
+                    >{{ 'gear.base' | t }}: {{ r.gear!.base!.name | dataName }}</span
+                  >
                 }
                 @if (m.bonuses.length > 1) {
                   <label>
-                    {{ 'gear.bonus' | t }}
+                    <span class="cap">{{ 'gear.bonus' | t }}</span>
                     <select
                       [attr.aria-label]="('gear.bonus' | t) + ': ' + r.item?.name"
                       (change)="setBonus(r.entry, text($event))"
@@ -177,12 +187,15 @@
                     </select>
                   </label>
                 } @else if (r.gear?.bonus) {
-                  <strong>+{{ r.gear!.bonus }}</strong>
+                  <strong class="line">+{{ r.gear!.bonus }}</strong>
                 }
                 @if (r.gear?.unresolved) {
                   <small class="issue">{{ 'gear.pick' | t }}</small>
                 } @else if (r.armor; as a) {
-                  <small>
+                  <small class="line">
+                    @if (r.gear?.base?.armor?.kind !== 'shield') {
+                      {{ r.gear?.base?.armor?.kind | term: 'armor' }} ·
+                    }
                     {{ 'gear.ac' | t: { ac: (a.baseAC ?? 0) + (r.gear?.bonus ?? 0) } }}
                     @if (a.strength) {
                       · {{ 'gear.str' | t: { n: a.strength } }}
@@ -192,59 +205,82 @@
                     }
                   </small>
                 } @else if (r.gear?.kind === 'weapon' && r.gear?.base?.weapon; as w) {
-                  <small>
+                  <small class="line">
                     {{ w.damage[0]?.dice }} {{ w.damage[0]?.type | term: 'damage' }}
                     @if (w.mastery) {
                       · {{ 'sheet.mastery' | t }}: {{ w.mastery | term: 'mastery' }}
                     }
                   </small>
                 }
-              </span>
+              </div>
             }
             @if (r.upgrade; as up) {
-              <span class="gear">
-                @if (up.state.state === 'ok') {
-                  <label>
-                    {{ 'gear.up.on' | t }}
-                    <select
-                      [attr.aria-label]="('gear.up.on' | t) + ': ' + r.item?.name"
-                      (change)="setHost(r.entry, text($event))"
-                    >
-                      @for (h of up.hosts; track h.entry.id) {
-                        <option [value]="h.entry.id" [selected]="h.entry.id === r.entry.onEntryId">
-                          {{ hostLabel(h) }}
-                        </option>
-                      }
-                    </select>
-                  </label>
-                  @if (up.hostBonus) {
-                    <small>{{
-                      'gear.up.stack' | t: { n: up.hostBonus, total: up.hostBonus + up.spec.bonus }
-                    }}</small>
-                  }
-                } @else {
-                  @if (up.hosts.length) {
+              <div class="gear">
+                @if (up.state.state === 'ok' && !(r.attached && changingHost() === r.entry.id)) {
+                  @if (!r.attached) {
                     <label>
-                      {{ 'gear.up.on' | t }}
+                      <span class="cap">{{ 'gear.up.on' | t }}</span>
                       <select
                         [attr.aria-label]="('gear.up.on' | t) + ': ' + r.item?.name"
                         (change)="setHost(r.entry, text($event))"
                       >
-                        <option value="" selected>{{ 'gear.choose' | t }}</option>
                         @for (h of up.hosts; track h.entry.id) {
-                          <option [value]="h.entry.id">{{ hostLabel(h) }}</option>
+                          <option
+                            [value]="h.entry.id"
+                            [selected]="h.entry.id === r.entry.onEntryId"
+                          >
+                            {{ hostLabel(h) }}
+                          </option>
                         }
                       </select>
                     </label>
                   }
-                  <small class="issue">{{
-                    (up.state.state === 'broken' ? 'gear.up.broken' : 'gear.up.pick') | t
-                  }}</small>
-                  @if (!up.hosts.length) {
-                    <small class="issue">{{ 'gear.up.noHost' | t }}</small>
+                  @if (up.hostBonus) {
+                    <small class="line">{{
+                      'gear.up.stack' | t: { n: up.hostBonus, total: up.hostBonus + up.spec.bonus }
+                    }}</small>
+                  }
+                  @if (r.attached && up.hosts.length > 1) {
+                    <button
+                      type="button"
+                      class="btn-ghost change-host"
+                      (click)="changingHost.set(r.entry.id)"
+                    >
+                      {{ 'gear.up.change' | t }}
+                    </button>
+                  }
+                } @else {
+                  @if (up.hosts.length) {
+                    <label>
+                      <span class="cap">{{ 'gear.up.on' | t }}</span>
+                      <select
+                        [attr.aria-label]="('gear.up.on' | t) + ': ' + r.item?.name"
+                        (change)="setHost(r.entry, text($event))"
+                      >
+                        @if (up.state.state !== 'ok') {
+                          <option value="" selected>{{ 'gear.choose' | t }}</option>
+                        }
+                        @for (h of up.hosts; track h.entry.id) {
+                          <option
+                            [value]="h.entry.id"
+                            [selected]="up.state.state === 'ok' && h.entry.id === r.entry.onEntryId"
+                          >
+                            {{ hostLabel(h) }}
+                          </option>
+                        }
+                      </select>
+                    </label>
+                  }
+                  @if (up.state.state !== 'ok') {
+                    <small class="issue">{{
+                      (up.state.state === 'broken' ? 'gear.up.broken' : 'gear.up.pick') | t
+                    }}</small>
+                    @if (!up.hosts.length) {
+                      <small class="issue">{{ 'gear.up.noHost' | t }}</small>
+                    }
                   }
                 }
-              </span>
+              </div>
             }
             @if (r.held; as h) {
               <small class="held">
@@ -261,7 +297,12 @@
                 }
               </small>
             }
-          </span>
+            @if (!reordering() && r.held?.scroll) {
+              <button type="button" class="use" (click)="useUp(r.entry)">
+                {{ 'spellitem.use' | t }}
+              </button>
+            }
+          </div>
           <input
             type="number"
             min="1"
@@ -271,33 +312,31 @@
             [attr.aria-label]="'sheet.quantity' | t"
           />
           @if (reordering()) {
-            <span class="move">
-              <button
-                type="button"
-                class="btn-ghost"
-                [disabled]="first"
-                (click)="move(r.entry, -1)"
-                [attr.aria-label]="('sheet.moveUp' | t) + ': ' + (r.item?.name ?? r.entry.name)"
-              >
-                ↑
-              </button>
-              <button
-                type="button"
-                class="btn-ghost"
-                [disabled]="last"
-                (click)="move(r.entry, 1)"
-                [attr.aria-label]="('sheet.moveDown' | t) + ': ' + (r.item?.name ?? r.entry.name)"
-              >
-                ↓
-              </button>
-            </span>
-          }
-          @if (!reordering() && r.held?.scroll) {
-            <button type="button" class="use" (click)="useUp(r.entry)">
-              {{ 'spellitem.use' | t }}
-            </button>
-          }
-          @if (!reordering()) {
+            @if (r.attached) {
+              <span class="act-spacer"></span>
+            } @else {
+              <span class="move">
+                <button
+                  type="button"
+                  class="btn-ghost"
+                  [disabled]="!r.canUp"
+                  (click)="move(r.entry, -1)"
+                  [attr.aria-label]="('sheet.moveUp' | t) + ': ' + (r.item?.name ?? r.entry.name)"
+                >
+                  ↑
+                </button>
+                <button
+                  type="button"
+                  class="btn-ghost"
+                  [disabled]="!r.canDown"
+                  (click)="move(r.entry, 1)"
+                  [attr.aria-label]="('sheet.moveDown' | t) + ': ' + (r.item?.name ?? r.entry.name)"
+                >
+                  ↓
+                </button>
+              </span>
+            }
+          } @else {
             <button
               type="button"
               class="btn-ghost remove"
@@ -347,11 +386,14 @@
               <option value="" [selected]="!p.baseId">{{ 'gear.choose' | t }}</option>
               @for (b of p.bases; track b.id) {
                 <option [value]="b.id" [selected]="b.id === p.baseId">
-                  {{ baseLabel(b) }}
+                  {{ baseName(b) }}
                 </option>
               }
             </select>
           </label>
+          @if (pendingSummary(p.bases, p.baseId); as sm) {
+            <small class="line">{{ sm }}</small>
+          }
         }
         @if (p.bonuses.length > 1) {
           <label>

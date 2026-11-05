@@ -1715,4 +1715,6 @@ export const es: Record<keyof typeof en, string> = {
   'pdf.noName': 'Sin nombre',
   'pdf.abilityShort': 'Car.',
   'pdf.modShort': 'Mod.',
+  'plans.madeShort': 'Replicado',
+  'gear.up.change': 'Cambiar arma',
 };
