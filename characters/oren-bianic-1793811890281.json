@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-05T08:00:35.830Z",
+  "updatedAt": "2026-11-05T08:40:39.738Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -252,6 +252,16 @@
       "name": "Wand of cloud of dagers 7 charges regains 1d6+1 at Dawn",
       "qty": 1,
       "equipped": false
+    },
+    {
+      "id": "replicated-repeating-shot",
+      "itemId": "repeating-shot",
+      "name": "Repeating Shot",
+      "qty": 1,
+      "equipped": false,
+      "source": "replicate",
+      "planId": "magic-item-plan/repeating-shot",
+      "onEntryId": "snipers-bracelet"
     }
   ],
   "state": {
@@ -303,7 +313,7 @@
         "planId": "magic-item-plan/repeating-shot",
         "itemId": "repeating-shot",
         "inventoryId": "replicated-repeating-shot",
-        "createdAt": "2026-11-05T07:58:00.108Z"
+        "createdAt": "2026-11-05T08:40:34.706Z"
       }
     ]
   },
