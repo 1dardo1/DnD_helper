@@ -18,6 +18,7 @@ import { SummonCatalogService } from '../../core/summons/summon-catalog.service'
 import { ABILITIES } from '../../core/rules/tables';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { EquipmentPanel } from './equipment-panel';
+import { ExportPdfButton } from './export-pdf-button';
 import { SpellBook } from './spell-book';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
@@ -39,6 +40,7 @@ import { HomebrewBadge } from '../homebrew/homebrew-badge';
     PlayPanel,
     SpellBook,
     EquipmentPanel,
+    ExportPdfButton,
     ReplicatePanel,
     ClassThemeDirective,
     HomebrewBadge,

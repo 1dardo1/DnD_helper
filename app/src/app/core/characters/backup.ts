@@ -58,6 +58,19 @@ function day(d: Date): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
+/** "Thorin (ejemplo)" → "Thorin-ejemplo.pdf": the name kept readable, safe as a file name. */
+export function pdfFileName(name: string): string {
+  const base = name
+    .normalize('NFC')
+    // eslint-disable-next-line no-control-regex
+    .replace(/[\\/:*?"<>|\u0000-\u001f]+/g, ' ')
+    .replace(/[()[\]{}]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .slice(0, 80);
+  return `${base || 'personaje'}.pdf`;
+}
+
 function slugify(text: string): string {
   return text
     .toLowerCase()

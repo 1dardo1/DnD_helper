@@ -75,6 +75,59 @@ export class BackupService {
     return out;
   }
 
+  /**
+   * A binary file (the PDF of a sheet): a download on the web, the share sheet where files can
+   * be shared (phones) or in the Android app, after writing it to the app's cache.
+   */
+  async exportBinary(
+    fileName: string,
+    bytes: Uint8Array,
+    mime: string,
+    share = false,
+  ): Promise<ExportOutcome> {
+    if (this.native) {
+      const [{ Filesystem, Directory }, { Share }] = await Promise.all([
+        import('@capacitor/filesystem'),
+        import('@capacitor/share'),
+      ]);
+      let binary = '';
+      for (let i = 0; i < bytes.length; i += 0x8000) {
+        binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+      }
+      const { uri } = await Filesystem.writeFile({
+        path: fileName,
+        data: btoa(binary),
+        directory: Directory.Cache,
+      });
+      try {
+        await Share.share({
+          title: fileName,
+          files: [uri],
+          dialogTitle: this.i18n.t('backup.shareTitle'),
+        });
+        return 'shared';
+      } catch (e) {
+        if (/cancel/i.test((e as Error)?.message ?? '')) return 'cancelled';
+        throw e;
+      }
+    }
+    const blob = new Blob([bytes as BlobPart], { type: mime });
+    if (share && this.canShareFiles) {
+      try {
+        await navigator.share({
+          files: [new File([blob], fileName, { type: mime })],
+          title: fileName,
+        });
+        return 'shared';
+      } catch (e) {
+        if ((e as Error)?.name === 'AbortError') return 'cancelled';
+        throw e;
+      }
+    }
+    downloadBlob(fileName, blob);
+    return 'downloaded';
+  }
+
   private async export(fileName: string, text: string, share: boolean): Promise<ExportOutcome> {
     if (this.native) return this.shareNative(fileName, text);
     if (share && this.canShareFiles) return this.shareWeb(fileName, text);
@@ -120,7 +173,11 @@ export class BackupService {
 }
 
 function download(fileName: string, text: string): void {
-  const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+  downloadBlob(fileName, new Blob([text], { type: 'application/json' }));
+}
+
+function downloadBlob(fileName: string, blob: Blob): void {
+  const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
   a.download = fileName;
