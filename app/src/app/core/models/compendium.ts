@@ -175,6 +175,12 @@ export interface SpeciesVariant {
   description: string;
   traits: Feature[];
   spells: { level: number; spells: string[] }[] | null;
+  /**
+   * This isn't a sub-race/lineage the player chooses: it's the same creature printed again in
+   * another book (e.g. Goblin's Volo's Guide and Plane Shift reprints). No selector should offer
+   * it, and its traits must never be merged with the species' own.
+   */
+  reprint?: boolean;
 }
 
 export interface Species extends Entry {

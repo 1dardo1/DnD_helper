@@ -304,7 +304,7 @@
             (picked)="setSpecies($event.id)"
           />
           @if (species(); as s) {
-            @if (s.variants.length) {
+            @if (variants().length) {
               <h3>{{ 'create.variant' | t }}</h3>
               <app-picker
                 [items]="variants()"

@@ -773,6 +773,10 @@ export const es: Record<keyof typeof en, string> = {
   'compendium.traits': 'Rasgos',
   'compendium.racialFeats': 'Dotes raciales',
   'compendium.variants': 'Linajes y variantes',
+  'compendium.choosePrinting':
+    'Esta especie se publicó más de una vez, con rasgos distintos cada vez. Elige una edición para ver los suyos.',
+  'compendium.allPrintings': 'Todas las ediciones',
+  'compendium.reprint': 'Reimpresión',
   'compendium.abilityScores': 'Puntuaciones de característica',
   'compendium.originFeat': 'Dote de origen',
   'compendium.equipment': 'Equipo',

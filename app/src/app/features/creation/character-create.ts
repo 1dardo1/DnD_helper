@@ -306,9 +306,13 @@ export class CharacterCreate implements LeaveCheck {
     const id = this.draft().species?.id;
     return id ? this.data.value()?.rules.species.get(id) : undefined;
   });
-  /** The species' lineages or variants, as picker items (the name is their id). */
+  /**
+   * The species' real lineages/legacies/ancestries to choose from, as picker items (the name is
+   * their id). Excludes "variants" that are only the same species reprinted in another book
+   * (Goblin's Volo's Guide, Plane Shift... printings): those aren't a player choice.
+   */
   protected readonly variants = computed(() =>
-    (this.species()?.variants ?? []).map((v) => ({ ...v, id: v.name })),
+    (this.species()?.variants ?? []).filter((v) => !v.reprint).map((v) => ({ ...v, id: v.name })),
   );
   protected readonly skillChoice = computed(() => skillPicks(this.classList()));
   protected readonly expertiseTotal = computed(() =>

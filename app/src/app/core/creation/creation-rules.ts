@@ -576,7 +576,7 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
 
   // species, size, languages
   if (!ch.species) miss('species', 'create.missing.species');
-  else if (ctx.species?.variants.length && !ch.species.variant)
+  else if (ctx.species?.variants.some((v) => !v.reprint) && !ch.species.variant)
     miss('species', 'create.missing.variant');
   if (
     speciesFeatKind(ctx.species) &&

@@ -49,7 +49,8 @@
             "description": "Eres competente con tus golpes desarmados, que causan 1d4 de daño cortante con cada golpe."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -201,7 +202,8 @@
             "description": "Puedes lanzar el conjuro Levitar una vez con este rasgo, que no requiere componentes materiales, y recuperas la capacidad de lanzarlo de esta manera cuando terminas un descanso largo. La Constitución es tu aptitud mágica para este conjuro."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -357,7 +359,8 @@
         "name": "Aven (Características)",
         "description": "*** Los aven tienen cuerpos, brazos y piernas parecidos a los humanos, además de alas y cabezas de pájaro. En Naktamun se encuentran dos variedades distintas de aven. Uno tiene cabeza de halcón o ave rapaz similar, con alas cortas que permiten un vuelo rápido. La otra variedad tiene la cabeza de un ibis encima de un cuello largo, con alas anchas y angulares más adecuadas para volar. Todos los aven tienen cuerpos delgados con plumas que se extienden desde la cabeza hasta los hombros.***\n\n***Aven disfruta volando por encima de sus enemigos, utilizando su movilidad superior para confundirlos y superarlos. También les encanta volar por el cielo, aunque el Hekma limita su altitud. Como toda la gente de Naktamun, están agradecidos por la magia protectora de los Hekma, por supuesto. Pero anticipan ansiosamente la hora en que el Dios Faraón regresará y disolverá el velo, permitiéndoles volar sin límites en el más allá.***",
         "traits": [],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -483,7 +486,8 @@
             "description": "Si sorprendes a una criatura y la golpeas con un ataque en tu primer turno de combate, el ataque le causa 2d6 daños adicionales. Puedes usar este rasgo solo una vez por combate."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -560,7 +564,8 @@
             "description": "Tienes competencia en una de las siguientes habilidades: manejo de animales, medicina, naturaleza o supervivencia."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       },
       {
         "name": "Centauro (Odisea mítica de Theros)",
@@ -592,7 +597,8 @@
             "description": "Tienes competencia en una de las siguientes habilidades: manejo de animales, medicina, naturaleza o supervivencia."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -728,7 +734,8 @@
             "description": "Tienes ventaja en las pruebas de Destreza (sigilo) para esconderte en terreno rocoso."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -1041,7 +1048,8 @@
             "description": "Tienes desventaja en las tiradas de Ataque y en las pruebas de Sabiduría (Percepción) que dependen de la vista cuando tú, el objetivo de tu ataque o cualquier cosa que estés tratando de percibir, estás bajo la luz solar directa."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -1192,7 +1200,8 @@
             "description": "Puedes lanzar el conjuro Pasar sin rastro una vez con este rasgo, que no requiere componentes materiales, y recuperas la capacidad de lanzarlo de esta manera cuando terminas un descanso largo. La Constitución es tu aptitud mágica para este conjuro."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -1274,7 +1283,8 @@
             "description": "Como acción adicional, puedes teletransportarte mágicamente hasta 30 pies a un espacio desocupado que puedas ver. Una vez que uses este rasgo, no podrás volver a hacerlo hasta que termines un corto o descanso largo. Cuando alcanzas el nivel 3, tu Paso Fey gana un efecto adicional según tu temporada; si el efecto requiere un tirada de salvación, el CD equivale a 8 + tu bonificador de competencia + tu modificador de Carisma. Los efectos son los siguientes:\n\n- **Otoño.** Inmediatamente después de usar tu Paso Fey, hasta dos criaturas de tu elección que puedas ver a menos de 10 pies de ti deben tener éxito en una Sabiduría tirada de salvación o ser hechizadas por ti durante 1 minuto, o hasta que tú o tus compañeros le causen algún daño.\n- **Invierno.** Cuando usas tu Paso Fey, una criatura de tu elección que puedas ver a 5 pies de ti antes de teletransportarte debe tener éxito en Sabiduría tirada de salvación o tener miedo de ti hasta el final de tu siguiente turno.\n- **Primavera.** Cuando usas tu Paso Fey, puedes tocar una criatura dispuesta a 5 pies de ti. Luego, esa criatura se teletransporta en tu lugar y aparece en un espacio desocupado de tu elección que puedes ver a 30 pies de ti.\n- **Verano.** Inmediatamente después de usar tu Paso Fey, cada criatura de tu elección que puedas ver a 5 pies de ti recibe un daño de fuego igual a tu modificador de Carisma (mínimo de 1 daño)."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -1507,7 +1517,8 @@
             "description": "Gracias a tus alas, tienes una velocidad de vuelo igual a tu velocidad al caminar. No puedes usar esta velocidad de vuelo si llevas una armadura media o pesada."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       },
       {
         "name": "Hada (Arcanos desenterrados)",
@@ -1534,7 +1545,8 @@
             "description": "Puede pasar por un espacio tan estrecho como 1 pulgada de ancho."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -1606,7 +1618,8 @@
             "description": "Tienes la capacidad de comunicarte de manera limitada con bestias y plantas. Ellos pueden entender el significado de tus palabras, aunque tú no tienes ninguna habilidad especial para entenderlas a cambio. Tienes ventaja en todas las pruebas de Carisma que hagas para influir en ellos."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -1669,7 +1682,8 @@
             "description": "Ya conoces el truco Produce Flame. Una vez que alcanzas el nivel 3, puedes lanzar el conjuro Manos Ardientes una vez con este rasgo como un conjuro de nivel 1, y recuperas la capacidad de lanzarlo de esta manera cuando terminas un descanso largo. La Constitución es tu aptitud mágica para estos conjuros."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -1811,7 +1825,8 @@
             "description": "Esta sección proporciona tablas para jugadores y DM que quieran crear personajes githyanki.\n\n**Conceptos de personajes de Githyanki**\n\n| d4 | Rasgo de personalidad de Githyanki |\n|---|---|\n| 1 | Cuando estoy aburrido, creo mi propia emoción y siempre estoy aburrido. |\n| 2 | Trato a los demás como si fueran animales que simplemente no conocen nada mejor. |\n| 3 | La violencia es un condimento que hace que valga la pena vivir la vida. |\n| 4 | La vejez es un concepto que encuentro fascinante. Quizás algún día yo también envejezca. |\n| d4 | Ideal Githyanki |\n| 1 | Fidelidad. Los guerreros son tan buenos como los votos que cumplen. |\n| 2 | Fuerza. Los débiles gobiernan a los fuertes. |\n| 3 | Deber. Es sólo por la voluntad de Vlaakith que actúo. |\n| 4 | Libertad. Ningún alma fuerte debería ser esclavizada. Es mejor morir primero que vivir como el títere de otro. |\n| d4 | Enlace Githyanki |\n| 1 | No hay mayor deber que servir a la Venerada Reina. |\n| 2 | La humanidad prospera sólo porque conquistamos a los ilícidos. Por tanto, lo que es de ellos es nuestro. |\n| 3 | Sin batalla, la vida no tiene propósito. |\n| 4 | La vida no es más que una chispa en la oscuridad. Todos nos oscurecemos, pero aquellos que se atreven pueden brillar. |\n| d4 | Defecto de Githyanki |\n| 1 | El hambre y la sed son dolores insoportables para mí. |\n| 2 | No puedo ver a alguien que no sea githyanki como una amenaza real. |\n| 3 | Sigo órdenes, independientemente de sus implicaciones. |\n| 4 | Empiezo proyectos pero nunca los termino. |"
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -1873,7 +1888,8 @@
             "description": "Esta sección proporciona tablas para jugadores y DM que quieran crear personajes githzerai.\n\n**Conceptos de personajes de Githzerai**\n\n| d4 | Rasgo de personalidad de Githzerai |\n|---|---|\n| 1 | Toda la energía debe gastarse en un fin útil. La frivolidad es el primer paso hacia la derrota. |\n| 2 | Paciencia en todas las cosas. El primer paso en cualquier empresa es el más traicionero. |\n| 3 | Las emociones son una trampa destinada a debilitar el intelecto y perturbar los nervios. No les hagas caso. |\n| 4 | Comience sólo aquellas tareas que terminará. Golpea sólo aquello que vayas a matar. |\n| d4 | Ideal Githzerai |\n| 1 | Fe. Zerthimon volverá y seré digno de caminar junto a él. |\n| 2 | Coraje. La mente puede dominar cualquier cosa si no está limitada por el miedo. |\n| 3 | Deber. Mi pueblo sobrevive sólo porque aquellos como yo anteponen sus necesidades a las nuestras. |\n| 4 | Libertad. Ningún alma fuerte debería ser esclavizada. Es mejor morir primero que vivir como el títere de otro. |\n| d4 | Enlace Githzerai |\n| 1 | Zerthimon ofrece un ejemplo de conducta que me esfuerzo por duplicar. |\n| 2 | Menyar-Ag me eligió personalmente para mis funciones y nunca traicionaré la confianza que mostró en mí. |\n| 3 | Vlaakith y sus aduladores serán derrotados, si no por mí, sí por aquellos que sigan mis pasos. |\n| 4 | No descansaré hasta que se destruya el último cerebro anciano. |\n| d4 | Defecto de Githzerai |\n| 1 | Veo maquinaciones githyanki detrás de cada amenaza. |\n| 2 | Creo en la supremacía de los gith y que githzerai y githyanki se alinearán para gobernar el multiverso. |\n| 3 | Respondo incluso a amenazas menores con abrumadoras demostraciones de fuerza. |\n| 4 | La próxima vez que me río será la primera. El sonido de la alegría me lleva al borde de la violencia. |"
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -2027,7 +2043,8 @@
             "description": "Puedes tomar Desconexión o acción de Esconderse como acción adicional en cada uno de tus turnos."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       },
       {
         "name": "Duende (Aventuras con Muk: Dankwood)",
@@ -2049,7 +2066,8 @@
             "description": "Puedes tomar Desconexión o acción de Esconderse como acción adicional en cada uno de tus turnos."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       },
       {
         "name": "Duende (Cambio de avión: Ixalan)",
@@ -2066,7 +2084,8 @@
             "description": "Acostumbrado a la vida en la noche de la jungla, tienes una visión superior en condiciones de oscuridad y penumbra. Puedes ver en condiciones de poca luz a una distancia de 60 pies de ti como si fuera una luz brillante, y en la oscuridad como si fuera una luz tenue. No se pueden discernir colores en la oscuridad, sólo matices de gris."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       },
       {
         "name": "Duende (Cambio de avión: Zendikar)",
@@ -2088,7 +2107,8 @@
             "description": "La mayoría de los duendes de Zendikar pertenecen a una de tres tribus: los Grotag, los Lavastep y los Tuktuk. Elige una de estas tribus.\n\n- Tribu Grotag\n  - Más pequeños y débiles que sus primos, y con manos y pies más grandes, los duendes de la tribu Grotag intentan vivir de su ingenio, aunque rara vez con mucho éxito. Cuando un duende Grotag tiene la brillante idea de tratar de domesticar a los ácaros perforadores de carne, al menos algunos otros estarán dispuestos a seguir a ese duende hasta un nido, generalmente con resultados predeciblemente horribles. Pero aunque los Grotag parecen tener un suministro interminable de malas ideas, y una proporción horrible de malas ideas y buenas, los Grotag también parecen tener un suministro interminable de Grotag. Como tal, mediante prueba y error (y más errores), estos duendes han encontrado una gran cantidad de conocimiento útil para sobrevivir en los lugares profundos de Zendikar y para lidiar con las criaturas que viven allí. Los Grotag se imaginan que tienen una especie de empatía con las bestias, y pierden cientos de duendes cada año en intentos imprudentes de domesticar monstruos. Pero, de vez en cuando, uno de estos esfuerzos tiene éxito.\n  - **Grotag Tamer.** Tienes competencia en la habilidad Manejo de animales.\n- Tribu Paso de Lava\n  - La tribu Lavastep es la más trabajadora de las tribus goblin y posee muchos conocimientos adquiridos con mucho esfuerzo sobre la actividad geotérmica en Akoum. Más que los miembros de las otras tribus, los duendes de Lavastep construyen equipos sorprendentemente efectivos a partir de fragmentos de cristal y vetas de metales extraños que ocasionalmente suben a la superficie. Los goblins Paso de Lava, los más guerreros de su especie, acosan con frecuencia a los kor, los elfos y los humanos de Akoum.\n  - **Lavastep Grit.** Tienes ventaja en las pruebas de Destreza (Sigilo) realizadas para esconderte en entornos rocosos o subterráneos.\n- Tribu Tuktuk\n  - Entre los duendes, los Tuktuk son los más propensos a contratarse como guías de ruinas para otras razas. Por supuesto, su plan habitual es ayudar a encontrar algo de valor, robarlo, activar una trampa intencionalmente y luego huir.\n  - **Tuktuk Astucia.** Tienes competencia con Herramientas de ladrón."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -2274,7 +2294,8 @@
             "description": "Si tienes el rasgo de clase Lanzamiento de conjuros o Magia de pacto, los conjuros en la tabla de Conjuros de marca de detección se agregan a la lista de conjuros de tu clase Lanzamiento de conjuros.\n\n**Marca de conjuros de detección**\n\n| Nivel de conjuro | Conjuro |\n|---|---|\n| 1º | Detecta magia, detecta veneno y enfermedades |\n| 2do | Detectar pensamientos, encontrar trampas |\n| 3º | Clarividencia, no detección |\n| 4to | Ojo Arcano, Adivinación |\n| 5to | Historia de la leyenda |"
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       },
       {
         "name": "Marca de tormenta",
@@ -2373,7 +2394,8 @@
             "description": "Si tienes el rasgo de clase Lanzamiento de conjuros o Magia de pacto, los conjuros en la tabla Marca de búsqueda de conjuros se agregan a la lista de conjuros de tu clase Lanzamiento de conjuros.\n\n**Marca de encontrar conjuros**\n\n| Nivel de conjuro | Conjuro |\n|---|---|\n| 1º | Fuego de hadas, Zancudo largo |\n| 2do | Localizar animales o plantas, localizar objetos |\n| 3º | Clarividencia, Habla Con Las Plantas |\n| 4to | Adivinación, localizar criatura |\n| 5to | Comunión con la naturaleza |"
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -2494,7 +2516,8 @@
             "description": "Como acción adicional, puedes saltar una cantidad de pies igual a cinco veces tu bonificador de competencia, sin provocar ataques de oportunidad. Puedes usar este rasgo solo si tu velocidad es mayor que 0. Puedes usarlo una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -2590,7 +2613,8 @@
             "description": "Los hobgoblins tienen cuidado de no mostrar debilidad frente a sus aliados, por miedo a perder estatus. Si fallas con una tirada de ataque o fallas un prueba de característica o un tirada de salvación, puedes obtener una bonificación a la tirada igual a la cantidad de aliados que puedes ver dentro de 30 pies de ti (bonificación máxima de +5). Una vez que uses este rasgo, no podrás volver a usarlo hasta que termines un corto o descanso largo."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       },
       {
         "name": "Hobgoblin (Arcanos desenterrados)",
@@ -2617,7 +2641,8 @@
             "description": "Si fallas una tirada de ataque o fallas un prueba de característica o un tirada de salvación, puedes recurrir a tus vínculos de reciprocidad para obtener una bonificación a la tirada igual a la cantidad de aliados que puedes ver dentro de 30 pies de ti (bonificación máxima de +5). Puedes usar este rasgo una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -2842,7 +2867,8 @@
             "description": "Puede imitar sonidos que haya escuchado, incluidas voces. Una criatura que escuche los sonidos que haces puede decir que son imitaciones con una prueba exitosa de Sabiduría (Perspicacia) opuesta a tu prueba de Carisma (Engaño)."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -2989,7 +3015,8 @@
             "description": "Tienes desventaja en las tiradas de ataque y en las pruebas de Sabiduría (Percepción) que dependen de la vista cuando tú, el objetivo de tu ataque o cualquier cosa que estés tratando de percibir, estás bajo la luz solar directa."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       },
       {
         "name": "Kobold (Arcanos desenterrados)",
@@ -3016,7 +3043,8 @@
             "description": "Como acción adicional, dejas escapar un rugido dracónico a tus enemigos a 10 pies de ti. Hasta el final de tu próximo turno, tú y tus aliados tenéis ventaja en las tiradas de ataque contra cualquiera de esos enemigos que puedan oír el rugido. Puedes usar este rasgo una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -3223,7 +3251,8 @@
             "description": "En la batalla, puedes sumergirte en un feroz frenesí alimentario. Como acción adicional, puedes realizar un ataque especial con tu mordisco. Si el ataque impacta, causa su daño normal y obtienes puntos de golpe temporales (mínimo de 1) igual a tu modificador de Constitución, y no puedes volver a usar este rasgo hasta que termines un corto o descanso largo."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -3441,7 +3470,8 @@
             "description": "La raza de los tritones se divide en tres credos, fundados en los principios de Emeria (viento), Ula (agua) y Cosi (el embaucador). Un tritón no nace con un credo, sino que lo elige al llegar a la edad adulta, y es raro que un tritón no elija un credo. Los tritones de los credos del viento y del agua no son hostiles entre sí, pero los miembros de cada credo miran al otro con un vago desdén. Los miembros de ambos credos consideran el credo Cosi con sospecha y cierto grado de miedo, y los seguidores del credo Cosi tienden a mantener su afiliación en secreto. Elige uno de estos credos para tu personaje.\n\n- Credo de Emeria (Viento)\n  - Los tritones que siguieron el credo de Emeria buscan la sabiduría y la verdad en el Reino del Viento, explorando las fuerzas místicas, en lugar de las causas naturales, detrás de los acontecimientos históricos. Son evasivos e intencionalmente enigmáticos en sus interacciones con los demás y, a menudo, se los describe como manipuladores y engañosos.\n  - **Puntuación de característica Aumento.** Tu puntuación de Sabiduría aumenta en 2.\n  - **Manipulación del Credo del Viento.** Tienes competencia en las habilidades de Engaño y Persuasión.\n  - **Cantrip.** Conoces un cantrip de tu elección de la lista de conjuros Druida. La sabiduría es tu aptitud mágica para ello.\n- Credo de Ula (Agua)\n  - Los tritones del credo de Ula enfatizan las actividades intelectuales, enfatizando la evidencia contundente y la razón por encima de la pasión. Son eruditos analíticos, cronistas, exploradores y navegantes que se enorgullecen de ser directos y directos.\n  - **Puntuación de característica Aumento.** Tu puntuación de Inteligencia aumenta en 2.\n  - **Navegación Water Creed.** Tienes competencia con Herramientas de navegante y en la habilidad Supervivencia.\n  - **Cantrip.** Conoces un cantrip de tu elección de la lista de conjuros Mago. La inteligencia es tu aptitud mágica para ello.\n- Cosi Credo\n  - Ningún tritón admitirá abiertamente seguir el credo del embaucador, pero aquellos que sí ven a Cosi como un aliado que puede otorgarles control sobre las fuerzas caóticas del mundo.\n  - **Puntuación de característica Aumento.** Tu puntuación de Carisma aumenta en 1 adicional (para un total de 2) y tu puntuación de Inteligencia aumenta en 1.\n  - **Creed of the Trickster.** Tienes competencia en las habilidades de prestidigitación y sigilo.\n  - **Cantrip.** Conoces un cantrip de tu elección de la lista de conjuros Bardo. El carisma es tu aptitud mágica para ello."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -3513,7 +3543,8 @@
             "description": "Tienes competencia en una de las siguientes habilidades de tu elección: Intimidación o Persuasión."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       },
       {
         "name": "Minotauro (Odisea mítica de Theros)",
@@ -3540,7 +3571,8 @@
             "description": "Tienes competencia en una de las siguientes habilidades de tu elección: Intimidación o Persuasión."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       },
       {
         "name": "Minotauro (Cambio de avión - Amonkhet)",
@@ -3567,7 +3599,8 @@
             "description": "Cuando logras un golpe crítico con un ataque con arma cuerpo a cuerpo, puedes tirar uno de los dados de daño del arma una vez más y agregarlo al daño adicional del golpe crítico."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -4067,7 +4100,8 @@
             "description": "Tienes competencia en las habilidades de Interpretación y Persuasión, y dominas un Instrumento musical de tu elección."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -4164,7 +4198,8 @@
             "description": "Usando gestos y sonidos, puedes comunicar ideas simples con cualquier bestia que tenga una velocidad de nado innata."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -4256,7 +4291,8 @@
             "description": "Como acción adicional, puedes teletransportarte mágicamente hasta 30 pies a un espacio desocupado que puedas ver. Una vez que uses este rasgo, no podrás volver a hacerlo hasta que termines un descanso largo. A partir del nivel 3, también obtienes resistencia a todo daño cuando te teletransportas usando este rasgo. La resistencia dura hasta el comienzo de tu siguiente turno. Durante ese tiempo, pareces fantasmal y translúcido."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -4439,7 +4475,8 @@
             "description": "Tienes competencia en las habilidades de Percepción y Sigilo."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -4669,7 +4706,8 @@
             "description": "Obtienes competencia en la habilidad Supervivencia. Las tortugas tienen instintos de supervivencia muy perfeccionados."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -4751,7 +4789,8 @@
             "description": "Adaptado incluso a las profundidades oceánicas más extremas, tiene resistencia al daño por frío."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -4818,7 +4857,8 @@
             "description": "Puedes drenar sangre y energía vital de una criatura voluntaria, o de una que esté apresada por ti, incapacitada o restringida. Realiza un ataque cuerpo a cuerpo contra el objetivo, usando Fuerza o Destreza para tu tirada de ataque. Si golpeas, infliges 1 daño perforante y 1d6 de daño necrótico. El máximo de puntos de golpe del objetivo se reduce en una cantidad igual al daño necrótico recibido, y recuperas puntos de golpe igual a esa cantidad. La reducción dura hasta que el objetivo termina en descanso largo. El objetivo muere si este efecto reduce su máximo de puntos de golpe a 0. Un humanoide asesinado de esta manera se convierte en nulo."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -4875,7 +4915,8 @@
             "description": "Siempre que realices una prueba de Inteligencia (Historial) relacionada con objetos mágicos o dispositivos tecnológicos impulsados por éter, puedes agregar el doble de tu bonificador de competencia, en lugar del bonificador de competencia que normalmente aplicas."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -5080,7 +5121,8 @@
             "description": "Ya conoces el truco Shape Water. Cuando alcanzas el nivel 3, puedes lanzar el conjuro Crear o Destruir Agua como un conjuro de nivel 2 una vez con este rasgo, y recuperas la capacidad de lanzarlo de esta manera cuando terminas un descanso largo. La Constitución es tu aptitud mágica para estos conjuros."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [
@@ -5153,7 +5195,8 @@
             "description": "Eres inmune al daño por veneno y a la condición de envenenamiento."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": true
       }
     ],
     "adjustments": [

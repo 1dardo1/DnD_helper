@@ -1,6 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject, input, resource } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { speciesFits } from '../../core/creation/creation-rules';
@@ -23,6 +24,7 @@ import {
   Monster,
   Rule,
   Species,
+  SpeciesVariant,
   Spell,
   Spellcasting,
   Subclass,
@@ -38,6 +40,18 @@ import { MonsterStatBlock } from './monster-stat-block';
 
 /** Detail page for any entry, with the fields of its type and links to related entries. */
 import { EntryPortrait } from '../../shared/picker/entry-portrait';
+
+/** `?printing=` value for the species' own (current) printing, as opposed to a reprint variant. */
+const CURRENT_PRINTING = 'current';
+
+/** One printing of a species shown on its own: the current one, or one of its book reprints. */
+interface Printing {
+  key: string;
+  name: string;
+  source: string | null;
+  description: string;
+  traits: Feature[];
+}
 
 @Component({
   selector: 'app-entry-detail',
@@ -68,6 +82,13 @@ export class EntryDetail {
   private readonly data = inject(DataTextService);
   private readonly i18n = inject(I18nService);
   private readonly homebrew = inject(HomebrewStore);
+  private readonly route = inject(ActivatedRoute);
+  private readonly params = toSignal(this.route.queryParamMap, {
+    initialValue: this.route.snapshot.queryParamMap,
+  });
+  /** `?printing=` from the URL: which reprint (or the current one) a species page is showing. */
+  protected readonly printingKey = computed(() => this.params().get('printing') ?? '');
+  protected readonly currentPrintingKey = CURRENT_PRINTING;
 
   protected readonly entryType = computed<EntryType>(() =>
     ENTRY_TYPES.includes(this.type() as EntryType) ? (this.type() as EntryType) : 'class',
@@ -149,6 +170,52 @@ export class EntryDetail {
   }
   protected asSpecies(e: Entry): Species {
     return e as Species;
+  }
+
+  /**
+   * A species' "variants" that are a real sub-race/lineage/legacy choice (Tiefling's Legacies,
+   * Dragonborn's ancestries, Elf's lineages...), excluding reprints of the whole species.
+   */
+  protected realVariants(sp: Species): SpeciesVariant[] {
+    return sp.variants.filter((v) => !v.reprint);
+  }
+
+  /**
+   * A species whose "variants" are only the same creature printed again in another book (Goblin's
+   * Volo's Guide, Plane Shift... printings) is shown as a group of printings to pick from — never
+   * as one page mixing all of their traits. `null` for a species with no such reprints.
+   */
+  protected readonly printings = computed<Printing[] | null>(() => {
+    const e = this.entry.value();
+    if (!e || e.type !== 'species') return null;
+    const sp = e as Species;
+    const reprints = sp.variants.filter((v) => v.reprint);
+    if (!reprints.length) return null;
+    return [
+      {
+        key: CURRENT_PRINTING,
+        name: sp.name,
+        source: sp.source,
+        description: sp.description,
+        traits: sp.traits,
+      },
+      ...reprints.map((v) => ({
+        key: v.name,
+        name: v.name,
+        source: null,
+        description: v.description,
+        traits: v.traits,
+      })),
+    ];
+  });
+  /** Show the printing cards: a species with reprints, and none picked yet. */
+  protected readonly choosingPrinting = computed(() => !!this.printings() && !this.printingKey());
+  protected readonly currentPrinting = computed(
+    () => this.printings()?.find((p) => p.key === this.printingKey()) ?? null,
+  );
+  /** What to show as the species' own text: the picked printing, or its current one by default. */
+  protected shownPrinting(sp: Species): { description: string; traits: Feature[] } {
+    return this.currentPrinting() ?? { description: sp.description, traits: sp.traits };
   }
   protected asBackground(e: Entry): Background {
     return e as Background;

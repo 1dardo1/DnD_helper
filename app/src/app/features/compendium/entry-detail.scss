@@ -1,6 +1,58 @@
 // Compendium entry: long rules text on the notebook page. Class and subclass entries are
 // themed through [appClassTheme] on <article> (see shared/theme/themes.scss).
 @use '../../shared/theme/notebook' as nb;
+@use '../../shared/picker/cards';
+
+// A species printed again in other books (Goblin's Volo's Guide, Plane Shift...): a card per
+// printing instead of one page mixing all of their traits. Same look as the picker's group cards.
+.printings {
+  @include cards.grid(17rem);
+  gap: var(--space-4);
+  margin: var(--space-4) 0;
+
+  > li {
+    @include cards.frame;
+  }
+}
+
+.printings .group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  height: 100%;
+  min-height: 6rem;
+  padding: var(--space-4);
+  color: inherit;
+  text-decoration: none;
+  border-radius: inherit;
+
+  &:hover {
+    background: var(--highlight);
+  }
+
+  .name {
+    font-family: var(--font-title);
+    font-size: var(--fs-xl);
+    line-height: 1.15;
+    color: var(--accent);
+  }
+
+  .info {
+    font-size: var(--fs-sm);
+    color: var(--ink-soft);
+  }
+}
+
+.printing-nav {
+  margin-bottom: var(--space-4);
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+
+  .current {
+    font-weight: 600;
+    color: var(--ink);
+  }
+}
 
 .meta {
   display: flex;

@@ -189,11 +189,13 @@ def parse_race_2014(page: Page) -> tuple[dict | None, list[str]]:
     for vtitle, vnodes in versions:
         if vnodes is chosen:
             continue
-        if any(vnodes is f[1] for f in full):   # another complete printing: a setting variant
+        if any(vnodes is f[1] for f in full):   # another complete printing: not a player choice,
+            # just the same creature told again in another book (Goblin's Volo's/Plane Shift...).
             vl, vitems = traits(_li_as_paragraphs(_until_first_sub(vnodes)), nest_options=False)
             variants.append({"name": f"{page.title} ({vtitle})", "description": vl,
                              "traits": _feature_list([t for t in vitems if not _NON_MECHANICAL.match(t.name)]),
-                             "spells": None, "_asi": any(re.match(r"ability score", t.name, re.I) for t in vitems)})
+                             "spells": None, "reprint": True,
+                             "_asi": any(re.match(r"ability score", t.name, re.I) for t in vitems)})
         for v in _subraces(vnodes):
             if all(slug(v["name"]) != slug(x["name"]) for x in variants):
                 variants.append(v)
