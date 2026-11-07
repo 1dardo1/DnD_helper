@@ -215,15 +215,26 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       modifier: mod(a) + (saveProf.has(a) ? pb : 0),
     };
   }
-  const featSkills = featSources.flatMap((x) => choiceOf(x).skills ?? []);
   const traitSkills = traits.flatMap((t) => fx(t).skills);
-  const proficient = new Set([
-    ...(background?.skills ?? []),
-    ...ch.choices.skills,
-    ...featSkills,
-    ...traitSkills,
-  ]);
+  const proficient = new Set([...(background?.skills ?? []), ...ch.choices.skills, ...traitSkills]);
   const expertise = new Set(ch.choices.expertise);
+  // Feats that choose a single skill out of a closed list ("Acrobatics or Athletics", "Insight,
+  // Investigation, or Perception"): only the chosen one applies. Keen Mind / Observant upgrade it
+  // to Expertise instead when the character is already proficient from elsewhere.
+  for (const src of featSources) {
+    const picks = featPicks(src.feat);
+    const chosen = choiceOf(src).skills ?? [];
+    // Skilled: any mix of skills/tools, no closed list and no Expertise upgrade.
+    if (picks.skillsOrTools) {
+      for (const id of chosen) proficient.add(id);
+      continue;
+    }
+    if (!picks.skills) continue;
+    for (const id of chosen.slice(0, picks.skills.count)) {
+      if (picks.skills.upgrade && proficient.has(id)) expertise.add(id);
+      else proficient.add(id);
+    }
+  }
   const jack = has('Jack of All Trades');
   const skills = Object.entries(SKILL_ABILITY).map(([id, ability]) => {
     const level: Sheet['skills'][number]['proficiency'] = expertise.has(id)
@@ -733,7 +744,10 @@ function featGrants(
       pickedLang.push(...(choice.languages ?? []));
     }
     langs.push(...rules.languages);
-    if (picks.resistance && choice.resistance) resistances.push(choice.resistance);
+    if (picks.resistance) {
+      if (choice.resistance) resistances.push(choice.resistance);
+      else need('resistance');
+    }
     resistances.push(...rules.resistances);
   }
 

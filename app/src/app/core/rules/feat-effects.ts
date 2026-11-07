@@ -265,7 +265,13 @@ export interface FeatPicks {
   spell?: PickRule & { level: number };
   /** Skills and tools, any mix (Skilled). */
   skillsOrTools?: number;
-  skills?: { count: number; from?: string[] };
+  /**
+   * `from`: the feat's text names a closed set of options ("Insight, Performance, or Persuasion")
+   * to pick `count` of. `upgrade`: the pick isn't a plain proficiency — it's Expertise when the
+   * character already has proficiency in the chosen skill (Keen Mind's Lore Knowledge, Observant's
+   * Keen Observer); engine.ts resolves that against the skills already granted elsewhere.
+   */
+  skills?: { count: number; from?: string[]; upgrade?: boolean };
   /** Tools of one kind: "Artisan's Tools" / "Musical Instrument". */
   tools?: { count: number; group: string };
   /** A language of the player's choice; the feat gives this one unless already known. */
@@ -294,8 +300,26 @@ export const FEAT_PICKS: Record<string, FeatPicks> = {
   'purple-dragon-rook': {
     skills: { count: 1, from: ['insight', 'performance', 'persuasion'] },
   },
+  // "You gain proficiency in the Acrobatics or Athletics skill (your choice)": one of the two,
+  // not both and not neither.
+  'squat-nimbleness': { skills: { count: 1, from: ['acrobatics', 'athletics'] } },
+  'outsized-might-ua': { skills: { count: 1, from: ['athletics', 'acrobatics'] } },
+  // "Choose one of the following skills... If you lack proficiency... you gain proficiency in it,
+  // and if you already have proficiency in it, you gain Expertise in it."
+  'keen-mind': {
+    skills: {
+      count: 1,
+      from: ['arcana', 'history', 'investigation', 'nature', 'religion'],
+      upgrade: true,
+    },
+  },
+  observant: {
+    skills: { count: 1, from: ['insight', 'investigation', 'perception'], upgrade: true },
+  },
   'cult-of-the-dragon-initiate': { language: 'Draconic' },
   'portal-jumper': { resistance: ['Necrotic', 'Psychic', 'Radiant'] },
+  dragonscarred: { resistance: ['Acid', 'Cold', 'Fire', 'Lightning', 'Poison'] },
+  'spell-resistant': { resistance: ['Necrotic', 'Psychic', 'Radiant', 'Thunder'] },
 };
 
 export function featPicks(feat: Feat): FeatPicks {

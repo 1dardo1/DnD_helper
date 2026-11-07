@@ -498,6 +498,7 @@ export const es: Record<keyof typeof en, string> = {
   'create.missing.feat.cantrips': '{feat}: elige los trucos.',
   'create.missing.feat.spell': '{feat}: elige el conjuro.',
   'create.missing.feat.proficiencies': '{feat}: elige las competencias.',
+  'create.missing.feat.resistance': '{feat}: elige el tipo de daño.',
   'picker.grants': 'Da',
   'picker.choose': 'Eliges',
   'play.usePip': '{name}: uso {n} gastado',

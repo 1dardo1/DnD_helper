@@ -493,6 +493,7 @@ export const en = {
   'create.missing.feat.cantrips': '{feat}: choose the cantrips.',
   'create.missing.feat.spell': '{feat}: choose the spell.',
   'create.missing.feat.proficiencies': '{feat}: choose the proficiencies.',
+  'create.missing.feat.resistance': '{feat}: choose the damage type.',
   'picker.grants': 'Gives',
   'picker.choose': 'You choose',
   'play.usePip': '{name}: use {n} spent',
