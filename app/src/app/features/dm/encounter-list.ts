@@ -7,8 +7,13 @@ import { RepositoryService } from '../../core/data/repository.service';
 import { Encounter } from '../../core/dm/encounter';
 import { EncounterStore } from '../../core/dm/encounter-store.service';
 import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
+import { FolderPrefs } from '../../core/organize/folder-prefs';
+import { groupByFolder, removeFolderFrom, renameFolderIn } from '../../core/organize/folders';
 import { RATING_KEY, encounterStats } from './encounter-stats';
 import { PasswordForm, PasswordSubmit } from './password-form';
+
+/** The select's "create a new folder" option, never a real folder name. */
+const NEW_FOLDER = '\u0000new';
 
 /**
  * The DM's saved encounters: open, create (with the DM's password, or one of its own), duplicate,
@@ -141,69 +146,126 @@ import { PasswordForm, PasswordSubmit } from './password-form';
       </section>
     }
 
-    <ul class="encounters">
-      @for (l of store.locked(); track l.id) {
-        <li class="locked">
-          <span class="name">{{ 'encounters.locked' | t }}</span>
-          <span class="summary">{{
-            (l.dmPassword ? 'encounters.lockedDm' : 'encounters.lockedOwn') | t
-          }}</span>
-          <small>{{ l.updatedAt | localDate }}</small>
-          @if (opening() === l.id) {
-            <app-password-form
-              cancelable
-              [submitLabel]="'vault.open' | t"
-              [busy]="busy() === l.id"
-              [error]="unlockError()"
-              (submitted)="unlockOne(l.id, $event)"
-              (cancelled)="opening.set(null)"
-            />
-          } @else {
-            <span class="actions">
-              <button type="button" (click)="startOpen(l.id)">{{ 'vault.open' | t }}</button>
-            </span>
-          }
-        </li>
-      }
-      @for (e of store.all(); track e.id) {
-        @let s = stats(e);
-        <li>
-          <a class="name link" [routerLink]="['/dm/encounters', e.id]">{{
-            e.name || ('encounters.unnamed' | t)
-          }}</a>
-          @if (s.rating !== 'none') {
-            <span class="rating" [attr.data-rating]="s.rating">{{ ratingKey[s.rating] | t }}</span>
-          }
-          <span class="summary">
-            {{ 'encounters.summary' | t: { characters: s.characters, creatures: s.creatures } }}
-            @if (xpLoaded()) {
-              · {{ 'encounter.xpValue' | t: { xp: num(s.xp) } }}
+    @if (store.locked().length) {
+      <ul class="encounters">
+        @for (l of store.locked(); track l.id) {
+          <li class="locked">
+            <span class="name">{{ 'encounters.locked' | t }}</span>
+            <span class="summary">{{
+              (l.dmPassword ? 'encounters.lockedDm' : 'encounters.lockedOwn') | t
+            }}</span>
+            <small>{{ l.updatedAt | localDate }}</small>
+            @if (opening() === l.id) {
+              <app-password-form
+                cancelable
+                [submitLabel]="'vault.open' | t"
+                [busy]="busy() === l.id"
+                [error]="unlockError()"
+                (submitted)="unlockOne(l.id, $event)"
+                (cancelled)="opening.set(null)"
+              />
+            } @else {
+              <span class="actions">
+                <button type="button" (click)="startOpen(l.id)">{{ 'vault.open' | t }}</button>
+              </span>
             }
-          </span>
-          <small>{{ e.updatedAt | localDate }}</small>
-          <span class="actions">
-            @if (e.monsters.length) {
-              <a
-                class="btn btn-primary"
-                [routerLink]="['/dm/combat']"
-                [queryParams]="{ encounter: e.id }"
-                >{{ 'encounter.startCombat' | t }}</a
-              >
-            }
-            <button type="button" class="btn-ghost" (click)="duplicate(e)">
-              {{ 'encounters.duplicate' | t }}
-            </button>
-            <button type="button" class="danger" (click)="remove(e)">
-              {{ 'encounters.delete' | t }}
-            </button>
-          </span>
-        </li>
-      } @empty {
-        @if (!store.locked().length) {
-          <li class="empty">{{ 'encounters.empty' | t }}</li>
+          </li>
         }
+      </ul>
+    }
+
+    @if (!store.all().length && !store.locked().length) {
+      <p class="folder-empty">{{ 'encounters.empty' | t }}</p>
+    } @else if (store.all().length) {
+      <p>
+        <button type="button" class="btn-ghost new-folder" (click)="createFolder()">
+          + {{ 'folders.new' | t }}
+        </button>
+      </p>
+      @for (g of groups(); track g.folder ?? '') {
+        <section class="folder-group">
+          <h2 class="folder-header">
+            <button
+              type="button"
+              class="collapse"
+              [attr.aria-expanded]="!isCollapsed(g.folder)"
+              (click)="toggleFolder(g.folder)"
+            >
+              <span class="chevron" [class.open]="!isCollapsed(g.folder)">▸</span>
+              {{ g.folder ?? ('folders.none' | t) }}
+              <span class="count">{{ g.items.length }}</span>
+            </button>
+            @if (g.folder) {
+              <span class="folder-actions">
+                <button type="button" (click)="renameFolder(g.folder)">
+                  {{ 'folders.rename' | t }}
+                </button>
+                <button type="button" class="danger" (click)="deleteFolder(g.folder)">
+                  {{ 'folders.delete' | t }}
+                </button>
+              </span>
+            }
+          </h2>
+          @if (!isCollapsed(g.folder)) {
+            @if (!g.items.length) {
+              <p class="folder-empty">{{ 'encounters.folderEmpty' | t }}</p>
+            } @else {
+              <ul class="encounters">
+                @for (e of g.items; track e.id) {
+                  @let s = stats(e);
+                  <li>
+                    <a class="name link" [routerLink]="['/dm/encounters', e.id]">{{
+                      e.name || ('encounters.unnamed' | t)
+                    }}</a>
+                    @if (s.rating !== 'none') {
+                      <span class="rating" [attr.data-rating]="s.rating">{{
+                        ratingKey[s.rating] | t
+                      }}</span>
+                    }
+                    <span class="summary">
+                      {{
+                        'encounters.summary'
+                          | t: { characters: s.characters, creatures: s.creatures }
+                      }}
+                      @if (xpLoaded()) {
+                        · {{ 'encounter.xpValue' | t: { xp: num(s.xp) } }}
+                      }
+                    </span>
+                    <small>{{ e.updatedAt | localDate }}</small>
+                    <span class="actions">
+                      @if (e.monsters.length) {
+                        <a
+                          class="btn btn-primary"
+                          [routerLink]="['/dm/combat']"
+                          [queryParams]="{ encounter: e.id }"
+                          >{{ 'encounter.startCombat' | t }}</a
+                        >
+                      }
+                      <button type="button" class="btn-ghost" (click)="duplicate(e)">
+                        {{ 'encounters.duplicate' | t }}
+                      </button>
+                      <button type="button" class="danger" (click)="remove(e)">
+                        {{ 'encounters.delete' | t }}
+                      </button>
+                    </span>
+                    <label class="move">
+                      {{ 'folders.moveTo' | t }}
+                      <select (change)="moveEncounter(e, $any($event.target).value)">
+                        <option value="" [selected]="!e.folder">{{ 'folders.none' | t }}</option>
+                        @for (f of folderNames(); track f) {
+                          <option [value]="f" [selected]="e.folder === f">{{ f }}</option>
+                        }
+                        <option [value]="newFolderOption">{{ 'folders.createOption' | t }}</option>
+                      </select>
+                    </label>
+                  </li>
+                }
+              </ul>
+            }
+          }
+        </section>
       }
-    </ul>
+    }
   `,
   styles: `
     .vault {
@@ -251,6 +313,64 @@ import { PasswordForm, PasswordSubmit } from './password-form';
     .field input {
       font-size: var(--fs-md);
     }
+    .new-folder {
+      font-family: var(--font-note);
+      font-weight: 700;
+    }
+    .folder-group {
+      margin-bottom: var(--space-4);
+    }
+    .folder-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-2) var(--space-3);
+      margin: 0 0 var(--space-2);
+    }
+    .folder-header .collapse {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-title);
+      font-size: var(--fs-lg);
+      font-weight: 700;
+      color: var(--ink);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+    .chevron {
+      display: inline-block;
+      transition: transform 0.15s ease;
+    }
+    .chevron.open {
+      transform: rotate(90deg);
+    }
+    .folder-header .count {
+      font-family: var(--font-note);
+      font-size: var(--fs-sm);
+      color: var(--ink-soft);
+    }
+    .folder-actions {
+      display: flex;
+      gap: var(--space-2);
+      margin-left: auto;
+    }
+    .folder-empty {
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+    .move {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex: 1 1 100%;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--fs-sm);
+      color: var(--ink-soft);
+    }
     .encounters {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
@@ -270,10 +390,6 @@ import { PasswordForm, PasswordSubmit } from './password-form';
       border: 1px solid var(--line);
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-1);
-    }
-    li.empty {
-      color: var(--ink-soft);
-      font-style: italic;
     }
     li.locked {
       border-style: dashed;
@@ -357,6 +473,9 @@ export class EncounterList {
   private readonly repo = inject(RepositoryService);
   protected readonly ratingKey = RATING_KEY;
 
+  private readonly folderPrefs = new FolderPrefs('dnd-helper.encounterFolders');
+  protected readonly newFolderOption = NEW_FOLDER;
+
   private readonly monsters = resource({ loader: () => this.compendium.all('monster') });
   private readonly xpById = computed(
     () => new Map((this.monsters.value() ?? []).map((m) => [m.id, m.xp])),
@@ -396,6 +515,82 @@ export class EncounterList {
 
   protected num(n: number): string {
     return n.toLocaleString(this.i18n.language());
+  }
+
+  // -- folders --------------------------------------------------------------------------------
+
+  /** The encounter list grouped by folder, in the order folders were created (empty ones too). */
+  protected groups() {
+    return groupByFolder(this.store.all(), (e) => e.folder, this.folderPrefs.names()).filter(
+      (g) => g.folder !== null || g.items.length > 0,
+    );
+  }
+
+  protected folderNames(): string[] {
+    return this.folderPrefs.names();
+  }
+
+  protected isCollapsed(folder: string | null): boolean {
+    return this.folderPrefs.isCollapsed(folder);
+  }
+
+  protected toggleFolder(folder: string | null): void {
+    this.folderPrefs.toggle(folder);
+  }
+
+  protected createFolder(): void {
+    const name = prompt(this.i18n.t('folders.namePrompt'))?.trim();
+    if (name) this.folderPrefs.ensure(name);
+  }
+
+  protected async moveEncounter(e: Encounter, value: string): Promise<void> {
+    let folder: string | null = value || null;
+    if (value === NEW_FOLDER) {
+      const name = prompt(this.i18n.t('folders.namePrompt'))?.trim();
+      if (!name) return;
+      folder = name;
+    }
+    if (folder) this.folderPrefs.ensure(folder);
+    if (folder === (e.folder ?? null)) return;
+    await this.store.save({ ...e, folder });
+    this.sync.syncSoon();
+  }
+
+  protected async renameFolder(name: string): Promise<void> {
+    const next = prompt(this.i18n.t('folders.renamePrompt'), name)?.trim();
+    if (!next || next === name) return;
+    const to = this.folderPrefs.rename(name, next);
+    await this.applyFolderChange(
+      renameFolderIn(
+        this.store.all(),
+        (e) => e.folder,
+        (e, folder) => ({ ...e, folder }),
+        name,
+        to,
+      ),
+    );
+  }
+
+  protected async deleteFolder(name: string): Promise<void> {
+    if (!confirm(this.i18n.t('folders.deleteConfirm', { name }))) return;
+    await this.applyFolderChange(
+      removeFolderFrom(
+        this.store.all(),
+        (e) => e.folder,
+        (e, folder) => ({ ...e, folder }),
+        name,
+      ),
+    );
+    this.folderPrefs.remove(name);
+  }
+
+  /** Saves every encounter whose folder actually changed, leaving the rest untouched. */
+  private async applyFolderChange(updated: Encounter[]): Promise<void> {
+    const before = this.store.all();
+    for (let i = 0; i < updated.length; i++) {
+      if (updated[i].folder !== before[i]?.folder) await this.store.save(updated[i]);
+    }
+    this.sync.syncSoon();
   }
 
   // -- the DM's password ------------------------------------------------------------------------

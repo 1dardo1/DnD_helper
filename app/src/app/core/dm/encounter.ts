@@ -8,6 +8,13 @@ import { DIFFICULTIES, Difficulty } from './encounter-difficulty';
 export interface Encounter {
   id: string;
   name: string;
+  /**
+   * Free-text folder name the DM put this encounter in, for organizing the encounter list
+   * (core/organize/folders.ts); null/absent = no folder. It's encrypted and synced with the rest
+   * of the encounter (encounter-crypto.ts), not a separate entity. The list of folders the DM has
+   * created is a local-only preference (core/organize/folder-prefs.ts), not synced.
+   */
+  folder?: string | null;
   /** One entry per character. characterId/name when it was taken from a saved character. */
   party: PartyMember[];
   monsters: EncounterMonster[];
@@ -77,9 +84,11 @@ export function normalizeEncounter(e: Partial<Encounter> & { id: string }): Enco
     else monsters.push({ monsterId: m.monsterId, count });
   }
   const at = e.updatedAt ?? e.createdAt ?? new Date(0).toISOString();
+  const folder = typeof e.folder === 'string' && e.folder.trim() ? e.folder.trim() : null;
   return {
     id: e.id,
     name: e.name ?? '',
+    ...(folder ? { folder } : {}),
     party: (e.party ?? []).map((p) => ({
       ...(p.characterId ? { characterId: p.characterId } : {}),
       ...(p.name ? { name: p.name } : {}),

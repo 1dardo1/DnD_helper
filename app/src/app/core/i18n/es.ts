@@ -23,6 +23,17 @@ export const es: Record<keyof typeof en, string> = {
   'common.comingSoon': 'Próximamente.',
   'common.cancel': 'Cancelar',
 
+  // Carpetas: para organizar la lista de personajes y la de encuentros (core/organize/folders.ts).
+  'folders.new': 'Nueva carpeta',
+  'folders.none': 'Sin carpeta',
+  'folders.rename': 'Renombrar',
+  'folders.delete': 'Eliminar',
+  'folders.namePrompt': 'Nombre de la carpeta',
+  'folders.renamePrompt': 'Nuevo nombre de la carpeta',
+  'folders.deleteConfirm': '¿Eliminar la carpeta «{name}»? Sus elementos volverán a «Sin carpeta».',
+  'folders.moveTo': 'Carpeta',
+  'folders.createOption': '+ Nueva carpeta…',
+
   'backup.title': 'Copia de seguridad',
   'backup.help':
     'Guarda todos tus personajes en un fichero, o recupéralos de uno, sin depender de GitHub. Los importados se guardan en este dispositivo y se suben a GitHub si está configurado.',
@@ -85,6 +96,7 @@ export const es: Record<keyof typeof en, string> = {
 
   'characters.title': 'Personajes',
   'characters.empty': 'Todavía no tienes personajes.',
+  'characters.folderEmpty': 'Todavía no hay personajes en esta carpeta.',
   'characters.status.local': 'No guardado en la nube',
   'characters.status.sent': 'Enviado, sin confirmar',
   'characters.status.synced': 'Guardado en la nube',
@@ -1274,6 +1286,7 @@ export const es: Record<keyof typeof en, string> = {
   'encounters.duplicate': 'Duplicar',
   'encounters.delete': 'Borrar',
   'encounters.empty': 'Todavía no tienes encuentros.',
+  'encounters.folderEmpty': 'Todavía no hay encuentros en esta carpeta.',
   'encounters.defaultName': 'Encuentro nuevo',
   'encounters.copyName': '{name} (copia)',
   'encounters.confirmDelete': '¿Borrar el encuentro «{name}»? No se puede deshacer.',

@@ -11,6 +11,14 @@ export interface Character {
   schemaVersion: 1;
   id: string;
   name: string;
+  /**
+   * Free-text folder name the player put this character in, for organizing the character list
+   * (core/organize/folders.ts); null/absent = no folder. It's just a label kept on the character,
+   * not a separate entity, so it's synced like the rest of the file (GitHub + IndexedDB) with no
+   * extra plumbing. The list of folders the user has created (so an empty one doesn't disappear)
+   * is a local-only preference (core/organize/folder-prefs.ts), not synced between devices.
+   */
+  folder?: string | null;
   /** meta.generatedAt of the data the character was built with. */
   dataVersion: string | null;
   /** When and from which device (Settings → device name) it was last edited. */
@@ -287,6 +295,11 @@ function normalizeState(base: Character['state'], raw: Character['state'] | unde
   return state;
 }
 
+/** '' or anything that isn't a string becomes null: "no folder" has one spelling everywhere. */
+function normalizeFolder(raw: unknown): string | null {
+  return typeof raw === 'string' && raw.trim() ? raw.trim() : null;
+}
+
 export function normalizeCharacter(raw: unknown): Character | null {
   if (!raw || typeof raw !== 'object') return null;
   const c = raw as Partial<Character>;
@@ -297,6 +310,7 @@ export function normalizeCharacter(raw: unknown): Character | null {
     ...c,
     id: c.id,
     schemaVersion: 1,
+    folder: normalizeFolder(c.folder),
     choices: { ...base.choices, ...(c.choices ?? {}) },
     equipped: { ...base.equipped, ...(c.equipped ?? {}) },
     inventory: c.inventory ?? inventoryFromEquipped(c.equipped),

@@ -21,6 +21,17 @@ export const en = {
   'common.comingSoon': 'Coming soon.',
   'common.cancel': 'Cancel',
 
+  // Folders: organizing the character list and the encounter list (core/organize/folders.ts).
+  'folders.new': 'New folder',
+  'folders.none': 'No folder',
+  'folders.rename': 'Rename',
+  'folders.delete': 'Delete',
+  'folders.namePrompt': 'Folder name',
+  'folders.renamePrompt': 'New folder name',
+  'folders.deleteConfirm': 'Delete the folder "{name}"? Its items move back to "No folder".',
+  'folders.moveTo': 'Folder',
+  'folders.createOption': '+ New folder…',
+
   'backup.title': 'Backup',
   'backup.help':
     'Save all your characters to a file, or bring them back from one, without depending on GitHub. Imported characters are saved on this device and uploaded to GitHub if it is set up.',
@@ -82,6 +93,7 @@ export const en = {
 
   'characters.title': 'Characters',
   'characters.empty': 'You have no characters yet.',
+  'characters.folderEmpty': 'No characters in this folder yet.',
   'characters.status.local': 'Not saved to the cloud',
   'characters.status.sent': 'Sent, not confirmed',
   'characters.status.synced': 'Saved to the cloud',
@@ -1256,6 +1268,7 @@ export const en = {
   'encounters.duplicate': 'Duplicate',
   'encounters.delete': 'Delete',
   'encounters.empty': 'No encounters yet.',
+  'encounters.folderEmpty': 'No encounters in this folder yet.',
   'encounters.defaultName': 'New encounter',
   'encounters.copyName': '{name} (copy)',
   'encounters.confirmDelete': 'Delete the encounter "{name}"? This cannot be undone.',

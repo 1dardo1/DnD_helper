@@ -5,10 +5,15 @@ import { CharacterStore } from '../../core/characters/character-store.service';
 import { SyncService } from '../../core/characters/sync.service';
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { DataTextService } from '../../core/i18n/data-text.service';
-import { LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
-import { Character } from '../../core/models/character';
+import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
+import { Character, CharacterRecord } from '../../core/models/character';
+import { FolderPrefs } from '../../core/organize/folder-prefs';
+import { groupByFolder, removeFolderFrom, renameFolderIn } from '../../core/organize/folders';
 import { BackupPanel } from '../../shared/backup-panel';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
+
+/** The select's "create a new folder" option, never a real folder name. */
+const NEW_FOLDER = '\u0000new';
 
 /** Characters on this device (plus any new ones in the repo), with their cloud status. */
 @Component({
@@ -24,34 +29,87 @@ import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
       <p role="alert">{{ 'common.error' | t: { message: sync.lastError() ?? '' } }}</p>
     }
 
-    <ul class="characters">
-      @for (r of store.all(); track r.character.id) {
-        <li
-          [appClassTheme]="{
-            classId: r.character.classes[0]?.id,
-            subclassId: r.character.classes[0]?.subclassId,
-          }"
-        >
-          <a [routerLink]="['/characters', r.character.id]"
-            ><strong>{{ r.character.name }}</strong></a
-          >
-          @if (summary(r.character); as line) {
-            <span class="summary">{{ line }}</span>
+    @if (!store.all().length) {
+      <p>{{ 'characters.empty' | t }}</p>
+    } @else {
+      <p>
+        <button type="button" class="btn-ghost new-folder" (click)="createFolder()">
+          + {{ 'folders.new' | t }}
+        </button>
+      </p>
+      @for (g of groups(); track g.folder ?? '') {
+        <section class="folder-group">
+          <h2 class="folder-header">
+            <button
+              type="button"
+              class="collapse"
+              [attr.aria-expanded]="!isCollapsed(g.folder)"
+              (click)="toggleFolder(g.folder)"
+            >
+              <span class="chevron" [class.open]="!isCollapsed(g.folder)">▸</span>
+              {{ g.folder ?? ('folders.none' | t) }}
+              <span class="count">{{ g.items.length }}</span>
+            </button>
+            @if (g.folder) {
+              <span class="folder-actions">
+                <button type="button" (click)="renameFolder(g.folder)">
+                  {{ 'folders.rename' | t }}
+                </button>
+                <button type="button" class="danger" (click)="deleteFolder(g.folder)">
+                  {{ 'folders.delete' | t }}
+                </button>
+              </span>
+            }
+          </h2>
+          @if (!isCollapsed(g.folder)) {
+            @if (!g.items.length) {
+              <p class="folder-empty">{{ 'characters.folderEmpty' | t }}</p>
+            } @else {
+              <ul class="characters">
+                @for (r of g.items; track r.character.id) {
+                  <li
+                    [appClassTheme]="{
+                      classId: r.character.classes[0]?.id,
+                      subclassId: r.character.classes[0]?.subclassId,
+                    }"
+                  >
+                    <a [routerLink]="['/characters', r.character.id]"
+                      ><strong>{{ r.character.name }}</strong></a
+                    >
+                    @if (summary(r.character); as line) {
+                      <span class="summary">{{ line }}</span>
+                    }
+                    <span class="status" [attr.data-status]="r.status">{{
+                      'characters.status.' + r.status | t
+                    }}</span>
+                    @if (r.status === 'conflict') {
+                      <a [routerLink]="['/characters', r.character.id, 'conflict']">{{
+                        'conflict.resolve' | t
+                      }}</a>
+                    }
+                    <small
+                      >{{ r.character.updatedAt | localDate }} · {{ r.character.updatedBy }}</small
+                    >
+                    <label class="move">
+                      {{ 'folders.moveTo' | t }}
+                      <select (change)="moveCharacter(r.character, $any($event.target).value)">
+                        <option value="" [selected]="!r.character.folder">
+                          {{ 'folders.none' | t }}
+                        </option>
+                        @for (f of folderNames(); track f) {
+                          <option [value]="f" [selected]="r.character.folder === f">{{ f }}</option>
+                        }
+                        <option [value]="newFolderOption">{{ 'folders.createOption' | t }}</option>
+                      </select>
+                    </label>
+                  </li>
+                }
+              </ul>
+            }
           }
-          <span class="status" [attr.data-status]="r.status">{{
-            'characters.status.' + r.status | t
-          }}</span>
-          @if (r.status === 'conflict') {
-            <a [routerLink]="['/characters', r.character.id, 'conflict']">{{
-              'conflict.resolve' | t
-            }}</a>
-          }
-          <small>{{ r.character.updatedAt | localDate }} · {{ r.character.updatedBy }}</small>
-        </li>
-      } @empty {
-        <li>{{ 'characters.empty' | t }}</li>
+        </section>
       }
-    </ul>
+    }
 
     <section class="backup" aria-labelledby="backup-title">
       <h2 id="backup-title">{{ 'backup.title' | t }}</h2>
@@ -59,6 +117,64 @@ import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
     </section>
   `,
   styles: `
+    .new-folder {
+      font-family: var(--font-note);
+      font-weight: 700;
+    }
+    .folder-group {
+      margin-bottom: var(--space-4);
+    }
+    .folder-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-2) var(--space-3);
+      margin: 0 0 var(--space-2);
+    }
+    .folder-header .collapse {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-title);
+      font-size: var(--fs-lg);
+      font-weight: 700;
+      color: var(--ink);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+    .chevron {
+      display: inline-block;
+      transition: transform 0.15s ease;
+    }
+    .chevron.open {
+      transform: rotate(90deg);
+    }
+    .folder-header .count {
+      font-family: var(--font-note);
+      font-size: var(--fs-sm);
+      color: var(--ink-soft);
+    }
+    .folder-actions {
+      display: flex;
+      gap: var(--space-2);
+      margin-left: auto;
+    }
+    .folder-empty {
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+    .move {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex: 1 1 100%;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--fs-sm);
+      color: var(--ink-soft);
+    }
     .characters {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
@@ -137,6 +253,28 @@ export class CharacterList implements OnInit {
   protected readonly sync = inject(SyncService);
   private readonly data = inject(DataTextService);
   private readonly compendium = inject(CompendiumService);
+  private readonly i18n = inject(I18nService);
+
+  private readonly folderPrefs = new FolderPrefs('dnd-helper.characterFolders');
+  protected readonly newFolderOption = NEW_FOLDER;
+
+  /** The character list grouped by folder, in the order folders were created (empty ones too). */
+  protected readonly groups = () =>
+    groupByFolder(this.store.all(), (r) => r.character.folder, this.folderPrefs.names()).filter(
+      (g) => g.folder !== null || g.items.length > 0,
+    );
+
+  protected folderNames(): string[] {
+    return this.folderPrefs.names();
+  }
+
+  protected isCollapsed(folder: string | null): boolean {
+    return this.folderPrefs.isCollapsed(folder);
+  }
+
+  protected toggleFolder(folder: string | null): void {
+    this.folderPrefs.toggle(folder);
+  }
 
   /** English names of classes and species by id, for the "Fighter 3 · Human" line. */
   private readonly names = resource({
@@ -162,5 +300,66 @@ export class CharacterList implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.store.load();
     void this.sync.sync();
+  }
+
+  // -- folders --------------------------------------------------------------------------------
+
+  protected createFolder(): void {
+    const name = prompt(this.i18n.t('folders.namePrompt'))?.trim();
+    if (name) this.folderPrefs.ensure(name);
+  }
+
+  protected async moveCharacter(character: Character, value: string): Promise<void> {
+    let folder: string | null = value || null;
+    if (value === NEW_FOLDER) {
+      const name = prompt(this.i18n.t('folders.namePrompt'))?.trim();
+      if (!name) return;
+      folder = name;
+    }
+    if (folder) this.folderPrefs.ensure(folder);
+    if (folder === (character.folder ?? null)) return;
+    await this.sync.save({ ...character, folder });
+  }
+
+  protected async renameFolder(name: string): Promise<void> {
+    const next = prompt(this.i18n.t('folders.renamePrompt'), name)?.trim();
+    if (!next || next === name) return;
+    const to = this.folderPrefs.rename(name, next);
+    await this.applyFolderChange(
+      renameFolderIn(
+        this.records(),
+        (r) => r.character.folder,
+        (r, folder) => ({ ...r, character: { ...r.character, folder } }),
+        name,
+        to,
+      ),
+    );
+  }
+
+  protected async deleteFolder(name: string): Promise<void> {
+    if (!confirm(this.i18n.t('folders.deleteConfirm', { name }))) return;
+    await this.applyFolderChange(
+      removeFolderFrom(
+        this.records(),
+        (r) => r.character.folder,
+        (r, folder) => ({ ...r, character: { ...r.character, folder } }),
+        name,
+      ),
+    );
+    this.folderPrefs.remove(name);
+  }
+
+  private records(): CharacterRecord[] {
+    return this.store.all();
+  }
+
+  /** Saves every character whose folder actually changed, leaving the rest untouched. */
+  private async applyFolderChange(updated: CharacterRecord[]): Promise<void> {
+    const before = this.records();
+    for (let i = 0; i < updated.length; i++) {
+      if (updated[i].character.folder !== before[i]?.character.folder) {
+        await this.sync.save(updated[i].character);
+      }
+    }
   }
 }
