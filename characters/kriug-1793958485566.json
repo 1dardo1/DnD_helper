@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 1,
+  "id": "kriug-1793958485566",
+  "name": "Kriug",
+  "dataVersion": "2026-10-30T17:28:19+00:00",
+  "updatedAt": "2026-11-06T09:51:05.007Z",
+  "updatedBy": "Win32",
+  "species": {
+    "id": "goblin",
+    "variant": "Goblin (Plane Shift: Zendikar)"
+  },
+  "size": null,
+  "background": {
+    "id": "criminal",
+    "abilityIncreases": {
+      "DEX": 2,
+      "INT": 1
+    }
+  },
+  "classes": [
+    {
+      "id": "rogue",
+      "level": 4,
+      "subclassId": "rogue/soulknife",
+      "hp": [
+        null,
+        null,
+        null,
+        null
+      ]
+    }
+  ],
+  "abilityScores": {
+    "method": "manual",
+    "base": {
+      "STR": 14,
+      "DEX": 17,
+      "CON": 14,
+      "INT": 11,
+      "WIS": 15,
+      "CHA": 12
+    }
+  },
+  "choices": {
+    "skills": [
+      "deception",
+      "perception",
+      "acrobatics",
+      "intimidation"
+    ],
+    "expertise": [
+      "stealth",
+      "sleight-of-hand"
+    ],
+    "saves": [],
+    "feats": [],
+    "featSlots": [
+      {
+        "slot": "rogue:4",
+        "featId": "charger"
+      }
+    ],
+    "abilityIncreases": [
+      {
+        "source": "charger",
+        "ability": "DEX",
+        "amount": 1,
+        "slot": "rogue:4"
+      }
+    ],
+    "options": [],
+    "spells": [],
+    "languages": [
+      "Thieves' Cant",
+      "Goblin"
+    ],
+    "toolChoices": [],
+    "startingEquipment": {
+      "class": "B",
+      "background": "B",
+      "bought": [
+        {
+          "itemId": "pouch",
+          "qty": 1
+        },
+        {
+          "itemId": "costume",
+          "qty": 1
+        },
+        {
+          "itemId": "explorers-pack",
+          "qty": 1
+        },
+        {
+          "itemId": "manacles",
+          "qty": 1
+        },
+        {
+          "itemId": "grappling-hook",
+          "qty": 1
+        },
+        {
+          "itemId": "desert-clothing",
+          "qty": 1
+        },
+        {
+          "itemId": "signal-whistle",
+          "qty": 1
+        },
+        {
+          "itemId": "tent",
+          "qty": 1
+        },
+        {
+          "itemId": "hunting-trap",
+          "qty": 1
+        },
+        {
+          "itemId": "dice",
+          "qty": 1
+        },
+        {
+          "itemId": "thieves-tools",
+          "qty": 1
+        },
+        {
+          "itemId": "camel",
+          "qty": 1
+        },
+        {
+          "itemId": "devil-mask",
+          "qty": 1
+        }
+      ]
+    }
+  },
+  "equipped": {
+    "armorId": null,
+    "shield": false
+  },
+  "equipment": "",
+  "inventory": [
+    {
+      "id": "pouch",
+      "itemId": "pouch",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "costume",
+      "itemId": "costume",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "explorers-pack",
+      "itemId": "explorers-pack",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "manacles",
+      "itemId": "manacles",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "grappling-hook",
+      "itemId": "grappling-hook",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "desert-clothing",
+      "itemId": "desert-clothing",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "signal-whistle",
+      "itemId": "signal-whistle",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "tent",
+      "itemId": "tent",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "hunting-trap",
+      "itemId": "hunting-trap",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "dice",
+      "itemId": "dice",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "thieves-tools",
+      "itemId": "thieves-tools",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "camel",
+      "itemId": "camel",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "devil-mask",
+      "itemId": "devil-mask",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    }
+  ],
+  "state": {
+    "hpCurrent": null,
+    "hpTemp": 0,
+    "spentSlots": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "resources": {},
+    "pactSlotsSpent": 0,
+    "hitDiceSpent": {},
+    "deathSaves": {
+      "successes": 0,
+      "failures": 0
+    },
+    "heroicInspiration": false,
+    "conditions": [],
+    "exhaustion": 0,
+    "spellSwap": {}
+  },
+  "notes": "Lider bandido del desierto",
+  "money": {
+    "pp": 0,
+    "gp": 15,
+    "ep": 0,
+    "sp": 3,
+    "cp": 5
+  }
+}

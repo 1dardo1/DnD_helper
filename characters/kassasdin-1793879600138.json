@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "id": "kassasdin-1793879600138",
+  "name": "Kassasdin",
+  "dataVersion": "2026-10-30T17:28:19+00:00",
+  "updatedAt": "2026-11-05T22:09:15.399Z",
+  "updatedBy": "pc Carlos",
+  "species": {
+    "id": "human",
+    "variant": null
+  },
+  "size": "Medium",
+  "background": {
+    "id": "wayfarer",
+    "abilityIncreases": {
+      "DEX": 2,
+      "WIS": 1
+    }
+  },
+  "classes": [
+    {
+      "id": "ranger",
+      "level": 3,
+      "subclassId": "ranger/winter-walker",
+      "hp": [
+        null,
+        null,
+        null
+      ]
+    }
+  ],
+  "abilityScores": {
+    "method": "standard",
+    "base": {
+      "STR": 12,
+      "DEX": 14,
+      "CON": 10,
+      "INT": 13,
+      "WIS": 15,
+      "CHA": 8
+    }
+  },
+  "choices": {
+    "skills": [
+      "perception",
+      "survival",
+      "animal-handling"
+    ],
+    "expertise": [],
+    "saves": [],
+    "feats": [],
+    "featSlots": [
+      {
+        "slot": "ranger:2",
+        "featId": "blessed-warrior"
+      },
+      {
+        "slot": "species",
+        "featId": "portal-jumper"
+      }
+    ],
+    "abilityIncreases": [],
+    "options": [],
+    "spells": [
+      "absorb-elements",
+      "speak-with-animals",
+      "zephyr-strike",
+      "hunters-mark"
+    ],
+    "languages": [
+      "Abyssal",
+      "Infernal"
+    ],
+    "toolChoices": [],
+    "spellsByClass": {
+      "ranger": [
+        "absorb-elements",
+        "speak-with-animals",
+        "zephyr-strike",
+        "hunters-mark"
+      ]
+    },
+    "startingEquipment": {
+      "class": "B",
+      "background": "A",
+      "bought": [
+        {
+          "itemId": "longbow",
+          "qty": 1
+        },
+        {
+          "itemId": "handaxe",
+          "qty": 3
+        },
+        {
+          "itemId": "javelin",
+          "qty": 2
+        },
+        {
+          "itemId": "spear",
+          "qty": 2
+        },
+        {
+          "itemId": "scimitar",
+          "qty": 1
+        },
+        {
+          "itemId": "arrows",
+          "qty": 20
+        },
+        {
+          "itemId": "grenade-smoke",
+          "qty": 1
+        }
+      ]
+    },
+    "featChoices": {
+      "species": {
+        "resistance": "Psychic"
+      }
+    }
+  },
+  "equipped": {
+    "armorId": null,
+    "shield": false
+  },
+  "equipment": "",
+  "inventory": [
+    {
+      "id": "dagger",
+      "itemId": "dagger",
+      "name": "",
+      "qty": 2,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "thieves-tools",
+      "itemId": "thieves-tools",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "gaming-set-any",
+      "itemId": null,
+      "name": "Gaming Set (any)",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "bedroll",
+      "itemId": "bedroll",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "pouch",
+      "itemId": "pouch",
+      "name": "",
+      "qty": 2,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "clothes-travelers",
+      "itemId": "clothes-travelers",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "longbow",
+      "itemId": "longbow",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "handaxe",
+      "itemId": "handaxe",
+      "name": "",
+      "qty": 3,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "javelin",
+      "itemId": "javelin",
+      "name": "",
+      "qty": 2,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "spear",
+      "itemId": "spear",
+      "name": "",
+      "qty": 2,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "scimitar",
+      "itemId": "scimitar",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "arrows",
+      "itemId": "arrows",
+      "name": "",
+      "qty": 20,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "grenade-smoke",
+      "itemId": "grenade-smoke",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    }
+  ],
+  "state": {
+    "hpCurrent": null,
+    "hpTemp": 0,
+    "spentSlots": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "resources": {},
+    "pactSlotsSpent": 0,
+    "hitDiceSpent": {},
+    "deathSaves": {
+      "successes": 0,
+      "failures": 0
+    },
+    "heroicInspiration": false,
+    "conditions": [],
+    "exhaustion": 0,
+    "spellSwap": {}
+  },
+  "notes": "Buscaba a su hija por el ártico y se perdió en el vacío, una dimensión horrible e infernal llena de monstruosidades eldritch. Salió y le cambió la personalidad. No recuerda mucho de lo que vivió, pero sabe hablar idiomas relacionados con este submundo. Solo sabe que tiene una hija, aunque no recuerda ni su nombre, ni su apariencia.",
+  "money": {
+    "pp": 0,
+    "gp": 3,
+    "ep": 0,
+    "sp": 0,
+    "cp": 0
+  }
+}

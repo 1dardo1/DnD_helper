@@ -1,0 +1,280 @@
+{
+  "schemaVersion": 1,
+  "id": "sibyl-1793915635728",
+  "name": "Sibyl",
+  "dataVersion": "2026-10-30T17:28:19+00:00",
+  "updatedAt": "2026-11-05T21:57:32.720Z",
+  "updatedBy": "Linux armv81",
+  "species": {
+    "id": "aasimar",
+    "variant": null
+  },
+  "size": "Medium",
+  "background": {
+    "id": "scribe",
+    "abilityIncreases": {
+      "DEX": 2,
+      "WIS": 1
+    }
+  },
+  "classes": [
+    {
+      "id": "ranger",
+      "level": 3,
+      "subclassId": "ranger/swarmkeeper",
+      "hp": [
+        null,
+        null,
+        null
+      ]
+    }
+  ],
+  "abilityScores": null,
+  "choices": {
+    "skills": [
+      "animal-handling",
+      "survival",
+      "stealth"
+    ],
+    "expertise": [],
+    "saves": [],
+    "feats": [],
+    "featSlots": [
+      {
+        "slot": "ranger:2",
+        "featId": "archery"
+      }
+    ],
+    "abilityIncreases": [],
+    "options": [],
+    "spells": [
+      "speak-with-animals",
+      "wild-cunning-ua",
+      "absorb-elements",
+      "cure-wounds"
+    ],
+    "languages": [
+      "Common Sign Language",
+      "Infernal"
+    ],
+    "toolChoices": [],
+    "spellsByClass": {
+      "ranger": [
+        "speak-with-animals",
+        "wild-cunning-ua",
+        "absorb-elements",
+        "cure-wounds"
+      ]
+    },
+    "featChoices": {
+      "background": {
+        "skills": [
+          "acrobatics",
+          "sleight-of-hand",
+          "nature"
+        ]
+      }
+    },
+    "startingEquipment": {
+      "class": "A",
+      "background": "A",
+      "bought": [
+        {
+          "itemId": "dagger",
+          "qty": 1
+        },
+        {
+          "itemId": "weavers-tools",
+          "qty": 1
+        },
+        {
+          "itemId": "climbers-kit",
+          "qty": 1
+        },
+        {
+          "itemId": "cooks-utensils",
+          "qty": 1
+        }
+      ]
+    }
+  },
+  "equipped": {
+    "armorId": "studded-leather-armor",
+    "shield": false
+  },
+  "equipment": "",
+  "inventory": [
+    {
+      "id": "studded-leather-armor",
+      "itemId": "studded-leather-armor",
+      "name": "",
+      "qty": 1,
+      "equipped": true,
+      "source": "start"
+    },
+    {
+      "id": "scimitar",
+      "itemId": "scimitar",
+      "name": "",
+      "qty": 1,
+      "equipped": true,
+      "source": "start"
+    },
+    {
+      "id": "shortsword",
+      "itemId": "shortsword",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "longbow",
+      "itemId": "longbow",
+      "name": "",
+      "qty": 1,
+      "equipped": true,
+      "source": "start"
+    },
+    {
+      "id": "arrows",
+      "itemId": "arrows",
+      "name": "",
+      "qty": 20,
+      "equipped": true,
+      "source": "start"
+    },
+    {
+      "id": "quiver",
+      "itemId": "quiver",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "druidic-focus",
+      "itemId": "druidic-focus",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "explorers-pack",
+      "itemId": "explorers-pack",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "calligraphers-supplies",
+      "itemId": "calligraphers-supplies",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "clothes-fine",
+      "itemId": "clothes-fine",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "lamp",
+      "itemId": "lamp",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "oil",
+      "itemId": "oil",
+      "name": "",
+      "qty": 3,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "parchment",
+      "itemId": "parchment",
+      "name": "",
+      "qty": 12,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "dagger",
+      "itemId": "dagger",
+      "name": "",
+      "qty": 1,
+      "equipped": true,
+      "source": "start"
+    },
+    {
+      "id": "weavers-tools",
+      "itemId": "weavers-tools",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "climbers-kit",
+      "itemId": "climbers-kit",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "cooks-utensils",
+      "itemId": "cooks-utensils",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    }
+  ],
+  "state": {
+    "hpCurrent": null,
+    "hpTemp": 0,
+    "spentSlots": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "resources": {},
+    "pactSlotsSpent": 0,
+    "hitDiceSpent": {},
+    "deathSaves": {
+      "successes": 0,
+      "failures": 0
+    },
+    "heroicInspiration": false,
+    "conditions": [],
+    "exhaustion": 0,
+    "spellSwap": {
+      "ranger": "one"
+    }
+  },
+  "notes": "",
+  "money": {
+    "pp": 0,
+    "gp": 1,
+    "ep": 0,
+    "sp": 0,
+    "cp": 0
+  }
+}
