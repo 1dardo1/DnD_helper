@@ -247,6 +247,41 @@ describe('species', () => {
     });
   });
 
+  it("an Infernal Tiefling never gets Abyssal's or Chthonic's traits or spells", () => {
+    const s = sheetOf({
+      cls: 'fighter',
+      level: 5,
+      species: 'tiefling',
+      variant: 'Infernal',
+      choices: { featChoices: { species: { ability: 'CHA' } } },
+    });
+    const names = s.features.map((f) => f.name);
+    expect(names).toContain('Infernal');
+    expect(names).not.toContain('Abyssal');
+    expect(names).not.toContain('Chthonic');
+    const ids = s.featSpells.map((x) => x.id);
+    // Abyssal's Ray of Sickness / Chthonic's Bane never show up alongside Infernal's own spells
+    expect(ids).not.toContain('ray-of-sickness');
+    expect(ids).not.toContain('bane');
+  });
+
+  it("a Goblin only has its own 4 traits, never any of its reprints' (Volo's, Plane Shift...)", () => {
+    const s = sheetOf({ cls: 'fighter', species: 'goblin' });
+    const names = s.features.filter((f) => f.source.type === 'species').map((f) => f.name);
+    expect(names.sort()).toEqual(
+      ['Darkvision', 'Fey Ancestry', 'Fury of the Small', 'Nimble Escape'].sort(),
+    );
+    // none of the reprint variants' own names (nor a second, duplicate "Fury of the Small") show up
+    expect(names.filter((n) => n === 'Fury of the Small')).toHaveLength(1);
+    expect(names).not.toEqual(expect.arrayContaining(["Goblin (Volo's Guide to Monsters)"]));
+  });
+
+  it('a Goblin has no variant to choose (its "variants" are only reprints)', () => {
+    const goblin = DATA.species.get('goblin')!;
+    expect(goblin.variants.length).toBeGreaterThan(0);
+    expect(goblin.variants.every((v) => v.reprint)).toBe(true);
+  });
+
   it('Aasimar resist Necrotic and Radiant, know Light, and have Healing Hands once per Long Rest', () => {
     const s = sheetOf({ cls: 'fighter', species: 'aasimar' });
     expect(s.resistances).toEqual(expect.arrayContaining(['Necrotic', 'Radiant']));

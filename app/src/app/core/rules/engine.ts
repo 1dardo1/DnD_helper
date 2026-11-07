@@ -8,6 +8,7 @@ import {
   Feature,
   Item,
   Species,
+  SpeciesVariant,
   Spellcasting,
   Subclass,
 } from '../models/compendium';
@@ -122,7 +123,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
         name: species.name,
       }),
     );
-    const variant = species.variants.find((v) => v.name === ch.species?.variant);
+    const variant = chosenVariant(species, ch.species?.variant);
     if (variant) {
       features.push({
         name: variant.name,
@@ -798,6 +799,17 @@ interface TraitSource {
 
 const SITUATIONAL = /\bRage\b|Wild Shape|Starry Form|transform/i;
 
+/**
+ * The chosen lineage/legacy/ancestry of a species, by name — never a "variant" that's only the
+ * same species reprinted in another book (those aren't a player choice and must never be applied).
+ */
+export function chosenVariant(
+  species: Species | undefined,
+  variantName: string | null | undefined,
+): SpeciesVariant | undefined {
+  return species?.variants.find((v) => v.name === variantName && !v.reprint);
+}
+
 /** "**Level 3:** Ray of Sickness" lines of a species variant (lineage, legacy, ancestry). */
 export function variantLines(text: string): { level: number; text: string }[] {
   return [...text.matchAll(/\*\*Level (\d+):\*\*\s*(.+)/g)].map((m) => ({
@@ -842,7 +854,7 @@ function traitSources(
   const specie = (name: string, text: RuleText) =>
     out.push({ kind: 'species', name, text, level: 1, scope: totalLevel, situational: false });
   for (const t of species?.traits ?? []) specie(t.name, t);
-  const variant = species?.variants.find((v) => v.name === variantName);
+  const variant = chosenVariant(species, variantName);
   if (variant) {
     const lines = variantLines(variant.description);
     if (lines.length) {
@@ -967,7 +979,7 @@ function traitGrants(a: {
   }
 
   // lineage / legacy spells of a species variant: "Level 3: Faerie Fire", "Level 5: Darkness"
-  const variant = a.species?.variants.find((v) => v.name === a.variantName);
+  const variant = chosenVariant(a.species, a.variantName);
   if (a.species && variant) {
     const trait = a.species.traits.find((t) =>
       /always have that spell prepared/i.test(t.description),

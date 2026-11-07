@@ -418,88 +418,119 @@
 
       @case ('species') {
         @let sp = asSpecies(e);
-        <app-entry-portrait
-          class="full"
-          kind="species"
-          [entryId]="sp.id"
-          [alt]="sp.name | dataName"
-        />
-        <dl class="fields">
-          <dt>{{ 'compendium.creatureType' | t }}</dt>
-          <dd>{{ sp.creatureType | term: 'creatureType' }}</dd>
-          <dt>{{ 'compendium.size' | t }}</dt>
-          <dd>
-            @for (z of sp.size; track z; let last = $last) {
-              {{ z | term: 'size' }}{{ last ? '' : ' ' + ('compendium.or' | t) + ' ' }}
-            }
-          </dd>
-          <dt>{{ 'compendium.speed' | t }}</dt>
-          <dd>
-            @for (s of speeds(sp); track s.kind; let last = $last) {
-              {{
-                s.kind === 'walk'
-                  ? feet(s.feet)
-                  : ('compendium.speedKind'
-                    | t: { kind: s.kind | term: 'speed', feet: feet(s.feet) })
-              }}{{ last ? '' : ', ' }}
-            }
-          </dd>
-          @if (sp.darkvision) {
-            <dt>{{ 'compendium.darkvision' | t }}</dt>
-            <dd>{{ feet(sp.darkvision) }}</dd>
-          }
-        </dl>
-        <div class="md" [innerHTML]="e.description | dataText | markdown"></div>
-        @if (sp.traits.length) {
-          <h2>{{ 'compendium.traits' | t }}</h2>
-          <ng-container *ngTemplateOutlet="traits; context: { $implicit: sp.traits }" />
-        }
-        @if (racialFeats.value()?.length) {
-          <h2>{{ 'compendium.racialFeats' | t }}</h2>
-          <ul class="racial-feats">
-            @for (f of racialFeats.value(); track f.id) {
+        @if (choosingPrinting()) {
+          <p>{{ 'compendium.choosePrinting' | t }}</p>
+          <ul class="groups printings">
+            @for (p of printings(); track p.key) {
               <li>
-                <a [routerLink]="['/compendium', 'feat', f.id]">{{ f.name | dataName }}</a>
-                @if (f.prerequisites?.level; as lv) {
-                  <small> · {{ 'picker.levelPlus' | t: { level: lv } }}</small>
-                }
-                <span class="feat-preview">{{ preview($any(f.description | dataText), 140) }}</span>
+                <a class="group" [routerLink]="[]" [queryParams]="{ printing: p.key }">
+                  <span class="name">{{ p.name | dataName }}</span>
+                  @if (p.source) {
+                    <span class="info">{{ p.source }}</span>
+                  } @else {
+                    <span class="info">{{ 'compendium.reprint' | t }}</span>
+                  }
+                </a>
               </li>
             }
           </ul>
-        }
-        @if (sp.variants.length) {
-          <h2>{{ 'compendium.variants' | t }}</h2>
-          @for (v of sp.variants; track v.name) {
-            <section class="variant">
-              <h3>{{ v.name | dataName }}</h3>
-              @if (v.description) {
-                <div class="md" [innerHTML]="v.description | dataText | markdown"></div>
+        } @else {
+          @if (printings(); as ps) {
+            <p class="printing-nav">
+              <a [routerLink]="[]" [queryParams]="{ printing: null }">
+                ← {{ 'compendium.allPrintings' | t }}
+              </a>
+              @if (currentPrinting(); as p) {
+                <span class="current"> · {{ p.name | dataName }}</span>
               }
-              @if (v.spells?.length) {
-                <table>
-                  <thead>
-                    <tr>
-                      <th>{{ 'table.level' | t }}</th>
-                      <th>{{ 'compendium.spells' | t }}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @for (row of v.spells; track row.level) {
+            </p>
+          }
+          <app-entry-portrait
+            class="full"
+            kind="species"
+            [entryId]="sp.id"
+            [alt]="sp.name | dataName"
+          />
+          <dl class="fields">
+            <dt>{{ 'compendium.creatureType' | t }}</dt>
+            <dd>{{ sp.creatureType | term: 'creatureType' }}</dd>
+            <dt>{{ 'compendium.size' | t }}</dt>
+            <dd>
+              @for (z of sp.size; track z; let last = $last) {
+                {{ z | term: 'size' }}{{ last ? '' : ' ' + ('compendium.or' | t) + ' ' }}
+              }
+            </dd>
+            <dt>{{ 'compendium.speed' | t }}</dt>
+            <dd>
+              @for (s of speeds(sp); track s.kind; let last = $last) {
+                {{
+                  s.kind === 'walk'
+                    ? feet(s.feet)
+                    : ('compendium.speedKind'
+                      | t: { kind: s.kind | term: 'speed', feet: feet(s.feet) })
+                }}{{ last ? '' : ', ' }}
+              }
+            </dd>
+            @if (sp.darkvision) {
+              <dt>{{ 'compendium.darkvision' | t }}</dt>
+              <dd>{{ feet(sp.darkvision) }}</dd>
+            }
+          </dl>
+          @let shown = shownPrinting(sp);
+          <div class="md" [innerHTML]="shown.description | dataText | markdown"></div>
+          @if (shown.traits.length) {
+            <h2>{{ 'compendium.traits' | t }}</h2>
+            <ng-container *ngTemplateOutlet="traits; context: { $implicit: shown.traits }" />
+          }
+          @if (racialFeats.value()?.length) {
+            <h2>{{ 'compendium.racialFeats' | t }}</h2>
+            <ul class="racial-feats">
+              @for (f of racialFeats.value(); track f.id) {
+                <li>
+                  <a [routerLink]="['/compendium', 'feat', f.id]">{{ f.name | dataName }}</a>
+                  @if (f.prerequisites?.level; as lv) {
+                    <small> · {{ 'picker.levelPlus' | t: { level: lv } }}</small>
+                  }
+                  <span class="feat-preview">{{
+                    preview($any(f.description | dataText), 140)
+                  }}</span>
+                </li>
+              }
+            </ul>
+          }
+          @if (realVariants(sp).length) {
+            <h2>{{ 'compendium.variants' | t }}</h2>
+            @for (v of realVariants(sp); track v.name) {
+              <section class="variant">
+                <h3>{{ v.name | dataName }}</h3>
+                @if (v.description) {
+                  <div class="md" [innerHTML]="v.description | dataText | markdown"></div>
+                }
+                @if (v.spells?.length) {
+                  <table>
+                    <thead>
                       <tr>
-                        <td>{{ row.level }}</td>
-                        <td>
-                          <ng-container
-                            *ngTemplateOutlet="spellLinks; context: { $implicit: row.spells }"
-                          />
-                        </td>
+                        <th>{{ 'table.level' | t }}</th>
+                        <th>{{ 'compendium.spells' | t }}</th>
                       </tr>
-                    }
-                  </tbody>
-                </table>
-              }
-              <ng-container *ngTemplateOutlet="traits; context: { $implicit: v.traits }" />
-            </section>
+                    </thead>
+                    <tbody>
+                      @for (row of v.spells; track row.level) {
+                        <tr>
+                          <td>{{ row.level }}</td>
+                          <td>
+                            <ng-container
+                              *ngTemplateOutlet="spellLinks; context: { $implicit: row.spells }"
+                            />
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                }
+                <ng-container *ngTemplateOutlet="traits; context: { $implicit: v.traits }" />
+              </section>
+            }
           }
         }
       }

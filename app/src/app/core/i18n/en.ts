@@ -778,6 +778,10 @@ export const en = {
   'compendium.traits': 'Traits',
   'compendium.racialFeats': 'Racial feats',
   'compendium.variants': 'Lineages and variants',
+  'compendium.choosePrinting':
+    'This species was printed more than once, with different traits each time. Choose a printing to see its own.',
+  'compendium.allPrintings': 'All printings',
+  'compendium.reprint': 'Reprint',
   'compendium.abilityScores': 'Ability scores',
   'compendium.originFeat': 'Origin feat',
   'compendium.equipment': 'Equipment',

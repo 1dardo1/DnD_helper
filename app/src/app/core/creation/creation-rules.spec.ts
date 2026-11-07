@@ -297,6 +297,55 @@ describe('creation rules', () => {
     ]);
     expect(m.details.map((x) => x.key)).toEqual(['create.missing.name']);
   });
+
+  it('never asks to pick a variant when a species only has reprints, but does for a real choice', () => {
+    const base = {
+      ...newCharacter('', 'pc'),
+      classes: [{ id: 'fighter', level: 4, subclassId: null, hp: [] }],
+    };
+    const reprintOnly = {
+      id: 'goblin',
+      size: ['Small'],
+      variants: [{ name: "Goblin (Volo's Guide to Monsters)", reprint: true }],
+    } as unknown as import('../models/compendium').Species;
+    const noVariant = { ...base, species: { id: 'goblin', variant: null } };
+    const m1 = review(noVariant, {
+      classes: [fighter],
+      species: reprintOnly,
+      sheet: null,
+      feats: new Map(),
+      spells: new Map(),
+    });
+    expect(m1.species.map((x) => x.key)).not.toContain('create.missing.variant');
+
+    const realChoice = {
+      id: 'tiefling',
+      size: ['Medium'],
+      variants: [
+        { name: 'Infernal', reprint: false },
+        { name: 'Abyssal', reprint: false },
+      ],
+    } as unknown as import('../models/compendium').Species;
+    const withoutPick = { ...base, species: { id: 'tiefling', variant: null } };
+    const m2 = review(withoutPick, {
+      classes: [fighter],
+      species: realChoice,
+      sheet: null,
+      feats: new Map(),
+      spells: new Map(),
+    });
+    expect(m2.species.map((x) => x.key)).toContain('create.missing.variant');
+
+    const withPick = { ...base, species: { id: 'tiefling', variant: 'Infernal' } };
+    const m3 = review(withPick, {
+      classes: [fighter],
+      species: realChoice,
+      sheet: null,
+      feats: new Map(),
+      spells: new Map(),
+    });
+    expect(m3.species.map((x) => x.key)).not.toContain('create.missing.variant');
+  });
 });
 
 /** A sheet with just what the requirement checks read. */

@@ -132,3 +132,29 @@ Attribution 4.0 International License. La app lo dice en el pie del compendio y 
 - **`report.md`**: totales, qué se sustituyó, qué se conservó de 2014, páginas que fallaron y avisos.
 - Si una wiki cambia su maquetación, el validador (`python -m dndscraper.validate`) falla y la acción
   no hace commit.
+
+### `variants` de una especie: elección real vs. reimpresión
+
+El campo `variants` de `data/species.json` mezcla dos cosas distintas:
+
+1. **Una elección real** de sub-raza, linaje, legado o ascendencia que el jugador elige al crear
+   personaje (el Drow/Alto Elfo/Elfo del Bosque de Elfo, el Legado Abisal/Ctónico/Infernal de
+   Tiefling, el color de Dragonborn...). Sus rasgos solo se aplican si el jugador la elige.
+2. **Una reimpresión**: la misma criatura publicada otra vez en otro libro o escenario (los 4
+   "Goblin" de Volo's Guide, Adventures with Muk, Plane Shift Ixalan y Plane Shift Zendikar; el
+   mismo patrón en Aarakocra, Bugbear, Duergar, Eladrin, Githyanki, Kenku, Lizardfolk, Satyr,
+   Tabaxi, Triton, Yuan-ti...). No es una elección del jugador: es la ficha base contada otra vez.
+   `parse_race_2014` (`species.py`) la detecta cuando encuentra otra sección de nivel 1 con todos
+   los rasgos base (`_has_base_traits`) y la marca con `"reprint": true`.
+
+La app (el asistente de creación y la ficha del compendio) nunca ofrece selector para una variante
+con `reprint: true`, ni mezcla su texto con el de la especie base ni con el de las demás
+reimpresiones: `chosenVariant()` en `core/rules/engine.ts` ignora toda variante marcada como
+reimpresión, y el compendio muestra cada reimpresión como una tarjeta aparte en vez de listarlas
+dentro de la misma ficha.
+
+Si el validador o una revisión manual encuentran una variante mal clasificada (un `reprint: true`
+que en realidad es una elección, o al revés), corrígela a mano en `data/species.json` y
+`data/es/species.json` (misma posición en el array `variants` de la especie en los dos ficheros,
+ya que el nombre va traducido en el segundo) y, si la causa está en la heurística de `species.py`,
+ajústala ahí para que la próxima extracción la saque bien sin tener que repetir el arreglo a mano.
