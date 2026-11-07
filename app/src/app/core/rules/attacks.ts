@@ -3,10 +3,12 @@ import { Sheet } from './sheet';
 
 /** One line of the attacks table. */
 export interface Attack {
-  /** Inventory entry id ('' for the unarmed strike). */
+  /** Inventory entry id ('' for a synthetic row: the unarmed strike or a Psychic Blade). */
   entryId: string;
   /** English name of the weapon (shown with the data texts). */
   name: string;
+  /** UI text key for the name of a synthetic row (entryId ''); null for an inventory weapon. */
+  nameKey: string | null;
   ability: Ability;
   /** Attack roll bonus: ability modifier + proficiency bonus when proficient. */
   bonus: number;
@@ -144,6 +146,7 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
     out.push({
       entryId: id,
       name: magic ? magic.item.name : item.name,
+      nameKey: null,
       ability,
       bonus: m + plus + styleAttack + (proficient ? pb : 0),
       proficient,
@@ -181,6 +184,7 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
   out.push({
     entryId: '',
     name: 'Unarmed Strike',
+    nameKey: 'sheet.unarmedStrike',
     ability: unarmedAbility,
     bonus: str + pb,
     proficient: true,
@@ -197,5 +201,62 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
     upgrades: [],
     notes,
   });
+  out.push(...psychicBladesFor(sheet, weapons));
   return out;
+}
+
+/**
+ * Soulknife Rogue 3+ (Psychic Blades): a Simple Melee weapon manifested on the Attack action or
+ * an Opportunity Attack, 1d6 Psychic + the attack's ability modifier, Finesse and Thrown (range
+ * 60/120 ft), Vex mastery (doesn't count against the mastery kinds known). It isn't inventory: it
+ * manifests in a free hand and vanishes on a hit or a miss.
+ *
+ * After attacking with it, a second blade can be thrown or swung as a Bonus Action (1d4 instead
+ * of 1d6) if the other hand is free. Any equipped Two-Handed weapon makes that calculable (no
+ * free hand left); a shield or dual-wielding another one-handed weapon cannot be checked here, so
+ * the row carries a note instead of being hidden.
+ */
+function psychicBladesFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
+  const combat = sheet.combat;
+  if (!combat?.psychicBlades) return [];
+  const mod = (a: Ability) => sheet.abilities[a].modifier;
+  const pb = sheet.proficiencyBonus;
+  // Finesse: the higher of STR and DEX, as for any other Finesse weapon.
+  const ability: Ability = mod('DEX') > mod('STR') ? 'DEX' : 'STR';
+  const m = mod(ability);
+  const bonus = m + pb; // always proficient: it's a feature, not a weapon the character picked up
+  const homingNote: Attack['notes'] = combat.soulBlades ? [{ id: 'soulBladesHoming' }] : [];
+  const main: Attack = {
+    entryId: '',
+    name: 'Psychic Blade',
+    nameKey: 'sheet.psychicBlade',
+    ability,
+    bonus,
+    proficient: true,
+    damage: `1d6${signed(m)}`,
+    damageType: 'psychic',
+    versatile: null,
+    reach: 5,
+    range: '60/120',
+    properties: ['Finesse', 'Thrown'],
+    mastery: 'Vex',
+    equipped: true,
+    base: null,
+    magic: 0,
+    upgrades: [],
+    notes: [{ id: 'psychicBlade' }, ...homingNote],
+  };
+  // a Two-Handed weapon equipped takes both hands: no free hand for the bonus-action blade
+  const twoHandedEquipped = weapons.some(
+    ({ equipped, item }) => equipped && !!prop(item, 'two-handed'),
+  );
+  if (twoHandedEquipped) return [main];
+  const bonusAction: Attack = {
+    ...main,
+    name: 'Psychic Blade (bonus action)',
+    nameKey: 'sheet.psychicBladeBonus',
+    damage: `1d4${signed(m)}`,
+    notes: [{ id: 'psychicBlade' }, { id: 'psychicBladeBonus' }, ...homingNote],
+  };
+  return [main, bonusAction];
 }

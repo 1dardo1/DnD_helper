@@ -378,6 +378,32 @@ describe('computeSheet', () => {
     ]);
     expect(sheet.warnings).toEqual([]);
   });
+
+  it('turns on Psychic Blades (3+) and Soul Blades (9+) for the Soulknife Rogue', () => {
+    const rogue = cls('rogue');
+    const soulknife: Subclass = {
+      id: 'rogue/soulknife',
+      type: 'subclass',
+      name: 'Soulknife',
+      edition: '2024',
+      source: null,
+      description: '',
+      url: '',
+      classId: 'rogue',
+      shortName: 'Soulknife',
+      features: [feature('Psychic Blades', 3), feature('Soul Blades', 9)],
+      spells: null,
+    };
+    const sheetAt = (level: number) =>
+      computeSheet(
+        character({ classes: [{ id: 'rogue', level, subclassId: soulknife.id, hp: [] }] }),
+        data({ classes: [rogue], subclasses: [soulknife] }),
+      );
+    expect(sheetAt(3).combat).toMatchObject({ psychicBlades: true, soulBlades: false });
+    expect(sheetAt(8).combat).toMatchObject({ psychicBlades: true, soulBlades: false });
+    expect(sheetAt(9).combat).toMatchObject({ psychicBlades: true, soulBlades: true });
+    expect(sheetAt(1).combat).toMatchObject({ psychicBlades: false, soulBlades: false });
+  });
 });
 
 describe('computeSheet: multiclass, tools, languages and size', () => {

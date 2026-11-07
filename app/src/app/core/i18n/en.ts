@@ -518,6 +518,7 @@ export const en = {
   'play.res.tireless': 'Tireless',
   'play.res.naturesVeil': "Nature's Veil",
   'play.res.strokeOfLuck': 'Stroke of Luck',
+  'play.res.psionicEnergyDice': 'Psionic Energy Dice',
   'play.res.innateSorcery': 'Innate Sorcery',
   'play.res.magicalCunning': 'Magical Cunning',
   'play.res.mysticArcanum': 'Mystic Arcanum',
@@ -900,6 +901,8 @@ export const en = {
   'sheet.reach': 'Reach',
   'sheet.properties': 'Properties',
   'sheet.unarmedStrike': 'Unarmed Strike',
+  'sheet.psychicBlade': 'Psychic Blade',
+  'sheet.psychicBladeBonus': 'Psychic Blade (bonus action)',
   'sheet.notEquipped': 'not equipped',
   'sheet.notProficient': 'not proficient',
   'sheet.twoHanded': '{damage} two-handed',
@@ -929,6 +932,12 @@ export const en = {
   'combat.note.rage': 'while raging: +{n} damage with Strength attacks',
   'combat.note.sneak': 'Sneak Attack: {n} extra damage once per turn',
   'combat.note.agonizing': 'add +{n} (CHA) to the damage of the chosen Warlock cantrip',
+  'combat.note.psychicBlade':
+    'Manifests on the Attack action or an Opportunity Attack; not inventory, vanishes on a hit or miss',
+  'combat.note.psychicBladeBonus':
+    'Needs your other hand free (not checked here: a shield or a second weapon can take it)',
+  'combat.note.soulBladesHoming':
+    'Soul Blades: on a miss, spend a Psionic Energy Die and add it to the attack roll',
   'sheet.mastery': 'Mastery',
   'sheet.equipped': 'Equipped',
   'sheet.equip': 'Equip',

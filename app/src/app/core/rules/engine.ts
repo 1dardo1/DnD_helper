@@ -1044,7 +1044,7 @@ const COMBAT_NOTES: Record<string, string> = {
 };
 
 function combatOf(
-  classes: { cls: DndClass; level: number }[],
+  classes: { cls: DndClass; sub?: Subclass; level: number }[],
   traits: { t: TraitSource; r: TraitRules }[],
   abilities: Sheet['abilities'],
   options: { opt: ClassOption }[],
@@ -1053,6 +1053,7 @@ function combatOf(
     cls.progression.rows[level - 1]?.values[name] ?? '';
   const monk = classes.find((c) => c.cls.id === 'monk');
   const martial = monk ? col(monk.cls, monk.level, 'Martial Arts').toLowerCase() : '';
+  const soulknife = classes.find((c) => c.sub?.id === 'rogue/soulknife');
   const combat: Sheet['combat'] = {
     rangedAttack: traits.reduce((n, x) => n + x.r.attack.ranged, 0),
     duelingDamage: traits.reduce((n, x) => n + x.r.attack.duelingDamage, 0),
@@ -1063,6 +1064,8 @@ function combatOf(
       (n, c) => n + (parseInt(col(c.cls, c.level, 'Weapon Mastery'), 10) || 0),
       0,
     ),
+    psychicBlades: !!soulknife && soulknife.level >= 3,
+    soulBlades: !!soulknife && soulknife.level >= 9,
     notes: [],
   };
   for (const { t } of traits) {

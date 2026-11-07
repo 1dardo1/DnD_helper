@@ -98,6 +98,10 @@ export interface CombatInfo {
   unarmedFighting: boolean;
   /** Weapon Mastery: how many kinds the classes allow (0 = none) and the ones picked (null = not picked). */
   masterySlots: number;
+  /** Soulknife Rogue 3+ (Psychic Blades): adds the Psychic Blade attack(s) to the table. */
+  psychicBlades: boolean;
+  /** Soulknife Rogue 9+ (Soul Blades): Homing Strikes and Psychic Teleportation, noted on the blade. */
+  soulBlades: boolean;
   /** Reminders of effects that need a roll or a choice: id of a UI text and its parameters. */
   notes: { id: string; source: string; params?: Record<string, string | number> }[];
 }

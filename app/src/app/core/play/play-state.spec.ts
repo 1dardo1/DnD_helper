@@ -225,6 +225,20 @@ describe('playResources', () => {
     ).find((r) => r.name === 'Hybrid Transformation');
     expect(t?.short).toBe('all');
   });
+
+  it("counts the Soulknife's Psionic Energy Dice, only for that subclass, from level 3", () => {
+    const dice = (subclassId: string | undefined, level: number) =>
+      playResources(sheet([{ id: 'rogue', level, subclassId }], [])).find(
+        (r) => r.name === 'Psionic Energy Dice',
+      );
+    expect(dice('rogue/soulknife', 3)?.max).toBe(4);
+    expect(dice('rogue/soulknife', 9)?.max).toBe(8);
+    expect(dice('rogue/soulknife', 17)?.max).toBe(12);
+    expect(dice('rogue/soulknife', 1)).toBeUndefined();
+    expect(dice('rogue/arcane-trickster', 5)).toBeUndefined();
+    expect(dice(undefined, 5)).toBeUndefined();
+    expect(dice('rogue/soulknife', 3)?.short).toBe(1);
+  });
 });
 
 describe('rest rules', () => {

@@ -87,3 +87,81 @@ describe('attacks', () => {
     expect(list[2]).toMatchObject({ bonus: 4, damage: '3', damageType: 'bludgeoning' });
   });
 });
+
+describe('Soulknife Psychic Blades', () => {
+  const soulknife = (str: number, dex: number, combat: Record<string, unknown> = {}) =>
+    ({
+      proficiencyBonus: 2,
+      abilities: { STR: { modifier: str }, DEX: { modifier: dex } },
+      proficiencies: { weapons: [] },
+      classes: [{ id: 'rogue', level: 3 }],
+      combat: { psychicBlades: true, soulBlades: false, masterySlots: 1, ...combat },
+    }) as unknown as Sheet;
+
+  it('adds a main and a bonus-action blade: 1d6 and 1d4 psychic, DEX (Finesse), Vex, 60/120 ft', () => {
+    const list = attacksFor(soulknife(1, 3), []);
+    const names = list.map((a) => a.name);
+    expect(names).toEqual(['Unarmed Strike', 'Psychic Blade', 'Psychic Blade (bonus action)']);
+    const [main, bonus] = list.slice(1);
+    expect(main).toMatchObject({
+      entryId: '',
+      nameKey: 'sheet.psychicBlade',
+      ability: 'DEX',
+      bonus: 5, // DEX +3, proficiency +2
+      proficient: true,
+      damage: '1d6+3',
+      damageType: 'psychic',
+      reach: 5,
+      range: '60/120',
+      properties: ['Finesse', 'Thrown'],
+      mastery: 'Vex',
+    });
+    expect(bonus).toMatchObject({
+      nameKey: 'sheet.psychicBladeBonus',
+      damage: '1d4+3',
+      mastery: 'Vex',
+      range: '60/120',
+    });
+    expect(main.notes.map((n) => n.id)).toEqual(['psychicBlade']);
+    expect(bonus.notes.map((n) => n.id)).toEqual(['psychicBlade', 'psychicBladeBonus']);
+  });
+
+  it('uses the higher of STR and DEX, like any other Finesse weapon', () => {
+    const [, main] = attacksFor(soulknife(4, 1), []);
+    expect(main).toMatchObject({ ability: 'STR', damage: '1d6+4' });
+  });
+
+  it('adds no Psychic Blade rows without the Psychic Blades feature', () => {
+    const list = attacksFor(
+      { ...soulknife(1, 3), combat: { psychicBlades: false } } as unknown as Sheet,
+      [],
+    );
+    expect(list.map((a) => a.name)).toEqual(['Unarmed Strike']);
+  });
+
+  it('drops the bonus-action blade when a Two-Handed weapon is equipped (no free hand)', () => {
+    const list = attacksFor(soulknife(1, 3), [entry(longbow)]);
+    expect(list.map((a) => a.name)).toEqual(['Longbow', 'Unarmed Strike', 'Psychic Blade']);
+  });
+
+  it("keeps the bonus-action blade with a one-handed weapon equipped (can't check shields)", () => {
+    const list = attacksFor(soulknife(1, 3), [entry(rapier)]);
+    expect(list.map((a) => a.name)).toEqual([
+      'Rapier',
+      'Unarmed Strike',
+      'Psychic Blade',
+      'Psychic Blade (bonus action)',
+    ]);
+  });
+
+  it('adds a Soul Blades (level 9) note about Homing Strikes to both rows', () => {
+    const list = attacksFor(soulknife(1, 3, { soulBlades: true }), []);
+    const [main, bonus] = list.slice(1);
+    expect(main.notes.map((n) => n.id)).toEqual(['psychicBlade', 'soulBladesHoming']);
+    expect(bonus.notes.map((n) => n.id)).toEqual([
+      'psychicBlade',
+      'psychicBladeBonus',
+      'soulBladesHoming',
+    ]);
+  });
+});

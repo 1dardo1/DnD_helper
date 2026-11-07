@@ -146,6 +146,15 @@ const FEATURE_USES: {
     from: 20,
     uses: () => 1,
   },
+  // Soulknife's Psionic Energy Dice (Psi-Bolstered Knack, Homing Strikes, Psychic Teleportation...)
+  {
+    classId: 'rogue',
+    subclassId: 'rogue/soulknife',
+    name: 'Psionic Energy Dice',
+    labelKey: 'play.res.psionicEnergyDice',
+    from: 3,
+    uses: (l) => (l >= 17 ? 12 : l >= 13 ? 10 : l >= 11 ? 8 : l >= 9 ? 8 : l >= 5 ? 6 : 4),
+  },
   {
     classId: 'sorcerer',
     name: 'Innate Sorcery',

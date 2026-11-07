@@ -34,6 +34,7 @@ export const REST_RULES: Record<string, RestRule> = {
   'blood maledict': { short: 'all' },
   'stroke of luck': { short: 'all' },
   'hybrid transformation': { short: 'all' }, // Blood Hunter, Order of the Lycan
+  'psionic energy dice': { short: 1 }, // Rogue, Soulknife
   // -- numbers in the class tables that are not spent --
   'weapon mastery': { short: 0, passive: true },
   'plans known': { short: 0, passive: true },

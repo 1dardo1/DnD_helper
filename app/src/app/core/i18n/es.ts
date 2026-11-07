@@ -523,6 +523,7 @@ export const es: Record<keyof typeof en, string> = {
   'play.res.tireless': 'Incansable',
   'play.res.naturesVeil': 'Velo de la naturaleza',
   'play.res.strokeOfLuck': 'Golpe de suerte',
+  'play.res.psionicEnergyDice': 'Dados de Energía Psiónica',
   'play.res.innateSorcery': 'Hechicería innata',
   'play.res.magicalCunning': 'Astucia mágica',
   'play.res.mysticArcanum': 'Arcano místico',
@@ -910,6 +911,8 @@ export const es: Record<keyof typeof en, string> = {
   'sheet.reach': 'Alcance',
   'sheet.properties': 'Propiedades',
   'sheet.unarmedStrike': 'Ataque sin armas',
+  'sheet.psychicBlade': 'Hoja psíquica',
+  'sheet.psychicBladeBonus': 'Hoja psíquica (acción adicional)',
   'sheet.notEquipped': 'sin equipar',
   'sheet.notProficient': 'sin competencia',
   'sheet.twoHanded': '{damage} a dos manos',
@@ -940,6 +943,12 @@ export const es: Record<keyof typeof en, string> = {
   'combat.note.rage': 'mientras estás en furia: +{n} al daño con ataques de Fuerza',
   'combat.note.sneak': 'Ataque furtivo: {n} de daño extra una vez por turno',
   'combat.note.agonizing': 'suma +{n} (CAR) al daño del truco de brujo elegido',
+  'combat.note.psychicBlade':
+    'Se manifiesta al Atacar o en un ataque de oportunidad; no es inventario, desaparece tras golpear o fallar',
+  'combat.note.psychicBladeBonus':
+    'Necesitas la otra mano libre (no comprobado aquí: un escudo o una segunda arma pueden ocuparla)',
+  'combat.note.soulBladesHoming':
+    'Hojas del alma: si fallas, gasta un Dado de Energía Psiónica y súmalo a la tirada de ataque',
   'sheet.mastery': 'Maestría',
   'sheet.equipped': 'Equipado',
   'sheet.equip': 'Equipar',
