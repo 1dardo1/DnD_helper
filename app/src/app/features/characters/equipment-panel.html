@@ -93,21 +93,26 @@
       <div class="mastery-panel" data-testid="mastery-panel">
         @let editing = masteryEditing();
         @if (!editing) {
-          <p>
-            {{
-              'sheet.mastery.chosen'
-                | t: { count: masteryChosenItems().length, slots: masterySlots() }
-            }}
+          <fieldset [class.issue]="masteryChosenItems().length < masterySlots()">
+            <legend>
+              {{
+                'sheet.mastery.chosen'
+                  | t: { count: masteryChosenItems().length, slots: masterySlots() }
+              }}
+            </legend>
             @if (masteryChosenItems().length) {
-              :
-              @for (i of masteryChosenItems(); track i.id; let last = $last) {
-                {{ i.name | dataName }}{{ last ? '' : ', ' }}
-              }
+              <p class="chosen">
+                @for (i of masteryChosenItems(); track i.id; let last = $last) {
+                  {{ i.name | dataName }}{{ last ? '' : ', ' }}
+                }
+              </p>
+            } @else {
+              <p class="issue">{{ 'sheet.mastery.none' | t }}</p>
             }
             <button type="button" (click)="startMasteryEdit()">
               {{ 'sheet.mastery.change' | t }}
             </button>
-          </p>
+          </fieldset>
         } @else {
           <fieldset>
             <legend>

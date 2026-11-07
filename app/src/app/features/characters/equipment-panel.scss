@@ -1,6 +1,10 @@
 .mastery-panel {
   margin-top: var(--space-3);
 
+  .chosen {
+    margin: 0 0 var(--space-2);
+  }
+
   button {
     min-height: var(--tap);
   }

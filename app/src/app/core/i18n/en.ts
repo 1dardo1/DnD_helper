@@ -947,6 +947,7 @@ export const en = {
     'Soul Blades: on a miss, spend a Psionic Energy Die and add it to the attack roll',
   'sheet.mastery': 'Mastery',
   'sheet.mastery.chosen': 'Weapon Mastery ({count} / {slots})',
+  'sheet.mastery.none': 'None chosen yet.',
   'sheet.mastery.change': 'Change masteries',
   'sheet.mastery.pick': 'Choose up to {slots} kinds of weapon ({count} / {slots})',
   'sheet.mastery.save': 'Save',

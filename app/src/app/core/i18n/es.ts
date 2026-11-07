@@ -958,6 +958,7 @@ export const es: Record<keyof typeof en, string> = {
     'Hojas del alma: si fallas, gasta un Dado de Energía Psiónica y súmalo a la tirada de ataque',
   'sheet.mastery': 'Maestría',
   'sheet.mastery.chosen': 'Maestría de armas ({count} / {slots})',
+  'sheet.mastery.none': 'Sin elegir todavía.',
   'sheet.mastery.change': 'Cambiar maestrías',
   'sheet.mastery.pick': 'Elige hasta {slots} tipos de arma ({count} / {slots})',
   'sheet.mastery.save': 'Guardar',
