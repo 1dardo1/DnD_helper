@@ -201,6 +201,7 @@ export const es: Record<keyof typeof en, string> = {
   'sheet.warn.twoPacts': 'Dos fuentes de Magia de pacto: solo se muestra la mejor.',
   'sheet.warn.armorBase':
     'Armadura mágica «{name}»: elige qué armadura es en el inventario para calcular la CA.',
+  'sheet.warn.traitChoiceMissing': '{trait}: falta elegir una opción.',
   // -- magic weapons and armor with a base chosen by the player ------------------------
   'gear.base': 'Base',
   'gear.bonus': 'Bonificador',
@@ -395,6 +396,7 @@ export const es: Record<keyof typeof en, string> = {
   'create.missing.backgroundIncreases': 'Elige los aumentos del trasfondo (+2/+1 o +1/+1/+1).',
   'create.missing.species': 'Elige una especie.',
   'create.missing.variant': 'Elige el linaje o variante.',
+  'create.missing.traitChoice': 'Elige una opción de {trait}.',
   'create.missing.abilities': 'Asigna las puntuaciones de característica.',
   'create.missing.pointBuy': 'Has gastado más de 27 puntos.',
   'create.missing.skills': 'Elige {count} habilidad(es) de clase más.',

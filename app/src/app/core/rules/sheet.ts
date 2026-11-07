@@ -169,6 +169,7 @@ export interface SheetWarning {
     | 'sheet.warn.customBackgroundMissing'
     | 'sheet.warn.noSubclass'
     | 'sheet.warn.twoPacts'
-    | 'sheet.warn.armorBase';
+    | 'sheet.warn.armorBase'
+    | 'sheet.warn.traitChoiceMissing';
   params?: Record<string, string>;
 }

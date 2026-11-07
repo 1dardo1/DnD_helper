@@ -83,7 +83,9 @@ import {
 import { Ability, ClassOption, DndClass, Feat, Feature, Item } from '../../core/models/compendium';
 import { castingOf, computeSheet } from '../../core/rules/engine';
 import { FeatSource, listOfFeatName } from '../../core/rules/feat-effects';
+import { traitChoiceFor, traitChoiceKey } from '../../core/rules/trait-choices';
 import { FeatChoices } from '../../shared/feat-choices';
+import { TraitChoice, TraitChoiceItem } from '../../shared/trait-choice';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import {
   BoughtItem,
@@ -140,6 +142,7 @@ type ClassEntry = Character['classes'][number];
     ClassThemeDirective,
     Picker,
     FeatChoices,
+    TraitChoice,
     EntryCard,
     BackgroundEditor,
     HomebrewBadge,
@@ -314,6 +317,32 @@ export class CharacterCreate implements LeaveCheck {
   protected readonly variants = computed(() =>
     (this.species()?.variants ?? []).filter((v) => !v.reprint).map((v) => ({ ...v, id: v.name })),
   );
+  /**
+   * Species/variant traits whose text embeds its own choice (a lineage, a reprint's internal
+   * tribe/creed...), with the options the player picks from (core/rules/trait-choices.ts). Only
+   * the base species' traits and the currently chosen variant's, if any.
+   */
+  protected readonly speciesTraitChoices = computed(() => {
+    const sp = this.species();
+    if (!sp) return [];
+    const out: { key: string; trait: string; options: TraitChoiceItem[] }[] = [];
+    const scan = (traits: Feature[], variantName: string | null) => {
+      for (const t of traits) {
+        const key = traitChoiceKey(sp.id, variantName, t.name);
+        const split = traitChoiceFor(t, key);
+        if (split)
+          out.push({
+            key,
+            trait: t.name,
+            options: split.options.map((o) => ({ value: o.name, label: o.name, text: o.text })),
+          });
+      }
+    };
+    scan(sp.traits, null);
+    const variant = this.variants().find((v) => v.id === this.draft().species?.variant);
+    if (variant) scan(variant.traits, variant.name);
+    return out;
+  });
   protected readonly skillChoice = computed(() => skillPicks(this.classList()));
   protected readonly expertiseTotal = computed(() =>
     this.rows().reduce((n, r) => n + r.expertise, 0),
@@ -863,6 +892,13 @@ export class CharacterCreate implements LeaveCheck {
   protected setVariant(name: string): void {
     this.patch((c) => {
       if (c.species) c.species.variant = name || null;
+      return c;
+    });
+  }
+
+  protected setTraitChoice(key: string, value: string): void {
+    this.patch((c) => {
+      c.choices.traitChoices = { ...(c.choices.traitChoices ?? {}), [key]: value };
       return c;
     });
   }

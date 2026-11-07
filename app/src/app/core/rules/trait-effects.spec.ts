@@ -276,10 +276,11 @@ describe('species', () => {
     expect(names).not.toEqual(expect.arrayContaining(["Goblin (Volo's Guide to Monsters)"]));
   });
 
-  it('a Goblin has no variant to choose (its "variants" are only reprints)', () => {
+  it('a Goblin has one real variant to choose (Plane Shift: Zendikar); the rest are reprints', () => {
     const goblin = DATA.species.get('goblin')!;
-    expect(goblin.variants.length).toBeGreaterThan(0);
-    expect(goblin.variants.every((v) => v.reprint)).toBe(true);
+    const real = goblin.variants.filter((v) => !v.reprint);
+    expect(real.map((v) => v.name)).toEqual(['Goblin (Plane Shift: Zendikar)']);
+    expect(goblin.variants.filter((v) => v.reprint).length).toBe(3);
   });
 
   it('Aasimar resist Necrotic and Radiant, know Light, and have Healing Hands once per Long Rest', () => {

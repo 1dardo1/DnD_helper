@@ -590,6 +590,11 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
       `create.missing.feat.${m.what}`,
       { feat: m.feat },
     );
+  // a species/variant trait whose text embeds its own choice (a lineage, a reprint's internal
+  // tribe/creed...) and nothing picked for it yet (core/rules/trait-choices.ts).
+  for (const w of ctx.sheet?.warnings ?? [])
+    if (w.key === 'sheet.warn.traitChoiceMissing')
+      miss('species', 'create.missing.traitChoice', { trait: w.params!['trait'] });
   if (ctx.species && ctx.species.size.length > 1 && !ch.size)
     miss('species', 'create.missing.size');
   const chosen = ch.choices.languages;
