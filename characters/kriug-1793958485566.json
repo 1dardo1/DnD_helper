@@ -3,7 +3,7 @@
   "id": "kriug-1793958485566",
   "name": "Kriug",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-07T15:59:43.466Z",
+  "updatedAt": "2026-11-07T16:00:50.974Z",
   "updatedBy": "PC ESTEBAN",
   "species": {
     "id": "goblin",
@@ -259,7 +259,9 @@
       0,
       0
     ],
-    "resources": {},
+    "resources": {
+      "trait:species:fury-of-the-small:fury-of-the-small": 0
+    },
     "pactSlotsSpent": 0,
     "hitDiceSpent": {
       "d8": 0
