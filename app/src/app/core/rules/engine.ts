@@ -26,6 +26,7 @@ import {
   listOfFeatName,
 } from './feat-effects';
 import { multiclassGains } from './multiclass';
+import { resolveTraitChoice, traitChoiceKey } from './trait-choices';
 import { TraitRules, traitRules } from './trait-effects';
 import { Bonus, Sheet, SheetFeatSpell, SheetFeatUse, SheetFeature, SheetWarning } from './sheet';
 import { ABILITIES, MULTICLASS_SLOTS, SKILL_ABILITY, modifier, proficiencyBonus } from './tables';
@@ -115,13 +116,22 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
         params: { cls: c.cls.name, title: c.cls.subclassTitle },
       });
   }
+  // A trait whose text embeds its own choice (a lineage, a reprint's internal tribe/creed...):
+  // resolve it against the character's pick before it's shown or read for spells/skills/uses.
+  const resolveSpeciesTrait = (t: Feature, variantName: string | null): Feature => {
+    const key = traitChoiceKey(species!.id, variantName, t.name);
+    const r = resolveTraitChoice(t, key, ch.choices.traitChoices?.[key]);
+    if (r.split && r.missing)
+      warnings.push({ key: 'sheet.warn.traitChoiceMissing', params: { trait: t.name } });
+    return r.split ? { ...t, description: r.text } : t;
+  };
   if (species) {
     features.push(
-      ...gained(species.traits, totalLevel, {
-        type: 'species',
-        id: species.id,
-        name: species.name,
-      }),
+      ...gained(
+        species.traits.map((t) => resolveSpeciesTrait(t, null)),
+        totalLevel,
+        { type: 'species', id: species.id, name: species.name },
+      ),
     );
     const variant = chosenVariant(species, ch.species?.variant);
     if (variant) {
@@ -132,11 +142,11 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
         description: variant.description,
       });
       features.push(
-        ...gained(variant.traits, totalLevel, {
-          type: 'species',
-          id: species.id,
-          name: variant.name,
-        }),
+        ...gained(
+          variant.traits.map((t) => resolveSpeciesTrait(t, variant.name)),
+          totalLevel,
+          { type: 'species', id: species.id, name: variant.name },
+        ),
       );
     }
   }
@@ -182,6 +192,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     totalLevel,
     chosenOptions,
     featSources,
+    ch.choices.traitChoices,
   );
   const fx = (t: TraitSource): TraitRules => traitRules(t.text, { situational: t.situational });
 
@@ -825,8 +836,15 @@ function traitSources(
   totalLevel: number,
   options: { opt: ClassOption; classLevel: number; classId: string }[],
   feats: FeatSource[],
+  traitChoices: Record<string, string> | undefined,
 ): TraitSource[] {
   const out: TraitSource[] = [];
+  const resolved = (t: Feature, variantName: string | null): RuleText => {
+    if (!species) return t;
+    const key = traitChoiceKey(species.id, variantName, t.name);
+    const r = resolveTraitChoice(t, key, traitChoices?.[key]);
+    return r.split ? { name: t.name, description: r.text } : t;
+  };
   for (const c of classes) {
     for (const f of c.cls.features)
       if (f.level <= c.level)
@@ -853,7 +871,7 @@ function traitSources(
   }
   const specie = (name: string, text: RuleText) =>
     out.push({ kind: 'species', name, text, level: 1, scope: totalLevel, situational: false });
-  for (const t of species?.traits ?? []) specie(t.name, t);
+  for (const t of species?.traits ?? []) specie(t.name, resolved(t, null));
   const variant = chosenVariant(species, variantName);
   if (variant) {
     const lines = variantLines(variant.description);
@@ -861,7 +879,7 @@ function traitSources(
       for (const l of lines)
         if (l.level === 1) specie(variant.name, { name: variant.name, description: l.text });
     } else specie(variant.name, { name: variant.name, description: variant.description });
-    for (const t of variant.traits) specie(t.name, t);
+    for (const t of variant.traits) specie(t.name, resolved(t, variant.name));
   }
   for (const o of options)
     out.push({

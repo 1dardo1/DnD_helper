@@ -329,6 +329,15 @@
                 </ng-template>
               </app-picker>
             }
+            @for (tc of speciesTraitChoices(); track tc.key) {
+              <app-trait-choice
+                [key]="tc.key"
+                [legend]="tc.trait | dataName"
+                [options]="tc.options"
+                [selected]="c.choices.traitChoices?.[tc.key] ?? null"
+                (changed)="setTraitChoice(tc.key, $event)"
+              />
+            }
             @if (s.size.length > 1) {
               <label>
                 {{ 'sheet.size' | t }}

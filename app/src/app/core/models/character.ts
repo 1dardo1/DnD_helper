@@ -66,6 +66,12 @@ export interface Character {
      * or "feat:<id>". See core/rules/feat-effects.ts.
      */
     featChoices?: Record<string, FeatChoice>;
+    /**
+     * The option picked for a species/variant trait whose text embeds its own choice (a lineage,
+     * a reprint's internal tribe/creed...), by key (core/rules/trait-choices.ts' `traitChoiceKey`)
+     * → the chosen option's English name.
+     */
+    traitChoices?: Record<string, string>;
     /** Ability increases other than the background's (ASIs, half feats...), by feat and slot. */
     abilityIncreases: { source: string; ability: Ability; amount: number; slot?: string }[];
     /** Class option ids (invocations, maneuvers, blood curses...). */

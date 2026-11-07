@@ -198,6 +198,7 @@ export const en = {
   'sheet.warn.twoPacts': 'Two sources of Pact Magic: only the better one is shown.',
   'sheet.warn.armorBase':
     'Magic armor "{name}": choose which armor it is in the inventory to work out the AC.',
+  'sheet.warn.traitChoiceMissing': '{trait}: no option chosen yet.',
   // -- magic weapons and armor with a base chosen by the player ------------------------
   'gear.base': 'Base',
   'gear.bonus': 'Bonus',
@@ -392,6 +393,7 @@ export const en = {
     'Choose the background ability increases (+2/+1 or +1/+1/+1).',
   'create.missing.species': 'Choose a species.',
   'create.missing.variant': 'Choose the lineage or variant.',
+  'create.missing.traitChoice': 'Choose an option of {trait}.',
   'create.missing.abilities': 'Set the ability scores.',
   'create.missing.pointBuy': 'You spent more than 27 points.',
   'create.missing.skills': 'Choose {count} more class skill(s).',
