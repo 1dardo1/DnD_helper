@@ -79,7 +79,7 @@ export interface Sheet {
   featMissing: {
     feat: string;
     key: string;
-    what: 'ability' | 'list' | 'cantrips' | 'spell' | 'proficiencies';
+    what: 'ability' | 'list' | 'cantrips' | 'spell' | 'proficiencies' | 'resistance';
   }[];
   /** Things the engine couldn't resolve (ids not in the compendium, missing choices...). */
   warnings: SheetWarning[];

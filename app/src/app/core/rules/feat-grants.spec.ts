@@ -376,6 +376,89 @@ describe('feats that give proficiencies, uses and bonuses', () => {
       ).armorClass.value;
     expect(withArmor(true)).toBe(withArmor(false) + 1);
   });
+
+  it(
+    'Squat Nimbleness: only the chosen skill (Acrobatics or Athletics) applies, ' +
+      'never both and never neither',
+    () => {
+      const slot = (choice: FeatChoice = {}) =>
+        computeSheet(
+          fighter('x', {
+            level: 4,
+            choices: {
+              ...newCharacter('x', 'x').choices,
+              featSlots: [{ slot: SPECIES_SLOT, featId: 'squat-nimbleness' }],
+              ...withChoice(SPECIES_SLOT, choice),
+            },
+          }),
+          DATA,
+        );
+      const none = slot();
+      expect(none.skills.find((s) => s.id === 'acrobatics')?.proficiency).toBe('none');
+      expect(none.skills.find((s) => s.id === 'athletics')?.proficiency).toBe('none');
+      expect(none.featMissing).toEqual([
+        { feat: 'Squat Nimbleness', key: SPECIES_SLOT, what: 'proficiencies' },
+      ]);
+      const acrobatics = slot({ skills: ['acrobatics'] });
+      expect(acrobatics.skills.find((s) => s.id === 'acrobatics')?.proficiency).toBe('full');
+      expect(acrobatics.skills.find((s) => s.id === 'athletics')?.proficiency).toBe('none');
+      expect(acrobatics.featMissing).toEqual([]);
+      const athletics = slot({ skills: ['athletics'] });
+      expect(athletics.skills.find((s) => s.id === 'athletics')?.proficiency).toBe('full');
+      expect(athletics.skills.find((s) => s.id === 'acrobatics')?.proficiency).toBe('none');
+    },
+  );
+
+  it('Keen Mind and Observant: proficiency, or Expertise when already proficient', () => {
+    const slot = (featId: string, background: string, choice: FeatChoice = {}) =>
+      computeSheet(
+        fighter(background, {
+          choices: {
+            ...newCharacter('x', 'x').choices,
+            featSlots: [{ slot: 'fighter:4', featId }],
+            ...withChoice('fighter:4', choice),
+          },
+        }),
+        DATA,
+      );
+    // Soldier doesn't give Arcana: Keen Mind just grants proficiency.
+    const keenMindPlain = slot('keen-mind', 'soldier', { skills: ['arcana'] });
+    expect(keenMindPlain.skills.find((s) => s.id === 'arcana')?.proficiency).toBe('full');
+    // Sage already gives Arcana: Keen Mind upgrades it to Expertise instead.
+    const keenMindUpgrade = slot('keen-mind', 'sage', { skills: ['arcana'] });
+    expect(keenMindUpgrade.skills.find((s) => s.id === 'arcana')?.proficiency).toBe('expertise');
+    expect(slot('keen-mind', 'soldier').featMissing).toEqual([
+      { feat: 'Keen Mind', key: 'fighter:4', what: 'proficiencies' },
+    ]);
+    // Soldier doesn't give Insight/Investigation/Perception: Observant just grants proficiency.
+    const observantPlain = slot('observant', 'soldier', { skills: ['insight'] });
+    expect(observantPlain.skills.find((s) => s.id === 'insight')?.proficiency).toBe('full');
+    // Sailor already gives Perception: Observant upgrades it to Expertise instead.
+    const observantUpgrade = slot('observant', 'sailor', { skills: ['perception'] });
+    expect(observantUpgrade.skills.find((s) => s.id === 'perception')?.proficiency).toBe(
+      'expertise',
+    );
+  });
+
+  it('Dragonscarred and Spell-Resistant: only the chosen damage type is resisted', () => {
+    const slot = (featId: string, choice: FeatChoice = {}) =>
+      computeSheet(
+        fighter('x', {
+          choices: {
+            ...newCharacter('x', 'x').choices,
+            featSlots: [{ slot: 'fighter:4', featId }],
+            ...withChoice('fighter:4', choice),
+          },
+        }),
+        DATA,
+      );
+    expect(slot('dragonscarred').resistances).toEqual([]);
+    expect(slot('dragonscarred').featMissing).toEqual([
+      { feat: 'Dragonscarred', key: 'fighter:4', what: 'resistance' },
+    ]);
+    expect(slot('dragonscarred', { resistance: 'Fire' }).resistances).toEqual(['Fire']);
+    expect(slot('spell-resistant', { resistance: 'Thunder' }).resistances).toEqual(['Thunder']);
+  });
 });
 
 describe('the species feat (Human Versatile) and the choices of a feat in a slot', () => {
