@@ -3,7 +3,7 @@
   "id": "kriug-1793958485566",
   "name": "Kriug",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-07T15:59:29.996Z",
+  "updatedAt": "2026-11-07T15:59:43.466Z",
   "updatedBy": "PC ESTEBAN",
   "species": {
     "id": "goblin",
@@ -261,7 +261,9 @@
     ],
     "resources": {},
     "pactSlotsSpent": 0,
-    "hitDiceSpent": {},
+    "hitDiceSpent": {
+      "d8": 0
+    },
     "deathSaves": {
       "successes": 0,
       "failures": 0
