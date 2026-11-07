@@ -28,6 +28,8 @@ export interface TabContext {
   summonSources: number;
   /** Creatures already tracked in the play state. */
   summoned?: number;
+  /** The Artillerist's Eldritch Cannon (an object, not a catalog summon source). */
+  hasCannon?: boolean;
 }
 
 /** Artificer level from which Replicate Magic Item (plans) shows up. */
@@ -54,7 +56,8 @@ export function hasSpellsTab(sheet: TabInput, featSpells: number): boolean {
 export function visibleTabs(sheet: TabInput, ctx: TabContext): SheetTab[] {
   return SHEET_TABS.filter((tab) => {
     if (tab === 'conjuros') return hasSpellsTab(sheet, ctx.featSpells);
-    if (tab === 'invocaciones') return ctx.summonSources > 0 || (ctx.summoned ?? 0) > 0;
+    if (tab === 'invocaciones')
+      return ctx.summonSources > 0 || (ctx.summoned ?? 0) > 0 || !!ctx.hasCannon;
     return true;
   });
 }

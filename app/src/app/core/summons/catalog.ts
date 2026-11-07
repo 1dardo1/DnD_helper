@@ -311,7 +311,16 @@ function classIdOf(f: SheetFeature): string {
   return f.source.type === 'subclass' ? f.source.id.split('/')[0] : f.source.id;
 }
 
+/**
+ * Features whose "Armor Class" table isn't a summoned creature: the Artillerist's Eldritch Cannon
+ * is an object the character creates (core/artificer/cannon.ts), shown on its own card instead.
+ */
+const EXCLUDED_FEATURES: Record<string, string> = {
+  'artificer/artillerist-ua': 'Eldritch Cannon',
+};
+
 function featureSource(f: SheetFeature, catalog: SummonCatalog): SummonSource | null {
+  if (f.source.type === 'subclass' && EXCLUDED_FEATURES[f.source.id] === f.name) return null;
   const refType = f.source.type === 'background' ? 'species' : f.source.type;
   const base = {
     id: `feature:${f.source.type}:${f.source.id}:${f.name}`,

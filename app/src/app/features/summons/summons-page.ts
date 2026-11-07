@@ -13,6 +13,23 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import {
+  CannonAspect,
+  CannonSize,
+  CreateSource,
+  MENDING_HEAL_AVERAGE,
+  artificerClassOf,
+  canCreateCannon,
+  cannonHpMax,
+  cannonMonster,
+  createCannon,
+  dismissCannon,
+  hasEldritchCannon,
+  hasFreeCreate,
+  healCannon,
+  toCannonInstance,
+  updateCannon,
+} from '../../core/artificer/cannon';
 import { CharacterStore } from '../../core/characters/character-store.service';
 import { SyncService } from '../../core/characters/sync.service';
 import { CombatMonster } from '../../core/dm/combat';
@@ -109,6 +126,10 @@ export class SummonsPage {
       if (c && v && v.record.character !== c) {
         this.view.set({ ...v, record: { ...v.record, character: c } });
       }
+    });
+    // once the free Eldritch Cannon creation is spent, the form defaults to paying with a slot
+    effect(() => {
+      if (!this.cannonFreeAvailable()) untracked(() => this.cannonSourceFree.set(false));
     });
   }
 
@@ -234,13 +255,9 @@ export class SummonsPage {
   // -- changes --------------------------------------------------------------------------
   private saves = Promise.resolve();
 
-  private commit(next: SummonsState): void {
+  private commitCharacter(character: Character): void {
     const v = this.view.value();
     if (!v) return;
-    const character: Character = {
-      ...v.record.character,
-      state: { ...v.record.character.state, summons: next },
-    };
     this.view.set({ ...v, record: { ...v.record, character } });
     this.changed.emit(character);
     this.saves = this.saves
@@ -249,6 +266,15 @@ export class SummonsPage {
         () => undefined,
         (e) => console.error(e),
       );
+  }
+
+  private commit(next: SummonsState): void {
+    const v = this.view.value();
+    if (!v) return;
+    this.commitCharacter({
+      ...v.record.character,
+      state: { ...v.record.character.state, summons: next },
+    });
   }
 
   protected toggle(key: string, on: boolean): void {
@@ -273,5 +299,111 @@ export class SummonsPage {
 
   protected reset(): void {
     if (confirm(this.i18n.t('summons.confirmReset'))) this.commit(resetSummons(this.summons()));
+  }
+
+  // -- the Artillerist's Eldritch Cannon -------------------------------------------------
+  protected readonly hasCannon = computed(() => {
+    const v = this.view.value();
+    return !!v && hasEldritchCannon(v.record.character);
+  });
+
+  private readonly cannonLevel = computed(() => {
+    const v = this.view.value();
+    return v ? (artificerClassOf(v.record.character)?.level ?? 0) : 0;
+  });
+
+  private readonly cannonSpellDc = computed(() => {
+    const v = this.view.value();
+    if (!v) return 10;
+    const caster = v.sheet.spellcasting.classes.find((c) => c.classId === 'artificer');
+    return caster?.saveDc ?? 8 + v.sheet.proficiencyBonus + v.sheet.abilities.INT.modifier;
+  });
+
+  protected readonly cannonState = computed(() => this.view.value()?.record.character.state.cannon);
+
+  protected readonly cannonSlots = computed(
+    () => this.view.value()?.sheet.spellcasting.slots ?? [],
+  );
+
+  protected readonly cannonCanCreate = computed(() => {
+    const v = this.view.value();
+    return !!v && canCreateCannon(v.record.character, this.cannonSlots());
+  });
+
+  protected readonly cannonFreeAvailable = computed(() => {
+    const v = this.view.value();
+    return !!v && hasFreeCreate(v.record.character);
+  });
+
+  protected readonly cannonMonsterView = computed(() => {
+    const v = this.view.value();
+    const cannon = this.cannonState();
+    if (!v || !cannon?.active) return null;
+    const level = this.cannonLevel();
+    const intMod = v.sheet.abilities.INT.modifier;
+    const monster = cannonMonster(cannon, level, this.cannonSpellDc(), intMod);
+    const instance = toCannonInstance(cannon, cannonHpMax(level));
+    return { monster, instance };
+  });
+
+  /** Pending choices for the creation form, shown while no cannon is out. */
+  protected readonly cannonSize = signal<CannonSize>('Small');
+  protected readonly cannonAspect = signal<CannonAspect>('legs');
+  protected readonly cannonSourceFree = signal(true);
+  protected readonly cannonSlotLevel = signal(1);
+
+  protected deployCannon(): void {
+    const v = this.view.value();
+    if (!v) return;
+    const source: CreateSource = this.cannonSourceFree()
+      ? { kind: 'free' }
+      : { kind: 'slot', level: this.cannonSlotLevel() };
+    const next = createCannon(
+      v.record.character,
+      this.cannonSize(),
+      this.cannonAspect(),
+      source,
+      this.cannonSlots(),
+    );
+    if (next) this.commitCharacter(next);
+  }
+
+  protected healCannonInstead(): void {
+    const v = this.view.value();
+    if (!v) return;
+    this.commitCharacter(healCannon(v.record.character, MENDING_HEAL_AVERAGE));
+  }
+
+  protected dismissCannonCard(): void {
+    const v = this.view.value();
+    if (!v) return;
+    this.commitCharacter(dismissCannon(v.record.character));
+  }
+
+  protected mutateCannon(f: (m: CombatMonster) => CombatMonster): void {
+    const v = this.view.value();
+    if (!v) return;
+    this.commitCharacter(updateCannon(v.record.character, this.cannonLevel(), f));
+  }
+
+  /** A stable reference for the template, so the card's mutator doesn't change every render. */
+  protected readonly cannonMutator = (f: (m: CombatMonster) => CombatMonster) =>
+    this.mutateCannon(f);
+
+  protected cannonSelect(e: Event): string {
+    return (e.target as HTMLSelectElement).value;
+  }
+
+  protected openCannonSheet(): void {
+    const cv = this.cannonMonsterView();
+    if (!cv) return;
+    this.openSheet({
+      key: 'artificer:eldritch-cannon',
+      label: this.i18n.t('cannon.title'),
+      monster: cv.monster,
+      instance: cv.instance,
+      on: true,
+      mutate: (f) => this.mutateCannon(f),
+    });
   }
 }

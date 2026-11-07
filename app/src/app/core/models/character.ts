@@ -1,3 +1,4 @@
+import { CannonState, normalizeCannon } from '../artificer/cannon';
 import { ReplicatedItem, normalizeReplicated } from '../artificer/replicated-state';
 import { TempSlot, normalizeCharges, normalizeTempSlots } from '../artificer/tinker';
 import { SummonsState, normalizeSummons } from '../summons/summon-state';
@@ -123,6 +124,8 @@ export interface Character {
     charges?: Record<string, number>;
     /** Extra slots from Drain Magic Item; they disappear at the end of a Long Rest. */
     tempSlots?: TempSlot[];
+    /** The Artillerist's Eldritch Cannon, while one is out (absent: none deployed). */
+    cannon?: CannonState;
   };
   notes: string;
 }
@@ -284,6 +287,9 @@ function normalizeState(base: Character['state'], raw: Character['state'] | unde
   const tempSlots = normalizeTempSlots(raw?.tempSlots);
   if (tempSlots.length) state.tempSlots = tempSlots;
   else delete state.tempSlots;
+  const cannon = normalizeCannon(raw?.cannon);
+  if (cannon) state.cannon = cannon;
+  else delete state.cannon;
   return state;
 }
 
