@@ -298,6 +298,57 @@ describe('creation rules', () => {
     expect(m.details.map((x) => x.key)).toEqual(['create.missing.name']);
   });
 
+  it('flags Weapon Mastery as missing, then too many, against sheet.combat.masterySlots', () => {
+    const base = {
+      ...newCharacter('', 'pc'),
+      classes: [{ id: 'fighter', level: 4, subclassId: null, hp: [] }],
+      background: { id: 'soldier', abilityIncreases: {} },
+      species: { id: 'human', variant: null },
+    };
+    const ctx = (sheet: Sheet | null) => ({
+      classes: [fighter],
+      sheet,
+      feats: new Map(),
+      spells: new Map(),
+    });
+    const none = review(
+      base,
+      ctx(sheetWith({}, { combat: { masterySlots: 3 } as Sheet['combat'] })),
+    );
+    expect(none.choices).toContainEqual({
+      key: 'create.missing.weaponMasteries',
+      params: { count: 3 },
+      kind: 'missing',
+    });
+
+    const some = review(
+      { ...base, choices: { ...base.choices, weaponMasteries: ['longsword'] } },
+      ctx(sheetWith({}, { combat: { masterySlots: 3 } as Sheet['combat'] })),
+    );
+    expect(some.choices).toContainEqual({
+      key: 'create.missing.weaponMasteries',
+      params: { count: 2 },
+      kind: 'missing',
+    });
+
+    const tooMany = review(
+      { ...base, choices: { ...base.choices, weaponMasteries: ['longsword', 'dagger', 'mace'] } },
+      ctx(sheetWith({}, { combat: { masterySlots: 2 } as Sheet['combat'] })),
+    );
+    expect(tooMany.choices).toContainEqual({
+      key: 'create.issue.tooManyWeaponMasteries',
+      params: { count: 2 },
+      kind: 'issue',
+    });
+
+    const exact = review(
+      { ...base, choices: { ...base.choices, weaponMasteries: ['longsword', 'dagger'] } },
+      ctx(sheetWith({}, { combat: { masterySlots: 2 } as Sheet['combat'] })),
+    );
+    expect(exact.choices.map((x) => x.key)).not.toContain('create.missing.weaponMasteries');
+    expect(exact.choices.map((x) => x.key)).not.toContain('create.issue.tooManyWeaponMasteries');
+  });
+
   it('never asks to pick a variant when a species only has reprints, but does for a real choice', () => {
     const base = {
       ...newCharacter('', 'pc'),

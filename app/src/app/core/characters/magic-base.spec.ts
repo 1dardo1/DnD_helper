@@ -223,7 +223,8 @@ describe('magic gear in the inventory', () => {
       base: 'Longsword',
       damage: '1d8+2',
       magic: 2,
-      mastery: 'Sap',
+      // this character has no class with Weapon Mastery, so nothing is chosen to show
+      mastery: null,
     });
     expect(a.versatile).toBe('1d10+2');
   });

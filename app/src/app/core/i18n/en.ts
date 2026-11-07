@@ -199,6 +199,7 @@ export const en = {
   'sheet.warn.armorBase':
     'Magic armor "{name}": choose which armor it is in the inventory to work out the AC.',
   'sheet.warn.traitChoiceMissing': '{trait}: no option chosen yet.',
+  'sheet.warn.weaponMastery': 'Weapon Mastery: choose which kinds of weapon it applies to.',
   // -- magic weapons and armor with a base chosen by the player ------------------------
   'gear.base': 'Base',
   'gear.bonus': 'Bonus',
@@ -413,6 +414,8 @@ export const en = {
   'create.missing.size': 'Choose the size.',
   'create.missing.languages': 'Choose {count} more language(s).',
   'create.missing.tools': '{group}: choose {count} more.',
+  'create.missing.weaponMasteries': 'Weapon Mastery: choose {count} more kind(s) of weapon.',
+  'create.weaponMasteries': 'Weapon Mastery ({count} / {slots})',
   'create.issue.levelCap': 'Character level {total} is over 20.',
   'create.issue.multiclass': 'Multiclassing needs {what} for {cls}.',
   'create.issue.multiclassUnknown': "{cls} has no multiclass data: its proficiencies aren't added.",
@@ -427,6 +430,8 @@ export const en = {
   'create.issue.tooManyCantrips': '{cls}: more cantrips than the {count} you know.',
   'create.issue.tooManySpells': '{cls}: more prepared spells than the {count} you get.',
   'create.issue.tooManyTools': '{group}: more than {count} chosen.',
+  'create.issue.tooManyWeaponMasteries':
+    'Weapon Mastery: more kinds of weapon chosen than {count}.',
   'sheet.languages': 'Languages',
   'create.issue.multiclassEstimated':
     "{cls}: what multiclassing grants is estimated (the source doesn't say).",
@@ -941,6 +946,11 @@ export const en = {
   'combat.note.soulBladesHoming':
     'Soul Blades: on a miss, spend a Psionic Energy Die and add it to the attack roll',
   'sheet.mastery': 'Mastery',
+  'sheet.mastery.chosen': 'Weapon Mastery ({count} / {slots})',
+  'sheet.mastery.change': 'Change masteries',
+  'sheet.mastery.pick': 'Choose up to {slots} kinds of weapon ({count} / {slots})',
+  'sheet.mastery.save': 'Save',
+  'sheet.mastery.cancel': 'Cancel',
   'sheet.equipped': 'Equipped',
   'sheet.equip': 'Equip',
   'sheet.quantity': 'Quantity',

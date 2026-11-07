@@ -156,8 +156,8 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
       reach: w.ranged ? null : prop(item, 'reach') ? 10 : 5,
       range: w.ranged ? w.range : thrown,
       properties: w.properties.map((p) => p.replace(/\s*\(.*$/, '')),
-      // only the classes with Weapon Mastery use it (the choice of kinds is the player's)
-      mastery: combat && sheet.classes.length && combat.masterySlots === 0 ? null : w.mastery,
+      // only the kinds of weapon the player chose for Weapon Mastery show its mastery property
+      mastery: combat?.masteryChosen?.includes(item.id) ? w.mastery : null,
       equipped,
       base: magic ? item.name : null,
       magic: plus,

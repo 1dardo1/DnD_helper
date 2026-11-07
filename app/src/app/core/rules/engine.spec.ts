@@ -624,3 +624,139 @@ describe('computeSheet: subclasses that cast spells', () => {
     expect(sheet.spellcasting.classes).toEqual([]);
   });
 });
+
+// -- Weapon Mastery: Barbarian, Fighter, Paladin, Ranger and Rogue (PHB 2024 p.g. class tables) --
+describe('computeSheet: Weapon Mastery', () => {
+  const longsword: Item = {
+    id: 'longsword',
+    type: 'item',
+    name: 'Longsword',
+    edition: '2024',
+    source: null,
+    description: '',
+    url: '',
+    category: 'weapon',
+    cost: null,
+    weight: 3,
+    weapon: {
+      kind: 'martial',
+      ranged: false,
+      damage: [{ dice: '1d8', type: 'slashing' }],
+      properties: ['Versatile (1d10)'],
+      range: null,
+      mastery: 'Sap',
+    },
+  };
+  const dagger: Item = {
+    ...longsword,
+    id: 'dagger',
+    name: 'Dagger',
+    weapon: {
+      kind: 'simple',
+      ranged: false,
+      damage: [{ dice: '1d4', type: 'piercing' }],
+      properties: ['Finesse', 'Light', 'Thrown (Range 20/60)'],
+      range: null,
+      mastery: 'Nick',
+    },
+  };
+  // Fighter Features table: Weapon Mastery column grows 3 -> 4 at level 4 (simplified for the test)
+  const fighter = cls('fighter', {
+    proficiencies: {
+      armor: ['Light', 'Medium', 'Heavy', 'Shields'],
+      weapons: ['Simple', 'Martial'],
+      tools: [],
+      skills: { choose: 2, from: [] },
+    },
+    progression: {
+      columns: ['Weapon Mastery'],
+      rows: Array.from({ length: 20 }, (_, i) => ({
+        level: i + 1,
+        proficiencyBonus: null,
+        features: i === 0 ? ['Weapon Mastery'] : [],
+        values: { 'Weapon Mastery': i < 3 ? '3' : '4' },
+      })),
+    },
+  });
+  // Rogue Features table: no "Weapon Mastery" column at all — fixed at two kinds from level 1
+  const rogue = cls('rogue', {
+    proficiencies: {
+      armor: ['Light'],
+      weapons: ['Simple', 'Martial weapons that have the Finesse or Light property'],
+      tools: [],
+      skills: { choose: 4, from: [] },
+    },
+    progression: {
+      columns: ['Sneak Attack'],
+      rows: Array.from({ length: 20 }, (_, i) => ({
+        level: i + 1,
+        proficiencyBonus: null,
+        features: i === 0 ? ['Weapon Mastery'] : [],
+        values: { 'Sneak Attack': '1d6' },
+      })),
+    },
+  });
+
+  it('Fighter: the slot count grows with level, as the table says', () => {
+    const lvl1 = computeSheet(
+      character({ classes: [{ id: 'fighter', level: 1, subclassId: null, hp: [] }] }),
+      data({ classes: [fighter], items: [longsword] }),
+    );
+    expect(lvl1.combat.masterySlots).toBe(3);
+    const lvl4 = computeSheet(
+      character({ classes: [{ id: 'fighter', level: 4, subclassId: null, hp: [] }] }),
+      data({ classes: [fighter], items: [longsword] }),
+    );
+    expect(lvl4.combat.masterySlots).toBe(4);
+  });
+
+  it('Rogue: a fixed two kinds from level 1, with no growing column in its table', () => {
+    const sheet = computeSheet(
+      character({ classes: [{ id: 'rogue', level: 5, subclassId: null, hp: [] }] }),
+      data({ classes: [rogue], items: [dagger] }),
+    );
+    expect(sheet.combat.masterySlots).toBe(2);
+  });
+
+  it('shows nothing chosen, and warns, until the player picks weapon kinds', () => {
+    const sheet = computeSheet(
+      character({ classes: [{ id: 'fighter', level: 1, subclassId: null, hp: [] }] }),
+      data({ classes: [fighter], items: [longsword] }),
+    );
+    expect(sheet.combat.masteryChosen).toEqual([]);
+    expect(sheet.warnings).toContainEqual({ key: 'sheet.warn.weaponMastery' });
+  });
+
+  it('keeps only proficient, mastery-bearing weapons, and never more than the slots allow', () => {
+    const sheet = computeSheet(
+      character({
+        classes: [{ id: 'rogue', level: 1, subclassId: null, hp: [] }],
+        choices: {
+          ...newCharacter('x', 'x').choices,
+          // dagger is fine (proficient, has mastery); 'longsword' isn't proficient for a Rogue;
+          // 'unknown' doesn't exist — none of those three extra entries should survive
+          weaponMasteries: ['dagger', 'longsword', 'unknown'],
+        },
+      }),
+      data({ classes: [rogue], items: [dagger, longsword] }),
+    );
+    expect(sheet.combat.masteryChosen).toEqual(['dagger']);
+  });
+
+  it('caps at the slot count even when every choice is otherwise valid', () => {
+    const shortsword: Item = { ...dagger, id: 'shortsword', name: 'Shortsword' };
+    const sheet = computeSheet(
+      character({
+        classes: [{ id: 'rogue', level: 1, subclassId: null, hp: [] }],
+        choices: {
+          ...newCharacter('x', 'x').choices,
+          weaponMasteries: ['dagger', 'shortsword'],
+        },
+      }),
+      data({ classes: [rogue], items: [dagger, shortsword] }),
+    );
+    // Rogue only has 2 slots and both are proficient/valid here, so both are kept
+    expect(sheet.combat.masteryChosen).toEqual(['dagger', 'shortsword']);
+    expect(sheet.warnings).not.toContainEqual({ key: 'sheet.warn.weaponMastery' });
+  });
+});

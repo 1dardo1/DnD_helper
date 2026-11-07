@@ -45,7 +45,11 @@ function build(
       method: 'standard',
       base: { STR: 15, DEX: 14, CON: 14, INT: 10, WIS: 12, CHA: 8 },
     },
-    choices: { ...c.choices, traitChoices },
+    choices: {
+      ...c.choices,
+      traitChoices,
+      weaponMasteries: ['battleaxe', 'club', 'dagger'],
+    },
   };
 }
 

@@ -88,6 +88,51 @@
         }
       </ul>
     }
+
+    @if (masterySlots()) {
+      <div class="mastery-panel" data-testid="mastery-panel">
+        @let editing = masteryEditing();
+        @if (!editing) {
+          <p>
+            {{
+              'sheet.mastery.chosen'
+                | t: { count: masteryChosenItems().length, slots: masterySlots() }
+            }}
+            @if (masteryChosenItems().length) {
+              :
+              @for (i of masteryChosenItems(); track i.id; let last = $last) {
+                {{ i.name | dataName }}{{ last ? '' : ', ' }}
+              }
+            }
+            <button type="button" (click)="startMasteryEdit()">
+              {{ 'sheet.mastery.change' | t }}
+            </button>
+          </p>
+        } @else {
+          <fieldset>
+            <legend>
+              {{ 'sheet.mastery.pick' | t: { count: editing.length, slots: masterySlots() } }}
+            </legend>
+            @for (w of masteryOptions(); track w.id) {
+              <label class="inline">
+                <input
+                  type="checkbox"
+                  [checked]="editing.includes(w.id)"
+                  (change)="toggleMastery(w.id, checked($event))"
+                />
+                {{ w.name | dataName }}
+              </label>
+            }
+            <div class="actions">
+              <button type="button" (click)="saveMastery()">{{ 'sheet.mastery.save' | t }}</button>
+              <button type="button" (click)="cancelMasteryEdit()">
+                {{ 'sheet.mastery.cancel' | t }}
+              </button>
+            </div>
+          </fieldset>
+        }
+      </div>
+    }
   </section>
 } @else {
   <section>
