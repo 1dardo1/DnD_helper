@@ -20,15 +20,6 @@ export interface FacetView {
   canExclude: boolean;
 }
 
-/** Wider screens show the filters open; phones start with them folded under "Filtros". */
-function wideScreen(): boolean {
-  try {
-    return matchMedia('(min-width: 45rem)').matches;
-  } catch {
-    return true;
-  }
-}
-
 /**
  * Search box, filters (one foldable column per facet: tick to include, ✕ to exclude, "O" / "Y"; folded on phones), "N de M" and "Quitar filtros".
  * Holds no state of its own: the wizard pickers keep it in signals, the compendium in the URL.
@@ -365,7 +356,8 @@ export class FilterBar {
   readonly facetChange = output<{ key: string; value: string }>();
   readonly clear = output<void>();
 
-  protected readonly open = signal(wideScreen());
+  // Always folded until the user opens it by hand, on any screen size.
+  protected readonly open = signal(false);
 
   protected readonly modeKey = modeKey;
 
@@ -374,9 +366,9 @@ export class FilterBar {
     return selectedValues(f.selected).length;
   }
 
-  /** Columns in use start open; the main ones too on wide screens; the rest folded. */
+  /** A column starts open only when it's already in use; otherwise folded until opened by hand. */
   protected startOpen(f: FacetView): boolean {
-    return !!f.selected || (!f.more && wideScreen());
+    return !!f.selected;
   }
 
   protected isOn(f: FacetView, value: string): boolean {
