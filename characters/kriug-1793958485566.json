@@ -3,8 +3,8 @@
   "id": "kriug-1793958485566",
   "name": "Kriug",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-07T16:00:50.974Z",
-  "updatedBy": "PC ESTEBAN",
+  "updatedAt": "2026-11-07T17:09:18.105Z",
+  "updatedBy": "pc Carlos",
   "species": {
     "id": "goblin",
     "variant": "Goblin (Plane Shift: Zendikar)"
@@ -132,7 +132,10 @@
           "qty": 1
         }
       ]
-    }
+    },
+    "weaponMasteries": [
+      "dagger"
+    ]
   },
   "equipped": {
     "armorId": null,
@@ -282,5 +285,6 @@
     "ep": 0,
     "sp": 3,
     "cp": 5
-  }
+  },
+  "folder": null
 }
