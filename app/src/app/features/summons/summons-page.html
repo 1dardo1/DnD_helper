@@ -10,6 +10,104 @@
     <h1>{{ 'summons.title' | t }}</h1>
   }
 
+  @if (hasCannon()) {
+    <section class="source cannon" data-coverage="structured">
+      <header>
+        <h2>{{ 'cannon.title' | t }}</h2>
+        <a class="desc" [routerLink]="['/compendium', 'subclass', 'artificer/artillerist-ua']">{{
+          'cannon.viewFeature' | t
+        }}</a>
+      </header>
+      <p class="lead">{{ 'cannon.intro' | t }}</p>
+
+      @if (cannonMonsterView(); as cv) {
+        <div class="cards">
+          <app-monster-card
+            [instance]="cv.instance"
+            [monster]="cv.monster"
+            [label]="'cannon.title' | t"
+            [mutator]="cannonMutator"
+            [ordered]="false"
+            [controls]="true"
+            statBlockKey="summons.fullSheet"
+            (statBlock)="openCannonSheet()"
+          >
+            <button type="button" (click)="dismissCannonCard()">{{ 'cannon.dismiss' | t }}</button>
+          </app-monster-card>
+        </div>
+        <p class="note">{{ 'cannon.note' | t }}</p>
+        <p class="note">
+          {{ 'cannon.active' | t }}
+          <button type="button" class="primary" (click)="healCannonInstead()">
+            {{ 'cannon.healInstead' | t: { n: 7 } }}
+          </button>
+        </p>
+      } @else {
+        <div class="choices">
+          <label>
+            {{ 'cannon.size' | t }}
+            <select [value]="cannonSize()" (change)="cannonSize.set($any(cannonSelect($event)))">
+              <option value="Small">{{ 'cannon.sizeSmall' | t }}</option>
+              <option value="Tiny">{{ 'cannon.sizeTiny' | t }}</option>
+            </select>
+          </label>
+          <label>
+            {{ 'cannon.aspect' | t }}
+            <select
+              [value]="cannonAspect()"
+              (change)="cannonAspect.set($any(cannonSelect($event)))"
+            >
+              <option value="legs">{{ 'cannon.aspectLegs' | t }}</option>
+              <option value="wheels">{{ 'cannon.aspectWheels' | t }}</option>
+            </select>
+          </label>
+          @if (cannonSlots().length) {
+            <label>
+              {{ 'cannon.source' | t }}
+              <select
+                [value]="cannonSourceFree() ? 'free' : 'slot'"
+                (change)="cannonSourceFree.set(cannonSelect($event) === 'free')"
+              >
+                <option value="free" [disabled]="!cannonFreeAvailable()">
+                  {{ 'cannon.sourceFree' | t }}
+                </option>
+                <option value="slot">{{ 'cannon.sourceSlot' | t }}</option>
+              </select>
+            </label>
+            @if (!cannonSourceFree()) {
+              <label>
+                {{ 'cannon.slotLevel' | t }}
+                <select
+                  [value]="cannonSlotLevel()"
+                  (change)="cannonSlotLevel.set(+cannonSelect($event))"
+                >
+                  @for (l of cannonSlots(); track $index) {
+                    @if (l) {
+                      <option [value]="$index + 1">
+                        {{ 'summons.level' | t: { level: $index + 1 } }}
+                      </option>
+                    }
+                  }
+                </select>
+              </label>
+            }
+          }
+        </div>
+        <button
+          type="button"
+          class="primary"
+          [disabled]="!cannonCanCreate()"
+          (click)="deployCannon()"
+        >
+          {{ 'cannon.deploy' | t }}
+        </button>
+        @if (!cannonCanCreate()) {
+          <p class="note">{{ 'cannon.noneAvailable' | t }}</p>
+        }
+      }
+    </section>
+  }
+
   @if (!v.sources.length) {
     <p class="empty">{{ 'summons.none' | t }}</p>
   } @else {

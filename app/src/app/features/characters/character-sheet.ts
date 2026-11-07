@@ -14,6 +14,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 
+import { hasEldritchCannon } from '../../core/artificer/cannon';
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { BackupService } from '../../core/characters/backup.service';
 import { CharacterStore } from '../../core/characters/character-store.service';
@@ -141,8 +142,14 @@ export class CharacterSheet {
   protected readonly spellSummons = computed(
     () => this.summonSources().filter((s) => s.kind === 'spell').length,
   );
+  /** The Artillerist's Eldritch Cannon: not a catalog summon source, but shown the same way. */
+  protected readonly hasCannon = computed(() => {
+    const v = this.view.value();
+    return !!v && hasEldritchCannon(v.record.character);
+  });
   protected readonly featureSummons = computed(
-    () => this.summonSources().filter((s) => s.kind === 'feature').length,
+    () =>
+      this.summonSources().filter((s) => s.kind === 'feature').length + (this.hasCannon() ? 1 : 0),
   );
 
   /** Unsaved changes left in the edit wizard (kept in this browser), to offer going back to them. */
@@ -192,6 +199,7 @@ export class CharacterSheet {
       featSpells: v.sheet.featSpells.length,
       summonSources: this.summonSources().length,
       summoned: Object.keys(v.record.character.state.summons?.creatures ?? {}).length,
+      hasCannon: this.hasCannon(),
     });
   });
   protected readonly tab = computed(() => resolveTab(this.requested(), this.tabs()));

@@ -52,6 +52,15 @@ describe('visibleTabs', () => {
     );
   });
 
+  it('an Artillerist with no other summon source still gets Summons (the Eldritch Cannon)', () => {
+    expect(visibleTabs(wizard, { featSpells: 0, summonSources: 0, hasCannon: true })).toContain(
+      'invocaciones',
+    );
+    expect(
+      visibleTabs(wizard, { featSpells: 0, summonSources: 0, hasCannon: false }),
+    ).not.toContain('invocaciones');
+  });
+
   it('Warlock pact slots and Artificer 2+ (Replicate Magic Item) show Spells', () => {
     const warlock: TabInput = {
       spellcasting: { classes: [], slots: [], pact: { slots: 1, level: 1 } },
