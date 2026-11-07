@@ -32,7 +32,7 @@ import { TermPipe } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, Coins, InventoryEntry } from '../../core/models/character';
 import { Item, Spell } from '../../core/models/compendium';
-import { WeaponEntry, attacksFor } from '../../core/rules/attacks';
+import { WeaponEntry, attacksFor, proficientWith } from '../../core/rules/attacks';
 import { Sheet } from '../../core/rules/sheet';
 import {
   addSpellItem,
@@ -153,6 +153,55 @@ export class EquipmentPanel {
       }));
     return attacksFor(this.sheet(), weapons);
   });
+
+  // -- Weapon Mastery (Barbarian, Fighter, Paladin, Ranger, Rogue) --------------------------
+  // Change this choice freely: every one of the five classes lets the player re-pick on a Long
+  // Rest, and Barbarian/Fighter also gain a new slot on level up, so nothing here needs to wait
+  // for a specific moment the way Replicate Magic Item's Long Rest prompt does.
+  protected readonly masterySlots = computed(() => this.sheet().combat.masterySlots);
+  protected readonly masteryChosenItems = computed(() => {
+    const byId = this.items.value()?.byId;
+    const chosen = this.character().choices.weaponMasteries ?? [];
+    return byId ? chosen.flatMap((id) => (byId.get(id) ? [byId.get(id)!] : [])) : [];
+  });
+  /** Proficient weapons with a mastery property, to choose from. */
+  protected readonly masteryOptions = computed(() => {
+    const byId = this.items.value()?.byId;
+    if (!byId) return [];
+    const weapons = this.sheet().proficiencies.weapons;
+    return [...byId.values()]
+      .filter((i) => i.weapon?.mastery && proficientWith(weapons, i))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  });
+  /** Weapon ids being edited (null = the editor is closed). */
+  protected readonly masteryEditing = signal<string[] | null>(null);
+
+  protected startMasteryEdit(): void {
+    this.masteryEditing.set([...(this.character().choices.weaponMasteries ?? [])]);
+  }
+
+  protected cancelMasteryEdit(): void {
+    this.masteryEditing.set(null);
+  }
+
+  protected toggleMastery(id: string, on: boolean): void {
+    this.masteryEditing.update((l) => {
+      if (!l) return l;
+      return on ? [...l, id] : l.filter((x) => x !== id);
+    });
+  }
+
+  protected saveMastery(): void {
+    const draft = this.masteryEditing();
+    if (!draft) return;
+    this.masteryEditing.set(null);
+    const ch = this.character();
+    this.changed.emit({ ...ch, choices: { ...ch.choices, weaponMasteries: draft } });
+  }
+
+  protected checked(e: Event): boolean {
+    return (e.target as HTMLInputElement).checked;
+  }
 
   /** A magic item whose base (and bonus) is being asked before it is added. */
   protected readonly pending = signal<{

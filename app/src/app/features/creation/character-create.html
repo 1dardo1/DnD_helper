@@ -481,6 +481,28 @@
               }
             </fieldset>
 
+            @if (masterySlots()) {
+              <fieldset>
+                <legend>
+                  {{
+                    'create.weaponMasteries'
+                      | t
+                        : { count: (c.choices.weaponMasteries ?? []).length, slots: masterySlots() }
+                  }}
+                </legend>
+                @for (w of masteryOptions(); track w.id) {
+                  <label class="inline">
+                    <input
+                      type="checkbox"
+                      [checked]="(c.choices.weaponMasteries ?? []).includes(w.id)"
+                      (change)="setMastery(w.id, checked($event))"
+                    />
+                    {{ w.name | dataName }}
+                  </label>
+                }
+              </fieldset>
+            }
+
             @if (expertiseTotal()) {
               <fieldset>
                 <legend>{{ 'create.expertise' | t: { count: expertiseTotal() } }}</legend>

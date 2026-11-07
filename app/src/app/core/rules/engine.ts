@@ -26,6 +26,7 @@ import {
   listOfFeatName,
 } from './feat-effects';
 import { multiclassGains } from './multiclass';
+import { proficientWith } from './attacks';
 import { TraitRules, traitRules } from './trait-effects';
 import { Bonus, Sheet, SheetFeatSpell, SheetFeatUse, SheetFeature, SheetWarning } from './sheet';
 import { ABILITIES, MULTICLASS_SLOTS, SKILL_ABILITY, modifier, proficiencyBonus } from './tables';
@@ -424,13 +425,28 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   ];
   const traitTools = traits.flatMap((t) => fx(t).tools);
 
+  // -- proficiencies (needed by Weapon Mastery below, as well as the sheet itself) -------------
+  const profs = proficiencies(
+    ch,
+    classes.map((c) => c.cls),
+    background,
+    [...granted.tools, ...traitTools],
+    featSources.flatMap((x) => featRules(x.feat).weapons),
+    feats,
+  );
+
   // -- fighting styles and class numbers that go into the attacks ------------------------------
   const combat = combatOf(
     classes,
     traits.map((t) => ({ t, r: fx(t) })),
     abilities,
     chosenOptions,
+    profs.weapons,
+    data.items,
+    ch.choices.weaponMasteries ?? [],
   );
+  if (combat.masterySlots > 0 && combat.masteryChosen.length < combat.masterySlots)
+    warnings.push({ key: 'sheet.warn.weaponMastery' });
 
   // -- class resources -----------------------------------------------------------------
   const resources = classes.flatMap((c) =>
@@ -479,14 +495,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     senses: senses.filter((x) => x.kind !== 'darkvision'),
     size: ch.size ? [ch.size] : (species?.size ?? []),
     spellcasting: { classes: spellClasses, slots, pact },
-    proficiencies: proficiencies(
-      ch,
-      classes.map((c) => c.cls),
-      background,
-      [...granted.tools, ...traitTools],
-      featSources.flatMap((x) => featRules(x.feat).weapons),
-      feats,
-    ),
+    proficiencies: profs,
     // Common, the chosen ones, and those a feature teaches (Druid's Druidic, Rogue's Thieves' Cant)
     languages: [
       ...new Set([
@@ -1043,26 +1052,55 @@ const COMBAT_NOTES: Record<string, string> = {
   'Unarmed Fighting': 'unarmed',
 };
 
+/**
+ * How many kinds of weapon one class's Weapon Mastery lets a character use the mastery property
+ * of, at this level. Barbarian and Fighter grow with level, through a "Weapon Mastery" column in
+ * their Features table; Paladin, Ranger and Rogue have no such column because their count never
+ * grows — it's a fixed two kinds from the level 1 feature of the same name.
+ */
+function weaponMasterySlots(
+  cls: DndClass,
+  level: number,
+  col: (cls: DndClass, level: number, name: string) => string,
+): number {
+  if (cls.progression.columns.includes('Weapon Mastery'))
+    return parseInt(col(cls, level, 'Weapon Mastery'), 10) || 0;
+  const granted = cls.progression.rows
+    .slice(0, level)
+    .some((r) => r.features.includes('Weapon Mastery'));
+  return granted ? 2 : 0;
+}
+
 function combatOf(
   classes: { cls: DndClass; level: number }[],
   traits: { t: TraitSource; r: TraitRules }[],
   abilities: Sheet['abilities'],
   options: { opt: ClassOption }[],
+  weaponProficiencies: string[],
+  items: Map<string, Item>,
+  weaponMasteryChoices: string[],
 ): Sheet['combat'] {
   const col = (cls: DndClass, level: number, name: string) =>
     cls.progression.rows[level - 1]?.values[name] ?? '';
   const monk = classes.find((c) => c.cls.id === 'monk');
   const martial = monk ? col(monk.cls, monk.level, 'Martial Arts').toLowerCase() : '';
+  const masterySlots = classes.reduce((n, c) => n + weaponMasterySlots(c.cls, c.level, col), 0);
+  // the player's choice, kept only while it's still valid: a weapon with a mastery property, with
+  // proficiency, and no more of them than the slots the classes currently grant
+  const masteryChosen = weaponMasteryChoices
+    .filter((id) => {
+      const item = items.get(id);
+      return !!item?.weapon?.mastery && proficientWith(weaponProficiencies, item);
+    })
+    .slice(0, masterySlots);
   const combat: Sheet['combat'] = {
     rangedAttack: traits.reduce((n, x) => n + x.r.attack.ranged, 0),
     duelingDamage: traits.reduce((n, x) => n + x.r.attack.duelingDamage, 0),
     thrownDamage: traits.reduce((n, x) => n + x.r.attack.thrownDamage, 0),
     martialArts: /^\d+d\d+$/.test(martial) ? martial : null,
     unarmedFighting: traits.some((x) => x.t.kind === 'feat' && x.t.name === 'Unarmed Fighting'),
-    masterySlots: classes.reduce(
-      (n, c) => n + (parseInt(col(c.cls, c.level, 'Weapon Mastery'), 10) || 0),
-      0,
-    ),
+    masterySlots,
+    masteryChosen,
     notes: [],
   };
   for (const { t } of traits) {

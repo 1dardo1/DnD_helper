@@ -96,8 +96,14 @@ export interface CombatInfo {
   martialArts: string | null;
   /** Unarmed Fighting style. */
   unarmedFighting: boolean;
-  /** Weapon Mastery: how many kinds the classes allow (0 = none) and the ones picked (null = not picked). */
+  /** Weapon Mastery: how many kinds the classes allow (0 = none). */
   masterySlots: number;
+  /**
+   * The weapon ids (character.choices.weaponMasteries) actually active: a proficient weapon,
+   * valid under the current masterySlots, at most masterySlots of them. Empty when none are
+   * chosen yet, even if masterySlots > 0 — attacksFor then shows no mastery on any weapon.
+   */
+  masteryChosen: string[];
   /** Reminders of effects that need a roll or a choice: id of a UI text and its parameters. */
   notes: { id: string; source: string; params?: Record<string, string | number> }[];
 }
@@ -165,6 +171,7 @@ export interface SheetWarning {
     | 'sheet.warn.customBackgroundMissing'
     | 'sheet.warn.noSubclass'
     | 'sheet.warn.twoPacts'
-    | 'sheet.warn.armorBase';
+    | 'sheet.warn.armorBase'
+    | 'sheet.warn.weaponMastery';
   params?: Record<string, string>;
 }

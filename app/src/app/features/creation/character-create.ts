@@ -81,6 +81,7 @@ import {
   normalizeCharacter,
 } from '../../core/models/character';
 import { Ability, ClassOption, DndClass, Feat, Feature, Item } from '../../core/models/compendium';
+import { proficientWith } from '../../core/rules/attacks';
 import { castingOf, computeSheet } from '../../core/rules/engine';
 import { FeatSource, listOfFeatName } from '../../core/rules/feat-effects';
 import { FeatChoices } from '../../shared/feat-choices';
@@ -315,6 +316,16 @@ export class CharacterCreate implements LeaveCheck {
     (this.species()?.variants ?? []).filter((v) => !v.reprint).map((v) => ({ ...v, id: v.name })),
   );
   protected readonly skillChoice = computed(() => skillPicks(this.classList()));
+  /** Weapon Mastery slots (Barbarian, Fighter, Paladin, Ranger, Rogue), 0 = no such class. */
+  protected readonly masterySlots = computed(() => this.sheet()?.combat.masterySlots ?? 0);
+  /** Weapons with a mastery property the character is proficient with, to choose from. */
+  protected readonly masteryOptions = computed(() => {
+    const sheet = this.sheet();
+    if (!sheet) return [];
+    return [...this.items.values()]
+      .filter((i) => i.weapon?.mastery && proficientWith(sheet.proficiencies.weapons, i))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  });
   protected readonly expertiseTotal = computed(() =>
     this.rows().reduce((n, r) => n + r.expertise, 0),
   );
@@ -971,6 +982,13 @@ export class CharacterCreate implements LeaveCheck {
   protected setExpertise(id: string, on: boolean): void {
     this.patch((c) => {
       c.choices.expertise = this.toggle(c.choices.expertise, id, on);
+      return c;
+    });
+  }
+
+  protected setMastery(id: string, on: boolean): void {
+    this.patch((c) => {
+      c.choices.weaponMasteries = this.toggle(c.choices.weaponMasteries ?? [], id, on);
       return c;
     });
   }

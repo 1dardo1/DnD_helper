@@ -81,6 +81,14 @@ export interface Character {
     /** Languages besides Common, and those granted by features (Druidic, Thieves' Cant). */
     languages: string[];
     /**
+     * Weapon ids (data/items.json) whose mastery property is active, for a class with Weapon
+     * Mastery (Barbarian, Fighter, Paladin, Ranger, Rogue): at most sheet.combat.masterySlots of
+     * them, each a weapon the character has proficiency with. The player can change this list
+     * whenever the class lets them (a Long Rest for all five, also on level up for Barbarian and
+     * Fighter, whose slot count grows); absent/empty = not chosen yet.
+     */
+    weaponMasteries?: string[];
+    /**
      * Tools picked where a background or class says "choose one kind of ...".
      * slot: "background", "class:<id>" or "multiclass:<id>".
      */

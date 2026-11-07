@@ -201,6 +201,7 @@ export const es: Record<keyof typeof en, string> = {
   'sheet.warn.twoPacts': 'Dos fuentes de Magia de pacto: solo se muestra la mejor.',
   'sheet.warn.armorBase':
     'Armadura mágica «{name}»: elige qué armadura es en el inventario para calcular la CA.',
+  'sheet.warn.weaponMastery': 'Maestría de armas: elige a qué tipos de arma se aplica.',
   // -- magic weapons and armor with a base chosen by the player ------------------------
   'gear.base': 'Base',
   'gear.bonus': 'Bonificador',
@@ -414,6 +415,8 @@ export const es: Record<keyof typeof en, string> = {
   'create.missing.size': 'Elige el tamaño.',
   'create.missing.languages': 'Elige {count} idioma(s) más.',
   'create.missing.tools': '{group}: elige {count} más.',
+  'create.missing.weaponMasteries': 'Maestría de armas: elige {count} tipo(s) de arma más.',
+  'create.weaponMasteries': 'Maestría de armas ({count} / {slots})',
   'create.issue.levelCap': 'El nivel de personaje {total} pasa de 20.',
   'create.issue.multiclass': 'Para multiclasear en {cls} hace falta {what}.',
   'create.issue.multiclassUnknown':
@@ -430,6 +433,8 @@ export const es: Record<keyof typeof en, string> = {
   'create.issue.tooManyCantrips': '{cls}: más trucos que los {count} que conoces.',
   'create.issue.tooManySpells': '{cls}: más conjuros preparados que los {count} que te tocan.',
   'create.issue.tooManyTools': '{group}: más de {count} elegidas.',
+  'create.issue.tooManyWeaponMasteries':
+    'Maestría de armas: más tipos de arma elegidos que {count}.',
   'sheet.languages': 'Idiomas',
   'create.issue.multiclassEstimated':
     '{cls}: lo que da al multiclasear es una estimación (la fuente no lo dice).',
@@ -941,6 +946,11 @@ export const es: Record<keyof typeof en, string> = {
   'combat.note.sneak': 'Ataque furtivo: {n} de daño extra una vez por turno',
   'combat.note.agonizing': 'suma +{n} (CAR) al daño del truco de brujo elegido',
   'sheet.mastery': 'Maestría',
+  'sheet.mastery.chosen': 'Maestría de armas ({count} / {slots})',
+  'sheet.mastery.change': 'Cambiar maestrías',
+  'sheet.mastery.pick': 'Elige hasta {slots} tipos de arma ({count} / {slots})',
+  'sheet.mastery.save': 'Guardar',
+  'sheet.mastery.cancel': 'Cancelar',
   'sheet.equipped': 'Equipado',
   'sheet.equip': 'Equipar',
   'sheet.quantity': 'Cantidad',

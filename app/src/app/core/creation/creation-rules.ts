@@ -612,6 +612,19 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
     const picks = skillPicks(classes);
     const bgSkills = new Set(ctx.background?.skills ?? []);
     const taken = ch.choices.skills.filter((s) => !bgSkills.has(s)).length;
+    // Weapon Mastery (Barbarian, Fighter, Paladin, Ranger, Rogue): choose up to masterySlots
+    // kinds of weapon of your choice with which you have proficiency.
+    const slots = ctx.sheet?.combat.masterySlots ?? 0;
+    const masteries = ch.choices.weaponMasteries ?? [];
+    if (slots > 0 && masteries.length < slots)
+      miss('choices', 'create.missing.weaponMasteries', { count: slots - masteries.length });
+    if (masteries.length > slots)
+      out.choices.push({
+        key: 'create.issue.tooManyWeaponMasteries',
+        params: { count: slots },
+        kind: 'issue',
+      });
+
     if (taken < picks.count)
       miss('choices', 'create.missing.skills', { count: picks.count - taken });
     if (taken > picks.count)
