@@ -3,7 +3,7 @@
   "id": "kriug-1793958485566",
   "name": "Kriug",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-07T17:09:18.105Z",
+  "updatedAt": "2026-11-07T17:09:52.711Z",
   "updatedBy": "pc Carlos",
   "species": {
     "id": "goblin",
@@ -134,7 +134,8 @@
       ]
     },
     "weaponMasteries": [
-      "dagger"
+      "dagger",
+      "shortsword"
     ]
   },
   "equipped": {
