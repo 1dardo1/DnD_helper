@@ -32,6 +32,7 @@ import {
   setExhaustion,
   toggleCondition,
 } from '../../core/play/conditions';
+import { promptRestChoices } from '../../core/play/rest-choices';
 import { swapsAfterLongRest } from '../../core/play/spell-swap';
 import { Sheet } from '../../core/rules/sheet';
 
@@ -185,7 +186,7 @@ export class PlayPanel {
 
   protected shortRest(): void {
     if (!confirm(this.i18n.t('play.confirmShort'))) return;
-    this.emit(shortRest(this.state(), this.resources()));
+    this.emit(promptRestChoices(shortRest(this.state(), this.resources()), this.sheet(), 'short'));
   }
 
   protected longRest(): void {
@@ -193,7 +194,11 @@ export class PlayPanel {
     const artificer = this.sheet().classes.find((k) => k.id === 'artificer')?.level ?? 0;
     this.emit(
       promptAfterLongRest(
-        { ...longRest(this.state()), spellSwap: swapsAfterLongRest(this.sheet()) },
+        promptRestChoices(
+          { ...longRest(this.state()), spellSwap: swapsAfterLongRest(this.sheet()) },
+          this.sheet(),
+          'long',
+        ),
         artificer,
       ),
     );

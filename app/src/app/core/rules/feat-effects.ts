@@ -95,6 +95,10 @@ function splitNames(raw: string): string[] {
     .filter((n) => /^[A-Z]/.test(n));
 }
 
+/** Spells a species trait lets you cast (see parseFeat): [, character level, names]. */
+const TRAIT_CAST =
+  /(?:(?:Starting at|When you reach) (\d+)(?:st|nd|rd|th) level, )?[Yy]ou can (?:also )?cast (?:the )?((?:[A-Z][\w'’/-]*)(?: (?:[A-Z][\w'’/-]*|or|and|of|without|from))*?)(?: spells?)?(?: on yourself)?(?: with (?:this trait|it)\b| once, and it recharges after a long rest)/g;
+
 const plain = (s: string) => s.replace(/\*+/g, '').replace(/\s+/g, ' ').trim();
 
 const cache = new WeakMap<RuleText, FeatRules>();
@@ -162,6 +166,20 @@ function parseFeat(feat: RuleText): FeatRules {
         p,
       );
     const named = namedMod ? (namedMod[1].slice(0, 3).toUpperCase() as Ability) : undefined;
+    // species of the 2014 books: "Starting at 3rd level, you can cast the Gust of Wind spell with
+    // this trait", "you can also cast the Misty Step spell with it", "You can cast the Detect Magic
+    // and Disguise Self spells with this trait"; Half-Elf's Drow Magic: "When you reach 3rd level,
+    // you can cast Faerie Fire once, and it recharges after a long rest"
+    let traitCasts = false;
+    for (const m of p.matchAll(TRAIT_CAST)) {
+      traitCasts = true;
+      for (const n of splitNames(m[2]))
+        grants.push({ name: n, cantrip: false, minLevel: m[1] ? Number(m[1]) : 1 });
+    }
+    const traitFree =
+      traitCasts &&
+      /\bonce\b/i.test(p) &&
+      /until you finish a long rest|recharges after a long rest/i.test(p);
     for (const g of grants) {
       if (out.spells.some((s) => s.id === slug(g.name))) continue;
       const isCantrip = g.cantrip === true;
@@ -173,7 +191,7 @@ function parseFeat(feat: RuleText): FeatRules {
         minLevel: g.minLevel,
         cantrip: g.cantrip === false ? false : g.cantrip,
         // the free cast is for the spells ("always have ... prepared"), not for cantrips
-        free: free && !isCantrip,
+        free: (free || traitFree) && !isCantrip,
         atWill: atWill && !isCantrip,
         slots: !isCantrip && slots,
         freeUses: /a number of times equal to your (?:spellcasting ability|\w+) modifier/i.test(p)
@@ -186,7 +204,11 @@ function parseFeat(feat: RuleText): FeatRules {
     }
 
     // -- spellcasting ability ------------------------------------------------------------
-    if (/Intelligence, Wisdom, or Charisma is your spellcasting ability/i.test(p))
+    if (
+      /Intelligence, Wisdom, or Charisma is your spellcasting ability|your spellcasting ability for this spell is your choice of Intelligence, Wisdom, or Charisma/i.test(
+        p,
+      )
+    )
       out.ability = { mode: 'choice' };
     else if (/ability increased by this feat/i.test(p) && /spellcasting ability/i.test(p))
       out.ability = { mode: 'increased' };
@@ -198,7 +220,8 @@ function parseFeat(feat: RuleText): FeatRules {
 
     // -- uses per rest -----------------------------------------------------------------
     // (a paragraph that gives spells counts its free casts as spell uses, not as a second counter)
-    if (!(casts && !/Bonus Action/i.test(p)) || (/number of times/i.test(p) && !grants.length)) {
+    const casting = casts || traitCasts;
+    if (!(casting && !/Bonus Action/i.test(p)) || (/number of times/i.test(p) && !grants.length)) {
       const rest = /Short or Long Rest/i.test(p)
         ? 'short-or-long'
         : /Long Rest/i.test(p)
@@ -217,7 +240,7 @@ function parseFeat(feat: RuleText): FeatRules {
         });
       } else if (
         rest &&
-        !casts &&
+        !casting &&
         /(?:Once you|After you) [^.]*?, you can(?:'|’)t [^.]*?again until you finish a (?:Short or Long|Long|Short) Rest/i.test(
           p,
         )

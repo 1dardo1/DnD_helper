@@ -55,6 +55,16 @@ def _sizes(raw: str) -> list[str]:
     return [s for s in _SIZES if re.search(rf"\b{s}\b", outside)] or ["Medium"]
 
 
+# A trait that asks for a choice (Simic Hybrid's Animal Enhancements, Aasimar's Celestial
+# Revelation...) gives its speed only if that option is picked, or only while transformed: the
+# app's rules engine applies it then. It must not become a permanent speed of the species.
+_CHOICE = re.compile(r"\bchoose\b|of your choice", re.I)
+
+
+def _speed_text(items) -> str:
+    return " ".join(f"{t.name}. {t.description}" for t in items if not _CHOICE.search(t.description or ""))
+
+
 def _speed(raw: str, trait_text: str) -> dict:
     speed = {"walk": number(raw) or 30}
     for kind in ("fly", "swim", "climb", "burrow"):
@@ -127,7 +137,7 @@ def parse_species_2024(page: Page) -> tuple[dict | None, list[str]]:
     entry.update({
         "creatureType": _creature_type(fields.get("creature type")),
         "size": _sizes(fields.get("size", "")),
-        "speed": _speed(fields.get("speed", ""), trait_text),
+        "speed": _speed(fields.get("speed", ""), _speed_text(items)),
         "darkvision": _darkvision(trait_text),
         "traits": _feature_list(items),
         "variants": _variants_from_tables(section),
@@ -213,7 +223,7 @@ def parse_race_2014(page: Page) -> tuple[dict | None, list[str]]:
     entry.update({
         "creatureType": _creature_type(fields.get("creature type")),
         "size": _sizes(re.sub(r".*?(your size is|you are)", "", fields.get("size", "Medium"), flags=re.I)),
-        "speed": _speed(fields.get("speed", ""), trait_text),
+        "speed": _speed(fields.get("speed", ""), _speed_text(kept)),
         "darkvision": _darkvision(trait_text),
         "traits": _feature_list(kept),
         "variants": variants,

@@ -391,6 +391,19 @@ export const TOOL_GROUPS: Record<string, string[]> = {
   ],
 };
 
+/** Tools besides the artisan's tools, gaming sets and instruments (Skilled, species picks). */
+export const OTHER_TOOLS = [
+  'Disguise Kit',
+  'Forgery Kit',
+  'Herbalism Kit',
+  "Navigator's Tools",
+  "Poisoner's Kit",
+  "Thieves' Tools",
+];
+
+/** Every tool a "tool of your choice" can be. */
+export const ALL_TOOLS = [...Object.values(TOOL_GROUPS).flat(), ...OTHER_TOOLS];
+
 export interface ToolChoice {
   slot: string;
   /** The text it comes from, e.g. "Choose 3 Musical Instruments". */
@@ -597,6 +610,8 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
       miss('species', 'create.missing.traitChoice', { trait: w.params!['trait'] });
     else if (w.key === 'sheet.warn.traitPickMissing')
       miss('species', 'create.missing.traitPick', { trait: w.params!['trait'] });
+    else if (w.key === 'sheet.warn.speciesAbilityMissing')
+      miss('species', 'create.missing.speciesAbility', { trait: w.params!['trait'] });
   if (ctx.species && ctx.species.size.length > 1 && !ch.size)
     miss('species', 'create.missing.size');
   const chosen = ch.choices.languages;

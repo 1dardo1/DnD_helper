@@ -16,6 +16,7 @@ import {
   Subclass,
 } from '../models/compendium';
 import { RulesData, computeSheet } from './engine';
+import { speciesAbilityKey } from './species-picks';
 import { traitChoiceKey } from './trait-choices';
 
 const map = <T extends { id: string }>(xs: unknown) => new Map((xs as T[]).map((x) => [x.id, x]));
@@ -48,6 +49,8 @@ function build(
     choices: {
       ...c.choices,
       traitChoices,
+      // the spellcasting ability the lineage traits ask for (tested in species-picks.spec.ts)
+      traitPicks: { [speciesAbilityKey(speciesId)]: ['INT'] },
       weaponMasteries: ['battleaxe', 'club', 'dagger'],
     },
   };

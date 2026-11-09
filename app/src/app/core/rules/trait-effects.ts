@@ -220,7 +220,7 @@ function parseTrait(text: string, opts: { situational?: boolean }): TraitRules {
 
       // -- speeds -----------------------------------------------------------------------------------
       if (!cond && !opts.situational) {
-        const equal = /equal to your (?:normal |walking )?speed/i.test(s);
+        const equal = /equal to your (?:normal |walking |walk )?speed/i.test(s);
         if (equal && /\b(?:have|gain)\b/i.test(s)) {
           for (const m of s.matchAll(/\b(fly|flying|swim|swimming|climb|climbing|burrow)\b/gi))
             addSpeed(out, KIND_OF[m[1].toLowerCase()], 'speed');

@@ -160,6 +160,12 @@ export interface Character {
     tempSlots?: TempSlot[];
     /** The Artillerist's Eldritch Cannon, while one is out (absent: none deployed). */
     cannon?: CannonState;
+    /**
+     * Picks inside species traits that the last rest lets the player change (Kalashtar's skill,
+     * an Eladrin's season...: keys of `choices.traitPicks`, from the sheet's `restPicks`). The
+     * sheet asks "keep or change?" for them; cleared once answered or skipped (= keep).
+     */
+    restChoices?: string[];
   };
   notes: string;
 }
@@ -321,6 +327,11 @@ function normalizeState(base: Character['state'], raw: Character['state'] | unde
   const tempSlots = normalizeTempSlots(raw?.tempSlots);
   if (tempSlots.length) state.tempSlots = tempSlots;
   else delete state.tempSlots;
+  const restChoices = Array.isArray(raw?.restChoices)
+    ? raw.restChoices.filter((k): k is string => typeof k === 'string' && !!k)
+    : [];
+  if (restChoices.length) state.restChoices = [...new Set(restChoices)];
+  else delete state.restChoices;
   const cannon = normalizeCannon(raw?.cannon);
   if (cannon) state.cannon = cannon;
   else delete state.cannon;

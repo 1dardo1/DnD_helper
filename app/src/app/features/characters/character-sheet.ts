@@ -48,6 +48,8 @@ import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
 import { PlayPanel } from './play-panel';
 import { ReplicatePanel } from './replicate-panel';
+import { TraitRestDialog } from './trait-rest-dialog';
+import { pickValueLabel } from '../../shared/trait-picks';
 import { HomebrewBadge } from '../homebrew/homebrew-badge';
 import { SummonsPage } from '../summons/summons-page';
 
@@ -68,6 +70,7 @@ import { SummonsPage } from '../summons/summons-page';
     EquipmentPanel,
     ExportPdfButton,
     ReplicatePanel,
+    TraitRestDialog,
     ClassThemeDirective,
     HomebrewBadge,
     SummonsPage,
@@ -345,6 +348,18 @@ export class CharacterSheet {
     } catch (e) {
       alert(this.i18n.t('common.error', { message: (e as Error).message }));
     }
+  }
+
+  /** What was picked inside a trait (species-picks.ts), in the current language. */
+  protected chosenText(chosen: { kind: string; values: string[] }[]): string {
+    const spells = new Map((this.allSpells.value() ?? []).map((sp) => [sp.id, sp.name]));
+    return chosen
+      .flatMap((c) =>
+        c.values.map((v) =>
+          pickValueLabel(this.i18n, this.data, (id) => spells.get(id), c.kind, v),
+        ),
+      )
+      .join(', ');
   }
 
   /** A list of game terms in the current language. */
