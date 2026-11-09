@@ -2,6 +2,7 @@ import { CannonState, normalizeCannon } from '../artificer/cannon';
 import { ReplicatedItem, normalizeReplicated } from '../artificer/replicated-state';
 import { TempSlot, normalizeCharges, normalizeTempSlots } from '../artificer/tinker';
 import { SummonsState, normalizeSummons } from '../summons/summon-state';
+import { normalizeHpMethod } from '../creation/hp-levels';
 import { Ability } from './compendium';
 
 /**
@@ -40,6 +41,11 @@ export interface Character {
     level: number;
     subclassId: string | null;
     hp: (number | null)[];
+    /**
+     * How each level's hit points were obtained ('roll' | 'average' | 'fixed'), same indexes as hp
+     * (core/creation/hp-levels.ts). Absent/null in older characters: just the stored value.
+     */
+    hpMethod?: ('roll' | 'average' | 'fixed' | null)[];
     spellAbility?: Ability | null;
   }[];
   abilityScores: {
@@ -341,10 +347,11 @@ export function normalizeCharacter(raw: unknown): Character | null {
     equipped: { ...base.equipped, ...(c.equipped ?? {}) },
     inventory: c.inventory ?? inventoryFromEquipped(c.equipped),
     state: normalizeState(base.state, c.state),
-    classes: (c.classes ?? []).map((k) => ({
-      ...k,
-      hp: k.hp ?? [],
-      subclassId: k.subclassId ?? null,
-    })),
+    classes: (c.classes ?? []).map((k) => {
+      const hp = k.hp ?? [];
+      const hpMethod = normalizeHpMethod({ hp, hpMethod: k.hpMethod });
+      const { hpMethod: _old, ...rest } = k;
+      return { ...rest, hp, subclassId: k.subclassId ?? null, ...(hpMethod ? { hpMethod } : {}) };
+    }),
   };
 }

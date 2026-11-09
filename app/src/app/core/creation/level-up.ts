@@ -16,6 +16,9 @@ import {
   optionGroupsFor,
   spellListOf,
 } from './creation-rules';
+import { averageHp, resizeHp } from './hp-levels';
+
+export { averageHp };
 
 /**
  * Rules of gaining a level (guided level up): what the next level of a class asks for and gives.
@@ -31,16 +34,11 @@ export function addLevel(ch: Character, classId: string): { character: Character
   if (index >= 0) {
     const k = c.classes[index];
     k.level++;
-    k.hp = Array.from({ length: k.level }, (_, i) => k.hp[i] ?? null);
+    resizeHp(k, k.level);
   } else {
     index = c.classes.push({ id: classId, level: 1, subclassId: null, hp: [null] }) - 1;
   }
   return { character: c, index };
-}
-
-/** Hit points of a level taken as the average (PHB: half the die + 1). */
-export function averageHp(hitDie: number): number {
-  return Math.floor(hitDie / 2) + 1;
 }
 
 /** Sets the hit points rolled at the class's last level (null = the average). */

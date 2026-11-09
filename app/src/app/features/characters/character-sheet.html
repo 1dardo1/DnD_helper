@@ -263,6 +263,48 @@
                 }
               </section>
 
+              @if (s.hitPoints.levels.length) {
+                <details class="hp-breakdown">
+                  <summary>{{ 'hp.breakdown' | t }}</summary>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>{{ 'hp.col.class' | t }}</th>
+                        <th>{{ 'hp.col.level' | t }}</th>
+                        <th>{{ 'hp.col.method' | t }}</th>
+                        <th>{{ 'hp.col.die' | t }}</th>
+                        <th>{{ 'hp.col.total' | t }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (r of s.hitPoints.levels; track $index) {
+                        <tr>
+                          <td>{{ clsName(s, r.classId) | dataName }}</td>
+                          <td>{{ r.level }}</td>
+                          <td>
+                            {{ 'hp.methodShort.' + (r.max ? 'max' : (r.method ?? 'none')) | t }}
+                          </td>
+                          <td>{{ r.gained }}{{ r.con ? signed(r.con) : '' }}</td>
+                          <td>{{ r.total }}</td>
+                        </tr>
+                      }
+                      @if (s.hitPoints.bonus) {
+                        <tr>
+                          <td colspan="4">{{ 'hp.bonus' | t }}</td>
+                          <td>{{ s.hitPoints.bonus }}</td>
+                        </tr>
+                      }
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th colspan="4">{{ 'hp.sum' | t }}</th>
+                        <th>{{ s.hitPoints.max }}</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </details>
+              }
+
               <app-play-panel
                 part="hp"
                 [sheet]="s"

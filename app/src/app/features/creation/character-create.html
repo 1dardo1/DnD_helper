@@ -163,23 +163,13 @@
                         | t: { avg: k.hitDie / 2 + 1 }
                     }}</small>
                   </p>
-                  <div class="hp">
-                    @for (i of levels(r.entry); track i) {
-                      @if (r.index > 0 || i > 0) {
-                        <label>
-                          {{ 'compendium.level' | t: { level: i + 1 } }}
-                          <input
-                            type="number"
-                            min="1"
-                            [max]="k.hitDie"
-                            [value]="r.entry.hp[i] ?? ''"
-                            [placeholder]="k.hitDie / 2 + 1"
-                            (change)="setHp(r.index, i, value($event))"
-                          />
-                        </label>
-                      }
-                    }
-                  </div>
+                  <app-hp-levels
+                    [entry]="r.entry"
+                    [die]="k.hitDie"
+                    [first]="r.index === 0"
+                    [con]="sheet()?.abilities?.CON?.modifier ?? null"
+                    (entryChange)="setHpEntry(r.index, $event)"
+                  />
                 </details>
               }
             </fieldset>

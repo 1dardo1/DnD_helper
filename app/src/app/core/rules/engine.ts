@@ -26,6 +26,7 @@ import {
   listOfFeatName,
 } from './feat-effects';
 import { multiclassGains } from './multiclass';
+import { hpBreakdown } from '../creation/hp-levels';
 import { proficientWith } from './attacks';
 import {
   pickKey,
@@ -289,15 +290,13 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     mod('DEX') + (iniPb ? pb : 0) + [...iniAbilities].reduce((n, a) => n + mod(a), 0);
 
   // -- hit points ----------------------------------------------------------------------
-  let hpMax = 0;
-  classes.forEach((c, i) => {
-    for (let lvl = 0; lvl < c.level; lvl++) {
-      const rolled = c.hp[lvl];
-      const gainedHp =
-        i === 0 && lvl === 0 ? c.cls.hitDie : (rolled ?? Math.floor(c.cls.hitDie / 2) + 1);
-      hpMax += Math.max(gainedHp + mod('CON'), 1);
-    }
-  });
+  // per level: the die (full at level 1 of the first class) or the method chosen for it
+  const hpLevels = hpBreakdown(
+    classes,
+    (id) => classes.find((c) => c.id === id)?.cls.hitDie,
+    mod('CON'),
+  );
+  let hpMax = hpLevels.reduce((n, r) => n + r.total, 0);
   // Tough (twice the level), Boon of Fortitude (+40): read from the feats' text
   for (const f of feats) hpMax += featRules(f).hpPerLevel * totalLevel + featRules(f).hpFlat;
   // Dwarven Toughness, Draconic Resilience...: "increases by N, and by M whenever you gain a level"
@@ -305,6 +304,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     const g = fx(t).hpGrowth;
     if (g) hpMax += g.base + g.per * Math.max(0, t.scope - t.level);
   }
+  const hpBonus = hpMax - hpLevels.reduce((n, r) => n + r.total, 0);
   const dice = new Map<number, number>();
   for (const c of classes) dice.set(c.cls.hitDie, (dice.get(c.cls.hitDie) ?? 0) + c.level);
 
@@ -520,6 +520,8 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       current: ch.state.hpCurrent ?? hpMax,
       temp: ch.state.hpTemp,
       hitDice: [...dice.entries()].map(([die, count]) => ({ die, count })),
+      levels: hpLevels,
+      bonus: hpBonus,
     },
     armorClass,
     speed,

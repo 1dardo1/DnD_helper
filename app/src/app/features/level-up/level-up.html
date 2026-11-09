@@ -111,44 +111,14 @@
             @let die = g.cls.hitDie;
             <fieldset>
               <legend>{{ 'levelUp.hpHow' | t: { die: die } }}</legend>
-              <label class="option">
-                <input
-                  type="radio"
-                  name="hp"
-                  [checked]="hpMode() === 'average'"
-                  (change)="setHpMode('average')"
-                />
-                <span>{{ 'levelUp.hpAverage' | t: { avg: avg(die) } }}</span>
-              </label>
-              <label class="option">
-                <input
-                  type="radio"
-                  name="hp"
-                  [checked]="hpMode() === 'roll'"
-                  (change)="setHpMode('roll')"
-                />
-                <span>{{ 'levelUp.hpRoll' | t: { die: die } }}</span>
-              </label>
-              @if (hpMode() === 'roll') {
-                <label>
-                  {{ 'levelUp.hpResult' | t: { die: die } }}
-                  <input
-                    type="number"
-                    inputmode="numeric"
-                    min="1"
-                    [max]="die"
-                    [value]="rolledHp() ?? ''"
-                    (input)="setRolled(value($event))"
-                  />
-                </label>
-                @if (rolledHp() === null) {
-                  <p>
-                    <small>{{ 'levelUp.hpEmpty' | t: { avg: avg(die) } }}</small>
-                  </p>
-                } @else if (rolledHp()! < 1 || rolledHp()! > die) {
-                  <p class="issue">⚠ {{ 'levelUp.hpOutOfRange' | t: { die: die } }}</p>
-                }
-              }
+              <app-hp-levels
+                [entry]="g.entry"
+                [die]="die"
+                [first]="index() === 0"
+                [from]="g.entry.level - 1"
+                [con]="after()?.abilities?.CON?.modifier ?? null"
+                (entryChange)="setHpEntry($event)"
+              />
             </fieldset>
             <p>
               {{

@@ -383,6 +383,10 @@ export class CharacterSheet {
     return `${use.max - Math.min(c.state.resources[use.key] ?? 0, use.max)}/${use.max}`;
   }
 
+  protected clsName(s: { classes: { id: string; name: string }[] }, id: string): string {
+    return s.classes.find((k) => k.id === id)?.name ?? id;
+  }
+
   protected signed(n: number): string {
     return n >= 0 ? `+${n}` : `${n}`;
   }

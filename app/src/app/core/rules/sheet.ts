@@ -1,3 +1,4 @@
+import type { HpLevelRow } from '../creation/hp-levels';
 import { Ability } from '../models/compendium';
 
 /** Everything the character sheet shows, computed from a Character and the compendium. */
@@ -34,6 +35,10 @@ export interface Sheet {
     current: number;
     temp: number;
     hitDice: { die: number; count: number }[];
+    /** Hit points gained at each class level (core/creation/hp-levels.ts) and the method used. */
+    levels: HpLevelRow[];
+    /** What the max has besides those levels (Tough, Dwarven Toughness...). */
+    bonus: number;
   };
   armorClass: { value: number; formula: string };
   speed: Record<string, number>;

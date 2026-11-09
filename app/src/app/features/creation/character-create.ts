@@ -96,6 +96,8 @@ import {
   validPicks,
 } from '../../core/rules/trait-choices';
 import { FeatChoices } from '../../shared/feat-choices';
+import { HpLevels } from '../../shared/hp-levels';
+import { resizeHp } from '../../core/creation/hp-levels';
 import { TraitChoice, TraitChoiceItem } from '../../shared/trait-choice';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import {
@@ -153,6 +155,7 @@ type ClassEntry = Character['classes'][number];
     ClassThemeDirective,
     Picker,
     FeatChoices,
+    HpLevels,
     TraitChoice,
     EntryCard,
     BackgroundEditor,
@@ -805,7 +808,7 @@ export class CharacterCreate implements LeaveCheck {
       const k = c.classes[index];
       if (!k) return c;
       k.level = level;
-      k.hp = Array.from({ length: level }, (_, i) => k.hp[i] ?? null);
+      resizeHp(k, level);
       if (cls && level < cls.subclassLevel) k.subclassId = null;
       if (cls) {
         const valid = new Set(featSlots(cls, level).map((s) => s.slot));
@@ -833,10 +836,11 @@ export class CharacterCreate implements LeaveCheck {
     });
   }
 
-  protected setHp(index: number, levelIndex: number, raw: string): void {
-    const n = parseInt(raw, 10);
+  /** The hit points of a class (per level and method) changed in the picker. */
+  protected setHpEntry(index: number, entry: ClassEntry): void {
     this.patch((c) => {
-      if (c.classes[index]) c.classes[index].hp[levelIndex] = Number.isNaN(n) ? null : n;
+      if (c.classes[index])
+        c.classes[index] = { ...c.classes[index], hp: entry.hp, hpMethod: entry.hpMethod };
       return c;
     });
   }

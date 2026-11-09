@@ -29,7 +29,6 @@ import {
 import {
   SheetChange,
   addLevel,
-  averageHp,
   levelGains,
   multiclassNotes,
   multiclassSkillOptions,
@@ -41,7 +40,6 @@ import {
   slotPicks,
   spellsGrow,
   withHpGained,
-  withLevelHp,
   withSlotAbility,
   withFeatChoice,
   withSlotFeat,
@@ -58,8 +56,10 @@ import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/dat
 import { TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, FeatChoice, normalizeCharacter } from '../../core/models/character';
+type ClassEntry = Character['classes'][number];
 import { FeatSource } from '../../core/rules/feat-effects';
 import { FeatChoices } from '../../shared/feat-choices';
+import { HpLevels } from '../../shared/hp-levels';
 import { Ability, ClassOption, DndClass, Feat, Species } from '../../core/models/compendium';
 import { swapRule } from '../../core/play/spell-swap';
 import { computeSheet } from '../../core/rules/engine';
@@ -102,6 +102,7 @@ type Step = 'class' | 'hp' | 'subclass' | 'feats' | 'choices' | 'summary';
     LoadError,
     Picker,
     FeatChoices,
+    HpLevels,
   ],
   templateUrl: './level-up.html',
   styleUrl: './level-up.scss',
@@ -121,8 +122,6 @@ export class LevelUp {
   /** The character with the new level and the choices made so far (null = no class chosen). */
   protected readonly draft = signal<Character | null>(null);
   protected readonly classId = signal('');
-  /** 'roll' shows the input for the rolled hit points. */
-  protected readonly hpMode = signal<'average' | 'roll'>('average');
   protected readonly spellFacets = ENTRY_FACETS.spell.filter((k) => k !== 'class');
   protected readonly saving = signal(false);
 
@@ -140,7 +139,6 @@ export class LevelUp {
       if (!m) return;
       untracked(() => {
         this.classId.set(m.classId);
-        this.hpMode.set(m.hpMode);
         this.draft.set(m.draft);
         this.step.set(m.step as Step);
       });
@@ -150,14 +148,13 @@ export class LevelUp {
       const draft = this.draft();
       const classId = this.classId();
       const step = this.step();
-      const hpMode = this.hpMode();
       // before the restore ran (restoredFor not set yet) an empty draft must not erase it
       if (!original || this.saved || this.restoredFor !== original.id) return;
       if (draft && classId) {
         writeLevelUp(sessionMemory(), original.id, {
           classId,
           step,
-          hpMode,
+          hpMode: 'average',
           draft,
           base: original.updatedAt ?? '',
         });
@@ -455,26 +452,18 @@ export class LevelUp {
   protected chooseClass(id: string): void {
     const original = this.data.value()?.original;
     this.classId.set(id);
-    this.hpMode.set('average');
     this.draft.set(original && id ? addLevel(original, id).character : null);
   }
 
   // -- 2. hit points -------------------------------------------------------------------------
-  protected readonly avg = (die: number) => averageHp(die);
 
-  protected rolledHp(): number | null {
-    const entry = this.gains()?.entry;
-    return entry?.hp[entry.level - 1] ?? null;
-  }
-
-  protected setHpMode(mode: 'average' | 'roll'): void {
-    this.hpMode.set(mode);
-    if (mode === 'average') this.patch((c) => withLevelHp(c, this.index(), null));
-  }
-
-  protected setRolled(raw: string): void {
-    const n = parseInt(raw, 10);
-    this.patch((c) => withLevelHp(c, this.index(), Number.isNaN(n) ? null : n));
+  /** The new level's hit points (method and value) changed in the picker. */
+  protected setHpEntry(entry: ClassEntry): void {
+    this.patch((c) => {
+      const k = c.classes[this.index()];
+      if (k) c.classes[this.index()] = { ...k, hp: entry.hp, hpMethod: entry.hpMethod };
+      return c;
+    });
   }
 
   /** Hit points of the new level (die result or average + Constitution, at least 1). */
