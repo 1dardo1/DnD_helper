@@ -26,6 +26,7 @@ import {
   listOfFeatName,
 } from './feat-effects';
 import { multiclassGains } from './multiclass';
+import { COUNTED_FEATURES } from '../play/play-state';
 import { featureNumbers } from './feature-stats';
 import { NaturalWeapon, naturalWeaponOf, unarmedTypeOf } from './natural-weapons';
 import { poolFor } from './pools';
@@ -426,6 +427,10 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     spellAbility: (classId) => spellClasses.find((x) => x.classId === classId)?.ability,
     pb,
     totalLevel,
+    counted: new Set([
+      ...COUNTED_FEATURES,
+      ...classes.flatMap((c) => c.cls.progression.columns.map((x) => x.toLowerCase())),
+    ]),
   });
   granted.spells.push(...fromTraits.spells);
   granted.uses.push(...fromTraits.uses);
@@ -935,6 +940,8 @@ function traitGrants(a: {
   spellAbility: (classId: string) => Ability | undefined;
   pb: number;
   totalLevel: number;
+  /** Lower-case names of the class features that already have a counter. */
+  counted: Set<string>;
 }) {
   const spells: SheetFeatSpell[] = [];
   const uses: SheetFeatUse[] = [];
@@ -1006,7 +1013,9 @@ function traitGrants(a: {
     const id = slugOf(t.name);
     const own = rules.ability.mode === 'fixed' ? rules.ability.ability : null;
     for (const g of rules.spells) if (g.minLevel <= a.totalLevel) add({ ...t, id }, g, { own });
-    if (t.kind === 'class') continue; // class counters come from the class table / play-state
+    // class counters come from the class table / play-state; the rest of the class features are
+    // read like any other ("once you use this feature you can't do so again until a Long Rest")
+    if (t.kind === 'class' && a.counted.has(t.name.toLowerCase())) continue;
     if (t.kind === 'subclass' && poolFor(t.subId, t.name)) continue; // a pool of dice (rules/pools.ts)
     const several = rules.uses.length > 1;
     for (const u of rules.uses) {

@@ -218,7 +218,7 @@ function parseFeat(feat: RuleText): FeatRules {
       } else if (
         rest &&
         !casts &&
-        /Once you [^.]*?, you can(?:'|’)t [^.]*?again until you finish a (?:Short or Long|Long|Short) Rest/i.test(
+        /(?:Once you|After you) [^.]*?, you can(?:'|’)t [^.]*?again until you finish a (?:Short or Long|Long|Short) Rest/i.test(
           p,
         )
       ) {

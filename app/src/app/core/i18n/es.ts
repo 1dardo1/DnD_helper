@@ -535,6 +535,7 @@ export const es: Record<keyof typeof en, string> = {
   'play.res.magicalCunning': 'Astucia mágica',
   'play.res.mysticArcanum': 'Arcano místico',
   'play.res.arcaneRecovery': 'Recuperación arcana',
+  'play.res.signatureSpells': 'Conjuros distintivos',
   'play.res.warriorOfTheGods': 'Dados de Guerrero de los Dioses',
   'play.res.healingLight': 'Luz sanadora (dados)',
   'play.hitDice': 'Dados de golpe',

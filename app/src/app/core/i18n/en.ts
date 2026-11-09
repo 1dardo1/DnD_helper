@@ -530,6 +530,7 @@ export const en = {
   'play.res.magicalCunning': 'Magical Cunning',
   'play.res.mysticArcanum': 'Mystic Arcanum',
   'play.res.arcaneRecovery': 'Arcane Recovery',
+  'play.res.signatureSpells': 'Signature Spells',
   'play.res.warriorOfTheGods': 'Warrior of the Gods dice',
   'play.res.healingLight': 'Healing Light (dice)',
   'play.hitDice': 'Hit Dice',

@@ -85,3 +85,29 @@ describe('free casts that depend on an ability modifier', () => {
     expect(used('ranger', 'ranger/fey-wanderer', 'Misty Step', { WIS: 16 })).toBe(3);
   });
 });
+
+describe('limited uses of class features', () => {
+  const names = (classId: string, level: number, sub: string | null = null) =>
+    res(classId, level, sub).map((r) => r.name);
+
+  it('counts the uses the text states, once', () => {
+    expect(names('sorcerer', 5)).toContain('Sorcerous Restoration');
+    expect(names('barbarian', 15)).toContain('Persistent Rage');
+    expect(names('barbarian', 14)).not.toContain('Persistent Rage');
+    expect(names('wizard', 20)).toContain('Signature Spells');
+    expect(names('artificer', 7)).toEqual(expect.arrayContaining(["Tinker's Magic"]));
+    expect(find(res('wizard', 20, null), 'Signature Spells')).toMatchObject({
+      max: 2,
+      short: 'all',
+    });
+  });
+
+  it('does not repeat a feature that already has its counter', () => {
+    const rs = res('cleric', 10, 'cleric/life-domain');
+    for (const n of ['Channel Divinity', 'Divine Intervention'])
+      expect(rs.filter((r) => r.name === n)).toHaveLength(1);
+    const f = res('fighter', 17, 'fighter/champion');
+    for (const n of ['Second Wind', 'Action Surge', 'Indomitable'])
+      expect(f.filter((r) => r.name === n)).toHaveLength(1);
+  });
+});

@@ -312,7 +312,9 @@
               <small>({{ cls | dataName: true }})</small>
             }
             @if (r.feat; as feat) {
-              <small>({{ 'sheet.featSource' | t: { name: (feat | dataName: true) } }})</small>
+              @if (feat !== r.name) {
+                <small>({{ 'sheet.featSource' | t: { name: (feat | dataName: true) } }})</small>
+              }
             }
           </span>
           @if (r.max <= maxPips) {

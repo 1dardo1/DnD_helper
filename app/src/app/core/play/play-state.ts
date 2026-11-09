@@ -175,6 +175,14 @@ const FEATURE_USES: {
     from: 11,
     uses: (l) => (l >= 17 ? 4 : l >= 15 ? 3 : l >= 13 ? 2 : 1),
   },
+  // two spells, each cast once without a slot until a Short or Long Rest
+  {
+    classId: 'wizard',
+    name: 'Signature Spells',
+    labelKey: 'play.res.signatureSpells',
+    from: 20,
+    uses: () => 2,
+  },
   {
     classId: 'wizard',
     name: 'Arcane Recovery',
@@ -183,6 +191,9 @@ const FEATURE_USES: {
     uses: () => 1,
   },
 ];
+
+/** Lower-case names of the features that have a counter of their own. */
+export const COUNTED_FEATURES = new Set(FEATURE_USES.map((f) => f.name.toLowerCase()));
 
 /**
  * Size of the Battle Master's Superiority Dice: "which are d8s", and "Your Superiority Die
