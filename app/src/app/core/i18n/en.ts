@@ -989,12 +989,15 @@ export const en = {
   'combat.stat.fanaticalFocus': 'once per Rage, reroll a failed save with +{n}',
   'combat.stat.vitalityOfTheTree': 'when you rage: {n} Temporary Hit Points',
   'combat.stat.searUndead': 'when you Turn Undead: {dice} Radiant damage to those that fail',
+  'combat.stat.wildShape':
+    'Beast forms: {forms} known, max CR {cr}, no Fly Speed; lasts {hours} h; {thp} Temporary Hit Points when you shift',
+  'combat.stat.wildShapeFly':
+    'Beast forms: {forms} known, max CR {cr}, Fly Speed allowed; lasts {hours} h; {thp} Temporary Hit Points when you shift',
   'combat.stat.preserveLife':
     'divide up to {n} HP among Bloodied creatures (up to half their maximum)',
   'combat.stat.discipleOfLife': "healing spells cast with a slot heal 2 + the slot's level extra",
   'combat.stat.radianceOfTheDawn': '{dmg} Radiant damage (CON save, DC {dc})',
   'combat.stat.wardingFlare': 'Temporary Hit Points for the target of the attack: {n}',
-  'combat.stat.wildShape': 'lasts {hours} h; you gain {thp} Temporary Hit Points when you shift',
   'combat.stat.circleForms':
     "form of CR {cr} at most; your AC is {ac} if higher than the Beast's; {thp} Temporary Hit Points",
   'combat.stat.secondWind': 'Bonus Action: regain {n} HP',
@@ -1022,6 +1025,22 @@ export const en = {
   'combat.stat.arcaneRecovery':
     'on a Short Rest: slots of a combined level up to {n} (none level 6+)',
   'combat.stat.arcaneWard': "ward's maximum Hit Points: {n}",
+  'combat.stat.relentlessRage':
+    'at 0 HP while raging: CON save (DC 10, +5 each time after the first); on a success you have {n} HP',
+  'combat.stat.tacticalMind':
+    'on a failed check: spend Second Wind and add 1d10 (not spent if it still fails)',
+  'combat.stat.patientDefense': 'with Patient Defense (1 Focus Point): {dmg} Temporary Hit Points',
+  'combat.note.lunarForm':
+    'once per turn: +2d10 Radiant damage when you hit with a Wild Shape attack',
+  'combat.stat.landsAid':
+    '{dmg} Necrotic (CON save, DC {dc}, half on a success) and one creature regains {dmg} HP',
+  'combat.stat.wrathOfTheSea': '{dice} Cold damage (CON save, DC {dc}) and a 15 ft push',
+  'combat.stat.starryForm':
+    'Archer: spell attack, {n} Radiant; Chalice: +{n} HP when you heal with a slot',
+  'combat.stat.otherworldlyGlamour': '+{n} to Charisma checks',
+  'combat.stat.telepathy': 'telepathic link up to {miles} miles for {minutes} minutes',
+  'combat.stat.telepathyOnly': 'telepathic link up to {miles} miles',
+  'combat.stat.createThrall': 'the summoned Aberration has {n} Temporary Hit Points',
   'combat.stat.flashOfGenius': 'Reaction: +{n} to a failed check or save',
   'sheet.mastery': 'Mastery',
   'sheet.mastery.chosen': 'Weapon Mastery ({count} / {slots})',

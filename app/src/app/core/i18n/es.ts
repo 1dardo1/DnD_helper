@@ -1002,13 +1002,16 @@ export const es: Record<keyof typeof en, string> = {
   'combat.stat.fanaticalFocus': 'una vez por furia, repite una salvación fallida con +{n}',
   'combat.stat.vitalityOfTheTree': 'al activar la furia: {n} PG temporales',
   'combat.stat.searUndead': 'al expulsar no muertos: {dice} de daño radiante a los que fallen',
+  'combat.stat.wildShape':
+    'Formas de bestia: {forms} conocidas, CR máx. {cr}, sin vuelo; dura {hours} h; {thp} PG temporales al transformarte',
+  'combat.stat.wildShapeFly':
+    'Formas de bestia: {forms} conocidas, CR máx. {cr}, con vuelo permitido; dura {hours} h; {thp} PG temporales al transformarte',
   'combat.stat.preserveLife':
     'reparte hasta {n} PG entre criaturas Maltrechas (hasta la mitad de sus PG máximos)',
   'combat.stat.discipleOfLife':
     'los conjuros con espacio que curan, curan 2 + nivel del espacio de más',
   'combat.stat.radianceOfTheDawn': '{dmg} de daño radiante (salvación de CON, CD {dc})',
   'combat.stat.wardingFlare': 'PG temporales al objetivo del ataque: {n}',
-  'combat.stat.wildShape': 'dura {hours} h; al transformarte ganas {thp} PG temporales',
   'combat.stat.circleForms':
     'forma de CR máx. {cr}; tu CA es {ac} si supera la de la bestia; {thp} PG temporales',
   'combat.stat.secondWind': 'acción adicional: recuperas {n} PG',
@@ -1037,6 +1040,23 @@ export const es: Record<keyof typeof en, string> = {
   'combat.stat.arcaneRecovery':
     'en descanso corto: espacios por un nivel combinado de hasta {n} (ninguno de nivel 6+)',
   'combat.stat.arcaneWard': 'PG máximos del resguardo: {n}',
+  'combat.stat.relentlessRage':
+    'a 0 PG en furia: salvación de CON (CD 10, +5 cada vez tras la primera); si pasas, quedas con {n} PG',
+  'combat.stat.tacticalMind':
+    'al fallar una prueba: gasta Tomar aliento y suma 1d10 (si sigue fallando, no se gasta)',
+  'combat.stat.patientDefense': 'con Defensa paciente (1 punto de enfoque): {dmg} PG temporales',
+  'combat.note.lunarForm':
+    'una vez por turno: +2d10 de daño radiante al impactar con el ataque de una forma salvaje',
+  'combat.stat.landsAid':
+    '{dmg} necrótico (salvación de CON, CD {dc}, mitad si pasa) y una criatura recupera {dmg}',
+  'combat.stat.wrathOfTheSea':
+    '{dice} de daño de frío (salvación de CON, CD {dc}) y empuja 15 pies',
+  'combat.stat.starryForm':
+    'Arquero: ataque de conjuro, {n} radiante; Cáliz: +{n} PG al curar con espacio',
+  'combat.stat.otherworldlyGlamour': '+{n} a las pruebas de Carisma',
+  'combat.stat.telepathy': 'conexión telepática a {miles} millas durante {minutes} minutos',
+  'combat.stat.telepathyOnly': 'conexión telepática a {miles} millas',
+  'combat.stat.createThrall': 'la aberración invocada tiene {n} PG temporales',
   'combat.stat.flashOfGenius': 'reacción: +{n} a una salvación o prueba fallida',
   'sheet.mastery': 'Maestría',
   'sheet.mastery.chosen': 'Maestría de armas ({count} / {slots})',

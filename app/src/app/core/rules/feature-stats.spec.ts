@@ -7,6 +7,38 @@ const classFeatures = (cls: string) => REAL_CLASSES.find((c) => c.id === cls)!.f
 const subFeatures = (sub: string) => REAL_SUBCLASSES.find((s) => s.id === sub)!.features;
 const featuresOf = (cls: string, sub?: string) => (sub ? subFeatures(sub) : classFeatures(cls));
 
+describe('how each feature is used (for a combat tab)', () => {
+  it('every number says whether it is an action, bonus action, reaction, free, a rider or passive', () => {
+    const all = [
+      ...sheetOf('wizard', 20, 'wizard/abjurer').combat.notes,
+      ...sheetOf('monk', 20, 'monk/warrior-of-mercy').combat.notes,
+    ];
+    expect(all.length).toBeGreaterThan(0);
+    for (const cls of ['barbarian', 'cleric', 'druid', 'fighter', 'monk', 'paladin', 'ranger'])
+      for (const n of [...sheetOf(cls, 20).combat.notes, ...sheetOf(cls, 20).combat.stats])
+        if (n.id !== 'dc' && !['rage', 'sneak'].includes(n.id))
+          expect(n.action, `${cls}:${n.id}`).toBeDefined();
+  });
+
+  it('carries the resource it spends and the DC it forces', () => {
+    const cleric = sheetOf('cleric', 5, 'cleric/light-domain').combat.stats;
+    expect(cleric.find((n) => n.id === 'radianceOfTheDawn')).toMatchObject({
+      action: 'action',
+      spends: 'Channel Divinity',
+      saveDc: 13,
+    });
+    const monk = sheetOf('monk', 6, 'monk/warrior-of-the-elements').combat.stats;
+    expect(monk.find((n) => n.id === 'elementalBurst')).toMatchObject({
+      spends: 'Focus Points',
+      saveDc: 13,
+    });
+    expect(sheetOf('fighter', 5).combat.stats.find((n) => n.id === 'secondWind')).toMatchObject({
+      action: 'bonus',
+      spends: 'Second Wind',
+    });
+  });
+});
+
 describe('every number comes from a sentence of the real text', () => {
   for (const d of DEFS)
     it(`${d.sub ?? d.cls}: ${d.feature} -> ${d.id}`, () => {
@@ -123,6 +155,25 @@ describe('numbers for the character', () => {
     expect(note(sheetOf('barbarian', 17), 'brutalStrike')?.params).toEqual({ dice: '2d10' });
     expect(note(sheetOf('cleric', 7), 'divineStrike')?.params).toEqual({ dice: '1d8' });
     expect(note(sheetOf('cleric', 14), 'divineStrike')?.params).toEqual({ dice: '2d8' });
+  });
+
+  it('Wild Shape: known forms and max CR from the Beast Shapes table, Moon uses level / 3', () => {
+    expect(stat(sheetOf('druid', 2), 'wildShape')?.params).toEqual({
+      hours: 1,
+      thp: 2,
+      forms: 4,
+      cr: '1/4',
+    });
+    expect(stat(sheetOf('druid', 8), 'wildShapeFly')?.params).toMatchObject({
+      forms: 8,
+      cr: '1',
+      hours: 4,
+    });
+    expect(stat(sheetOf('druid', 6, 'druid/circle-of-the-moon'), 'circleForms')?.params).toEqual({
+      cr: 2,
+      ac: 15,
+      thp: 18,
+    });
   });
 
   it('Psi Warrior: the die of the pool plus Intelligence', () => {

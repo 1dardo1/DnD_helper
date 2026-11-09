@@ -24,7 +24,85 @@ export interface FeatureNote {
   params?: Params;
   /** The ability of a save DC (shown next to it). */
   ability?: Ability;
+  /**
+   * How it is used in play, for a list of actions: an Action (Magic action included), a Bonus
+   * Action, a Reaction, free (no action: on a failed save, on rolling Initiative...), onHit (a rider
+   * added to a hit you already make) or passive (always on, only a number to know).
+   */
+  action?: UseKind;
+  /** English name of the counter it spends (PlayResource.name, or a spell slot), if any. */
+  spends?: string;
+  /** Save DC the effect forces, already worked out. */
+  saveDc?: number;
 }
+
+export type UseKind = 'action' | 'bonus' | 'reaction' | 'free' | 'onHit' | 'passive';
+
+/** How each definition is used (from the text of its feature) and what it spends. */
+const USE: Record<string, { action: UseKind; spends?: string; dc?: 'spell' | 'focus' }> = {
+  brutalStrike: { action: 'onHit' },
+  frenzy: { action: 'onHit' },
+  divineFury: { action: 'onHit' },
+  divineStrike: { action: 'onHit' },
+  primalStrike: { action: 'onHit' },
+  psionicStrike: { action: 'onHit', spends: 'Psionic Energy Dice' },
+  handOfHarm: { action: 'onHit', spends: 'Focus Points' },
+  radiantStrikes: { action: 'onHit' },
+  divineSmite: { action: 'onHit', spends: 'Spell slot' },
+  huntersMark: { action: 'onHit' },
+  dreadfulStrikes: { action: 'onHit' },
+  dreadfulStrike: { action: 'onHit', spends: 'Dread Ambusher' },
+  colossusSlayer: { action: 'onHit' },
+  assassinate: { action: 'onHit' },
+  elementalAffinity: { action: 'onHit' },
+  radiantSoul: { action: 'onHit' },
+  lunarForm: { action: 'onHit' },
+  hex: { action: 'onHit' },
+  fanaticalFocus: { action: 'free' },
+  vitalityOfTheTree: { action: 'free' },
+  searUndead: { action: 'action', spends: 'Channel Divinity' },
+  preserveLife: { action: 'action', spends: 'Channel Divinity' },
+  discipleOfLife: { action: 'passive' },
+  radianceOfTheDawn: { action: 'action', spends: 'Channel Divinity', dc: 'spell' },
+  wardingFlare: { action: 'reaction', spends: 'Warding Flare' },
+  wildShape: { action: 'bonus', spends: 'Wild Shape' },
+  wildShapeFly: { action: 'bonus', spends: 'Wild Shape' },
+  circleForms: { action: 'passive' },
+  landsAid: { action: 'action', spends: 'Wild Shape', dc: 'spell' },
+  wrathOfTheSea: { action: 'bonus', spends: 'Wild Shape', dc: 'spell' },
+  starryForm: { action: 'bonus', spends: 'Wild Shape' },
+  secondWind: { action: 'bonus', spends: 'Second Wind' },
+  indomitable: { action: 'free', spends: 'Indomitable' },
+  protectiveField: { action: 'reaction', spends: 'Psionic Energy Dice' },
+  heroicRally: { action: 'passive' },
+  deflectAttacks: { action: 'reaction' },
+  relentlessRage: { action: 'free' },
+  tacticalMind: { action: 'free', spends: 'Second Wind' },
+  patientDefense: { action: 'bonus', spends: 'Focus Points' },
+  uncannyMetabolism: { action: 'free', spends: 'Uncanny Metabolism' },
+  slowFall: { action: 'reaction' },
+  handOfHealing: { action: 'action', spends: 'Focus Points' },
+  wholenessOfBody: { action: 'bonus', spends: 'Wholeness of Body' },
+  elementalBurst: { action: 'action', spends: 'Focus Points', dc: 'focus' },
+  auraOfProtection: { action: 'passive' },
+  abjureFoes: { action: 'action', spends: 'Channel Divinity', dc: 'spell' },
+  channelDivinityDc: { action: 'passive' },
+  sacredWeapon: { action: 'free', spends: 'Channel Divinity' },
+  inspiringSmite: { action: 'free', spends: 'Channel Divinity' },
+  gloriousDefense: { action: 'reaction', spends: 'Glorious Defense' },
+  tireless: { action: 'action', spends: 'Tireless' },
+  innateSorcery: { action: 'bonus', spends: 'Innate Sorcery' },
+  sorcerousRestoration: { action: 'free', spends: 'Sorcerous Restoration' },
+  darkOnesBlessing: { action: 'passive' },
+  celestialResilience: { action: 'passive' },
+  arcaneRecovery: { action: 'free', spends: 'Arcane Recovery' },
+  arcaneWard: { action: 'passive' },
+  flashOfGenius: { action: 'reaction', spends: 'Flash of Genius' },
+  otherworldlyGlamour: { action: 'passive' },
+  telepathy: { action: 'bonus' },
+  telepathyOnly: { action: 'bonus' },
+  createThrall: { action: 'passive' },
+};
 
 interface Ctx {
   /** Level in the class that has the feature. */
@@ -39,6 +117,8 @@ interface Ctx {
   spellDc: number | null;
   /** Size of a pool of dice of the subclass ("d8"). */
   poolDie: string | null;
+  /** Text of the feature the definition belongs to. */
+  text: string;
 }
 
 interface Def {
@@ -47,13 +127,21 @@ interface Def {
   sub?: string;
   /** Feature that holds the text; it must be gained for the definition to apply. */
   feature: string;
-  id: string;
+  id: string | ((c: Ctx) => string);
   to: 'notes' | 'stats';
   /** The sentence of the feature's text the number comes from (checked by a spec). */
   anchor: RegExp;
   /** Other features whose text also counts (the same number grows in a later feature). */
   also?: { feature: string; anchor: RegExp }[];
   p?: (c: Ctx) => Params | null;
+}
+
+/** The "Beast Shapes" table of Wild Shape: known forms, max CR and Fly Speed at this Druid level. */
+export function beastShapes(text: string, level: number) {
+  let best: { forms: number; cr: string; fly: boolean } | null = null;
+  for (const m of text.matchAll(/^\|\s*(\d+)\s*\|\s*(\d+)\s*\|\s*([\d/]+)\s*\|\s*(Yes|No)\s*\|/gim))
+    if (Number(m[1]) <= level) best = { forms: Number(m[2]), cr: m[3], fly: m[4] === 'Yes' };
+  return best;
 }
 
 const plus = (n: number) => (n >= 0 ? `+${n}` : `${n}`);
@@ -105,6 +193,14 @@ export const DEFS: Def[] = [
     to: 'stats',
     anchor: /Temporary Hit Points equal to your Barbarian level/,
     p: (c) => ({ n: c.level }),
+  },
+  {
+    cls: 'barbarian',
+    feature: 'Relentless Rage',
+    id: 'relentlessRage',
+    to: 'stats',
+    anchor: /Hit Points instead change to a number equal to twice your Barbarian level/,
+    p: (c) => ({ n: 2 * c.level }),
   },
   // -- Cleric ------------------------------------------------------------------------------------
   {
@@ -172,10 +268,15 @@ export const DEFS: Def[] = [
   {
     cls: 'druid',
     feature: 'Wild Shape',
-    id: 'wildShape',
+    id: (c) => (beastShapes(c.text, c.level)?.fly ? 'wildShapeFly' : 'wildShape'),
     to: 'stats',
     anchor: /number of hours equal to half your Druid level/,
-    p: (c) => ({ hours: Math.max(1, Math.floor(c.level / 2)), thp: c.level }),
+    p: (c) => ({
+      hours: Math.max(1, Math.floor(c.level / 2)),
+      thp: c.level,
+      forms: beastShapes(c.text, c.level)?.forms ?? 0,
+      cr: beastShapes(c.text, c.level)?.cr ?? '1/4',
+    }),
   },
   {
     cls: 'druid',
@@ -186,6 +287,48 @@ export const DEFS: Def[] = [
     anchor: /Druid level divided by 3 \(round down\)/,
     p: (c) => ({ cr: Math.floor(c.level / 3), ac: 13 + c.mod('WIS'), thp: 3 * c.level }),
   },
+  {
+    cls: 'druid',
+    sub: 'druid/circle-of-the-land',
+    feature: "Land's Aid",
+    id: 'landsAid',
+    to: 'stats',
+    anchor: /taking 2d6 Necrotic damage on a failed save/,
+    also: [
+      {
+        feature: "Land's Aid",
+        anchor: /increase by 1d6 when you reach Druid levels 10 \(3d6\) and 14 \(4d6\)/,
+      },
+    ],
+    p: (c) => ({ dmg: c.level >= 14 ? '4d6' : c.level >= 10 ? '3d6' : '2d6', dc: c.spellDc ?? 0 }),
+  },
+  {
+    cls: 'druid',
+    sub: 'druid/circle-of-the-sea',
+    feature: 'Wrath of the Sea',
+    id: 'wrathOfTheSea',
+    to: 'stats',
+    anchor: /a number of d6s equal to your Wisdom modifier \(minimum of one die\)/,
+    p: (c) => ({ dice: `${min1(c.mod('WIS'))}d6`, dc: c.spellDc ?? 0 }),
+  },
+  {
+    cls: 'druid',
+    sub: 'druid/circle-of-the-stars',
+    feature: 'Starry Form',
+    id: 'starryForm',
+    to: 'stats',
+    anchor: /1d8 plus your Wisdom modifier/,
+    also: [{ feature: 'Twinkling Constellations', anchor: /becomes 2d8/ }],
+    p: (c) => ({ n: `${c.level >= 10 ? '2d8' : '1d8'}${plus(c.mod('WIS'))}` }),
+  },
+  {
+    cls: 'druid',
+    sub: 'druid/circle-of-the-moon',
+    feature: 'Lunar Form',
+    id: 'lunarForm',
+    to: 'notes',
+    anchor: /extra 2d10 Radiant damage to a target you hit with a Wild Shape form's attack/,
+  },
   // -- Fighter -----------------------------------------------------------------------------------
   {
     cls: 'fighter',
@@ -194,6 +337,13 @@ export const DEFS: Def[] = [
     to: 'stats',
     anchor: /Hit Points equal to 1d10 plus your Fighter level/,
     p: (c) => ({ n: `1d10+${c.level}` }),
+  },
+  {
+    cls: 'fighter',
+    feature: 'Tactical Mind',
+    id: 'tacticalMind',
+    to: 'stats',
+    anchor: /you roll 1d10 and add the number rolled to the ability check/,
   },
   {
     cls: 'fighter',
@@ -249,6 +399,14 @@ export const DEFS: Def[] = [
   },
   {
     cls: 'monk',
+    feature: 'Heightened Focus',
+    id: 'patientDefense',
+    to: 'stats',
+    anchor: /Temporary Hit Points equal to two rolls of your Martial Arts die/,
+    p: (c) => (c.martial ? { dmg: `2${c.martial.slice(1)}` } : null),
+  },
+  {
+    cls: 'monk',
     feature: 'Slow Fall',
     id: 'slowFall',
     to: 'stats',
@@ -292,6 +450,42 @@ export const DEFS: Def[] = [
     to: 'stats',
     anchor: /damage of the chosen type equal to three rolls of your Martial Arts die/,
     p: (c) => (c.martial ? { dmg: `3${c.martial.slice(1)}` } : null),
+  },
+  {
+    cls: 'ranger',
+    sub: 'ranger/fey-wanderer',
+    feature: 'Otherworldly Glamour',
+    id: 'otherworldlyGlamour',
+    to: 'stats',
+    anchor: /bonus to the check equal to your Wisdom modifier \(Minimum of \+1\)/,
+    p: (c) => ({ n: min1(c.mod('WIS')) }),
+  },
+  {
+    cls: 'warlock',
+    sub: 'warlock/great-old-one-patron',
+    feature: 'Awakened Mind',
+    id: 'telepathy',
+    to: 'stats',
+    anchor: /a number of miles of each other equal to your Charisma modifier \(minimum of 1 mile\)/,
+    p: (c) => ({ miles: min1(c.mod('CHA')), minutes: c.level }),
+  },
+  {
+    cls: 'warlock',
+    sub: 'warlock/great-old-one-patron',
+    feature: 'Create Thrall',
+    id: 'createThrall',
+    to: 'stats',
+    anchor: /Temporary Hit Points equal to your Warlock level plus your Charisma modifier/,
+    p: (c) => ({ n: c.level + c.mod('CHA') }),
+  },
+  {
+    cls: 'sorcerer',
+    sub: 'sorcerer/aberrant-sorcery',
+    feature: 'Telepathic Speech',
+    id: 'telepathyOnly',
+    to: 'stats',
+    anchor: /a number of miles of each other equal to your Charisma modifier \(minimum of 1/,
+    p: (c) => ({ miles: min1(c.mod('CHA')) }),
   },
   // -- Paladin -----------------------------------------------------------------------------------
   {
@@ -583,12 +777,22 @@ export function featureNumbers(input: FeatureNumbersInput): {
       rage: input.rageDamage,
       spellDc: input.spellDc(c.id),
       poolDie: pool?.die ?? null,
+      text:
+        input.features.find((f) => f.name === def.feature && f.source.id === (def.sub ?? def.cls))
+          ?.description ?? '',
     };
     const params = def.p ? def.p(ctx) : {};
     if (params === null) continue;
+    const id = typeof def.id === 'function' ? def.id(ctx) : def.id;
+    const use = USE[id];
+    const focusDc = 8 + input.pb + mod('WIS');
+    const saveDc = use?.dc === 'spell' ? ctx.spellDc : use?.dc === 'focus' ? focusDc : null;
     (def.to === 'notes' ? notes : stats).push({
-      id: def.id,
+      id,
       source: def.feature,
+      ...(use ? { action: use.action } : {}),
+      ...(use?.spends ? { spends: use.spends } : {}),
+      ...(saveDc ? { saveDc } : {}),
       ...(Object.keys(params).length ? { params } : {}),
     });
   }
