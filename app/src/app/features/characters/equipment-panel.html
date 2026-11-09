@@ -16,7 +16,7 @@
           @for (a of attacks(); track a.entryId + a.name) {
             <tr [class.stowed]="!a.equipped">
               <td class="weapon">
-                <strong>{{ a.entryId ? (a.name | dataName: true) : (a.nameKey! | t) }}</strong>
+                <strong>{{ a.nameKey ? (a.nameKey | t) : (a.name | dataName: true) }}</strong>
                 @if (a.base) {
                   <small> ({{ a.base | dataName }})</small>
                 }

@@ -1,5 +1,6 @@
 import { Ability } from '../models/compendium';
 import type { FeatureNote } from './feature-stats';
+import type { NaturalWeapon } from './natural-weapons';
 
 /** Everything the character sheet shows, computed from a Character and the compendium. */
 export interface Sheet {
@@ -116,6 +117,12 @@ export interface CombatInfo {
   notes: FeatureNote[];
   /** Healing, temporary hit points, bonuses and save DCs of the features (combat.stat.<id>). */
   stats: FeatureNote[];
+  /** Natural weapons of the species (claws, bite, horns...): extra lines in the attacks table. */
+  naturalWeapons: NaturalWeapon[];
+  /** The Unarmed Strike deals this type instead of bludgeoning (Lupin's Feral Pounce). */
+  unarmedType: string | null;
+  /** Pact of the Blade chosen: Charisma may replace the ability of the pact weapon's attacks. */
+  pactBlade: boolean;
   /** Attack rolls score a critical hit from this number (Champion: 19, 18); 20 = normal. */
   critRange: number;
 }

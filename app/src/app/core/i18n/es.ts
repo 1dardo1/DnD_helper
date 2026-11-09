@@ -992,6 +992,11 @@ export const es: Record<keyof typeof en, string> = {
   'combat.note.radiantSoul':
     'una vez por turno, suma {n} al daño radiante o de fuego de un conjuro',
   'combat.note.hex': 'conjuro: +1d6 de daño necrótico a la criatura maldita en cada impacto',
+  'combat.note.naturalWeapon': 'Ataque sin armas con el daño de tu rasgo de especie',
+  'combat.note.pactBlade':
+    'Arma de pacto: si es la vinculada, puedes usar CAR para ataque y daño ({hit} / {dmg})',
+  'combat.note.lifedrinker':
+    'una vez por turno con el arma de pacto: +1d6 necrótico, psíquico o radiante; gasta un dado de golpe y recuperas la tirada + CON',
   'combat.stat.dc': 'CD {n}',
   'combat.stat.fanaticalFocus': 'una vez por furia, repite una salvación fallida con +{n}',
   'combat.stat.vitalityOfTheTree': 'al activar la furia: {n} PG temporales',

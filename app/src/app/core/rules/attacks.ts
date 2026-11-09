@@ -85,6 +85,13 @@ export function proficientWith(weapons: string[], item: Item): boolean {
   });
 }
 
+/** "1d8+3" with its modifier moved by delta: "1d8+5". */
+export function shiftDamage(damage: string, delta: number): string {
+  const m = /^(\d+d\d+)([+-]\d+)?$/.exec(damage);
+  if (!m) return damage;
+  return `${m[1]}${signed(Number(m[2] ?? 0) + delta)}`;
+}
+
 const faces = (dice: string) => Number(/d(\d+)/.exec(dice)?.[1] ?? 1);
 
 const signed = (n: number) => (n > 0 ? `+${n}` : n < 0 ? `${n}` : '');
@@ -189,7 +196,7 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
     bonus: str + pb,
     proficient: true,
     damage: unarmedDie ? `${unarmedDie}${signed(str)}` : `${Math.max(0, 1 + str)}`,
-    damageType: 'bludgeoning',
+    damageType: combat?.unarmedType ?? 'bludgeoning',
     versatile: null,
     reach: 5,
     range: null,
@@ -201,6 +208,30 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
     upgrades: [],
     notes,
   });
+  // claws, bite, horns...: Unarmed Strikes whose damage the species trait states
+  for (const w of combat?.naturalWeapons ?? []) {
+    const dmgMod = w.ability === 'STR' ? str : mod(w.ability);
+    out.push({
+      entryId: '',
+      name: w.name,
+      nameKey: null,
+      ability: unarmedAbility,
+      bonus: str + pb,
+      proficient: true,
+      damage: `${w.dice}${signed(dmgMod)}`,
+      damageType: w.type,
+      versatile: null,
+      reach: 5,
+      range: null,
+      properties: [],
+      mastery: null,
+      equipped: true,
+      base: null,
+      magic: 0,
+      upgrades: [],
+      notes: [{ id: 'naturalWeapon' }],
+    });
+  }
   out.push(...psychicBladesFor(sheet, weapons));
   addRowNotes(sheet, out);
   return out;
@@ -219,6 +250,16 @@ function addRowNotes(sheet: Sheet, rows: Attack[]): void {
       a.notes.push({ id: 'crit', params: { n: combat.critRange } });
     // a Melee weapon or an Unarmed Strike (they have a reach), not a ranged weapon
     if (radiant && a.reach !== null) a.notes.push({ id: 'radiantStrikesRow' });
+    // Pact of the Blade: the bonded weapon may use Charisma for attack and damage
+    if (combat.pactBlade && a.entryId && a.reach !== null && !a.properties.includes('Ammunition')) {
+      const cha = sheet.abilities.CHA.modifier;
+      const own = sheet.abilities[a.ability].modifier;
+      const hit = a.bonus - own + cha + (a.proficient ? 0 : sheet.proficiencyBonus);
+      a.notes.push({
+        id: 'pactBlade',
+        params: { hit: signed(hit) || '+0', dmg: shiftDamage(a.damage, cha - own) },
+      });
+    }
   }
 }
 

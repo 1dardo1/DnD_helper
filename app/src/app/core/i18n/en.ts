@@ -979,6 +979,11 @@ export const en = {
   'combat.note.elementalAffinity': 'add {n} to one damage roll of a spell of the chosen type',
   'combat.note.radiantSoul': 'once per turn, add {n} to the Radiant or Fire damage of a spell',
   'combat.note.hex': 'spell: +1d6 Necrotic damage to the cursed creature on every hit',
+  'combat.note.naturalWeapon': 'Unarmed Strike with the damage your species trait gives',
+  'combat.note.pactBlade':
+    'Pact weapon: if it is the bonded one, you can use CHA for attack and damage ({hit} / {dmg})',
+  'combat.note.lifedrinker':
+    'once per turn with the pact weapon: +1d6 Necrotic, Psychic or Radiant; spend a Hit Die to regain the roll + CON',
   'combat.stat.dc': 'DC {n}',
   'combat.stat.fanaticalFocus': 'once per Rage, reroll a failed save with +{n}',
   'combat.stat.vitalityOfTheTree': 'when you rage: {n} Temporary Hit Points',

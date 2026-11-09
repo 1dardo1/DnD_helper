@@ -27,6 +27,7 @@ import {
 } from './feat-effects';
 import { multiclassGains } from './multiclass';
 import { featureNumbers } from './feature-stats';
+import { NaturalWeapon, naturalWeaponOf, unarmedTypeOf } from './natural-weapons';
 import { poolFor } from './pools';
 import { proficientWith } from './attacks';
 import { resolveTraitChoice, traitChoiceKey } from './trait-choices';
@@ -1147,6 +1148,13 @@ function combatOf(
     psychicBlades: !!soulknife && soulknife.level >= 3,
     soulBlades: !!soulknife && soulknife.level >= 9,
     critRange: critRangeOf(extra.features),
+    naturalWeapons: naturals(traits.filter((x) => x.t.kind === 'species').map((x) => x.t.text)),
+    unarmedType:
+      traits
+        .filter((x) => x.t.kind === 'species')
+        .map((x) => unarmedTypeOf(x.t.text.description))
+        .find((t) => !!t) ?? null,
+    pactBlade: options.some((o) => o.opt.id === 'eldritch-invocation/pact-of-the-blade'),
     notes: [],
     stats: [],
   };
@@ -1166,6 +1174,9 @@ function combatOf(
     const dice = col(rogue.cls, rogue.level, 'Sneak Attack');
     if (dice) combat.notes.push({ id: 'sneak', source: 'Sneak Attack', params: { n: dice } });
   }
+  for (const { opt } of options)
+    if (opt.id === 'eldritch-invocation/lifedrinker')
+      combat.notes.push({ id: 'lifedrinker', source: opt.name });
   for (const { opt } of options)
     if (opt.id === 'eldritch-invocation/agonizing-blast')
       combat.notes.push({
@@ -1188,6 +1199,17 @@ function combatOf(
   // spells that add damage to every hit (Hex), when the character has them
   if (extra.spells.has('hex')) combat.notes.push({ id: 'hex', source: 'Hex' });
   return combat;
+}
+
+/** The natural weapons the species traits state (each trait once). */
+function naturals(texts: RuleText[]) {
+  const out: NaturalWeapon[] = [];
+  for (const t of texts) {
+    const w = naturalWeaponOf(t.name, t.description);
+    if (w && !out.some((x) => x.name === w.name && x.dice === w.dice && x.type === w.type))
+      out.push(w);
+  }
+  return out;
 }
 
 /**
