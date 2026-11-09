@@ -37,7 +37,20 @@ function boldHead(line: string): { name: string; rest: string } | null {
 
 /** One "- Name" bullet, with its indented continuation lines (flavor text, sub-bullets...). */
 function parseBulletItem(lines: string[]): TraitOption {
-  const clean = lines.map((l) => l.replace(/^[ \t]*-[ \t]*/, '').trim()).filter(Boolean);
+  // Reprints tell each option as "- Name" + a sub-bullet of flavor + sub-bullets that are the
+  // benefits ("**Grotag Tamer.** You have proficiency in..."). When there are benefits, the flavor
+  // sub-bullets are dropped: what matters when choosing is what the option gives.
+  const subs = lines.slice(1).filter((l) => /^[ \t]+-[ \t]*\S/.test(l));
+  const benefit = subs.some((l) => boldHead(l.replace(/^[ \t]*-[ \t]*/, '').trim()));
+  const kept = benefit
+    ? lines.filter(
+        (l, i) =>
+          i === 0 ||
+          !/^[ \t]+-[ \t]*\S/.test(l) ||
+          boldHead(l.replace(/^[ \t]*-[ \t]*/, '').trim()),
+      )
+    : lines;
+  const clean = kept.map((l) => l.replace(/^[ \t]*-[ \t]*/, '').trim()).filter(Boolean);
   const head = clean.length ? boldHead(clean[0]) : null;
   if (head)
     return { name: head.name, text: [head.rest, ...clean.slice(1)].filter(Boolean).join('\n') };

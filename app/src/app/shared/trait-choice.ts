@@ -14,7 +14,7 @@ export interface TraitChoiceItem {
 
 /**
  * A trait whose text embeds its own choice (a species lineage, a reprint's internal tribe/
- * creed...): one option per radio button, its own text unfolding when picked. Generic — any
+ * creed...): one option per radio button, each showing what it gives. Generic — any
  * trait with 2+ named options can use it, not only species ones.
  */
 @Component({
@@ -34,9 +34,7 @@ export interface TraitChoiceItem {
           />
           <span class="txt">
             <span class="nm">{{ o.label }}</span>
-            @if (selected() === o.value) {
-              <span class="md" [innerHTML]="o.text | markdown"></span>
-            }
+            <span class="md" [innerHTML]="o.text | markdown"></span>
           </span>
         </label>
       }
