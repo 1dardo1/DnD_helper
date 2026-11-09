@@ -305,6 +305,9 @@
         <div class="row">
           <span class="label">
             {{ name }}
+            @if (r.die; as die) {
+              <small>({{ die }})</small>
+            }
             @if (className(r.classId); as cls) {
               <small>({{ cls | dataName: true }})</small>
             }

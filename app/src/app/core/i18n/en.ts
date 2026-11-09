@@ -530,6 +530,8 @@ export const en = {
   'play.res.magicalCunning': 'Magical Cunning',
   'play.res.mysticArcanum': 'Mystic Arcanum',
   'play.res.arcaneRecovery': 'Arcane Recovery',
+  'play.res.warriorOfTheGods': 'Warrior of the Gods dice',
+  'play.res.healingLight': 'Healing Light (dice)',
   'play.hitDice': 'Hit Dice',
   'play.hitDieHint':
     'Press − when you spend a Hit Die and + to get it back. Each die spent heals the roll + your CON modifier ({con}): add it to your hit points. A long rest recovers all spent dice.',

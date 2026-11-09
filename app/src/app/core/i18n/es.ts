@@ -535,6 +535,8 @@ export const es: Record<keyof typeof en, string> = {
   'play.res.magicalCunning': 'Astucia mágica',
   'play.res.mysticArcanum': 'Arcano místico',
   'play.res.arcaneRecovery': 'Recuperación arcana',
+  'play.res.warriorOfTheGods': 'Dados de Guerrero de los Dioses',
+  'play.res.healingLight': 'Luz sanadora (dados)',
   'play.hitDice': 'Dados de golpe',
   'play.hitDieHint':
     'Pulsa − al gastar un dado de golpe y + para recuperarlo. Cada dado gastado cura la tirada + tu modificador de CON ({con}): súmalo en los puntos de golpe. Con un descanso largo recuperas todos los dados gastados.',

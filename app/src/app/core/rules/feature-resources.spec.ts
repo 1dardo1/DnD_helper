@@ -1,0 +1,87 @@
+import { PlayResource, longRest, playResources, shortRest } from '../play/play-state';
+import { sheetOf } from './real-data.testing';
+
+/** Resources of class and subclass features, with the real texts of the compendium. */
+const res = (classId: string, level: number, sub: string | null, scores = {}) =>
+  playResources(sheetOf(classId, level, sub, { scores }));
+const find = (rs: PlayResource[], name: string) => rs.find((r) => r.name === name);
+
+describe('pools of dice read from the text of the subclass', () => {
+  it.each([
+    [3, 'd6', 4],
+    [5, 'd8', 6],
+    [9, 'd8', 8],
+    [11, 'd10', 8],
+    [13, 'd10', 10],
+    [17, 'd12', 12],
+  ])('Soulknife level %i: %s x %i', (level, die, count) => {
+    const r = find(res('rogue', level, 'rogue/soulknife'), 'Psionic Energy Dice');
+    expect(r).toMatchObject({ die, max: count, labelKey: 'play.res.psionicEnergyDice' });
+  });
+
+  it('Psi Warrior has the same pool, from its own table', () => {
+    const r = find(res('fighter', 11, 'fighter/psi-warrior'), 'Psionic Energy Dice');
+    expect(r).toMatchObject({ die: 'd10', max: 8 });
+    // not the old wrong single use
+    expect(
+      res('fighter', 3, 'fighter/psi-warrior').filter((x) => x.name === 'Psionic Energy Dice'),
+    ).toHaveLength(1);
+  });
+
+  it('recovers one die on a Short Rest and all on a Long Rest', () => {
+    const rs = res('rogue', 5, 'rogue/soulknife');
+    const key = find(rs, 'Psionic Energy Dice')!.key;
+    const spent = { resources: { [key]: 5 } } as never;
+    expect(shortRest(spent, rs).resources[key]).toBe(4);
+    expect(longRest(spent).resources[key]).toBeUndefined();
+  });
+
+  it('Zealot Warrior of the Gods: four d12s, five at 6, six at 12, seven at 17', () => {
+    const at = (l: number) =>
+      find(res('barbarian', l, 'barbarian/path-of-the-zealot'), 'Warrior of the Gods');
+    expect(at(3)).toMatchObject({ die: 'd12', max: 4 });
+    expect(at(6)?.max).toBe(5);
+    expect(at(12)?.max).toBe(6);
+    expect(at(17)?.max).toBe(7);
+  });
+
+  it('Celestial Healing Light: 1 + Warlock level d6s', () => {
+    expect(find(res('warlock', 3, 'warlock/celestial-patron'), 'Healing Light')).toMatchObject({
+      die: 'd6',
+      max: 4,
+    });
+    expect(find(res('warlock', 9, 'warlock/celestial-patron'), 'Healing Light')?.max).toBe(10);
+  });
+});
+
+describe('the size of the die a counter holds', () => {
+  it('Bardic Inspiration shows the Bardic Die of the level', () => {
+    expect(find(res('bard', 1, null), 'Bardic Inspiration')?.die).toBe('d6');
+    expect(find(res('bard', 5, null), 'Bardic Inspiration')?.die).toBe('d8');
+    expect(find(res('bard', 15, null), 'Bardic Inspiration')?.die).toBe('d12');
+  });
+
+  it('Battle Master Superiority Dice: d8, d10 from level 10, d12 from level 18', () => {
+    const at = (l: number) => find(res('fighter', l, 'fighter/battle-master'), 'Superiority Dice');
+    expect(at(3)).toMatchObject({ die: 'd8', max: 4 });
+    expect(at(10)?.die).toBe('d10');
+    expect(at(18)?.die).toBe('d12');
+  });
+});
+
+describe('free casts that depend on an ability modifier', () => {
+  const used = (classId: string, sub: string, spell: string, scores = {}) => {
+    const s = sheetOf(classId, 15, sub, { scores });
+    const key = s.featSpells.find((x) => x.name === spell)?.freeKey;
+    return s.featUses.find((u) => u.key === key)?.max;
+  };
+
+  it('Archfey Steps of the Fey: Charisma modifier times (not always one)', () => {
+    expect(used('warlock', 'warlock/archfey-patron', 'Misty Step', { CHA: 18 })).toBe(4);
+    expect(used('warlock', 'warlock/archfey-patron', 'Misty Step', { CHA: 8 })).toBe(1);
+  });
+
+  it('Fey Wanderer Misty Wanderer: Wisdom modifier times', () => {
+    expect(used('ranger', 'ranger/fey-wanderer', 'Misty Step', { WIS: 16 })).toBe(3);
+  });
+});

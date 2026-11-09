@@ -26,6 +26,7 @@ import {
   listOfFeatName,
 } from './feat-effects';
 import { multiclassGains } from './multiclass';
+import { poolFor } from './pools';
 import { proficientWith } from './attacks';
 import { resolveTraitChoice, traitChoiceKey } from './trait-choices';
 import { TraitRules, traitRules } from './trait-effects';
@@ -813,6 +814,8 @@ interface TraitSource {
   /** Levels the character has in what grants it (class level, or the total level). */
   scope: number;
   classId?: string;
+  /** Id of the subclass a 'subclass' feature belongs to. */
+  subId?: string;
   /** Only holds in a situation (Rage, Wild Shape, a form): resistances and senses are not applied. */
   situational: boolean;
 }
@@ -875,6 +878,7 @@ function traitSources(
           level: f.level,
           scope: c.level,
           classId: c.cls.id,
+          subId: c.sub!.id,
           situational: SITUATIONAL.test(f.description),
         });
   }
@@ -978,7 +982,12 @@ function traitGrants(a: {
         labelKey: null,
         feat: t.name,
         kind: 'spell',
-        max: g.freeUses === 'pb' ? a.pb : g.freeUses === 'mod' ? Math.max(1, mod(ability)) : 1,
+        max:
+          g.freeUses === 'pb'
+            ? a.pb
+            : g.freeUses === 'mod'
+              ? Math.max(1, mod(g.freeAbility ?? ability))
+              : 1,
         rest: 'long',
       });
   };
@@ -990,6 +999,7 @@ function traitGrants(a: {
     const own = rules.ability.mode === 'fixed' ? rules.ability.ability : null;
     for (const g of rules.spells) if (g.minLevel <= a.totalLevel) add({ ...t, id }, g, { own });
     if (t.kind === 'class') continue; // class counters come from the class table / play-state
+    if (t.kind === 'subclass' && poolFor(t.subId, t.name)) continue; // a pool of dice (rules/pools.ts)
     const several = rules.uses.length > 1;
     for (const u of rules.uses) {
       const ability = typeof u.max === 'string' && u.max !== 'pb' ? u.max : null;
