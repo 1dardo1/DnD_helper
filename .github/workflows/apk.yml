@@ -45,6 +45,10 @@ jobs:
 
       - run: npm ci
 
+      # never publish an APK that fails its checks: phones keep the last good one
+      - run: npm run check-glossary
+      - run: npm test
+
       - name: Build the web app with the data inside
         # APP_BUILD: the app compares it with the "build: N" line of the release notes to offer
         # the newer APK (src/app/core/app-update/).

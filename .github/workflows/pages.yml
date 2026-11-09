@@ -35,6 +35,9 @@ jobs:
           cache: npm
           cache-dependency-path: app/package-lock.json
       - run: npm ci
+      # never publish a version that fails its checks: the site stays on the last good one
+      - run: npm run check-glossary
+      - run: npm test
       - name: Build (with the repo name as base path)
         run: npx ng build -c production,bundled --base-href "/${{ github.event.repository.name }}/"
       - run: node scripts/bundle-data.mjs dist/app/browser

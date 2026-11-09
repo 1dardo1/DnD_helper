@@ -1,0 +1,3 @@
+# Claude Code: worktrees de subagentes y ajustes locales (nunca al repo)
+.claude/worktrees/
+.claude/settings.local.json

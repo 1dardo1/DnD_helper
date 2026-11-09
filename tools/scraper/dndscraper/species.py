@@ -11,6 +11,12 @@ from .common import base_entry, number, source_year, split_source
 from .html import Page, labeled_fields, slug, table_rows, text_of, to_markdown, top_blocks, traits
 
 # 2014 traits that carry no mechanics under 2024 rules (ASIs and languages are dropped too).
+# Complete reprints of a species in another book are marked "reprint": true (the same creature told
+# again, not a player choice). These ones are kept as real, playable variants because they bring
+# rules of their own (Goblin of Zendikar: Grit and a choice of Tribe). Without this list a new
+# extraction would hide them again (the app never offers a reprint).
+PLAYABLE_PRINTINGS = {"Goblin (Plane Shift: Zendikar)"}
+
 _NON_MECHANICAL = re.compile(
     r"^(ability score (increase|increases)|age|alignment|size|speed|(extra )?languages?|creature type|"
     r"ability scores?|subraces?)$", re.I)
@@ -192,9 +198,10 @@ def parse_race_2014(page: Page) -> tuple[dict | None, list[str]]:
         if any(vnodes is f[1] for f in full):   # another complete printing: not a player choice,
             # just the same creature told again in another book (Goblin's Volo's/Plane Shift...).
             vl, vitems = traits(_li_as_paragraphs(_until_first_sub(vnodes)), nest_options=False)
-            variants.append({"name": f"{page.title} ({vtitle})", "description": vl,
+            vname = f"{page.title} ({vtitle})"
+            variants.append({"name": vname, "description": vl,
                              "traits": _feature_list([t for t in vitems if not _NON_MECHANICAL.match(t.name)]),
-                             "spells": None, "reprint": True,
+                             "spells": None, "reprint": vname not in PLAYABLE_PRINTINGS,
                              "_asi": any(re.match(r"ability score", t.name, re.I) for t in vitems)})
         for v in _subraces(vnodes):
             if all(slug(v["name"]) != slug(x["name"]) for x in variants):
