@@ -15,6 +15,11 @@
           {{ f.name | dataName }}
         </summary>
         <div class="md" [innerHTML]="f.description | dataText | markdown"></div>
+        @if (f.chosen?.length) {
+          <p class="chosen" data-testid="feature-chosen">
+            {{ 'sheet.chosen' | t: { list: chosenText(f.chosen) } }}
+          </p>
+        }
       </details>
     }
   }
@@ -157,6 +162,7 @@
   <div class="sheet-bar">
     <app-play-panel part="bar" [sheet]="s" [state]="c.state" (changed)="saveState($event)" />
   </div>
+  <app-trait-rest-dialog [character]="c" [sheet]="s" (changed)="saveCharacter($event)" />
 
   <div class="sheet-shell">
     <nav class="tabs" [attr.aria-label]="'sheet.tabs' | t">
@@ -452,7 +458,8 @@
                             </span>
                           }
                           <span class="origin">{{
-                            'sheet.featSource' | t: { name: (fs.feat.name | dataName: true) }
+                            (fs.origin === 'species' ? 'sheet.speciesSource' : 'sheet.featSource')
+                              | t: { name: (fs.feat.name | dataName: true) }
                           }}</span>
                           <span class="facts">
                             {{ 'abbr.' + fs.ability | t }} · {{ 'sheet.saveDc' | t }}

@@ -81,6 +81,11 @@ export interface Sheet {
     key: string;
     what: 'ability' | 'list' | 'cantrips' | 'spell' | 'proficiencies' | 'resistance';
   }[];
+  /**
+   * Picks inside species traits the text lets the player change after a rest (Kalashtar's skill,
+   * Astral Knowledge, an Eladrin's season...): the key in `choices.traitPicks`. Absent: none.
+   */
+  restPicks?: { key: string; trait: string; rest: 'long' | 'short' }[];
   /** Things the engine couldn't resolve (ids not in the compendium, missing choices...). */
   warnings: SheetWarning[];
 }
@@ -166,6 +171,11 @@ export interface SheetFeature {
     name: string;
   };
   description: string;
+  /**
+   * What the player picked inside this trait (species-picks.ts): kind of pick ('skill', 'tool',
+   * 'cantrip', 'option', 'ability'...) and the values (skill ids, tool names, spell ids...).
+   */
+  chosen?: { kind: string; values: string[] }[];
 }
 
 /** Something the engine couldn't work out; key is a UI text (sheet.warn.*), params fill it in. */
@@ -178,6 +188,7 @@ export interface SheetWarning {
     | 'sheet.warn.armorBase'
     | 'sheet.warn.traitChoiceMissing'
     | 'sheet.warn.traitPickMissing'
+    | 'sheet.warn.speciesAbilityMissing'
     | 'sheet.warn.weaponMastery';
   params?: Record<string, string>;
 }

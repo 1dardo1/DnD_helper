@@ -321,8 +321,10 @@ describe('Picks inside plain species traits (skills / damage type of your choice
     expect(sheet.resistances).not.toContain('Cold');
   });
 
-  it('a skill the player re-picks at every rest (Kalashtar, Astral Trance) is not a pick', () => {
+  it('a skill the player re-picks at every rest (Kalashtar) is a pick marked to change on rests', () => {
     const t = DATA.species.get('kalashtar')!.traits.find((x) => x.name === 'Severed from Dreams')!;
-    expect(traitPicks(t.description)).toEqual([]);
+    expect(traitPicks(t.description)).toEqual([
+      { kind: 'skill', count: 1, from: null, rest: 'long' },
+    ]);
   });
 });

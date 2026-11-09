@@ -72,8 +72,7 @@
       "Medium"
     ],
     "speed": {
-      "walk": 30,
-      "fly": 30
+      "walk": 30
     },
     "darkvision": 60,
     "traits": [
@@ -4351,8 +4350,7 @@
       "Medium"
     ],
     "speed": {
-      "walk": 30,
-      "swim": 30
+      "walk": 30
     },
     "darkvision": 60,
     "traits": [

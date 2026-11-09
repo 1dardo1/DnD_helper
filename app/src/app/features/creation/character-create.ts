@@ -85,18 +85,19 @@ import { Ability, ClassOption, DndClass, Feat, Feature, Item } from '../../core/
 import { proficientWith } from '../../core/rules/attacks';
 import { castingOf, computeSheet } from '../../core/rules/engine';
 import { FeatSource, listOfFeatName } from '../../core/rules/feat-effects';
-import { SKILL_ABILITY } from '../../core/rules/tables';
 import {
-  pickKey,
-  resolveTraitChoice,
-  traitChoiceFor,
-  traitChoiceKey,
-  traitPicks,
-  translatedOptions,
-  validPicks,
-} from '../../core/rules/trait-choices';
+  SpeciesPick,
+  SpeciesTraitView,
+  hadValues,
+  speciesAbility,
+  speciesAbilityKey,
+  speciesAbilityNeeded,
+  speciesTraits,
+} from '../../core/rules/species-picks';
+import { traitChoiceFor, traitChoiceKey, translatedOptions } from '../../core/rules/trait-choices';
 import { FeatChoices } from '../../shared/feat-choices';
 import { TraitChoice, TraitChoiceItem } from '../../shared/trait-choice';
+import { PickOptionLabel, TraitPicks } from '../../shared/trait-picks';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import {
   BoughtItem,
@@ -154,6 +155,7 @@ type ClassEntry = Character['classes'][number];
     Picker,
     FeatChoices,
     TraitChoice,
+    TraitPicks,
     EntryCard,
     BackgroundEditor,
     HomebrewBadge,
@@ -365,44 +367,78 @@ export class CharacterCreate implements LeaveCheck {
     }
     return out;
   });
-  /**
-   * What the chosen species/variant traits (and the option of them picked) ask to pick inside them:
-   * skills, a damage type to resist. One selector per pick, stored in `choices.traitPicks`.
-   */
-  protected readonly speciesTraitPicks = computed(() => {
+  /** The species/variant traits as they apply to the draft, with what each asks to pick. */
+  private readonly speciesView = computed<SpeciesTraitView[]>(() => {
     const sp = this.species();
     if (!sp) return [];
-    const ch = this.draft().choices;
-    const out: {
-      key: string;
-      trait: string;
-      kind: 'skill' | 'resistance';
-      count: number;
-      from: string[];
-      picked: string[];
-    }[] = [];
-    const scan = (traits: Feature[], variantName: string | null) => {
-      for (const t of traits) {
-        const tk = traitChoiceKey(sp.id, variantName, t.name);
-        const text = resolveTraitChoice(t, tk, ch.traitChoices?.[tk]).text;
-        for (const pick of traitPicks(text)) {
-          const key = pickKey(tk, pick.kind);
-          out.push({
-            key,
-            trait: t.name,
-            kind: pick.kind,
-            count: pick.count,
-            from: pick.from ?? Object.keys(SKILL_ABILITY),
-            picked: validPicks(pick, ch.traitPicks?.[key]),
-          });
-        }
-      }
-    };
-    scan(sp.traits, null);
-    const variant = this.variants().find((v) => v.id === this.draft().species?.variant);
-    if (variant) scan(variant.traits, variant.name);
-    return out;
+    const variant = sp.variants.find((v) => v.name === this.draft().species?.variant && !v.reprint);
+    return speciesTraits(sp, variant, this.draft().choices, Math.max(1, this.totalLevel()));
   });
+  /**
+   * What the chosen species/variant traits (and the option of them picked) ask to pick inside them:
+   * skills, a damage type, tools, weapons, a cantrip, some named options. One selector per pick,
+   * stored in `choices.traitPicks`.
+   */
+  protected readonly speciesTraitPicks = computed(() => {
+    const sheet = this.sheet();
+    const sp = this.species();
+    const spells = this.draft().choices.spells;
+    return this.speciesView()
+      .filter((v) => !v.hidden)
+      .flatMap((v) =>
+        v.picks.map((p) => ({
+          pick: p,
+          had: sheet ? hadValues(sheet, p, this.weaponItems(), spells) : new Set<string>(),
+          labels: sp ? this.optionLabels(v, p) : {},
+        })),
+      );
+  });
+  /** The species' traits ask to choose INT, WIS or CHA as their spellcasting ability. */
+  protected readonly speciesAbilityNeeded = computed(() =>
+    speciesAbilityNeeded(this.speciesView()),
+  );
+  protected readonly speciesAbilityPicked = computed(() => {
+    const sp = this.species();
+    return sp ? speciesAbility(sp.id, this.draft().choices) : null;
+  });
+  protected readonly spellAbilities: Ability[] = ['INT', 'WIS', 'CHA'];
+  /** Simple and martial weapons (not magic ones), for "a weapon of your choice". */
+  private readonly weaponItems = computed(() =>
+    [...this.items.values()]
+      .filter((i) => !!i.weapon?.kind && !i.magic)
+      .sort((a, b) => a.name.localeCompare(b.name)),
+  );
+  protected readonly weaponNames = computed(() => this.weaponItems().map((i) => i.name));
+
+  /** The options of an 'option' pick in the language shown (the translated species, by position). */
+  private optionLabels(v: SpeciesTraitView, p: SpeciesPick): Record<string, PickOptionLabel> {
+    const sp = this.species();
+    if (!sp || !p.options || p.pick.kind !== 'option') return {};
+    const tr = this.dataText.entry('species', sp);
+    const list = v.variantName
+      ? (tr.variants?.[sp.variants.findIndex((x) => x.name === v.variantName)]?.traits ?? [])
+      : tr.traits;
+    const own = v.variantName
+      ? (sp.variants.find((x) => x.name === v.variantName)?.traits ?? [])
+      : sp.traits;
+    const at = own.indexOf(v.trait);
+    const shown = list[at];
+    if (!shown || shown === v.trait) return {};
+    const out: Record<string, PickOptionLabel> = {};
+    // the options are the traits that follow it (Duskling): their translated names and texts
+    const siblings = own.slice(at + 1).map((t) => t.name);
+    if (p.options.every((o) => siblings.includes(o.name))) {
+      p.options.forEach((o) => {
+        const t = list[own.findIndex((x) => x.name === o.name)];
+        if (t) out[o.name] = { label: t.name, text: t.description };
+      });
+      return out;
+    }
+    const other = translatedOptions(shown.description);
+    if (other.length === p.options.length)
+      p.options.forEach((o, i) => (out[o.name] = { label: other[i].name, text: other[i].text }));
+    return out;
+  }
   protected readonly skillChoice = computed(() => skillPicks(this.classList()));
   /** Weapon Mastery slots (Barbarian, Fighter, Paladin, Ranger, Rogue), 0 = no such class. */
   protected readonly masterySlots = computed(() => this.sheet()?.combat.masterySlots ?? 0);
@@ -994,15 +1030,17 @@ export class CharacterCreate implements LeaveCheck {
     });
   }
 
-  protected setTraitPick(key: string, value: string, on: boolean, count: number): void {
+  protected setTraitPick(key: string, values: string[]): void {
     this.patch((c) => {
-      const now = c.choices.traitPicks?.[key] ?? [];
-      const next = on
-        ? [...new Set([...now, value])].slice(-count)
-        : now.filter((v) => v !== value);
-      c.choices.traitPicks = { ...(c.choices.traitPicks ?? {}), [key]: next };
+      c.choices.traitPicks = { ...(c.choices.traitPicks ?? {}), [key]: values };
       return c;
     });
+  }
+
+  /** The spellcasting ability the species' traits ask to choose (INT, WIS or CHA). */
+  protected setSpeciesAbility(ability: string): void {
+    const sp = this.species();
+    if (sp) this.setTraitPick(speciesAbilityKey(sp.id), ability ? [ability] : []);
   }
 
   protected traitNames(traits: Feature[]): string {
