@@ -29,6 +29,13 @@ NODE_PATH=$(npm root -g) node .claude/skills/probar-ui/shot.js \
 Playwright y Chromium ya están instalados globalmente: **no** ejecutes `playwright install`.
 Mira las capturas con la herramienta de leer imágenes antes de decir que algo está bien.
 
+## Navegación "volver"
+
+`nav-e2e.js` (misma carpeta) recorre ida y vuelta asistente/subida de nivel/edición/hoja/crafteo/
+invocaciones/DM/búsqueda → compendio → "← volver" a 390x844 y 1280x800:
+`PORT=4300 SHOTS=<carpeta> NODE_PATH=$(npm root -g) node .claude/skills/probar-ui/nav-e2e.js`.
+Lógica: `core/navigation/` (pila de páginas visitadas) y `shared/back-link.ts` (el enlace "← volver").
+
 ## Reproducir lo que ve el usuario (lecciones aprendidas)
 
 - **Modo oscuro** (`--dark`): el usuario usa el tema oscuro; hay fallos que solo salen ahí.

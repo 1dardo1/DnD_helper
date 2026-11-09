@@ -1,5 +1,8 @@
 <p>
-  <a [routerLink]="['/compendium', entryType()]">← {{ 'type.' + entryType() | t }}</a>
+  <app-back-link
+    [fallback]="['/compendium', entryType()]"
+    [fallbackLabel]="'type.' + entryType() | t"
+  />
 </p>
 
 @if (entry.isLoading()) {
