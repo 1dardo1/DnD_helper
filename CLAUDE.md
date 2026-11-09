@@ -51,8 +51,29 @@ fijada en `.github/workflows/{pages,apk}.yml` y en `app/src/app/core/settings/se
 
 El usuario pide funciones y arreglos en lenguaje natural y suele querer que se deleguen a
 subagentes ("pon un agente..."). Patrón: subagente en worktree (`isolation: "worktree"`, en segundo
-plano) con un encargo autocontenido → al terminar, skill `fusionar-agente` → informe breve en
+plano, con `model` y `effort` elegidos según la tabla de abajo) con un encargo autocontenido → al
+terminar, skill `fusionar-agente` → informe breve en
 español (qué hace, qué no, qué falta) con capturas si hay UI.
+
+## Subagentes: modelo y esfuerzo (instrucción permanente del usuario)
+
+Al lanzar un subagente **elige siempre `model` y `effort` según la tarea**; no los dejes por
+defecto. El usuario lo pidió expresamente, así que aquí sí se puede fijar `effort`.
+
+| Tipo de tarea | `model` | `effort` |
+| --- | --- | --- |
+| Mecánica y acotada: textos es/en, renombrar, limpiar worktrees/ramas, retocar CSS, docs, borrar código muerto, una sola función con especificación exacta | `haiku` | `low` |
+| Función o arreglo normal con especificación clara: un selector, un panel, una fila de ataque, un contador, un bug reproducible en un área | `sonnet` | `medium` |
+| Trabajo que cruza varias zonas o exige criterio: auditoría de datos contra el motor (clases, subclases, especies, dotes), mecanismos generales (navegación, elecciones anidadas), fusiones con conflictos de lógica, bugs que ya fallaron un arreglo | `opus` | `high` |
+| Diseño o depuración muy difíciles: arquitectura nueva con migración de datos, un fallo que sigue sin explicarse tras dos intentos, cambios de modelo de personaje | `opus` (o `fable` si es lo más difícil) | `xhigh` |
+
+- `max` solo si el usuario lo pide. `fable` es lo más caro: no lo uses para trabajo rutinario.
+- Si una tarea mezcla piezas de dificultad distinta, **pártela en varios agentes** (lo fácil en
+  `sonnet`/`haiku`, lo difícil en `opus`) en vez de poner todo en el nivel más alto.
+- Verificación y fusión (`fusionar-agente`) las hago yo en la sesión principal, no en un agente.
+- Un agente que se quedó corto en un nivel se reanuda o se relanza **un nivel por encima**
+  (indícalo en el informe al usuario).
+- En el informe al usuario di qué modelo y esfuerzo usó cada agente y por qué, en una línea.
 
 ## Riesgos conocidos (revisar de vez en cuando)
 
