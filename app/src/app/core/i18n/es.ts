@@ -489,7 +489,7 @@ export const es: Record<keyof typeof en, string> = {
   'featchoice.ability': 'Característica de lanzamiento',
   'featchoice.list': 'Lista de conjuros',
   'featchoice.listFixed': 'Lista de conjuros: {list} (la del trasfondo).',
-  'featchoice.cantrip': 'Truco {n}',
+  'featchoice.pickListFirst': 'Elige primero la lista de conjuros.',
   'featchoice.spell': 'Conjuro de nivel {level}',
   'featchoice.skillOrTool': 'Habilidad o herramienta {n}',
   'featchoice.skill': 'Habilidad {n}',

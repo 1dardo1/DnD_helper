@@ -1,7 +1,7 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 
 import { RARE_LANGUAGES, STANDARD_LANGUAGES, TOOL_GROUPS } from '../core/creation/creation-rules';
-import { DataNamePipe, DataTextService } from '../core/i18n/data-text.service';
+import { DataTextService } from '../core/i18n/data-text.service';
 import { TermPipe } from '../core/i18n/glossary';
 import { TranslatePipe } from '../core/i18n/i18n.service';
 import { FeatChoice } from '../core/models/character';
@@ -14,8 +14,11 @@ import {
   featPicks,
   featRules,
   pickable,
+  togglePick,
 } from '../core/rules/feat-effects';
 import { SKILL_ABILITY } from '../core/rules/tables';
+import { ENTRY_FACETS } from './picker/entry-facets';
+import { Picker } from './picker/picker';
 
 /** Tools besides the artisan's tools, gaming sets and instruments that Skilled can pick. */
 const OTHER_TOOLS = [
@@ -34,7 +37,7 @@ const OTHER_TOOLS = [
  */
 @Component({
   selector: 'app-feat-choices',
-  imports: [TranslatePipe, TermPipe, DataNamePipe],
+  imports: [TranslatePipe, TermPipe, Picker],
   template: `
     @if (shown()) {
       <fieldset class="feat-choices" [attr.data-testid]="'feat-choices-' + source().key">
@@ -74,38 +77,41 @@ const OTHER_TOOLS = [
           <p class="hint">{{ 'featchoice.listFixed' | t: { list: listLabel(l) } }}</p>
         }
 
-        @for (n of cantripSlots(); track n) {
-          <label>
-            {{ 'featchoice.cantrip' | t: { n: n + 1 } }}
-            <select
-              [value]="cv().cantrips?.[n] ?? ''"
-              (change)="setCantrip(n, text($event))"
-              [disabled]="listMissing()"
-              data-testid="feat-cantrip"
-            >
-              <option value="">—</option>
-              @for (s of cantripOptions(n); track s.id) {
-                <option [value]="s.id">{{ s.name | dataName: true }}</option>
-              }
-            </select>
-          </label>
+        @if (picks().cantrips; as cr) {
+          <div class="spell-pick" data-testid="feat-cantrips">
+            <h3 [class.issue]="cantripsPicked() > cr.count">
+              {{ 'sheet.cantrips' | t }} ({{ cantripsPicked() }} / {{ cr.count }})
+            </h3>
+            @if (listMissing()) {
+              <p class="hint">{{ 'featchoice.pickListFirst' | t }}</p>
+            } @else {
+              <app-picker
+                multiple
+                [items]="cantripOptions()"
+                [facets]="spellFacets"
+                [selected]="cv().cantrips ?? []"
+                [label]="'sheet.cantrips' | t"
+                (picked)="pickCantrip($event.id, $event.on)"
+              />
+            }
+          </div>
         }
 
         @if (picks().spell; as sp) {
-          <label>
-            {{ 'featchoice.spell' | t: { level: sp.level } }}
-            <select
-              [value]="cv().spell ?? ''"
-              (change)="set({ spell: text($event) || undefined })"
-              [disabled]="listMissing()"
-              data-testid="feat-spell"
-            >
-              <option value="">—</option>
-              @for (s of spellOptions(); track s.id) {
-                <option [value]="s.id">{{ s.name | dataName: true }}</option>
-              }
-            </select>
-          </label>
+          <div class="spell-pick" data-testid="feat-spell">
+            <h3>{{ 'featchoice.spell' | t: { level: sp.level } }}</h3>
+            @if (listMissing()) {
+              <p class="hint">{{ 'featchoice.pickListFirst' | t }}</p>
+            } @else {
+              <app-picker
+                [items]="spellOptions()"
+                [facets]="spellFacets"
+                [selected]="cv().spell ? [cv().spell!] : []"
+                [label]="'featchoice.spell' | t: { level: sp.level }"
+                (picked)="set({ spell: $event.id })"
+              />
+            }
+          </div>
         }
 
         @for (n of skillOrToolSlots(); track n) {
@@ -205,6 +211,13 @@ const OTHER_TOOLS = [
       display: grid;
       gap: 0.2rem;
     }
+    .spell-pick {
+      display: grid;
+      gap: var(--space-2);
+    }
+    .spell-pick h3 {
+      margin: 0;
+    }
   `,
 })
 export class FeatChoices {
@@ -219,6 +232,9 @@ export class FeatChoices {
   protected readonly skills = Object.keys(SKILL_ABILITY);
   protected readonly languages = [...STANDARD_LANGUAGES, ...RARE_LANGUAGES];
   protected readonly allTools = [...Object.values(TOOL_GROUPS).flat(), ...OTHER_TOOLS];
+
+  /** Spell facets for a pick: the list and the level are already fixed by the feat. */
+  protected readonly spellFacets = ENTRY_FACETS.spell.filter((k) => k !== 'class' && k !== 'level');
 
   protected readonly picks = computed(() => featPicks(this.source().feat));
   protected readonly featName = computed(() => this.dataText.shortName(this.source().feat.name));
@@ -247,9 +263,6 @@ export class FeatChoices {
     return this.dataText.shortName(id[0].toUpperCase() + id.slice(1));
   }
 
-  protected cantripSlots(): number[] {
-    return range(this.picks().cantrips?.count ?? 0);
-  }
   protected skillOrToolSlots(): number[] {
     return range(this.picks().skillsOrTools ?? 0);
   }
@@ -267,19 +280,25 @@ export class FeatChoices {
     return group ? (TOOL_GROUPS[group] ?? []) : [];
   }
 
-  protected cantripOptions(n: number): Spell[] {
+  protected readonly cantripsPicked = computed(() => this.choice()?.cantrips?.length ?? 0);
+
+  protected cantripOptions(): Spell[] {
     const rule = this.picks().cantrips;
     if (!rule || this.listMissing()) return [];
-    const taken = (this.choice()?.cantrips ?? []).filter((_, i) => i !== n);
-    return (pickable(this.spells(), rule, this.list()) as Spell[]).filter(
-      (s) => !taken.includes(s.id),
-    );
+    return pickable(this.spells(), rule, this.list()) as Spell[];
   }
 
   protected spellOptions(): Spell[] {
     const rule = this.picks().spell;
     if (!rule || this.listMissing()) return [];
     return pickable(this.spells(), rule, this.list()) as Spell[];
+  }
+
+  /** Ticks or unticks a cantrip; a pick beyond the feat's count is ignored. */
+  protected pickCantrip(id: string, on: boolean): void {
+    const rule = this.picks().cantrips;
+    if (!rule) return;
+    this.set({ cantrips: togglePick(this.choice()?.cantrips ?? [], id, on, rule.count) });
   }
 
   // -- Skilled: skills and tools in one list ------------------------------------------------
@@ -320,12 +339,6 @@ export class FeatChoices {
   protected setList(list: string): void {
     // the spells picked from another list no longer apply
     this.set({ list: list || undefined, cantrips: [], spell: undefined });
-  }
-
-  protected setCantrip(n: number, id: string): void {
-    const cantrips = [...(this.choice()?.cantrips ?? [])];
-    cantrips[n] = id;
-    this.set({ cantrips: cantrips.filter(Boolean) });
   }
 
   protected setList2(field: 'skills' | 'tools' | 'languages', n: number, value: string): void {

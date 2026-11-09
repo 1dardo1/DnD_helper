@@ -484,7 +484,7 @@ export const en = {
   'featchoice.ability': 'Spellcasting ability',
   'featchoice.list': 'Spell list',
   'featchoice.listFixed': 'Spell list: {list} (from the background).',
-  'featchoice.cantrip': 'Cantrip {n}',
+  'featchoice.pickListFirst': 'Pick the spell list first.',
   'featchoice.spell': 'Level {level} spell',
   'featchoice.skillOrTool': 'Skill or tool {n}',
   'featchoice.skill': 'Skill {n}',
