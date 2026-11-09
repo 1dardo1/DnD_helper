@@ -38,12 +38,17 @@ pida; para eso está el workflow `scrape.yml`.
 | Ganancias de multiclase | `multiclass.yaml` |
 | Planos del Artífice | `dndscraper/plans.py` (`python3 -m dndscraper.plans` offline) |
 | Variante de especie: elección real vs. reimpresión | `dndscraper/species.py` (`reprint`; `PLAYABLE_PRINTINGS` para reimpresiones jugables como el Goblin de Zendikar) |
-| Elecciones dentro de un rasgo (Gnomish Lineage, Tribe...) | No es dato: `app/src/app/core/rules/trait-choices.ts` (`TRAIT_CHOICE_KEYS`) |
+| Elecciones dentro de un rasgo (Gnomish Lineage, Tribe...) | No es dato: se detectan en el texto, `app/src/app/core/rules/trait-choices.ts` |
 
 Tras tocar `names.es.yaml` o `fixes.es.yaml`: `translate --offline` y revisa el `git diff` de
 `data/es/` (que cambie solo lo esperado).
 
 ## Comprobaciones antes de commit
+
+- **Caché de los dispositivos**: la app solo vuelve a bajar `data/*.json` si cambia `generatedAt` o
+  `translatedAt` de `data/meta.json`. Todo cambio de datos debe actualizar `translatedAt` (si no,
+  el usuario sigue viendo los datos viejos: así falló el arreglo del Goblin de Zendikar). `verify.sh`
+  lo comprueba.
 
 - `validate` en verde y `git diff --stat data/` razonable (si cambian miles de líneas sin motivo,
   algo se regeneró de más).

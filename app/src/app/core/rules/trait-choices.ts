@@ -1,5 +1,6 @@
 import { Feature } from '../models/compendium';
 import { slug } from './feat-effects';
+import { SKILL_ABILITY } from './tables';
 import { joinBroken } from './trait-effects';
 
 /**
@@ -21,7 +22,12 @@ export interface TraitChoiceSplit {
   options: TraitOption[];
 }
 
-const CHOOSE = /Choose one of (?:these|the following)\b/i;
+const CHOOSE = /Choose one of (?:these|the following)\b|one of the following options\b/i;
+/** A pick made anew at every rest or use: not a choice of the character sheet. */
+const RECHOOSE = /\beach time\b|\buntil you choose a different\b/i;
+/** A skill / damage type picked again after a rest (Kalashtar, Astral Trance), not once. */
+const REPICK =
+  /\beach time\b|\bwhenever you finish\b|\bwhen you finish a (?:long|short) rest\b|\buntil you choose a different\b/i;
 
 /** "**Forest Gnome.** text" / "***Skill Versatility (General).*** text" → { name, rest }. */
 function boldHead(line: string): { name: string; rest: string } | null {
@@ -35,7 +41,9 @@ function parseBulletItem(lines: string[]): TraitOption {
   const head = clean.length ? boldHead(clean[0]) : null;
   if (head)
     return { name: head.name, text: [head.rest, ...clean.slice(1)].filter(Boolean).join('\n') };
-  return { name: (clean[0] ?? '').replace(/\.$/, '').trim(), text: clean.slice(1).join('\n') };
+  // a bare sentence ("- Proficiency in one skill of your choice."): it is the option's own text too
+  const name = (clean[0] ?? '').replace(/\.$/, '').trim();
+  return { name, text: clean.length > 1 ? clean.slice(1).join('\n') : (clean[0] ?? '') };
 }
 
 /**
@@ -47,8 +55,25 @@ function parseBulletItem(lines: string[]): TraitOption {
  */
 export function traitChoice(description: string | null | undefined): TraitChoiceSplit | null {
   const text = joinBroken(description ?? '').replace(/\r\n/g, '\n');
-  if (!CHOOSE.test(text)) return null;
+  const found = CHOOSE.exec(text);
+  if (!found) return null;
+  // the line that asks for the pick says it's made again every rest / use: leave it as text
+  const lineStart = text.lastIndexOf('\n', found.index) + 1;
+  const lineEnd = text.indexOf('\n', found.index);
+  if (RECHOOSE.test(text.slice(lineStart, lineEnd < 0 ? undefined : lineEnd))) return null;
+  return splitOptions(text);
+}
 
+/**
+ * The options of a trait's text in another language (the Spanish translation, which doesn't
+ * say "Choose one of the following" in English words): same split, no gate. The wizard pairs these
+ * with the English options by position to show them translated.
+ */
+export function translatedOptions(description: string | null | undefined): TraitOption[] {
+  return splitOptions(joinBroken(description ?? '').replace(/\r\n/g, '\n'))?.options ?? [];
+}
+
+function splitOptions(text: string): TraitChoiceSplit | null {
   // bullet-list style: "- Name\n  - flavor\n  - **Benefit.** text" or flat "- **Name.** text"
   const lines = text.split('\n');
   const start = lines.findIndex((l) => /^-\s*\S/.test(l));
@@ -83,17 +108,6 @@ export function traitChoice(description: string | null | undefined): TraitChoice
   return null;
 }
 
-/**
- * Species traits confirmed to embed a genuine, one-time creation choice: checked explicitly so a
- * trait whose text merely contains "choose" (a play-time reselect, or a pick made anew each time
- * it's used) is never affected. Key: "<speciesId>[:<variant name slug>]:<trait name slug>".
- */
-const TRAIT_CHOICE_KEYS = new Set([
-  'gnome:gnomish-lineage',
-  'goblin:goblin-plane-shift-zendikar:tribe',
-  'goliath:giant-ancestry',
-]);
-
 /** The key under which a species/variant trait's choice is stored and looked up. */
 export function traitChoiceKey(
   speciesId: string,
@@ -109,23 +123,23 @@ export function traitChoiceKey(
 export interface ResolvedTrait {
   /** The text to show and to read for spells/skills/resistances/uses (engine.ts, the sheet). */
   text: string;
-  /** Present only when this trait is on the allowlist and its text does split into options. */
+  /** Present only when the trait's text splits into options to choose one of. */
   split: TraitChoiceSplit | null;
-  /** True when the trait has options (on the allowlist) but none is chosen yet. */
+  /** True when the trait has options but none is chosen yet. */
   missing: boolean;
 }
 
 /**
- * The split for this trait, only when `key` is on the allowlist and the text does have options —
- * what the wizard's selector checks to decide whether to show itself for a given trait.
+ * The split for this trait when its text has options to choose one of; the text alone decides
+ * (`_key` is kept for callers that have it). What the wizard's selector checks to show itself.
  */
-export function traitChoiceFor(t: Feature, key: string): TraitChoiceSplit | null {
-  return TRAIT_CHOICE_KEYS.has(key) ? traitChoice(t.description) : null;
+export function traitChoiceFor(t: Feature, _key?: string): TraitChoiceSplit | null {
+  return traitChoice(t.description);
 }
 
 /**
  * Resolves one species/variant trait against the character's stored pick for it (by `key`, from
- * `traitChoiceKey`). Unchanged when the trait isn't on the allowlist, or its text has no options;
+ * `traitChoiceKey`). Unchanged when its text has no options;
  * otherwise the shared text plus only the chosen option's — or, with nothing chosen, the shared
  * text alone, `missing: true`, so none of the options' spells/skills/resistances/uses apply.
  */
@@ -139,4 +153,69 @@ export function resolveTraitChoice(
   const option = split.options.find((o) => o.name === chosen);
   const text = [split.preamble, option?.text, split.tail].filter(Boolean).join('\n\n');
   return { text, split, missing: !option };
+}
+
+/**
+ * Something the player picks inside a trait (or inside the option of it that was chosen): which
+ * skills ("one of the following skills of your choice: ..."), or which damage type to resist.
+ * `from` is the closed list the text names, null when any is allowed. Picks made anew at every
+ * rest or use are not picks of the character sheet and aren't returned.
+ */
+export interface TraitPick {
+  kind: 'skill' | 'resistance';
+  count: number;
+  /** Skill ids (kind 'skill') or damage type names (kind 'resistance'); null = any skill. */
+  from: string[] | null;
+}
+
+const NUMBER_WORDS: Record<string, number> = { one: 1, two: 2, three: 3 };
+const SKILL_IDS = new Set(Object.keys(SKILL_ABILITY));
+
+function skillList(list: string): string[] {
+  return list
+    .split(/,|\bor\b|\band\b/)
+    .map((w) => w.trim().replace(/\.$/, '').toLowerCase().replace(/\s+/g, '-'))
+    .filter((id) => SKILL_IDS.has(id));
+}
+
+/** The picks a trait's (already option-resolved) text asks the player for. */
+export function traitPicks(description: string | null | undefined): TraitPick[] {
+  const text = joinBroken(description ?? '').replace(/\r\n/g, '\n');
+  const out: TraitPick[] = [];
+  for (const sentence of text.split(/(?<=\.)\s+|\n+/)) {
+    if (REPICK.test(sentence) || /\btools?\b|\bweapon/i.test(sentence)) continue;
+    const sk =
+      /\b(one|two|three)\s+(?:of the following\s+)?skills?\b(?:\s+proficienc\w+)?[^.:]*?\bof your choice\b(?::\s*(.+))?/i.exec(
+        sentence,
+      );
+    if (sk) {
+      const from = sk[2] ? skillList(sk[2]) : [];
+      out.push({
+        kind: 'skill',
+        count: NUMBER_WORDS[sk[1].toLowerCase()],
+        from: from.length ? from : null,
+      });
+      continue;
+    }
+    const res = /Resistance to one of the following damage types of your choice:\s*(.+?)\.?$/i.exec(
+      sentence,
+    );
+    if (res) {
+      const from = res[1]
+        .split(/,|\bor\b/)
+        .map((w) => w.trim())
+        .filter(Boolean);
+      if (from.length) out.push({ kind: 'resistance', count: 1, from });
+    }
+  }
+  return out;
+}
+
+/** Where the picks of one kind inside a trait are stored (`choices.traitPicks`). */
+export const pickKey = (traitKey: string, kind: TraitPick['kind']): string => `${traitKey}#${kind}`;
+
+/** The picks the player made that are valid for `pick` (from the allowed list, no more than asked). */
+export function validPicks(pick: TraitPick, stored: string[] | undefined): string[] {
+  const ok = (stored ?? []).filter((v) => !pick.from || pick.from.includes(v));
+  return [...new Set(ok)].slice(0, pick.count);
 }

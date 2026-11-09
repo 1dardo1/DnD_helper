@@ -23,7 +23,8 @@ partir del personaje guardado (elecciones) y el compendio (`data/*.json`). La UI
 | Efectos leídos del texto de **dotes** (conjuros concedidos, usos, velocidad, PG, CA, competencias) | `rules/feat-effects.ts` (`featRules`) |
 | Elecciones que pide una dote (habilidad A o B, característica, lista de conjuros, resistencia) | `FEAT_PICKS` en `feat-effects.ts` + UI genérica `shared/feat-choices.ts` + `character.choices.featChoices` |
 | Efectos incondicionales de **rasgos** (sentidos, resistencias, velocidades, iniciativa, CA sin armadura, estilos de combate) | `rules/trait-effects.ts` |
-| Rasgo de especie con "elige una de estas opciones" en el texto | `rules/trait-choices.ts` (`TRAIT_CHOICE_KEYS`) + `shared/trait-choice.ts` + `choices.traitChoices` |
+| Rasgo de especie con "elige una de estas opciones" en el texto | Se detecta solo por el texto (`traitChoice()` en `rules/trait-choices.ts`; no hay lista fija; lo que se re-elige "each time" queda como texto) + `shared/trait-choice.ts` + `choices.traitChoices` |
+| Habilidades / tipo de daño "of your choice" dentro de un rasgo de especie (o de la opción elegida) | `traitPicks()` en `rules/trait-choices.ts` + `choices.traitPicks` (clave `pickKey`); selector en el paso Especie |
 | Variante de especie (sub-raza real vs. reimpresión) | `chosenVariant()` en `engine.ts`; dato `reprint` (skill `datos`) |
 | Filas de ataque (armas, golpe sin armas, armas sintéticas como Psychic Blade), notas de combate | `rules/attacks.ts`; flags en `combatOf()` de `engine.ts` y `CombatInfo` en `rules/sheet.ts` |
 | Maestría de armas | `weaponMasterySlots()` / `masteryChosen` en `engine.ts`; `choices.weaponMasteries` |

@@ -91,9 +91,10 @@ defecto. El usuario lo pidió expresamente, así que aquí sí se puede fijar `e
    `validate` lo detecta. Los datos actuales siguen valiendo.
 6. **Cuota de Cloudflare** (~170 imágenes/día): los 331 monstruos tardan 2 días; la ejecución
    diaria programada lo continúa sola.
-7. **Elecciones dentro de rasgos sin resolver** (texto que pide elegir pero sin selector): Half-Elf
-   Versatility, Kobold Legacy, Merfolk Creeds (sub-elecciones anidadas), Boon of Energy Resistance
-   y Planar Wanderer (varias resistencias cambiables en descanso). Ver `trait-choices.ts`.
+7. **Elecciones dentro de rasgos sin resolver**: truco/idioma/herramienta "of your choice" dentro de
+   rasgos de especie (Half-Elf Cantrip, Kobold Draconic Sorcery, Astral Elf, herramientas), Boon of
+   Energy Resistance y Planar Wanderer (varias resistencias cambiables en descanso). Las de opción
+   (X o Y) y las de habilidad/tipo de daño sí están (`trait-choices.ts`).
 8. **Cambios de modelo de personaje**: `schemaVersion: 1`; todo campo nuevo debe ser opcional y
    normalizarse en `normalizeCharacter` (personajes viejos en GitHub y en dispositivos).
 9. **Extracción completa del scraper**: si alguien lanza `scrape.yml`, regenera `data/`. Todo lo

@@ -202,6 +202,7 @@ export const es: Record<keyof typeof en, string> = {
   'sheet.warn.armorBase':
     'Armadura mágica «{name}»: elige qué armadura es en el inventario para calcular la CA.',
   'sheet.warn.traitChoiceMissing': '{trait}: falta elegir una opción.',
+  'sheet.warn.traitPickMissing': '{trait}: falta elegir lo que pide (habilidades, tipo de daño).',
   'sheet.warn.weaponMastery': 'Maestría de armas: elige a qué tipos de arma se aplica.',
   // -- magic weapons and armor with a base chosen by the player ------------------------
   'gear.base': 'Base',
@@ -398,6 +399,9 @@ export const es: Record<keyof typeof en, string> = {
   'create.missing.species': 'Elige una especie.',
   'create.missing.variant': 'Elige el linaje o variante.',
   'create.missing.traitChoice': 'Elige una opción de {trait}.',
+  'create.missing.traitPick': '{trait}: elige las habilidades o el tipo de daño que pide.',
+  'create.traitPick.skill': '{trait}: elige {count} habilidad(es)',
+  'create.traitPick.resistance': '{trait}: elige un tipo de daño al que resistir',
   'create.missing.abilities': 'Asigna las puntuaciones de característica.',
   'create.missing.pointBuy': 'Has gastado más de 27 puntos.',
   'create.missing.skills': 'Elige {count} habilidad(es) de clase más.',

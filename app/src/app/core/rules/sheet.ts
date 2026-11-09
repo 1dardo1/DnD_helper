@@ -177,6 +177,7 @@ export interface SheetWarning {
     | 'sheet.warn.twoPacts'
     | 'sheet.warn.armorBase'
     | 'sheet.warn.traitChoiceMissing'
+    | 'sheet.warn.traitPickMissing'
     | 'sheet.warn.weaponMastery';
   params?: Record<string, string>;
 }
