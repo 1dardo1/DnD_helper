@@ -26,6 +26,7 @@ import {
   listOfFeatName,
 } from './feat-effects';
 import { multiclassGains } from './multiclass';
+import { featureNumbers } from './feature-stats';
 import { poolFor } from './pools';
 import { proficientWith } from './attacks';
 import { resolveTraitChoice, traitChoiceKey } from './trait-choices';
@@ -456,6 +457,12 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     profs.weapons,
     data.items,
     ch.choices.weaponMasteries ?? [],
+    {
+      features,
+      pb,
+      spellDc: (classId) => spellClasses.find((x) => x.classId === classId)?.saveDc ?? null,
+      spells: new Set([...(ch.choices.spells ?? []), ...granted.spells.map((x) => x.id)]),
+    },
   );
   if (combat.masterySlots > 0 && combat.masteryChosen.length < combat.masterySlots)
     warnings.push({ key: 'sheet.warn.weaponMastery' });
@@ -1107,6 +1114,13 @@ function combatOf(
   weaponProficiencies: string[],
   items: Map<string, Item>,
   weaponMasteryChoices: string[],
+  extra: {
+    features: SheetFeature[];
+    pb: number;
+    spellDc: (classId: string) => number | null;
+    /** Ids of the spells the character has chosen or is given. */
+    spells: Set<string>;
+  },
 ): Sheet['combat'] {
   const col = (cls: DndClass, level: number, name: string) =>
     cls.progression.rows[level - 1]?.values[name] ?? '';
@@ -1132,15 +1146,19 @@ function combatOf(
     masteryChosen,
     psychicBlades: !!soulknife && soulknife.level >= 3,
     soulBlades: !!soulknife && soulknife.level >= 9,
+    critRange: critRangeOf(extra.features),
     notes: [],
+    stats: [],
   };
   for (const { t } of traits) {
     const id = t.kind === 'feat' ? COMBAT_NOTES[t.name] : undefined;
     if (id) combat.notes.push({ id, source: t.name });
   }
   const barb = classes.find((c) => c.cls.id === 'barbarian');
+  let rageDamage = 0;
   if (barb) {
     const dmg = col(barb.cls, barb.level, 'Rage Damage');
+    rageDamage = parseInt(dmg, 10) || 0;
     if (dmg) combat.notes.push({ id: 'rage', source: 'Rage', params: { n: dmg } });
   }
   const rogue = classes.find((c) => c.cls.id === 'rogue');
@@ -1155,5 +1173,34 @@ function combatOf(
         source: opt.name,
         params: { n: Math.max(0, abilities.CHA.modifier) },
       });
+  // damage on top of a hit, healing, temporary hit points, bonuses and DCs of class features
+  const numbers = featureNumbers({
+    classes: classes.map((c) => ({ id: c.cls.id, level: c.level, subclassId: c.sub?.id ?? null })),
+    features: extra.features,
+    pb: extra.pb,
+    abilities,
+    martialArts: combat.martialArts,
+    rageDamage,
+    spellDc: extra.spellDc,
+  });
+  combat.notes.push(...numbers.notes);
+  combat.stats.push(...numbers.stats);
+  // spells that add damage to every hit (Hex), when the character has them
+  if (extra.spells.has('hex')) combat.notes.push({ id: 'hex', source: 'Hex' });
   return combat;
+}
+
+/**
+ * The d20 roll from which attacks score a critical hit: "Your attack rolls with weapons and
+ * Unarmed Strikes can score a Critical Hit on a roll of 19 or 20" (Improved Critical) or "18-20"
+ * (Superior Critical). The lowest the sheet's features give.
+ */
+export function critRangeOf(features: Pick<SheetFeature, 'name' | 'description'>[]): number {
+  let range = 20;
+  for (const f of features) {
+    if (f.name !== 'Improved Critical' && f.name !== 'Superior Critical') continue;
+    const m = /Critical Hit on a roll of (\d+)(?: or |-)20/i.exec(f.description);
+    if (m) range = Math.min(range, Number(m[1]));
+  }
+  return range;
 }

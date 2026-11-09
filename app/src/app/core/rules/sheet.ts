@@ -1,4 +1,5 @@
 import { Ability } from '../models/compendium';
+import type { FeatureNote } from './feature-stats';
 
 /** Everything the character sheet shows, computed from a Character and the compendium. */
 export interface Sheet {
@@ -108,8 +109,15 @@ export interface CombatInfo {
    * chosen yet, even if masterySlots > 0 — attacksFor then shows no mastery on any weapon.
    */
   masteryChosen: string[];
-  /** Reminders of effects that need a roll or a choice: id of a UI text and its parameters. */
-  notes: { id: string; source: string; params?: Record<string, string | number> }[];
+  /**
+   * Reminders of effects that go on top of an attack or need a roll or a choice (Rage damage,
+   * Sneak Attack dice, Hunter's Mark...): id of a UI text (combat.note.<id>) and its parameters.
+   */
+  notes: FeatureNote[];
+  /** Healing, temporary hit points, bonuses and save DCs of the features (combat.stat.<id>). */
+  stats: FeatureNote[];
+  /** Attack rolls score a critical hit from this number (Champion: 19, 18); 20 = normal. */
+  critRange: number;
 }
 
 export interface SheetFeatSpell {

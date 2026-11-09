@@ -89,6 +89,25 @@
       </ul>
     }
 
+    @if (sheet().combat.stats.length) {
+      <details class="fold" data-testid="combat-stats">
+        <summary>
+          <h3>{{ 'sheet.featureNumbers' | t: { n: sheet().combat.stats.length } }}</h3>
+        </summary>
+        <ul class="combat-notes">
+          @for (n of sheet().combat.stats; track n.id + n.source) {
+            <li>
+              <strong>{{ n.source | dataName }}:</strong>
+              {{ 'combat.stat.' + n.id | t: n.params }}
+              @if (n.ability) {
+                <small>({{ 'abbr.' + n.ability | t }})</small>
+              }
+            </li>
+          }
+        </ul>
+      </details>
+    }
+
     @if (masterySlots()) {
       <div class="mastery-panel" data-testid="mastery-panel">
         @let editing = masteryEditing();

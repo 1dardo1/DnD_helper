@@ -202,7 +202,24 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
     notes,
   });
   out.push(...psychicBladesFor(sheet, weapons));
+  addRowNotes(sheet, out);
   return out;
+}
+
+/**
+ * Notes that go on every attack line: the critical hit range of the Champion, and the extra
+ * Radiant damage of the Paladin's Radiant Strikes on Melee weapons and Unarmed Strikes.
+ */
+function addRowNotes(sheet: Sheet, rows: Attack[]): void {
+  const combat = sheet.combat;
+  if (!combat) return;
+  const radiant = !!combat.notes?.some((n) => n.id === 'radiantStrikes');
+  for (const a of rows) {
+    if (combat.critRange && combat.critRange < 20)
+      a.notes.push({ id: 'crit', params: { n: combat.critRange } });
+    // a Melee weapon or an Unarmed Strike (they have a reach), not a ranged weapon
+    if (radiant && a.reach !== null) a.notes.push({ id: 'radiantStrikesRow' });
+  }
 }
 
 /**
