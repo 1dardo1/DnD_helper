@@ -1,4 +1,13 @@
-import { Component, computed, inject, input, resource, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  resource,
+  signal,
+  untracked,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { CharacterStore } from '../../core/characters/character-store.service';
@@ -57,6 +66,13 @@ import { computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { Sheet } from '../../core/rules/sheet';
 import { PLAN_GROUP, plansReplaced, plansTaken } from '../../core/artificer/plans';
+import {
+  clearLevelUp,
+  readLevelUp,
+  sessionMemory,
+  writeLevelUp,
+} from '../../core/creation/wizard-memory';
+import { BackLink } from '../../shared/back-link';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { OptionRow } from '../../shared/option-row';
 import { PlanChooser } from '../../shared/plan-chooser';
@@ -75,6 +91,7 @@ type Step = 'class' | 'hp' | 'subclass' | 'feats' | 'choices' | 'summary';
   selector: 'app-level-up',
   imports: [
     RouterLink,
+    BackLink,
     TranslatePipe,
     TermPipe,
     DataNamePipe,
@@ -108,6 +125,45 @@ export class LevelUp {
   protected readonly hpMode = signal<'average' | 'roll'>('average');
   protected readonly spellFacets = ENTRY_FACETS.spell.filter((k) => k !== 'class');
   protected readonly saving = signal(false);
+
+  /** The character the level up in progress was restored for (once its data is loaded). */
+  private restoredFor: string | null = null;
+  private saved = false;
+
+  constructor() {
+    // Opening an entry of the compendium rebuilds this page: take up the level up where it was.
+    effect(() => {
+      const original = this.data.value()?.original;
+      if (!original || this.restoredFor === original.id) return;
+      this.restoredFor = original.id;
+      const m = readLevelUp(sessionMemory(), original.id, original.updatedAt ?? '');
+      if (!m) return;
+      untracked(() => {
+        this.classId.set(m.classId);
+        this.hpMode.set(m.hpMode);
+        this.draft.set(m.draft);
+        this.step.set(m.step as Step);
+      });
+    });
+    effect(() => {
+      const original = this.data.value()?.original;
+      const draft = this.draft();
+      const classId = this.classId();
+      const step = this.step();
+      const hpMode = this.hpMode();
+      // before the restore ran (restoredFor not set yet) an empty draft must not erase it
+      if (!original || this.saved || this.restoredFor !== original.id) return;
+      if (draft && classId) {
+        writeLevelUp(sessionMemory(), original.id, {
+          classId,
+          step,
+          hpMode,
+          draft,
+          base: original.updatedAt ?? '',
+        });
+      } else clearLevelUp(sessionMemory(), original.id);
+    });
+  }
 
   /** Changes when the character shows up (a first visit can arrive before the pull brings it). */
   private readonly present = computed(() =>
@@ -638,6 +694,8 @@ export class LevelUp {
         this.hpGained(),
       );
       await this.sync.save(saved);
+      this.saved = true;
+      clearLevelUp(sessionMemory(), saved.id);
       await this.router.navigate(['/characters', saved.id]);
     } finally {
       this.saving.set(false);

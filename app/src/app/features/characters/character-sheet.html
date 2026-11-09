@@ -163,6 +163,7 @@
       @for (tb of tabs(); track tb) {
         <a
           [routerLink]="tabLink(c.id, tb)"
+          replaceUrl
           [attr.data-tab]="tb"
           [class.active]="tab() === tb"
           [attr.aria-current]="tab() === tb ? 'page' : null"
@@ -292,7 +293,11 @@
               <div class="section-head">
                 <h2>{{ 'sheet.classFeatures' | t }}</h2>
                 @if (featureSummons(); as n) {
-                  <a class="btn summons-link" [routerLink]="tabLink(c.id, 'invocaciones')">
+                  <a
+                    class="btn summons-link"
+                    [routerLink]="tabLink(c.id, 'invocaciones')"
+                    replaceUrl
+                  >
                     ✦ {{ 'summons.button' | t: { n } }}
                   </a>
                 }
@@ -360,7 +365,11 @@
               <div class="section-head">
                 <h2>{{ 'sheet.spellcasting' | t }}</h2>
                 @if (spellSummons(); as n) {
-                  <a class="btn summons-link" [routerLink]="tabLink(c.id, 'invocaciones')">
+                  <a
+                    class="btn summons-link"
+                    [routerLink]="tabLink(c.id, 'invocaciones')"
+                    replaceUrl
+                  >
                     ✦ {{ 'summons.button' | t: { n } }}
                   </a>
                 }

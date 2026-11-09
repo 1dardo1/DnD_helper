@@ -1,5 +1,5 @@
 <p>
-  <a class="back-link" [routerLink]="['/characters', id()]">← {{ 'common.back' | t }}</a>
+  <app-back-link [fallback]="['/characters', id()]" [fallbackLabel]="'common.back' | t" />
 </p>
 
 @if (data.isLoading()) {

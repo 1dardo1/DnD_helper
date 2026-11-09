@@ -61,6 +61,7 @@ import {
   sameContent,
   writeEditDraft,
 } from '../../core/creation/edit-draft';
+import { clearStep, readStep, sessionMemory, writeStep } from '../../core/creation/wizard-memory';
 import {
   dropClassSpells,
   sharedCount,
@@ -467,12 +468,20 @@ export class CharacterCreate implements LeaveCheck {
       if (this.loadedFor === key) return;
       this.loadedFor = key;
       if (id) {
-        void this.store
-          .get(id)
-          .then((r) => r && this.loadForEdit(normalizeCharacter(r.character)!));
+        void this.store.get(id).then((r) => {
+          if (!r) return;
+          this.loadForEdit(normalizeCharacter(r.character)!);
+          this.restoreStep(id);
+        });
       } else {
         this.draft.set(loadDraft() ?? this.blank());
+        this.restoreStep('new');
       }
+    });
+    // The step stays when the page is rebuilt: coming back from an entry of the compendium.
+    effect(() => {
+      const step = this.step();
+      if (this.stepScope) writeStep(sessionMemory(), this.stepScope, step);
     });
     // Keep the draft of a new character in this browser until it's saved.
     effect(() => {
@@ -491,6 +500,15 @@ export class CharacterCreate implements LeaveCheck {
         this.unpersisted.set(!writeEditDraft(browserStorage(), { character: draft, base }));
       }
     });
+  }
+
+  private stepScope: string | null = null;
+
+  /** Back from the compendium (or a reload): the step that was open. */
+  private restoreStep(scope: string): void {
+    const step = readStep(sessionMemory(), scope, STEPS);
+    if (step) this.step.set(step);
+    this.stepScope = scope;
   }
 
   /** Editing: shows the saved character, or the unsaved changes left from a previous visit. */
@@ -1325,6 +1343,8 @@ export class CharacterCreate implements LeaveCheck {
       this.editBase.set(this.draft());
       removeEditDraft(browserStorage(), ch.id);
     } else clearDraft();
+    clearStep(sessionMemory(), this.stepScope ?? 'new');
+    this.stepScope = null;
     await this.router.navigate(['/characters', ch.id]);
   }
 

@@ -9,6 +9,7 @@ import { SyncService } from './core/characters/sync.service';
 import { RepositoryService } from './core/data/repository.service';
 import { DevUpdateService } from './core/dev/dev-update.service';
 import { AppUpdateService } from './core/pwa/app-update.service';
+import { NavHistory } from './core/navigation/nav-history.service';
 import { I18nService, TranslatePipe } from './core/i18n/i18n.service';
 import { Language, SettingsService } from './core/settings/settings.service';
 import { ApkUpdateNotice } from './shared/apk-update-notice';
@@ -49,6 +50,7 @@ export class App {
 
   constructor() {
     effect(() => (document.documentElement.lang = this.language()));
+    inject(NavHistory); // starts recording the pages visited, for the "back" links
     void this.store.load();
     this.sync.start(inject(DestroyRef));
     void inject(ApkUpdateService).start();
@@ -76,8 +78,7 @@ export class App {
         const samePage = next === path;
         path = next;
         if (e.position) {
-          const pos = e.position;
-          setTimeout(() => scroller.scrollToPosition(pos), 50);
+          restoreScroll(scroller, e.position);
         } else if (!samePage) scroller.scrollToPosition([0, 0]);
       });
   }
@@ -93,4 +94,18 @@ export class App {
   protected setLanguage(language: string): void {
     this.settings.update({ language: language as Language });
   }
+}
+
+/**
+ * Going back returns to the scroll position the page had. The page may still be loading its data
+ * (a long list, the character wizard), so it keeps trying until the page is tall enough.
+ */
+function restoreScroll(scroller: ViewportScroller, pos: [number, number]): void {
+  const started = Date.now();
+  const attempt = () => {
+    const reachable = document.documentElement.scrollHeight >= pos[1] + window.innerHeight - 2;
+    scroller.scrollToPosition(pos);
+    if (!reachable && Date.now() - started < 2000) setTimeout(attempt, 100);
+  };
+  setTimeout(attempt, 50);
 }

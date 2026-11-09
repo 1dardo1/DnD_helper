@@ -33,6 +33,7 @@ import { spellBinding } from '../../core/spell-items/spell-items';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { armorDex, prerequisitesText, slotsText, weaponProperty } from './entry-format';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
+import { BackLink } from '../../shared/back-link';
 import { CustomBackgroundPanel } from '../homebrew/custom-background-panel';
 import { AddSpellItem } from './add-spell-item';
 import { LoadError } from './load-error';
@@ -57,6 +58,7 @@ interface Printing {
   selector: 'app-entry-detail',
   imports: [
     RouterLink,
+    BackLink,
     NgTemplateOutlet,
     TranslatePipe,
     TermPipe,
