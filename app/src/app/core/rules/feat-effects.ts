@@ -42,6 +42,8 @@ export interface FeatSpellGrant {
   slots: boolean;
   /** How many free casts: one, the spellcasting modifier (Lich Ascension) or the Proficiency Bonus. */
   freeUses: 1 | 'mod' | 'pb';
+  /** 'mod' by a named ability ("a number of times equal to your Charisma modifier"). */
+  freeAbility?: Ability;
 }
 
 /** A countable use of a feat. */
@@ -155,6 +157,11 @@ function parseFeat(feat: RuleText): FeatRules {
     ))
       for (const n of splitNames(m[3]))
         grants.push({ name: n, cantrip: false, minLevel: m[2] ? Number(m[2]) : 1 });
+    const namedMod =
+      /a number of times equal to your (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) modifier/i.exec(
+        p,
+      );
+    const named = namedMod ? (namedMod[1].slice(0, 3).toUpperCase() as Ability) : undefined;
     for (const g of grants) {
       if (out.spells.some((s) => s.id === slug(g.name))) continue;
       const isCantrip = g.cantrip === true;
@@ -169,11 +176,12 @@ function parseFeat(feat: RuleText): FeatRules {
         free: free && !isCantrip,
         atWill: atWill && !isCantrip,
         slots: !isCantrip && slots,
-        freeUses: /a number of times equal to your spellcasting ability modifier/i.test(p)
+        freeUses: /a number of times equal to your (?:spellcasting ability|\w+) modifier/i.test(p)
           ? 'mod'
           : /a number of times equal to your Proficiency Bonus/i.test(p)
             ? 'pb'
             : 1,
+        ...(named ? { freeAbility: named } : {}),
       });
     }
 
@@ -210,7 +218,7 @@ function parseFeat(feat: RuleText): FeatRules {
       } else if (
         rest &&
         !casts &&
-        /Once you [^.]*?, you can(?:'|’)t [^.]*?again until you finish a (?:Short or Long|Long|Short) Rest/i.test(
+        /(?:Once you|After you) [^.]*?, you can(?:'|’)t [^.]*?again until you finish a (?:Short or Long|Long|Short) Rest/i.test(
           p,
         )
       ) {

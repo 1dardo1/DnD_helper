@@ -575,6 +575,9 @@ export const es: Record<keyof typeof en, string> = {
   'play.res.magicalCunning': 'Astucia mágica',
   'play.res.mysticArcanum': 'Arcano místico',
   'play.res.arcaneRecovery': 'Recuperación arcana',
+  'play.res.signatureSpells': 'Conjuros distintivos',
+  'play.res.warriorOfTheGods': 'Dados de Guerrero de los Dioses',
+  'play.res.healingLight': 'Luz sanadora (dados)',
   'play.hitDice': 'Dados de golpe',
   'play.hitDieHint':
     'Pulsa − al gastar un dado de golpe y + para recuperarlo. Cada dado gastado cura la tirada + tu modificador de CON ({con}): súmalo en los puntos de golpe. Con un descanso largo recuperas todos los dados gastados.',
@@ -996,6 +999,105 @@ export const es: Record<keyof typeof en, string> = {
     'Necesitas la otra mano libre (no comprobado aquí: un escudo o una segunda arma pueden ocuparla)',
   'combat.note.soulBladesHoming':
     'Hojas del alma: si fallas, gasta un Dado de Energía Psiónica y súmalo a la tirada de ataque',
+  'sheet.featureNumbers': 'Números de tus rasgos ({n})',
+  'combat.note.crit': 'Crítico con {n}–20',
+  'combat.note.radiantStrikesRow': '+1d8 radiante (Golpes radiantes)',
+  'combat.note.brutalStrike':
+    'Golpe brutal: con Ataque temerario, renuncia a la ventaja de un ataque de Fuerza; si impacta, +{dice} de daño del mismo tipo y un efecto',
+  'combat.note.frenzy':
+    'Frenesí: con Ataque temerario en furia, +{dice} al primer objetivo que golpees en tu turno con un ataque de Fuerza',
+  'combat.note.divineFury':
+    'en furia, la primera criatura que golpeas en tu turno recibe +{dmg} necrótico o radiante',
+  'combat.note.divineStrike':
+    'Golpe divino (si elegiste esa opción): +{dice} necrótico o radiante, una vez por turno al golpear con un arma',
+  'combat.note.primalStrike':
+    'Golpe primigenio (si lo elegiste): +{dice} de frío, fuego, rayo o trueno, una vez por turno con un arma o una forma salvaje',
+  'combat.note.psionicStrike':
+    'una vez por turno tras impactar a ≤ 30 pies: gasta un dado psiónico y suma {n} de daño de fuerza',
+  'combat.note.handOfHarm':
+    'una vez por turno tras impactar sin armas: gasta 1 punto de enfoque, +{n} de daño necrótico',
+  'combat.note.radiantStrikes': '+1d8 de daño radiante en cada impacto cuerpo a cuerpo o sin armas',
+  'combat.note.divineSmite':
+    'conjuro siempre preparado: +2d8 radiante al impactar (+1d8 por nivel de espacio sobre el 1, +1d8 contra infernales y no muertos); una vez sin espacio por descanso largo',
+  'combat.note.huntersMark':
+    'conjuro siempre preparado: +1{die} de daño de fuerza a la criatura marcada en cada impacto',
+  'combat.note.dreadfulStrikes':
+    'una vez por turno al golpear con un arma: +{dice} de daño psíquico',
+  'combat.note.dreadfulStrike':
+    'al golpear con un arma, una vez por turno: +{dice} de daño psíquico (usos = mod. de SAB: {n})',
+  'combat.note.colossusSlayer':
+    'Aniquilador de colosos (si lo elegiste): +1d8 si el objetivo no tiene todos sus PG, una vez por turno',
+  'combat.note.assassinate':
+    'en la primera ronda, si tu Ataque furtivo impacta: +{n} de daño del tipo del arma',
+  'combat.note.elementalAffinity': 'suma {n} a una tirada de daño de un conjuro del tipo elegido',
+  'combat.note.radiantSoul':
+    'una vez por turno, suma {n} al daño radiante o de fuego de un conjuro',
+  'combat.note.hex': 'conjuro: +1d6 de daño necrótico a la criatura maldita en cada impacto',
+  'combat.note.naturalWeapon': 'Ataque sin armas con el daño de tu rasgo de especie',
+  'combat.note.pactBlade':
+    'Arma de pacto: si es la vinculada, puedes usar CAR para ataque y daño ({hit} / {dmg})',
+  'combat.note.lifedrinker':
+    'una vez por turno con el arma de pacto: +1d6 necrótico, psíquico o radiante; gasta un dado de golpe y recuperas la tirada + CON',
+  'combat.stat.dc': 'CD {n}',
+  'combat.stat.fanaticalFocus': 'una vez por furia, repite una salvación fallida con +{n}',
+  'combat.stat.vitalityOfTheTree': 'al activar la furia: {n} PG temporales',
+  'combat.stat.searUndead': 'al expulsar no muertos: {dice} de daño radiante a los que fallen',
+  'combat.stat.wildShape':
+    'Formas de bestia: {forms} conocidas, CR máx. {cr}, sin vuelo; dura {hours} h; {thp} PG temporales al transformarte',
+  'combat.stat.wildShapeFly':
+    'Formas de bestia: {forms} conocidas, CR máx. {cr}, con vuelo permitido; dura {hours} h; {thp} PG temporales al transformarte',
+  'combat.stat.preserveLife':
+    'reparte hasta {n} PG entre criaturas Maltrechas (hasta la mitad de sus PG máximos)',
+  'combat.stat.discipleOfLife':
+    'los conjuros con espacio que curan, curan 2 + nivel del espacio de más',
+  'combat.stat.radianceOfTheDawn': '{dmg} de daño radiante (salvación de CON, CD {dc})',
+  'combat.stat.wardingFlare': 'PG temporales al objetivo del ataque: {n}',
+  'combat.stat.circleForms':
+    'forma de CR máx. {cr}; tu CA es {ac} si supera la de la bestia; {thp} PG temporales',
+  'combat.stat.secondWind': 'acción adicional: recuperas {n} PG',
+  'combat.stat.indomitable': 'repite una salvación fallida con +{n}',
+  'combat.stat.protectiveField': 'reacción: reduce el daño en {n} (gasta un dado psiónico)',
+  'combat.stat.heroicRally': 'al inicio de tu turno, si estás Maltrecho: recuperas {n} PG',
+  'combat.stat.deflectAttacks': 'reacción: reduce el daño del ataque en {n}',
+  'combat.stat.uncannyMetabolism': 'al tirar iniciativa: recuperas {n} PG',
+  'combat.stat.slowFall': 'reacción: reduce el daño de caída en {n}',
+  'combat.stat.handOfHealing': 'acción de Magia, 1 punto de enfoque: curas {n}',
+  'combat.stat.wholenessOfBody': 'acción adicional: te curas {n}',
+  'combat.stat.elementalBurst': '2 puntos de enfoque: {dmg} del tipo elegido (salvación de DES)',
+  'combat.stat.auraOfProtection':
+    '+{n} a las salvaciones tuyas y de tus aliados a menos de {r} pies',
+  'combat.stat.abjureFoes': 'afecta a {n} criaturas (salvación de SAB)',
+  'combat.stat.channelDivinityDc': 'CD de los efectos con salvación: {n} (la de tus conjuros)',
+  'combat.stat.sacredWeapon': '+{n} a las tiradas de ataque con el arma imbuida',
+  'combat.stat.inspiringSmite': 'tras Castigo divino: {n} PG temporales a repartir',
+  'combat.stat.gloriousDefense': 'reacción: +{n} a la CA contra ese ataque',
+  'combat.stat.tireless': 'acción de Magia: {n} PG temporales',
+  'combat.stat.innateSorcery': 'mientras está activa, la CD de tus conjuros de hechicero es {n}',
+  'combat.stat.sorcerousRestoration': 'en descanso corto: recuperas hasta {n} puntos de hechicería',
+  'combat.stat.darkOnesBlessing': 'al reducir a un enemigo a 0 PG: {n} PG temporales',
+  'combat.stat.celestialResilience':
+    'PG temporales tras Astucia mágica o un descanso: tú {self}; hasta cinco criaturas, {allies}',
+  'combat.stat.arcaneRecovery':
+    'en descanso corto: espacios por un nivel combinado de hasta {n} (ninguno de nivel 6+)',
+  'combat.stat.arcaneWard': 'PG máximos del resguardo: {n}',
+  'combat.stat.relentlessRage':
+    'a 0 PG en furia: salvación de CON (CD 10, +5 cada vez tras la primera); si pasas, quedas con {n} PG',
+  'combat.stat.tacticalMind':
+    'al fallar una prueba: gasta Tomar aliento y suma 1d10 (si sigue fallando, no se gasta)',
+  'combat.stat.patientDefense': 'con Defensa paciente (1 punto de enfoque): {dmg} PG temporales',
+  'combat.note.lunarForm':
+    'una vez por turno: +2d10 de daño radiante al impactar con el ataque de una forma salvaje',
+  'combat.stat.landsAid':
+    '{dmg} necrótico (salvación de CON, CD {dc}, mitad si pasa) y una criatura recupera {dmg}',
+  'combat.stat.wrathOfTheSea':
+    '{dice} de daño de frío (salvación de CON, CD {dc}) y empuja 15 pies',
+  'combat.stat.starryForm':
+    'Arquero: ataque de conjuro, {n} radiante; Cáliz: +{n} PG al curar con espacio',
+  'combat.stat.otherworldlyGlamour': '+{n} a las pruebas de Carisma',
+  'combat.stat.telepathy': 'conexión telepática a {miles} millas durante {minutes} minutos',
+  'combat.stat.telepathyOnly': 'conexión telepática a {miles} millas',
+  'combat.stat.createThrall': 'la aberración invocada tiene {n} PG temporales',
+  'combat.stat.flashOfGenius': 'reacción: +{n} a una salvación o prueba fallida',
   'sheet.mastery': 'Maestría',
   'sheet.mastery.chosen': 'Maestría de armas ({count} / {slots})',
   'sheet.mastery.none': 'Sin elegir todavía.',

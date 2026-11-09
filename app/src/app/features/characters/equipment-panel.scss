@@ -1,3 +1,18 @@
+// Numbers of the class features, folded under the attacks
+details.fold {
+  margin: var(--space-3) 0;
+
+  > summary {
+    cursor: pointer;
+    list-style: none;
+
+    h3 {
+      display: inline;
+      margin: 0;
+    }
+  }
+}
+
 .mastery-panel {
   margin-top: var(--space-3);
 

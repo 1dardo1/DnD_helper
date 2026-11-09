@@ -1,5 +1,6 @@
 import { Character } from '../models/character';
 import { Sheet } from '../rules/sheet';
+import { poolsOf } from '../rules/pools';
 import { Recovery, recover, restKey, restRule } from './rest-rules';
 
 /**
@@ -25,6 +26,8 @@ export interface PlayResource {
   short: Recovery;
   /** English name of the feat it comes from (free casts and uses of feats); absent for classes. */
   feat?: string;
+  /** Size of the dice it counts ("d8"), for a pool of dice or a resource that is a die. */
+  die?: string;
 }
 
 /**
@@ -38,6 +41,8 @@ const FEATURE_USES: {
   labelKey: string;
   from: number;
   uses: (level: number, mod: (a: 'INT' | 'WIS' | 'CHA') => number) => number;
+  /** Class table column that holds the size of the die it counts ("Bardic Die"). */
+  dieColumn?: string;
 }[] = [
   {
     classId: 'artificer',
@@ -52,6 +57,7 @@ const FEATURE_USES: {
     labelKey: 'play.res.bardicInspiration',
     from: 1,
     uses: (_, m) => m('CHA'),
+    dieColumn: 'Bardic Die',
   },
   {
     classId: 'blood-hunter',
@@ -59,6 +65,7 @@ const FEATURE_USES: {
     labelKey: 'play.res.bloodMaledict',
     from: 1,
     uses: (l) => (l >= 17 ? 4 : l >= 13 ? 3 : l >= 6 ? 2 : 1),
+    dieColumn: 'Hemocraft Die',
   },
   {
     classId: 'blood-hunter',
@@ -146,15 +153,6 @@ const FEATURE_USES: {
     from: 20,
     uses: () => 1,
   },
-  // Soulknife's Psionic Energy Dice (Psi-Bolstered Knack, Homing Strikes, Psychic Teleportation...)
-  {
-    classId: 'rogue',
-    subclassId: 'rogue/soulknife',
-    name: 'Psionic Energy Dice',
-    labelKey: 'play.res.psionicEnergyDice',
-    from: 3,
-    uses: (l) => (l >= 17 ? 12 : l >= 13 ? 10 : l >= 11 ? 8 : l >= 9 ? 8 : l >= 5 ? 6 : 4),
-  },
   {
     classId: 'sorcerer',
     name: 'Innate Sorcery',
@@ -177,6 +175,14 @@ const FEATURE_USES: {
     from: 11,
     uses: (l) => (l >= 17 ? 4 : l >= 15 ? 3 : l >= 13 ? 2 : 1),
   },
+  // two spells, each cast once without a slot until a Short or Long Rest
+  {
+    classId: 'wizard',
+    name: 'Signature Spells',
+    labelKey: 'play.res.signatureSpells',
+    from: 20,
+    uses: () => 2,
+  },
   {
     classId: 'wizard',
     name: 'Arcane Recovery',
@@ -186,17 +192,57 @@ const FEATURE_USES: {
   },
 ];
 
+/** Lower-case names of the features that have a counter of their own. */
+export const COUNTED_FEATURES = new Set(FEATURE_USES.map((f) => f.name.toLowerCase()));
+
+/**
+ * Size of the Battle Master's Superiority Dice: "which are d8s", and "Your Superiority Die
+ * becomes a d10 / d12" in the features gained later.
+ */
+function superiorityDie(sheet: Sheet): string | undefined {
+  let die: string | undefined;
+  for (const f of sheet.features) {
+    const base = /Superiority Dice, which are (d\d+)s/i.exec(f.description);
+    if (base) die = base[1];
+  }
+  for (const f of [...sheet.features].sort((a, b) => a.level - b.level)) {
+    const up = /Superiority Die becomes a (d\d+)/i.exec(f.description);
+    if (up) die = up[1];
+  }
+  return die;
+}
+
 /**
  * The countable resources of a sheet: the class table columns with a number of uses (Rages,
  * Channel Divinity, Focus Points...) plus a few uses defined only in a feature's text.
  */
 export function playResources(sheet: Sheet): PlayResource[] {
   const level = (id: string) => sheet.classes.find((c) => c.id === id)?.level ?? 0;
-  const make = (classId: string, name: string, max: number, labelKey: string | null) => {
+  const make = (
+    classId: string,
+    name: string,
+    max: number,
+    labelKey: string | null,
+    die?: string,
+  ): PlayResource => {
     const rule = restRule(name);
     const short = rule.shortFromLevel && level(classId) < rule.shortFromLevel ? 0 : rule.short;
-    return { key: `${classId}:${restKey(name)}`, classId, name, labelKey, max, short };
+    const r: PlayResource = {
+      key: `${classId}:${restKey(name)}`,
+      classId,
+      name,
+      labelKey,
+      max,
+      short,
+    };
+    if (die) r.die = die;
+    return r;
   };
+  const column = (classId: string, name: string) =>
+    sheet.resources
+      .find((r) => r.classId === classId && r.name === name)
+      ?.value.trim()
+      .toLowerCase() || undefined;
 
   const resources: PlayResource[] = [];
   for (const r of sheet.resources) {
@@ -213,8 +259,16 @@ export function playResources(sheet: Sheet): PlayResource[] {
     const lvl = level(f.classId);
     if (!lvl || lvl < f.from || (f.subclassId && subclass(f.classId) !== f.subclassId)) continue;
     const max = f.uses(lvl, mod);
-    if (max > 0) resources.push(make(f.classId, f.name, max, f.labelKey));
+    const die = f.dieColumn
+      ? column(f.classId, f.dieColumn)
+      : f.name === 'Superiority Dice'
+        ? superiorityDie(sheet)
+        : undefined;
+    if (max > 0) resources.push(make(f.classId, f.name, max, f.labelKey, die));
   }
+  // pools of dice read from the subclass feature's text (Psionic Energy Dice, Warrior of the Gods...)
+  for (const p of poolsOf(sheet.features ?? [], sheet.classes))
+    resources.push(make(p.classId, p.def.name, p.count, p.def.labelKey, p.die));
   // free casts and benefits of feats (Find Familiar once per Long Rest, Luck Points...)
   for (const u of sheet.featUses ?? [])
     resources.push({

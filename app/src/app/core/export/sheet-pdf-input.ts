@@ -158,7 +158,7 @@ function attacksOf(src: PdfSource): SheetPdfInput['attacks'] {
           `${shortName(u.name)}: ${t(u.applied ? 'gear.up.applied' : 'gear.up.rangedOnly', { n: u.plus })}`,
       ),
     ];
-    const name = a.entryId ? shortName(a.name) : t(a.nameKey as TranslationKey);
+    const name = a.nameKey ? t(a.nameKey as TranslationKey) : shortName(a.name);
     return {
       name: a.base ? `${name} (${shortName(a.base)})` : name,
       bonus: a.bonus,

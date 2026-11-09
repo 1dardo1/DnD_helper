@@ -570,6 +570,9 @@ export const en = {
   'play.res.magicalCunning': 'Magical Cunning',
   'play.res.mysticArcanum': 'Mystic Arcanum',
   'play.res.arcaneRecovery': 'Arcane Recovery',
+  'play.res.signatureSpells': 'Signature Spells',
+  'play.res.warriorOfTheGods': 'Warrior of the Gods dice',
+  'play.res.healingLight': 'Healing Light (dice)',
   'play.hitDice': 'Hit Dice',
   'play.hitDieHint':
     'Press − when you spend a Hit Die and + to get it back. Each die spent heals the roll + your CON modifier ({con}): add it to your hit points. A long rest recovers all spent dice.',
@@ -985,6 +988,100 @@ export const en = {
     'Needs your other hand free (not checked here: a shield or a second weapon can take it)',
   'combat.note.soulBladesHoming':
     'Soul Blades: on a miss, spend a Psionic Energy Die and add it to the attack roll',
+  'sheet.featureNumbers': 'Numbers of your features ({n})',
+  'combat.note.crit': 'Critical hit on {n}–20',
+  'combat.note.radiantStrikesRow': '+1d8 Radiant (Radiant Strikes)',
+  'combat.note.brutalStrike':
+    'Brutal Strike: with Reckless Attack, forgo Advantage on one Strength attack; if it hits, +{dice} damage of the same type and one effect',
+  'combat.note.frenzy':
+    'Frenzy: with Reckless Attack while raging, +{dice} to the first target you hit on your turn with a Strength attack',
+  'combat.note.divineFury':
+    'while raging, the first creature you hit on your turn takes +{dmg} Necrotic or Radiant',
+  'combat.note.divineStrike':
+    'Divine Strike (if you chose that option): +{dice} Necrotic or Radiant, once per turn when you hit with a weapon',
+  'combat.note.primalStrike':
+    'Primal Strike (if you chose it): +{dice} Cold, Fire, Lightning or Thunder, once per turn with a weapon or a Wild Shape attack',
+  'combat.note.psionicStrike':
+    'once per turn after hitting within 30 ft: spend a Psionic Energy Die for {n} Force damage',
+  'combat.note.handOfHarm':
+    'once per turn after an Unarmed Strike: spend 1 Focus Point for +{n} Necrotic damage',
+  'combat.note.radiantStrikes': '+1d8 Radiant damage on every Melee or Unarmed hit',
+  'combat.note.divineSmite':
+    'always-prepared spell: +2d8 Radiant on a hit (+1d8 per slot level above 1, +1d8 vs Fiends and Undead); once per Long Rest without a slot',
+  'combat.note.huntersMark':
+    'always-prepared spell: +1{die} Force damage to the marked creature on every hit',
+  'combat.note.dreadfulStrikes': 'once per turn when you hit with a weapon: +{dice} Psychic damage',
+  'combat.note.dreadfulStrike':
+    'when you hit with a weapon, once per turn: +{dice} Psychic damage (uses = WIS modifier: {n})',
+  'combat.note.colossusSlayer':
+    'Colossus Slayer (if you chose it): +1d8 if the target is missing Hit Points, once per turn',
+  'combat.note.assassinate':
+    "in the first round, if your Sneak Attack hits: +{n} damage of the weapon's type",
+  'combat.note.elementalAffinity': 'add {n} to one damage roll of a spell of the chosen type',
+  'combat.note.radiantSoul': 'once per turn, add {n} to the Radiant or Fire damage of a spell',
+  'combat.note.hex': 'spell: +1d6 Necrotic damage to the cursed creature on every hit',
+  'combat.note.naturalWeapon': 'Unarmed Strike with the damage your species trait gives',
+  'combat.note.pactBlade':
+    'Pact weapon: if it is the bonded one, you can use CHA for attack and damage ({hit} / {dmg})',
+  'combat.note.lifedrinker':
+    'once per turn with the pact weapon: +1d6 Necrotic, Psychic or Radiant; spend a Hit Die to regain the roll + CON',
+  'combat.stat.dc': 'DC {n}',
+  'combat.stat.fanaticalFocus': 'once per Rage, reroll a failed save with +{n}',
+  'combat.stat.vitalityOfTheTree': 'when you rage: {n} Temporary Hit Points',
+  'combat.stat.searUndead': 'when you Turn Undead: {dice} Radiant damage to those that fail',
+  'combat.stat.wildShape':
+    'Beast forms: {forms} known, max CR {cr}, no Fly Speed; lasts {hours} h; {thp} Temporary Hit Points when you shift',
+  'combat.stat.wildShapeFly':
+    'Beast forms: {forms} known, max CR {cr}, Fly Speed allowed; lasts {hours} h; {thp} Temporary Hit Points when you shift',
+  'combat.stat.preserveLife':
+    'divide up to {n} HP among Bloodied creatures (up to half their maximum)',
+  'combat.stat.discipleOfLife': "healing spells cast with a slot heal 2 + the slot's level extra",
+  'combat.stat.radianceOfTheDawn': '{dmg} Radiant damage (CON save, DC {dc})',
+  'combat.stat.wardingFlare': 'Temporary Hit Points for the target of the attack: {n}',
+  'combat.stat.circleForms':
+    "form of CR {cr} at most; your AC is {ac} if higher than the Beast's; {thp} Temporary Hit Points",
+  'combat.stat.secondWind': 'Bonus Action: regain {n} HP',
+  'combat.stat.indomitable': 'reroll a failed save with +{n}',
+  'combat.stat.protectiveField': 'Reaction: reduce the damage by {n} (spend a Psionic Energy Die)',
+  'combat.stat.heroicRally': 'at the start of your turn, if Bloodied: regain {n} HP',
+  'combat.stat.deflectAttacks': "Reaction: reduce the attack's damage by {n}",
+  'combat.stat.uncannyMetabolism': 'when you roll Initiative: regain {n} HP',
+  'combat.stat.slowFall': 'Reaction: reduce fall damage by {n}',
+  'combat.stat.handOfHealing': 'Magic action, 1 Focus Point: heal {n}',
+  'combat.stat.wholenessOfBody': 'Bonus Action: heal yourself {n}',
+  'combat.stat.elementalBurst': '2 Focus Points: {dmg} of the chosen type (DEX save)',
+  'combat.stat.auraOfProtection': '+{n} to saving throws for you and allies within {r} ft',
+  'combat.stat.abjureFoes': 'affects {n} creatures (WIS save)',
+  'combat.stat.channelDivinityDc': 'DC of the effects with a save: {n} (your spell save DC)',
+  'combat.stat.sacredWeapon': '+{n} to attack rolls with the imbued weapon',
+  'combat.stat.inspiringSmite': 'after Divine Smite: {n} Temporary Hit Points to divide',
+  'combat.stat.gloriousDefense': 'Reaction: +{n} to AC against that attack',
+  'combat.stat.tireless': 'Magic action: {n} Temporary Hit Points',
+  'combat.stat.innateSorcery': 'while active, your Sorcerer spell save DC is {n}',
+  'combat.stat.sorcerousRestoration': 'on a Short Rest: regain up to {n} Sorcery Points',
+  'combat.stat.darkOnesBlessing': 'when you reduce an enemy to 0 HP: {n} Temporary Hit Points',
+  'combat.stat.celestialResilience':
+    'Temporary Hit Points after Magical Cunning or a rest: you {self}; up to five creatures, {allies}',
+  'combat.stat.arcaneRecovery':
+    'on a Short Rest: slots of a combined level up to {n} (none level 6+)',
+  'combat.stat.arcaneWard': "ward's maximum Hit Points: {n}",
+  'combat.stat.relentlessRage':
+    'at 0 HP while raging: CON save (DC 10, +5 each time after the first); on a success you have {n} HP',
+  'combat.stat.tacticalMind':
+    'on a failed check: spend Second Wind and add 1d10 (not spent if it still fails)',
+  'combat.stat.patientDefense': 'with Patient Defense (1 Focus Point): {dmg} Temporary Hit Points',
+  'combat.note.lunarForm':
+    'once per turn: +2d10 Radiant damage when you hit with a Wild Shape attack',
+  'combat.stat.landsAid':
+    '{dmg} Necrotic (CON save, DC {dc}, half on a success) and one creature regains {dmg} HP',
+  'combat.stat.wrathOfTheSea': '{dice} Cold damage (CON save, DC {dc}) and a 15 ft push',
+  'combat.stat.starryForm':
+    'Archer: spell attack, {n} Radiant; Chalice: +{n} HP when you heal with a slot',
+  'combat.stat.otherworldlyGlamour': '+{n} to Charisma checks',
+  'combat.stat.telepathy': 'telepathic link up to {miles} miles for {minutes} minutes',
+  'combat.stat.telepathyOnly': 'telepathic link up to {miles} miles',
+  'combat.stat.createThrall': 'the summoned Aberration has {n} Temporary Hit Points',
+  'combat.stat.flashOfGenius': 'Reaction: +{n} to a failed check or save',
   'sheet.mastery': 'Mastery',
   'sheet.mastery.chosen': 'Weapon Mastery ({count} / {slots})',
   'sheet.mastery.none': 'None chosen yet.',

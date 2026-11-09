@@ -27,6 +27,10 @@ import {
 } from './feat-effects';
 import { multiclassGains } from './multiclass';
 import { hpBreakdown } from '../creation/hp-levels';
+import { COUNTED_FEATURES } from '../play/play-state';
+import { featureNumbers } from './feature-stats';
+import { NaturalWeapon, naturalWeaponOf, unarmedTypeOf } from './natural-weapons';
+import { poolFor } from './pools';
 import { proficientWith } from './attacks';
 import {
   pickKey,
@@ -443,6 +447,10 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     spellAbility: (classId) => spellClasses.find((x) => x.classId === classId)?.ability,
     pb,
     totalLevel,
+    counted: new Set([
+      ...COUNTED_FEATURES,
+      ...classes.flatMap((c) => c.cls.progression.columns.map((x) => x.toLowerCase())),
+    ]),
   });
   granted.spells.push(...fromTraits.spells);
   granted.uses.push(...fromTraits.uses);
@@ -476,6 +484,12 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     profs.weapons,
     data.items,
     ch.choices.weaponMasteries ?? [],
+    {
+      features,
+      pb,
+      spellDc: (classId) => spellClasses.find((x) => x.classId === classId)?.saveDc ?? null,
+      spells: new Set([...(ch.choices.spells ?? []), ...granted.spells.map((x) => x.id)]),
+    },
   );
   if (combat.masterySlots > 0 && combat.masteryChosen.length < combat.masterySlots)
     warnings.push({ key: 'sheet.warn.weaponMastery' });
@@ -836,6 +850,8 @@ interface TraitSource {
   /** Levels the character has in what grants it (class level, or the total level). */
   scope: number;
   classId?: string;
+  /** Id of the subclass a 'subclass' feature belongs to. */
+  subId?: string;
   /** Only holds in a situation (Rage, Wild Shape, a form): resistances and senses are not applied. */
   situational: boolean;
 }
@@ -898,6 +914,7 @@ function traitSources(
           level: f.level,
           scope: c.level,
           classId: c.cls.id,
+          subId: c.sub!.id,
           situational: SITUATIONAL.test(f.description),
         });
   }
@@ -946,6 +963,8 @@ function traitGrants(a: {
   spellAbility: (classId: string) => Ability | undefined;
   pb: number;
   totalLevel: number;
+  /** Lower-case names of the class features that already have a counter. */
+  counted: Set<string>;
 }) {
   const spells: SheetFeatSpell[] = [];
   const uses: SheetFeatUse[] = [];
@@ -1001,7 +1020,12 @@ function traitGrants(a: {
         labelKey: null,
         feat: t.name,
         kind: 'spell',
-        max: g.freeUses === 'pb' ? a.pb : g.freeUses === 'mod' ? Math.max(1, mod(ability)) : 1,
+        max:
+          g.freeUses === 'pb'
+            ? a.pb
+            : g.freeUses === 'mod'
+              ? Math.max(1, mod(g.freeAbility ?? ability))
+              : 1,
         rest: 'long',
       });
   };
@@ -1012,7 +1036,10 @@ function traitGrants(a: {
     const id = slugOf(t.name);
     const own = rules.ability.mode === 'fixed' ? rules.ability.ability : null;
     for (const g of rules.spells) if (g.minLevel <= a.totalLevel) add({ ...t, id }, g, { own });
-    if (t.kind === 'class') continue; // class counters come from the class table / play-state
+    // class counters come from the class table / play-state; the rest of the class features are
+    // read like any other ("once you use this feature you can't do so again until a Long Rest")
+    if (t.kind === 'class' && a.counted.has(t.name.toLowerCase())) continue;
+    if (t.kind === 'subclass' && poolFor(t.subId, t.name)) continue; // a pool of dice (rules/pools.ts)
     const several = rules.uses.length > 1;
     for (const u of rules.uses) {
       const ability = typeof u.max === 'string' && u.max !== 'pb' ? u.max : null;
@@ -1120,6 +1147,13 @@ function combatOf(
   weaponProficiencies: string[],
   items: Map<string, Item>,
   weaponMasteryChoices: string[],
+  extra: {
+    features: SheetFeature[];
+    pb: number;
+    spellDc: (classId: string) => number | null;
+    /** Ids of the spells the character has chosen or is given. */
+    spells: Set<string>;
+  },
 ): Sheet['combat'] {
   const col = (cls: DndClass, level: number, name: string) =>
     cls.progression.rows[level - 1]?.values[name] ?? '';
@@ -1145,15 +1179,26 @@ function combatOf(
     masteryChosen,
     psychicBlades: !!soulknife && soulknife.level >= 3,
     soulBlades: !!soulknife && soulknife.level >= 9,
+    critRange: critRangeOf(extra.features),
+    naturalWeapons: naturals(traits.filter((x) => x.t.kind === 'species').map((x) => x.t.text)),
+    unarmedType:
+      traits
+        .filter((x) => x.t.kind === 'species')
+        .map((x) => unarmedTypeOf(x.t.text.description))
+        .find((t) => !!t) ?? null,
+    pactBlade: options.some((o) => o.opt.id === 'eldritch-invocation/pact-of-the-blade'),
     notes: [],
+    stats: [],
   };
   for (const { t } of traits) {
     const id = t.kind === 'feat' ? COMBAT_NOTES[t.name] : undefined;
     if (id) combat.notes.push({ id, source: t.name });
   }
   const barb = classes.find((c) => c.cls.id === 'barbarian');
+  let rageDamage = 0;
   if (barb) {
     const dmg = col(barb.cls, barb.level, 'Rage Damage');
+    rageDamage = parseInt(dmg, 10) || 0;
     if (dmg) combat.notes.push({ id: 'rage', source: 'Rage', params: { n: dmg } });
   }
   const rogue = classes.find((c) => c.cls.id === 'rogue');
@@ -1162,11 +1207,54 @@ function combatOf(
     if (dice) combat.notes.push({ id: 'sneak', source: 'Sneak Attack', params: { n: dice } });
   }
   for (const { opt } of options)
+    if (opt.id === 'eldritch-invocation/lifedrinker')
+      combat.notes.push({ id: 'lifedrinker', source: opt.name });
+  for (const { opt } of options)
     if (opt.id === 'eldritch-invocation/agonizing-blast')
       combat.notes.push({
         id: 'agonizing',
         source: opt.name,
         params: { n: Math.max(0, abilities.CHA.modifier) },
       });
+  // damage on top of a hit, healing, temporary hit points, bonuses and DCs of class features
+  const numbers = featureNumbers({
+    classes: classes.map((c) => ({ id: c.cls.id, level: c.level, subclassId: c.sub?.id ?? null })),
+    features: extra.features,
+    pb: extra.pb,
+    abilities,
+    martialArts: combat.martialArts,
+    rageDamage,
+    spellDc: extra.spellDc,
+  });
+  combat.notes.push(...numbers.notes);
+  combat.stats.push(...numbers.stats);
+  // spells that add damage to every hit (Hex), when the character has them
+  if (extra.spells.has('hex')) combat.notes.push({ id: 'hex', source: 'Hex' });
   return combat;
+}
+
+/** The natural weapons the species traits state (each trait once). */
+function naturals(texts: RuleText[]) {
+  const out: NaturalWeapon[] = [];
+  for (const t of texts) {
+    const w = naturalWeaponOf(t.name, t.description);
+    if (w && !out.some((x) => x.name === w.name && x.dice === w.dice && x.type === w.type))
+      out.push(w);
+  }
+  return out;
+}
+
+/**
+ * The d20 roll from which attacks score a critical hit: "Your attack rolls with weapons and
+ * Unarmed Strikes can score a Critical Hit on a roll of 19 or 20" (Improved Critical) or "18-20"
+ * (Superior Critical). The lowest the sheet's features give.
+ */
+export function critRangeOf(features: Pick<SheetFeature, 'name' | 'description'>[]): number {
+  let range = 20;
+  for (const f of features) {
+    if (f.name !== 'Improved Critical' && f.name !== 'Superior Critical') continue;
+    const m = /Critical Hit on a roll of (\d+)(?: or |-)20/i.exec(f.description);
+    if (m) range = Math.min(range, Number(m[1]));
+  }
+  return range;
 }

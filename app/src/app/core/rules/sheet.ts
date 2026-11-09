@@ -1,5 +1,7 @@
 import type { HpLevelRow } from '../creation/hp-levels';
 import { Ability } from '../models/compendium';
+import type { FeatureNote } from './feature-stats';
+import type { NaturalWeapon } from './natural-weapons';
 
 /** Everything the character sheet shows, computed from a Character and the compendium. */
 export interface Sheet {
@@ -113,8 +115,21 @@ export interface CombatInfo {
    * chosen yet, even if masterySlots > 0 — attacksFor then shows no mastery on any weapon.
    */
   masteryChosen: string[];
-  /** Reminders of effects that need a roll or a choice: id of a UI text and its parameters. */
-  notes: { id: string; source: string; params?: Record<string, string | number> }[];
+  /**
+   * Reminders of effects that go on top of an attack or need a roll or a choice (Rage damage,
+   * Sneak Attack dice, Hunter's Mark...): id of a UI text (combat.note.<id>) and its parameters.
+   */
+  notes: FeatureNote[];
+  /** Healing, temporary hit points, bonuses and save DCs of the features (combat.stat.<id>). */
+  stats: FeatureNote[];
+  /** Natural weapons of the species (claws, bite, horns...): extra lines in the attacks table. */
+  naturalWeapons: NaturalWeapon[];
+  /** The Unarmed Strike deals this type instead of bludgeoning (Lupin's Feral Pounce). */
+  unarmedType: string | null;
+  /** Pact of the Blade chosen: Charisma may replace the ability of the pact weapon's attacks. */
+  pactBlade: boolean;
+  /** Attack rolls score a critical hit from this number (Champion: 19, 18); 20 = normal. */
+  critRange: number;
 }
 
 export interface SheetFeatSpell {
