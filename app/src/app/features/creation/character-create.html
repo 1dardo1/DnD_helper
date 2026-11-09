@@ -338,6 +338,32 @@
                 (changed)="setTraitChoice(tc.key, $event)"
               />
             }
+            @for (tp of speciesTraitPicks(); track tp.key) {
+              <fieldset class="trait-pick" [attr.data-testid]="'trait-pick-' + tp.key">
+                <legend>
+                  {{
+                    'create.traitPick.' + tp.kind
+                      | t: { trait: tp.trait | dataName, count: tp.count }
+                  }}
+                  ({{ tp.picked.length }}/{{ tp.count }})
+                </legend>
+                @for (o of tp.from; track o) {
+                  <label class="inline">
+                    <input
+                      type="checkbox"
+                      [checked]="tp.picked.includes(o)"
+                      [disabled]="!tp.picked.includes(o) && tp.picked.length >= tp.count"
+                      (change)="setTraitPick(tp.key, o, checked($event), tp.count)"
+                    />
+                    @if (tp.kind === 'skill') {
+                      {{ 'skill.' + o | t }}
+                    } @else {
+                      {{ o | term: 'damage' }}
+                    }
+                  </label>
+                }
+              </fieldset>
+            }
             @if (s.size.length > 1) {
               <label>
                 {{ 'sheet.size' | t }}

@@ -228,10 +228,10 @@ function parseTrait(text: string, opts: { situational?: boolean }): TraitRules {
           for (const m of s.matchAll(/\b(flying|swimming|climbing) speed of (\d+) feet/gi))
             addSpeed(out, KIND_OF[m[1].toLowerCase()], Number(m[2]));
         }
-        const to = /Your Speed increases to (\d+) feet/i.exec(s);
+        const to = /Your (?:base )?(?:walking )?Speed increases to (\d+) feet/i.exec(s);
         if (to) out.speedTo = Math.max(out.speedTo, Number(to[1]));
       } else {
-        const to = /Your Speed increases to (\d+) feet/i.exec(s);
+        const to = /Your (?:base )?(?:walking )?Speed increases to (\d+) feet/i.exec(s);
         if (to && !/\b(?:while|when|if|until)\b/i.test(s)) out.speedTo = Number(to[1]);
       }
 
@@ -249,7 +249,8 @@ function parseTrait(text: string, opts: { situational?: boolean }): TraitRules {
             }
           if (/proficiency with/i.test(s))
             for (const t of KNOWN_TOOLS)
-              if (s.includes(t) && !out.tools.includes(t)) out.tools.push(t);
+              if (s.toLowerCase().includes(t.toLowerCase()) && !out.tools.includes(t))
+                out.tools.push(t);
         }
       }
 

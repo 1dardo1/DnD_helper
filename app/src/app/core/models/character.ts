@@ -72,6 +72,12 @@ export interface Character {
      * → the chosen option's English name.
      */
     traitChoices?: Record<string, string>;
+    /**
+     * What the player picked inside a species/variant trait (or inside the option of it chosen):
+     * skills, a damage type to resist. Key: `traitChoiceKey` + `#skill` / `#resistance`
+     * (core/rules/trait-choices.ts' `pickKey`) → the picked skill ids / damage types.
+     */
+    traitPicks?: Record<string, string[]>;
     /** Ability increases other than the background's (ASIs, half feats...), by feat and slot. */
     abilityIncreases: { source: string; ability: Ability; amount: number; slot?: string }[];
     /** Class option ids (invocations, maneuvers, blood curses...). */

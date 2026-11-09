@@ -27,7 +27,13 @@ import {
 } from './feat-effects';
 import { multiclassGains } from './multiclass';
 import { proficientWith } from './attacks';
-import { resolveTraitChoice, traitChoiceKey } from './trait-choices';
+import {
+  pickKey,
+  resolveTraitChoice,
+  traitChoiceKey,
+  traitPicks,
+  validPicks,
+} from './trait-choices';
 import { TraitRules, traitRules } from './trait-effects';
 import { Bonus, Sheet, SheetFeatSpell, SheetFeatUse, SheetFeature, SheetWarning } from './sheet';
 import { ABILITIES, MULTICLASS_SLOTS, SKILL_ABILITY, modifier, proficiencyBonus } from './tables';
@@ -119,11 +125,20 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   }
   // A trait whose text embeds its own choice (a lineage, a reprint's internal tribe/creed...):
   // resolve it against the character's pick before it's shown or read for spells/skills/uses.
+  const speciesPickedSkills: string[] = [];
+  const speciesPickedResistances: string[] = [];
   const resolveSpeciesTrait = (t: Feature, variantName: string | null): Feature => {
     const key = traitChoiceKey(species!.id, variantName, t.name);
     const r = resolveTraitChoice(t, key, ch.choices.traitChoices?.[key]);
     if (r.split && r.missing)
       warnings.push({ key: 'sheet.warn.traitChoiceMissing', params: { trait: t.name } });
+    // what the (chosen part of the) trait asks to pick inside it: skills, a damage type to resist
+    for (const pick of traitPicks(r.text)) {
+      const got = validPicks(pick, ch.choices.traitPicks?.[pickKey(key, pick.kind)]);
+      (pick.kind === 'skill' ? speciesPickedSkills : speciesPickedResistances).push(...got);
+      if (got.length < pick.count)
+        warnings.push({ key: 'sheet.warn.traitPickMissing', params: { trait: t.name } });
+    }
     return r.split ? { ...t, description: r.text } : t;
   };
   if (species) {
@@ -229,7 +244,12 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     };
   }
   const traitSkills = traits.flatMap((t) => fx(t).skills);
-  const proficient = new Set([...(background?.skills ?? []), ...ch.choices.skills, ...traitSkills]);
+  const proficient = new Set([
+    ...(background?.skills ?? []),
+    ...ch.choices.skills,
+    ...traitSkills,
+    ...speciesPickedSkills,
+  ]);
   const expertise = new Set(ch.choices.expertise);
   // Feats that choose a single skill out of a closed list ("Acrobatics or Athletics", "Insight,
   // Investigation, or Perception"): only the chosen one applies. Keen Mind / Observant upgrade it
@@ -432,6 +452,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       ...granted.resistances,
       ...traits.flatMap((t) => fx(t).resistances),
       ...fromTraits.resistances,
+      ...speciesPickedResistances,
     ]),
   ];
   const traitTools = traits.flatMap((t) => fx(t).tools);

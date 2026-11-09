@@ -84,7 +84,16 @@ import { Ability, ClassOption, DndClass, Feat, Feature, Item } from '../../core/
 import { proficientWith } from '../../core/rules/attacks';
 import { castingOf, computeSheet } from '../../core/rules/engine';
 import { FeatSource, listOfFeatName } from '../../core/rules/feat-effects';
-import { traitChoiceFor, traitChoiceKey } from '../../core/rules/trait-choices';
+import { SKILL_ABILITY } from '../../core/rules/tables';
+import {
+  pickKey,
+  resolveTraitChoice,
+  traitChoiceFor,
+  traitChoiceKey,
+  traitPicks,
+  translatedOptions,
+  validPicks,
+} from '../../core/rules/trait-choices';
 import { FeatChoices } from '../../shared/feat-choices';
 import { TraitChoice, TraitChoiceItem } from '../../shared/trait-choice';
 import { RulesDataService } from '../../core/rules/rules-data.service';
@@ -327,16 +336,65 @@ export class CharacterCreate implements LeaveCheck {
     const sp = this.species();
     if (!sp) return [];
     const out: { key: string; trait: string; options: TraitChoiceItem[] }[] = [];
-    const scan = (traits: Feature[], variantName: string | null) => {
-      for (const t of traits) {
+    // the same species translated (same structure): its options, paired by position, are shown
+    const tr = this.dataText.entry('species', sp);
+    const scan = (traits: Feature[], variantName: string | null, shown: Feature[] | undefined) => {
+      traits.forEach((t, i) => {
         const key = traitChoiceKey(sp.id, variantName, t.name);
         const split = traitChoiceFor(t, key);
-        if (split)
+        if (!split) return;
+        const other = shown?.[i] && shown[i] !== t ? translatedOptions(shown[i].description) : [];
+        const paired = other.length === split.options.length;
+        out.push({
+          key,
+          trait: t.name,
+          options: split.options.map((o, j) => ({
+            value: o.name,
+            label: paired ? other[j].name : o.name,
+            text: paired ? other[j].text : o.text,
+          })),
+        });
+      });
+    };
+    scan(sp.traits, null, tr.traits);
+    const variant = this.variants().find((v) => v.id === this.draft().species?.variant);
+    if (variant) {
+      const at = sp.variants.findIndex((v) => v.name === variant.name);
+      scan(variant.traits, variant.name, tr.variants?.[at]?.traits);
+    }
+    return out;
+  });
+  /**
+   * What the chosen species/variant traits (and the option of them picked) ask to pick inside them:
+   * skills, a damage type to resist. One selector per pick, stored in `choices.traitPicks`.
+   */
+  protected readonly speciesTraitPicks = computed(() => {
+    const sp = this.species();
+    if (!sp) return [];
+    const ch = this.draft().choices;
+    const out: {
+      key: string;
+      trait: string;
+      kind: 'skill' | 'resistance';
+      count: number;
+      from: string[];
+      picked: string[];
+    }[] = [];
+    const scan = (traits: Feature[], variantName: string | null) => {
+      for (const t of traits) {
+        const tk = traitChoiceKey(sp.id, variantName, t.name);
+        const text = resolveTraitChoice(t, tk, ch.traitChoices?.[tk]).text;
+        for (const pick of traitPicks(text)) {
+          const key = pickKey(tk, pick.kind);
           out.push({
             key,
             trait: t.name,
-            options: split.options.map((o) => ({ value: o.name, label: o.name, text: o.text })),
+            kind: pick.kind,
+            count: pick.count,
+            from: pick.from ?? Object.keys(SKILL_ABILITY),
+            picked: validPicks(pick, ch.traitPicks?.[key]),
           });
+        }
       }
     };
     scan(sp.traits, null);
@@ -630,7 +688,7 @@ export class CharacterCreate implements LeaveCheck {
     const params = { ...n.params };
     if (typeof params['group'] === 'string')
       params['group'] = this.toolGroupLabel(params['group'].split(' / '));
-    for (const k of ['feat', 'cls'])
+    for (const k of ['feat', 'cls', 'trait'])
       if (typeof params[k] === 'string') params[k] = this.dataText.shortName(params[k] as string);
     if (n.key === 'create.issue.rareLanguage')
       params['what'] = term(this.i18n.language(), 'language', String(params['what']));
@@ -910,6 +968,21 @@ export class CharacterCreate implements LeaveCheck {
   protected setTraitChoice(key: string, value: string): void {
     this.patch((c) => {
       c.choices.traitChoices = { ...(c.choices.traitChoices ?? {}), [key]: value };
+      // what was picked inside the previous option no longer applies
+      const picks = { ...(c.choices.traitPicks ?? {}) };
+      for (const k of Object.keys(picks)) if (k.startsWith(`${key}#`)) delete picks[k];
+      c.choices.traitPicks = picks;
+      return c;
+    });
+  }
+
+  protected setTraitPick(key: string, value: string, on: boolean, count: number): void {
+    this.patch((c) => {
+      const now = c.choices.traitPicks?.[key] ?? [];
+      const next = on
+        ? [...new Set([...now, value])].slice(-count)
+        : now.filter((v) => v !== value);
+      c.choices.traitPicks = { ...(c.choices.traitPicks ?? {}), [key]: next };
       return c;
     });
   }

@@ -199,6 +199,7 @@ export const en = {
   'sheet.warn.armorBase':
     'Magic armor "{name}": choose which armor it is in the inventory to work out the AC.',
   'sheet.warn.traitChoiceMissing': '{trait}: no option chosen yet.',
+  'sheet.warn.traitPickMissing': '{trait}: pick what it asks for (skills, damage type).',
   'sheet.warn.weaponMastery': 'Weapon Mastery: choose which kinds of weapon it applies to.',
   // -- magic weapons and armor with a base chosen by the player ------------------------
   'gear.base': 'Base',
@@ -395,6 +396,9 @@ export const en = {
   'create.missing.species': 'Choose a species.',
   'create.missing.variant': 'Choose the lineage or variant.',
   'create.missing.traitChoice': 'Choose an option of {trait}.',
+  'create.missing.traitPick': '{trait}: pick the skills or damage type it asks for.',
+  'create.traitPick.skill': '{trait}: choose {count} skill(s)',
+  'create.traitPick.resistance': '{trait}: choose a damage type to resist',
   'create.missing.abilities': 'Set the ability scores.',
   'create.missing.pointBuy': 'You spent more than 27 points.',
   'create.missing.skills': 'Choose {count} more class skill(s).',

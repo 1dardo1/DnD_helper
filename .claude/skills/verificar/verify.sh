@@ -12,6 +12,13 @@ if [ -n "$(git diff --name-only HEAD -- data tools/scraper; git ls-files --other
   step "Datos: validador del scraper"
   (cd tools/scraper && python3 -m dndscraper.validate | tail -3)
 fi
+# Los dispositivos guardan data/*.json en caché y solo lo vuelven a bajar si cambia
+# translatedAt/generatedAt de data/meta.json: un cambio de datos sin eso no llega al usuario.
+changed="$(git diff --name-only HEAD -- data | grep -v '^data/meta.json$' || true)"
+if [ -n "$changed" ] && ! git diff --name-only HEAD -- data/meta.json | grep -q meta.json; then
+  echo "Cambiaste data/ sin actualizar translatedAt en data/meta.json: los dispositivos con caché no verían el cambio."
+  exit 1
+fi
 
 cd app
 [ -d node_modules ] || { step "npm ci"; npm ci; }

@@ -595,6 +595,8 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
   for (const w of ctx.sheet?.warnings ?? [])
     if (w.key === 'sheet.warn.traitChoiceMissing')
       miss('species', 'create.missing.traitChoice', { trait: w.params!['trait'] });
+    else if (w.key === 'sheet.warn.traitPickMissing')
+      miss('species', 'create.missing.traitPick', { trait: w.params!['trait'] });
   if (ctx.species && ctx.species.size.length > 1 && !ch.size)
     miss('species', 'create.missing.size');
   const chosen = ch.choices.languages;

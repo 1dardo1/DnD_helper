@@ -83,12 +83,11 @@ describe('resolveTraitChoice', () => {
     expect(none.text).not.toContain('Prestidigitation');
   });
 
-  it('leaves a trait not on the allowlist untouched, even if its text has the same shape', () => {
-    const goliath = byId.get('goliath')!;
-    const ancestry = goliath.traits.find((t) => t.name === 'Giant Ancestry')!;
-    const unknownKey = traitChoiceKey('goliath', null, 'Not Giant Ancestry');
-    const r = resolveTraitChoice(ancestry, unknownKey, null);
+  it('leaves a trait whose pick is made again at every use untouched (Hobgoblin Fey Gift)', () => {
+    const gift = byId.get('hobgoblin')!.traits.find((t) => t.name === 'Fey Gift')!;
+    const r = resolveTraitChoice(gift, traitChoiceKey('hobgoblin', null, 'Fey Gift'), null);
+    expect(r.split).toBeNull();
     expect(r.missing).toBe(false);
-    expect(r.text).toBe(ancestry.description);
+    expect(r.text).toBe(gift.description);
   });
 });
