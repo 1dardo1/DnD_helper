@@ -10,6 +10,7 @@ import {
   featRules,
   listOfFeatName,
   pickable,
+  togglePick,
 } from './feat-effects';
 
 const all = feats as unknown as Feat[];
@@ -117,6 +118,16 @@ describe('featRules: what the text of a feat gives', () => {
     expect(
       pickable(sp, FEAT_PICKS['arcane-undertaker'].cantrips!, null).map((s) => s.id),
     ).toContain('chill-touch');
+  });
+});
+
+describe('togglePick', () => {
+  it('adds up to the maximum, ignores repeats and removes', () => {
+    expect(togglePick([], 'light', true, 2)).toEqual(['light']);
+    expect(togglePick(['light'], 'light', true, 2)).toEqual(['light']);
+    expect(togglePick(['light', 'guidance'], 'mending', true, 2)).toEqual(['light', 'guidance']);
+    expect(togglePick(['light', 'guidance'], 'light', false, 2)).toEqual(['guidance']);
+    expect(togglePick(['a', 'b', 'c'], 'a', false, 2)).toEqual(['b', 'c']);
   });
 });
 

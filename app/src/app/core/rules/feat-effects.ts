@@ -353,6 +353,18 @@ export function listOfFeatName(name: string | null | undefined): string | undefi
   return id && MAGIC_INITIATE_LISTS.includes(id) ? id : undefined;
 }
 
+/** Adds or removes `id` from a pick list of at most `max`; adding past the maximum changes nothing. */
+export function togglePick(
+  current: readonly string[],
+  id: string,
+  on: boolean,
+  max: number,
+): string[] {
+  if (!on) return current.filter((x) => x !== id);
+  if (current.includes(id) || current.length >= max) return [...current];
+  return [...current, id];
+}
+
 export interface SpellLike {
   id: string;
   level: number;
