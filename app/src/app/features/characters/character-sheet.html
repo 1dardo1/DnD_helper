@@ -329,6 +329,22 @@
           </div>
         }
 
+        @case ('combate') {
+          <div class="page combat" data-page="combate">
+            <!-- its own chunk: loaded the first time the tab is opened -->
+            @defer (on immediate) {
+              <app-combat-tab
+                [character]="c"
+                [sheet]="s"
+                [data]="v.data"
+                (changed)="saveState($event)"
+              />
+            } @placeholder {
+              <p>{{ 'common.loading' | t }}</p>
+            }
+          </div>
+        }
+
         @case ('rasgos') {
           <div class="page features" data-page="rasgos">
             <section class="class-features">

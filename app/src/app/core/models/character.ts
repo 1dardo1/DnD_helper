@@ -1,6 +1,7 @@
 import { CannonState, normalizeCannon } from '../artificer/cannon';
 import { ReplicatedItem, normalizeReplicated } from '../artificer/replicated-state';
 import { TempSlot, normalizeCharges, normalizeTempSlots } from '../artificer/tinker';
+import { normalizeFavorites } from '../combat/favorites';
 import { SummonsState, normalizeSummons } from '../summons/summon-state';
 import { normalizeHpMethod } from '../creation/hp-levels';
 import { Ability } from './compendium';
@@ -160,6 +161,11 @@ export interface Character {
     tempSlots?: TempSlot[];
     /** The Artillerist's Eldritch Cannon, while one is out (absent: none deployed). */
     cannon?: CannonState;
+    /**
+     * Rows of the combat tab marked as favorites (core/combat/combat-actions.ts ids: "spell:shield",
+     * "attack:<entry>", "feature:...@bonus"...), in the order they were added. Absent: none.
+     */
+    combatFavorites?: string[];
   };
   notes: string;
 }
@@ -321,6 +327,9 @@ function normalizeState(base: Character['state'], raw: Character['state'] | unde
   const tempSlots = normalizeTempSlots(raw?.tempSlots);
   if (tempSlots.length) state.tempSlots = tempSlots;
   else delete state.tempSlots;
+  const favorites = normalizeFavorites(raw?.combatFavorites);
+  if (favorites) state.combatFavorites = favorites;
+  else delete state.combatFavorites;
   const cannon = normalizeCannon(raw?.cannon);
   if (cannon) state.cannon = cannon;
   else delete state.cannon;

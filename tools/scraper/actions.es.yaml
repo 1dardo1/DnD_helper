@@ -1,0 +1,155 @@
+# Traducción a mano de las acciones genéricas del SRD 5.2.1 (dndscraper/srd_rules.py), con los nombres del
+# Manual del Jugador 2024 en español. `python3 -m dndscraper.srd_rules --translations` las pasa a la caché
+# de traducciones (translations.es.json) con la misma clave que usaría el traductor automático, así que
+# `translate --offline` las pone en data/es/rules.json y una extracción completa no las vuelve a enviar.
+# Clave: id de la entrada en data/rules.json. Si el texto inglés cambia, esta traducción deja de usarse
+# (la caché va por texto) y el traductor automático hará la nueva.
+
+actions/action:
+  name: Acción
+  description: |-
+    En tu turno, puedes realizar una acción. Elige qué acción realizar entre las de abajo o entre las acciones especiales que te dan tus rasgos. *Ver también* «Cómo se juega» («Acciones»). Estas acciones se definen en otras entradas de este glosario:
+
+    - Atacar
+    - Correr
+    - Destrabarse
+    - Esquivar
+    - Ayudar
+    - Esconderse
+    - Influir
+    - Magia
+    - Preparar
+    - Buscar
+    - Estudiar
+    - Usar
+actions/bonus-action:
+  name: Acción adicional
+  description: |-
+    Una acción adicional es una acción especial que puedes realizar en el mismo turno en que realizas una acción. No puedes realizar más de una acción adicional por turno, y solo tienes una acción adicional que realizar si una regla lo dice explícitamente. *Ver también* «Cómo se juega» («Acciones»).
+actions/reaction:
+  name: Reacción
+  description: |-
+    Una reacción es una acción especial que se realiza en respuesta a un desencadenante definido en la descripción de la reacción. Puedes realizar una reacción en el turno de otra criatura y, si la realizas en tu turno, puedes hacerlo aunque también realices una acción, una acción adicional o ambas. Cuando realizas una reacción, no puedes realizar otra hasta el comienzo de tu siguiente turno. El ataque de oportunidad es una reacción disponible para todas las criaturas. *Ver también* «Ataques de oportunidad» y «Cómo se juega» («Acciones»).
+actions/attack:
+  name: Atacar
+  description: |-
+    Cuando realizas la acción de Atacar, puedes hacer una tirada de ataque con un arma o un ataque sin armas.
+
+    ***Equiparse y desequiparse armas.*** Puedes equiparte o desequiparte un arma cuando haces un ataque como parte de esta acción. Lo haces antes o después del ataque. Si te equipas un arma antes de un ataque, no hace falta que la uses en ese ataque. Equiparse un arma incluye desenvainarla o recogerla. Desequiparse un arma incluye envainarla, guardarla o soltarla.
+
+    ***Moverse entre ataques.*** Si te mueves en tu turno y tienes un rasgo, como Ataque extra, que te da más de un ataque como parte de la acción de Atacar, puedes usar parte o todo ese movimiento para moverte entre esos ataques.
+actions/dash:
+  name: Correr
+  description: |-
+    Cuando realizas la acción de Correr, obtienes movimiento adicional durante el turno actual. El aumento es igual a tu velocidad después de aplicar cualquier modificador. Con una velocidad de 30 pies, por ejemplo, puedes moverte hasta 60 pies en tu turno si corres. Si tu velocidad de 30 pies se reduce a 15 pies, puedes moverte hasta 30 pies este turno si corres.
+
+    Si tienes una velocidad especial, como una velocidad de vuelo o de nado, puedes usar esa velocidad en lugar de tu velocidad cuando realizas esta acción. Eliges qué velocidad usar cada vez que la realizas. *Ver también* «Velocidad».
+actions/disengage:
+  name: Destrabarse
+  description: |-
+    Si realizas la acción de Destrabarse, tu movimiento no provoca ataques de oportunidad durante el resto del turno actual.
+actions/dodge:
+  name: Esquivar
+  description: |-
+    Si realizas la acción de Esquivar, obtienes estos beneficios: hasta el comienzo de tu siguiente turno, cualquier tirada de ataque contra ti tiene desventaja si puedes ver al atacante, y haces las tiradas de salvación de Destreza con ventaja.
+
+    Pierdes estos beneficios si tienes el estado Incapacitado o si tu velocidad es 0.
+actions/help:
+  name: Ayudar
+  description: |-
+    Cuando realizas la acción de Ayudar, haces una de las siguientes cosas.
+
+    ***Ayudar en una prueba de característica.*** Elige una de tus competencias con habilidades o herramientas y un aliado que esté lo bastante cerca para que lo ayudes de palabra o físicamente cuando haga una prueba de característica. Ese aliado tiene ventaja en la siguiente prueba de característica que haga con la habilidad o herramienta elegida. Este beneficio expira si el aliado no lo usa antes del comienzo de tu siguiente turno. El DM tiene la última palabra sobre si tu ayuda es posible.
+
+    ***Ayudar en una tirada de ataque.*** Distraes por un momento a un enemigo a 5 pies o menos de ti, lo que da ventaja a la siguiente tirada de ataque de uno de tus aliados contra ese enemigo. Este beneficio expira al comienzo de tu siguiente turno.
+actions/hide:
+  name: Esconderse
+  description: |-
+    Con la acción de Esconderse, intentas ocultarte. Para ello, debes superar una prueba de Destreza (Sigilo) CD 15 mientras estás muy oscurecido o detrás de cobertura de tres cuartos o cobertura total, y debes estar fuera de la línea de visión de cualquier enemigo; si puedes ver a una criatura, sabes si ella puede verte.
+
+    Si superas la prueba, tienes el estado Invisible mientras estás escondido. Anota el total de tu prueba, que es la CD que una criatura debe superar para encontrarte con una prueba de Sabiduría (Percepción).
+
+    Dejas de estar escondido inmediatamente después de que ocurra cualquiera de estas cosas: haces un ruido más fuerte que un susurro, un enemigo te encuentra, haces una tirada de ataque o lanzas un conjuro con componente verbal.
+actions/influence:
+  name: Influir
+  description: |-
+    Con la acción de Influir, instas a un monstruo a hacer algo. Describe o interpreta cómo te comunicas con el monstruo. ¿Intentas engañarlo, intimidarlo, divertirlo o persuadirlo con amabilidad? El DM decide entonces si el monstruo se muestra dispuesto, reacio o indeciso por tu interacción; esto determina si hace falta una prueba de característica, como se explica a continuación.
+
+    ***Dispuesto.*** Si lo que le pides coincide con los deseos del monstruo, no hace falta prueba; el monstruo cumple tu petición a su manera.
+
+    ***Reacio.*** Si lo que le pides le repugna o va contra su alineamiento, no hace falta prueba; no obedece.
+
+    ***Indeciso.*** Si le pides algo que duda en hacer, debes hacer una prueba de característica, afectada por la actitud del monstruo: indiferente, amistoso u hostil, cada una definida en este glosario. La tabla «Pruebas de Influir» sugiere qué prueba hacer según cómo interactúes con el monstruo. El DM elige la prueba, cuya CD por defecto es 15 o la puntuación de Inteligencia del monstruo, la que sea mayor. Si la superas, el monstruo hace lo que le pides. Si fallas, debes esperar 24 horas (u otro plazo que fije el DM) antes de volver a pedírselo de la misma forma.
+
+    **Pruebas de Influir**
+
+    - Carisma (Engaño): engañar a un monstruo que te entiende
+    - Carisma (Intimidación): intimidar a un monstruo
+    - Carisma (Interpretación): divertir a un monstruo
+    - Carisma (Persuasión): persuadir a un monstruo que te entiende
+    - Sabiduría (Trato con animales): convencer con suavidad a una bestia o una monstruosidad
+actions/magic:
+  name: Magia
+  description: |-
+    Cuando realizas la acción de Magia, lanzas un conjuro cuyo tiempo de lanzamiento es una acción, o usas un rasgo u objeto mágico que necesita una acción de Magia para activarse.
+
+    Si lanzas un conjuro cuyo tiempo de lanzamiento es de 1 minuto o más, debes realizar la acción de Magia en cada turno del lanzamiento, y debes mantener la concentración mientras lo haces. Si tu concentración se rompe, el conjuro falla, pero no gastas el espacio de conjuro. *Ver también* «Concentración».
+actions/ready:
+  name: Preparar
+  description: |-
+    Realizas la acción de Preparar para esperar una circunstancia concreta antes de actuar. Para ello, realizas esta acción en tu turno, lo que te permite actuar con una reacción antes del comienzo de tu siguiente turno.
+
+    Primero decides qué circunstancia perceptible desencadenará tu reacción. Después eliges la acción que realizarás en respuesta a ese desencadenante, o decides moverte hasta tu velocidad en respuesta. Por ejemplo: «Si el sectario pisa la trampilla, tiraré de la palanca que la abre» o «Si el zombi se pone a mi lado, me alejo».
+
+    Cuando se produce el desencadenante, puedes realizar tu reacción justo después de que termine o ignorarlo.
+
+    Cuando preparas un conjuro, lo lanzas con normalidad (gastando los recursos necesarios para lanzarlo) pero retienes su energía, que liberas con tu reacción cuando se produce el desencadenante. Para poder prepararlo, el conjuro debe tener un tiempo de lanzamiento de una acción, y retener su magia requiere concentración, que puedes mantener hasta el comienzo de tu siguiente turno. Si tu concentración se rompe, el conjuro se disipa sin efecto.
+actions/search:
+  name: Buscar
+  description: |-
+    Cuando realizas la acción de Buscar, haces una prueba de Sabiduría para darte cuenta de algo que no es evidente. La tabla «Buscar» sugiere qué habilidades sirven cuando realizas esta acción, según lo que intentes detectar.
+
+    **Buscar**
+
+    - Perspicacia: el estado de ánimo de una criatura
+    - Medicina: la dolencia o la causa de la muerte de una criatura
+    - Percepción: una criatura u objeto ocultos
+    - Supervivencia: rastros o comida
+actions/study:
+  name: Estudiar
+  description: |-
+    Cuando realizas la acción de Estudiar, haces una prueba de Inteligencia para repasar tu memoria, un libro, una pista u otra fuente de conocimiento y recordar un dato importante sobre ello.
+
+    La tabla «Áreas de conocimiento» sugiere qué habilidades sirven para cada área.
+
+    **Áreas de conocimiento**
+
+    - Conocimiento Arcano: conjuros, objetos mágicos, símbolos sobrenaturales, tradiciones mágicas, planos de existencia y ciertas criaturas (aberraciones, constructos, elementales, feéricos y monstruosidades)
+    - Historia: sucesos y personajes históricos, civilizaciones antiguas, guerras y ciertas criaturas (gigantes y humanoides)
+    - Investigación: trampas, cifrados, acertijos y artilugios
+    - Naturaleza: terreno, flora, clima y ciertas criaturas (bestias, dragones, cienos y plantas)
+    - Religión: deidades, jerarquías y ritos religiosos, símbolos sagrados, cultos y ciertas criaturas (celestiales, infernales y muertos vivientes)
+actions/utilize:
+  name: Usar
+  description: |-
+    Normalmente interactúas con un objeto mientras haces otra cosa, como cuando desenvainas una espada como parte de la acción de Atacar. Cuando un objeto necesita una acción para usarse, realizas la acción de Usar.
+actions/opportunity-attacks:
+  name: Ataques de oportunidad
+  description: |-
+    Puedes hacer un ataque de oportunidad cuando una criatura que puedes ver sale de tu alcance usando su acción, su acción adicional, su reacción o una de sus velocidades. Para hacer el ataque de oportunidad, realiza una reacción para hacer un ataque cuerpo a cuerpo con un arma o un ataque sin armas contra la criatura que lo provoca. El ataque ocurre justo antes de que la criatura salga de tu alcance. *Ver también* «Cómo se juega» («Combate»).
+actions/unarmed-strike:
+  name: Ataque sin armas
+  description: |-
+    En lugar de usar un arma para hacer un ataque cuerpo a cuerpo, puedes usar un puñetazo, una patada, un cabezazo o un golpe contundente similar. En términos de juego, esto es un ataque sin armas: un ataque cuerpo a cuerpo en el que usas tu cuerpo para dañar, agarrar o empujar a un objetivo a 5 pies o menos de ti.
+
+    Siempre que uses tu ataque sin armas, elige una de las siguientes opciones para su efecto.
+
+    ***Daño.*** Haces una tirada de ataque contra el objetivo. Tu bonificador a la tirada es igual a tu modificador de Fuerza más tu bonificador de competencia. Si impactas, el objetivo recibe daño contundente igual a 1 más tu modificador de Fuerza.
+
+    ***Agarrar.*** El objetivo debe superar una tirada de salvación de Fuerza o Destreza (elige él), o tendrá el estado Agarrado. La CD de la tirada de salvación y de cualquier intento de escapar es igual a 8 más tu modificador de Fuerza y tu bonificador de competencia. Solo puedes agarrar a un objetivo que no sea más de un tamaño mayor que tú y si tienes una mano libre para sujetarlo. *Ver también* «Agarrar».
+
+    ***Empujar.*** El objetivo debe superar una tirada de salvación de Fuerza o Destreza (elige él), o bien lo empujas 5 pies o le haces tener el estado Derribado. La CD de la tirada de salvación es igual a 8 más tu modificador de Fuerza y tu bonificador de competencia. Solo puedes empujar a un objetivo que no sea más de un tamaño mayor que tú.
+actions/light-property:
+  name: Propiedad Ligera
+  description: |-
+    Cuando realizas la acción de Atacar en tu turno y atacas con un arma ligera, puedes hacer un ataque adicional como acción adicional más tarde en ese mismo turno. Ese ataque adicional debe hacerse con otra arma ligera, y no sumas tu modificador de característica al daño del ataque adicional salvo que sea negativo. Por ejemplo, puedes atacar con una espada corta en una mano y una daga en la otra usando la acción de Atacar y una acción adicional, pero no sumas tu modificador de Fuerza o Destreza a la tirada de daño de la acción adicional salvo que sea negativo.

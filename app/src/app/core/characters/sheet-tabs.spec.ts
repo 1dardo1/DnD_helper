@@ -28,6 +28,7 @@ describe('visibleTabs', () => {
   it('a Fighter without feat spells has no Spells nor Summons tab', () => {
     expect(visibleTabs(noCast(), { featSpells: 0, summonSources: 0 })).toEqual([
       'resumen',
+      'combate',
       'rasgos',
       'equipo',
       'notas',
@@ -41,6 +42,7 @@ describe('visibleTabs', () => {
   it('a caster has Spells; Summons only with summonable creatures or tracked ones', () => {
     expect(visibleTabs(wizard, { featSpells: 0, summonSources: 0 })).toEqual([
       'resumen',
+      'combate',
       'rasgos',
       'conjuros',
       'equipo',

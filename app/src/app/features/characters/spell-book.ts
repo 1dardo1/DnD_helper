@@ -19,6 +19,7 @@ import { Spell } from '../../core/models/compendium';
 import { castingOf } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { defaultOrder } from '../../shared/picker/entry-order';
+import { SwipeDirective, stepOf } from '../../shared/swipe.directive';
 
 interface Caster {
   classId: string;
@@ -37,7 +38,7 @@ interface Caster {
  */
 @Component({
   selector: 'app-spell-book',
-  imports: [RouterLink, TranslatePipe, DataNamePipe],
+  imports: [RouterLink, TranslatePipe, DataNamePipe, SwipeDirective],
   templateUrl: './spell-book.html',
   styleUrl: './spell-book.scss',
 })
@@ -143,6 +144,14 @@ export class SpellBook {
     delete spellSwap[c.classId];
     this.editing.set(null);
     this.changed.emit({ ...ch, state: { ...ch.state, spellSwap } });
+  }
+
+  /** Phones, with two or more casting classes: the one shown (a strip of tabs, or a swipe). */
+  protected readonly shownCaster = signal(0);
+
+  protected swipe(dir: 'left' | 'right'): void {
+    const n = this.casters().length;
+    if (n > 1) this.shownCaster.set(stepOf(Math.min(this.shownCaster(), n - 1), n, dir));
   }
 
   protected value(e: Event): string {

@@ -1,0 +1,380 @@
+import {
+  Component,
+  DestroyRef,
+  afterNextRender,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+  resource,
+  signal,
+} from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { RouterLink } from '@angular/router';
+
+import { weaponEntriesOf } from '../../core/characters/weapons';
+import { blocksOf, sentencesOf } from '../../core/combat/action-text';
+import {
+  ACTION_KINDS,
+  ActionKind,
+  CombatRow,
+  LinePart,
+  Section,
+  advantagesOf,
+  combatRows,
+  definitions,
+  favoriteRows,
+  featureDcs,
+  sectionsOf,
+} from '../../core/combat/combat-actions';
+import { toggleFavorite } from '../../core/combat/favorites';
+import { leftOf, spend, refund } from '../../core/combat/spend';
+import { CompendiumService } from '../../core/compendium/compendium.service';
+import { browserStorage } from '../../core/creation/edit-draft';
+import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
+import { TermPipe, term } from '../../core/i18n/glossary';
+import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
+import { Character } from '../../core/models/character';
+import { Rule } from '../../core/models/compendium';
+import { PlayState, currentHp, playResources } from '../../core/play/play-state';
+import { attacksFor } from '../../core/rules/attacks';
+import { RulesData } from '../../core/rules/engine';
+import { Sheet } from '../../core/rules/sheet';
+import { MarkdownPipe } from '../../shared/markdown.pipe';
+import { SwipeDirective, stepOf } from '../../shared/swipe.directive';
+
+export type CombatColumn = ActionKind | 'favorites';
+export const COMBAT_COLUMNS: readonly CombatColumn[] = [...ACTION_KINDS, 'favorites'];
+
+const COLUMN_PREFIX = 'dnd-helper.sheet.combat.col.';
+
+/** The column shown on a phone, remembered per character (like the tab). */
+export function readColumn(storage: Pick<Storage, 'getItem'> | null, id: string): CombatColumn {
+  try {
+    const v = storage?.getItem(COLUMN_PREFIX + id);
+    return (COMBAT_COLUMNS as readonly string[]).includes(v ?? '') ? (v as CombatColumn) : 'action';
+  } catch {
+    return 'action';
+  }
+}
+
+export function writeColumn(
+  storage: Pick<Storage, 'setItem'> | null,
+  id: string,
+  col: CombatColumn,
+) {
+  try {
+    storage?.setItem(COLUMN_PREFIX + id, col);
+  } catch {
+    // only a convenience
+  }
+}
+
+/**
+ * The Combat tab of the sheet: the numbers that matter in a fight on top, then every action,
+ * bonus action and reaction the character has (core/combat/combat-actions.ts) in three columns
+ * and a fourth of favorites. Phones show one column at a time (a strip of tabs, or a swipe).
+ * Loaded lazily (@defer in the sheet). It only computes the new state; the sheet saves it.
+ */
+@Component({
+  selector: 'app-combat-tab',
+  imports: [
+    NgTemplateOutlet,
+    RouterLink,
+    TranslatePipe,
+    TermPipe,
+    DataNamePipe,
+    DataTextPipe,
+    MarkdownPipe,
+    SwipeDirective,
+  ],
+  templateUrl: './combat-tab.html',
+  styleUrl: './combat-tab.scss',
+})
+export class CombatTab {
+  readonly character = input.required<Character>();
+  readonly sheet = input.required<Sheet>();
+  readonly data = input.required<RulesData>();
+  readonly changed = output<PlayState>();
+
+  private readonly compendium = inject(CompendiumService);
+  private readonly dataText = inject(DataTextService);
+  private readonly i18n = inject(I18nService);
+
+  private readonly lists = resource({
+    loader: async () => {
+      const [spells, rules] = await Promise.all([
+        this.compendium.all('spell'),
+        this.compendium.all('rule'),
+      ]);
+      return {
+        spells: new Map(spells.map((s) => [s.id, s])),
+        rules: (rules as Rule[]).filter((r) => r.category === 'actions'),
+      };
+    },
+  });
+
+  protected readonly columns = COMBAT_COLUMNS;
+  protected readonly kinds = ACTION_KINDS;
+  protected readonly state = computed(() => this.character().state);
+  protected readonly resources = computed(() => playResources(this.sheet()));
+
+  protected readonly rows = computed<CombatRow[]>(() => {
+    const l = this.lists.value();
+    if (!l) return [];
+    const ch = this.character();
+    const sheet = this.sheet();
+    return combatRows({
+      sheet,
+      character: ch,
+      data: this.data(),
+      attacks: attacksFor(sheet, weaponEntriesOf(ch.inventory, this.data().items)),
+      spells: l.spells,
+      rules: l.rules,
+      resources: this.resources(),
+    });
+  });
+  protected readonly loading = computed(() => !this.lists.value() && !this.lists.error());
+
+  protected readonly favorites = computed(() => new Set(this.state().combatFavorites ?? []));
+  protected readonly favoriteGroups = computed(() =>
+    favoriteRows(this.rows(), this.state().combatFavorites),
+  );
+  protected readonly sections = computed(() => {
+    const rows = this.rows();
+    return Object.fromEntries(ACTION_KINDS.map((k) => [k, sectionsOf(rows, k)])) as Record<
+      ActionKind,
+      { section: Section; rows: CombatRow[] }[]
+    >;
+  });
+  protected readonly counts = computed(() => {
+    const rows = this.rows();
+    const out: Record<CombatColumn, number> = { action: 0, bonus: 0, reaction: 0, favorites: 0 };
+    for (const r of rows) out[r.kind]++;
+    out.favorites = this.favoriteGroups().reduce((n, g) => n + g.rows.length, 0);
+    return out;
+  });
+  protected readonly definitions = computed(() => definitions(this.lists.value()?.rules ?? []));
+
+  // -- the column on a phone ------------------------------------------------------------------
+
+  protected readonly current = signal<CombatColumn>('action');
+  /** Phones only: one column and the swipe; wider screens show them all. */
+  protected readonly narrow = signal(true);
+
+  constructor() {
+    effect(() => this.current.set(readColumn(browserStorage(), this.character().id)));
+    const destroyRef = inject(DestroyRef);
+    afterNextRender(() => {
+      const mq = window.matchMedia?.('(max-width: 44.99rem)');
+      if (!mq) return;
+      const update = () => this.narrow.set(mq.matches);
+      update();
+      mq.addEventListener('change', update);
+      destroyRef.onDestroy(() => mq.removeEventListener('change', update));
+    });
+  }
+
+  protected show(col: CombatColumn): void {
+    this.current.set(col);
+    writeColumn(browserStorage(), this.character().id, col);
+  }
+
+  protected swipe(dir: 'left' | 'right'): void {
+    const i = COMBAT_COLUMNS.indexOf(this.current());
+    this.show(COMBAT_COLUMNS[stepOf(i, COMBAT_COLUMNS.length, dir)]);
+  }
+
+  // -- header ---------------------------------------------------------------------------------
+
+  protected readonly hp = computed(() => currentHp(this.state(), this.sheet().hitPoints.max));
+  protected readonly speeds = computed(() =>
+    Object.entries(this.sheet().speed).map(([kind, value]) => ({ kind, value })),
+  );
+  protected readonly dcs = computed(() => featureDcs(this.sheet()));
+  protected readonly advantages = computed(() => advantagesOf(this.sheet()));
+  protected readonly slotSummary = computed(() => {
+    const s = this.sheet();
+    const st = this.state();
+    const out = s.spellcasting.slots
+      .map((max, i) => ({
+        label: `${i + 1}`,
+        left: max - Math.min(st.spentSlots[i] ?? 0, max),
+        max,
+      }))
+      .filter((x) => x.max > 0);
+    const pact = s.spellcasting.pact;
+    if (pact)
+      out.push({
+        label: this.i18n.t('combat.head.pactLevel', { level: pact.level }),
+        left: pact.slots - Math.min(st.pactSlotsSpent, pact.slots),
+        max: pact.slots,
+      });
+    return out;
+  });
+  protected readonly hitDice = computed(() =>
+    this.sheet().hitPoints.hitDice.map((d) => ({
+      die: d.die,
+      left: d.count - Math.min(this.state().hitDiceSpent[`d${d.die}`] ?? 0, d.count),
+      count: d.count,
+    })),
+  );
+  protected readonly senses = computed(() => {
+    const s = this.sheet();
+    const list = s.senses.map((x) => ({ kind: x.kind, range: x.range }));
+    if (s.darkvision && !list.some((x) => x.kind === 'darkvision'))
+      list.unshift({ kind: 'darkvision', range: s.darkvision });
+    return list;
+  });
+
+  protected className(id: string): string {
+    return this.dataText.shortName(this.sheet().classes.find((c) => c.id === id)?.name ?? id);
+  }
+
+  // -- rows -----------------------------------------------------------------------------------
+
+  protected name(r: CombatRow): string {
+    return r.nameKey ? this.i18n.t(r.nameKey as never) : this.dataText.shortName(r.name);
+  }
+
+  /** The label of the part of a feature, in the language of the data. */
+  protected part(r: CombatRow): string | null {
+    if (!r.part) return null;
+    const block = r.more?.block;
+    if (r.more && block !== null && block !== undefined) {
+      const es = this.dataText.text(r.more.text);
+      const tr = blocksOf(es);
+      if (es !== r.more.text && tr.length === blocksOf(r.more.text).length && tr[block]?.label)
+        return tr[block].label;
+    }
+    return r.part;
+  }
+
+  /** The one-line summary, with the numbers already worked out. */
+  protected line(r: CombatRow): string {
+    return r.line
+      .map((p) => this.piece(p))
+      .filter((x) => !!x)
+      .join(' · ');
+  }
+
+  private piece(p: LinePart): string {
+    const t = (key: string, params?: Record<string, string | number>) =>
+      this.i18n.t(key as never, params);
+    const lang = this.i18n.language();
+    switch (p.k) {
+      case 'hit':
+        return t('combat.line.hit', { n: signed(p.n) });
+      case 'damage':
+        return `${p.dice} ${term(lang, 'damage', p.type)}`;
+      case 'heal':
+        return t('combat.line.heal', { dice: p.dice });
+      case 'dc':
+        return t('combat.line.dc', { n: p.n }) + (p.ability ? ` (${t('abbr.' + p.ability)})` : '');
+      case 'range':
+        return /^\d+\/\d+$/.test(p.text)
+          ? t('sheet.rangeFeet', { range: p.text })
+          : this.dataText.text(p.text);
+      case 'reach':
+        return t('sheet.feet', { n: p.feet });
+      case 'mastery':
+        return `${t('sheet.mastery')}: ${term(lang, 'mastery', p.name)}`;
+      case 'concentration':
+        return t('combat.line.concentration');
+      case 'ritual':
+        return t('combat.line.ritual');
+      case 'ui':
+        return t(p.key, p.params);
+      case 'sentence':
+        return this.sentence(p);
+    }
+  }
+
+  /** A sentence of a data text in the language shown: the same sentence of its translation. */
+  private sentence(p: Extract<LinePart, { k: 'sentence' }>): string {
+    const es = this.dataText.text(p.of);
+    if (es === p.of) return p.index < 0 ? p.of : p.text;
+    if (p.index < 0) return es;
+    const pick = (text: string) =>
+      sentencesOf(p.block === null ? text : (blocksOf(text)[p.block]?.text ?? ''));
+    const en = pick(p.of);
+    const tr = pick(es);
+    return en.length === tr.length && tr[p.index] ? tr[p.index] : p.text;
+  }
+
+  /** "Ver más": the text (or its part) in the language of the data. */
+  protected more(r: CombatRow): string {
+    if (!r.more) return '';
+    const es = this.dataText.text(r.more.text);
+    const block = r.more.block;
+    if (block === null) return es;
+    const tr = blocksOf(es);
+    const en = blocksOf(r.more.text);
+    const pickFrom = tr.length === en.length ? tr : en;
+    const b = pickFrom[block];
+    if (!b) return es;
+    return b.label ? `**${b.label}.** ${b.text}` : b.text;
+  }
+
+  protected readonly open = signal<ReadonlySet<string>>(new Set());
+  protected toggleOpen(id: string): void {
+    this.open.update((s) => {
+      const next = new Set(s);
+      if (!next.delete(id)) next.add(id);
+      return next;
+    });
+  }
+
+  // -- costs and favorites --------------------------------------------------------------------
+
+  protected left(r: CombatRow): number {
+    return r.cost ? leftOf(this.sheet(), this.state(), r.cost) : 0;
+  }
+
+  protected costLabel(r: CombatRow): string {
+    const c = r.cost;
+    if (!c) return '';
+    if (c.k === 'slot')
+      return this.i18n.t('combat.cost.slot', { level: c.level, left: this.left(r) });
+    const name = c.labelKey
+      ? this.i18n.t(c.labelKey as never)
+      : term(this.i18n.language(), 'column', c.name);
+    return this.i18n.t('combat.cost.uses', { name, left: this.left(r), max: c.max });
+  }
+
+  protected spend(r: CombatRow): void {
+    if (!r.cost) return;
+    this.emit(spend(this.sheet(), this.state(), r.cost));
+  }
+
+  protected refund(r: CombatRow): void {
+    if (!r.cost) return;
+    this.emit(refund(this.state(), r.cost));
+  }
+
+  protected canRefund(r: CombatRow): boolean {
+    return r.cost?.k === 'resource' && (this.state().resources[r.cost.key] ?? 0) > 0;
+  }
+
+  protected toggleFavorite(id: string): void {
+    const list = toggleFavorite(this.state().combatFavorites, id);
+    const next: PlayState = { ...this.state(), combatFavorites: list };
+    if (!list.length) delete next.combatFavorites;
+    this.emit(next);
+  }
+
+  private emit(next: PlayState): void {
+    if (next !== this.state()) this.changed.emit(next);
+  }
+
+  protected terms(values: readonly string[], domain: 'damage' | 'condition'): string {
+    return values.map((v) => term(this.i18n.language(), domain, v)).join(', ');
+  }
+
+  protected signed = signed;
+}
+
+function signed(n: number): string {
+  return n >= 0 ? `+${n}` : `${n}`;
+}

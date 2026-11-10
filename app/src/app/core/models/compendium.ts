@@ -237,6 +237,8 @@ export interface Item extends Entry {
 export interface Rule extends Entry {
   type: 'rule';
   category: string;
+  /** The glossary's tag of a generic action of the SRD ("Action" for "Attack [Action]"). */
+  tag?: string | null;
 }
 
 /** A trait or an action of a monster's stat block. */

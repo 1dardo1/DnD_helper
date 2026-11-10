@@ -27,6 +27,7 @@ import { defaultOrder } from './entry-order';
 import { FilterBar } from './filter-bar';
 import { FacetSelection, activeFacets, applyFacets } from './picker-filters';
 import { requiredSpecies, sectionsBySpecies } from './racial-feats';
+import { SwipeDirective } from '../swipe.directive';
 
 /** What a picker can list: compendium entries, or anything with an id and an English name. */
 export interface PickItem {
@@ -51,7 +52,7 @@ const SEARCH_FROM = 8;
  */
 @Component({
   selector: 'app-picker',
-  imports: [NgTemplateOutlet, TranslatePipe, EntryCard, EntryDetails, FilterBar],
+  imports: [NgTemplateOutlet, TranslatePipe, EntryCard, EntryDetails, FilterBar, SwipeDirective],
   templateUrl: './picker.html',
   styleUrl: './picker.scss',
 })
@@ -69,6 +70,11 @@ export class Picker<T extends PickItem> {
   readonly chosenOnlyLabel = input('');
   /** A short note on the card of some items, by id (e.g. "already chosen as Warlock"). */
   readonly marks = input<Readonly<Record<string, string>>>({});
+  /**
+   * A facet whose values are groups to go through by swiping the list sideways (or with the
+   * arrows above it): "level" for spells, from all levels to cantrips, level 1, level 2...
+   */
+  readonly swipeFacet = input<FacetKey | null>(null);
   /** id + true (chosen) / false (unticked, multiple only). */
   readonly picked = output<{ id: string; on: boolean }>();
 
@@ -176,6 +182,32 @@ export class Picker<T extends PickItem> {
     const racial = list.filter((sec) => sec.species);
     return [...racial, ...rest.map((sec) => ({ ...sec, label: this.i18n.t('picker.otherFeats') }))];
   });
+
+  /** The groups of the swipe facet ("" = all) and the one shown, when there are two or more. */
+  protected readonly swipeGroups = computed(() => {
+    const key = this.swipeFacet();
+    const facet = key ? this.facetViews().find((f) => f.key === key) : undefined;
+    if (!facet || facet.options.length < 2) return null;
+    const values = ['', ...facet.options.map((o) => o.value)];
+    const at = values.indexOf(this.selection()[facet.key] ?? '');
+    const index = at < 0 ? -1 : at;
+    const label =
+      index < 0
+        ? facet.label
+        : index === 0
+          ? this.i18n.t('picker.swipeAll')
+          : facet.options[index - 1].label;
+    return { key: facet.key, values, index, label };
+  });
+
+  /** The next (left) or previous (right) group of the swipe facet. */
+  protected swipeTo(dir: 'left' | 'right'): void {
+    const g = this.swipeGroups();
+    if (!g) return;
+    const from = g.index < 0 ? 0 : g.index;
+    const next = dir === 'left' ? Math.min(g.values.length - 1, from + 1) : Math.max(0, from - 1);
+    if (next !== from || g.index < 0) this.setFacet(g.key, g.values[next]);
+  }
 
   protected readonly anyFilter = computed(
     () => !!this.query() || activeFacets(this.selection()) > 0 || this.chosenOnly(),

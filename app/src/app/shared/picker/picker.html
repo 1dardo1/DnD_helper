@@ -71,26 +71,57 @@
       }
     </app-filter-bar>
   }
-  @if (sections(); as list) {
-    @for (sec of list; track sec.species) {
-      @if (sec.label && list.length > 1) {
-        <h3 class="section-title">{{ sec.label }}</h3>
+  @if (swipeGroups(); as g) {
+    <div class="swipe-nav" data-testid="picker-swipe">
+      <button
+        type="button"
+        class="btn-ghost"
+        [disabled]="g.index <= 0"
+        [attr.aria-label]="'picker.swipePrev' | t"
+        (click)="swipeTo('right')"
+      >
+        ‹
+      </button>
+      <span class="swipe-label" [title]="'picker.swipeHint' | t">{{ g.label }}</span>
+      <button
+        type="button"
+        class="btn-ghost"
+        [disabled]="g.index >= g.values.length - 1"
+        [attr.aria-label]="'picker.swipeNext' | t"
+        (click)="swipeTo('left')"
+      >
+        ›
+      </button>
+    </div>
+  }
+  <div
+    class="swipe-area"
+    appSwipe
+    [swipeDisabled]="!swipeGroups()"
+    (swipeLeft)="swipeTo('left')"
+    (swipeRight)="swipeTo('right')"
+  >
+    @if (sections(); as list) {
+      @for (sec of list; track sec.species) {
+        @if (sec.label && list.length > 1) {
+          <h3 class="section-title">{{ sec.label }}</h3>
+        }
+        <ul class="cards" [attr.aria-label]="sec.species ? sec.label : label()">
+          @for (item of sec.items; track item.id) {
+            <ng-container *ngTemplateOutlet="pick; context: { $implicit: item }" />
+          }
+        </ul>
       }
-      <ul class="cards" [attr.aria-label]="sec.species ? sec.label : label()">
-        @for (item of sec.items; track item.id) {
+    } @else {
+      <ul class="cards" [attr.aria-label]="label()">
+        @for (item of visible(); track item.id) {
           <ng-container *ngTemplateOutlet="pick; context: { $implicit: item }" />
+        } @empty {
+          <li class="empty">{{ 'common.noResults' | t }}</li>
         }
       </ul>
     }
-  } @else {
-    <ul class="cards" [attr.aria-label]="label()">
-      @for (item of visible(); track item.id) {
-        <ng-container *ngTemplateOutlet="pick; context: { $implicit: item }" />
-      } @empty {
-        <li class="empty">{{ 'common.noResults' | t }}</li>
-      }
-    </ul>
-  }
+  </div>
   @if (filtered().length > visible().length || (browsing() && chosenItems().length)) {
     <p class="actions">
       @if (filtered().length > visible().length) {

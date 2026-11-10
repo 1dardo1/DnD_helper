@@ -1272,3 +1272,23 @@ Necklace of Adaption: Collar de adaptación
 Common Magic Item: Objeto mágico común
 Uncommon Wondrous Item: Objeto maravilloso poco común
 Rare Wondrous Item: Objeto maravilloso raro
+
+# Acciones genéricas (Reglas del SRD 5.2.1, dndscraper/srd_rules.py; textos en actions.es.yaml)
+Action: Acción
+Bonus Action: Acción adicional
+Reaction: Reacción
+Attack: Atacar
+Dash: Correr
+Disengage: Destrabarse
+Dodge: Esquivar
+Help: Ayudar
+Hide: Esconderse
+Influence: Influir
+Magic: Magia
+Ready: Preparar
+Search: Buscar
+Study: Estudiar
+Utilize: Usar
+Opportunity Attacks: Ataques de oportunidad
+Unarmed Strike: Ataque sin armas
+Light Property: Propiedad Ligera

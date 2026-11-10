@@ -2,6 +2,38 @@
   margin-top: 1rem;
 }
 
+// Phones with two or more casting classes: one class at a time (tabs, or a swipe sideways).
+.caster-tabs {
+  display: none;
+  gap: 0.3rem;
+  margin-bottom: var(--space-2);
+
+  button {
+    flex: 1 1 0;
+    min-width: 0;
+
+    &.on {
+      color: var(--paper);
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+  }
+}
+
+@media (max-width: 44.99rem) {
+  .caster-tabs {
+    display: flex;
+  }
+
+  .casters .caster:not(.current) {
+    display: none;
+  }
+
+  .caster + .caster {
+    margin-top: 0;
+  }
+}
+
 .list-title {
   margin: var(--space-2) 0 var(--space-1);
 }

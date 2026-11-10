@@ -145,3 +145,23 @@ label.inline {
     scroll-margin-top: 0.75rem;
   }
 }
+
+// Groups to go through by swiping the list (spell levels): ‹ Level 1 ›
+.swipe-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: var(--space-2) 0;
+
+  button {
+    min-width: var(--tap, 2.75rem);
+    font-size: var(--fs-lg);
+  }
+
+  .swipe-label {
+    min-width: 8rem;
+    text-align: center;
+    font-family: var(--font-title);
+  }
+}

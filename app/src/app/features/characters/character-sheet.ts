@@ -46,6 +46,7 @@ import { ExportPdfButton } from './export-pdf-button';
 import { SpellBook } from './spell-book';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
+import { CombatTab } from './combat-tab';
 import { PlayPanel } from './play-panel';
 import { ReplicatePanel } from './replicate-panel';
 import { HomebrewBadge } from '../homebrew/homebrew-badge';
@@ -71,6 +72,7 @@ import { SummonsPage } from '../summons/summons-page';
     ClassThemeDirective,
     HomebrewBadge,
     SummonsPage,
+    CombatTab,
   ],
   templateUrl: './character-sheet.html',
   styleUrl: './character-sheet.scss',
@@ -285,6 +287,10 @@ export class CharacterSheet {
       this.observedBar = bar;
     }
     if (bar) style.setProperty('--bar-h', `${bar.getBoundingClientRect().height}px`);
+    // the strip of tabs sticks under the bar on phones and tablets (the combat tab's own strip
+    // of columns sticks under it)
+    const tabs = this.host.nativeElement.querySelector('.tabs');
+    if (tabs) style.setProperty('--tabs-h', `${tabs.getBoundingClientRect().height}px`);
   }
 
   /** The summons tab saved its own change: keep the sheet's copy up to date (no second save). */

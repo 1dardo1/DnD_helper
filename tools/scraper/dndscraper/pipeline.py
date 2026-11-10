@@ -652,6 +652,8 @@ def run(root: Path, offline: bool = False, delay: float = 0.5, translate: bool =
     meta = write(merged, root / "data", report, crawler, root / "tools/scraper/report.md")
     from .monsters import run as monsters_run   # SRD 5.2 creatures (data/monsters.json), not from the wikis
     meta["counts"]["monster"] = monsters_run(root, offline=offline)
+    from .srd_rules import run as srd_rules_run   # generic actions (Rules Glossary of the SRD 5.2.1)
+    srd_rules_run(root, offline=offline)
     if translate:
         # Spanish texts (data/es) always follow the English ones: only new or changed texts are sent.
         from .translate import run as translate_run

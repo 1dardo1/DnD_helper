@@ -9,13 +9,7 @@ import {
   setQty,
   toggleEquip,
 } from '../../core/characters/inventory';
-import {
-  AppliedEnhancement,
-  Host,
-  enhancementHosts,
-  enhancementsByHost,
-  hostOf,
-} from '../../core/characters/enhancement';
+import { Host, enhancementHosts, hostOf } from '../../core/characters/enhancement';
 import {
   BonusOption,
   armorStats,
@@ -32,7 +26,7 @@ import { TermPipe } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, Coins, InventoryEntry } from '../../core/models/character';
 import { Item, Spell } from '../../core/models/compendium';
-import { WeaponEntry, attacksFor, proficientWith } from '../../core/rules/attacks';
+import { attacksFor, proficientWith } from '../../core/rules/attacks';
 import { Sheet } from '../../core/rules/sheet';
 import {
   addSpellItem,
@@ -42,6 +36,7 @@ import {
   spellBinding,
 } from '../../core/spell-items/spell-items';
 import { baseSummary } from '../../core/characters/base-label';
+import { weaponEntriesOf } from '../../core/characters/weapons';
 import { displayOrder, groupEntries, moveGroup } from '../../core/characters/inventory-order';
 import { SpellItemPicker } from '../../shared/spell-item-picker';
 import { defaultOrder } from '../../shared/picker/entry-order';
@@ -127,31 +122,8 @@ export class EquipmentPanel {
 
   protected readonly attacks = computed(() => {
     const v = this.items.value();
-    const byHost = v
-      ? enhancementsByHost(this.character().inventory, v.byId)
-      : new Map<string, AppliedEnhancement[]>();
-    const weapons: WeaponEntry[] = this.entries()
-      // ammunition (Arrows, Bolts...) is listed as a weapon without damage: it is no attack
-      .filter(
-        (e) =>
-          e.gear?.kind === 'weapon' &&
-          !!e.gear.base?.weapon &&
-          (e.gear.base.weapon.damage.length > 0 || e.gear.base.weapon.properties.length > 0),
-      )
-      .map((e) => ({
-        id: e.entry.id,
-        equipped: e.entry.equipped,
-        item: e.gear!.base!,
-        magic: e.magic ? { item: e.item!, bonus: e.gear!.bonus } : undefined,
-        upgrades: (byHost.get(e.entry.id) ?? []).map((u) => ({
-          item: u.item,
-          bonus: u.spec.bonus,
-          rangedOnly: u.spec.rangedOnly,
-          ignoresLoading: u.spec.ignoresLoading,
-          freeAmmo: u.spec.freeAmmo,
-        })),
-      }));
-    return attacksFor(this.sheet(), weapons);
+    const inv = displayOrder(this.character().inventory);
+    return attacksFor(this.sheet(), v ? weaponEntriesOf(inv, v.byId) : []);
   });
 
   // -- Weapon Mastery (Barbarian, Fighter, Paladin, Ranger, Rogue) --------------------------

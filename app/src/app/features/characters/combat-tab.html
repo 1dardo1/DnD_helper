@@ -1,0 +1,294 @@
+@let s = sheet();
+@let st = state();
+
+<!-- The numbers of a fight, in one compact strip. HP buttons are in the sticky bar above. -->
+<section class="head" [attr.aria-label]="'combat.head.title' | t" data-testid="combat-head">
+  <dl class="tiles">
+    <div>
+      <dt>{{ 'sheet.armorClassShort' | t }}</dt>
+      <dd>{{ s.armorClass.value }}</dd>
+    </div>
+    <div class="hp">
+      <dt>{{ 'sheet.hitPointsShort' | t }}</dt>
+      <dd>
+        {{ hp() }}<small>/{{ s.hitPoints.max }}</small>
+        @if (st.hpTemp) {
+          <small class="temp">+{{ st.hpTemp }}</small>
+        }
+      </dd>
+    </div>
+    <div>
+      <dt>{{ 'sheet.initiative' | t }}</dt>
+      <dd>{{ signed(s.initiative) }}</dd>
+    </div>
+    <div>
+      <dt>{{ 'sheet.speed' | t }}</dt>
+      <dd>
+        @for (sp of speeds(); track sp.kind; let first = $first) {
+          @if (!first) {
+            <small> · </small>
+          }
+          {{ sp.value }}
+          @if (sp.kind !== 'walk') {
+            <small>{{ sp.kind | term: 'speed' }}</small>
+          }
+        }
+      </dd>
+    </div>
+    <div>
+      <dt>{{ 'combat.head.passive' | t }}</dt>
+      <dd>{{ s.passivePerception }}</dd>
+    </div>
+    <div>
+      <dt>{{ 'combat.head.pb' | t }}</dt>
+      <dd>{{ signed(s.proficiencyBonus) }}</dd>
+    </div>
+    <div>
+      <dt>{{ 'sheet.hitDice' | t }}</dt>
+      <dd>
+        @for (d of hitDice(); track d.die) {
+          {{ d.left }}<small>/{{ d.count }}d{{ d.die }}</small>
+        }
+      </dd>
+    </div>
+    @for (sc of s.spellcasting.classes; track sc.classId) {
+      <div class="wide">
+        <dt>{{ className(sc.classId) }}</dt>
+        <dd>
+          {{ 'combat.line.dc' | t: { n: sc.saveDc } }} <small>·</small>
+          {{ 'combat.line.hit' | t: { n: signed(sc.attack) } }}
+        </dd>
+      </div>
+    }
+    @if (slotSummary().length) {
+      <div class="wide">
+        <dt>{{ 'combat.head.slots' | t }}</dt>
+        <dd>
+          @for (sl of slotSummary(); track sl.label; let first = $first) {
+            @if (!first) {
+              <small> · </small>
+            }
+            <span [class.spent]="!sl.left"
+              ><small>{{ sl.label }}:</small>{{ sl.left }}<small>/{{ sl.max }}</small></span
+            >
+          }
+        </dd>
+      </div>
+    }
+  </dl>
+  <ul class="facts">
+    @for (d of dcs(); track d.source + d.n) {
+      <li>
+        <strong>{{ d.source | dataName: true }}:</strong>
+        {{ 'combat.line.dc' | t: { n: d.n } }}
+        @if (d.ability) {
+          ({{ 'abbr.' + d.ability | t }})
+        }
+      </li>
+    }
+    @if (s.resistances.length) {
+      <li>
+        <strong>{{ 'sheet.resistances' | t }}:</strong> {{ terms(s.resistances, 'damage') }}
+      </li>
+    }
+    @for (a of advantages(); track a.source) {
+      <li class="adv" [title]="a.text">
+        <strong>{{ a.source | dataName: true }}:</strong> {{ 'combat.head.advantage' | t }}
+      </li>
+    }
+    @for (x of senses(); track x.kind) {
+      <li>
+        <strong>{{ 'sheet.sense.' + x.kind | t }}</strong> {{ 'sheet.feet' | t: { n: x.range } }}
+      </li>
+    }
+    @if (st.conditions.length || st.exhaustion) {
+      <li class="cond">
+        <strong>{{ 'combat.head.conditions' | t }}:</strong>
+        @for (c of st.conditions; track c; let last = $last) {
+          {{ 'cond.' + c | t }}{{ last ? '' : ', ' }}
+        }
+        @if (st.exhaustion) {
+          {{ st.conditions.length ? ', ' : '' }}{{ 'cond.exhaustion' | t }} {{ st.exhaustion }}
+        }
+      </li>
+    }
+  </ul>
+</section>
+
+<!-- Phones: one column at a time; this strip (or a swipe) changes it. -->
+<div class="col-tabs" role="tablist" [attr.aria-label]="'combat.columns' | t">
+  @for (col of columns; track col) {
+    <button
+      type="button"
+      role="tab"
+      [attr.data-col]="col"
+      [attr.aria-selected]="current() === col"
+      [class.on]="current() === col"
+      (click)="show(col)"
+    >
+      {{ 'combat.col.' + col | t }} <span class="count">{{ counts()[col] }}</span>
+    </button>
+  }
+</div>
+
+<ng-template #rowTpl let-r let-tagKind="tagKind">
+  @let fav = favorites().has(r.id);
+  @let opened = open().has(r.id);
+  <li class="row" [attr.data-id]="r.id" [attr.data-kind]="r.kind">
+    <div class="row-head">
+      <button
+        type="button"
+        class="star"
+        [class.on]="fav"
+        [attr.aria-pressed]="fav"
+        [attr.aria-label]="(fav ? 'combat.fav.remove' : 'combat.fav.add') | t"
+        [title]="(fav ? 'combat.fav.remove' : 'combat.fav.add') | t"
+        (click)="toggleFavorite(r.id)"
+      >
+        {{ fav ? '★' : '☆' }}
+      </button>
+      <span class="name">
+        {{ name(r) }}
+        @if (part(r); as p) {
+          <small class="part">· {{ p }}</small>
+        }
+      </span>
+      @if (tagKind) {
+        <span class="tag" [attr.data-kind]="r.kind">{{ 'combat.kind.' + r.kind | t }}</span>
+      }
+      @if (r.timing === 'attack' || r.timing === 'free') {
+        <span class="tag soft">{{ 'combat.timing.' + r.timing | t }}</span>
+      }
+    </div>
+    @if (line(r); as l) {
+      <p class="line">{{ l }}</p>
+    }
+    @if (r.cost) {
+      @let nLeft = left(r);
+      <div class="cost" [class.empty]="!nLeft">
+        <span>{{ costLabel(r) }}</span>
+        <button type="button" class="mini" [disabled]="!nLeft" (click)="spend(r)">
+          {{ (r.cost.k === 'slot' ? 'combat.cost.spendSlot' : 'combat.cost.spend') | t }}
+        </button>
+        @if (canRefund(r)) {
+          <button
+            type="button"
+            class="mini btn-ghost"
+            (click)="refund(r)"
+            [title]="'combat.cost.refund' | t"
+            [attr.aria-label]="'combat.cost.refund' | t"
+          >
+            ↺
+          </button>
+        }
+      </div>
+    }
+    @if (r.more || r.link || r.tab) {
+      <div class="links">
+        @if (r.more) {
+          <button
+            type="button"
+            class="mini btn-ghost"
+            [attr.aria-expanded]="opened"
+            (click)="toggleOpen(r.id)"
+          >
+            {{ (opened ? 'picker.less' : 'picker.more') | t }}
+          </button>
+        }
+        @if (r.link; as lk) {
+          <a [routerLink]="['/compendium', lk.type, lk.id]">{{ 'combat.compendium' | t }}</a>
+        }
+        @if (r.tab) {
+          <a [routerLink]="['/characters', character().id, r.tab]" replaceUrl>{{
+            'combat.openSummons' | t
+          }}</a>
+        }
+      </div>
+    }
+    @if (opened && r.more) {
+      <div class="md more" [innerHTML]="more(r) | markdown"></div>
+    }
+  </li>
+</ng-template>
+
+@if (loading()) {
+  <p>{{ 'common.loading' | t }}</p>
+} @else {
+  <div
+    class="cols"
+    appSwipe
+    [swipeDisabled]="!narrow()"
+    (swipeLeft)="swipe('left')"
+    (swipeRight)="swipe('right')"
+    data-testid="combat-cols"
+  >
+    @for (k of kinds; track k) {
+      <section
+        class="col"
+        role="tabpanel"
+        [attr.data-col]="k"
+        [class.current]="current() === k"
+        [attr.aria-label]="'combat.colLong.' + k | t"
+      >
+        <header class="col-head">
+          <h2>{{ 'combat.colLong.' + k | t }}</h2>
+          @if (definitions()[k]; as def) {
+            <details class="def">
+              <summary [attr.aria-label]="'combat.whatIs' | t">?</summary>
+              <div class="md" [innerHTML]="def.description | dataText | markdown"></div>
+            </details>
+          }
+        </header>
+        @for (sec of sections()[k]; track sec.section) {
+          @if (sec.section === 'outOfCombat') {
+            <details class="sec fold">
+              <summary>
+                <h3>{{ 'combat.sec.' + sec.section | t }} ({{ sec.rows.length }})</h3>
+              </summary>
+              <ul class="rows">
+                @for (r of sec.rows; track r.id) {
+                  <ng-container *ngTemplateOutlet="rowTpl; context: { $implicit: r }" />
+                }
+              </ul>
+            </details>
+          } @else {
+            <div class="sec">
+              <h3>{{ 'combat.sec.' + sec.section | t }}</h3>
+              <ul class="rows">
+                @for (r of sec.rows; track r.id) {
+                  <ng-container *ngTemplateOutlet="rowTpl; context: { $implicit: r }" />
+                }
+              </ul>
+            </div>
+          }
+        } @empty {
+          <p class="none">{{ 'combat.none' | t }}</p>
+        }
+      </section>
+    }
+    <section
+      class="col favorites"
+      role="tabpanel"
+      data-col="favorites"
+      [class.current]="current() === 'favorites'"
+      [attr.aria-label]="'combat.colLong.favorites' | t"
+    >
+      <header class="col-head">
+        <h2>{{ 'combat.colLong.favorites' | t }}</h2>
+      </header>
+      @for (g of favoriteGroups(); track g.kind) {
+        <div class="sec">
+          <h3>{{ 'combat.colLong.' + g.kind | t }}</h3>
+          <ul class="rows">
+            @for (r of g.rows; track r.id) {
+              <ng-container *ngTemplateOutlet="rowTpl; context: { $implicit: r, tagKind: true }" />
+            }
+          </ul>
+        </div>
+      } @empty {
+        <p class="none">{{ 'combat.fav.empty' | t }}</p>
+      }
+    </section>
+  </div>
+  <p class="credit">{{ 'combat.credit' | t }}</p>
+}

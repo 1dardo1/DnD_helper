@@ -4,6 +4,7 @@
  */
 export const SHEET_TABS = [
   'resumen',
+  'combate',
   'rasgos',
   'conjuros',
   'equipo',
@@ -52,7 +53,7 @@ export function hasSpellsTab(sheet: TabInput, featSpells: number): boolean {
   );
 }
 
-/** The tabs this character has, in order. Summary, Features, Equipment and Notes always show. */
+/** The tabs this character has, in order. Summary, Combat, Features, Equipment and Notes always show. */
 export function visibleTabs(sheet: TabInput, ctx: TabContext): SheetTab[] {
   return SHEET_TABS.filter((tab) => {
     if (tab === 'conjuros') return hasSpellsTab(sheet, ctx.featSpells);

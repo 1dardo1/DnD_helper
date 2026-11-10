@@ -428,6 +428,7 @@
                       multiple
                       [items]="sl.cantrips"
                       [facets]="spellFacets"
+                      swipeFacet="level"
                       [selected]="mine"
                       [marks]="spellMarks()[g.entry.id]"
                       [label]="'sheet.cantrips' | t"
@@ -446,6 +447,7 @@
                     multiple
                     [items]="sl.leveled"
                     [facets]="spellFacets"
+                    swipeFacet="level"
                     [selected]="mineP"
                     [marks]="spellMarks()[g.entry.id]"
                     [label]="'sheet.prepared' | t"
