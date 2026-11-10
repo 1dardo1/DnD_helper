@@ -25,9 +25,6 @@ export interface TraitChoiceSplit {
 const CHOOSE = /Choose one of (?:these|the following)\b|one of the following options\b/i;
 /** A pick made anew at every rest or use: not a choice of the character sheet. */
 const RECHOOSE = /\beach time\b|\buntil you choose a different\b/i;
-/** A skill / damage type picked again after a rest (Kalashtar, Astral Trance), not once. */
-const REPICK =
-  /\beach time\b|\bwhenever you finish\b|\bwhen you finish a (?:long|short) rest\b|\buntil you choose a different\b/i;
 
 /** "**Forest Gnome.** text" / "***Skill Versatility (General).*** text" → { name, rest }. */
 function boldHead(line: string): { name: string; rest: string } | null {
@@ -86,7 +83,7 @@ export function translatedOptions(description: string | null | undefined): Trait
   return splitOptions(joinBroken(description ?? '').replace(/\r\n/g, '\n'))?.options ?? [];
 }
 
-function splitOptions(text: string): TraitChoiceSplit | null {
+export function splitOptions(text: string): TraitChoiceSplit | null {
   // bullet-list style: "- Name\n  - flavor\n  - **Benefit.** text" or flat "- **Name.** text"
   const lines = text.split('\n');
   const start = lines.findIndex((l) => /^-\s*\S/.test(l));
@@ -170,19 +167,46 @@ export function resolveTraitChoice(
 
 /**
  * Something the player picks inside a trait (or inside the option of it that was chosen): which
- * skills ("one of the following skills of your choice: ..."), or which damage type to resist.
- * `from` is the closed list the text names, null when any is allowed. Picks made anew at every
- * rest or use are not picks of the character sheet and aren't returned.
+ * skills ("one of the following skills of your choice: ..."), which damage type to resist, which
+ * tools, weapons or cantrip, or which of a set of named options (Simic Hybrid's enhancements, an
+ * Eladrin's season, a Duskling's benefit). `from` is the closed list the text names, null when any
+ * is allowed. `rest` marks a pick the text lets the player make anew after every rest (Kalashtar,
+ * Astral Knowledge, an Eladrin's Trance...): it is still the character's current choice.
  */
 export interface TraitPick {
-  kind: 'skill' | 'resistance';
+  kind: TraitPickKind;
   count: number;
-  /** Skill ids (kind 'skill') or damage type names (kind 'resistance'); null = any skill. */
+  /**
+   * Skill ids ('skill'), damage types ('resistance'), cantrip ids ('cantrip'), tool names ('tool')
+   * or option names ('option', 'form'); null = any of its kind.
+   */
   from: string[] | null;
+  /** 'tool': only this kind of tool (a key of TOOL_GROUPS: "Musical Instrument"). */
+  group?: string;
+  /** 'cantrip': the spell lists it may come from ("wizard"). */
+  lists?: string[];
+  /** Chosen anew when the character finishes this rest. */
+  rest?: 'long' | 'short';
+  /** The text asks for something the character doesn't have yet ("that you don't have", "a different cantrip"). */
+  notHad?: boolean;
+  /** 'cantrip': the spell (id) the pick takes the place of (Khoravar's Fey Gift: Friends). */
+  replaces?: string;
+  /** 'option': the character level at which each pick is gained (Simic Hybrid: [1, 5]). */
+  unlock?: number[];
 }
 
+export type TraitPickKind =
+  | 'skill'
+  | 'resistance'
+  | 'tool'
+  | 'skill-or-tool'
+  | 'weapon-or-tool'
+  | 'cantrip'
+  | 'option'
+  | 'form';
+
 const NUMBER_WORDS: Record<string, number> = { one: 1, two: 2, three: 3 };
-const SKILL_IDS = new Set(Object.keys(SKILL_ABILITY));
+export const SKILL_IDS = new Set(Object.keys(SKILL_ABILITY));
 
 function skillList(list: string): string[] {
   return list
@@ -191,23 +215,115 @@ function skillList(list: string): string[] {
     .filter((id) => SKILL_IDS.has(id));
 }
 
+/** "Dancing Lights, Light, or Sacred Flame" → spell ids. */
+function spellIds(list: string): string[] {
+  return list
+    .split(/,\s*(?:or\s+)?|\s+or\s+/)
+    .map((w) => slug(w.replace(/\.$/, '').trim()))
+    .filter(Boolean);
+}
+
+/** A whole sentence that says the pick can be changed after a rest. */
+const REST_SENTENCE =
+  /\bwhenever you finish (?:a |your |this )?(?:long rest|short rest|trance)|\bwhen you finish a (?:long|short) rest\b/i;
+/** "Whenever you finish a Long Rest, you can replace it with another skill or tool proficiency." */
+const REPLACE_ON_REST =
+  /Whenever you finish a (Long|Short) Rest, you can replace (?:it|that cantrip)\b/i;
+
 /** The picks a trait's (already option-resolved) text asks the player for. */
 export function traitPicks(description: string | null | undefined): TraitPick[] {
   const text = joinBroken(description ?? '').replace(/\r\n/g, '\n');
   const out: TraitPick[] = [];
+  const replace = REPLACE_ON_REST.exec(text);
+  const traitRest = replace ? (replace[1].toLowerCase() as 'long' | 'short') : undefined;
   for (const sentence of text.split(/(?<=\.)\s+|\n+/)) {
-    if (REPICK.test(sentence) || /\btools?\b|\bweapon/i.test(sentence)) continue;
+    // a pick "each time" the trait is used (Fey Gift's Help, a transformation) is not a pick of
+    // the sheet; one made anew at every rest is the character's current choice
+    if (/\beach time\b|\buntil you choose a different\b/i.test(sentence)) continue;
+    const rest: TraitPick['rest'] = REST_SENTENCE.test(sentence)
+      ? /short rest/i.test(sentence)
+        ? 'short'
+        : 'long'
+      : traitRest;
+    const add = (p: TraitPick) => out.push(rest ? { ...p, rest } : p);
+
+    // Khoravar: "one skill or with one tool of your choice" — one pick, of either kind
+    if (/\bone skill or (?:with )?one tool of your choice/i.test(sentence)) {
+      add({ kind: 'skill-or-tool', count: 1, from: null });
+      continue;
+    }
+    // Khoravar's Fey Gift: "replace that cantrip with a different cantrip from the Cleric, Druid,
+    // or Wizard spell list"
+    const swap =
+      /replace that cantrip with a different cantrip from the ([A-Za-z, ]+?) spell lists?/i.exec(
+        sentence,
+      );
+    if (swap) {
+      const known = /You know the ([A-Z][\w'’ ]+?) cantrip/.exec(text);
+      add({
+        kind: 'cantrip',
+        count: 1,
+        from: null,
+        lists: listNames(swap[1]),
+        notHad: true,
+        ...(known ? { replaces: slug(known[1]) } : {}),
+      });
+      continue;
+    }
+    // "one weapon or tool of your choice" / "two proficiencies that you don't have, each one with
+    // a weapon or a tool of your choice"
+    const wt =
+      /\b(one|two)\s+(?:proficiencies\b([^.]*?)\beach one with a\s+)?weapon or (?:a\s+)?tool\b/i.exec(
+        sentence,
+      );
+    if (wt)
+      add({
+        kind: 'weapon-or-tool',
+        count: NUMBER_WORDS[wt[1].toLowerCase()],
+        from: null,
+        ...(/don'?t have|do not have/i.test(wt[2] ?? '') ? { notHad: true } : {}),
+      });
+    // tools: "one tool proficiency of your choice", "two tool proficiencies of your choice",
+    // "proficient with one tool of your choice", "one musical instrument of your choice"
+    const tl =
+      /\b(one|two)\s+tool proficienc(?:y|ies) of your choice|\bwith (one) tool of your choice/i.exec(
+        sentence,
+      );
+    if (tl) add({ kind: 'tool', count: NUMBER_WORDS[(tl[1] ?? tl[2]).toLowerCase()], from: null });
+    const kind = /\b(one|two)\s+(musical instrument|gaming set)s? of your choice/i.exec(sentence);
+    if (kind)
+      add({
+        kind: 'tool',
+        count: NUMBER_WORDS[kind[1].toLowerCase()],
+        from: null,
+        group: kind[2].toLowerCase() === 'gaming set' ? 'Gaming Set' : 'Musical Instrument',
+      });
+    // cantrips: "one cantrip of your choice from the wizard spell list", "one of the following
+    // cantrips of your choice: Dancing Lights, Light, or Sacred Flame"
+    const cl = /\bone cantrip of your choice from the (\w+) spell list/i.exec(sentence);
+    if (cl) add({ kind: 'cantrip', count: 1, from: null, lists: [cl[1].toLowerCase()] });
+    const cf = /\bone of the following cantrips of your choice:\s*(.+?)\.?$/i.exec(sentence);
+    if (cf) add({ kind: 'cantrip', count: 1, from: spellIds(cf[1]) });
+
     const sk =
       /\b(one|two|three)\s+(?:of the following\s+)?skills?\b(?:\s+proficienc\w+)?[^.:]*?\bof your choice\b(?::\s*(.+))?/i.exec(
         sentence,
       );
     if (sk) {
       const from = sk[2] ? skillList(sk[2]) : [];
-      out.push({
+      add({
         kind: 'skill',
         count: NUMBER_WORDS[sk[1].toLowerCase()],
         from: from.length ? from : null,
       });
+      continue;
+    }
+    // Viashino: "proficiency in the Acrobatics or the Stealth skill (your choice)"
+    const two = /proficiency in the (\w[\w ]*?) or the (\w[\w ]*?) skill \(your choice\)/i.exec(
+      sentence,
+    );
+    if (two) {
+      add({ kind: 'skill', count: 1, from: skillList(`${two[1]}, ${two[2]}`) });
       continue;
     }
     const res = /Resistance to one of the following damage types of your choice:\s*(.+?)\.?$/i.exec(
@@ -218,17 +334,29 @@ export function traitPicks(description: string | null | undefined): TraitPick[] 
         .split(/,|\bor\b/)
         .map((w) => w.trim())
         .filter(Boolean);
-      if (from.length) out.push({ kind: 'resistance', count: 1, from });
+      if (from.length) add({ kind: 'resistance', count: 1, from });
     }
   }
   return out;
 }
 
+/** "Cleric, Druid, or Wizard" → ['cleric', 'druid', 'wizard']. */
+function listNames(raw: string): string[] {
+  return raw
+    .split(/,\s*(?:or\s+)?|\s+or\s+/)
+    .map((w) => w.trim().toLowerCase())
+    .filter(Boolean);
+}
+
 /** Where the picks of one kind inside a trait are stored (`choices.traitPicks`). */
-export const pickKey = (traitKey: string, kind: TraitPick['kind']): string => `${traitKey}#${kind}`;
+export const pickKey = (traitKey: string, kind: TraitPickKind): string => `${traitKey}#${kind}`;
 
 /** The picks the player made that are valid for `pick` (from the allowed list, no more than asked). */
-export function validPicks(pick: TraitPick, stored: string[] | undefined): string[] {
+export function validPicks(
+  pick: TraitPick,
+  stored: string[] | undefined,
+  count: number = pick.count,
+): string[] {
   const ok = (stored ?? []).filter((v) => !pick.from || pick.from.includes(v));
-  return [...new Set(ok)].slice(0, pick.count);
+  return [...new Set(ok)].slice(0, count);
 }

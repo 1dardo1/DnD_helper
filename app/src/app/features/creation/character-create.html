@@ -328,31 +328,30 @@
                 (changed)="setTraitChoice(tc.key, $event)"
               />
             }
-            @for (tp of speciesTraitPicks(); track tp.key) {
-              <fieldset class="trait-pick" [attr.data-testid]="'trait-pick-' + tp.key">
-                <legend>
-                  {{
-                    'create.traitPick.' + tp.kind
-                      | t: { trait: tp.trait | dataName, count: tp.count }
-                  }}
-                  ({{ tp.picked.length }}/{{ tp.count }})
-                </legend>
-                @for (o of tp.from; track o) {
-                  <label class="inline">
-                    <input
-                      type="checkbox"
-                      [checked]="tp.picked.includes(o)"
-                      [disabled]="!tp.picked.includes(o) && tp.picked.length >= tp.count"
-                      (change)="setTraitPick(tp.key, o, checked($event), tp.count)"
-                    />
-                    @if (tp.kind === 'skill') {
-                      {{ 'skill.' + o | t }}
-                    } @else {
-                      {{ o | term: 'damage' }}
-                    }
-                  </label>
-                }
-              </fieldset>
+            @for (tp of speciesTraitPicks(); track tp.pick.key) {
+              <app-trait-picks
+                [pick]="tp.pick"
+                [spells]="d.spells"
+                [weapons]="weaponNames()"
+                [had]="tp.had"
+                [level]="totalLevel() || 1"
+                [labels]="tp.labels"
+                (changed)="setTraitPick(tp.pick.key, $event)"
+              />
+            }
+            @if (speciesAbilityNeeded()) {
+              <label data-testid="species-ability">
+                {{ 'create.speciesAbility' | t }}
+                <select
+                  [value]="speciesAbilityPicked() ?? ''"
+                  (change)="setSpeciesAbility(value($event))"
+                >
+                  <option value="">—</option>
+                  @for (a of spellAbilities; track a) {
+                    <option [value]="a">{{ 'ability.' + a | t }}</option>
+                  }
+                </select>
+              </label>
             }
             @if (s.size.length > 1) {
               <label>

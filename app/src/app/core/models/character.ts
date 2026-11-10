@@ -166,6 +166,12 @@ export interface Character {
      * "attack:<entry>", "feature:...@bonus"...), in the order they were added. Absent: none.
      */
     combatFavorites?: string[];
+    /**
+     * Picks inside species traits that the last rest lets the player change (Kalashtar's skill,
+     * an Eladrin's season...: keys of `choices.traitPicks`, from the sheet's `restPicks`). The
+     * sheet asks "keep or change?" for them; cleared once answered or skipped (= keep).
+     */
+    restChoices?: string[];
   };
   notes: string;
 }
@@ -330,6 +336,11 @@ function normalizeState(base: Character['state'], raw: Character['state'] | unde
   const favorites = normalizeFavorites(raw?.combatFavorites);
   if (favorites) state.combatFavorites = favorites;
   else delete state.combatFavorites;
+  const restChoices = Array.isArray(raw?.restChoices)
+    ? raw.restChoices.filter((k): k is string => typeof k === 'string' && !!k)
+    : [];
+  if (restChoices.length) state.restChoices = [...new Set(restChoices)];
+  else delete state.restChoices;
   const cannon = normalizeCannon(raw?.cannon);
   if (cannon) state.cannon = cannon;
   else delete state.cannon;

@@ -1,6 +1,11 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 
-import { RARE_LANGUAGES, STANDARD_LANGUAGES, TOOL_GROUPS } from '../core/creation/creation-rules';
+import {
+  ALL_TOOLS,
+  RARE_LANGUAGES,
+  STANDARD_LANGUAGES,
+  TOOL_GROUPS,
+} from '../core/creation/creation-rules';
 import { DataTextService } from '../core/i18n/data-text.service';
 import { TermPipe } from '../core/i18n/glossary';
 import { TranslatePipe } from '../core/i18n/i18n.service';
@@ -19,16 +24,6 @@ import {
 import { SKILL_ABILITY } from '../core/rules/tables';
 import { ENTRY_FACETS } from './picker/entry-facets';
 import { Picker } from './picker/picker';
-
-/** Tools besides the artisan's tools, gaming sets and instruments that Skilled can pick. */
-const OTHER_TOOLS = [
-  'Disguise Kit',
-  'Forgery Kit',
-  'Herbalism Kit',
-  "Navigator's Tools",
-  "Poisoner's Kit",
-  "Thieves' Tools",
-];
 
 /**
  * What a feat asks the player to choose: the spellcasting ability, the spell list, the cantrips
@@ -231,7 +226,7 @@ export class FeatChoices {
   protected readonly abilities = SPELL_ABILITIES;
   protected readonly skills = Object.keys(SKILL_ABILITY);
   protected readonly languages = [...STANDARD_LANGUAGES, ...RARE_LANGUAGES];
-  protected readonly allTools = [...Object.values(TOOL_GROUPS).flat(), ...OTHER_TOOLS];
+  protected readonly allTools = ALL_TOOLS;
 
   /** Spell facets for a pick: the list and the level are already fixed by the feat. */
   protected readonly spellFacets = ENTRY_FACETS.spell.filter((k) => k !== 'class' && k !== 'level');
