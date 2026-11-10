@@ -19,6 +19,7 @@ import {
   TOOL_GROUPS,
   featIssues,
   featsForSlot,
+  optionGroupFull,
   optionLocks,
   optionUncheckedNote,
   review,
@@ -663,6 +664,7 @@ export class LevelUp {
     return d?.original && ch ? plansReplaced(d.original.choices.options, ch.choices.options) : 0;
   });
   protected readonly planGroup = PLAN_GROUP;
+  protected readonly isFull = optionGroupFull;
   /** Every compendium item, for the plan pickers. */
   protected readonly allItems = computed(() => [
     ...(this.data.value()?.rules.items.values() ?? []),

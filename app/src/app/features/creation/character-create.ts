@@ -40,6 +40,7 @@ import {
   SPECIES_SLOT,
   featsForSlot,
   featsForSpecies,
+  optionGroupFull,
   optionGroupsFor,
   optionLocks,
   optionUncheckedNote,
@@ -1191,6 +1192,7 @@ export class CharacterCreate implements LeaveCheck {
   }
 
   protected readonly planGroup = PLAN_GROUP;
+  protected readonly isFull = optionGroupFull;
   /** Every compendium item, for the plan pickers. */
   protected readonly allItems = computed(() => [
     ...(this.data.value()?.rules.items.values() ?? []),

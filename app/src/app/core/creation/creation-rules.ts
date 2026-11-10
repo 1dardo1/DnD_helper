@@ -200,11 +200,32 @@ const OPTION_COUNT_COLUMN: Record<string, RegExp> = {
   'magic-item-plan': /plans known/i,
 };
 
+/**
+ * Groups whose count is only in the feature's text, not in a table column: class level → options
+ * known from that level on ("two Metamagic options… two more at Sorcerer level 10 and 17").
+ */
+const OPTION_COUNT_BY_LEVEL: Record<string, Record<number, number>> = {
+  metamagic: { 2: 2, 10: 4, 17: 6 },
+  maneuver: { 3: 3, 7: 5, 10: 7, 15: 9 },
+  mutagen: { 3: 4, 7: 5, 11: 6, 15: 7, 18: 8 },
+};
+
 export interface OptionGroup {
   group: string;
   options: ClassOption[];
-  /** From the class table when it has a column for it, else null (no limit shown). */
+  /** How many the class knows at this level, or null when nothing says (no limit shown). */
   count: number | null;
+}
+
+function optionCount(cls: DndClass, level: number, group: string): number | null {
+  const col = cls.progression.columns.find((c) => OPTION_COUNT_COLUMN[group]?.test(c));
+  if (col) {
+    const value = parseInt(cls.progression.rows[level - 1]?.values[col] ?? '', 10);
+    return Number.isNaN(value) ? null : value;
+  }
+  const byLevel = OPTION_COUNT_BY_LEVEL[group];
+  if (!byLevel) return null;
+  return Object.entries(byLevel).reduce((n, [from, count]) => (level >= +from ? count : n), 0);
 }
 
 /** Option lists (invocations, blood curses, maneuvers...) of the class and its subclass. */
@@ -220,11 +241,9 @@ export function optionGroupsFor(
   const groups = new Map<string, ClassOption[]>();
   // every option is returned (sorted); the screens hide the locked ones with visibleOptions()
   for (const o of mine) groups.set(o.group, [...(groups.get(o.group) ?? []), o]);
-  return [...groups.entries()]
-    .map(([group, opts]) => {
-      const col = cls.progression.columns.find((c) => OPTION_COUNT_COLUMN[group]?.test(c));
-      const value = col ? parseInt(cls.progression.rows[level - 1]?.values[col] ?? '', 10) : NaN;
-      return {
+  return (
+    [...groups.entries()]
+      .map(([group, opts]) => ({
         group,
         // by the level they require (none = 1), as the wizard and level-up list them
         options: opts.sort(
@@ -232,11 +251,16 @@ export function optionGroupsFor(
             (a.prerequisites?.level ?? 1) - (b.prerequisites?.level ?? 1) ||
             a.name.localeCompare(b.name),
         ),
-        count: Number.isNaN(value) ? null : value,
-      };
-      // plans only exist from the level that gives the first ("-" before): nothing to show yet
-    })
-    .filter((g) => g.group !== PLAN_GROUP || g.count !== null);
+        count: optionCount(cls, level, group),
+      }))
+      // nothing to show before the level that gives the first one (plans: "-"; Metamagic: level 2)
+      .filter((g) => (g.group !== PLAN_GROUP || g.count !== null) && g.count !== 0)
+  );
+}
+
+/** Whether one more option of the group can be picked (a full group only lets you untick). */
+export function optionGroupFull(group: OptionGroup, chosen: number): boolean {
+  return group.count !== null && chosen >= group.count;
 }
 
 /** Ids of the options of the same group that this one requires (e.g. "Pact of the Blade Invocation"). */
