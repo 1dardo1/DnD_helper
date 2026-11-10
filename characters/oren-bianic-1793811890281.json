@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-10T11:48:51.611Z",
+  "updatedAt": "2026-11-10T11:50:02.764Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -115,7 +115,11 @@
       "class": "B",
       "background": "B",
       "bought": []
-    }
+    },
+    "traitChoices": {
+      "gnome:gnomish-lineage": "Rock Gnome"
+    },
+    "traitPicks": {}
   },
   "equipped": {
     "armorId": "cast-off-armor",
