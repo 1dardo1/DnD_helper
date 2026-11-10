@@ -116,3 +116,31 @@ export function blocksOf(text: string): Block[] {
   }
   return blocks.filter((b, i) => i === 0 || b.text.trim());
 }
+
+/** How a translation (Spanish) says each way of use, to find its sentence when the two differ. */
+const CUES: Partial<Record<Timing, RegExp>> = {
+  bonus: /acci[oó]n adicional/i,
+  reaction: /\breacci[oó]n\b/i,
+  action: /acci[oó]n (?:de )?(?:Magia|Usar)|acci[oó]n m[aá]gica|como (?:una )?acci[oó]n\b/i,
+};
+
+/**
+ * The sentence `index` of a text's part (`block`; null = the whole text) in its translation
+ * `tr`: the same sentence when both split alike; otherwise the first translated sentence that says
+ * the same way of use; otherwise the English one. index -1: the whole text.
+ */
+export function translatedSentence(
+  p: { text: string; of: string; block: number | null; index: number },
+  tr: string,
+  timing?: Timing,
+): string {
+  if (tr === p.of) return p.index < 0 ? p.of : p.text;
+  if (p.index < 0) return tr;
+  const pick = (text: string) =>
+    sentencesOf(p.block === null ? text : (blocksOf(text)[p.block]?.text ?? ''));
+  const en = pick(p.of);
+  const es = pick(tr);
+  if (en.length === es.length && es[p.index]) return es[p.index];
+  const cue = timing ? CUES[timing] : undefined;
+  return (cue && es.find((s) => cue.test(s))) || p.text;
+}

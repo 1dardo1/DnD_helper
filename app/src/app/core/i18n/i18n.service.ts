@@ -1,4 +1,4 @@
-import { Injectable, Pipe, PipeTransform, computed, inject } from '@angular/core';
+import { Injectable, Pipe, PipeTransform, computed, inject, signal } from '@angular/core';
 
 import { SettingsService } from '../settings/settings.service';
 import { en } from './en';
@@ -8,11 +8,24 @@ export type TranslationKey = keyof typeof en;
 
 const DICTIONARIES = { en, es } as const;
 
+/** Texts of a part of the app that has its own chunk (the Combat tab), in both languages. */
+export interface ExtraTexts {
+  en: Readonly<Record<string, string>>;
+  es: Readonly<Record<string, string>>;
+}
+
 /** Translates UI texts (game content stays in English, as extracted from the wikis). */
 @Injectable({ providedIn: 'root' })
 export class I18nService {
   private readonly settings = inject(SettingsService);
-  private readonly dict = computed(() => DICTIONARIES[this.settings.language()]);
+  private readonly extra = signal<readonly ExtraTexts[]>([]);
+  private readonly dict = computed<Readonly<Record<string, string>>>(() => {
+    const lang = this.settings.language();
+    const extra = this.extra();
+    return extra.length
+      ? Object.assign({}, DICTIONARIES[lang], ...extra.map((x) => x[lang]))
+      : DICTIONARIES[lang];
+  });
 
   readonly language = this.settings.language;
 
@@ -23,6 +36,14 @@ export class I18nService {
       text = text.replaceAll(`{${name}}`, String(value));
     }
     return text;
+  }
+
+  /**
+   * Adds the texts of a lazily loaded part (its own chunk), so they don't weigh on the first load
+   * of the app. Once per set of texts.
+   */
+  extend(texts: ExtraTexts): void {
+    if (!this.extra().includes(texts)) this.extra.update((l) => [...l, texts]);
   }
 
   /** Date and time in the selected language ("29 oct 2026, 18:29"). */

@@ -13,7 +13,7 @@
 
 .tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(5.2rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(5.8rem, 1fr));
   gap: 0.3rem;
   margin: 0;
 
@@ -184,7 +184,13 @@
 }
 
 .def {
+  margin: 0;
+  padding: 0;
+  border: 0;
+
   summary {
+    min-height: 0;
+    padding: 0;
     display: inline-grid;
     place-items: center;
     width: 1.6rem;
@@ -195,13 +201,15 @@
     border: 1px solid var(--line-strong);
     border-radius: 50%;
 
-    &::-webkit-details-marker {
+    &::-webkit-details-marker,
+    &::before {
       display: none;
     }
   }
 
   &[open] {
     flex-basis: 100%;
+    padding: 0;
   }
 
   .md {
@@ -268,7 +276,7 @@
   flex: 1;
   min-width: 0;
   font-weight: 700;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 
   .part {
     font-weight: 400;
@@ -298,8 +306,7 @@
   -webkit-box-orient: vertical;
 }
 
-.cost,
-.links {
+.acts {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -308,8 +315,27 @@
   font-size: var(--fs-sm);
 }
 
-.cost.empty span {
-  color: var(--danger);
+.cost {
+  display: contents;
+
+  &.empty span {
+    color: var(--danger);
+  }
+}
+
+.acts:empty {
+  display: none;
+}
+
+.links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+
+  a {
+    white-space: nowrap;
+  }
 }
 
 .mini {

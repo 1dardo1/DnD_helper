@@ -77,17 +77,17 @@
         type="button"
         class="btn-ghost"
         [disabled]="g.index <= 0"
-        [attr.aria-label]="'picker.swipePrev' | t"
+        [attr.aria-label]="'create.prev' | t"
         (click)="swipeTo('right')"
       >
         ‹
       </button>
-      <span class="swipe-label" [title]="'picker.swipeHint' | t">{{ g.label }}</span>
+      <span class="swipe-label">{{ g.label }}</span>
       <button
         type="button"
         class="btn-ghost"
         [disabled]="g.index >= g.values.length - 1"
-        [attr.aria-label]="'picker.swipeNext' | t"
+        [attr.aria-label]="'create.next' | t"
         (click)="swipeTo('left')"
       >
         ›

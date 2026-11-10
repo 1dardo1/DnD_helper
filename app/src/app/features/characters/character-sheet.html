@@ -337,15 +337,9 @@
 
         @case ('combate') {
           <div class="page combat" data-page="combate">
-            <!-- its own chunk: loaded the first time the tab is opened -->
-            @defer (on immediate) {
-              <app-combat-tab
-                [character]="c"
-                [sheet]="s"
-                [data]="v.data"
-                (changed)="saveState($event)"
-              />
-            } @placeholder {
+            <!-- its own chunk, loaded the first time the tab is opened (combat-tab.ts) -->
+            <ng-container #combatSlot />
+            @if (!combatLoaded()) {
               <p>{{ 'common.loading' | t }}</p>
             }
           </div>

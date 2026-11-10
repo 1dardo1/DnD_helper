@@ -1,7 +1,7 @@
 @let all = casters();
 @let shown = shownCaster() < all.length ? shownCaster() : 0;
 @if (all.length > 1) {
-  <div class="caster-tabs" role="tablist" [attr.aria-label]="'spells.casters' | t">
+  <div class="caster-tabs" role="tablist" [attr.aria-label]="'sheet.spellcasting' | t">
     @for (c of all; track c.classId) {
       <button
         type="button"

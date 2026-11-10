@@ -14,7 +14,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { weaponEntriesOf } from '../../core/characters/weapons';
-import { blocksOf, sentencesOf } from '../../core/combat/action-text';
+import { blocksOf, translatedSentence } from '../../core/combat/action-text';
 import {
   ACTION_KINDS,
   ActionKind,
@@ -34,6 +34,8 @@ import { CompendiumService } from '../../core/compendium/compendium.service';
 import { browserStorage } from '../../core/creation/edit-draft';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TermPipe, term } from '../../core/i18n/glossary';
+import { combatEn } from '../../core/i18n/combat.en';
+import { combatEs } from '../../core/i18n/combat.es';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character } from '../../core/models/character';
 import { Rule } from '../../core/models/compendium';
@@ -46,6 +48,9 @@ import { SwipeDirective, stepOf } from '../../shared/swipe.directive';
 
 export type CombatColumn = ActionKind | 'favorites';
 export const COMBAT_COLUMNS: readonly CombatColumn[] = [...ACTION_KINDS, 'favorites'];
+
+/** The tab's own UI texts (core/i18n/combat.*.ts), loaded with it. */
+const COMBAT_TEXTS = { en: combatEn, es: combatEs };
 
 const COLUMN_PREFIX = 'dnd-helper.sheet.combat.col.';
 
@@ -164,6 +169,7 @@ export class CombatTab {
   protected readonly narrow = signal(true);
 
   constructor() {
+    this.i18n.extend(COMBAT_TEXTS);
     effect(() => this.current.set(readColumn(browserStorage(), this.character().id)));
     const destroyRef = inject(DestroyRef);
     afterNextRender(() => {
@@ -174,6 +180,11 @@ export class CombatTab {
       mq.addEventListener('change', update);
       destroyRef.onDestroy(() => mq.removeEventListener('change', update));
     });
+  }
+
+  /** A text of the tab (core/i18n/combat.*.ts). */
+  private tc(key: keyof typeof combatEn, params?: Record<string, string | number>): string {
+    return this.i18n.t(key as never, params);
   }
 
   protected show(col: CombatColumn): void {
@@ -207,7 +218,7 @@ export class CombatTab {
     const pact = s.spellcasting.pact;
     if (pact)
       out.push({
-        label: this.i18n.t('combat.head.pactLevel', { level: pact.level }),
+        label: this.tc('combat.head.pactLevel', { level: pact.level }),
         left: pact.slots - Math.min(st.pactSlotsSpent, pact.slots),
         max: pact.slots,
       });
@@ -254,12 +265,12 @@ export class CombatTab {
   /** The one-line summary, with the numbers already worked out. */
   protected line(r: CombatRow): string {
     return r.line
-      .map((p) => this.piece(p))
+      .map((p) => this.piece(p, r))
       .filter((x) => !!x)
       .join(' · ');
   }
 
-  private piece(p: LinePart): string {
+  private piece(p: LinePart, r: CombatRow): string {
     const t = (key: string, params?: Record<string, string | number>) =>
       this.i18n.t(key as never, params);
     const lang = this.i18n.language();
@@ -287,20 +298,8 @@ export class CombatTab {
       case 'ui':
         return t(p.key, p.params);
       case 'sentence':
-        return this.sentence(p);
+        return translatedSentence(p, this.dataText.text(p.of), r.timing);
     }
-  }
-
-  /** A sentence of a data text in the language shown: the same sentence of its translation. */
-  private sentence(p: Extract<LinePart, { k: 'sentence' }>): string {
-    const es = this.dataText.text(p.of);
-    if (es === p.of) return p.index < 0 ? p.of : p.text;
-    if (p.index < 0) return es;
-    const pick = (text: string) =>
-      sentencesOf(p.block === null ? text : (blocksOf(text)[p.block]?.text ?? ''));
-    const en = pick(p.of);
-    const tr = pick(es);
-    return en.length === tr.length && tr[p.index] ? tr[p.index] : p.text;
   }
 
   /** "Ver más": the text (or its part) in the language of the data. */
@@ -335,12 +334,11 @@ export class CombatTab {
   protected costLabel(r: CombatRow): string {
     const c = r.cost;
     if (!c) return '';
-    if (c.k === 'slot')
-      return this.i18n.t('combat.cost.slot', { level: c.level, left: this.left(r) });
+    if (c.k === 'slot') return this.tc('combat.cost.slot', { level: c.level, left: this.left(r) });
     const name = c.labelKey
       ? this.i18n.t(c.labelKey as never)
       : term(this.i18n.language(), 'column', c.name);
-    return this.i18n.t('combat.cost.uses', { name, left: this.left(r), max: c.max });
+    return this.tc('combat.cost.uses', { name, left: this.left(r), max: c.max });
   }
 
   protected spend(r: CombatRow): void {

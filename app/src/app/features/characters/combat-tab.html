@@ -156,55 +156,60 @@
       @if (tagKind) {
         <span class="tag" [attr.data-kind]="r.kind">{{ 'combat.kind.' + r.kind | t }}</span>
       }
-      @if (r.timing === 'attack' || r.timing === 'free') {
+      @if (
+        (r.timing === 'attack' && r.section !== 'weapons' && r.section !== 'natural') ||
+        r.timing === 'free'
+      ) {
         <span class="tag soft">{{ 'combat.timing.' + r.timing | t }}</span>
       }
     </div>
     @if (line(r); as l) {
       <p class="line">{{ l }}</p>
     }
-    @if (r.cost) {
-      @let nLeft = left(r);
-      <div class="cost" [class.empty]="!nLeft">
-        <span>{{ costLabel(r) }}</span>
-        <button type="button" class="mini" [disabled]="!nLeft" (click)="spend(r)">
-          {{ (r.cost.k === 'slot' ? 'combat.cost.spendSlot' : 'combat.cost.spend') | t }}
-        </button>
-        @if (canRefund(r)) {
-          <button
-            type="button"
-            class="mini btn-ghost"
-            (click)="refund(r)"
-            [title]="'combat.cost.refund' | t"
-            [attr.aria-label]="'combat.cost.refund' | t"
-          >
-            ↺
+    <div class="acts">
+      @if (r.cost) {
+        @let nLeft = left(r);
+        <div class="cost" [class.empty]="!nLeft">
+          <span>{{ costLabel(r) }}</span>
+          <button type="button" class="mini" [disabled]="!nLeft" (click)="spend(r)">
+            {{ (r.cost.k === 'slot' ? 'combat.cost.spendSlot' : 'combat.cost.spend') | t }}
           </button>
-        }
-      </div>
-    }
-    @if (r.more || r.link || r.tab) {
-      <div class="links">
-        @if (r.more) {
-          <button
-            type="button"
-            class="mini btn-ghost"
-            [attr.aria-expanded]="opened"
-            (click)="toggleOpen(r.id)"
-          >
-            {{ (opened ? 'picker.less' : 'picker.more') | t }}
-          </button>
-        }
-        @if (r.link; as lk) {
-          <a [routerLink]="['/compendium', lk.type, lk.id]">{{ 'combat.compendium' | t }}</a>
-        }
-        @if (r.tab) {
-          <a [routerLink]="['/characters', character().id, r.tab]" replaceUrl>{{
-            'combat.openSummons' | t
-          }}</a>
-        }
-      </div>
-    }
+          @if (canRefund(r)) {
+            <button
+              type="button"
+              class="mini btn-ghost"
+              (click)="refund(r)"
+              [title]="'combat.cost.refund' | t"
+              [attr.aria-label]="'combat.cost.refund' | t"
+            >
+              ↺
+            </button>
+          }
+        </div>
+      }
+      @if (r.more || r.link || r.tab) {
+        <span class="links">
+          @if (r.more) {
+            <button
+              type="button"
+              class="mini btn-ghost"
+              [attr.aria-expanded]="opened"
+              (click)="toggleOpen(r.id)"
+            >
+              {{ (opened ? 'picker.less' : 'picker.more') | t }}
+            </button>
+          }
+          @if (r.link; as lk) {
+            <a [routerLink]="['/compendium', lk.type, lk.id]">{{ 'combat.compendium' | t }}</a>
+          }
+          @if (r.tab) {
+            <a [routerLink]="['/characters', character().id, r.tab]" replaceUrl>{{
+              'combat.openSummons' | t
+            }}</a>
+          }
+        </span>
+      }
+    </div>
     @if (opened && r.more) {
       <div class="md more" [innerHTML]="more(r) | markdown"></div>
     }

@@ -37,6 +37,7 @@ pida; para eso está el workflow `scrape.yml`.
 | Clase sucesora 2014 → 2024 | `successors.yaml` |
 | Ganancias de multiclase | `multiclass.yaml` |
 | Planos del Artífice | `dndscraper/plans.py` (`python3 -m dndscraper.plans` offline) |
+| Acciones genéricas (Atacar, Correr... Acción adicional, Reacción, Ataque de oportunidad, Ataque sin armas, propiedad Ligera) | `dndscraper/srd_rules.py`: lee el glosario del PDF del SRD 5.2.1 (caché en `.cache/srd/`; `--offline`) → `data/rules.json` categoría `actions`; su español a mano en `actions.es.yaml` (pasa a la caché de traducciones) y nombres en `names.es.yaml` |
 | Variante de especie: elección real vs. reimpresión | `dndscraper/species.py` (`reprint`; `PLAYABLE_PRINTINGS` para reimpresiones jugables como el Goblin de Zendikar) |
 | Elecciones dentro de un rasgo (Gnomish Lineage, Tribe...) | No es dato: se detectan en el texto, `app/src/app/core/rules/trait-choices.ts` |
 

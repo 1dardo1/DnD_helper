@@ -1,8 +1,10 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
+  ComponentRef,
   DestroyRef,
   ElementRef,
+  ViewContainerRef,
   afterNextRender,
   computed,
   effect,
@@ -10,6 +12,7 @@ import {
   input,
   resource,
   signal,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
@@ -46,7 +49,7 @@ import { ExportPdfButton } from './export-pdf-button';
 import { SpellBook } from './spell-book';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
-import { CombatTab } from './combat-tab';
+import type { CombatTab } from './combat-tab';
 import { PlayPanel } from './play-panel';
 import { ReplicatePanel } from './replicate-panel';
 import { TraitRestDialog } from './trait-rest-dialog';
@@ -75,7 +78,6 @@ import { SummonsPage } from '../summons/summons-page';
     ClassThemeDirective,
     HomebrewBadge,
     SummonsPage,
-    CombatTab,
   ],
   templateUrl: './character-sheet.html',
   styleUrl: './character-sheet.scss',
@@ -105,6 +107,54 @@ export class CharacterSheet {
 
   constructor() {
     this.initTabs();
+    this.initCombatTab();
+  }
+
+  // -- the combat tab: its own chunk (a dynamic import), so neither the first load nor this
+  // sheet's chunk carries it; a @defer block would add Angular's defer runtime to the first load
+
+  private readonly combatSlot = viewChild('combatSlot', { read: ViewContainerRef });
+  private combatRef: ComponentRef<CombatTab> | null = null;
+  private combatHost: ViewContainerRef | null = null;
+  protected readonly combatLoaded = signal(false);
+
+  private initCombatTab(): void {
+    let loading = false;
+    effect(() => {
+      const slot = this.combatSlot();
+      const v = this.view.value();
+      // the tab was left (or opened again): what was in the old place is gone with it
+      if (this.combatRef && slot !== this.combatHost) {
+        this.combatRef.destroy();
+        this.combatRef = null;
+        this.combatHost = null;
+        this.combatLoaded.set(false);
+      }
+      if (!slot || !v) return;
+      if (this.combatRef) {
+        this.combatRef.setInput('character', v.record.character);
+        this.combatRef.setInput('sheet', v.sheet);
+        this.combatRef.setInput('data', v.data);
+        return;
+      }
+      if (loading) return;
+      loading = true;
+      void import('./combat-tab').then(({ CombatTab }) => {
+        loading = false;
+        const now = this.view.value();
+        const target = this.combatSlot();
+        if (!now || !target || this.combatRef) return;
+        const ref = target.createComponent(CombatTab);
+        ref.setInput('character', now.record.character);
+        ref.setInput('sheet', now.sheet);
+        ref.setInput('data', now.data);
+        ref.instance.changed.subscribe((state) => this.saveState(state));
+        this.combatRef = ref;
+        this.combatHost = target;
+        this.combatLoaded.set(true);
+      });
+    });
+    inject(DestroyRef).onDestroy(() => this.combatRef?.destroy());
   }
 
   /** Changes when the character shows up (a first visit can arrive before the pull brings it). */

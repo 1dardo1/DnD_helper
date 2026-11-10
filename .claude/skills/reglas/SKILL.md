@@ -28,6 +28,7 @@ partir del personaje guardado (elecciones) y el compendio (`data/*.json`). La UI
 | Variante de especie (sub-raza real vs. reimpresión) | `chosenVariant()` en `engine.ts`; dato `reprint` (skill `datos`) |
 | Filas de ataque (armas, golpe sin armas, armas sintéticas como Psychic Blade), notas de combate | `rules/attacks.ts`; flags en `combatOf()` de `engine.ts` y `CombatInfo` en `rules/sheet.ts` |
 | Maestría de armas | `weaponMasterySlots()` / `masteryChosen` en `engine.ts`; `choices.weaponMasteries` |
+| Pestaña Combate: tipo de acción de cada rasgo/conjuro (texto → acción/adicional/reacción/al atacar/sin acción), secciones, favoritos | `core/combat/action-text.ts` (frases del texto), `core/combat/combat-actions.ts` (filas; `FeatureNote.action` del motor tiene prioridad), `features/characters/combat-tab.*` |
 | Recursos gastables y recuperación en descanso | `core/play/play-state.ts`, `core/play/rest-rules.ts` |
 | Objetos mágicos con base / mejoras / con conjuro | `core/characters/magic-base.ts`, `enhancement.ts`, `core/spell-items/` |
 | Avisos "falta elegir" | `warnings.push({ key: 'sheet.warn.…' })` en `engine.ts` + tipo en `sheet.ts` + textos es/en; en el asistente, `review()` de `core/creation/creation-rules.ts` |
