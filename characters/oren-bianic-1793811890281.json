@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-11T19:25:19.396Z",
+  "updatedAt": "2026-11-11T20:17:10.538Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -316,9 +316,7 @@
       "failures": 0
     },
     "heroicInspiration": false,
-    "conditions": [
-      "charmed"
-    ],
+    "conditions": [],
     "exhaustion": 0,
     "spellSwap": {},
     "summons": {
