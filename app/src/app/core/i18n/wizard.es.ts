@@ -171,7 +171,6 @@ export const wizardEs: Record<keyof typeof wizardEn, string> = {
   'create.missing.hpRoll': '{cls} nivel {level}: tira el dado de golpe (aún sin tirar).',
 
   // Texts of the creation wizard and the level up that lived in the first-load dictionary
-  'create.title': 'Nuevo personaje',
   'create.editTitle': 'Editar personaje',
   'create.step.class': 'Clase',
   'create.step.background': 'Trasfondo',

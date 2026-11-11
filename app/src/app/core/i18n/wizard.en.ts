@@ -174,7 +174,6 @@ export const wizardEn = {
   'create.missing.hpRoll': '{cls} level {level}: roll the hit die (not rolled yet).',
 
   // Texts of the creation wizard and the level up that lived in the first-load dictionary
-  'create.title': 'New character',
   'create.editTitle': 'Edit character',
   'create.step.class': 'Class',
   'create.step.background': 'Background',

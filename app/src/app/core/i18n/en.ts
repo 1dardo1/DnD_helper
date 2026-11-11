@@ -366,6 +366,7 @@ export const en = {
   'hp.methodShort.none': '—',
   'hp.bonus': 'Other bonuses (Tough, Dwarven Toughness...)',
   'hp.sum': 'Total',
+  'create.title': 'New character',
   'create.prev': 'Back',
   'create.next': 'Next',
   'create.traitPick.skill': '{trait}: choose {count} skill(s)',

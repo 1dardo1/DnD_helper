@@ -370,6 +370,7 @@ export const es: Record<keyof typeof en, string> = {
   'hp.methodShort.none': '—',
   'hp.bonus': 'Otros bonos (Dureza, Entereza enana...)',
   'hp.sum': 'Total',
+  'create.title': 'Nuevo personaje',
   'create.prev': 'Anterior',
   'create.next': 'Siguiente',
   'create.traitPick.skill': '{trait}: elige {count} habilidad(es)',
