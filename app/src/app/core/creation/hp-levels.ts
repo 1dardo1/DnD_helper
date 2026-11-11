@@ -1,4 +1,5 @@
 import type { Character } from '../models/character';
+import { HpMethod, isHpMethod } from './hp-method';
 
 /**
  * Hit points gained per class level and the method used for each: a roll of the class's hit die,
@@ -8,7 +9,8 @@ import type { Character } from '../models/character';
  */
 
 export type ClassEntry = Character['classes'][number];
-export type HpMethod = 'roll' | 'average' | 'fixed';
+export type { HpMethod } from './hp-method';
+export { isHpMethod, normalizeHpMethod } from './hp-method';
 export const HP_METHODS: HpMethod[] = ['roll', 'average', 'fixed'];
 
 /** Average of a hit die (2024 PHB: half the die, rounded up: d6 4, d8 5, d10 6, d12 7). */
@@ -28,25 +30,35 @@ export function clampHp(raw: unknown, hitDie: number): number | null {
   return Math.min(Math.max(Math.round(n), 1), hitDie);
 }
 
-export function isHpMethod(x: unknown): x is HpMethod {
-  return x === 'roll' || x === 'average' || x === 'fixed';
-}
-
 /** Method recorded for level index `i` (0-based) of the class; null = none (older character). */
 export function hpMethodAt(k: Pick<ClassEntry, 'hpMethod'>, i: number): HpMethod | null {
   const m = k.hpMethod?.[i];
   return isHpMethod(m) ? m : null;
 }
 
-/** The hit points a level gives before Constitution (level 1 of the starting class: the full die). */
+/**
+ * The hit points a level gives before Constitution. Level 1 of the starting class is the full die
+ * (the rule); only a method chosen for it on purpose (a house rule) changes that, and a roll not
+ * made yet keeps the full die meanwhile. Older characters (no method) always get the full die.
+ */
 export function levelHp(
-  k: Pick<ClassEntry, 'hp'>,
+  k: Pick<ClassEntry, 'hp' | 'hpMethod'>,
   i: number,
   hitDie: number,
   first: boolean,
 ): number {
-  if (first && i === 0) return hitDie;
+  if (first && i === 0) {
+    const m = hpMethodAt(k, 0);
+    if (!m) return hitDie;
+    if (m === 'average') return averageHp(hitDie);
+    return k.hp[0] ?? hitDie;
+  }
   return k.hp[i] ?? averageHp(hitDie);
+}
+
+/** Level 1 of the starting class goes by a house rule (not the full die of the rule). */
+export function firstLevelHouseRule(k: Pick<ClassEntry, 'hpMethod'>): boolean {
+  return hpMethodAt(k, 0) !== null;
 }
 
 /** Resizes hp and hpMethod to the class level (extra levels are empty = average). */
@@ -73,29 +85,6 @@ export function withHpMethod(
   return { ...k, hp, hpMethod };
 }
 
-/** The same fixed value on every level in `levels` (0-based indexes). */
-export function withFixedAll(
-  k: ClassEntry,
-  levels: number[],
-  hitDie: number,
-  value: number,
-): ClassEntry {
-  let out = k;
-  for (const i of levels) out = withHpMethod(out, i, hitDie, 'fixed', value);
-  return out;
-}
-
-/** Normalizes the stored method list of a class entry (older files have none). */
-export function normalizeHpMethod(k: {
-  hp?: (number | null)[];
-  hpMethod?: unknown;
-}): (HpMethod | null)[] | undefined {
-  const raw = k.hpMethod;
-  if (!Array.isArray(raw)) return undefined;
-  const n = k.hp?.length ?? raw.length;
-  return Array.from({ length: n }, (_, i) => (isHpMethod(raw[i]) ? raw[i] : null));
-}
-
 export interface HpLevelRow {
   classId: string;
   /** Level in that class (1-based). */
@@ -103,7 +92,7 @@ export interface HpLevelRow {
   die: number;
   /** null = older character, only the stored value. */
   method: HpMethod | null;
-  /** True for the level 1 of the starting class (always the full die). */
+  /** Level 1 of the starting class with the full die of the rule (not a house rule). */
   max: boolean;
   /** Hit points the die/choice gives. */
   gained: number;
@@ -130,8 +119,8 @@ export function hpBreakdown(
         classId: k.id,
         level: i + 1,
         die,
-        method: first ? null : hpMethodAt(k, i),
-        max: first,
+        method: hpMethodAt(k, i),
+        max: first && !firstLevelHouseRule(k),
         gained,
         con: conMod,
         total: Math.max(gained + conMod, 1),

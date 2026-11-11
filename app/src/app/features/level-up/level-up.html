@@ -24,25 +24,20 @@
       {{ 'levelUp.reaches' | t: { from: before.totalLevel, to: before.totalLevel + 1 } }}
     </p>
 
-    <nav class="steps" [attr.aria-label]="'levelUp.steps' | t">
-      <ol>
-        @for (s of steps(); track s; let i = $index) {
-          <li>
-            <button
-              type="button"
-              [class.current]="step() === s"
-              [attr.aria-current]="step() === s ? 'step' : null"
-              [disabled]="!g && s !== 'class'"
-              (click)="step.set(s)"
-            >
-              {{ i + 1 }}. {{ 'levelUp.step.' + s | t }}
-            </button>
-          </li>
-        }
-      </ol>
-    </nav>
+    <app-wizard-progress
+      [steps]="progress()"
+      [current]="step()"
+      [label]="'levelUp.steps' | t"
+      (go)="goStep($event)"
+    />
 
     <section class="step">
+      <app-wizard-step-head
+        [n]="stepIndex() + 1"
+        [total]="steps().length"
+        [title]="'levelUp.step.' + step() | t"
+        [lead]="step() === 'class' ? ('wizard.lead.levelUp' | t) : ''"
+      />
       @switch (step()) {
         <!-- 1. Which class --------------------------------------------------------------- -->
         @case ('class') {
@@ -137,7 +132,7 @@
         <!-- 3. Subclass ------------------------------------------------------------------- -->
         @case ('subclass') {
           @if (g) {
-            <label>
+            <p>
               {{
                 'levelUp.subclassNow'
                   | t
@@ -147,15 +142,19 @@
                         title: g.cls.subclassTitle | dataText,
                       }
               }}
-              <select [value]="g.entry.subclassId ?? ''" (change)="setSubclass(value($event))">
-                <option value="">—</option>
-                @for (s of g.subclasses; track s.id) {
-                  <option [value]="s.id">
-                    {{ s.name | dataName }}{{ s.edition === '2014' ? ' (2014)' : '' }}
-                  </option>
-                }
-              </select>
-            </label>
+            </p>
+            <app-picker
+              [items]="g.subclasses"
+              [facets]="subclassFacets"
+              [selected]="g.entry.subclassId ? [g.entry.subclassId] : []"
+              [label]="g.cls.subclassTitle | dataText"
+              [pageSize]="12"
+              (picked)="setSubclass($event.id)"
+            >
+              <ng-template #details let-s>
+                <app-class-info [sub]="s" [level]="g.level" />
+              </ng-template>
+            </app-picker>
             @if (g.sub?.spellcasting?.abilityChoices; as choices) {
               <label>
                 {{ 'create.spellAbility' | t }}
@@ -168,12 +167,6 @@
                   }
                 </select>
               </label>
-            }
-            @if (g.sub; as s) {
-              <details>
-                <summary>{{ s.name | dataName }}</summary>
-                <div class="md" [innerHTML]="s.description | dataText | markdown"></div>
-              </details>
             }
           }
         }
@@ -531,9 +524,6 @@
             }
 
             <p class="actions">
-              <button type="button" class="primary" [disabled]="saving()" (click)="save()">
-                {{ 'levelUp.save' | t }}
-              </button>
               <a class="btn btn-ghost" [routerLink]="['/characters', id()]">{{
                 'levelUp.cancel' | t
               }}</a>
@@ -541,15 +531,18 @@
           }
         }
       }
-
-      <p class="nav">
-        <button type="button" (click)="go(-1)" [disabled]="stepIndex() <= 0">
-          ← {{ 'create.prev' | t }}
-        </button>
-        @if (stepIndex() < steps().length - 1) {
-          <button type="button" (click)="go(1)" [disabled]="!g">{{ 'create.next' | t }} →</button>
-        }
-      </p>
     </section>
+    <app-wizard-footer
+      [canBack]="stepIndex() > 0"
+      [state]="g ? 'done' : 'todo'"
+      [nextStep]="nextLabel()"
+      [finalLabel]="step() === 'summary' ? ('levelUp.save' | t) : null"
+      [busy]="saving()"
+      [nextDisabled]="!g"
+      [blockedReason]="'levelUp.which' | t"
+      (back)="go(-1)"
+      (next)="go(1)"
+      (finish)="save()"
+    />
   }
 }

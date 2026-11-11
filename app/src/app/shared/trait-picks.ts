@@ -175,11 +175,20 @@ export interface PickOptionLabel {
     </ng-template>
   `,
   styles: `
+    /* inline choices (skills, forms) side by side; option texts and selectors take the row */
     .trait-pick {
       min-width: 0;
       display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
+      flex-flow: row wrap;
+      align-items: center;
+      gap: 0.4rem 0.9rem;
+    }
+    .hint,
+    .opt,
+    .slot,
+    app-picker {
+      flex: 1 1 100%;
+      min-width: 0;
     }
     .hint {
       margin: 0;

@@ -212,7 +212,7 @@ describe('review of a multiclass caster', () => {
   });
   const issues = (c: Character) =>
     review(c, { classes, sheet: null, feats: new Map(), spells: SPELLS as Map<string, Spell> })
-      .choices.filter((n) => n.kind === 'issue')
+      .spells.filter((n) => n.kind === 'issue')
       .map((n) => `${n.key}:${n.params?.['cls']}`);
 
   it('does not flag 3 shared cantrips picked as 2 + 1', () => {

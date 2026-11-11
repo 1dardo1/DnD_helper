@@ -81,6 +81,11 @@ import { ENTRY_FACETS } from '../../shared/picker/entry-facets';
 import { defaultOrder } from '../../shared/picker/entry-order';
 import { Picker } from '../../shared/picker/picker';
 import { LoadError } from '../compendium/load-error';
+import { ClassInfo } from '../../shared/wizard/class-info';
+import { WizardFooter } from '../../shared/wizard/wizard-footer';
+import { ProgressStep, WizardProgress } from '../../shared/wizard/wizard-progress';
+import { WizardStepHead } from '../../shared/wizard/wizard-step-head';
+import { useWizardTexts } from '../../shared/wizard/wizard-texts';
 
 type Step = 'class' | 'hp' | 'subclass' | 'feats' | 'choices' | 'summary';
 
@@ -104,6 +109,10 @@ type Step = 'class' | 'hp' | 'subclass' | 'feats' | 'choices' | 'summary';
     Picker,
     FeatChoices,
     HpLevels,
+    ClassInfo,
+    WizardFooter,
+    WizardProgress,
+    WizardStepHead,
   ],
   templateUrl: './level-up.html',
   styleUrl: './level-up.scss',
@@ -116,7 +125,7 @@ export class LevelUp {
   private readonly rules = inject(RulesDataService);
   private readonly compendium = inject(CompendiumService);
   private readonly router = inject(Router);
-  private readonly i18n = inject(I18nService);
+  private readonly i18n: I18nService = useWizardTexts();
   private readonly dataText = inject(DataTextService);
 
   protected readonly step = signal<Step>('class');
@@ -124,6 +133,7 @@ export class LevelUp {
   protected readonly draft = signal<Character | null>(null);
   protected readonly classId = signal('');
   protected readonly spellFacets = ENTRY_FACETS.spell.filter((k) => k !== 'class');
+  protected readonly subclassFacets = ENTRY_FACETS.subclass.filter((k) => k !== 'class');
   protected readonly saving = signal(false);
 
   /** The character the level up in progress was restored for (once its data is loaded). */
@@ -437,6 +447,27 @@ export class LevelUp {
   }
 
   // -- steps ---------------------------------------------------------------------------
+  /** The steps as the shared progress shows them: the ones behind are done. */
+  protected readonly progress = computed<ProgressStep[]>(() => {
+    const at = this.stepIndex();
+    return this.steps().map((s, i) => ({
+      id: s,
+      label: this.i18n.t(`levelUp.step.${s}` as never),
+      state: i < at ? 'done' : 'todo',
+    }));
+  });
+
+  protected nextLabel(): string | null {
+    const next = this.steps()[this.stepIndex() + 1];
+    return next ? this.i18n.t(`levelUp.step.${next}` as never) : null;
+  }
+
+  protected goStep(s: string): void {
+    if (!this.gains() && s !== 'class') return;
+    this.step.set(s as Step);
+    window.scrollTo?.({ top: 0 });
+  }
+
   protected stepIndex(): number {
     return this.steps().indexOf(this.step());
   }

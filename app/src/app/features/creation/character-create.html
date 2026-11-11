@@ -1,4 +1,4 @@
-<header class="top">
+<header class="top" #top>
   <h1>{{ (id() ? 'create.editTitle' : 'create.title') | t }}</h1>
   @if (data.value()) {
     <button type="button" class="btn-ghost reset" (click)="id() ? discard() : restart()">
@@ -44,28 +44,15 @@
   <app-load-error [error]="data.error()" />
 } @else if (data.value(); as d) {
   @let c = draft();
+  @let st = current();
 
-  <nav class="steps" aria-label="steps" #stepsNav>
-    @for (s of steps; track s; let i = $index) {
-      <button
-        type="button"
-        [class.current]="step() === s"
-        [class.done]="isDone(s)"
-        [class.flagged]="issuesIn(s).length"
-        (click)="setStep(s)"
-      >
-        {{ i + 1 }}. {{ 'create.step.' + s | t }}
-        @if (issuesIn(s).length) {
-          ⚠
-        } @else if (isDone(s)) {
-          ✓
-        }
-      </button>
-    }
-  </nav>
+  <app-wizard-progress [steps]="progress()" [current]="st" (go)="setStep($event)" />
 
   <ng-template #toolPicker let-tc>
-    <fieldset>
+    <fieldset
+      [attr.data-anchor]="tc.slot === 'background' ? 'bg-tools' : 'tools'"
+      [attr.data-jump]="'tool:' + tc.slot"
+    >
       <legend>
         {{
           'create.toolChoice'
@@ -90,13 +77,55 @@
     </fieldset>
   </ng-template>
 
-  <div class="layout">
-    <section class="step" #stepSection tabindex="-1">
-      @switch (step()) {
+  <div class="layout" [class.solo]="st === 'details'">
+    @if (sheet(); as sh) {
+      @if (summary(); as sm) {
+        @if (st !== 'details') {
+          <aside class="side">
+            <app-wizard-summary
+              [sheet]="sh"
+              [character]="c"
+              [summary]="sm"
+              [states]="stateMap()"
+              [stepLabels]="stepLabels()"
+              [attacks]="attacks()"
+              (go)="setStep($event)"
+            />
+          </aside>
+        }
+      }
+    }
+
+    <section class="step" #stepSection tabindex="-1" aria-labelledby="wz-step-title">
+      <app-wizard-step-head
+        [n]="stepIndex() + 1"
+        [total]="steps().length"
+        [title]="stepLabel(st)"
+        [lead]="stepLead(st)"
+        [why]="stepWhy(st)"
+        headingId="wz-step-title"
+      >
+        @if (st === 'background' && primaryLabel()) {
+          <p class="hint">{{ 'wizard.bg.hint' | t: { primary: primaryLabel() } }}</p>
+        }
+        @if (st === 'choices' && choiceSections().length > 1) {
+          <nav class="in-step" [attr.aria-label]="'wizard.choices.inStep' | t">
+            <span>{{ 'wizard.choices.inStep' | t }}:</span>
+            @for (x of choiceSections(); track x.jump) {
+              <button type="button" [class.done]="x.done" (click)="jump(x.jump)">
+                <span aria-hidden="true">{{ x.done ? '✓' : '○' }}</span> {{ x.label }}
+                <small>{{ x.count }}</small>
+              </button>
+            }
+          </nav>
+        }
+      </app-wizard-step-head>
+
+      @switch (st) {
         <!-- 1. Classes ------------------------------------------------------------------ -->
         @case ('class') {
           @for (r of rows(); track r.index) {
-            <fieldset class="class-row">
+            <fieldset class="class-row" [attr.data-anchor]="r.index === 0 ? 'class' : null">
               <legend>
                 {{ (r.index === 0 ? 'create.startingClass' : 'create.multiclass') | t }}
               </legend>
@@ -106,7 +135,11 @@
                 [selected]="r.entry.id ? [r.entry.id] : []"
                 [label]="'create.class' | t"
                 (picked)="setClass(r.index, $event.id)"
-              />
+              >
+                <ng-template #details let-k>
+                  <app-class-info [cls]="k" [level]="r.entry.level" />
+                </ng-template>
+              </app-picker>
               <div class="row">
                 <label>
                   {{ 'create.level' | t }}
@@ -126,51 +159,42 @@
               </div>
               @if (r.cls; as k) {
                 @if (r.entry.level >= k.subclassLevel) {
-                  <h3>{{ k.subclassTitle | dataText }}</h3>
-                  <app-picker
-                    [items]="r.subclasses"
-                    [facets]="subclassFacets"
-                    [selected]="r.entry.subclassId ? [r.entry.subclassId] : []"
-                    [label]="k.subclassTitle | dataText"
-                    [pageSize]="12"
-                    (picked)="setSubclass(r.index, $event.id)"
-                  />
-                  @if (r.sub?.spellcasting?.abilityChoices; as choices) {
-                    <label>
-                      {{ 'create.spellAbility' | t }}
-                      <select
-                        [value]="r.entry.spellAbility ?? r.sub?.spellcasting?.ability ?? ''"
-                        (change)="setSpellAbility(r.index, value($event))"
-                      >
-                        @for (a of choices; track a) {
-                          <option [value]="a">{{ 'ability.' + a | t }}</option>
-                        }
-                      </select>
-                    </label>
-                  }
+                  <div class="sub" data-anchor="subclass">
+                    <h3>{{ k.subclassTitle | dataText }}</h3>
+                    <app-picker
+                      [items]="r.subclasses"
+                      [facets]="subclassFacets"
+                      [selected]="r.entry.subclassId ? [r.entry.subclassId] : []"
+                      [label]="k.subclassTitle | dataText"
+                      [pageSize]="12"
+                      (picked)="setSubclass(r.index, $event.id)"
+                    >
+                      <ng-template #details let-s>
+                        <app-class-info [sub]="s" [level]="r.entry.level" />
+                      </ng-template>
+                    </app-picker>
+                    @if (r.sub?.spellcasting?.abilityChoices; as choices) {
+                      <label>
+                        {{ 'create.spellAbility' | t }}
+                        <select
+                          [value]="r.entry.spellAbility ?? r.sub?.spellcasting?.ability ?? ''"
+                          (change)="setSpellAbility(r.index, value($event))"
+                        >
+                          @for (a of choices; track a) {
+                            <option [value]="a">{{ 'ability.' + a | t }}</option>
+                          }
+                        </select>
+                      </label>
+                    }
+                  </div>
                 } @else {
-                  <p>
-                    <small>{{
-                      'create.subclassAt' | t: { title: k.subclassTitle, level: k.subclassLevel }
-                    }}</small>
+                  <p class="hint">
+                    {{
+                      'create.subclassAt'
+                        | t: { title: (k.subclassTitle | dataText), level: k.subclassLevel }
+                    }}
                   </p>
                 }
-                <details>
-                  <summary>{{ 'create.hp' | t: { die: k.hitDie } }}</summary>
-                  <p>
-                    <small>{{
-                      (r.index === 0 ? 'create.hpHelp' : 'create.hpHelpMulti')
-                        | t: { avg: k.hitDie / 2 + 1 }
-                    }}</small>
-                  </p>
-                  <app-hp-levels
-                    [entry]="r.entry"
-                    [die]="k.hitDie"
-                    [first]="r.index === 0"
-                    [con]="sheet()?.abilities?.CON?.modifier ?? null"
-                    (entryChange)="setHpEntry(r.index, $event)"
-                  />
-                </details>
               }
             </fieldset>
           } @empty {
@@ -179,7 +203,7 @@
             </p>
           }
           @if (classList().length) {
-            <p>
+            <p class="add-class">
               <button type="button" (click)="addClass()">+ {{ 'create.addClass' | t }}</button>
               <small> {{ 'create.totalLevel' | t: { level: totalLevel() } }}</small>
             </p>
@@ -188,13 +212,25 @@
 
         <!-- 2. Background --------------------------------------------------------------- -->
         @case ('background') {
-          <app-picker
-            [items]="d.backgrounds"
-            [facets]="backgroundFacets"
-            [selected]="c.background?.id ? [c.background!.id] : []"
-            [label]="'create.background' | t"
-            (picked)="setBackground($event.id)"
-          />
+          <div data-anchor="background">
+            <app-picker
+              [items]="d.backgrounds"
+              [facets]="backgroundFacets"
+              [selected]="c.background?.id ? [c.background!.id] : []"
+              [label]="'create.background' | t"
+              (picked)="setBackground($event.id)"
+            >
+              <ng-template #details let-b>
+                <app-entry-details [entry]="b" />
+                @if (b.featId ? d.rules.feats.get(b.featId) : undefined; as f) {
+                  <h4 class="feat-title">
+                    {{ 'wizard.info.featText' | t: { feat: (f.name | dataName) } }}
+                  </h4>
+                  <div class="md feat-text" [innerHTML]="f.description | dataText | markdown"></div>
+                }
+              </ng-template>
+            </app-picker>
+          </div>
           <p class="create-own">
             <button
               type="button"
@@ -220,22 +256,38 @@
                 <p>{{ 'homebrew.approve.pendingNote' | t }}</p>
               }
             }
-            <p>
-              {{ 'create.backgroundGives' | t }}: {{ b.feat | dataName }} ·
-              {{ b.skills.map(skillLabel).join(', ') }}
-              @if (b.tools) {
-                · {{ backgroundTools() }}
+            <section class="gives" [attr.aria-label]="'wizard.bg.youGet' | t">
+              <h3>{{ 'wizard.bg.youGet' | t }}</h3>
+              <dl>
+                <dt>{{ 'picker.feat' | t }}</dt>
+                <dd>{{ b.feat | dataName }}</dd>
+                <dt>{{ 'picker.skills' | t }}</dt>
+                <dd>{{ b.skills.map(skillLabel).join(', ') }}</dd>
+                @if (b.tools) {
+                  <dt>{{ 'picker.tool' | t }}</dt>
+                  <dd>{{ backgroundTools() }}</dd>
+                }
+                <dt>{{ 'create.backgroundIncreases' | t }}</dt>
+                <dd>{{ b.abilityScores.map(abilityLabel).join(', ') }}</dd>
+              </dl>
+              @if (b.featId ? d.rules.feats.get(b.featId) : undefined; as f) {
+                <details class="feat-text">
+                  <summary>{{ 'wizard.info.featText' | t: { feat: (f.name | dataName) } }}</summary>
+                  <div class="md" [innerHTML]="f.description | dataText | markdown"></div>
+                </details>
               }
-            </p>
+            </section>
             @if (backgroundFeat(); as src) {
-              <app-feat-choices
-                [source]="src"
-                [choice]="featChoice(src.key)"
-                [spells]="d.spells"
-                (changed)="setFeatChoice(src.key, $event)"
-              />
+              <div data-anchor="bg-feat">
+                <app-feat-choices
+                  [source]="src"
+                  [choice]="featChoice(src.key)"
+                  [spells]="d.spells"
+                  (changed)="setFeatChoice(src.key, $event)"
+                />
+              </div>
             }
-            <fieldset>
+            <fieldset data-anchor="bg-increases">
               <legend>{{ 'create.backgroundIncreases' | t }}</legend>
               <label class="inline">
                 <input
@@ -266,7 +318,7 @@
                       <option value="">—</option>
                       @for (a of b.abilityScores; track a) {
                         <option [value]="a" [disabled]="backgroundPick(amount === 2 ? 1 : 2) === a">
-                          {{ 'ability.' + a | t }}
+                          {{ 'ability.' + a | t }}{{ primaryOf(a).length ? ' ★' : '' }}
                         </option>
                       }
                     </select>
@@ -286,61 +338,69 @@
 
         <!-- 3. Species, size and languages ----------------------------------------------- -->
         @case ('species') {
-          <app-picker
-            [items]="d.species"
-            [facets]="speciesFacets"
-            [selected]="c.species?.id ? [c.species!.id] : []"
-            [label]="'create.species' | t"
-            (picked)="setSpecies($event.id)"
-          />
+          <div data-anchor="species">
+            <app-picker
+              [items]="d.species"
+              [facets]="speciesFacets"
+              [selected]="c.species?.id ? [c.species!.id] : []"
+              [label]="'create.species' | t"
+              (picked)="setSpecies($event.id)"
+            />
+          </div>
           @if (species(); as s) {
             @if (variants().length) {
-              <h3>{{ 'create.variant' | t }}</h3>
-              <app-picker
-                [items]="variants()"
-                [selected]="c.species?.variant ? [c.species!.variant!] : []"
-                [label]="'create.variant' | t"
-                (picked)="setVariant($event.id)"
-              >
-                <ng-template #card let-v>
-                  <span class="variant-card">
-                    <span class="name">{{ v.name | dataName }}</span>
-                    @if (v.traits.length) {
-                      <span class="fact">{{ traitNames(v.traits) }}</span>
+              <div data-anchor="variant">
+                <h3>{{ 'create.variant' | t }}</h3>
+                <app-picker
+                  [items]="variants()"
+                  [selected]="c.species?.variant ? [c.species!.variant!] : []"
+                  [label]="'create.variant' | t"
+                  (picked)="setVariant($event.id)"
+                >
+                  <ng-template #card let-v>
+                    <span class="variant-card">
+                      <span class="name">{{ v.name | dataName }}</span>
+                      @if (v.traits.length) {
+                        <span class="fact">{{ traitNames(v.traits) }}</span>
+                      }
+                    </span>
+                  </ng-template>
+                  <ng-template #details let-v>
+                    <div class="md" [innerHTML]="v.description | dataText | markdown"></div>
+                    @for (t of v.traits; track t.name) {
+                      <h4>{{ t.name | dataName }}</h4>
+                      <div class="md" [innerHTML]="t.description | dataText | markdown"></div>
                     }
-                  </span>
-                </ng-template>
-                <ng-template #details let-v>
-                  <div class="md" [innerHTML]="v.description | dataText | markdown"></div>
-                  @for (t of v.traits; track t.name) {
-                    <h4>{{ t.name | dataName }}</h4>
-                    <div class="md" [innerHTML]="t.description | dataText | markdown"></div>
-                  }
-                </ng-template>
-              </app-picker>
+                  </ng-template>
+                </app-picker>
+              </div>
             }
-            @for (tc of speciesTraitChoices(); track tc.key) {
-              <app-trait-choice
-                [key]="tc.key"
-                [legend]="tc.trait | dataName"
-                [options]="tc.options"
-                [selected]="c.choices.traitChoices?.[tc.key] ?? null"
-                (changed)="setTraitChoice(tc.key, $event)"
-              />
-            }
-            @for (tp of speciesTraitPicks(); track tp.pick.key) {
-              <app-trait-picks
-                [pick]="tp.pick"
-                [spells]="d.spells"
-                [weapons]="weaponNames()"
-                [had]="tp.had"
-                [level]="totalLevel() || 1"
-                [labels]="tp.labels"
-                (changed)="setTraitPick(tp.pick.key, $event)"
-              />
+            @if (speciesTraitChoices().length || speciesTraitPicks().length) {
+              <div class="traits" data-anchor="species-traits">
+                @for (tc of speciesTraitChoices(); track tc.key) {
+                  <app-trait-choice
+                    [key]="tc.key"
+                    [legend]="tc.trait | dataName"
+                    [options]="tc.options"
+                    [selected]="c.choices.traitChoices?.[tc.key] ?? null"
+                    (changed)="setTraitChoice(tc.key, $event)"
+                  />
+                }
+                @for (tp of speciesTraitPicks(); track tp.pick.key) {
+                  <app-trait-picks
+                    [pick]="tp.pick"
+                    [spells]="d.spells"
+                    [weapons]="weaponNames()"
+                    [had]="tp.had"
+                    [level]="totalLevel() || 1"
+                    [labels]="tp.labels"
+                    (changed)="setTraitPick(tp.pick.key, $event)"
+                  />
+                }
+              </div>
             }
             @if (speciesAbilityNeeded()) {
-              <label data-testid="species-ability">
+              <label data-testid="species-ability" data-anchor="species-ability">
                 {{ 'create.speciesAbility' | t }}
                 <select
                   [value]="speciesAbilityPicked() ?? ''"
@@ -354,7 +414,7 @@
               </label>
             }
             @if (s.size.length > 1) {
-              <label>
+              <label data-anchor="size">
                 {{ 'sheet.size' | t }}
                 <select [value]="c.size ?? ''" (change)="setSize(value($event))">
                   <option value="">—</option>
@@ -366,7 +426,7 @@
             }
           }
           @if (speciesFeatKind()) {
-            <fieldset data-testid="species-feat">
+            <fieldset data-testid="species-feat" data-anchor="species-feat">
               <legend>{{ 'create.speciesFeat' | t }}</legend>
               <app-picker
                 [items]="speciesFeats()"
@@ -386,7 +446,7 @@
               }
             </fieldset>
           }
-          <fieldset>
+          <fieldset data-anchor="languages">
             <legend>{{ 'create.languages' | t: { count: c.choices.languages.length } }}</legend>
             @for (l of languages; track l) {
               <label class="inline">
@@ -406,28 +466,58 @@
 
         <!-- 4. Ability scores ------------------------------------------------------------ -->
         @case ('abilities') {
-          <label>
-            {{ 'create.method' | t }}
-            <select [value]="c.abilityScores?.method ?? ''" (change)="setMethod(value($event))">
-              <option value="" disabled>—</option>
-              <option value="standard">{{ 'create.method.standard' | t }}</option>
-              <option value="point-buy">{{ 'create.method.point-buy' | t }}</option>
-              <option value="manual">{{ 'create.method.manual' | t }}</option>
-            </select>
-          </label>
+          <div class="method" data-anchor="abilities">
+            <label>
+              {{ 'create.method' | t }}
+              <select [value]="c.abilityScores?.method ?? ''" (change)="setMethod(value($event))">
+                <option value="" disabled>—</option>
+                <option value="standard">{{ 'create.method.standard' | t }}</option>
+                <option value="point-buy">{{ 'create.method.point-buy' | t }}</option>
+                <option value="manual">{{ 'create.method.manual' | t }}</option>
+              </select>
+            </label>
+            @if (c.abilityScores; as scores) {
+              <p class="hint">{{ 'wizard.ab.methodHelp.' + scores.method | t }}</p>
+            }
+          </div>
           @if (c.abilityScores; as scores) {
             @if (scores.method === 'point-buy') {
-              <p>{{ 'create.points' | t: { spent: pointsSpent(), budget: budget } }}</p>
+              <p class="points">
+                {{ 'create.points' | t: { spent: pointsSpent(), budget: budget } }} ·
+                <strong>{{ 'wizard.ab.left' | t: { n: budget - pointsSpent() } }}</strong>
+              </p>
             }
             <table class="scores">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <span class="visually-hidden">{{ 'create.step.abilities' | t }}</span>
+                  </th>
+                  <th scope="col">{{ 'wizard.ab.base' | t }}</th>
+                  <th scope="col">{{ 'wizard.ab.bonus' | t }}</th>
+                  <th scope="col">{{ 'wizard.ab.total' | t }}</th>
+                </tr>
+              </thead>
               <tbody>
                 @for (a of abilities; track a) {
-                  <tr>
-                    <th>{{ 'ability.' + a | t }}</th>
+                  @let prim = primaryOf(a);
+                  <tr [class.primary]="prim.length">
+                    <th scope="row">
+                      {{ 'ability.' + a | t }}
+                      @for (p of prim; track p) {
+                        <small class="tag">★ {{ 'wizard.ab.primary' | t: { cls: p } }}</small>
+                      }
+                      @for (m of multiclassNeeds(a); track m.cls) {
+                        <small class="tag" [class.issue]="!m.met">
+                          {{ 'wizard.ab.multiclassNeed' | t: { cls: m.cls, min: m.min } }}
+                        </small>
+                      }
+                    </th>
                     <td>
                       @if (scores.method === 'standard') {
                         <select
                           [value]="scores.base[a] || ''"
+                          [attr.aria-label]="'ability.' + a | t"
                           (change)="setScore(a, value($event))"
                         >
                           <option value="">—</option>
@@ -450,6 +540,7 @@
                           <input
                             type="number"
                             inputmode="numeric"
+                            [attr.aria-label]="'ability.' + a | t"
                             [min]="scores.method === 'point-buy' ? 8 : 3"
                             [max]="scores.method === 'point-buy' ? 15 : 20"
                             [value]="scores.base[a]"
@@ -468,11 +559,17 @@
                         </span>
                       }
                     </td>
+                    <td class="bonus">
+                      @if (abilityBonus(a); as b) {
+                        {{ signed(b) }}
+                      } @else {
+                        —
+                      }
+                    </td>
                     @if (sheet(); as sh) {
-                      <td>
-                        → <strong>{{ sh.abilities[a].score }}</strong> ({{
-                          signed(sh.abilities[a].modifier)
-                        }})
+                      <td class="total">
+                        <strong>{{ sh.abilities[a].score }}</strong>
+                        <small>({{ signed(sh.abilities[a].modifier) }})</small>
                       </td>
                     }
                   </tr>
@@ -482,11 +579,26 @@
           }
         }
 
-        <!-- 5. Class choices ------------------------------------------------------------- -->
+        <!-- 5. Hit points ---------------------------------------------------------------- -->
+        @case ('hp') {
+          @if (classList().length && sheet(); as sh) {
+            <app-wizard-hp
+              data-anchor="hp"
+              [classes]="c.classes"
+              [info]="hpInfo()"
+              [sheet]="sh"
+              (classesChange)="setHpClasses($event)"
+            />
+          } @else {
+            <p class="hint">{{ 'wizard.hp.noClass' | t }}</p>
+          }
+        }
+
+        <!-- 6. Class choices ------------------------------------------------------------- -->
         @case ('choices') {
           @if (classList().length) {
             @let picks = skillChoice();
-            <fieldset>
+            <fieldset data-anchor="skills" data-jump="skills">
               <legend>{{ 'create.skills' | t: { count: picks.count } }}</legend>
               @for (s of picks.from; track s) {
                 @let fromBg = background()?.skills?.includes(s);
@@ -497,7 +609,7 @@
                     [disabled]="fromBg"
                     (change)="setSkill(s, checked($event))"
                   />
-                  {{ 'skill.' + s | t }}
+                  {{ 'skill.' + s | t }} <small class="abbr">{{ skillAbility(s) }}</small>
                   @if (fromBg) {
                     <small>({{ 'create.background' | t }})</small>
                   }
@@ -506,7 +618,7 @@
             </fieldset>
 
             @if (masterySlots()) {
-              <fieldset>
+              <fieldset data-anchor="masteries" data-jump="masteries">
                 <legend>
                   {{
                     'create.weaponMasteries'
@@ -521,14 +633,20 @@
                       [checked]="(c.choices.weaponMasteries ?? []).includes(w.id)"
                       (change)="setMastery(w.id, checked($event))"
                     />
-                    {{ w.name | dataName }}
+                    {{ w.name | dataName: true }}
+                    <small class="abbr"
+                      >{{ w.weapon?.damage?.[0]?.dice }} ·
+                      {{
+                        'wizard.mastery.property' | t: { m: (w.weapon?.mastery | term: 'mastery') }
+                      }}</small
+                    >
                   </label>
                 }
               </fieldset>
             }
 
             @if (expertiseTotal()) {
-              <fieldset>
+              <fieldset data-anchor="expertise" data-jump="expertise">
                 <legend>{{ 'create.expertise' | t: { count: expertiseTotal() } }}</legend>
                 @for (s of proficientSkills(); track s) {
                   <label class="inline">
@@ -551,18 +669,21 @@
 
             @for (r of rows(); track r.index) {
               @if (r.cls; as k) {
-                <h2>{{ k.name | dataName }} {{ r.entry.level }}</h2>
+                @if (r.slots.length || r.optionGroups.length) {
+                  <h3 class="class-head">{{ k.name | dataName: true }} {{ r.entry.level }}</h3>
+                }
 
                 @for (s of r.slots; track s.slot) {
                   @let feat = slotFeatEntry(s.slot);
                   @let fp = slotPicks(feat);
                   @let problems = featProblems(feat);
-                  <fieldset>
+                  <fieldset data-anchor="feats" [attr.data-jump]="'slot:' + s.slot">
                     <legend>{{ 'create.slot.' + s.kind | t: { level: s.level } }}</legend>
                     <app-picker
                       [items]="featsFor(s.kind)"
                       [facets]="featFacets"
                       [selected]="slotFeat(s.slot) ? [slotFeat(s.slot)] : []"
+                      [marks]="featMarks()[s.kind] ?? {}"
                       [label]="'create.slot.' + s.kind | t: { level: s.level }"
                       [pageSize]="12"
                       (picked)="setSlotFeat(s.slot, $event.id)"
@@ -597,7 +718,7 @@
 
                 @for (g of r.optionGroups; track g.group) {
                   @let taken = chosenCount(c.choices.options, g.options);
-                  <fieldset>
+                  <fieldset [attr.data-jump]="'opt:' + r.entry.id + ':' + g.group">
                     <legend [class.issue]="g.count !== null && taken > g.count">
                       {{ groupLabel(g.group) }}
                       @if (g.count !== null) {
@@ -648,454 +769,464 @@
                     }
                   </fieldset>
                 }
-
-                @if (r.spells; as sl) {
-                  @let mine = pickedOf(r.entry.id);
-                  @let nC = chosenCount(mine, sl.cantrips);
-                  @let nP = chosenCount(mine, sl.leveled);
-                  <fieldset>
-                    <legend>{{ 'sheet.spellcasting' | t }}</legend>
-                    @if (sl.cantripCount !== null) {
-                      <h3 [class.issue]="nC > sl.cantripCount">
-                        {{ 'sheet.cantrips' | t }} ({{ nC }} / {{ sl.cantripCount }})
-                      </h3>
-                      <app-picker
-                        multiple
-                        [items]="sl.cantrips"
-                        [facets]="spellFacets"
-                        swipeFacet="level"
-                        [selected]="mine"
-                        [marks]="spellMarks()[r.entry.id]"
-                        [label]="'sheet.cantrips' | t"
-                        (picked)="setSpell(r.entry.id, $event.id, $event.on)"
-                      />
-                    }
-                    <h3 [class.issue]="sl.preparedCount !== null && nP > sl.preparedCount">
-                      {{ 'sheet.prepared' | t }}
-                      @if (sl.preparedCount !== null) {
-                        ({{ nP }} / {{ sl.preparedCount }})
-                      }
-                    </h3>
-                    <app-picker
-                      multiple
-                      [items]="sl.leveled"
-                      [facets]="spellFacets"
-                      swipeFacet="level"
-                      [selected]="mine"
-                      [marks]="spellMarks()[r.entry.id]"
-                      [label]="'sheet.prepared' | t"
-                      (picked)="setSpell(r.entry.id, $event.id, $event.on)"
-                    />
-                    @if (sharedSpells() > 0) {
-                      <p class="hint">{{ 'spellchoice.shared' | t: { count: sharedSpells() } }}</p>
-                    }
-                  </fieldset>
-                }
               }
             }
           } @else {
-            <p>{{ 'create.missing.class' | t }}</p>
+            <p class="hint">{{ 'create.missing.class' | t }}</p>
           }
         }
 
-        <!-- 6. Equipment ----------------------------------------------------------------- -->
-        @case ('equipment') {
-          @let pk = packages();
-          @let sc = startChoice();
-          @let gp = goldPackages();
-          <p class="equip-intro">
-            {{ 'create.equip.intro' | t }}
-            @if (gp.class || gp.background) {
-              <button type="button" class="all-gold" (click)="allGold()">
-                {{ 'create.equip.allGold' | t }}
-              </button>
-            }
-          </p>
-          @for (kind of equipKinds; track kind) {
-            @let list = pk[kind];
-            @let src = kind === 'class' ? classList()[0] : background();
-            @if (src) {
-              <fieldset class="start-packages">
+        <!-- 7. Spells --------------------------------------------------------------------- -->
+        @case ('spells') {
+          @for (r of rows(); track r.index) {
+            @if (r.cls && r.spells; as sl) {
+              @let mine = pickedOf(r.entry.id);
+              @let nC = chosenCount(mine, sl.cantrips);
+              @let nP = chosenCount(mine, sl.leveled);
+              @let sc = spellStats(r.entry.id);
+              <fieldset class="spells" data-anchor="spells">
                 <legend>
-                  {{ 'create.equip.from.' + kind | t: { name: (src.name | dataName) } }}
+                  {{ r.cls!.name | dataName: true }} {{ r.entry.level }}
+                  @if (sc) {
+                    <small>
+                      · {{ 'ability.' + sc.ability | t }} ·
+                      {{
+                        'wizard.summary.spellDc' | t: { dc: sc.saveDc, attack: signed(sc.attack) }
+                      }}
+                    </small>
+                  }
                 </legend>
-                @if (list) {
-                  <ul class="packages">
-                    @for (p of list; track p.letter) {
-                      @let chosen = sc[kind] === p.letter;
-                      <li>
-                        <button
-                          type="button"
-                          class="package"
-                          [class.chosen]="chosen"
-                          [attr.aria-pressed]="chosen"
-                          (click)="choosePackage(kind, p.letter)"
-                        >
-                          <span class="letter">{{ p.letter }}</span>
-                          @if (p.lines.length) {
-                            <span class="lines">
-                              @for (l of p.lines; track $index) {
-                                <span class="line">
-                                  @if (l.qty > 1) {
-                                    <b>{{ l.qty }} ×</b>
-                                  }
-                                  @if (l.chosenTool) {
-                                    {{ 'create.equip.chosenTool' | t }}
-                                  } @else if (l.itemId) {
-                                    {{ l.name | dataName: true }}
-                                  } @else {
-                                    {{ l.text | dataText }}
-                                  }
-                                </span>
-                              }
-                            </span>
-                          } @else {
-                            <span class="only-gold">{{ 'create.equip.onlyGold' | t }}</span>
-                          }
-                          <span class="gold">{{ p.gold }} {{ 'compendium.coin.gp' | t }}</span>
-                        </button>
-                      </li>
-                    }
-                  </ul>
-                } @else {
-                  <p class="book-text">
-                    {{
-                      (kind === 'class'
-                        ? classList()[0]?.startingEquipment
-                        : background()?.equipment
-                      ) | dataText
-                    }}
-                  </p>
+                @if (sl.cantripCount !== null) {
+                  <h3 [class.issue]="nC > sl.cantripCount" [class.todo]="nC < sl.cantripCount">
+                    {{ 'sheet.cantrips' | t }} ({{ nC }} / {{ sl.cantripCount }})
+                  </h3>
+                  <app-picker
+                    multiple
+                    [items]="sl.cantrips"
+                    [facets]="spellFacets"
+                    swipeFacet="level"
+                    [selected]="mine"
+                    [marks]="spellMarks()[r.entry.id]"
+                    [label]="'sheet.cantrips' | t"
+                    (picked)="setSpell(r.entry.id, $event.id, $event.on)"
+                  />
                 }
+                <h3
+                  [class.issue]="sl.preparedCount !== null && nP > sl.preparedCount"
+                  [class.todo]="sl.preparedCount !== null && nP < sl.preparedCount"
+                >
+                  {{ 'sheet.prepared' | t }}
+                  @if (sl.preparedCount !== null) {
+                    ({{ nP }} / {{ sl.preparedCount }})
+                  }
+                </h3>
+                <app-picker
+                  multiple
+                  [items]="sl.leveled"
+                  [facets]="spellFacets"
+                  swipeFacet="level"
+                  [selected]="mine"
+                  [marks]="spellMarks()[r.entry.id]"
+                  [label]="'sheet.prepared' | t"
+                  (picked)="setSpell(r.entry.id, $event.id, $event.on)"
+                />
               </fieldset>
             }
           }
+          @if (sharedSpells() > 0) {
+            <p class="hint">{{ 'spellchoice.shared' | t: { count: sharedSpells() } }}</p>
+          }
+        }
 
-          <section class="shop-bar">
-            <p class="purse">
-              {{ 'create.equip.goldLeft' | t }}
-              <strong>{{ coins(goldLeft()) }}</strong>
+        <!-- 8. Equipment ----------------------------------------------------------------- -->
+        @case ('equipment') {
+          <div data-anchor="equipment" class="equipment">
+            @let pk = packages();
+            @let sc = startChoice();
+            @let gp = goldPackages();
+            <p class="equip-intro">
+              {{ 'create.equip.intro' | t }}
+              @if (gp.class || gp.background) {
+                <button type="button" class="all-gold" (click)="allGold()">
+                  {{ 'create.equip.allGold' | t }}
+                </button>
+              }
             </p>
-            <button
-              type="button"
-              (click)="shopOpen.set(!shopOpen())"
-              [attr.aria-expanded]="shopOpen()"
-            >
-              {{ (shopOpen() ? 'create.equip.closeShop' : 'create.equip.openShop') | t }}
-            </button>
-          </section>
-          @if (bought().length) {
-            <ul class="basket" [attr.aria-label]="'create.equip.bought' | t">
-              @for (
-                b of bought();
-                track b.itemId + b.baseId + b.bonus + b.host?.itemId + b.host?.baseId
-              ) {
-                <li>
-                  <span class="name"
-                    >{{ b.item.name | dataName: true }}
-                    @if (b.baseId && b.base) {
-                      <small>({{ b.base.name | dataName }})</small>
-                    }
-                    @if (b.bonus) {
-                      <small>+{{ b.bonus }}</small>
-                    }
-                    @if (b.host; as h) {
-                      <small> ({{ 'gear.up.on' | t }}: {{ hostName(h) }}) </small>
-                      @if (!hostKept(b)) {
-                        <small class="issue"> · {{ 'gear.up.lost' | t }}</small>
+            @for (kind of equipKinds; track kind) {
+              @let list = pk[kind];
+              @let src = kind === 'class' ? classList()[0] : background();
+              @if (src) {
+                <fieldset class="start-packages">
+                  <legend>
+                    {{ 'create.equip.from.' + kind | t: { name: (src.name | dataName) } }}
+                  </legend>
+                  @if (list) {
+                    <ul class="packages">
+                      @for (p of list; track p.letter) {
+                        @let chosen = sc[kind] === p.letter;
+                        <li>
+                          <button
+                            type="button"
+                            class="package"
+                            [class.chosen]="chosen"
+                            [attr.aria-pressed]="chosen"
+                            (click)="choosePackage(kind, p.letter)"
+                          >
+                            <span class="letter">{{ p.letter }}</span>
+                            @if (p.lines.length) {
+                              <span class="lines">
+                                @for (l of p.lines; track $index) {
+                                  <span class="line">
+                                    @if (l.qty > 1) {
+                                      <b>{{ l.qty }} ×</b>
+                                    }
+                                    @if (l.chosenTool) {
+                                      {{ 'create.equip.chosenTool' | t }}
+                                    } @else if (l.itemId) {
+                                      {{ l.name | dataName: true }}
+                                    } @else {
+                                      {{ l.text | dataText }}
+                                    }
+                                  </span>
+                                }
+                              </span>
+                            } @else {
+                              <span class="only-gold">{{ 'create.equip.onlyGold' | t }}</span>
+                            }
+                            <span class="gold">{{ p.gold }} {{ 'compendium.coin.gp' | t }}</span>
+                          </button>
+                        </li>
+                      }
+                    </ul>
+                  } @else {
+                    <p class="book-text">
+                      {{
+                        (kind === 'class'
+                          ? classList()[0]?.startingEquipment
+                          : background()?.equipment
+                        ) | dataText
+                      }}
+                    </p>
+                  }
+                </fieldset>
+              }
+            }
+
+            <section class="shop-bar">
+              <p class="purse">
+                {{ 'create.equip.goldLeft' | t }}
+                <strong>{{ coins(goldLeft()) }}</strong>
+              </p>
+              <button
+                type="button"
+                (click)="shopOpen.set(!shopOpen())"
+                [attr.aria-expanded]="shopOpen()"
+              >
+                {{ (shopOpen() ? 'create.equip.closeShop' : 'create.equip.openShop') | t }}
+              </button>
+            </section>
+            @if (bought().length) {
+              <ul class="basket" [attr.aria-label]="'create.equip.bought' | t">
+                @for (
+                  b of bought();
+                  track b.itemId + b.baseId + b.bonus + b.host?.itemId + b.host?.baseId
+                ) {
+                  <li>
+                    <span class="name"
+                      >{{ b.item.name | dataName: true }}
+                      @if (b.baseId && b.base) {
+                        <small>({{ b.base.name | dataName }})</small>
+                      }
+                      @if (b.bonus) {
+                        <small>+{{ b.bonus }}</small>
+                      }
+                      @if (b.host; as h) {
+                        <small> ({{ 'gear.up.on' | t }}: {{ hostName(h) }}) </small>
+                        @if (!hostKept(b)) {
+                          <small class="issue"> · {{ 'gear.up.lost' | t }}</small>
+                        }
+                      }
+                    </span>
+                    <span class="qty">× {{ b.qty }}</span>
+                    <span class="price">{{ coins(b.price * b.qty) }}</span>
+                    <button
+                      type="button"
+                      class="btn-ghost"
+                      (click)="unbuy(b)"
+                      [attr.aria-label]="'create.equip.giveBack' | t"
+                    >
+                      −
+                    </button>
+                    <button
+                      type="button"
+                      class="btn-ghost"
+                      (click)="buy(b.itemId, { baseId: b.baseId, bonus: b.bonus, host: b.host })"
+                      [disabled]="b.price > goldLeft()"
+                      [attr.aria-label]="'create.equip.buy' | t"
+                    >
+                      +
+                    </button>
+                  </li>
+                }
+              </ul>
+            }
+            @if (shopOpen()) {
+              <section class="shop">
+                <h3>{{ 'create.equip.shop' | t }}</h3>
+                <p class="hint">{{ 'create.equip.shopHint' | t }}</p>
+                <div class="afford" role="radiogroup" [attr.aria-label]="'create.equip.afford' | t">
+                  @for (a of affordModes; track a) {
+                    <button
+                      type="button"
+                      role="radio"
+                      [class.on]="shopAfford() === a"
+                      [attr.aria-checked]="shopAfford() === a"
+                      (click)="shopAfford.set(a)"
+                    >
+                      {{
+                        'create.equip.afford.' + a
+                          | t: { gold: coins(a === 'start' ? startGold() : goldLeft()) }
+                      }}
+                    </button>
+                  }
+                </div>
+                @if (buying(); as p) {
+                  <div
+                    class="buying"
+                    role="group"
+                    [attr.aria-label]="'gear.chooseFor' | t: { name: p.item.name }"
+                  >
+                    <p>
+                      <strong>{{ p.item.name | dataName: true }}</strong>
+                      <small>{{ 'gear.chooseHint' | t }}</small>
+                    </p>
+                    @if (p.hosts) {
+                      @if (p.hosts.length) {
+                        <label>
+                          {{ 'gear.up.on' | t }}
+                          <select (change)="buyingPatch({ hostId: value($event) })">
+                            <option value="" [selected]="!p.hostId">{{ 'gear.choose' | t }}</option>
+                            @for (h of p.hosts; track h.entry.id) {
+                              <option [value]="h.entry.id" [selected]="h.entry.id === p.hostId">
+                                {{ hostLabel(h) }}
+                              </option>
+                            }
+                          </select>
+                        </label>
+                      } @else {
+                        <p class="issue" role="alert">{{ 'gear.up.hostFirst' | t }}</p>
                       }
                     }
-                  </span>
-                  <span class="qty">× {{ b.qty }}</span>
-                  <span class="price">{{ coins(b.price * b.qty) }}</span>
-                  <button
-                    type="button"
-                    class="btn-ghost"
-                    (click)="unbuy(b)"
-                    [attr.aria-label]="'create.equip.giveBack' | t"
-                  >
-                    −
-                  </button>
-                  <button
-                    type="button"
-                    class="btn-ghost"
-                    (click)="buy(b.itemId, { baseId: b.baseId, bonus: b.bonus, host: b.host })"
-                    [disabled]="b.price > goldLeft()"
-                    [attr.aria-label]="'create.equip.buy' | t"
-                  >
-                    +
-                  </button>
-                </li>
-              }
-            </ul>
-          }
-          @if (shopOpen()) {
-            <section class="shop">
-              <h3>{{ 'create.equip.shop' | t }}</h3>
-              <p class="hint">{{ 'create.equip.shopHint' | t }}</p>
-              <div class="afford" role="radiogroup" [attr.aria-label]="'create.equip.afford' | t">
-                @for (a of affordModes; track a) {
-                  <button
-                    type="button"
-                    role="radio"
-                    [class.on]="shopAfford() === a"
-                    [attr.aria-checked]="shopAfford() === a"
-                    (click)="shopAfford.set(a)"
-                  >
-                    {{
-                      'create.equip.afford.' + a
-                        | t: { gold: coins(a === 'start' ? startGold() : goldLeft()) }
-                    }}
-                  </button>
-                }
-              </div>
-              @if (buying(); as p) {
-                <div
-                  class="buying"
-                  role="group"
-                  [attr.aria-label]="'gear.chooseFor' | t: { name: p.item.name }"
-                >
-                  <p>
-                    <strong>{{ p.item.name | dataName: true }}</strong>
-                    <small>{{ 'gear.chooseHint' | t }}</small>
-                  </p>
-                  @if (p.hosts) {
-                    @if (p.hosts.length) {
+                    @if (p.bases.length > 1) {
                       <label>
-                        {{ 'gear.up.on' | t }}
-                        <select (change)="buyingPatch({ hostId: value($event) })">
-                          <option value="" [selected]="!p.hostId">{{ 'gear.choose' | t }}</option>
-                          @for (h of p.hosts; track h.entry.id) {
-                            <option [value]="h.entry.id" [selected]="h.entry.id === p.hostId">
-                              {{ hostLabel(h) }}
+                        {{ 'gear.base' | t }}
+                        <select (change)="buyingPatch({ baseId: value($event) })">
+                          <option value="" [selected]="!p.baseId">{{ 'gear.choose' | t }}</option>
+                          @for (b of p.bases; track b.id) {
+                            <option [value]="b.id" [selected]="b.id === p.baseId">
+                              {{ baseName(b) }}
                             </option>
                           }
                         </select>
                       </label>
-                    } @else {
-                      <p class="issue" role="alert">{{ 'gear.up.hostFirst' | t }}</p>
+                      @if (pickedSummary(p.bases, p.baseId); as sm) {
+                        <small class="base-summary">{{ sm }}</small>
+                      }
                     }
-                  }
-                  @if (p.bases.length > 1) {
-                    <label>
-                      {{ 'gear.base' | t }}
-                      <select (change)="buyingPatch({ baseId: value($event) })">
-                        <option value="" [selected]="!p.baseId">{{ 'gear.choose' | t }}</option>
-                        @for (b of p.bases; track b.id) {
-                          <option [value]="b.id" [selected]="b.id === p.baseId">
-                            {{ baseName(b) }}
-                          </option>
-                        }
-                      </select>
-                    </label>
-                    @if (pickedSummary(p.bases, p.baseId); as sm) {
-                      <small class="base-summary">{{ sm }}</small>
+                    @if (p.bonuses.length > 1) {
+                      <label>
+                        {{ 'gear.bonus' | t }}
+                        <select (change)="buyingPatch({ bonus: +value($event) })">
+                          @for (o of p.bonuses; track o.bonus) {
+                            <option [value]="o.bonus" [selected]="o.bonus === p.bonus">
+                              +{{ o.bonus }}
+                            </option>
+                          }
+                        </select>
+                      </label>
                     }
-                  }
-                  @if (p.bonuses.length > 1) {
-                    <label>
-                      {{ 'gear.bonus' | t }}
-                      <select (change)="buyingPatch({ bonus: +value($event) })">
-                        @for (o of p.bonuses; track o.bonus) {
-                          <option [value]="o.bonus" [selected]="o.bonus === p.bonus">
-                            +{{ o.bonus }}
-                          </option>
-                        }
-                      </select>
-                    </label>
-                  }
-                  <span class="shop-price" [class.dear]="buyingPrice() > goldLeft()">
-                    {{ 'gear.price' | t: { price: coins(buyingPrice()) } }}
-                  </span>
-                  <span class="actions">
-                    <button
-                      type="button"
-                      [disabled]="
-                        (p.bases.length > 1 && !p.baseId) ||
-                        (!!p.hosts && !p.hostId) ||
-                        buyingPrice() > goldLeft()
-                      "
-                      (click)="confirmBuying()"
-                    >
-                      {{ 'create.equip.buy' | t }}
-                    </button>
-                    <button type="button" class="btn-ghost" (click)="buying.set(null)">
-                      {{ 'gear.cancel' | t }}
-                    </button>
-                  </span>
-                </div>
-              }
-              <app-picker
-                [items]="shopVisible()"
-                [selected]="ownedIds()"
-                [chosenOnlyLabel]="'create.equip.ownedOnly' | t"
-                [facets]="itemFacets"
-                multiple
-                [pageSize]="24"
-                [label]="'create.equip.shop' | t"
-                (picked)="pick($event.id)"
-              >
-                <ng-template #card let-item>
-                  @let price = shopPrice(item) ?? 0;
-                  <span class="shop-card">
-                    <app-entry-card [entry]="item" />
-                    @if (owned().get(item.id); as n) {
-                      <span class="owned">{{ 'create.equip.owned' | t: { n } }}</span>
-                    }
-                    @if (!item.cost) {
-                      <span class="shop-price" [class.dear]="price > goldLeft()">
-                        {{ coins(price) }}
-                        <small>{{ 'create.equip.estimated' | t }}</small>
-                      </span>
-                    }
-                  </span>
-                </ng-template>
-              </app-picker>
-            </section>
-          }
-
-          <label>
-            {{ 'create.armorWorn' | t }}
-            <select [disabled]="!carriedArmor().length" (change)="patch(withArmor(value($event)))">
-              <option value="" [selected]="!c.equipped.armorId">{{ 'create.noArmor' | t }}</option>
-              @for (a of carriedArmor(); track a.id) {
-                <option [value]="a.id" [selected]="a.equipped">
-                  {{ a.item.name | dataName }}
-                  @if (a.item.magic && a.base) {
-                    ({{ a.base.name | dataName }})
-                  } @else if (a.item.armor) {
-                    ({{ a.item.armor.kind | term: 'armor' }})
-                  }
-                </option>
-              }
-            </select>
-            @if (!carriedArmor().length) {
-              <small>{{ 'create.equip.noArmorCarried' | t }}</small>
-            }
-          </label>
-          <label class="inline wear-shield">
-            <input
-              type="checkbox"
-              [checked]="c.equipped.shield"
-              [disabled]="!carriesShield()"
-              (change)="patch(withShield(checked($event)))"
-            />
-            {{ 'create.shield' | t }}
-            @if (!carriesShield()) {
-              <small>({{ 'create.equip.noShieldCarried' | t }})</small>
-            }
-          </label>
-          <details class="equip-notes" [open]="!!c.equipment">
-            <summary>{{ 'create.equip.notes' | t }}</summary>
-            <textarea
-              rows="4"
-              [value]="c.equipment"
-              (change)="patch(withEquipment(value($event)))"
-            ></textarea>
-          </details>
-        }
-
-        <!-- 7. Details & summary --------------------------------------------------------- -->
-        @case ('details') {
-          <label>
-            {{ 'conflict.field.name' | t }}
-            <input [value]="c.name" (input)="patch(withName(value($event)))" />
-          </label>
-          <div class="portrait-field" role="group" aria-labelledby="portrait-field-label">
-            <span id="portrait-field-label">{{ 'portrait.label' | t }}</span>
-            <app-portrait-picker
-              [value]="c.portrait"
-              [name]="c.name"
-              (valueChange)="patch(withPortrait($event))"
-            />
-          </div>
-          <label>
-            {{ 'sheet.notes' | t }}
-            <textarea
-              rows="4"
-              [value]="c.notes"
-              (change)="patch(withNotes(value($event)))"
-            ></textarea>
-          </label>
-          @if (allNotes().length) {
-            <aside class="missing">
-              <strong>{{ 'sheet.warnings' | t }}</strong>
-              <ul>
-                @for (m of allNotes(); track $index) {
-                  <li [class.issue]="m.kind === 'issue'">
-                    {{ m.kind === 'issue' ? '⚠ ' : '' }}{{ noteText(m) }}
-                  </li>
+                    <span class="shop-price" [class.dear]="buyingPrice() > goldLeft()">
+                      {{ 'gear.price' | t: { price: coins(buyingPrice()) } }}
+                    </span>
+                    <span class="actions">
+                      <button
+                        type="button"
+                        [disabled]="
+                          (p.bases.length > 1 && !p.baseId) ||
+                          (!!p.hosts && !p.hostId) ||
+                          buyingPrice() > goldLeft()
+                        "
+                        (click)="confirmBuying()"
+                      >
+                        {{ 'create.equip.buy' | t }}
+                      </button>
+                      <button type="button" class="btn-ghost" (click)="buying.set(null)">
+                        {{ 'gear.cancel' | t }}
+                      </button>
+                    </span>
+                  </div>
                 }
-              </ul>
-              <small>{{ 'create.canFinishLater' | t }}</small>
-            </aside>
-          }
-          <p class="actions">
-            <button type="button" class="primary" (click)="save()">{{ 'common.save' | t }}</button>
-            @if (id()) {
-              <a [routerLink]="['/characters', id()]">{{ 'common.back' | t }}</a>
+                <app-picker
+                  [items]="shopVisible()"
+                  [selected]="ownedIds()"
+                  [chosenOnlyLabel]="'create.equip.ownedOnly' | t"
+                  [facets]="itemFacets"
+                  multiple
+                  [pageSize]="24"
+                  [label]="'create.equip.shop' | t"
+                  (picked)="pick($event.id)"
+                >
+                  <ng-template #card let-item>
+                    @let price = shopPrice(item) ?? 0;
+                    <span class="shop-card">
+                      <app-entry-card [entry]="item" />
+                      @if (owned().get(item.id); as n) {
+                        <span class="owned">{{ 'create.equip.owned' | t: { n } }}</span>
+                      }
+                      @if (!item.cost) {
+                        <span class="shop-price" [class.dear]="price > goldLeft()">
+                          {{ coins(price) }}
+                          <small>{{ 'create.equip.estimated' | t }}</small>
+                        </span>
+                      }
+                    </span>
+                  </ng-template>
+                </app-picker>
+              </section>
             }
-          </p>
-        }
-      }
 
-      @if (step() !== 'details' && notes()[step()].length) {
-        <ul class="missing">
-          @for (m of notes()[step()]; track $index) {
-            <li [class.issue]="m.kind === 'issue'">
-              {{ m.kind === 'issue' ? '⚠ ' : '' }}{{ noteText(m) }}
-            </li>
+            <label>
+              {{ 'create.armorWorn' | t }}
+              <select
+                [disabled]="!carriedArmor().length"
+                (change)="patch(withArmor(value($event)))"
+              >
+                <option value="" [selected]="!c.equipped.armorId">
+                  {{ 'create.noArmor' | t }}
+                </option>
+                @for (a of carriedArmor(); track a.id) {
+                  <option [value]="a.id" [selected]="a.equipped">
+                    {{ a.item.name | dataName }}
+                    @if (a.item.magic && a.base) {
+                      ({{ a.base.name | dataName }})
+                    } @else if (a.item.armor) {
+                      ({{ a.item.armor.kind | term: 'armor' }})
+                    }
+                  </option>
+                }
+              </select>
+              @if (!carriedArmor().length) {
+                <small>{{ 'create.equip.noArmorCarried' | t }}</small>
+              }
+            </label>
+            <label class="inline wear-shield">
+              <input
+                type="checkbox"
+                [checked]="c.equipped.shield"
+                [disabled]="!carriesShield()"
+                (change)="patch(withShield(checked($event)))"
+              />
+              {{ 'create.shield' | t }}
+              @if (!carriesShield()) {
+                <small>({{ 'create.equip.noShieldCarried' | t }})</small>
+              }
+            </label>
+            <details class="equip-notes" [open]="!!c.equipment">
+              <summary>{{ 'create.equip.notes' | t }}</summary>
+              <textarea
+                rows="4"
+                [value]="c.equipment"
+                (change)="patch(withEquipment(value($event)))"
+              ></textarea>
+            </details>
+          </div>
+        }
+
+        <!-- 9. Review and create ---------------------------------------------------------- -->
+        @case ('details') {
+          <section class="identity" data-anchor="name">
+            <h3>{{ 'wizard.review.identity' | t }}</h3>
+            <label>
+              {{ 'conflict.field.name' | t }}
+              <input [value]="c.name" (input)="patch(withName(value($event)))" />
+            </label>
+            <label>
+              {{ 'wizard.review.folder' | t }}
+              <input
+                list="wz-folders"
+                [value]="c.folder ?? ''"
+                (change)="patch(withFolder(value($event)))"
+              />
+              <small class="hint">{{ 'wizard.review.folderHint' | t }}</small>
+            </label>
+            <datalist id="wz-folders">
+              @for (f of folders(); track f) {
+                <option [value]="f"></option>
+              }
+            </datalist>
+            <div
+              class="portrait-field"
+              role="group"
+              aria-labelledby="portrait-field-label"
+              data-anchor="portrait"
+            >
+              <span id="portrait-field-label">{{ 'portrait.label' | t }}</span>
+              <app-portrait-picker
+                [value]="c.portrait"
+                [name]="c.name"
+                (valueChange)="patch(withPortrait($event))"
+              />
+            </div>
+            <label>
+              {{ 'sheet.notes' | t }}
+              <textarea
+                rows="3"
+                [value]="c.notes"
+                (change)="patch(withNotes(value($event)))"
+              ></textarea>
+            </label>
+          </section>
+
+          <app-wizard-pending
+            [groups]="pendingGroups()"
+            (step)="setStep($event)"
+            (item)="goTo($event.target)"
+          />
+
+          @if (sheet(); as sh) {
+            @if (summary(); as sm) {
+              <h3 class="sheet-title">{{ 'wizard.review.sheet' | t }}</h3>
+              <app-wizard-summary
+                full
+                [sheet]="sh"
+                [character]="c"
+                [summary]="sm"
+                [states]="stateMap()"
+                [stepLabels]="stepLabels()"
+                [attacks]="attacks()"
+                (go)="setStep($event)"
+              />
+            }
           }
-        </ul>
-      }
-
-      <p class="nav">
-        <button type="button" (click)="go(-1)" [disabled]="stepIndex() === 0">
-          ← {{ 'create.prev' | t }}
-        </button>
-        @if (stepIndex() < steps.length - 1) {
-          <button type="button" (click)="go(1)">{{ 'create.next' | t }} →</button>
+          @if (id()) {
+            <p>
+              <a [routerLink]="['/characters', id()]">{{ 'common.back' | t }}</a>
+            </p>
+          }
         }
-      </p>
+      }
     </section>
-
-    <!-- Live preview -------------------------------------------------------------------- -->
-    @if (sheet(); as sh) {
-      <aside
-        class="preview"
-        [attr.aria-label]="'create.preview' | t"
-        [appClassTheme]="{ classId: c.classes[0]?.id, subclassId: c.classes[0]?.subclassId }"
-      >
-        <h2>{{ c.name || ('create.preview' | t) }}</h2>
-        <p>
-          @for (k of sh.classes; track k.id; let last = $last) {
-            {{ k.name | dataName: true }} {{ k.level
-            }}{{ k.subclass ? ' (' + (k.subclass | dataName: true) + ')' : ''
-            }}{{ last ? '' : ' / ' }}
-          }
-          @if (sh.species) {
-            · {{ sh.species | dataName }}
-          }
-          @if (sh.background) {
-            · {{ sh.background | dataName }}
-          }
-        </p>
-        <dl>
-          <dt>{{ 'sheet.armorClass' | t }}</dt>
-          <dd>{{ sh.armorClass.value }}</dd>
-          <dt>{{ 'sheet.hitPoints' | t }}</dt>
-          <dd>{{ sh.hitPoints.max }}</dd>
-          <dt>{{ 'sheet.proficiencyBonus' | t }}</dt>
-          <dd>{{ signed(sh.proficiencyBonus) }}</dd>
-          <dt>{{ 'sheet.initiative' | t }}</dt>
-          <dd>{{ signed(sh.initiative) }}</dd>
-        </dl>
-        <p class="mini-abilities">
-          @for (a of abilities; track a) {
-            <span>{{ 'abbr.' + a | t }} {{ sh.abilities[a].score }}</span>
-          }
-        </p>
-      </aside>
-    }
   </div>
+
+  <app-wizard-footer
+    [canBack]="stepIndex() > 0"
+    [state]="view().state"
+    [notes]="footerNotes()"
+    [nextStep]="nextLabel()"
+    [finalLabel]="st === 'details' ? ((id() ? 'wizard.saveChanges' : 'wizard.create') | t) : null"
+    (back)="go(-1)"
+    (next)="go(1)"
+    (finish)="save()"
+    (note)="goTo($event.target)"
+  />
 }

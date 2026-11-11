@@ -1,0 +1,52 @@
+<nav class="wz-progress" [attr.aria-label]="label() || ('wizard.stepsAria' | t)">
+  <div class="bar">
+    <p class="where">
+      <span class="count">{{
+        'wizard.stepOf' | t: { n: index() + 1, total: steps().length }
+      }}</span>
+      <strong class="name">{{ steps()[index()]?.label }}</strong>
+    </p>
+    <button
+      type="button"
+      class="toggle btn-ghost"
+      [attr.aria-expanded]="open()"
+      (click)="open.set(!open())"
+    >
+      {{ 'wizard.steps' | t }} <span aria-hidden="true">{{ open() ? '▴' : '▾' }}</span>
+    </button>
+  </div>
+  <ol class="track" [class.open]="open()">
+    @for (s of steps(); track s.id; let i = $index) {
+      @let here = s.id === current();
+      <li [attr.data-state]="s.state" [class.current]="here" [class.past]="i < index()">
+        <button
+          type="button"
+          [attr.aria-current]="here ? 'step' : null"
+          [attr.title]="s.label + ' · ' + stateText(s)"
+          (click)="pick(s.id)"
+        >
+          <span class="dot" aria-hidden="true">{{
+            s.state === 'done' ? '✓' : s.state === 'warn' ? '!' : i + 1
+          }}</span>
+          <span class="txt">
+            <span class="lbl"
+              ><span class="visually-hidden">{{ i + 1 }}. </span>{{ s.label }}</span
+            >
+            <small class="st"
+              >{{ stateText(s) }}
+              @if (here) {
+                <span class="you">· {{ 'wizard.state.current' | t }}</span>
+              }
+            </small>
+          </span>
+        </button>
+      </li>
+    }
+  </ol>
+  <p class="meter" aria-hidden="true">
+    <span [style.width.%]="(doneCount() / (steps().length || 1)) * 100"></span>
+  </p>
+  <p class="visually-hidden" aria-live="polite">
+    {{ 'wizard.progress' | t: { done: doneCount(), total: steps().length } }}
+  </p>
+</nav>

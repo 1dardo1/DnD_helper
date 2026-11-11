@@ -34,7 +34,7 @@ async function scenario(browser, w, h) {
   // ---------- A. wizard -> info -> back link / browser back ----------
   await p.goto(`${BASE}/characters/new`);
   await settle(p, 2500);
-  await p.click('nav.steps button:nth-child(3)');
+  await p.click('app-wizard-progress .track li:nth-child(3) button');
   await settle(p);
   await p.locator('.pick-main').nth(1).click(); // Elf
   await p.locator('.pick-more').first().click();
@@ -50,7 +50,7 @@ async function scenario(browser, w, h) {
   await back(p).click();
   await settle(p, 1500);
   ok(`${tag} A back link -> wizard`, hash(p) === '#/characters/new', hash(p));
-  const cur = await p.locator('nav.steps .current').innerText();
+  const cur = await p.locator('app-wizard-progress [aria-current=step]').textContent();
   ok(`${tag} A step kept (3. Species)`, /3\./.test(cur), cur);
   const sp = await p.evaluate(() => JSON.parse(localStorage.getItem('dnd-helper.draft') || '{}').species?.id);
   ok(`${tag} A species kept`, sp === 'elf', String(sp));
@@ -63,7 +63,7 @@ async function scenario(browser, w, h) {
   await settle(p);
   await p.goBack();
   await settle(p, 1500);
-  ok(`${tag} A browser back -> wizard step 3`, hash(p) === '#/characters/new' && /3\./.test(await p.locator('nav.steps .current').innerText()), hash(p));
+  ok(`${tag} A browser back -> wizard step 3`, hash(p) === '#/characters/new' && /3\./.test(await p.locator('app-wizard-progress [aria-current=step]').textContent()), hash(p));
   await p.screenshot({ path: `${SP}A-${w}.png` });
 
   // ---------- B. direct link: fallback ----------
@@ -119,7 +119,7 @@ async function scenario(browser, w, h) {
   ok(`${tag} F tabs do not fill history (1 back leaves the sheet)`, !hash(p).startsWith(`#/characters/${CH}`), hash(p));
   await p.goto(`${BASE}/characters/sibyl-1793915635728/conjuros`);
   await settle(p, 2000);
-  const sl = p.locator('a[href*="#/compendium/spell/"]').first();
+  const sl = p.locator('a[href*="#/compendium/spell/"]:visible').first();
   if (await sl.count()) {
     await sl.click();
     await settle(p);
@@ -143,13 +143,13 @@ async function scenario(browser, w, h) {
       found = true;
       break;
     }
-    const next = p.getByRole('button', { name: /Next/ });
+    const next = p.locator('app-wizard-footer button.go');
     if (!(await next.count())) break;
     await next.click();
     await settle(p, 400);
   }
   if (found) {
-    const stepBefore = await p.locator('.steps .current').innerText();
+    const stepBefore = await p.locator('app-wizard-progress [aria-current=step]').textContent();
     await p.locator('.pick-more').first().click();
     await settle(p, 200);
     await p.locator('.open a').first().click();
@@ -159,7 +159,7 @@ async function scenario(browser, w, h) {
     await back(p).click();
     await settle(p, 1500);
     ok(`${tag} G back -> level-up`, hash(p) === `#/characters/${SIB}/level-up`, hash(p));
-    const stepAfter = await p.locator('.steps .current').innerText();
+    const stepAfter = await p.locator('app-wizard-progress [aria-current=step]').textContent();
     ok(`${tag} G step kept`, stepBefore === stepAfter, `${stepBefore} / ${stepAfter}`);
     ok(`${tag} G class kept`, (await p.locator('input[type=radio]:checked').count()) > 0 || stepAfter.indexOf('1.') < 0, stepAfter);
     await p.screenshot({ path: `${SP}G-${w}.png` });
@@ -169,7 +169,7 @@ async function scenario(browser, w, h) {
   // ---------- H. edit character: step kept ----------
   await p.goto(`${BASE}/characters/${SIB}/edit`);
   await settle(p, 2500);
-  await p.click('nav.steps button:nth-child(3)');
+  await p.click('app-wizard-progress .track li:nth-child(3) button');
   await settle(p, 500);
   await p.locator('.pick-more').first().click();
   await settle(p, 300);
@@ -179,7 +179,7 @@ async function scenario(browser, w, h) {
   ok(`${tag} H back names edit`, /Edit character/.test(await back(p).innerText()), await back(p).innerText());
   await back(p).click();
   await settle(p, 1500);
-  ok(`${tag} H back -> edit step 3`, hash(p) === `#/characters/${SIB}/edit` && /3\./.test(await p.locator('nav.steps .current').innerText()), hash(p));
+  ok(`${tag} H back -> edit step 3`, hash(p) === `#/characters/${SIB}/edit` && /3\./.test(await p.locator('app-wizard-progress [aria-current=step]').textContent()), hash(p));
   await p.goto(`${BASE}/characters`);
   await p.evaluate(() => sessionStorage.clear());
 

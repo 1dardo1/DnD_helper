@@ -1,23 +1,6 @@
 // Level-up flow: steps as bookmark ribbons, the rest from the global journal design.
 @use '../../shared/theme/notebook' as nb;
 
-.steps ol {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  margin: 0 0 var(--space-5);
-  padding: 0;
-  list-style: none;
-
-  li {
-    margin: 0;
-  }
-
-  button {
-    @include nb.step-ribbon;
-  }
-}
-
 .step {
   display: grid;
   gap: 0.75rem;
@@ -84,7 +67,6 @@
   padding-left: 2rem;
 }
 
-.nav,
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -93,9 +75,8 @@
   gap: 0.5rem;
 }
 
-.nav {
-  padding-top: var(--space-3);
-  border-top: 3px double var(--line-strong);
+:host {
+  display: block;
 }
 
 .issue {
