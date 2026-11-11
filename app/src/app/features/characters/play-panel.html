@@ -2,7 +2,7 @@
   <!-- Always at hand, on every tab: hit points, AC, initiative and the rests. -->
   <div class="bar" role="group" [attr.aria-label]="'play.title' | t">
     <div class="bar-stats">
-      <span class="stat hp" aria-live="polite">
+      <span class="stat hp" aria-live="polite" [class.low]="hp() * 2 <= maxHp()">
         <small>{{ 'sheet.hitPointsShort' | t }}</small>
         <strong>{{ hp() }}</strong
         ><span class="max">/ {{ maxHp() }}</span>
@@ -26,8 +26,9 @@
         min="0"
         [value]="amount() ?? ''"
         (input)="amount.set(num($event))"
-        [attr.aria-label]="'play.amount' | t"
-        placeholder="±"
+        enterkeyhint="done"
+        [attr.aria-label]="'sheetx.bar.amount' | t"
+        [placeholder]="'sheet.hitPointsShort' | t"
       />
       <button type="button" (click)="damage()">{{ 'play.damage' | t }}</button>
       <button type="button" (click)="heal()">{{ 'play.heal' | t }}</button>
@@ -50,6 +51,44 @@
         {{ 'play.longRestBar' | t }}
       </button>
     </div>
+    <!-- Only when it matters: death saves at 0 HP, and what is on the character right now. -->
+    @if (hp() === 0) {
+      <div class="bar-death" role="group" [attr.aria-label]="'play.deathSaves' | t">
+        @for (kind of deathKinds; track kind) {
+          <span class="death-kind">
+            <small [title]="'play.' + kind | t">{{ kind === 'successes' ? '✓' : '✗' }}</small>
+            @for (i of range(3); track i) {
+              <input
+                type="checkbox"
+                class="pip"
+                [class.bad]="kind === 'failures'"
+                [checked]="i < state().deathSaves[kind]"
+                (change)="tapDeathSave(kind, i)"
+                [attr.aria-label]="('play.' + kind | t) + ' ' + (i + 1)"
+              />
+            }
+          </span>
+        }
+        @if (state().deathSaves.failures >= 3) {
+          <strong class="issue">{{ 'play.dead' | t }}</strong>
+        } @else if (state().deathSaves.successes >= 3) {
+          <strong>{{ 'play.stable' | t }}</strong>
+        }
+      </div>
+    }
+    @if (conditionCount() || state().heroicInspiration) {
+      <ul class="bar-tags" [attr.aria-label]="'sheetx.bar.conditions' | t">
+        @if (state().heroicInspiration) {
+          <li class="insp">★ {{ 'play.heroicInspiration' | t }}</li>
+        }
+        @if (state().exhaustion; as ex) {
+          <li class="cond">{{ 'cond.exhaustion' | t }} {{ ex }}</li>
+        }
+        @for (c of activeConditions(); track c) {
+          <li class="cond">{{ 'cond.' + c | t }}</li>
+        }
+      </ul>
+    }
   </div>
 }
 

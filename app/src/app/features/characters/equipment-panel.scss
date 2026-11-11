@@ -415,12 +415,14 @@ details.fold {
   }
 }
 
+// Adding goes first (it used to sit under a long list); filtering, for long inventories.
 .add {
-  margin-top: 0.75rem;
+  margin: 0 0 var(--space-3);
 
   input {
     width: 100%;
     max-width: 28rem;
+    min-height: 2.75rem;
   }
 
   .results button small {
@@ -475,6 +477,39 @@ details.fold {
       padding-inline: 0.2rem;
       text-align: center;
     }
+  }
+}
+
+.inv-filter {
+  width: 100%;
+  max-width: 28rem;
+  min-height: 2.75rem;
+  margin-bottom: var(--space-2);
+}
+
+// "«Rope» removed. [Undo]": stuck above the phone's tab bar while it lasts
+.undo {
+  position: sticky;
+  bottom: calc(4.8rem + env(safe-area-inset-bottom));
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: var(--space-2) 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-2, 0 6px 16px rgb(0 0 0 / 0.3));
+
+  button {
+    min-height: 2.75rem;
+    font-weight: 700;
+  }
+
+  @media (min-width: 45rem) {
+    bottom: var(--space-2);
   }
 }
 

@@ -176,6 +176,46 @@
         </label>
       }
     </div>
+    <div class="add">
+      <input
+        type="search"
+        [placeholder]="'sheet.addItem' | t"
+        [value]="query()"
+        (input)="query.set(text($event))"
+        [attr.aria-label]="'sheet.addItem' | t"
+      />
+      @if (query().trim().length >= 2) {
+        <ul class="results">
+          @for (i of results(); track i.id) {
+            <li>
+              <button type="button" (click)="add(i)">
+                + {{ i.name | dataName }}
+                @if (spellBinding(i)) {
+                  <small>· {{ 'spellitem.anySpell' | t }}</small>
+                }
+              </button>
+            </li>
+          }
+          <li>
+            <button type="button" class="btn-ghost" (click)="add(null)">
+              + {{ 'sheet.addAsText' | t: { name: query().trim() } }}
+            </button>
+          </li>
+        </ul>
+      }
+    </div>
+
+    @if (entries().length > 8 && !reordering()) {
+      <input
+        class="inv-filter"
+        type="search"
+        enterkeyhint="search"
+        [placeholder]="'sheetx.filter.items' | t"
+        [attr.aria-label]="'sheetx.filter.items' | t"
+        [value]="filter()"
+        (input)="filter.set(text($event))"
+      />
+    }
     @if (entries().length > 1) {
       <p class="reorder">
         <button
@@ -190,7 +230,7 @@
       </p>
     }
     <ul class="inventory" [class.reordering]="reordering()">
-      @for (r of entries(); track r.entry.id) {
+      @for (r of reordering() ? entries() : shownEntries(); track r.entry.id) {
         <li [class.equipped]="r.entry.equipped" [class.attached]="r.attached">
           <!-- while rearranging: no Equip / ✕, so the arrows get big buttons -->
           @if (reordering() || r.attached) {
@@ -385,6 +425,7 @@
           <input
             type="number"
             min="1"
+            inputmode="numeric"
             class="qty"
             [value]="r.entry.qty"
             (change)="qty(r.entry, $event)"
@@ -419,7 +460,7 @@
             <button
               type="button"
               class="btn-ghost remove"
-              (click)="remove(r.entry)"
+              (click)="remove(r.entry, r.item)"
               [attr.aria-label]="('sheet.removeItem' | t) + ': ' + (r.item?.name ?? r.entry.name)"
             >
               ✕
@@ -427,9 +468,17 @@
           }
         </li>
       } @empty {
-        <li class="muted">{{ 'sheet.noItems' | t }}</li>
+        <li class="muted">
+          {{ filter() ? ('sheetx.filter.none' | t: { q: filter() }) : ('sheet.noItems' | t) }}
+        </li>
       }
     </ul>
+    @if (removed(); as rm) {
+      <p class="undo" role="status">
+        <span>{{ 'sheetx.removed' | t: { name: rm.name } }}</span>
+        <button type="button" (click)="undoRemove()">{{ 'sheetx.undo' | t }}</button>
+      </p>
+    }
 
     @if (pending(); as p) {
       <div
@@ -498,35 +547,6 @@
         </span>
       </div>
     }
-
-    <div class="add">
-      <input
-        type="search"
-        [placeholder]="'sheet.addItem' | t"
-        [value]="query()"
-        (input)="query.set(text($event))"
-        [attr.aria-label]="'sheet.addItem' | t"
-      />
-      @if (query().trim().length >= 2) {
-        <ul class="results">
-          @for (i of results(); track i.id) {
-            <li>
-              <button type="button" (click)="add(i)">
-                + {{ i.name | dataName }}
-                @if (spellBinding(i)) {
-                  <small>· {{ 'spellitem.anySpell' | t }}</small>
-                }
-              </button>
-            </li>
-          }
-          <li>
-            <button type="button" class="btn-ghost" (click)="add(null)">
-              + {{ 'sheet.addAsText' | t: { name: query().trim() } }}
-            </button>
-          </li>
-        </ul>
-      }
-    </div>
 
     @if (choosing(); as it) {
       <app-spell-item-picker

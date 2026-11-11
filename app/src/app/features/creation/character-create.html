@@ -614,12 +614,15 @@
                       />
                     } @else {
                       @let v = optionView(g.options, r.entry.level, c.choices.options);
+                      @let full = isFull(g, taken);
                       @for (o of v.shown; track o.id) {
                         @let lock = optionLocks(o, r.entry.level, g.options, c.choices.options);
                         @let note = optionNote(o, g.options);
+                        @let checked = c.choices.options.includes(o.id);
                         <app-option-row
                           [option]="o"
-                          [checked]="c.choices.options.includes(o.id)"
+                          [checked]="checked"
+                          [disabled]="full && !checked"
                           [issue]="lock.level > 0 || lock.requires.length > 0"
                           [warning]="
                             lock.level > 0 || lock.requires.length > 0
@@ -998,6 +1001,14 @@
             {{ 'conflict.field.name' | t }}
             <input [value]="c.name" (input)="patch(withName(value($event)))" />
           </label>
+          <div class="portrait-field" role="group" aria-labelledby="portrait-field-label">
+            <span id="portrait-field-label">{{ 'portrait.label' | t }}</span>
+            <app-portrait-picker
+              [value]="c.portrait"
+              [name]="c.name"
+              (valueChange)="patch(withPortrait($event))"
+            />
+          </div>
           <label>
             {{ 'sheet.notes' | t }}
             <textarea

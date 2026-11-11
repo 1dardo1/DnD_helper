@@ -76,6 +76,16 @@
     margin-block: 0;
   }
 
+  .portrait-field {
+    display: grid;
+    gap: 0.3rem;
+
+    > span {
+      font-family: var(--font-note);
+      font-weight: 700;
+    }
+  }
+
   label:not(.inline) {
     display: grid;
     gap: 0.3rem;

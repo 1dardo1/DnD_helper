@@ -8,6 +8,7 @@ import {
   featIssues,
   maxSpellLevel,
   multiclassIssues,
+  optionGroupFull,
   optionGroupsFor,
   optionLocks,
   optionUncheckedNote,
@@ -105,6 +106,45 @@ describe('creation rules', () => {
       'Devil Sight',
       'Witch Sight',
     ]);
+  });
+
+  describe('how many class options are known', () => {
+    const option = (group: string, classId: string, subclassId: string | null = null) =>
+      ({
+        id: `${group}/x`,
+        name: 'X',
+        group,
+        classId,
+        subclassId,
+        prerequisites: null,
+      }) as unknown as ClassOption;
+    const plain = (id: string) =>
+      ({ ...fighter, id, progression: { columns: [], rows: [] } }) as DndClass;
+    const countAt = (cls: DndClass, level: number, o: ClassOption, sub: string | null = null) =>
+      optionGroupsFor(cls, level, sub, [o]).map((g) => g.count);
+
+    it('takes Metamagic from the Sorcerer text: none at 1, then 2, 4 and 6', () => {
+      const sorcerer = plain('sorcerer');
+      const metamagic = option('metamagic', 'sorcerer');
+      expect(countAt(sorcerer, 1, metamagic)).toEqual([]);
+      expect([2, 9, 10, 16, 17, 20].map((l) => countAt(sorcerer, l, metamagic)[0])).toEqual([
+        2, 2, 4, 4, 6, 6,
+      ]);
+    });
+
+    it('takes Battle Master maneuvers from the subclass text', () => {
+      const maneuver = option('maneuver', 'fighter', 'fighter/battle-master');
+      expect(
+        [3, 6, 7, 10, 15].map((l) => countAt(fighter, l, maneuver, 'fighter/battle-master')[0]),
+      ).toEqual([3, 3, 5, 7, 9]);
+    });
+
+    it('is full once the count is reached, and never without a count', () => {
+      const group = (count: number | null) => ({ group: 'g', options: [], count });
+      expect(optionGroupFull(group(2), 1)).toBe(false);
+      expect(optionGroupFull(group(2), 2)).toBe(true);
+      expect(optionGroupFull(group(null), 99)).toBe(false);
+    });
   });
 
   describe('class options above the level', () => {

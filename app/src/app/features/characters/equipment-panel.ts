@@ -1,4 +1,13 @@
-import { Component, computed, inject, input, output, resource, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  computed,
+  inject,
+  input,
+  output,
+  resource,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import {
@@ -36,6 +45,7 @@ import {
   spellBinding,
 } from '../../core/spell-items/spell-items';
 import { baseSummary } from '../../core/characters/base-label';
+import { matchesQuery } from '../../core/characters/sheet-helpers';
 import { weaponEntriesOf } from '../../core/characters/weapons';
 import { displayOrder, groupEntries, moveGroup } from '../../core/characters/inventory-order';
 import { SpellItemPicker } from '../../shared/spell-item-picker';
@@ -330,10 +340,53 @@ export class EquipmentPanel {
     if (map) this.changed.emit(toggleEquip(this.character(), e.id, map));
   }
 
-  protected remove(e: InventoryEntry): void {
-    const map = this.items.value()?.byId;
-    if (map) this.changed.emit(removeEntry(this.character(), e.id, map));
+  /** The last entry removed, to put it back ("Undo") for a few seconds. */
+  protected readonly removed = signal<{ name: string; inventory: InventoryEntry[] } | null>(null);
+  private removedTimer: ReturnType<typeof setTimeout> | null = null;
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => this.clearRemoved());
   }
+
+  protected remove(e: InventoryEntry, item: Item | null | undefined): void {
+    const map = this.items.value()?.byId;
+    if (!map) return;
+    const name = item ? this.dataText.shortName(item.name) : e.name || e.itemId || '';
+    const before = this.character().inventory;
+    this.changed.emit(removeEntry(this.character(), e.id, map));
+    this.clearRemoved();
+    this.removed.set({ name, inventory: before });
+    this.removedTimer = setTimeout(() => this.removed.set(null), 8000);
+  }
+
+  protected undoRemove(): void {
+    const r = this.removed();
+    this.clearRemoved();
+    if (r) this.changed.emit({ ...this.character(), inventory: r.inventory });
+  }
+
+  private clearRemoved(): void {
+    if (this.removedTimer) clearTimeout(this.removedTimer);
+    this.removedTimer = null;
+    this.removed.set(null);
+  }
+
+  /** Quick search over a long inventory (by the names shown and the English ones). */
+  protected readonly filter = signal('');
+  protected readonly shownEntries = computed(() => {
+    const q = this.filter();
+    const all = this.entries();
+    if (!q.trim()) return all;
+    return all.filter((r) =>
+      matchesQuery(
+        q,
+        r.entry.name,
+        r.entry.itemId,
+        r.item?.name,
+        r.item ? this.dataText.name(r.item.name) : null,
+      ),
+    );
+  });
 
   protected move(e: InventoryEntry, delta: number): void {
     const ch = this.character();
