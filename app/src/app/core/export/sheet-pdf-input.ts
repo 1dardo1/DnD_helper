@@ -59,6 +59,7 @@ export function buildSheetPdfInput(src: PdfSource): SheetPdfInput {
   return {
     labels,
     name: s.name,
+    portrait: ch.portrait ?? null,
     background: shortName(s.background),
     classes: join(
       s.classes.map((c) => `${shortName(c.name)} ${c.level}`),

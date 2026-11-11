@@ -275,6 +275,11 @@ input[type='number'] {
       color: var(--ink-soft);
     }
 
+    // half or less: the number turns to the danger colour
+    &.hp.low strong {
+      color: var(--danger);
+    }
+
     &.hp {
       flex-direction: row;
       flex-wrap: wrap;
@@ -299,6 +304,52 @@ input[type='number'] {
 
 .bar-rests {
   margin-left: auto;
+}
+
+// Death saves (at 0 HP) and the active conditions: a line of their own, only when there are any
+.bar-death,
+.bar-tags {
+  order: 3;
+  flex: 1 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  margin: 0;
+}
+
+// ✓ ○○○  ✗ ○○○ on one line, even at 390 px
+.death-kind {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+
+  small {
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+}
+
+.bar-tags {
+  gap: 0.3rem;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0 0.55rem;
+    font-size: var(--fs-xs);
+    line-height: 1.6;
+    border: 1px solid currentcolor;
+    border-radius: 999px;
+  }
+
+  .cond {
+    color: var(--danger);
+  }
+
+  .insp {
+    color: var(--accent);
+  }
 }
 
 @media (max-width: 30rem) {

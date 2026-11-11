@@ -168,6 +168,22 @@ describe('composeSheetPdf', () => {
   });
 });
 
+describe('portrait on page 1', () => {
+  const portrait = 'data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==';
+
+  it('adds one image op next to the name only when there is a portrait', () => {
+    const images = (over: Partial<SheetPdfInput>) =>
+      composeSheetPdf(input(over), measure)[0].ops.filter((o) => o.k === 'image');
+    expect(images({})).toHaveLength(0);
+    expect(images({ portrait: null })).toHaveLength(0);
+    const [img] = images({ portrait });
+    expect(img).toMatchObject({ k: 'image', data: portrait });
+    expect(composeSheetPdf(input({ portrait }), measure)).toHaveLength(
+      composeSheetPdf(input(), measure).length,
+    );
+  });
+});
+
 describe('text helpers', () => {
   it('writes accents and drops what the fonts cannot', () => {
     expect(toWinAnsi('Ñandú — “hola” ≥ 3 → ✦')).toBe('Ñandú — “hola” >= 3 -> *');

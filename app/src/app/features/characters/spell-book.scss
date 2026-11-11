@@ -38,35 +38,82 @@
   margin: var(--space-2) 0 var(--space-1);
 }
 
-// Spells as tappable tags (the inline comma list was hard to hit on a phone)
+// Spells as rows that open in place: level · name · casting time · C/R, then the full text.
+// Two columns where there is room.
 .spells {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
   gap: 0.35rem;
+  align-items: start;
   margin: 0 0 var(--space-3);
   padding: 0;
   list-style: none;
 
   li {
     margin: 0;
-  }
-
-  a {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.3rem;
-    min-height: 2.5rem;
-    padding: 0.45rem 0.65rem 0.3rem;
-    line-height: 1.2;
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
-    text-decoration: none;
+  }
 
-    small {
-      font-size: var(--fs-xs);
-      color: var(--ink-soft);
-    }
+  li.none {
+    background: none;
+    border: 0;
+  }
+
+  li:has(details[open]) {
+    grid-column: 1 / -1;
+  }
+
+  summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.4rem;
+    min-height: 2.75rem;
+    padding: 0.45rem 0.65rem 0.35rem;
+    line-height: 1.25;
+    cursor: pointer;
+  }
+
+  .lvl,
+  .when {
+    font-size: var(--fs-xs);
+    color: var(--ink-soft);
+  }
+
+  .nm {
+    font-weight: 600;
+  }
+
+  .when {
+    flex: 1 1 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .tag {
+    padding: 0 0.35rem;
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--accent);
+    border: 1px solid currentcolor;
+    border-radius: 999px;
+  }
+
+  app-entry-details {
+    padding: 0 0.75rem 0.6rem;
+  }
+}
+
+.quick-filter {
+  margin-bottom: var(--space-2);
+
+  input {
+    width: 100%;
+    min-height: 2.75rem;
   }
 }
 

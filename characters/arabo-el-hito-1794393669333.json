@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "id": "arabo-el-hito-1794393669333",
+  "name": "Arabo, el hito",
+  "dataVersion": "2026-10-30T17:28:19+00:00",
+  "updatedAt": "2026-11-11T10:41:26.913Z",
+  "updatedBy": "Linux armv81",
+  "species": {
+    "id": "goliath",
+    "variant": null
+  },
+  "size": null,
+  "background": {
+    "id": "guide",
+    "abilityIncreases": {
+      "WIS": 2,
+      "CON": 1
+    }
+  },
+  "classes": [
+    {
+      "id": "ranger",
+      "level": 3,
+      "subclassId": "ranger/winter-walker",
+      "hp": [
+        null,
+        null,
+        null
+      ]
+    }
+  ],
+  "abilityScores": {
+    "method": "point-buy",
+    "base": {
+      "STR": 8,
+      "DEX": 14,
+      "CON": 15,
+      "INT": 10,
+      "WIS": 15,
+      "CHA": 8
+    }
+  },
+  "choices": {
+    "skills": [
+      "animal-handling",
+      "perception",
+      "nature"
+    ],
+    "expertise": [],
+    "saves": [],
+    "feats": [],
+    "featSlots": [
+      {
+        "slot": "ranger:2",
+        "featId": "dueling"
+      }
+    ],
+    "abilityIncreases": [],
+    "options": [],
+    "spells": [
+      "absorb-elements",
+      "cure-wounds",
+      "speak-with-animals",
+      "wild-cunning-ua"
+    ],
+    "languages": [
+      "Giant",
+      "Dwarvish"
+    ],
+    "toolChoices": [],
+    "featChoices": {
+      "background": {
+        "ability": "WIS",
+        "cantrips": [
+          "guidance",
+          "frostbite"
+        ],
+        "spell": "detect-poison-and-disease"
+      }
+    },
+    "traitChoices": {
+      "goliath:giant-ancestry": "Frost's Chill (Frost Giant)"
+    },
+    "traitPicks": {},
+    "weaponMasteries": [
+      "glaive",
+      "longbow"
+    ],
+    "spellsByClass": {
+      "ranger": [
+        "absorb-elements",
+        "cure-wounds",
+        "speak-with-animals",
+        "wild-cunning-ua"
+      ]
+    },
+    "startingEquipment": {
+      "class": "B",
+      "background": "B",
+      "bought": [
+        {
+          "itemId": "chain-shirt",
+          "qty": 1
+        },
+        {
+          "itemId": "glaive",
+          "qty": 1
+        },
+        {
+          "itemId": "longbow",
+          "qty": 1
+        },
+        {
+          "itemId": "explorers-pack",
+          "qty": 1
+        },
+        {
+          "itemId": "book",
+          "qty": 1
+        },
+        {
+          "itemId": "ink-pen",
+          "qty": 1
+        },
+        {
+          "itemId": "mastiff",
+          "qty": 1
+        },
+        {
+          "itemId": "stabling-per-day",
+          "qty": 10
+        }
+      ]
+    }
+  },
+  "equipped": {
+    "armorId": "chain-shirt",
+    "shield": false
+  },
+  "equipment": "",
+  "inventory": [
+    {
+      "id": "chain-shirt",
+      "itemId": "chain-shirt",
+      "name": "",
+      "qty": 1,
+      "equipped": true,
+      "source": "start"
+    },
+    {
+      "id": "glaive",
+      "itemId": "glaive",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "longbow",
+      "itemId": "longbow",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "explorers-pack",
+      "itemId": "explorers-pack",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "book",
+      "itemId": "book",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "ink-pen",
+      "itemId": "ink-pen",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "mastiff",
+      "itemId": "mastiff",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "stabling-per-day",
+      "itemId": "stabling-per-day",
+      "name": "",
+      "qty": 10,
+      "equipped": false,
+      "source": "start"
+    }
+  ],
+  "state": {
+    "hpCurrent": null,
+    "hpTemp": 0,
+    "spentSlots": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "resources": {},
+    "pactSlotsSpent": 0,
+    "hitDiceSpent": {},
+    "deathSaves": {
+      "successes": 0,
+      "failures": 0
+    },
+    "heroicInspiration": false,
+    "conditions": [],
+    "exhaustion": 0,
+    "spellSwap": {}
+  },
+  "notes": "Al hacer lvl up al 4 se debería elegir cold caster ",
+  "folder": "Pepo",
+  "money": {
+    "pp": 0,
+    "gp": 14,
+    "ep": 0,
+    "sp": 9,
+    "cp": 8
+  }
+}
