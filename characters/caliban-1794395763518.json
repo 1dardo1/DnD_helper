@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "id": "caliban-1794395763518",
+  "name": "Caliban",
+  "dataVersion": "2026-10-30T17:28:19+00:00",
+  "updatedAt": "2026-11-11T11:16:03.520Z",
+  "updatedBy": "Linux armv81",
+  "species": {
+    "id": "reborn",
+    "variant": null
+  },
+  "size": "Medium",
+  "background": {
+    "id": "noble",
+    "abilityIncreases": {
+      "CHA": 2,
+      "INT": 1
+    }
+  },
+  "classes": [
+    {
+      "id": "warlock",
+      "level": 3,
+      "subclassId": "warlock/undead-patron",
+      "hp": [
+        null,
+        null,
+        null
+      ]
+    }
+  ],
+  "abilityScores": {
+    "method": "manual",
+    "base": {
+      "STR": 12,
+      "DEX": 16,
+      "CON": 16,
+      "INT": 11,
+      "WIS": 16,
+      "CHA": 17
+    }
+  },
+  "choices": {
+    "skills": [
+      "deception",
+      "intimidation"
+    ],
+    "expertise": [],
+    "saves": [],
+    "feats": [],
+    "featSlots": [],
+    "abilityIncreases": [],
+    "options": [
+      "eldritch-invocation/pact-of-the-blade",
+      "eldritch-invocation/mask-of-many-faces",
+      "eldritch-invocation/armor-of-shadows"
+    ],
+    "spells": [
+      "green-flame-blade",
+      "toll-the-dead",
+      "shadow-blade",
+      "comprehend-languages",
+      "unseen-servant",
+      "misty-step"
+    ],
+    "languages": [
+      "Elvish",
+      "Dwarvish"
+    ],
+    "toolChoices": [
+      {
+        "slot": "background",
+        "tools": [
+          "Playing Cards"
+        ]
+      }
+    ],
+    "traitPicks": {
+      "reborn:strange-endurance#resistance": [
+        "Poison"
+      ],
+      "reborn:knowledge-from-a-past-life#skill": [
+        "arcana"
+      ]
+    },
+    "featChoices": {
+      "background": {
+        "skills": [
+          "performance",
+          "religion",
+          "perception"
+        ]
+      }
+    },
+    "spellsByClass": {
+      "warlock": [
+        "green-flame-blade",
+        "toll-the-dead",
+        "shadow-blade",
+        "comprehend-languages",
+        "unseen-servant",
+        "misty-step"
+      ]
+    },
+    "startingEquipment": {
+      "class": "B",
+      "background": "B",
+      "bought": [
+        {
+          "itemId": "veterans-cane",
+          "qty": 1
+        },
+        {
+          "itemId": "clothes-fine",
+          "qty": 1
+        }
+      ]
+    }
+  },
+  "equipped": {
+    "armorId": null,
+    "shield": false
+  },
+  "equipment": "",
+  "inventory": [
+    {
+      "id": "veterans-cane",
+      "itemId": "veterans-cane",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    },
+    {
+      "id": "clothes-fine",
+      "itemId": "clothes-fine",
+      "name": "",
+      "qty": 1,
+      "equipped": false,
+      "source": "start"
+    }
+  ],
+  "state": {
+    "hpCurrent": null,
+    "hpTemp": 0,
+    "spentSlots": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "resources": {},
+    "pactSlotsSpent": 0,
+    "hitDiceSpent": {},
+    "deathSaves": {
+      "successes": 0,
+      "failures": 0
+    },
+    "heroicInspiration": false,
+    "conditions": [],
+    "exhaustion": 0,
+    "spellSwap": {}
+  },
+  "notes": "Lvl 4 feat actor",
+  "folder": null,
+  "money": {
+    "pp": 0,
+    "gp": 35,
+    "ep": 0,
+    "sp": 0,
+    "cp": 0
+  }
+}
