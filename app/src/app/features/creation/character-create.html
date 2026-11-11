@@ -49,7 +49,10 @@
   <app-wizard-progress [steps]="progress()" [current]="st" (go)="setStep($event)" />
 
   <ng-template #toolPicker let-tc>
-    <fieldset [attr.data-anchor]="tc.slot === 'background' ? 'bg-tools' : 'tools'">
+    <fieldset
+      [attr.data-anchor]="tc.slot === 'background' ? 'bg-tools' : 'tools'"
+      [attr.data-jump]="'tool:' + tc.slot"
+    >
       <legend>
         {{
           'create.toolChoice'
@@ -104,6 +107,17 @@
       >
         @if (st === 'background' && primaryLabel()) {
           <p class="hint">{{ 'wizard.bg.hint' | t: { primary: primaryLabel() } }}</p>
+        }
+        @if (st === 'choices' && choiceSections().length > 1) {
+          <nav class="in-step" [attr.aria-label]="'wizard.choices.inStep' | t">
+            <span>{{ 'wizard.choices.inStep' | t }}:</span>
+            @for (x of choiceSections(); track x.jump) {
+              <button type="button" [class.done]="x.done" (click)="jump(x.jump)">
+                <span aria-hidden="true">{{ x.done ? '✓' : '○' }}</span> {{ x.label }}
+                <small>{{ x.count }}</small>
+              </button>
+            }
+          </nav>
         }
       </app-wizard-step-head>
 
@@ -567,76 +581,14 @@
 
         <!-- 5. Hit points ---------------------------------------------------------------- -->
         @case ('hp') {
-          @if (classList().length && hpParts(); as hp) {
-            <section class="hp-total" data-anchor="hp" aria-live="polite">
-              <p class="big">
-                <span>{{ 'wizard.hp.total' | t }}</span>
-                <strong>{{ hp.max }}</strong>
-              </p>
-              <p class="formula">
-                {{
-                  'wizard.hp.formula'
-                    | t
-                      : {
-                          dice: hp.dice,
-                          con: plusMinus(hp.con),
-                          levels: hp.levels,
-                          other: hp.other ? ('wizard.hp.other' | t: { n: hp.other }) : '',
-                          total: hp.max,
-                        }
-                }}
-              </p>
-            </section>
-            <fieldset class="hp-all">
-              <legend>{{ 'wizard.hp.all' | t }}</legend>
-              <button type="button" (click)="hpEverywhere('roll')">
-                {{ 'wizard.hp.rollAll' | t }}
-              </button>
-              <button type="button" (click)="hpEverywhere('average')">
-                {{ 'wizard.hp.averageAll' | t }}
-              </button>
-              <button
-                type="button"
-                [attr.aria-expanded]="hpTotalOpen()"
-                (click)="hpTotalOpen.set(!hpTotalOpen())"
-              >
-                ✎ {{ 'wizard.hp.writeTotal' | t }}
-              </button>
-              @if (hpTotalOpen()) {
-                <div class="hp-write">
-                  <label>
-                    {{ 'wizard.hp.totalLabel' | t }}
-                    <input #hpIn type="number" inputmode="numeric" min="1" [value]="hp.max" />
-                  </label>
-                  <button type="button" class="primary" (click)="spreadHp(hpIn.value)">
-                    {{ 'wizard.hp.spread' | t }}
-                  </button>
-                  <p class="hint">{{ 'wizard.hp.spreadHint' | t }}</p>
-                  @if (hpSpreadOff(); as o) {
-                    <p class="issue" role="status">
-                      {{ 'wizard.hp.spreadOff' | t: { got: o.got, off: signed(o.diff) } }}
-                    </p>
-                  }
-                </div>
-              }
-            </fieldset>
-            <p class="hint rule">{{ 'wizard.hp.firstRule' | t }}</p>
-            @for (r of rows(); track r.index) {
-              @if (r.cls; as k) {
-                <fieldset class="hp-class">
-                  <legend>
-                    {{ 'wizard.hp.ofClass' | t: { cls: (k.name | dataName: true), die: k.hitDie } }}
-                  </legend>
-                  <app-hp-levels
-                    [entry]="r.entry"
-                    [die]="k.hitDie"
-                    [first]="r.index === 0"
-                    [con]="sheet()?.abilities?.CON?.modifier ?? null"
-                    (entryChange)="setHpEntry(r.index, $event)"
-                  />
-                </fieldset>
-              }
-            }
+          @if (classList().length && sheet(); as sh) {
+            <app-wizard-hp
+              data-anchor="hp"
+              [classes]="c.classes"
+              [info]="hpInfo()"
+              [sheet]="sh"
+              (classesChange)="setHpClasses($event)"
+            />
           } @else {
             <p class="hint">{{ 'wizard.hp.noClass' | t }}</p>
           }
@@ -646,7 +598,7 @@
         @case ('choices') {
           @if (classList().length) {
             @let picks = skillChoice();
-            <fieldset data-anchor="skills">
+            <fieldset data-anchor="skills" data-jump="skills">
               <legend>{{ 'create.skills' | t: { count: picks.count } }}</legend>
               @for (s of picks.from; track s) {
                 @let fromBg = background()?.skills?.includes(s);
@@ -666,7 +618,7 @@
             </fieldset>
 
             @if (masterySlots()) {
-              <fieldset data-anchor="masteries">
+              <fieldset data-anchor="masteries" data-jump="masteries">
                 <legend>
                   {{
                     'create.weaponMasteries'
@@ -694,7 +646,7 @@
             }
 
             @if (expertiseTotal()) {
-              <fieldset data-anchor="expertise">
+              <fieldset data-anchor="expertise" data-jump="expertise">
                 <legend>{{ 'create.expertise' | t: { count: expertiseTotal() } }}</legend>
                 @for (s of proficientSkills(); track s) {
                   <label class="inline">
@@ -725,7 +677,7 @@
                   @let feat = slotFeatEntry(s.slot);
                   @let fp = slotPicks(feat);
                   @let problems = featProblems(feat);
-                  <fieldset data-anchor="feats">
+                  <fieldset data-anchor="feats" [attr.data-jump]="'slot:' + s.slot">
                     <legend>{{ 'create.slot.' + s.kind | t: { level: s.level } }}</legend>
                     <app-picker
                       [items]="featsFor(s.kind)"
@@ -766,7 +718,7 @@
 
                 @for (g of r.optionGroups; track g.group) {
                   @let taken = chosenCount(c.choices.options, g.options);
-                  <fieldset>
+                  <fieldset [attr.data-jump]="'opt:' + r.entry.id + ':' + g.group">
                     <legend [class.issue]="g.count !== null && taken > g.count">
                       {{ groupLabel(g.group) }}
                       @if (g.count !== null) {
@@ -1235,39 +1187,11 @@
             </label>
           </section>
 
-          <section class="pending" [class.ok]="!pending().length">
-            <h3>{{ 'wizard.review.pending' | t }}</h3>
-            @for (g of pending(); track g.step) {
-              <div class="group">
-                <h4>
-                  <button type="button" class="link" (click)="setStep(g.step)">
-                    {{ stepLabel(g.step) }} →
-                  </button>
-                </h4>
-                <ul>
-                  @for (i of g.items; track $index) {
-                    <li>
-                      <button
-                        type="button"
-                        class="item"
-                        [class.issue]="i.note.kind === 'issue'"
-                        (click)="goTo(i.target)"
-                      >
-                        <span aria-hidden="true">{{ i.note.kind === 'issue' ? '⚠' : '○' }}</span>
-                        <span>{{ noteText(i.note) }}</span>
-                        <span class="arrow">{{ 'wizard.review.goTo' | t }} →</span>
-                      </button>
-                    </li>
-                  }
-                </ul>
-              </div>
-            } @empty {
-              <p>✓ {{ 'wizard.review.allDone' | t }}</p>
-            }
-            @if (pending().length) {
-              <p class="hint">{{ 'create.canFinishLater' | t }}</p>
-            }
-          </section>
+          <app-wizard-pending
+            [groups]="pendingGroups()"
+            (step)="setStep($event)"
+            (item)="goTo($event.target)"
+          />
 
           @if (sheet(); as sh) {
             @if (summary(); as sm) {

@@ -9,10 +9,9 @@ import {
   hpMethodAt,
   levelHp,
   rollHitDie,
-  withFirstLevelMax,
-  withFixedAll,
   withHpMethod,
 } from '../core/creation/hp-levels';
+import { withFirstLevelMax, withFixedAll } from '../core/creation/hp-actions';
 import { TranslatePipe } from '../core/i18n/i18n.service';
 import { useWizardTexts } from './wizard/wizard-texts';
 
@@ -98,7 +97,7 @@ import { useWizardTexts } from './wizard/wizard-texts';
             }
           }
         }
-        @if (m === 'fixed' && shown().length > 1) {
+        @if (m === 'fixed' && shown().length > 1 && i === firstFixed()) {
           <button type="button" class="all" (click)="applyAll(i)">{{ 'hp.applyAll' | t }}</button>
         }
         @if (m === 'roll' && entry().hp[i] === null && rolling() !== i) {
@@ -203,6 +202,11 @@ export class HpLevels {
     for (let i = this.from(); i < this.entry().level; i++) out.push(i);
     return out;
   });
+
+  /** The first level with a fixed value: "Aplicar a todos" goes there, once. */
+  protected readonly firstFixed = computed(() =>
+    this.shown().find((i) => hpMethodAt(this.entry(), i) === 'fixed'),
+  );
 
   protected method(i: number): HpMethod | null {
     return hpMethodAt(this.entry(), i);

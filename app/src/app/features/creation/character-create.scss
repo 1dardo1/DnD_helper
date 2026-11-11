@@ -170,6 +170,41 @@
   box-shadow: 0 0 0 3px var(--warn);
 }
 
+[data-jump] {
+  scroll-margin-top: 1rem;
+}
+
+// class choices: a jump list of its parts, with how many are chosen in each
+.in-step {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  font-size: var(--fs-sm);
+
+  > span {
+    color: var(--ink-soft);
+  }
+
+  button {
+    min-height: 2.4rem;
+    padding: 0.1rem 0.7rem;
+    font-size: var(--fs-sm);
+    color: var(--warn);
+    border-color: var(--warn);
+    border-radius: 999px;
+
+    &.done {
+      color: var(--ok);
+      border-color: var(--line-strong);
+    }
+
+    small {
+      color: var(--ink-soft);
+    }
+  }
+}
+
 .class-row .row {
   display: flex;
   flex-wrap: wrap;
@@ -338,65 +373,6 @@
   }
 }
 
-// hit points: the maximum always in view, then the actions on every level, then each class
-.hp-total {
-  display: grid;
-  gap: var(--space-1);
-  padding: var(--space-3) var(--space-4);
-  background: var(--card);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-1);
-
-  .big {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-3);
-    margin: 0;
-    font-family: var(--font-title);
-    font-size: var(--fs-lg);
-
-    strong {
-      font-family: var(--font-hand);
-      font-size: 2.6rem;
-      line-height: 1;
-      color: var(--accent);
-    }
-  }
-
-  .formula {
-    margin: 0;
-    font-size: var(--fs-sm);
-    color: var(--ink-soft);
-  }
-}
-
-.hp-all button {
-  min-height: var(--tap);
-}
-
-.hp-write {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  gap: var(--space-2) var(--space-3);
-  flex: 1 1 100%;
-
-  input {
-    width: 6rem;
-  }
-
-  p {
-    flex: 1 1 100%;
-    margin: 0;
-  }
-}
-
-.hint.rule {
-  font-style: italic;
-}
-
 .spells h3.todo {
   color: var(--warn);
 }
@@ -421,63 +397,6 @@ h3.issue {
 
   h3 {
     margin: 0;
-  }
-}
-
-.pending {
-  @include nb.sticky-note(-0.3deg);
-
-  h3 {
-    margin: 0 0 var(--space-2);
-  }
-
-  h4 {
-    margin: var(--space-2) 0 0;
-  }
-
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .link {
-    min-height: var(--tap);
-    padding: 0;
-    color: var(--ink-blue);
-    background: none;
-    border: 0;
-    box-shadow: none;
-  }
-
-  .item {
-    display: flex;
-    justify-content: flex-start;
-    gap: var(--space-2);
-    width: 100%;
-    min-height: var(--tap);
-    padding: 0.15rem 0.3rem;
-    font-family: var(--font-body);
-    font-size: var(--fs-sm);
-    text-align: left;
-    background: none;
-    border: 0;
-    box-shadow: none;
-
-    &.issue {
-      color: var(--danger);
-    }
-
-    .arrow {
-      margin-left: auto;
-      white-space: nowrap;
-      color: var(--ink-blue);
-    }
-  }
-
-  &.ok p {
-    margin: 0;
-    color: var(--ok);
   }
 }
 

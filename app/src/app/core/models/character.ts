@@ -3,7 +3,7 @@ import { ReplicatedItem, normalizeReplicated } from '../artificer/replicated-sta
 import { TempSlot, normalizeCharges, normalizeTempSlots } from '../artificer/tinker';
 import { normalizeFavorites } from '../combat/favorites';
 import { SummonsState, normalizeSummons } from '../summons/summon-state';
-import { normalizeHpMethod } from '../creation/hp-levels';
+import { normalizeHpMethod } from '../creation/hp-method';
 import { normalizePortrait } from '../characters/portrait-data';
 import { Ability } from './compendium';
 
@@ -52,7 +52,7 @@ export interface Character {
     hp: (number | null)[];
     /**
      * How each level's hit points were obtained ('roll' | 'average' | 'fixed'), same indexes as hp
-     * (core/creation/hp-levels.ts). Absent/null in older characters: just the stored value.
+     * (core/creation/hp-levels.ts, hp-method.ts). Absent/null in older characters: just the stored value.
      */
     hpMethod?: ('roll' | 'average' | 'fixed' | null)[];
     spellAbility?: Ability | null;

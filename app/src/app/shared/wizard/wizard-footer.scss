@@ -10,8 +10,8 @@ $phone: 44.99rem;
   margin-top: var(--space-5);
 
   @media (max-width: $phone) {
-    // above the fixed navigation strap of the app (app.scss: 3.4rem tabs + 0.8rem padding)
-    bottom: calc(4.2rem + env(safe-area-inset-bottom));
+    // above the fixed navigation strap of the app (app.scss: 3.4rem tabs, padding, two-line labels)
+    bottom: calc(4.6rem + env(safe-area-inset-bottom));
     margin-inline: -0.5rem;
   }
 }

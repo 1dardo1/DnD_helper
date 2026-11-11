@@ -13,15 +13,17 @@ import {
   hpBreakdown,
   hpMethodAt,
   firstLevelHouseRule,
-  freeLevels,
   levelHp,
   rollHitDie,
+  withHpMethod,
+} from './hp-levels';
+import {
+  freeLevels,
   spreadHpTotal,
   withFirstLevelMax,
   withFixedAll,
-  withHpMethod,
   withMethodEverywhere,
-} from './hp-levels';
+} from './hp-actions';
 import { addLevel } from './level-up';
 
 const map = <T extends { id: string }>(xs: unknown) => new Map((xs as T[]).map((x) => [x.id, x]));

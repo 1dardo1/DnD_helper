@@ -106,8 +106,7 @@ import {
 } from '../../core/rules/species-picks';
 import { traitChoiceFor, traitChoiceKey, translatedOptions } from '../../core/rules/trait-choices';
 import { FeatChoices } from '../../shared/feat-choices';
-import { HpLevels } from '../../shared/hp-levels';
-import { resizeHp, spreadHpTotal, withMethodEverywhere } from '../../core/creation/hp-levels';
+import { resizeHp } from '../../core/creation/hp-levels';
 import { PortraitPicker } from '../../shared/portrait-picker';
 import { TraitChoice, TraitChoiceItem } from '../../shared/trait-choice';
 import { PickOptionLabel, TraitPicks } from '../../shared/trait-picks';
@@ -131,6 +130,8 @@ import { FooterNote, WizardFooter } from '../../shared/wizard/wizard-footer';
 import { ProgressStep, WizardProgress } from '../../shared/wizard/wizard-progress';
 import { WizardStepHead } from '../../shared/wizard/wizard-step-head';
 import { WizardSummaryPanel } from '../../shared/wizard/wizard-summary';
+import { WizardHp } from '../../shared/wizard/wizard-hp';
+import { PendingGroup, WizardPending } from '../../shared/wizard/wizard-pending';
 import { useWizardTexts } from '../../shared/wizard/wizard-texts';
 import { EntryDetails } from '../../shared/picker/entry-details';
 import { SettingsService } from '../../core/settings/settings.service';
@@ -176,7 +177,6 @@ type ClassEntry = Character['classes'][number];
     LoadError,
     Picker,
     FeatChoices,
-    HpLevels,
     TraitChoice,
     TraitPicks,
     EntryCard,
@@ -188,6 +188,8 @@ type ClassEntry = Character['classes'][number];
     WizardProgress,
     WizardStepHead,
     WizardSummaryPanel,
+    WizardHp,
+    WizardPending,
   ],
   templateUrl: './character-create.html',
   styleUrl: './character-create.scss',
@@ -608,17 +610,23 @@ export class CharacterCreate implements LeaveCheck {
   );
   /** Everything still pending, by step (the last step lists it). */
   protected readonly pending = computed(() => pendingBySteps(this.steps(), this.notes()));
-  /** What the footer lists: this step's notes (the last step: everything still pending). */
-  protected readonly footerNotes = computed<FooterNote[]>(() => {
-    const step = this.current();
-    const groups =
-      step === 'details' ? this.pending() : this.pending().filter((g) => g.step === step);
-    return groups.flatMap((g) =>
-      g.items.map((i) => ({
+  protected readonly pendingGroups = computed<PendingGroup[]>(() =>
+    this.pending().map((g) => ({
+      step: g.step,
+      label: this.stepLabel(g.step),
+      items: g.items.map((i) => ({
         text: this.noteText(i.note),
         issue: i.note.kind === 'issue',
         target: i.target,
       })),
+    })),
+  );
+  /** What the footer lists: this step's notes (the last step: everything still pending). */
+  protected readonly footerNotes = computed<FooterNote[]>(() => {
+    const step = this.current();
+    const groups = this.pendingGroups();
+    return (step === 'details' ? groups : groups.filter((g) => g.step === step)).flatMap(
+      (g) => g.items,
     );
   });
 
@@ -717,7 +725,7 @@ export class CharacterCreate implements LeaveCheck {
   /** Leaving with unsaved edits is free: they stay as a draft. Ask only if they couldn't be kept. */
   canLeave(): boolean {
     if (!this.dirty() || !this.unpersisted()) return true;
-    return confirm(this.i18n.t('create.leaveUnsaved'));
+    return confirm(this.i18n.t('create.leaveUnsaved' as never));
   }
 
   /** Same for closing or reloading the page, only when the edits live nowhere else. */
@@ -760,11 +768,6 @@ export class CharacterCreate implements LeaveCheck {
 
   protected range(n: number): number[] {
     return Array.from({ length: n }, (_, i) => i);
-  }
-
-  /** "+ 10" / "− 5": a term added to a sum. */
-  protected plusMinus(n: number): string {
-    return n < 0 ? `− ${-n}` : `+ ${n}`;
   }
 
   protected signed(n: number): string {
@@ -954,6 +957,85 @@ export class CharacterCreate implements LeaveCheck {
     );
   }
 
+  /**
+   * The parts of the class choices step (it can be long: skills, masteries, feats of several
+   * levels, options...), each with how many are chosen, for the jump list under its header.
+   */
+  protected readonly choiceSections = computed(() => {
+    const c = this.draft();
+    const out: { jump: string; label: string; count: string; done: boolean }[] = [];
+    if (!this.classList().length) return out;
+    const t = (k: string, p?: Record<string, string | number>) => this.i18n.t(k as never, p);
+    const part = (jump: string, label: string, n: number, of: number | null) =>
+      out.push({
+        jump,
+        label,
+        count: of === null ? `${n}` : `${n}/${of}`,
+        done: of === null || n >= of,
+      });
+    const bg = new Set(this.background()?.skills ?? []);
+    part(
+      'skills',
+      t('sheet.skills'),
+      c.choices.skills.filter((s) => !bg.has(s)).length,
+      this.skillChoice().count,
+    );
+    if (this.masterySlots())
+      part(
+        'masteries',
+        t('wizard.choices.masteries'),
+        (c.choices.weaponMasteries ?? []).length,
+        this.masterySlots(),
+      );
+    if (this.expertiseTotal())
+      part(
+        'expertise',
+        t('wizard.choices.expertise'),
+        c.choices.expertise.length,
+        this.expertiseTotal(),
+      );
+    for (const tc of this.tools())
+      if (tc.slot !== 'background')
+        part(
+          `tool:${tc.slot}`,
+          this.toolGroupLabel(tc.groups),
+          this.toolsIn(tc.slot).length,
+          tc.count,
+        );
+    for (const r of this.rows()) {
+      if (!r.cls) continue;
+      const cls = this.dataText.shortName(r.cls.name);
+      for (const s of r.slots)
+        part(
+          `slot:${s.slot}`,
+          t('wizard.choices.slot', {
+            cls,
+            level: s.level,
+            kind: t(`wizard.choices.kind.${s.kind}`),
+          }),
+          this.slotFeat(s.slot) ? 1 : 0,
+          1,
+        );
+      for (const g of r.optionGroups)
+        part(
+          `opt:${r.entry.id}:${g.group}`,
+          this.groupLabel(g.group),
+          this.chosenCount(c.choices.options, g.options),
+          g.count,
+        );
+    }
+    return out;
+  });
+
+  /** To a part of the step (the jump list), lit for a moment. */
+  protected jump(key: string): void {
+    const el = this.host.nativeElement.querySelector<HTMLElement>(`[data-jump="${key}"]`);
+    if (!el) return;
+    el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    el.classList.add('flash');
+    setTimeout(() => el.classList.remove('flash'), 1600);
+  }
+
   /** A note of the footer or of the review tapped: its step and the part that solves it. */
   protected goTo(target: unknown): void {
     const t = target as NoteTarget | undefined;
@@ -961,42 +1043,15 @@ export class CharacterCreate implements LeaveCheck {
   }
 
   // -- hit points (their own step) -------------------------------------------------------
-  private readonly dieOf = (id: string) => this.data.value()?.rules.classes.get(id)?.hitDie;
-  /** "Escribir el total a mano" open, and how the last spread went (null = exact or none). */
-  protected readonly hpTotalOpen = signal(false);
-  protected readonly hpSpreadOff = signal<{ got: number; diff: number } | null>(null);
+  /** Hit die and name of the character's classes, for the hit points step. */
+  protected readonly hpInfo = computed(() =>
+    Object.fromEntries(this.classList().map((k) => [k.id, { die: k.hitDie, name: k.name }])),
+  );
 
-  /** Rolls, or takes the average of, every level but level 1 of the rule, in every class. */
-  protected hpEverywhere(method: 'roll' | 'average'): void {
-    this.hpSpreadOff.set(null);
-    this.patch((c) => ({ ...c, classes: withMethodEverywhere(c.classes, this.dieOf, method) }));
+  /** Hit points changed in the step: one level, every level at once, or a total spread. */
+  protected setHpClasses(classes: ClassEntry[]): void {
+    this.patch((c) => ({ ...c, classes }));
   }
-
-  /** A maximum written by hand, spread over the levels as fixed values. */
-  protected spreadHp(raw: string): void {
-    const sheet = this.sheet();
-    const total = parseInt(raw, 10);
-    if (!sheet || !Number.isFinite(total) || total < 1) return;
-    const r = spreadHpTotal(
-      this.draft().classes,
-      this.dieOf,
-      sheet.abilities.CON.modifier,
-      sheet.hitPoints.bonus,
-      total,
-    );
-    this.patch((c) => ({ ...c, classes: r.classes }));
-    this.hpSpreadOff.set(r.off ? { got: total - r.off, diff: -r.off } : null);
-  }
-
-  /** Dice, Constitution and other parts of the maximum, for the hit points step. */
-  protected readonly hpParts = computed(() => {
-    const h = this.sheet()?.hitPoints;
-    if (!h) return null;
-    const dice = h.levels.reduce((n, r) => n + r.gained, 0);
-    const con = h.levels.reduce((n, r) => n + (r.total - r.gained), 0);
-    return { max: h.max, dice, con, levels: h.levels.length, other: h.bonus };
-  });
-
   // -- classes -------------------------------------------------------------------------
   protected setClass(index: number, id: string): void {
     this.patch((c) => {
@@ -1055,15 +1110,6 @@ export class CharacterCreate implements LeaveCheck {
   protected setSpellAbility(index: number, ability: string): void {
     this.patch((c) => {
       if (c.classes[index]) c.classes[index].spellAbility = (ability || null) as Ability | null;
-      return c;
-    });
-  }
-
-  /** The hit points of a class (per level and method) changed in the picker. */
-  protected setHpEntry(index: number, entry: ClassEntry): void {
-    this.patch((c) => {
-      if (c.classes[index])
-        c.classes[index] = { ...c.classes[index], hp: entry.hp, hpMethod: entry.hpMethod };
       return c;
     });
   }
@@ -1737,7 +1783,7 @@ export class CharacterCreate implements LeaveCheck {
 
   /** Throws away the new character's draft and starts from the first step. */
   protected restart(): void {
-    if (!confirm(this.i18n.t('create.confirmRestart'))) return;
+    if (!confirm(this.i18n.t('create.confirmRestart' as never))) return;
     clearDraft();
     this.draft.set(this.blank());
     this.step.set('class');
@@ -1746,7 +1792,7 @@ export class CharacterCreate implements LeaveCheck {
   /** Editing: forgets the changes not saved yet and goes back to the saved character. */
   protected async discard(): Promise<void> {
     const id = this.id();
-    if (!id || !confirm(this.i18n.t('create.confirmDiscard'))) return;
+    if (!id || !confirm(this.i18n.t('create.confirmDiscard' as never))) return;
     removeEditDraft(browserStorage(), id);
     this.restored.set(null);
     const r = await this.store.get(id);

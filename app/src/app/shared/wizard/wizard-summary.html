@@ -220,17 +220,26 @@
           @for (sp of sm.spells; track sp.classId) {
             <li>
               {{
-                'wizard.summary.spellsOf'
-                  | t
-                    : {
-                        cls: className(sp.classId),
-                        cantrips:
-                          sp.cantrips.chosen +
-                          (sp.cantrips.max !== null ? '/' + sp.cantrips.max : ''),
-                        prepared:
-                          sp.prepared.chosen +
-                          (sp.prepared.max !== null ? '/' + sp.prepared.max : ''),
-                      }
+                sp.cantrips.max === null && !sp.cantrips.chosen
+                  ? ('wizard.summary.spellsOfPrepared'
+                    | t
+                      : {
+                          cls: className(sp.classId),
+                          prepared:
+                            sp.prepared.chosen +
+                            (sp.prepared.max !== null ? '/' + sp.prepared.max : ''),
+                        })
+                  : ('wizard.summary.spellsOf'
+                    | t
+                      : {
+                          cls: className(sp.classId),
+                          cantrips:
+                            sp.cantrips.chosen +
+                            (sp.cantrips.max !== null ? '/' + sp.cantrips.max : ''),
+                          prepared:
+                            sp.prepared.chosen +
+                            (sp.prepared.max !== null ? '/' + sp.prepared.max : ''),
+                        })
               }}
               @if (sp.saveDc !== null && sp.attack !== null) {
                 <small>
