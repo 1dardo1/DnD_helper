@@ -54,6 +54,8 @@ export type PdfOp =
       lw?: number;
     }
   /** The left half of a circle, filled (half proficiency). */
+  /** The character's portrait (a data URL; the renderer converts it for the PDF). */
+  | { k: 'image'; x: number; y: number; w: number; h: number; data: string }
   | { k: 'half'; cx: number; cy: number; r: number; fill: PdfColor }
   | { k: 'diamond'; cx: number; cy: number; r: number; filled: boolean; color?: PdfColor }
   | {
@@ -221,6 +223,8 @@ export type PdfSpellRow = PdfSpell | { header: string };
 export interface SheetPdfInput {
   labels: PdfLabels;
   name: string;
+  /** The character's portrait (data URL), drawn next to the name when present. */
+  portrait?: string | null;
   background: string;
   /** "Cazador de sangre 5 / Guerrero 1". */
   classes: string;
@@ -292,6 +296,10 @@ class Pg {
 
   line(x1: number, y1: number, x2: number, y2: number, color: PdfColor = 'line', lw = 0.6): void {
     this.ops.push({ k: 'line', x1: x1 * K, y1: y1 * K, x2: x2 * K, y2: y2 * K, color, lw });
+  }
+
+  image(x: number, y: number, w: number, h: number, data: string): void {
+    this.ops.push({ k: 'image', x: x * K, y: y * K, w: w * K, h: h * K, data });
   }
 
   circle(cx: number, cy: number, r: number, o: Opts = {}): void {
@@ -768,7 +776,12 @@ function page1(
 
   // --- identity -----------------------------------------------------------------------------
   pg.box(15, 15, 343, 108);
-  pg.fit(d.name || L.noName, 24, 46, 325, 14, { bold: true, min: 8 });
+  // the portrait (if any) takes the right end of the name row
+  pg.fit(d.name || L.noName, 24, 46, d.portrait ? 286 : 325, 14, { bold: true, min: 8 });
+  if (d.portrait) {
+    pg.image(316, 18, 33, 33, d.portrait);
+    pg.box(316, 18, 33, 33, { r: 2, lw: 0.8 });
+  }
   pg.line(24, 50, 350, 50, 'soft');
   pg.caption(L.characterName, 24, 58);
   pg.fit(d.background, 24, 77, 165, 9, { bold: true, min: 5.5 });

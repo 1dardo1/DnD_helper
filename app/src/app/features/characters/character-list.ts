@@ -10,6 +10,7 @@ import { Character, CharacterRecord } from '../../core/models/character';
 import { FolderPrefs } from '../../core/organize/folder-prefs';
 import { groupByFolder, removeFolderFrom, renameFolderIn } from '../../core/organize/folders';
 import { BackupPanel } from '../../shared/backup-panel';
+import { PortraitAvatar } from '../../shared/portrait-avatar';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 
 /** The select's "create a new folder" option, never a real folder name. */
@@ -18,7 +19,14 @@ const NEW_FOLDER = '\u0000new';
 /** Characters on this device (plus any new ones in the repo), with their cloud status. */
 @Component({
   selector: 'app-character-list',
-  imports: [RouterLink, TranslatePipe, LocalDatePipe, ClassThemeDirective, BackupPanel],
+  imports: [
+    RouterLink,
+    TranslatePipe,
+    LocalDatePipe,
+    ClassThemeDirective,
+    BackupPanel,
+    PortraitAvatar,
+  ],
   template: `
     <h1>{{ 'characters.title' | t }}</h1>
     <p>
@@ -73,8 +81,12 @@ const NEW_FOLDER = '\u0000new';
                       subclassId: r.character.classes[0]?.subclassId,
                     }"
                   >
-                    <a [routerLink]="['/characters', r.character.id]"
-                      ><strong>{{ r.character.name }}</strong></a
+                    <a [routerLink]="['/characters', r.character.id]" class="name-link"
+                      ><app-portrait-avatar
+                        class="avatar"
+                        [portrait]="r.character.portrait"
+                        [name]="r.character.name"
+                      /><strong>{{ r.character.name }}</strong></a
                     >
                     @if (summary(r.character); as line) {
                       <span class="summary">{{ line }}</span>
@@ -206,6 +218,14 @@ const NEW_FOLDER = '\u0000new';
       line-height: 1.1;
       color: var(--accent);
       text-decoration: none;
+    }
+    .characters li > a.name-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .avatar {
+      --portrait: 3.25rem;
     }
     .characters li > a:first-child::after {
       content: '';

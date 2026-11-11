@@ -38,8 +38,13 @@
     appClassThemeScope="parent"
   >
     <div class="head-main">
-      <!-- The character's round portrait (~56 px) goes here; hidden while empty. -->
-      <div class="avatar-slot"></div>
+      <div class="avatar-slot">
+        <app-character-portrait
+          [portrait]="c.portrait"
+          [name]="s.name"
+          (portraitChange)="saveCharacter({ ...c, portrait: $event })"
+        />
+      </div>
       <div class="head-text">
         <div class="title-row">
           <h1>{{ s.name }}</h1>
