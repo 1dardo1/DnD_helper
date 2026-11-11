@@ -83,11 +83,14 @@ describe('filterGroups on a real sheet (Oren, Artificer 3 / Warlock 1)', () => {
 
 describe('warningFix', () => {
   it('sends the species picks to the species step of the editor', () => {
-    const sheet = computeSheet(loadCharacter('oren-bianic-1793811890281.json'), rulesData());
-    const keys = sheet.warnings.map((w) => w.key);
-    expect(keys).toContain('sheet.warn.traitChoiceMissing');
-    for (const w of sheet.warnings.filter((x) => x.key === 'sheet.warn.traitChoiceMissing'))
-      expect(warningFix(w)).toEqual({ step: 'species' });
+    // synthetic warnings: a test on a real character file would break whenever its owner saves
+    // the missing choice from the app
+    for (const key of [
+      'sheet.warn.traitChoiceMissing',
+      'sheet.warn.traitPickMissing',
+      'sheet.warn.speciesAbilityMissing',
+    ] as const)
+      expect(warningFix({ key })).toEqual({ step: 'species' });
   });
 
   it('maps the rest to a step, a tab or nothing', () => {
