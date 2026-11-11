@@ -98,6 +98,7 @@ import { traitChoiceFor, traitChoiceKey, translatedOptions } from '../../core/ru
 import { FeatChoices } from '../../shared/feat-choices';
 import { HpLevels } from '../../shared/hp-levels';
 import { resizeHp } from '../../core/creation/hp-levels';
+import { PortraitPicker } from '../../shared/portrait-picker';
 import { TraitChoice, TraitChoiceItem } from '../../shared/trait-choice';
 import { PickOptionLabel, TraitPicks } from '../../shared/trait-picks';
 import { RulesDataService } from '../../core/rules/rules-data.service';
@@ -143,6 +144,7 @@ type ClassEntry = Character['classes'][number];
   host: { '(window:beforeunload)': 'onBeforeUnload($event)' },
   imports: [
     RouterLink,
+    PortraitPicker,
     NgTemplateOutlet,
     TranslatePipe,
     LocalDatePipe,
@@ -1426,6 +1428,10 @@ export class CharacterCreate implements LeaveCheck {
 
   protected withName(name: string) {
     return (c: Character) => ({ ...c, name });
+  }
+
+  protected withPortrait(portrait: string | null) {
+    return (c: Character) => ({ ...c, portrait });
   }
 
   protected withNotes(notes: string) {

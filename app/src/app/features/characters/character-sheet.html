@@ -38,6 +38,11 @@
     appClassThemeScope="parent"
   >
     <div class="title-row">
+      <app-character-portrait
+        [portrait]="c.portrait"
+        [name]="s.name"
+        (portraitChange)="saveCharacter({ ...c, portrait: $event })"
+      />
       <h1>{{ s.name }}</h1>
       <span
         class="chip"

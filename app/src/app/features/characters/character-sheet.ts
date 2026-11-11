@@ -52,6 +52,7 @@ import { LoadError } from '../compendium/load-error';
 import type { CombatTab } from './combat-tab';
 import { PlayPanel } from './play-panel';
 import { ReplicatePanel } from './replicate-panel';
+import { CharacterPortrait } from './character-portrait';
 import { TraitRestDialog } from './trait-rest-dialog';
 import { pickValueLabel } from '../../shared/trait-picks';
 import { HomebrewBadge } from '../homebrew/homebrew-badge';
@@ -75,6 +76,7 @@ import { SummonsPage } from '../summons/summons-page';
     ExportPdfButton,
     ReplicatePanel,
     TraitRestDialog,
+    CharacterPortrait,
     ClassThemeDirective,
     HomebrewBadge,
     SummonsPage,

@@ -4,6 +4,7 @@ import { TempSlot, normalizeCharges, normalizeTempSlots } from '../artificer/tin
 import { normalizeFavorites } from '../combat/favorites';
 import { SummonsState, normalizeSummons } from '../summons/summon-state';
 import { normalizeHpMethod } from '../creation/hp-levels';
+import { normalizePortrait } from '../characters/portrait';
 import { Ability } from './compendium';
 
 /**
@@ -22,6 +23,13 @@ export interface Character {
    * is a local-only preference (core/organize/folder-prefs.ts), not synced between devices.
    */
   folder?: string | null;
+  /**
+   * The character's picture: a small square image as a data URL (`data:image/webp;base64,...`,
+   * JPEG where WebP is not available), cropped and shrunk in the browser to <= 320 px
+   * (core/characters/portrait.ts), so it travels inside this JSON with the rest. Absent/null = no
+   * picture (the class icon is shown instead).
+   */
+  portrait?: string | null;
   /** meta.generatedAt of the data the character was built with. */
   dataVersion: string | null;
   /** When and from which device (Settings → device name) it was last edited. */
@@ -357,12 +365,15 @@ export function normalizeCharacter(raw: unknown): Character | null {
   const c = raw as Partial<Character>;
   if (typeof c.id !== 'string' || typeof c.name !== 'string') return null;
   const base = newCharacter(c.name, c.updatedBy ?? '');
+  const { portrait: rawPortrait, ...rest } = c;
+  const portrait = normalizePortrait(rawPortrait);
   return {
     ...base,
-    ...c,
+    ...rest,
     id: c.id,
     schemaVersion: 1,
     folder: normalizeFolder(c.folder),
+    ...(portrait ? { portrait } : {}),
     choices: { ...base.choices, ...(c.choices ?? {}) },
     equipped: { ...base.equipped, ...(c.equipped ?? {}) },
     inventory: c.inventory ?? inventoryFromEquipped(c.equipped),
