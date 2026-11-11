@@ -1000,13 +1000,11 @@
           </label>
           <div class="portrait-field" role="group" aria-labelledby="portrait-field-label">
             <span id="portrait-field-label">{{ 'portrait.label' | t }}</span>
-            @defer {
-              <app-portrait-picker
-                [value]="c.portrait"
-                [name]="c.name"
-                (valueChange)="patch(withPortrait($event))"
-              />
-            }
+            <app-portrait-picker
+              [value]="c.portrait"
+              [name]="c.name"
+              (valueChange)="patch(withPortrait($event))"
+            />
           </div>
           <label>
             {{ 'sheet.notes' | t }}

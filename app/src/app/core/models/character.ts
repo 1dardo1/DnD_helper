@@ -4,7 +4,7 @@ import { TempSlot, normalizeCharges, normalizeTempSlots } from '../artificer/tin
 import { normalizeFavorites } from '../combat/favorites';
 import { SummonsState, normalizeSummons } from '../summons/summon-state';
 import { normalizeHpMethod } from '../creation/hp-levels';
-import { normalizePortrait } from '../characters/portrait';
+import { normalizePortrait } from '../characters/portrait-data';
 import { Ability } from './compendium';
 
 /**

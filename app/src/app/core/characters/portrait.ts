@@ -6,18 +6,16 @@
  * crop maths, validation, data URL handling); the canvas work lives in `renderPortrait`.
  */
 
+export { PORTRAIT_MAX_DATA_URL_CHARS, normalizePortrait } from './portrait-data';
+
 /** Largest side of the stored portrait, in px. */
 export const PORTRAIT_SIZE = 320;
 /** Encoder quality (WebP, or JPEG where the browser cannot write WebP). */
 export const PORTRAIT_QUALITY = 0.8;
 /** The original file is refused above this size. */
 export const PORTRAIT_MAX_FILE_BYTES = 15 * 1024 * 1024;
-/** A stored portrait bigger than this (as text) is dropped when loading a character. */
-export const PORTRAIT_MAX_DATA_URL_CHARS = 200_000;
 /** Zoom range of the framing control (1 = the whole short side of the image). */
 export const PORTRAIT_MAX_ZOOM = 4;
-
-const DATA_URL = /^data:image\/(webp|jpeg|png);base64,[A-Za-z0-9+/]+={0,2}$/;
 
 export type PortraitFileProblem = 'format' | 'tooLarge';
 
@@ -29,13 +27,6 @@ export function checkPortraitFile(file: {
   if (!file.type.startsWith('image/')) return 'format';
   if (file.size > PORTRAIT_MAX_FILE_BYTES) return 'tooLarge';
   return null;
-}
-
-/** Anything that is not a small, well-formed image data URL becomes null ("no portrait"). */
-export function normalizePortrait(raw: unknown): string | null {
-  return typeof raw === 'string' && raw.length <= PORTRAIT_MAX_DATA_URL_CHARS && DATA_URL.test(raw)
-    ? raw
-    : null;
 }
 
 /** Approximate size in bytes of the image a data URL carries. */

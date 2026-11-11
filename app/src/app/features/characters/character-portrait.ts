@@ -43,7 +43,7 @@ import { PortraitPicker } from '../../shared/portrait-picker';
         @if (portrait(); as src) {
           <img class="big" [src]="src" [alt]="'portrait.preview' | t: { name: name() }" />
         }
-        @defer (when isOpen()) {
+        @if (isOpen()) {
           <app-portrait-picker
             [value]="portrait()"
             [name]="name()"
