@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-11T20:17:10.538Z",
+  "updatedAt": "2026-11-11T20:17:32.482Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -365,7 +365,7 @@
     "cp": 0,
     "sp": 0,
     "ep": 0,
-    "gp": 65,
+    "gp": 66,
     "pp": 0
   },
   "folder": "Pepo",
