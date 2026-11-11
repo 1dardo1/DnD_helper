@@ -9,6 +9,7 @@ import { ENTRY_TYPES, Entry, EntryType } from '../../core/models/compendium';
 import { SearchDoc, normalise, searchDocs } from './compendium-search';
 import { entrySummary } from './entry-summary';
 import { LoadError } from './load-error';
+import { ScrollTop } from './scroll-top';
 
 /** Results shown per type before "show all". */
 const PREVIEW = 20;
@@ -16,7 +17,7 @@ const PREVIEW = 20;
 /** Searches every type at once (?q=…&text=1); results grouped by type, best matches first. */
 @Component({
   selector: 'app-compendium-search-page',
-  imports: [RouterLink, TranslatePipe, DataNamePipe, LoadError],
+  imports: [RouterLink, TranslatePipe, DataNamePipe, LoadError, ScrollTop],
   template: `
     <p>
       <a routerLink="/compendium">← {{ 'compendium.title' | t }}</a>
@@ -93,6 +94,7 @@ const PREVIEW = 20;
         <p>{{ 'common.noResults' | t }}</p>
       }
     }
+    <app-scroll-top />
   `,
   styles: `
     .controls {
@@ -109,6 +111,25 @@ const PREVIEW = 20;
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
+    }
+    /* phones: the jumps in one row that scrolls sideways (eight buttons in four rows pushed the
+       results below the fold) */
+    @media (max-width: 44.99rem) {
+      .jump {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        margin-inline: -1rem;
+        padding: 0 1rem var(--space-1);
+        scrollbar-width: thin;
+      }
+      .jump button {
+        flex: none;
+        white-space: nowrap;
+      }
+    }
+    /* headings reached from the jumps don't hide under the sticky top bar */
+    section {
+      scroll-margin-top: 5.5rem;
     }
     .entries {
       columns: 2 22rem;

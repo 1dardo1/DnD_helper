@@ -34,7 +34,10 @@ import { FilterBar } from '../../shared/picker/filter-bar';
 import { applyFacets, modeKey } from '../../shared/picker/picker-filters';
 import { sectionsBySpecies } from '../../shared/picker/racial-feats';
 import { normalise } from './compendium-search';
+import { BROWSE_TEXTS } from '../../core/i18n/browse.es';
 import { LoadError } from './load-error';
+import { quickStrip, quickToggle } from './quick-filter';
+import { ScrollTop } from './scroll-top';
 
 /** Types long enough to first choose a group (feats by category, options by group...). */
 const GROUPED: Partial<Record<EntryType, FacetKey>> = {
@@ -84,6 +87,7 @@ const PAGE = 60;
     FilterBar,
     ClassThemeDirective,
     BackgroundEditor,
+    ScrollTop,
   ],
   templateUrl: './entry-list.html',
   styleUrl: './entry-list.scss',
@@ -207,6 +211,18 @@ export class EntryList {
     const keys = this.keys().filter((k) => k !== group || !this.groupLabel());
     return this.labels.facetViews(this.entryType(), this.inGroup(), keys, this.selected());
   });
+
+  /** The most used filter as a strip of chips (spells by level, monsters by rating...). */
+  protected readonly quick = computed(() => quickStrip(this.entryType(), this.facets()));
+
+  protected setQuick(key: string, value: string): void {
+    const selected = value ? quickToggle(this.selected()[key] ?? '', value) : '';
+    this.setParam(key, selected);
+  }
+
+  constructor() {
+    this.i18n.extend(BROWSE_TEXTS);
+  }
 
   protected readonly sorts = computed(() => SORTS[this.entryType()] ?? null);
   protected readonly sort = computed(() => this.params().get('sort') ?? '');

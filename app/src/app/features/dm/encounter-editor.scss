@@ -485,6 +485,18 @@ input.name {
     padding: 0;
     color: var(--danger);
   }
+
+  // phones: name, level and ✕ on one line, the budget under them (the ✕ used to wrap alone)
+  @media (max-width: 44.99rem) {
+    .who {
+      flex-basis: 5rem;
+    }
+    .budget {
+      order: 1;
+      flex-basis: 100%;
+      font-size: var(--fs-sm);
+    }
+  }
 }
 
 // -- monsters -----------------------------------------------------------------------------------

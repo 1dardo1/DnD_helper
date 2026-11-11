@@ -106,14 +106,54 @@
     text-transform: uppercase;
   }
 
+  // phones: still label | value side by side (stacking them doubled the height and pushed the
+  // description below the fold); long labels wrap inside their narrower column
   @media (max-width: 30rem) {
-    grid-template-columns: 1fr;
-    gap: 0;
+    grid-template-columns: minmax(0, 7.5rem) minmax(0, 1fr);
+    gap: var(--space-2) var(--space-3);
+    padding: var(--space-2) var(--space-3);
 
-    dd {
-      margin-bottom: var(--space-2);
+    dt {
+      font-size: var(--fs-sm);
+      line-height: 1.3;
+      padding-top: 0.1em;
     }
   }
+}
+
+// "Concentración", "Ritual" next to a spell's level and school
+.tag {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0 0.55em;
+  font-family: var(--font-title);
+  font-size: var(--fs-sm);
+  color: var(--accent);
+  text-transform: capitalize;
+  border: 1px solid currentColor;
+  border-radius: 0.8em;
+}
+
+// Share / copy link, beside the original page link
+.meta .share {
+  min-height: 0;
+  padding: 0.1rem 0.5rem;
+  font-size: var(--fs-sm);
+}
+
+// touch screens: the small links of the meta line get a finger-sized target
+@media (pointer: coarse) {
+  .meta a,
+  .meta .share {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+  }
+}
+
+// headings reached from "En esta página" don't hide under the sticky top bar
+:host ::ng-deep h2 {
+  scroll-margin-top: 5.5rem;
 }
 
 // Tables inside Markdown descriptions; wide ones scroll instead of widening the page

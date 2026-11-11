@@ -62,6 +62,13 @@
     .desc {
       margin-left: auto;
       font-size: var(--fs-sm);
+
+      // touch screens: a finger-sized target for the small link
+      @media (pointer: coarse) {
+        display: inline-flex;
+        align-items: center;
+        min-height: var(--tap);
+      }
     }
   }
 }

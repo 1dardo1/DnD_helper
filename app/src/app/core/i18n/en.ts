@@ -1340,7 +1340,8 @@ export const en = {
   'picker.sort.crAsc': 'Challenge, easiest first',
   'picker.sort.crDesc': 'Challenge, hardest first',
   'picker.sort.name': 'Name',
-  'monster.crValue': 'CR {cr}',
+  // non-breaking space: "CR" and its number never split across lines
+  'monster.crValue': 'CR {cr}',
   'monster.walkOnly': 'Walking only',
   'monster.legendaryShort': 'L',
   'monster.sense.darkvision': 'Darkvision',

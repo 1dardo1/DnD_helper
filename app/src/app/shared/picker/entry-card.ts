@@ -50,10 +50,13 @@ import { EntryPortrait } from './entry-portrait';
       <span class="kicker">{{ s.kicker }}</span>
     }
     @for (f of s.facts; track f.label) {
-      <span class="fact"
-        ><span class="label">{{ f.label }}</span
-        >{{ f.value }}</span
-      >
+      <!-- an empty fact ("Clases:" of a spell no class list has) says nothing -->
+      @if (f.value) {
+        <span class="fact"
+          ><span class="label">{{ f.label }}</span
+          >{{ f.value }}</span
+        >
+      }
     }
     @if (s.preview) {
       <span class="preview">{{ s.preview }}</span>

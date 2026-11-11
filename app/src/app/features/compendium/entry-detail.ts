@@ -1,5 +1,14 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, inject, input, resource } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  resource,
+  signal,
+  untracked,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
@@ -36,8 +45,12 @@ import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { BackLink } from '../../shared/back-link';
 import { CustomBackgroundPanel } from '../homebrew/custom-background-panel';
 import { AddSpellItem } from './add-spell-item';
+import { BROWSE_TEXTS } from '../../core/i18n/browse.es';
 import { LoadError } from './load-error';
 import { MonsterStatBlock } from './monster-stat-block';
+import { RecentEntries } from './recent-entries';
+import { ScrollTop } from './scroll-top';
+import { SectionJump } from './section-jump';
 
 /** Detail page for any entry, with the fields of its type and links to related entries. */
 import { EntryPortrait } from '../../shared/picker/entry-portrait';
@@ -72,6 +85,8 @@ interface Printing {
     MonsterStatBlock,
     CustomBackgroundPanel,
     AddSpellItem,
+    ScrollTop,
+    SectionJump,
   ],
   templateUrl: './entry-detail.html',
   styleUrl: './entry-detail.scss',
@@ -128,6 +143,39 @@ export class EntryDetail {
     },
   });
   protected readonly preview = plainPreview;
+
+  // -- recently viewed, share -------------------------------------------------------------------
+  private readonly recent = inject(RecentEntries);
+  /** "Compartir" where the device has a share sheet (phones), "Copiar enlace" elsewhere. */
+  protected readonly canShare = typeof navigator !== 'undefined' && !!navigator.share;
+  protected readonly copied = signal(false);
+
+  constructor() {
+    this.i18n.extend(BROWSE_TEXTS);
+    // every page opened goes first in "Vistos hace poco" (the compendium's home)
+    effect(() => {
+      const e = this.entry.value();
+      // untracked: the list it updates must not make this effect run again
+      if (e && !e.custom)
+        untracked(() => this.recent.add({ type: e.type, id: e.id, name: e.name }));
+    });
+  }
+
+  protected async share(e: Entry): Promise<void> {
+    const url = location.href;
+    if (this.canShare) {
+      // closing the share sheet rejects: nothing to do
+      await navigator.share({ title: this.data.name(e.name), url }).catch(() => undefined);
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      this.copied.set(true);
+      setTimeout(() => this.copied.set(false), 2500);
+    } catch {
+      // no clipboard (insecure context): the address bar still has the link
+    }
+  }
 
   /** In alphabetical order of the names shown. */
   protected readonly sortedSubclasses = computed(() =>
