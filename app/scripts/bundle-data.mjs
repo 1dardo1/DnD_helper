@@ -15,3 +15,10 @@ cpSync(join(app, '..', 'data'), join(out, 'data'), {
 mkdirSync(join(out, 'characters'), { recursive: true });
 writeFileSync(join(out, 'characters', 'index.json'), '[]\n');
 console.log(`data/ copied into ${out}`);
+
+// version.json: the commit this site was built from (GitHub Actions sets GITHUB_SHA). The app reads
+// it from the network and compares it with its own APP_COMMIT (Settings → Version): a different
+// commit means a newer version is published than the one on screen.
+const version = { commit: process.env.GITHUB_SHA ?? null, builtAt: new Date().toISOString() };
+writeFileSync(join(out, 'version.json'), JSON.stringify(version) + '\n');
+console.log(`version.json: ${version.commit ?? '(no commit: local build)'}`);

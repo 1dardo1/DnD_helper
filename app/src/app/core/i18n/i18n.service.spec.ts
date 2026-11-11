@@ -5,7 +5,9 @@ import { combatEn } from './combat.en';
 import { combatEs } from './combat.es';
 import { en } from './en';
 import { es } from './es';
-import { I18nService } from './i18n.service';
+import { I18nService, loadDictionary } from './i18n.service';
+import { settingsEn } from './settings.en';
+import { settingsEs } from './settings.es';
 
 describe('I18nService', () => {
   beforeEach(() => localStorage.clear());
@@ -20,6 +22,18 @@ describe('I18nService', () => {
 
   it('has the same keys in both languages', () => {
     expect(Object.keys(es).sort()).toEqual(Object.keys(en).sort());
+  });
+
+  it('the Settings page texts have the same keys in both languages', () => {
+    expect(Object.keys(settingsEs).sort()).toEqual(Object.keys(settingsEn).sort());
+  });
+
+  it('loads a language chunk once and is ready when it is in memory', async () => {
+    const i18n = TestBed.inject(I18nService);
+    TestBed.inject(SettingsService).update({ language: 'en' });
+    await expect(i18n.ready()).resolves.toBeUndefined();
+    await expect(loadDictionary('es')).resolves.toBeUndefined();
+    expect(i18n.t('nav.settings')).toBe('Settings');
   });
 
   it('texts of a lazily loaded part join the dictionary once added', () => {

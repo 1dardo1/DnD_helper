@@ -1,22 +1,19 @@
-import { Component, DestroyRef, computed, effect, inject, signal } from '@angular/core';
+import { DOCUMENT, Component, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ViewportScroller } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterOutlet, Scroll } from '@angular/router';
 
-import { ApkUpdateService } from './core/app-update/apk-update.service';
-import { CharacterStore } from './core/characters/character-store.service';
-import { SyncService } from './core/characters/sync.service';
-import { RepositoryService } from './core/data/repository.service';
-import { DevUpdateService } from './core/dev/dev-update.service';
-import { AppUpdateService } from './core/pwa/app-update.service';
-import { NavHistory } from './core/navigation/nav-history.service';
 import { I18nService, TranslatePipe } from './core/i18n/i18n.service';
+import { NavHistory } from './core/navigation/nav-history.service';
+import { applyAppearance, effectiveTheme } from './core/settings/appearance';
 import { Language, SettingsService } from './core/settings/settings.service';
 import { ApkUpdateNotice } from './shared/apk-update-notice';
+import { BackToTop } from './shell/back-to-top';
+import { ShellStatus } from './shell/shell-status';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, TranslatePipe, ApkUpdateNotice],
+  imports: [RouterOutlet, RouterLink, TranslatePipe, ApkUpdateNotice, BackToTop, ShellStatus],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -40,20 +37,33 @@ export class App {
     return this.nav.find((n) => p === n.path || p.startsWith(n.path + '/'))?.path ?? null;
   });
 
-  protected readonly sync = inject(SyncService);
-  protected readonly store = inject(CharacterStore);
-  protected readonly update = inject(DevUpdateService);
-  protected readonly appUpdate = inject(AppUpdateService);
-  private readonly repo = inject(RepositoryService);
-  /** Local files can't be written: say so instead of "not saved to the cloud". */
-  protected readonly readOnly = computed(() => this.repo.source()?.canWrite === false);
+  /** The device's own preference, for the theme button while the theme is 'auto'. */
+  private readonly prefersDark = signal(false);
+  protected readonly theme = computed(() =>
+    effectiveTheme(this.settings.settings().theme, this.prefersDark()),
+  );
 
   constructor() {
-    effect(() => (document.documentElement.lang = this.language()));
+    const document = inject(DOCUMENT);
+    effect(() => {
+      const s = this.settings.settings();
+      applyAppearance(
+        {
+          theme: s.theme,
+          textSize: s.textSize,
+          reduceMotion: s.reduceMotion,
+          language: s.language,
+        },
+        document,
+      );
+    });
+    const dark =
+      typeof matchMedia === 'function' ? matchMedia('(prefers-color-scheme: dark)') : null;
+    if (dark) {
+      this.prefersDark.set(dark.matches);
+      dark.addEventListener?.('change', (e) => this.prefersDark.set(e.matches));
+    }
     inject(NavHistory); // starts recording the pages visited, for the "back" links
-    void this.store.load();
-    this.sync.start(inject(DestroyRef));
-    void inject(ApkUpdateService).start();
     this.scrollOnNavigation();
     inject(Router)
       .events.pipe(takeUntilDestroyed())
@@ -93,6 +103,11 @@ export class App {
 
   protected setLanguage(language: string): void {
     this.settings.update({ language: language as Language });
+  }
+
+  /** The moon / sun button: the other theme, chosen explicitly (Settings has "automatic"). */
+  protected toggleTheme(): void {
+    this.settings.update({ theme: this.theme() === 'dark' ? 'light' : 'dark' });
   }
 }
 

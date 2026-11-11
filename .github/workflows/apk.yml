@@ -51,9 +51,10 @@ jobs:
 
       - name: Build the web app with the data inside
         # APP_BUILD: the app compares it with the "build: N" line of the release notes to offer
-        # the newer APK (src/app/core/app-update/).
+        # the newer APK (src/app/core/app-update/). APP_COMMIT / APP_BUILT_AT: Settings → Version.
         run: |
-          npx ng build -c production,bundled --define APP_BUILD=${{ github.run_number }}
+          npx ng build -c production,bundled --define APP_BUILD=${{ github.run_number }} \
+            --define "APP_COMMIT='${{ github.sha }}'" --define "APP_BUILT_AT='$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
           node scripts/bundle-data.mjs dist/app/browser
 
       - name: Android project (generated, not kept in the repo)

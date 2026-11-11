@@ -1,4 +1,4 @@
-import { en } from './en';
+import type { en } from './en';
 
 /** Textos de la interfaz en español. Deben estar todas las claves de en.ts. */
 export const es: Record<keyof typeof en, string> = {
@@ -331,6 +331,15 @@ export const es: Record<keyof typeof en, string> = {
   'apkUpdate.dismiss': 'Ahora no',
   'appUpdate.ready': 'Nueva versión disponible',
   'appUpdate.reload': 'Recargar',
+  'shell.nav': 'Secciones',
+  'shell.skip': 'Saltar al contenido',
+  'shell.toTop': 'Volver arriba',
+  'shell.themeToDark': 'Tema oscuro',
+  'shell.themeToLight': 'Tema claro',
+  'title.edit': 'Editar personaje',
+  'title.levelUp': 'Subir de nivel',
+  'title.conflict': 'Dos versiones',
+  'title.sheet': 'Hoja de personaje',
   'sheet.saveNotes': 'Guardar notas',
   'sheet.delete': 'Borrar personaje',
   'sheet.confirmDelete': '¿Borrar a {name}? También se borrará de la nube.',
