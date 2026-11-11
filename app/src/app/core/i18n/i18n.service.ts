@@ -2,23 +2,25 @@ import { Injectable, Pipe, PipeTransform, computed, effect, inject, signal } fro
 
 import { Language, SettingsService } from '../settings/settings.service';
 import type { en } from './en';
+import { es } from './es';
 
 export type TranslationKey = keyof typeof en;
 
 type Dictionary = Readonly<Record<string, string>>;
 
 /**
- * Each language's texts are a chunk of their own (~95 kB each): only the language in use is
- * downloaded, and not as part of the app's first load. The app waits for it before its first
- * render (provideAppInitializer in app.config.ts).
+ * Spanish, the language the app is used in, travels with the first load. English (~90 kB) is a
+ * chunk of its own, downloaded only when chosen; the app waits for it before its first render
+ * (provideAppInitializer in app.config.ts). Measured: making Spanish lazy too delayed the first
+ * render ~350 ms on a slow mobile network (one more request after the app's code), so it isn't.
  */
 const LOADERS: Record<Language, () => Promise<Dictionary>> = {
   en: () => import('./en').then((m) => m.en),
-  es: () => import('./es').then((m) => m.es),
+  es: () => Promise.resolve(es),
 };
 
 /** Dictionaries already in memory, shared by every I18nService (tests register both up front). */
-const loaded = signal<Partial<Record<Language, Dictionary>>>({});
+const loaded = signal<Partial<Record<Language, Dictionary>>>({ es });
 const loading = new Map<Language, Promise<void>>();
 
 /** Makes a dictionary available straight away (test setup: src/test-setup.ts). */

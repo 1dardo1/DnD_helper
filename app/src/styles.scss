@@ -924,14 +924,17 @@ main#main:focus {
   padding: 1rem;
   text-align: center;
   color: var(--cover-ink);
+  // system fonts only: a web font here would start downloading before the app's code and slow it
+  // on a weak connection (measured)
+  font-family: Georgia, 'Times New Roman', serif;
 
   p {
     margin: 0;
   }
 
   .boot-title {
-    font-family: var(--font-initial);
     font-size: 2rem;
+    font-variant: small-caps;
     color: #e8cf96;
   }
 

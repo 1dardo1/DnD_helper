@@ -330,7 +330,8 @@ main {
 }
 
 // Wide: everything on one row. The ribbons keep their width and the status wraps in what's left.
-@media (min-width: 75rem) {
+// (from 84rem: below it the status was squeezed into three lines next to the theme button)
+@media (min-width: 84rem) {
   .topbar {
     grid-template-columns: auto 1fr minmax(0, auto) auto auto;
   }
@@ -341,7 +342,7 @@ main {
 }
 
 // Tablets / narrow desktops: brand, status and language on top, ribbons on a second row.
-@media (min-width: #{$phone + 0.01rem}) and (max-width: 74.99rem) {
+@media (min-width: #{$phone + 0.01rem}) and (max-width: 83.99rem) {
   .topbar {
     grid-template-columns: auto 1fr auto auto;
     grid-template-areas:

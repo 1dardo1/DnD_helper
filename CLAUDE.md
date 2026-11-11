@@ -77,10 +77,13 @@ defecto. El usuario lo pidió expresamente, así que aquí sí se puede fijar `e
 
 ## Riesgos conocidos (revisar de vez en cuando)
 
-1. **Presupuestos de build** (`app/angular.json`): bundle inicial ~574 kB (aviso 600 kB, error
-   1 MB) y creciendo ~10 kB por función grande; `character-create.scss` (12,1 kB) y
-   `character-sheet.scss` (12,4 kB) superan el aviso de 12 kB (error a 20 kB). Si crecen: carga
-   diferida (como el PDF) o partir componentes, no subir límites a ciegas.
+1. **Presupuestos de build** (`app/angular.json`): bundle inicial ~455 kB (aviso 600 kB, error
+   1 MB): casi todo es Angular + `es.ts` (~96 kB). El inglés (`en.ts`) es un chunk aparte y el
+   estado de sincronización de la barra (`shell/shell-status.ts`, con el almacén de personajes) va
+   en `@defer`: **no importes servicios de personajes/encuentros desde `app.ts`** o vuelven al
+   inicial. Textos de una zona con chunk propio: `I18nService.extend()` (`combat.*.ts`,
+   `settings.*.ts`). `character-create.scss` (12,2 kB) supera el aviso de 12 kB (error a 20 kB).
+   Si crecen: carga diferida (como el PDF) o partir componentes, no subir límites a ciegas.
 2. **Caché del cliente**: la PWA y la APK muestran versiones viejas hasta recargar/actualizar.
    Ante "sigue igual", comprueba primero que el usuario tiene la última versión.
 3. **Token de GitHub del usuario**: caduca (PAT); la sincronización deja de funcionar. Síntoma:
