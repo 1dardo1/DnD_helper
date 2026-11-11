@@ -95,11 +95,16 @@
   background: var(--paper);
   border-bottom: 1px solid var(--line);
 
+  // name over its count: at 390 px "Adicionales 2" in one line lost the count
   button {
     flex: 1 1 0;
     min-width: 0;
     min-height: var(--tap, 2.75rem);
-    padding: 0.2rem 0.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.15rem 0.2rem;
     font-size: var(--fs-sm);
     line-height: 1.1;
     white-space: nowrap;

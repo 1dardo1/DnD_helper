@@ -31,11 +31,15 @@ import {
   visibleTabs,
   writeLastTab,
 } from '../../core/characters/sheet-tabs';
+import { filterGroups, warningFix } from '../../core/characters/sheet-helpers';
 import { SyncService } from '../../core/characters/sync.service';
 import { browserStorage, readEditDraft, restoreEditDraft } from '../../core/creation/edit-draft';
+import { sessionMemory, writeStep } from '../../core/creation/wizard-memory';
 import { DataNamePipe, DataTextPipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TermDomain, TermPipe, term } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
+import { sheetEn } from '../../core/i18n/sheet.en';
+import { sheetEs } from '../../core/i18n/sheet.es';
 import { Character } from '../../core/models/character';
 import { computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
@@ -56,6 +60,12 @@ import { TraitRestDialog } from './trait-rest-dialog';
 import { pickValueLabel } from '../../shared/trait-picks';
 import { HomebrewBadge } from '../homebrew/homebrew-badge';
 import { SummonsPage } from '../summons/summons-page';
+
+/** The sheet's own UI texts (core/i18n/sheet.*.ts), loaded with its chunk. */
+const SHEET_TEXTS = { en: sheetEn, es: sheetEs };
+
+/** Notes are saved this long after the last key press. */
+const NOTES_DELAY_MS = 1200;
 
 /** The character sheet: everything computed by the rules engine from the character's choices. */
 @Component({
@@ -80,7 +90,7 @@ import { SummonsPage } from '../summons/summons-page';
     SummonsPage,
   ],
   templateUrl: './character-sheet.html',
-  styleUrl: './character-sheet.scss',
+  styleUrls: ['./character-sheet.scss', './character-sheet-layout.scss'],
   host: { '(document:click)': 'outsideClick($event)' },
 })
 export class CharacterSheet {
@@ -102,12 +112,18 @@ export class CharacterSheet {
 
   /** Notes being edited (null = not touched yet, show the saved ones). */
   protected readonly notesDraft = signal<string | null>(null);
+  /** Where the notes are: waiting to be saved, being saved, saved (null: untouched). */
+  protected readonly notesState = signal<'pending' | 'saving' | 'saved' | null>(null);
+  private notesTimer: ReturnType<typeof setTimeout> | null = null;
 
   protected readonly abilities = ABILITIES;
 
   constructor() {
+    this.i18n.extend(SHEET_TEXTS);
     this.initTabs();
     this.initCombatTab();
+    // leaving the sheet with notes still waiting: save them now
+    inject(DestroyRef).onDestroy(() => this.flushNotes());
   }
 
   // -- the combat tab: its own chunk (a dynamic import), so neither the first load nor this
@@ -260,14 +276,17 @@ export class CharacterSheet {
   protected readonly tab = computed(() => resolveTab(this.requested(), this.tabs()));
   protected readonly tabLink = tabLink;
   protected readonly allTabs = SHEET_TABS;
+  private readonly loaded = computed(() => !!this.view.value());
   private readonly tabsReady = computed(
     () => !!this.view.value() && !this.summonCatalog.isLoading(),
   );
 
   private initTabs(): void {
-    this.router.events
-      .pipe(takeUntilDestroyed())
-      .subscribe((e) => e instanceof NavigationEnd && this.url.set(e.urlAfterRedirects));
+    this.router.events.pipe(takeUntilDestroyed()).subscribe((e) => {
+      if (!(e instanceof NavigationEnd)) return;
+      this.url.set(e.urlAfterRedirects);
+      this.menuOpen.set(false);
+    });
 
     // The bare URL goes to the last tab used; a tab this character doesn't have, to the summary.
     // Replacing the URL keeps the back button from bouncing.
@@ -293,6 +312,8 @@ export class CharacterSheet {
     // keep the active tab in view in the (scrolling) strip of a phone
     effect(() => {
       this.tab();
+      // the bar and the tabs only exist once the character is loaded: measure them then too
+      this.loaded();
       setTimeout(() => {
         const strip = this.host.nativeElement.querySelector<HTMLElement>('.tabs');
         const on = strip?.querySelector<HTMLElement>('[aria-current]');
@@ -352,13 +373,29 @@ export class CharacterSheet {
     if (v) this.view.set({ ...v, record: { ...v.record, character } });
   }
 
-  protected async saveNotes(): Promise<void> {
-    const record = this.view.value()?.record;
+  /** Typing in the notes: they save themselves a moment after the last key. */
+  protected typeNotes(text: string): void {
+    this.notesDraft.set(text);
+    this.notesState.set('pending');
+    if (this.notesTimer) clearTimeout(this.notesTimer);
+    this.notesTimer = setTimeout(() => this.flushNotes(), NOTES_DELAY_MS);
+  }
+
+  protected flushNotes(): void {
+    if (this.notesTimer) clearTimeout(this.notesTimer);
+    this.notesTimer = null;
+    const v = this.view.value();
     const notes = this.notesDraft();
-    if (!record || notes === null) return;
-    await this.sync.save({ ...record.character, notes });
-    this.notesDraft.set(null);
-    this.view.reload();
+    if (!v || notes === null || this.notesState() !== 'pending') return;
+    if (notes === v.record.character.notes) {
+      this.notesState.set('saved');
+      return;
+    }
+    this.notesState.set('saving');
+    this.saveCharacter({ ...v.record.character, notes });
+    void this.stateSaves.then(() => {
+      if (this.notesState() === 'saving') this.notesState.set('saved');
+    });
   }
 
   private stateSaves = Promise.resolve();
@@ -391,6 +428,7 @@ export class CharacterSheet {
 
   protected async remove(): Promise<void> {
     const record = this.view.value()?.record;
+    this.menuOpen.set(false);
     if (!record) return;
     if (!confirm(this.i18n.t('sheet.confirmDelete', { name: record.character.name }))) return;
     await this.sync.remove(record.character.id);
@@ -425,6 +463,51 @@ export class CharacterSheet {
 
   protected className(sheet: Sheet, id: string): string {
     return this.data.name(sheet.classes.find((c) => c.id === id)?.name ?? id);
+  }
+
+  /** Where a "To review" warning gets fixed (a step of the editor, or a tab of this sheet). */
+  protected readonly warningFix = warningFix;
+
+  /** Opens the editor on the step that fixes the warning. */
+  protected fixInEditor(step: string): void {
+    const id = this.id();
+    writeStep(sessionMemory(), id, step);
+    void this.router.navigate(['/characters', id, 'edit']);
+  }
+
+  // -- quick filter of the features tab --
+
+  protected readonly featureQuery = signal('');
+  /** "Open all" in the features tab (a search opens what it finds, too). */
+  protected readonly featuresOpen = signal(false);
+  private featureText = (f: SheetFeature): string[] => [
+    f.name,
+    this.data.name(f.name),
+    this.data.text(f.description),
+  ];
+  protected readonly featureCount = computed(() => this.view.value()?.sheet.features.length ?? 0);
+  protected readonly shownClassGroups = computed(() =>
+    filterGroups(this.classGroups(), this.featureQuery(), this.featureText),
+  );
+  protected readonly shownSpeciesGroups = computed(() =>
+    filterGroups(this.speciesGroups(), this.featureQuery(), this.featureText),
+  );
+  protected readonly shownOtherGroups = computed(() =>
+    filterGroups(this.otherGroups(), this.featureQuery(), this.featureText),
+  );
+  protected readonly featuresFound = computed(
+    () =>
+      this.shownClassGroups().length +
+        this.shownSpeciesGroups().length +
+        this.shownOtherGroups().length >
+      0,
+  );
+
+  /** Summary on phones: the chips that jump to a part of the (long) page. */
+  protected jumpTo(id: string): void {
+    this.host.nativeElement
+      .querySelector(`#${id}`)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   protected warning(w: SheetWarning): string {
