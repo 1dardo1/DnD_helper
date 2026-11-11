@@ -3,7 +3,7 @@
   "id": "caliban-1794395763518",
   "name": "Caliban",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-11T11:20:27.384Z",
+  "updatedAt": "2026-11-11T11:25:00.157Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "reborn",
@@ -167,7 +167,7 @@
     "spellSwap": {}
   },
   "notes": "Lvl 4 feat actor",
-  "folder": null,
+  "folder": "Pepo",
   "money": {
     "pp": 0,
     "gp": 35,
