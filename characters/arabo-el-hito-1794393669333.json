@@ -3,7 +3,7 @@
   "id": "arabo-el-hito-1794393669333",
   "name": "Arabo, el hito",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-11T10:41:09.334Z",
+  "updatedAt": "2026-11-11T10:41:26.913Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "goliath",
@@ -231,7 +231,7 @@
     "spellSwap": {}
   },
   "notes": "Al hacer lvl up al 4 se debería elegir cold caster ",
-  "folder": null,
+  "folder": "Pepo",
   "money": {
     "pp": 0,
     "gp": 14,
