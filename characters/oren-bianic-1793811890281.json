@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-11T20:17:32.482Z",
+  "updatedAt": "2026-11-11T20:48:36.149Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -296,7 +296,7 @@
     "hpCurrent": null,
     "hpTemp": 0,
     "spentSlots": [
-      1,
+      0,
       0,
       0,
       0,
@@ -309,7 +309,7 @@
     "resources": {
       "artificer:eldritch-cannon": 1
     },
-    "pactSlotsSpent": 0,
+    "pactSlotsSpent": 1,
     "hitDiceSpent": {},
     "deathSaves": {
       "successes": 0,
