@@ -86,6 +86,11 @@ export function optionSummary(markdown: string, max = 110): string {
       flex: none;
       margin-top: 0.2rem;
     }
+    /* the group is full: this one can't be picked until another is dropped */
+    .pick:has(input:disabled) {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
     .txt {
       display: grid;
       gap: 0.1rem;

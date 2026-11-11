@@ -357,14 +357,17 @@
                   />
                 } @else {
                   @let v = optionView(og.options, g.level, c.choices.options);
+                  @let full = isFull(og, taken);
                   <details [open]="!og.uncounted">
                     <summary>{{ 'levelUp.showOptions' | t: { count: v.shown.length } }}</summary>
                     @for (o of v.shown; track o.id) {
                       @let lock = optionLocks(o, g.level, og.options, c.choices.options);
                       @let note = optionNote(o, og.options);
+                      @let checked = c.choices.options.includes(o.id);
                       <app-option-row
                         [option]="o"
-                        [checked]="c.choices.options.includes(o.id)"
+                        [checked]="checked"
+                        [disabled]="full && !checked"
                         [issue]="lock.level > 0 || lock.requires.length > 0"
                         [warning]="
                           lock.level > 0 || lock.requires.length > 0
