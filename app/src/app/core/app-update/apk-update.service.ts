@@ -52,9 +52,13 @@ interface StoredState {
  */
 @Injectable({ providedIn: 'root' })
 export class ApkUpdateService {
-  private readonly env = inject(APK_UPDATE_ENV);
+  readonly env = inject(APK_UPDATE_ENV);
   private readonly latest = signal<ApkRelease | null>(null);
   private readonly dismissed = signal<number | null>(null);
+  /** When GitHub last answered (ms), for Settings → Version. */
+  readonly checkedAt = signal<number | null>(null);
+  /** The build the "android-latest" release holds, whatever this APK's build is. */
+  readonly latestRelease = this.latest.asReadonly();
 
   /** The newer release to offer, or null. */
   readonly available = computed(() => {
@@ -65,12 +69,13 @@ export class ApkUpdateService {
   });
 
   /** Looks for a new version (does nothing outside the Android app or without a build number). */
-  async start(now = Date.now()): Promise<void> {
+  async start(now = Date.now(), force = false): Promise<void> {
     if (!this.env.native || this.env.build === null) return;
     const state = readJson<StoredState>(STATE_KEY) ?? {};
     if (state.latest) this.latest.set(state.latest);
     if (typeof state.dismissed === 'number') this.dismissed.set(state.dismissed);
-    if (!checkDue(state.checkedAt, now)) return;
+    if (typeof state.checkedAt === 'number') this.checkedAt.set(state.checkedAt);
+    if (!force && !checkDue(state.checkedAt, now)) return;
     try {
       const res = await fetch(RELEASE_API, {
         headers: { Accept: 'application/vnd.github+json' },
@@ -79,10 +84,16 @@ export class ApkUpdateService {
       if (!res.ok) return;
       const latest = parseRelease(await res.json());
       this.latest.set(latest);
+      this.checkedAt.set(now);
       this.save({ checkedAt: now, latest: latest ?? undefined });
     } catch {
       // Offline, timeout or GitHub down: try again next time the app opens.
     }
+  }
+
+  /** Asks GitHub now, even if it was asked today (Settings → "Check for updates"). */
+  checkNow(now = Date.now()): Promise<void> {
+    return this.start(now, true);
   }
 
   /** Hides the notice for this release; a later one shows it again. */

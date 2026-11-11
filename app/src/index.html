@@ -21,6 +21,17 @@
     />
   </head>
   <body>
-    <app-root></app-root>
+    <!-- shown until the app draws its first page (Angular replaces it); main.ts marks a failure -->
+    <app-root>
+      <div id="boot" role="status" aria-live="polite">
+        <p class="boot-title">D&amp;D Helper</p>
+        <p class="boot-wait">Abriendo el diario… · Opening the journal…</p>
+        <p class="boot-failed">
+          No se pudo abrir la app · The app could not start.
+          <a href="">Recargar · Reload</a>
+        </p>
+      </div>
+    </app-root>
+    <noscript>D&amp;D Helper necesita JavaScript · needs JavaScript.</noscript>
   </body>
 </html>

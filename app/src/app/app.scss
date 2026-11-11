@@ -39,10 +39,10 @@ $wide: 60rem;
   top: 0;
   z-index: 10;
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
-  grid-template-areas: 'brand nav sync lang';
+  grid-template-columns: auto 1fr auto auto auto;
+  grid-template-areas: 'brand nav sync theme lang';
   align-items: start;
-  column-gap: 1rem;
+  column-gap: 0.75rem;
   padding: 0.45rem max(1rem, calc((100% - var(--content-width)) / 2)) 0.55rem;
   color: var(--cover-ink);
   background-color: var(--cover);
@@ -201,42 +201,37 @@ nav {
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.25rem 0.6rem;
+  // the state's row keeps its height while its code arrives (no jump of the page)
+  min-height: 2rem;
   min-width: 0;
+}
 
-  small {
-    color: color-mix(in srgb, var(--cover-ink) 85%, transparent);
-    font-size: 0.85rem;
-    font-style: italic;
-    line-height: 1.2;
+// light / dark journal: a moon on the light cover, a sun on the dark one
+.theme {
+  grid-area: theme;
+  align-self: center;
+  width: 2.5rem;
+  min-height: 2.25rem;
+  padding: 0;
+  color: #e8cf96;
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(232 207 150 / 0.5);
+  box-shadow: none;
+  --icon: #{nb.svg("<path d='M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z'/>")};
+
+  &[data-theme-now='dark'] {
+    --icon: #{nb.svg(
+        "<circle cx='12' cy='12' r='4'/><path d='M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.4 1.4M17.6 17.6 19 19M5 19l1.4-1.4M17.6 6.4 19 5'/>"
+      )};
   }
 
-  // Git's reasons can be long: one line here, the rest on hover.
-  .update-message {
-    overflow: hidden;
-    max-width: 14rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  &::before {
+    @include nb.icon(var(--icon), 1.2rem);
   }
 
-  a {
-    color: #f3c46b;
-    font-weight: 700;
-  }
-
-  button {
-    min-height: 2rem;
-    padding: 0.1rem 0.7rem;
-    font-size: 0.9rem;
-    color: var(--cover-ink);
-    background: rgb(255 255 255 / 0.06);
-    border: 1px solid rgb(232 207 150 / 0.5);
-    box-shadow: inset 0 0 0 2px rgb(0 0 0 / 0.2);
-
-    &:hover:not(:disabled) {
-      background: rgb(255 255 255 / 0.14);
-      border-color: rgb(232 207 150 / 0.8);
-    }
+  &:hover:not(:disabled) {
+    color: #f3dca8;
+    background: rgb(255 255 255 / 0.14);
   }
 }
 
@@ -337,7 +332,7 @@ main {
 // Wide: everything on one row. The ribbons keep their width and the status wraps in what's left.
 @media (min-width: 75rem) {
   .topbar {
-    grid-template-columns: auto 1fr minmax(0, auto) auto;
+    grid-template-columns: auto 1fr minmax(0, auto) auto auto;
   }
 
   nav {
@@ -348,10 +343,10 @@ main {
 // Tablets / narrow desktops: brand, status and language on top, ribbons on a second row.
 @media (min-width: #{$phone + 0.01rem}) and (max-width: 74.99rem) {
   .topbar {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr auto auto;
     grid-template-areas:
-      'brand sync lang'
-      'nav nav nav';
+      'brand sync theme lang'
+      'nav nav nav nav';
     row-gap: 0.35rem;
   }
 
@@ -373,7 +368,7 @@ main {
     grid-template-columns: 1fr auto;
     grid-template-areas:
       'brand lang'
-      'sync sync';
+      'sync theme';
     padding: 0.5rem 1rem 0.65rem;
     row-gap: 0.3rem;
   }
@@ -388,6 +383,14 @@ main {
 
   .sync {
     justify-content: space-between;
+
+    > * {
+      flex: 1 1 auto;
+    }
+  }
+
+  .theme {
+    justify-self: end;
   }
 
   nav {

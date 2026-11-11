@@ -1,5 +1,7 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
 
+import { TextSize, Theme, normalizeAppearance } from './appearance';
+
 export type Language = 'es' | 'en';
 
 export interface Settings {
@@ -10,6 +12,12 @@ export interface Settings {
   branch: string;
   /** Shown next to each saved version ("Móvil de Lucía", "PC de Lucía"...), e.g. when resolving a conflict. */
   deviceName: string;
+  /** Light or dark journal; 'auto' follows the device. */
+  theme: Theme;
+  /** Scales every text (and the spacing measured in rem) of the app. */
+  textSize: TextSize;
+  /** No transitions or smooth scrolling, even if the device doesn't ask for it. */
+  reduceMotion: boolean;
 }
 
 const STORAGE_KEY = 'dnd-helper.settings';
@@ -21,12 +29,15 @@ export const DEFAULT_SETTINGS: Settings = {
   repo: 'DnD_helper',
   branch: 'claude/practical-ride-qnr51a',
   deviceName: '',
+  theme: 'auto',
+  textSize: 'normal',
+  reduceMotion: false,
 };
 
 /** User settings, kept in this browser's localStorage (they never leave the device). */
 @Injectable({ providedIn: 'root' })
 export class SettingsService {
-  private readonly state = signal<Settings>(load());
+  private readonly state = signal<Settings>(readStoredSettings());
 
   readonly settings = this.state.asReadonly();
   readonly language = computed(() => this.state().language);
@@ -45,13 +56,16 @@ export class SettingsService {
   }
 }
 
-function load(): Settings {
+/** The settings saved on this device (defaults for what's missing or unreadable). */
+export function readStoredSettings(): Settings {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return { ...DEFAULT_SETTINGS };
     // dataSource was a setting in older versions; the source is chosen automatically now.
     const { dataSource: _, ...stored } = JSON.parse(raw);
-    return { ...DEFAULT_SETTINGS, ...stored };
+    const s: Settings = { ...DEFAULT_SETTINGS, ...stored };
+    if (s.language !== 'es' && s.language !== 'en') s.language = DEFAULT_SETTINGS.language;
+    return { ...s, ...normalizeAppearance(s) };
   } catch {
     return { ...DEFAULT_SETTINGS };
   }

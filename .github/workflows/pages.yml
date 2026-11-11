@@ -39,7 +39,10 @@ jobs:
       - run: npm run check-glossary
       - run: npm test
       - name: Build (with the repo name as base path)
-        run: npx ng build -c production,bundled --base-href "/${{ github.event.repository.name }}/"
+        # APP_COMMIT / APP_BUILT_AT: Settings → Version shows them (src/app/core/app-update/app-version.ts)
+        run: |
+          npx ng build -c production,bundled --base-href "/${{ github.event.repository.name }}/" \
+            --define "APP_COMMIT='${{ github.sha }}'" --define "APP_BUILT_AT='$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
       - run: node scripts/bundle-data.mjs dist/app/browser
       - name: Monster pictures (only on the web, not in the APK; see media/monsters/README.md)
         # media/monsters/ -> <site>/monsters/: the app (web and Android) loads them from here

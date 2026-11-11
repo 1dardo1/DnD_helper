@@ -1,8 +1,9 @@
+<button type="button" class="skip-link" (click)="main.focus()">{{ 'shell.skip' | t }}</button>
 <header class="topbar">
   <a class="brand" routerLink="/compendium" [attr.aria-label]="'app.home' | t" (click)="toTop()">{{
     'app.title' | t
   }}</a>
-  <nav>
+  <nav [attr.aria-label]="'shell.nav' | t">
     @for (item of nav; track item.path) {
       <a
         [routerLink]="item.path"
@@ -15,49 +16,19 @@
     }
   </nav>
   <div class="sync" role="status">
-    @if (readOnly()) {
-      <small>{{ 'sync.readOnly' | t }}</small>
-    } @else {
-      @switch (sync.state()) {
-        @case ('syncing') {
-          <small>{{ 'sync.syncing' | t }}</small>
-        }
-        @case ('offline') {
-          <small>{{ 'sync.offline' | t }}</small>
-        }
-        @case ('error') {
-          <small [title]="sync.lastError() ?? ''">{{ 'sync.error' | t }}</small>
-        }
-        @default {
-          @if (store.pending()) {
-            <small>{{ 'sync.pending' | t: { count: store.pending() } }}</small>
-          } @else if (!store.conflicts().length) {
-            <small>{{ 'sync.ok' | t }}</small>
-          }
-        }
-      }
-      @if (store.conflicts().length) {
-        <a routerLink="/characters"
-          ><small>{{ 'sync.conflicts' | t: { count: store.conflicts().length } }}</small></a
-        >
-      }
-      <button type="button" (click)="sync.sync()" [disabled]="sync.state() === 'syncing'">
-        {{ 'sync.now' | t }}
-      </button>
-    }
-    @if (appUpdate.ready()) {
-      <small>{{ 'appUpdate.ready' | t }}</small>
-      <button type="button" (click)="appUpdate.reload()">{{ 'appUpdate.reload' | t }}</button>
-    }
-    @if (update.available()) {
-      @if (update.message()) {
-        <small class="update-message" [title]="update.message()">{{ update.message() }}</small>
-      }
-      <button type="button" (click)="update.run()" [disabled]="update.updating()">
-        {{ (update.updating() ? 'update.running' : 'update.button') | t }}
-      </button>
+    <!-- sync state and update buttons: loaded once the first page is on screen (shell-status.ts) -->
+    @defer (on idle) {
+      <app-shell-status />
     }
   </div>
+  <button
+    type="button"
+    class="theme"
+    [attr.data-theme-now]="theme()"
+    (click)="toggleTheme()"
+    [attr.aria-label]="(theme() === 'dark' ? 'shell.themeToLight' : 'shell.themeToDark') | t"
+    [title]="(theme() === 'dark' ? 'shell.themeToLight' : 'shell.themeToDark') | t"
+  ></button>
   <select
     class="lang"
     [value]="language()"
@@ -69,7 +40,11 @@
   </select>
 </header>
 
-<main class="page">
-  <app-apk-update-notice />
+<main class="page" id="main" tabindex="-1" #main>
+  @defer (on idle) {
+    <app-apk-update-notice />
+  }
   <router-outlet />
 </main>
+
+<app-back-to-top />

@@ -85,17 +85,27 @@ export class CompendiumService {
     await this.db.clear('compendium');
   }
 
+  /**
+   * With data already on the device, how long the network gets to answer data/meta.json before
+   * the device's copy is used: a weak connection (one bar, a crowded Wi-Fi) shouldn't keep every
+   * page waiting. A later answer is still saved, for the next start.
+   */
+  metaTimeoutMs = 4000;
+
   private async loadMeta(): Promise<DataMeta> {
     const source = this.repo.source();
     if (source) {
+      const network = source.readJson<DataMeta>('data/meta.json');
+      network.catch(() => undefined); // handled below; not an "uncaught" error meanwhile
+      const cached = await this.db.get<DataMeta>('compendium', 'meta');
       try {
-        const meta = await source.readJson<DataMeta>('data/meta.json');
+        const meta = cached ? await withTimeout(network, this.metaTimeoutMs) : await network;
         await this.db.put('compendium', 'meta', meta);
         this.offline.set(false);
         return meta;
       } catch (e) {
-        const cached = await this.db.get<DataMeta>('compendium', 'meta');
         if (cached) {
+          network.then((m) => this.db.put('compendium', 'meta', m)).catch(() => undefined);
           this.offline.set(true);
           return cached;
         }
@@ -131,4 +141,21 @@ export class CompendiumService {
       throw e;
     }
   }
+}
+
+/** The promise's value, or a rejection once `ms` have passed without one. */
+export function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(`no answer in ${ms} ms`)), ms);
+    p.then(
+      (v) => {
+        clearTimeout(timer);
+        resolve(v);
+      },
+      (e) => {
+        clearTimeout(timer);
+        reject(e);
+      },
+    );
+  });
 }

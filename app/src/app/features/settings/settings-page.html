@@ -1,90 +1,269 @@
 <h1>{{ 'settings.title' | t }}</h1>
 
-<form (ngSubmit)="save()">
-  <label>
-    {{ 'settings.language' | t }}
-    <select name="language" [(ngModel)]="form.language">
-      <option value="es">{{ 'lang.es' | t }}</option>
-      <option value="en">{{ 'lang.en' | t }}</option>
-    </select>
-  </label>
+<section aria-labelledby="appearance-title">
+  <h2 id="appearance-title">{{ 'settings.sec.appearance' | t }}</h2>
+  <p class="help">{{ 'settings.appearanceHelp' | t }}</p>
+  <div class="fields">
+    <label>
+      {{ 'settings.language' | t }}
+      <select [value]="current().language" (change)="setLanguage($any($event.target).value)">
+        <option value="es">{{ 'lang.es' | t }}</option>
+        <option value="en">{{ 'lang.en' | t }}</option>
+      </select>
+    </label>
 
-  <label>
-    {{ 'settings.deviceName' | t }}
-    <input name="deviceName" [(ngModel)]="form.deviceName" />
-    <small>{{ 'settings.deviceNameHelp' | t }}</small>
-  </label>
+    <fieldset class="choices">
+      <legend>{{ 'settings.theme' | t }}</legend>
+      @for (theme of themes; track theme) {
+        <label class="choice">
+          <input
+            type="radio"
+            name="theme"
+            [value]="theme"
+            [checked]="current().theme === theme"
+            (change)="setAppearance({ theme })"
+          />
+          {{ 'settings.theme.' + theme | t }}
+        </label>
+      }
+    </fieldset>
 
-  <label>
-    {{ 'settings.token' | t }}
-    <input name="githubToken" type="password" autocomplete="off" [(ngModel)]="form.githubToken" />
-    <small>{{ 'settings.tokenHelp' | t }}</small>
-  </label>
-  <label>
-    {{ 'settings.owner' | t }}
-    <input name="owner" [(ngModel)]="form.owner" />
-  </label>
-  <label>
-    {{ 'settings.repo' | t }}
-    <input name="repo" [(ngModel)]="form.repo" />
-  </label>
-  <label>
-    {{ 'settings.branch' | t }}
-    <input name="branch" [(ngModel)]="form.branch" />
-  </label>
+    <fieldset class="choices">
+      <legend>{{ 'settings.textSize' | t }}</legend>
+      @for (size of textSizes; track size) {
+        <label class="choice" [attr.data-size]="size">
+          <input
+            type="radio"
+            name="textSize"
+            [value]="size"
+            [checked]="current().textSize === size"
+            (change)="setAppearance({ textSize: size })"
+          />
+          <span class="sample" aria-hidden="true">Aa</span>
+          {{ 'settings.textSize.' + size | t }}
+        </label>
+      }
+    </fieldset>
 
-  <div class="row">
-    <button type="submit">{{ 'common.save' | t }}</button>
-    <button type="button" (click)="test()">{{ 'settings.test' | t }}</button>
-    <button type="button" (click)="refreshData()">{{ 'settings.refreshData' | t }}</button>
+    <label class="check">
+      <input
+        type="checkbox"
+        [checked]="current().reduceMotion"
+        (change)="setAppearance({ reduceMotion: $any($event.target).checked })"
+      />
+      <span>
+        {{ 'settings.reduceMotion' | t }}
+        <small>{{ 'settings.reduceMotionHelp' | t }}</small>
+      </span>
+    </label>
   </div>
+</section>
 
-  <fieldset>
-    <legend>{{ 'settings.vault.title' | t }}</legend>
-    @if (form.githubToken) {
-      <small>{{ 'settings.vault.storeHelp' | t: { min: minPassword } }}</small>
-      <label>
-        {{ 'settings.vault.password' | t }}
-        <input name="password" type="password" autocomplete="new-password" [(ngModel)]="password" />
-      </label>
-      <label>
-        {{ 'settings.vault.passwordAgain' | t }}
-        <input
-          name="passwordAgain"
-          type="password"
-          autocomplete="new-password"
-          [(ngModel)]="passwordAgain"
-        />
-      </label>
-      <div class="row">
-        <button type="button" (click)="storeEncrypted()">{{ 'settings.vault.store' | t }}</button>
-      </div>
-    } @else if (encrypted()) {
-      <small>{{ 'settings.vault.unlockHelp' | t }}</small>
-      <label>
-        {{ 'settings.vault.password' | t }}
-        <input
-          name="password"
-          type="password"
-          autocomplete="current-password"
-          [(ngModel)]="password"
-        />
-      </label>
-      <div class="row">
-        <button type="button" (click)="unlock()">{{ 'settings.vault.unlock' | t }}</button>
-      </div>
-    } @else {
-      <small>{{ 'settings.vault.none' | t }}</small>
+<section aria-labelledby="github-title">
+  <h2 id="github-title">{{ 'settings.sec.github' | t }}</h2>
+  <p class="help">{{ 'settings.githubHelp' | t }}</p>
+  <form (ngSubmit)="save()" class="fields">
+    <label>
+      {{ 'settings.deviceName' | t }}
+      <input name="deviceName" [(ngModel)]="form.deviceName" />
+      <small>{{ 'settings.deviceNameHelp' | t }}</small>
+    </label>
+
+    <label>
+      {{ 'settings.token' | t }}
+      <input name="githubToken" type="password" autocomplete="off" [(ngModel)]="form.githubToken" />
+      <small>{{ 'settings.tokenHelp' | t }}</small>
+    </label>
+    <label>
+      {{ 'settings.owner' | t }}
+      <input name="owner" [(ngModel)]="form.owner" />
+    </label>
+    <label>
+      {{ 'settings.repo' | t }}
+      <input name="repo" [(ngModel)]="form.repo" />
+    </label>
+    <label>
+      {{ 'settings.branch' | t }}
+      <input name="branch" [(ngModel)]="form.branch" />
+    </label>
+
+    <div class="row">
+      <button type="submit" class="primary">{{ 'common.save' | t }}</button>
+      <button type="button" (click)="test()">{{ 'settings.test' | t }}</button>
+    </div>
+
+    <fieldset>
+      <legend>{{ 'settings.vault.title' | t }}</legend>
+      @if (form.githubToken) {
+        <small>{{ 'settings.vault.storeHelp' | t: { min: minPassword } }}</small>
+        <label>
+          {{ 'settings.vault.password' | t }}
+          <input
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            [(ngModel)]="password"
+          />
+        </label>
+        <label>
+          {{ 'settings.vault.passwordAgain' | t }}
+          <input
+            name="passwordAgain"
+            type="password"
+            autocomplete="new-password"
+            [(ngModel)]="passwordAgain"
+          />
+        </label>
+        <div class="row">
+          <button type="button" (click)="storeEncrypted()">{{ 'settings.vault.store' | t }}</button>
+        </div>
+      } @else if (encrypted()) {
+        <small>{{ 'settings.vault.unlockHelp' | t }}</small>
+        <label>
+          {{ 'settings.vault.password' | t }}
+          <input
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            [(ngModel)]="password"
+          />
+        </label>
+        <div class="row">
+          <button type="button" (click)="unlock()">{{ 'settings.vault.unlock' | t }}</button>
+        </div>
+      } @else {
+        <small>{{ 'settings.vault.none' | t }}</small>
+      }
+    </fieldset>
+
+    @if (message()) {
+      <p role="status" class="message">{{ message() }}</p>
     }
-  </fieldset>
+  </form>
+</section>
 
-  @if (message()) {
-    <p role="status">{{ message() }}</p>
+<section aria-labelledby="version-title">
+  <h2 id="version-title">{{ 'settings.sec.version' | t }}</h2>
+  <dl class="version">
+    <dt>{{ 'version.thisApp' | t }}</dt>
+    <dd>
+      @if (version.running.build) {
+        {{ 'version.apkBuild' | t: { build: version.running.build } }} ·
+      }
+      @if (version.running.commit) {
+        <code>{{ 'version.commit' | t: { commit: shortCommit(version.running.commit) } }}</code>
+        @if (version.running.builtAt) {
+          · {{ 'version.builtAt' | t: { date: (version.running.builtAt | localDate) } }}
+        }
+      } @else {
+        {{ 'version.devBuild' | t }}
+      }
+    </dd>
+
+    @if (!version.native) {
+      <dt>{{ 'version.published' | t }}</dt>
+      <dd>
+        @if (!version.publishedChecked()) {
+          {{ 'version.checking' | t }}
+        } @else if (version.published(); as published) {
+          <code>{{ 'version.commit' | t: { commit: shortCommit(published.commit) } }}</code>
+          @if (published.builtAt) {
+            · {{ published.builtAt | localDate }}
+          }
+        } @else {
+          {{ 'version.unknown' | t }}
+        }
+      </dd>
+      <dt>{{ 'version.state' | t }}</dt>
+      <dd [attr.data-state]="version.comparison()" class="state">
+        @switch (version.comparison()) {
+          @case ('same') {
+            {{ 'version.same' | t }}
+          }
+          @case ('newer') {
+            {{ 'version.newer' | t }}
+          }
+          @default {
+            {{ (version.publishedChecked() ? 'version.unknown' : 'version.checking') | t }}
+          }
+        }
+      </dd>
+      <dt>{{ 'version.serviceWorker' | t }}</dt>
+      <dd>
+        {{
+          (version.swEnabled
+            ? appUpdate.ready()
+              ? 'version.sw.ready'
+              : 'version.sw.on'
+            : 'version.sw.off'
+          ) | t
+        }}
+      </dd>
+    } @else {
+      <dt>{{ 'version.apkRelease' | t }}</dt>
+      <dd>
+        @if (apk.latestRelease(); as latest) {
+          {{
+            'version.apk.latest' | t: { build: latest.build, date: (apkCheckedAt() | localDate) }
+          }}
+        } @else {
+          {{ 'version.apk.never' | t }}
+        }
+      </dd>
+    }
+
+    <dt>{{ 'version.data' | t }}</dt>
+    <dd>
+      @if (meta(); as m) {
+        {{
+          'version.dataDates'
+            | t
+              : {
+                  extracted: (m.generatedAt | localDate),
+                  translated: m.translatedAt ? (m.translatedAt | localDate) : '—',
+                }
+        }}
+      } @else {
+        —
+      }
+    </dd>
+    <dt>{{ 'version.dataSource' | t }}</dt>
+    <dd>
+      {{ dataSource() | t }}
+      @if (dataOffline()) {
+        {{ 'version.source.offline' | t }}
+      }
+    </dd>
+    @if (storage(); as s) {
+      <dt>{{ 'version.storage' | t }}</dt>
+      <dd>{{ 'version.storageValue' | t: { used: s.used, quota: s.quota } }}</dd>
+    }
+  </dl>
+
+  <p class="help">{{ 'version.updateHelp' | t }}</p>
+  <div class="row">
+    <button
+      type="button"
+      class="primary"
+      (click)="version.updateAndReload()"
+      [disabled]="
+        version.step() !== 'idle' && version.step() !== 'failed' && version.step() !== 'apk'
+      "
+    >
+      {{ 'version.update' | t }}
+    </button>
+    <button type="button" (click)="refreshData()">{{ 'settings.refreshData' | t }}</button>
+    <button type="button" (click)="copyDiagnostics()">{{ 'version.copy' | t }}</button>
+  </div>
+  @if (version.step() !== 'idle') {
+    <p role="status" class="message">{{ 'version.step.' + version.step() | t }}</p>
+  } @else if (versionMessage()) {
+    <p role="status" class="message">{{ versionMessage() }}</p>
   }
-</form>
+</section>
 
 <section class="backup" aria-labelledby="backup-title">
   <h2 id="backup-title">{{ 'backup.title' | t }}</h2>
-  <p>{{ 'backup.help' | t }}</p>
+  <p class="help">{{ 'backup.help' | t }}</p>
   <app-backup-panel />
 </section>
