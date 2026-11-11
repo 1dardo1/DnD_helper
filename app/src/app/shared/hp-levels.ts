@@ -7,65 +7,84 @@ import {
   averageHp,
   clampHp,
   hpMethodAt,
+  levelHp,
   rollHitDie,
+  withFirstLevelMax,
   withFixedAll,
   withHpMethod,
 } from '../core/creation/hp-levels';
 import { TranslatePipe } from '../core/i18n/i18n.service';
+import { useWizardTexts } from './wizard/wizard-texts';
 
 /**
  * Hit points of each level of one class: per level the player chooses how they are obtained (roll
- * the hit die, take the average, or write a fixed value) and sees the result. Used by the wizard
- * (all levels, also when editing) and the level up (only the new level: `from`).
+ * the hit die, take the average, or write a fixed value) and sees the result. Level 1 of the
+ * starting class is the die's maximum by the rule, but a house rule can choose another method for
+ * it too (labelled as such). Used by the wizard (all levels, also when editing) and the level up
+ * (only the new level: `from`).
  */
 @Component({
   selector: 'app-hp-levels',
   imports: [TranslatePipe],
   template: `
     @for (i of shown(); track i) {
-      <div class="lv" [class.rolling]="rolling() === i">
+      @let lvlOne = first() && i === 0;
+      @let m = method(i);
+      <div class="lv" [class.rolling]="rolling() === i" [class.house]="lvlOne && m !== null">
         <span class="n">{{ 'compendium.level' | t: { level: i + 1 } }}</span>
-        @if (first() && i === 0) {
-          <span class="max"
-            >{{ 'hp.levelOne' | t: { n: die() } }}
-            @if (con() !== null) {
-              <small> {{ 'hp.withCon' | t: { total: total(i) } }}</small>
-            }
-          </span>
-        } @else {
-          <select
-            class="method"
-            [attr.aria-label]="'hp.method' | t"
-            [value]="method(i) ?? ''"
-            (change)="setMethod(i, $any($event.target).value)"
-          >
-            @if (method(i) === null) {
-              <option value="">{{ 'hp.methodNone' | t }}</option>
-            }
-            @for (m of methods; track m) {
-              <option [value]="m">{{ 'hp.method.' + m | t: { avg: avg() } }}</option>
-            }
-          </select>
-          @switch (method(i)) {
-            @case ('roll') {
-              <button type="button" (click)="roll(i)" [disabled]="rolling() !== null">
-                {{ (entry().hp[i] === null ? 'hp.roll' : 'hp.reroll') | t: { die: die() } }}
-              </button>
-              <input
-                type="number"
-                inputmode="numeric"
-                min="1"
-                [max]="die()"
-                [attr.aria-label]="'hp.actual' | t: { die: die() }"
-                [placeholder]="'hp.actualShort' | t"
-                [value]="rolling() === i ? face() : (entry().hp[i] ?? '')"
-                (change)="setValue(i, $any($event.target).value)"
-              />
-            }
-            @case ('average') {
-              <span class="val">{{ avg() }}</span>
-            }
-            @default {
+        <select
+          class="method"
+          [attr.aria-label]="'hp.method' | t"
+          [value]="m ?? ''"
+          (change)="setMethod(i, $any($event.target).value)"
+        >
+          @if (lvlOne) {
+            <option value="">{{ 'wizard.hp.firstMax' | t: { die: die() } }}</option>
+          } @else if (m === null) {
+            <option value="">{{ 'hp.methodNone' | t }}</option>
+          }
+          @for (x of methods; track x) {
+            <option [value]="x">
+              {{ 'hp.method.' + x | t: { avg: avg() }
+              }}{{ lvlOne ? ' (' + ('wizard.hp.houseRule' | t) + ')' : '' }}
+            </option>
+          }
+        </select>
+        @switch (m) {
+          @case ('roll') {
+            <button type="button" (click)="roll(i)" [disabled]="rolling() !== null">
+              {{ (entry().hp[i] === null ? 'hp.roll' : 'hp.reroll') | t: { die: die() } }}
+            </button>
+            <input
+              type="number"
+              inputmode="numeric"
+              min="1"
+              [max]="die()"
+              [attr.aria-label]="'hp.actual' | t: { die: die() }"
+              [placeholder]="'hp.actualShort' | t"
+              [value]="rolling() === i ? face() : (entry().hp[i] ?? '')"
+              (change)="setValue(i, $any($event.target).value)"
+            />
+          }
+          @case ('average') {
+            <span class="val">{{ avg() }}</span>
+          }
+          @case ('fixed') {
+            <input
+              type="number"
+              inputmode="numeric"
+              min="1"
+              [max]="die()"
+              [attr.aria-label]="'hp.fixedValue' | t: { die: die() }"
+              [placeholder]="avg()"
+              [value]="entry().hp[i] ?? ''"
+              (change)="setValue(i, $any($event.target).value)"
+            />
+          }
+          @default {
+            @if (lvlOne) {
+              <span class="val">{{ die() }}</span>
+            } @else {
               <input
                 type="number"
                 inputmode="numeric"
@@ -78,15 +97,20 @@ import { TranslatePipe } from '../core/i18n/i18n.service';
               />
             }
           }
-          @if (method(i) === 'fixed' && shown().length > 1) {
-            <button type="button" class="all" (click)="applyAll(i)">{{ 'hp.applyAll' | t }}</button>
-          }
-          @if (method(i) === 'roll' && entry().hp[i] === null && rolling() !== i) {
-            <small class="hint">{{ 'hp.notRolled' | t: { avg: avg() } }}</small>
-          }
-          @if (con() !== null) {
-            <small class="res">{{ 'hp.result' | t: { n: gained(i), total: total(i) } }}</small>
-          }
+        }
+        @if (m === 'fixed' && shown().length > 1) {
+          <button type="button" class="all" (click)="applyAll(i)">{{ 'hp.applyAll' | t }}</button>
+        }
+        @if (m === 'roll' && entry().hp[i] === null && rolling() !== i) {
+          <small class="hint">{{
+            (lvlOne ? 'wizard.hp.firstNotRolled' : 'hp.notRolled') | t: { avg: avg(), die: die() }
+          }}</small>
+        }
+        @if (lvlOne && m !== null) {
+          <small class="hint rule">{{ 'wizard.hp.firstRule' | t }}</small>
+        }
+        @if (con() !== null) {
+          <small class="res">{{ 'hp.result' | t: { n: gained(i), total: total(i) } }}</small>
         }
       </div>
     }
@@ -122,6 +146,17 @@ import { TranslatePipe } from '../core/i18n/i18n.service';
       flex: 1 1 100%;
       opacity: 0.8;
     }
+    .hint {
+      flex: 1 1 100%;
+    }
+    .rule {
+      font-style: italic;
+      color: var(--warn);
+    }
+    .house .n::after {
+      content: ' *';
+      color: var(--warn);
+    }
     .rolling input {
       animation: hp-shake 0.12s linear infinite;
     }
@@ -156,6 +191,10 @@ export class HpLevels {
   readonly entryChange = output<ClassEntry>();
 
   protected readonly methods = HP_METHODS;
+
+  constructor() {
+    useWizardTexts();
+  }
   protected readonly rolling = signal<number | null>(null);
   protected readonly face = signal(1);
   protected readonly avg = computed(() => averageHp(this.die()));
@@ -170,8 +209,7 @@ export class HpLevels {
   }
 
   protected gained(i: number): number {
-    if (this.first() && i === 0) return this.die();
-    return this.entry().hp[i] ?? this.avg();
+    return levelHp(this.entry(), i, this.die(), this.first());
   }
 
   protected total(i: number): number {
@@ -179,6 +217,11 @@ export class HpLevels {
   }
 
   protected setMethod(i: number, raw: string): void {
+    // level 1 of the starting class back to the rule: the die's maximum
+    if (raw === '' && this.first() && i === 0) {
+      this.entryChange.emit(withFirstLevelMax(this.entry()));
+      return;
+    }
     if (raw !== 'roll' && raw !== 'average' && raw !== 'fixed') return;
     const old = this.entry().hp[i];
     const value = raw === 'fixed' ? (old ?? this.avg()) : raw === 'roll' ? old : null;

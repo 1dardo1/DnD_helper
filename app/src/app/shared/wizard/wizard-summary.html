@@ -1,0 +1,290 @@
+@let s = sheet();
+@let c = character();
+@let sm = summary();
+@let h = hp();
+
+<ng-template #pend let-section>
+  @if (pending(section); as step) {
+    <button type="button" class="pend" [attr.aria-label]="goLabel(step)" (click)="go.emit(step)">
+      {{ 'wizard.summary.pending' | t }} →
+    </button>
+  }
+</ng-template>
+
+<section
+  class="wz-summary"
+  [class.full]="full()"
+  [class.open]="open() || full()"
+  [attr.aria-label]="'wizard.summary' | t"
+  [appClassTheme]="{ classId: c.classes[0]?.id, subclassId: c.classes[0]?.subclassId }"
+>
+  @if (!full()) {
+    <button
+      type="button"
+      class="fold"
+      [attr.aria-expanded]="open()"
+      aria-controls="wz-summary-body"
+      (click)="open.set(!open())"
+    >
+      <span class="who">
+        <strong>{{ c.name || ('wizard.summary.unnamed' | t) }}</strong>
+        <small>
+          @for (k of s.classes; track k.id; let last = $last) {
+            {{ k.name | dataName: true }} {{ k.level }}{{ last ? '' : ' / ' }}
+          } @empty {
+            {{ 'wizard.summary.noClass' | t }}
+          }
+        </small>
+      </span>
+      <span class="quick">
+        <span
+          ><abbr [title]="'sheet.hitPoints' | t">{{ 'wizard.summary.hpShort' | t }}</abbr>
+          <b>{{ h.max }}</b></span
+        >
+        <span
+          ><abbr [title]="'sheet.armorClass' | t">{{ 'wizard.summary.acShort' | t }}</abbr>
+          <b>{{ s.armorClass.value }}</b></span
+        >
+      </span>
+      <span class="chev" aria-hidden="true">{{ open() ? '▴' : '▾' }}</span>
+    </button>
+  }
+
+  <div class="body" id="wz-summary-body">
+    <header class="identity">
+      <h2>{{ c.name || ('wizard.summary.unnamed' | t) }}</h2>
+      <p>
+        @for (k of s.classes; track k.id; let last = $last) {
+          {{ k.name | dataName: true }} {{ k.level
+          }}{{ k.subclass ? ' (' + (k.subclass | dataName: true) + ')' : ''
+          }}{{ last ? '' : ' / ' }}
+        } @empty {
+          <em>{{ 'wizard.summary.noClass' | t }}</em>
+        }
+        @if (s.species) {
+          · {{ s.species | dataName: true }}
+        }
+        @if (s.background) {
+          · {{ s.background | dataName: true }}
+        }
+      </p>
+      <ng-container *ngTemplateOutlet="pend; context: { $implicit: 'identity' }" />
+    </header>
+
+    <dl class="combat">
+      <div class="hp">
+        <dt>{{ 'sheet.hitPoints' | t }}</dt>
+        <dd>
+          <strong>{{ h.max }}</strong>
+          @if (s.hitPoints.levels.length) {
+            <small
+              >{{ 'wizard.summary.hpDice' | t: { dice: h.dice, con: signed(h.con) }
+              }}{{ h.other ? ('wizard.summary.hpOther' | t: { n: h.other }) : '' }}</small
+            >
+          }
+        </dd>
+      </div>
+      <div>
+        <dt>{{ 'sheet.armorClass' | t }}</dt>
+        <dd>
+          <strong>{{ s.armorClass.value }}</strong>
+          @if (full()) {
+            <small>{{ s.armorClass.formula }}</small>
+          }
+        </dd>
+      </div>
+      <div>
+        <dt>{{ 'sheet.initiative' | t }}</dt>
+        <dd>
+          <strong>{{ signed(s.initiative) }}</strong>
+        </dd>
+      </div>
+      <div>
+        <dt>{{ 'sheet.speed' | t }}</dt>
+        <dd>
+          <strong>{{ speed() }}</strong>
+          <small>{{ 'wizard.summary.ft' | t }}</small>
+        </dd>
+      </div>
+      <div>
+        <dt>{{ 'wizard.summary.pb' | t }}</dt>
+        <dd>
+          <strong>{{ signed(s.proficiencyBonus) }}</strong>
+        </dd>
+      </div>
+      <div>
+        <dt>{{ 'sheet.passivePerception' | t }}</dt>
+        <dd>
+          <strong>{{ s.passivePerception }}</strong>
+        </dd>
+      </div>
+    </dl>
+
+    <section class="part">
+      <h3>
+        {{ 'create.step.abilities' | t }}
+        <ng-container *ngTemplateOutlet="pend; context: { $implicit: 'abilities' }" />
+      </h3>
+      @if (!sm.abilitiesSet) {
+        <p class="unset">{{ 'wizard.summary.abilitiesUnset' | t }}</p>
+      }
+      <ul class="abilities" [class.dim]="!sm.abilitiesSet">
+        @for (a of abilities; track a) {
+          <li>
+            <abbr [title]="'ability.' + a | t">{{ 'abbr.' + a | t }}</abbr>
+            <strong>{{ s.abilities[a].score }}</strong>
+            <small>{{ signed(s.abilities[a].modifier) }}</small>
+            @if (sm.saves.includes(a)) {
+              <span class="save" [title]="'sheet.savingThrows' | t">●</span>
+            }
+          </li>
+        }
+      </ul>
+    </section>
+
+    <section class="part">
+      <h3>
+        {{ 'sheet.proficiencies' | t }}
+        <ng-container *ngTemplateOutlet="pend; context: { $implicit: 'proficiencies' }" />
+      </h3>
+      <dl class="facts">
+        <dt>{{ 'sheet.savingThrows' | t }}</dt>
+        <dd>
+          @for (a of sm.saves; track a; let last = $last) {
+            {{ 'abbr.' + a | t }}{{ last ? '' : ', ' }}
+          } @empty {
+            —
+          }
+        </dd>
+        <dt>{{ 'sheet.skills' | t }}</dt>
+        <dd>
+          @for (k of sm.skills; track k.id; let last = $last) {
+            {{ 'skill.' + k.id | t }} {{ signed(k.modifier)
+            }}{{ k.expertise ? ' (' + ('wizard.summary.expertise' | t) + ')' : ''
+            }}{{ last ? '' : ', ' }}
+          } @empty {
+            —
+          }
+        </dd>
+        @if (full() || s.proficiencies.armor.length) {
+          <dt>{{ 'sheet.armor' | t }}</dt>
+          <dd>{{ terms(s.proficiencies.armor, 'armor') || '—' }}</dd>
+        }
+        @if (full() || s.proficiencies.weapons.length) {
+          <dt>{{ 'sheet.weapons' | t }}</dt>
+          <dd>{{ terms(s.proficiencies.weapons, 'weapon') || '—' }}</dd>
+        }
+        @if (s.proficiencies.tools.length) {
+          <dt>{{ 'sheet.tools' | t }}</dt>
+          <dd>{{ terms(s.proficiencies.tools, 'tool') }}</dd>
+        }
+        <dt>{{ 'sheet.languages' | t }}</dt>
+        <dd>{{ terms(s.languages, 'language') || '—' }}</dd>
+      </dl>
+    </section>
+
+    <section class="part">
+      <h3>
+        {{ 'wizard.summary.feats' | t }}
+        <ng-container *ngTemplateOutlet="pend; context: { $implicit: 'feats' }" />
+      </h3>
+      <ul class="plain">
+        @for (f of sm.feats; track f.id + f.from + (f.level ?? '')) {
+          <li>
+            {{ f.name | dataName: true }}
+            <small
+              >·
+              @if (f.from === 'class') {
+                {{
+                  'wizard.summary.from.class'
+                    | t: { cls: className(f.classId ?? ''), level: f.level ?? '' }
+                }}
+              } @else {
+                {{ 'wizard.summary.from.' + f.from | t }}
+              }
+            </small>
+          </li>
+        } @empty {
+          <li class="unset">{{ 'wizard.summary.none' | t }}</li>
+        }
+      </ul>
+    </section>
+
+    @if (sm.spells.length || s.featSpells.length) {
+      <section class="part">
+        <h3>
+          {{ 'sheet.spellcasting' | t }}
+          <ng-container *ngTemplateOutlet="pend; context: { $implicit: 'spells' }" />
+        </h3>
+        <ul class="plain">
+          @for (sp of sm.spells; track sp.classId) {
+            <li>
+              {{
+                'wizard.summary.spellsOf'
+                  | t
+                    : {
+                        cls: className(sp.classId),
+                        cantrips:
+                          sp.cantrips.chosen +
+                          (sp.cantrips.max !== null ? '/' + sp.cantrips.max : ''),
+                        prepared:
+                          sp.prepared.chosen +
+                          (sp.prepared.max !== null ? '/' + sp.prepared.max : ''),
+                      }
+              }}
+              @if (sp.saveDc !== null && sp.attack !== null) {
+                <small>
+                  · {{ 'wizard.summary.spellDc' | t: { dc: sp.saveDc, attack: signed(sp.attack) } }}
+                </small>
+              }
+            </li>
+          }
+          @if (s.featSpells.length) {
+            <li>
+              {{ 'sheet.featSpells' | t }}:
+              @for (f of s.featSpells; track $index; let last = $last) {
+                {{ f.name | dataName: true }}{{ last ? '' : ', ' }}
+              }
+            </li>
+          }
+        </ul>
+      </section>
+    }
+
+    <section class="part">
+      <h3>
+        {{ 'sheet.attacks' | t }}
+        <ng-container *ngTemplateOutlet="pend; context: { $implicit: 'equipment' }" />
+      </h3>
+      <ul class="plain attacks">
+        @for (a of full() ? attacks() : attacks().slice(0, 4); track $index) {
+          <li>
+            <span class="n">{{ a.nameKey ? (a.nameKey | t) : (a.name | dataName: true) }}</span>
+            <strong>{{ signed(a.bonus) }}</strong>
+            <span>{{ a.damage }} {{ a.damageType | term: 'damage' }}</span>
+          </li>
+        } @empty {
+          <li class="unset">{{ 'wizard.summary.attacksNone' | t }}</li>
+        }
+      </ul>
+      <p class="items">
+        @if (sm.items) {
+          {{ 'wizard.summary.items' | t: { n: sm.items } }}
+        } @else {
+          <span class="unset">{{ 'wizard.summary.noItems' | t }}</span>
+        }
+      </p>
+    </section>
+
+    @if (full() && s.features.length) {
+      <section class="part">
+        <h3>{{ 'sheet.features' | t }}</h3>
+        <p class="features">
+          @for (f of s.features; track $index; let last = $last) {
+            {{ f.name | dataName: true }}{{ last ? '' : ' · ' }}
+          }
+        </p>
+      </section>
+    }
+  </div>
+</section>

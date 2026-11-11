@@ -12,10 +12,15 @@ import {
   ClassEntry,
   hpBreakdown,
   hpMethodAt,
+  firstLevelHouseRule,
+  freeLevels,
   levelHp,
   rollHitDie,
+  spreadHpTotal,
+  withFirstLevelMax,
   withFixedAll,
   withHpMethod,
+  withMethodEverywhere,
 } from './hp-levels';
 import { addLevel } from './level-up';
 
@@ -67,7 +72,7 @@ describe('hit points per level', () => {
     expect(clampHp(5.4, 8)).toBe(5);
   });
 
-  it('level 1 of the starting class is the full die, whatever the method', () => {
+  it('level 1 of the starting class is the full die when no method was chosen for it', () => {
     expect(levelHp({ hp: [3] }, 0, 10, true)).toBe(10);
     expect(levelHp({ hp: [null, null] }, 1, 10, true)).toBe(6);
     expect(levelHp({ hp: [3] }, 0, 10, false)).toBe(3); // multiclass level 1 is not max
@@ -181,5 +186,74 @@ describe('hit points per level', () => {
     const up = addLevel(pc([k]), 'fighter').character.classes[0];
     expect(up.hp).toEqual([null, 7, null]);
     expect(up.hpMethod).toEqual([null, 'roll', null]);
+  });
+});
+
+describe('hit points in the wizard: house rule for level 1, all levels at once, a written total', () => {
+  const die = (id: string) => DATA.classes.get(id)?.hitDie;
+  const fighter3: ClassEntry = {
+    id: 'fighter',
+    level: 3,
+    subclassId: null,
+    hp: [null, null, null],
+  };
+  const rogue2: ClassEntry = { id: 'rogue', level: 2, subclassId: null, hp: [null, null] };
+
+  it('level 1 of the starting class: the full die unless a house rule is chosen for it', () => {
+    // older characters: a stored number without a method still gets the full die
+    expect(levelHp({ hp: [3] }, 0, 10, true)).toBe(10);
+    const rolled = withHpMethod(fighter3, 0, 10, 'roll', 4);
+    expect(firstLevelHouseRule(rolled)).toBe(true);
+    expect(levelHp(rolled, 0, 10, true)).toBe(4);
+    expect(levelHp(withHpMethod(fighter3, 0, 10, 'average'), 0, 10, true)).toBe(6);
+    // chosen "roll" but not rolled yet: the full die meanwhile
+    expect(levelHp(withHpMethod(fighter3, 0, 10, 'roll'), 0, 10, true)).toBe(10);
+    const back = withFirstLevelMax(rolled);
+    expect(firstLevelHouseRule(back)).toBe(false);
+    expect(levelHp(back, 0, 10, true)).toBe(10);
+    // the sheet (real data): Fighter 1, CON +2 → 12, or 6 with an average level 1
+    expect(hpMax(pc([{ ...fighter3, level: 1, hp: [null] }]))).toBe(12);
+    const avg1 = withHpMethod({ ...fighter3, level: 1, hp: [null] }, 0, 10, 'average');
+    expect(hpMax(pc([avg1]))).toBe(8);
+    expect(hpBreakdown([avg1], die, 2)[0]).toEqual(
+      expect.objectContaining({ max: false, method: 'average', gained: 6, total: 8 }),
+    );
+  });
+
+  it('rolls or averages every level but level 1 of the rule, in every class', () => {
+    expect(freeLevels([fighter3, rogue2])).toEqual([
+      [0, 1],
+      [0, 2],
+      [1, 0],
+      [1, 1],
+    ]);
+    const rolled = withMethodEverywhere([fighter3, rogue2], die, 'roll', () => 0.999);
+    expect(rolled[0].hp).toEqual([null, 10, 10]);
+    expect(rolled[1].hp).toEqual([8, 8]);
+    expect(rolled[1].hpMethod).toEqual(['roll', 'roll']);
+    const avg = withMethodEverywhere(rolled, die, 'average');
+    expect(avg[0].hp).toEqual([null, null, null]);
+    expect(avg[0].hpMethod).toEqual([null, 'average', 'average']);
+    // Fighter 3 / Rogue 2 with CON +2: 10 + 6 + 6 + 5 + 5 + 5 × 2 = 42
+    expect(hpMax(pc(avg))).toBe(42);
+  });
+
+  it('spreads a written maximum over the levels as evenly as the dice allow', () => {
+    // 50 = level 1 (10 + 2) + 4 levels × CON 2 + 30 of dice → 8, 8, 7, 7
+    const r = spreadHpTotal([fighter3, rogue2], die, 2, 0, 50);
+    expect(r.off).toBe(0);
+    expect(hpMax(pc(r.classes))).toBe(50);
+    expect(r.classes[0].hp).toEqual([null, 8, 8]);
+    expect(r.classes[1].hp).toEqual([7, 7]);
+    expect(r.classes[1].hpMethod).toEqual(['fixed', 'fixed']);
+    // more than the dice can give: every level at its die, and how far it stays
+    const high = spreadHpTotal([fighter3, rogue2], die, 2, 0, 100);
+    expect(high.classes[1].hp).toEqual([8, 8]);
+    expect(high.off).toBe(100 - 56);
+    // a level 1 character: its only level takes the value as a house rule
+    const one = spreadHpTotal([{ ...fighter3, level: 1, hp: [null] }], die, 2, 0, 9);
+    expect(one.off).toBe(0);
+    expect(firstLevelHouseRule(one.classes[0])).toBe(true);
+    expect(hpMax(pc(one.classes))).toBe(9);
   });
 });

@@ -33,6 +33,7 @@ import {
   STANDARD_ARRAY,
   STANDARD_LANGUAGES,
   STEPS,
+  SlotKind,
   Step,
   expertiseCount,
   featIssues,
@@ -63,6 +64,13 @@ import {
 } from '../../core/creation/edit-draft';
 import { clearStep, readStep, sessionMemory, writeStep } from '../../core/creation/wizard-memory';
 import {
+  NoteTarget,
+  pendingBySteps,
+  stepViews,
+  wizardSteps,
+} from '../../core/creation/wizard-steps';
+import { summarize } from '../../core/creation/wizard-summary';
+import {
   dropClassSpells,
   sharedCount,
   spellCasters,
@@ -82,7 +90,8 @@ import {
   normalizeCharacter,
 } from '../../core/models/character';
 import { Ability, ClassOption, DndClass, Feat, Feature, Item } from '../../core/models/compendium';
-import { proficientWith } from '../../core/rules/attacks';
+import { attacksFor, proficientWith } from '../../core/rules/attacks';
+import { weaponEntriesOf } from '../../core/characters/weapons';
 import { castingOf, computeSheet } from '../../core/rules/engine';
 import { FeatSource, listOfFeatName } from '../../core/rules/feat-effects';
 import {
@@ -97,7 +106,7 @@ import {
 import { traitChoiceFor, traitChoiceKey, translatedOptions } from '../../core/rules/trait-choices';
 import { FeatChoices } from '../../shared/feat-choices';
 import { HpLevels } from '../../shared/hp-levels';
-import { resizeHp } from '../../core/creation/hp-levels';
+import { resizeHp, spreadHpTotal, withMethodEverywhere } from '../../core/creation/hp-levels';
 import { TraitChoice, TraitChoiceItem } from '../../shared/trait-choice';
 import { PickOptionLabel, TraitPicks } from '../../shared/trait-picks';
 import { RulesDataService } from '../../core/rules/rules-data.service';
@@ -113,7 +122,15 @@ import {
   shopCatalog,
   shopPriceCp,
 } from '../../core/rules/starting-equipment';
-import { ABILITIES } from '../../core/rules/tables';
+import { ABILITIES, SKILL_ABILITY } from '../../core/rules/tables';
+import { FolderPrefs } from '../../core/organize/folder-prefs';
+import { ClassInfo } from '../../shared/wizard/class-info';
+import { FooterNote, WizardFooter } from '../../shared/wizard/wizard-footer';
+import { ProgressStep, WizardProgress } from '../../shared/wizard/wizard-progress';
+import { WizardStepHead } from '../../shared/wizard/wizard-step-head';
+import { WizardSummaryPanel } from '../../shared/wizard/wizard-summary';
+import { useWizardTexts } from '../../shared/wizard/wizard-texts';
+import { EntryDetails } from '../../shared/picker/entry-details';
 import { SettingsService } from '../../core/settings/settings.service';
 import { PLAN_GROUP, isPickId, plansTaken } from '../../core/artificer/plans';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
@@ -123,7 +140,6 @@ import { ENTRY_FACETS } from '../../shared/picker/entry-facets';
 import { defaultOrder } from '../../shared/picker/entry-order';
 import { EntryCard } from '../../shared/picker/entry-card';
 import { Picker } from '../../shared/picker/picker';
-import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LeaveCheck } from './unsaved-edit.guard';
 import { LoadError } from '../compendium/load-error';
 import { BackgroundEditor } from '../homebrew/background-editor';
@@ -135,8 +151,10 @@ type ClassEntry = Character['classes'][number];
 
 /**
  * Character creation (and editing) wizard, step by step in the 2024 order. The draft is kept in
- * this browser until saved, every step shows the sheet the rules engine computes from it, and
- * choices that break a requirement are allowed but flagged (the DM may allow exceptions).
+ * this browser until saved, every step shows the sheet the rules engine computes from it (the live
+ * summary), and choices that break a requirement are allowed but flagged (the DM may allow
+ * exceptions). Each step says what is decided in it and why; the footer says what's still missing
+ * (a tap goes to it) and never locks the way on: an unfinished character can be saved.
  */
 @Component({
   selector: 'app-character-create',
@@ -153,7 +171,6 @@ type ClassEntry = Character['classes'][number];
     OptionRow,
     PlanChooser,
     LoadError,
-    ClassThemeDirective,
     Picker,
     FeatChoices,
     HpLevels,
@@ -162,6 +179,12 @@ type ClassEntry = Character['classes'][number];
     EntryCard,
     BackgroundEditor,
     HomebrewBadge,
+    ClassInfo,
+    EntryDetails,
+    WizardFooter,
+    WizardProgress,
+    WizardStepHead,
+    WizardSummaryPanel,
   ],
   templateUrl: './character-create.html',
   styleUrl: './character-create.scss',
@@ -175,10 +198,10 @@ export class CharacterCreate implements LeaveCheck {
   private readonly sync = inject(SyncService);
   private readonly router = inject(Router);
   private readonly settings = inject(SettingsService);
-  private readonly i18n = inject(I18nService);
+  private readonly i18n: I18nService = useWizardTexts();
   private readonly dataText = inject(DataTextService);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  protected readonly steps = STEPS;
   protected readonly abilities = ABILITIES;
   protected readonly standardArray = STANDARD_ARRAY;
   protected readonly budget = POINT_BUY_BUDGET;
@@ -553,7 +576,66 @@ export class CharacterCreate implements LeaveCheck {
       spells: d?.spellsById ?? new Map(),
     });
   });
-  protected readonly allNotes = computed(() => STEPS.flatMap((s) => this.notes()[s]));
+  // -- the steps and their state -------------------------------------------------------
+  /** The steps this character goes through (spells only when a class casts). */
+  protected readonly steps = computed(() => wizardSteps(this.casters().length > 0));
+  /** The step shown: the one chosen, or class choices if spells no longer apply. */
+  protected readonly current = computed<Step>(() =>
+    this.steps().includes(this.step()) ? this.step() : 'choices',
+  );
+  protected readonly views = computed(() =>
+    stepViews(this.steps(), this.notes(), (s) => this.filled(s)),
+  );
+  protected readonly view = computed(
+    () => this.views().find((v) => v.id === this.current()) ?? this.views()[0],
+  );
+  protected readonly progress = computed<ProgressStep[]>(() =>
+    this.views().map((v) => ({
+      id: v.id,
+      label: this.stepLabel(v.id),
+      state: v.state,
+      missing: v.missing.length,
+    })),
+  );
+  protected readonly stateMap = computed(() =>
+    Object.fromEntries(this.views().map((v) => [v.id, v.state])),
+  );
+  protected readonly stepLabels = computed(() =>
+    Object.fromEntries(this.steps().map((s) => [s, this.stepLabel(s)])),
+  );
+  /** Everything still pending, by step (the last step lists it). */
+  protected readonly pending = computed(() => pendingBySteps(this.steps(), this.notes()));
+  /** What the footer lists: this step's notes (the last step: everything still pending). */
+  protected readonly footerNotes = computed<FooterNote[]>(() => {
+    const step = this.current();
+    const groups =
+      step === 'details' ? this.pending() : this.pending().filter((g) => g.step === step);
+    return groups.flatMap((g) =>
+      g.items.map((i) => ({
+        text: this.noteText(i.note),
+        issue: i.note.kind === 'issue',
+        target: i.target,
+      })),
+    );
+  });
+
+  /** The live summary (what's decided so far) and the attacks the sheet would show. */
+  protected readonly summary = computed(() => {
+    const d = this.data.value();
+    const sheet = this.sheet();
+    if (!d || !sheet) return null;
+    return summarize(this.draft(), sheet, {
+      classes: d.rules.classes,
+      subclasses: d.rules.subclasses,
+      feats: d.rules.feats,
+      spells: d.spellsById,
+      background: this.background(),
+    });
+  });
+  protected readonly attacks = computed(() => {
+    const sheet = this.sheet();
+    return sheet ? attacksFor(sheet, weaponEntriesOf(this.draft().inventory, this.items)) : [];
+  });
 
   constructor() {
     // Load the character being edited, or the saved draft of a new one.
@@ -677,11 +759,21 @@ export class CharacterCreate implements LeaveCheck {
     return Array.from({ length: n }, (_, i) => i);
   }
 
+  /** "+ 10" / "− 5": a term added to a sum. */
+  protected plusMinus(n: number): string {
+    return n < 0 ? `− ${-n}` : `+ ${n}`;
+  }
+
   protected signed(n: number): string {
     return n >= 0 ? `+${n}` : `${n}`;
   }
 
   protected readonly skillLabel = (s: string) => this.i18n.t(`skill.${s}` as never);
+  /** "FUE" for Athletics...: the ability of a skill, shown next to it. */
+  protected skillAbility(s: string): string {
+    const a = SKILL_ABILITY[s];
+    return a ? this.i18n.t(`abbr.${a}` as never) : '';
+  }
   protected readonly abilityLabel = (a: string) => this.i18n.t(`ability.${a}` as never);
 
   /** "Sniper's Bracelet (Longbow)" / "Longbow": a carried weapon an upgrade can go on. */
@@ -765,50 +857,142 @@ export class CharacterCreate implements LeaveCheck {
     return this.notes()[s].filter((n) => n.kind === 'issue');
   }
 
-  /** Ticked when nothing is missing and something was actually chosen in it. */
-  protected isDone(s: Step): boolean {
-    if (this.missingIn(s).length) return false;
-    if (s === 'choices') return this.classList().length > 0;
-    if (s === 'equipment') return !!this.draft().equipment;
-    return true;
+  /** Something was chosen in the step (else it is "to do", or "optional" for the equipment). */
+  private filled(s: Step): boolean {
+    const c = this.draft();
+    switch (s) {
+      case 'choices':
+      case 'spells':
+      case 'hp':
+        return this.classList().length > 0;
+      case 'abilities':
+        return !!c.abilityScores;
+      case 'equipment':
+        return !!c.choices.startingEquipment || c.inventory.length > 0;
+      default:
+        return true;
+    }
+  }
+
+  protected stepLabel(s: Step): string {
+    const key =
+      s === 'details'
+        ? this.id()
+          ? 'wizard.step.detailsEdit'
+          : 'wizard.step.detailsNew'
+        : s === 'spells' || s === 'hp'
+          ? `wizard.step.${s}`
+          : `create.step.${s}`;
+    return this.i18n.t(key as never);
+  }
+
+  /** What is decided in a step (the step's header). */
+  protected stepLead(s: Step): string {
+    return this.i18n.t(`wizard.lead.${s}` as never);
+  }
+
+  /** Why it goes there and how it works (folded under the header). */
+  protected stepWhy(s: Step): string {
+    return this.i18n.t(`wizard.why.${s}` as never, { primary: this.primaryLabel() || '—' });
+  }
+
+  /** "FUE / DES": the main abilities of the character's classes. */
+  protected primaryLabel(): string {
+    return [...new Set(this.classList().flatMap((k) => k.primaryAbility))]
+      .map((a) => this.i18n.t(`abbr.${a}` as never))
+      .join(' / ');
   }
 
   protected stepIndex(): number {
-    return STEPS.indexOf(this.step());
+    return this.steps().indexOf(this.current());
+  }
+
+  protected nextLabel(): string | null {
+    const next = this.steps()[this.stepIndex() + 1];
+    return next ? this.stepLabel(next) : null;
   }
 
   protected go(delta: number): void {
-    const i = Math.min(Math.max(this.stepIndex() + delta, 0), STEPS.length - 1);
-    this.setStep(STEPS[i]);
+    const steps = this.steps();
+    const i = Math.min(Math.max(this.stepIndex() + delta, 0), steps.length - 1);
+    this.setStep(steps[i]);
   }
 
   private readonly injector = inject(Injector);
-  private readonly stepsNav = viewChild<ElementRef<HTMLElement>>('stepsNav');
+  private readonly top = viewChild<ElementRef<HTMLElement>>('top');
   private readonly stepSection = viewChild<ElementRef<HTMLElement>>('stepSection');
 
-  protected setStep(s: Step): void {
-    if (s === 'equipment') this.prefillEquipment();
-    const changed = s !== this.step();
-    this.step.set(s);
-    if (changed) {
-      // go to the top of the new step (the button pressed was usually at the bottom)
-      afterNextRender(
-        () => {
-          const nav = this.stepsNav()?.nativeElement;
-          nav?.scrollIntoView({ block: 'start', behavior: 'smooth' });
-          // on phones the tabs scroll sideways: centre the current one
-          const cur = nav?.querySelector<HTMLElement>('.current');
-          if (nav && cur && nav.scrollWidth > nav.clientWidth)
-            nav.scrollTo({
-              left: cur.offsetLeft - nav.offsetLeft - (nav.clientWidth - cur.clientWidth) / 2,
-              behavior: 'smooth',
-            });
-          this.stepSection()?.nativeElement.focus({ preventScroll: true });
-        },
-        { injector: this.injector },
-      );
-    }
+  protected setStep(s: string, anchor?: string): void {
+    const step = (this.steps() as string[]).includes(s) ? (s as Step) : this.current();
+    if (step === 'equipment') this.prefillEquipment();
+    const changed = step !== this.current();
+    this.step.set(step);
+    if (!changed && !anchor) return;
+    afterNextRender(
+      () => {
+        const target = anchor
+          ? this.host.nativeElement.querySelector<HTMLElement>(`[data-anchor="${anchor}"]`)
+          : null;
+        if (target) {
+          // a note tapped: to the part of the step that solves it, highlighted for a moment
+          target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          target.classList.add('flash');
+          setTimeout(() => target.classList.remove('flash'), 1600);
+          target
+            .querySelector<HTMLElement>('input, select, textarea')
+            ?.focus({ preventScroll: true });
+          return;
+        }
+        // go to the top of the new step (the button pressed was usually at the bottom)
+        this.top()?.nativeElement.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        this.stepSection()?.nativeElement.focus({ preventScroll: true });
+      },
+      { injector: this.injector },
+    );
   }
+
+  /** A note of the footer or of the review tapped: its step and the part that solves it. */
+  protected goTo(target: unknown): void {
+    const t = target as NoteTarget | undefined;
+    if (t) this.setStep(t.step, t.anchor);
+  }
+
+  // -- hit points (their own step) -------------------------------------------------------
+  private readonly dieOf = (id: string) => this.data.value()?.rules.classes.get(id)?.hitDie;
+  /** "Escribir el total a mano" open, and how the last spread went (null = exact or none). */
+  protected readonly hpTotalOpen = signal(false);
+  protected readonly hpSpreadOff = signal<{ got: number; diff: number } | null>(null);
+
+  /** Rolls, or takes the average of, every level but level 1 of the rule, in every class. */
+  protected hpEverywhere(method: 'roll' | 'average'): void {
+    this.hpSpreadOff.set(null);
+    this.patch((c) => ({ ...c, classes: withMethodEverywhere(c.classes, this.dieOf, method) }));
+  }
+
+  /** A maximum written by hand, spread over the levels as fixed values. */
+  protected spreadHp(raw: string): void {
+    const sheet = this.sheet();
+    const total = parseInt(raw, 10);
+    if (!sheet || !Number.isFinite(total) || total < 1) return;
+    const r = spreadHpTotal(
+      this.draft().classes,
+      this.dieOf,
+      sheet.abilities.CON.modifier,
+      sheet.hitPoints.bonus,
+      total,
+    );
+    this.patch((c) => ({ ...c, classes: r.classes }));
+    this.hpSpreadOff.set(r.off ? { got: total - r.off, diff: -r.off } : null);
+  }
+
+  /** Dice, Constitution and other parts of the maximum, for the hit points step. */
+  protected readonly hpParts = computed(() => {
+    const h = this.sheet()?.hitPoints;
+    if (!h) return null;
+    const dice = h.levels.reduce((n, r) => n + r.gained, 0);
+    const con = h.levels.reduce((n, r) => n + (r.total - r.gained), 0);
+    return { max: h.max, dice, con, levels: h.levels.length, other: h.bonus };
+  });
 
   // -- classes -------------------------------------------------------------------------
   protected setClass(index: number, id: string): void {
@@ -1134,6 +1318,35 @@ export class CharacterCreate implements LeaveCheck {
     if (s && this.canStep(a, delta)) this.setScore(a, String(s.base[a] + delta));
   }
 
+  /** What the background (and feats) add to a score, on top of the base. */
+  protected abilityBonus(a: Ability): number {
+    const sh = this.sheet();
+    return sh ? sh.abilities[a].score - sh.abilities[a].base : 0;
+  }
+
+  /** "principal de Guerrero": the classes whose main ability this is. */
+  protected primaryOf(a: Ability): string[] {
+    return this.classList()
+      .filter((k) => k.primaryAbility.includes(a))
+      .map((k) => this.dataText.shortName(k.name));
+  }
+
+  /** Multiclass requirements on this ability ("Mago pide 13"), only with two classes or more. */
+  protected multiclassNeeds(a: Ability): { cls: string; min: number; met: boolean }[] {
+    const classes = this.classList();
+    const sheet = this.sheet();
+    if (classes.length < 2 || !sheet) return [];
+    return classes.flatMap((k) =>
+      k.multiclass.prerequisites
+        .filter((g) => g.anyOf.includes(a))
+        .map((g) => ({
+          cls: this.dataText.shortName(k.name),
+          min: g.min,
+          met: g.anyOf.some((x) => sheet.abilities[x].score >= g.min),
+        })),
+    );
+  }
+
   protected pointsSpent(): number {
     const s = this.draft().abilityScores;
     return s ? pointBuyCost(s.base) : 0;
@@ -1176,9 +1389,38 @@ export class CharacterCreate implements LeaveCheck {
     return id ? this.data.value()?.rules.feats.get(id) : undefined;
   }
 
-  protected featsFor(kind: 'asi' | 'fighting-style' | 'epic-boon'): Feat[] {
-    return featsForSlot(kind, this.data.value()?.feats ?? [], this.species() ?? null);
+  private readonly feats = computed(() => {
+    const all = this.data.value()?.feats ?? [];
+    const species = this.species() ?? null;
+    return {
+      asi: featsForSlot('asi', all, species),
+      'fighting-style': featsForSlot('fighting-style', all, species),
+      'epic-boon': featsForSlot('epic-boon', all, species),
+    } satisfies Record<SlotKind, Feat[]>;
+  });
+
+  protected featsFor(kind: SlotKind): Feat[] {
+    return this.feats()[kind];
   }
+
+  /**
+   * On the cards of a feat slot, why a feat can't normally be taken ("⚠ needs STR 13"): seen
+   * before choosing it, not only after.
+   */
+  protected readonly featMarks = computed(() => {
+    const out: Partial<Record<SlotKind, Record<string, string>>> = {};
+    if (!this.sheet()) return out;
+    const kinds = new Set(this.rows().flatMap((r) => r.slots.map((s) => s.kind)));
+    for (const kind of kinds) {
+      const marks: Record<string, string> = {};
+      for (const f of this.featsFor(kind)) {
+        const p = this.featProblems(f)[0];
+        if (p) marks[f.id] = `⚠ ${this.noteText(p)}`;
+      }
+      out[kind] = marks;
+    }
+    return out;
+  });
 
   /** Why this character can't normally take a feat (empty = it can). */
   protected featProblems(feat: Feat | undefined): Note[] {
@@ -1261,6 +1503,11 @@ export class CharacterCreate implements LeaveCheck {
       Object.assign(c.choices, spellFields(toggleSpellFor(by, classId, id, on)));
       return c;
     });
+  }
+
+  /** Spell save DC, attack and ability of a class, as the sheet computes them. */
+  protected spellStats(classId: string) {
+    return this.sheet()?.spellcasting.classes.find((x) => x.classId === classId) ?? null;
   }
 
   protected pickedOf(classId: string): string[] {
@@ -1428,6 +1675,22 @@ export class CharacterCreate implements LeaveCheck {
     return (c: Character) => ({ ...c, name });
   }
 
+  protected withFolder(folder: string) {
+    return (c: Character) => ({ ...c, folder: folder.trim() || null });
+  }
+
+  /** The folders of the character list (created there or used by a character), to suggest. */
+  private readonly folderPrefs = new FolderPrefs('dnd-helper.characterFolders');
+  protected readonly folders = computed(() => [
+    ...new Set([
+      ...this.folderPrefs.names(),
+      ...this.store
+        .all()
+        .map((r) => r.character.folder)
+        .filter((f): f is string => !!f),
+    ]),
+  ]);
+
   protected withNotes(notes: string) {
     return (c: Character) => ({ ...c, notes });
   }
@@ -1453,6 +1716,7 @@ export class CharacterCreate implements LeaveCheck {
     const id = this.id() ?? newCharacter(name, '').id;
     const classes = this.draft().classes.filter((k) => k.id);
     const ch = { ...this.draft(), id, name, classes, dataVersion: d?.meta.generatedAt ?? null };
+    if (ch.folder) this.folderPrefs.ensure(ch.folder);
     await this.sync.save(ch);
     if (this.id()) {
       this.editBase.set(this.draft());

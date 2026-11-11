@@ -1,0 +1,349 @@
+// The live summary: a themed index card. Folded to one line (name, classes, HP, AC) below the
+// progress on phones and tablets; open in the side column on wide screens; all open in the last
+// step (`full`).
+$wide: 60rem;
+
+:host {
+  display: block;
+}
+
+.wz-summary {
+  position: relative;
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+// the class's illuminated band (ClassThemeDirective) sits on top: room for it
+.wz-summary.class-theme {
+  padding-top: 1.9rem;
+
+  @media (min-width: $wide) {
+    padding-top: 2.6rem;
+  }
+
+  // the last step's sheet: the band also at the bottom and the margins on wide screens
+  &.full {
+    padding-bottom: 2.4rem;
+
+    @media (min-width: $wide) {
+      padding-inline: 1.6rem;
+    }
+  }
+}
+
+.fold {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0;
+  text-align: left;
+  background: none;
+  border: 0;
+  box-shadow: none;
+
+  &:hover:not(:disabled) {
+    background: none;
+  }
+
+  .who {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+
+    strong,
+    small {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    small {
+      font-family: var(--font-body);
+      font-size: var(--fs-sm);
+      color: var(--ink-soft);
+    }
+  }
+
+  .quick {
+    display: flex;
+    gap: var(--space-3);
+    font-size: var(--fs-sm);
+
+    > span {
+      display: flex;
+      align-items: baseline;
+      gap: 0.3rem;
+    }
+
+    abbr {
+      text-decoration: none;
+      color: var(--ink-soft);
+    }
+
+    b {
+      font-family: var(--font-hand);
+      font-size: 1.25rem;
+      color: var(--accent);
+    }
+  }
+
+  .chev {
+    color: var(--ink-soft);
+  }
+}
+
+.body {
+  display: grid;
+  gap: var(--space-3);
+}
+
+// folded on phones and tablets until opened
+@media (max-width: #{$wide - 0.01rem}) {
+  .wz-summary:not(.open) .body {
+    display: none;
+  }
+
+  .wz-summary.open:not(.full) .body {
+    margin-top: var(--space-2);
+    padding-top: var(--space-2);
+    border-top: 1px dashed var(--line-strong);
+  }
+
+  .wz-summary:not(.full) .identity {
+    display: none;
+  }
+}
+
+// wide screens: the side column, always open; no one-line fold
+@media (min-width: $wide) {
+  .fold {
+    display: none;
+  }
+
+  .wz-summary:not(.full) {
+    padding: var(--space-3) var(--space-4);
+  }
+}
+
+.identity {
+  h2 {
+    margin: 0;
+    font-size: var(--fs-xl);
+  }
+
+  p {
+    margin: 0;
+    font-family: var(--font-note);
+    font-size: var(--fs-sm);
+  }
+}
+
+.combat {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.2rem;
+    text-align: center;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+  }
+
+  .hp {
+    grid-column: 1 / -1;
+  }
+
+  dt {
+    font-size: var(--fs-xs);
+    line-height: 1.15;
+    color: var(--ink-soft);
+  }
+
+  dd {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+
+    strong {
+      font-family: var(--font-hand);
+      font-size: 1.45rem;
+      line-height: 1.1;
+      color: var(--accent);
+    }
+
+    small {
+      font-size: var(--fs-xs);
+      color: var(--ink-soft);
+    }
+  }
+}
+
+.part {
+  h3 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-1) var(--space-2);
+    margin: 0 0 var(--space-1);
+    font-size: var(--fs-md);
+  }
+}
+
+.pend {
+  min-height: 1.9rem;
+  padding: 0 0.55rem;
+  font-family: var(--font-note);
+  font-size: var(--fs-xs);
+  color: var(--warn);
+  background: none;
+  border: 1px solid var(--warn);
+  border-radius: 999px;
+  box-shadow: none;
+}
+
+.identity .pend {
+  margin-top: var(--space-1);
+}
+
+.unset {
+  margin: 0;
+  font-size: var(--fs-sm);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.abilities {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &.dim {
+    opacity: 0.55;
+  }
+
+  li {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 0.1rem;
+    font-size: var(--fs-sm);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-hand);
+  }
+
+  abbr {
+    text-decoration: none;
+    color: var(--ink-soft);
+  }
+
+  strong {
+    font-family: var(--font-hand);
+    color: var(--accent);
+  }
+
+  small {
+    color: var(--ink-soft);
+  }
+
+  .save {
+    position: absolute;
+    top: 0;
+    right: 0.25rem;
+    font-size: 0.6rem;
+    color: var(--ok);
+  }
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.1rem var(--space-2);
+  margin: 0;
+  font-size: var(--fs-sm);
+
+  dt {
+    color: var(--ink-soft);
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.plain {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-sm);
+
+  li {
+    padding: 0.1rem 0;
+  }
+
+  small {
+    color: var(--ink-soft);
+  }
+}
+
+.attacks li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-2);
+
+  .n {
+    flex: 1 1 8rem;
+  }
+
+  strong {
+    color: var(--accent);
+  }
+}
+
+.items {
+  margin: var(--space-1) 0 0;
+  font-size: var(--fs-sm);
+}
+
+.features {
+  margin: 0;
+  font-size: var(--fs-sm);
+}
+
+// the last step: two columns of parts where there's room
+.full .body {
+  @media (min-width: 40rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    .identity,
+    .combat {
+      grid-column: 1 / -1;
+    }
+
+    .combat {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+
+      .hp {
+        grid-column: auto;
+      }
+    }
+  }
+}

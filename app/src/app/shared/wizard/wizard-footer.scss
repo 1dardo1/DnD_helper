@@ -1,0 +1,178 @@
+// The step's bottom bar: stuck to the bottom of the screen (above the app's leather strap on
+// phones), on the parchment of a card, with Back / state / Next within reach of the thumb.
+$phone: 44.99rem;
+
+:host {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: block;
+  margin-top: var(--space-5);
+
+  @media (max-width: $phone) {
+    // above the fixed navigation strap of the app (app.scss: 3.4rem tabs + 0.8rem padding)
+    bottom: calc(4.2rem + env(safe-area-inset-bottom));
+    margin-inline: -0.5rem;
+  }
+}
+
+.wz-footer {
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  box-shadow: 0 -4px 14px -6px rgb(40 22 8 / 0.45);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.back {
+  min-height: var(--tap);
+  padding-inline: 0.7rem;
+}
+
+.wz-state {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  max-width: 100%;
+  min-height: var(--tap);
+  padding: 0.1rem 0.6rem;
+  font-family: var(--font-note);
+  font-size: var(--fs-sm);
+  border-radius: 999px;
+
+  .txt {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  @media (max-width: 44.99rem) {
+    padding-inline: 0.4rem;
+    font-size: var(--fs-xs);
+  }
+
+  &:disabled {
+    opacity: 1;
+    cursor: default;
+  }
+
+  &[data-state='todo'] {
+    color: var(--warn);
+    border-color: var(--warn);
+  }
+
+  &[data-state='warn'] {
+    color: var(--danger);
+    border-color: var(--danger);
+  }
+
+  &[data-state='done'] {
+    color: var(--ok);
+  }
+
+  &[data-state='optional'] {
+    color: var(--ink-soft);
+  }
+}
+
+.go {
+  flex-direction: column;
+  gap: 0;
+  min-height: var(--tap);
+  padding-inline: 0.9rem;
+  line-height: 1.1;
+
+  small {
+    max-width: 9rem;
+    overflow: hidden;
+    font-family: var(--font-body);
+    font-size: var(--fs-xs);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: inherit;
+    opacity: 0.85;
+  }
+}
+
+.pending {
+  max-height: 45vh;
+  margin-bottom: var(--space-2);
+  padding-bottom: var(--space-2);
+  overflow-y: auto;
+  border-bottom: 1px dashed var(--line-strong);
+
+  .ttl {
+    margin: 0 0 var(--space-1);
+    font-family: var(--font-title);
+    color: var(--accent);
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .item {
+    display: flex;
+    justify-content: flex-start;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: var(--tap);
+    padding: 0.2rem 0.4rem;
+    font-family: var(--font-body);
+    font-size: var(--fs-sm);
+    text-align: left;
+    background: none;
+    border: 0;
+    box-shadow: none;
+
+    &:hover {
+      background: var(--highlight);
+    }
+
+    &.issue {
+      color: var(--danger);
+    }
+
+    .arrow {
+      margin-left: auto;
+      color: var(--ink-blue);
+    }
+  }
+
+  .hint {
+    margin: var(--space-1) 0 0;
+    font-size: var(--fs-xs);
+    color: var(--ink-soft);
+  }
+}
+
+.blocked {
+  margin: var(--space-1) 0 0;
+  font-size: var(--fs-sm);
+  color: var(--warn);
+  text-align: right;
+}
+
+@media (max-width: 26rem) {
+  .back {
+    padding-inline: 0.5rem;
+  }
+
+  .go {
+    padding-inline: 0.6rem;
+  }
+}

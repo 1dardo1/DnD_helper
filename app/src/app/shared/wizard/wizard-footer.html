@@ -1,0 +1,66 @@
+<div class="wz-footer">
+  @if (listOpen() && notes().length) {
+    <div class="pending" id="wz-pending">
+      <p class="ttl">{{ 'wizard.missingTitle' | t }}</p>
+      <ul>
+        @for (n of notes(); track $index) {
+          <li>
+            <button type="button" class="item" [class.issue]="n.issue" (click)="pick(n)">
+              <span aria-hidden="true">{{ n.issue ? '⚠' : '○' }}</span>
+              <span>{{ n.text }}</span>
+              <span class="arrow" aria-hidden="true">→</span>
+            </button>
+          </li>
+        }
+      </ul>
+      <p class="hint">{{ 'wizard.missingHint' | t }}</p>
+    </div>
+  }
+  <div class="row">
+    <button type="button" class="back" [disabled]="!canBack()" (click)="back.emit()">
+      <span aria-hidden="true">←</span> {{ 'wizard.back' | t }}
+    </button>
+    <button
+      type="button"
+      class="wz-state btn-ghost"
+      [attr.data-state]="missing() ? 'todo' : issues() ? 'warn' : state()"
+      [attr.aria-expanded]="notes().length ? listOpen() : null"
+      [attr.aria-controls]="notes().length ? 'wz-pending' : null"
+      [disabled]="!notes().length"
+      (click)="toggle()"
+    >
+      <span class="ico" aria-hidden="true">{{
+        missing() ? '○' : issues() ? '⚠' : state() === 'optional' ? '–' : '✓'
+      }}</span>
+      <span class="txt">{{ status() }}</span>
+      @if (notes().length) {
+        <span aria-hidden="true">{{ listOpen() ? '▾' : '▴' }}</span>
+      }
+    </button>
+    @if (finalLabel(); as label) {
+      <button type="button" class="primary go" [disabled]="busy()" (click)="finish.emit()">
+        {{ label }}
+      </button>
+    } @else {
+      <button
+        type="button"
+        class="go"
+        [class.primary]="!missing() && !nextDisabled()"
+        [disabled]="nextDisabled()"
+        [attr.title]="nextDisabled() ? blockedReason() : null"
+        (click)="next.emit()"
+      >
+        <span class="l"
+          >{{ (state() === 'optional' && !missing() ? 'wizard.skip' : 'wizard.next') | t }}
+          <span aria-hidden="true">→</span></span
+        >
+        @if (nextStep(); as n) {
+          <small>{{ n }}</small>
+        }
+      </button>
+    }
+  </div>
+  @if (nextDisabled() && blockedReason()) {
+    <p class="blocked" role="note">{{ blockedReason() }}</p>
+  }
+</div>

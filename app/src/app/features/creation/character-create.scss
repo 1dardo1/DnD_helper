@@ -1,20 +1,34 @@
 @use '../../shared/theme/notebook' as nb;
 @use '../../shared/picker/cards';
 
+// Creation wizard: the progress on top, the step (header, decisions) on the page, the live
+// summary beside it on wide screens (folded above it on phones), and the footer stuck to the
+// bottom. Progress, header, footer and summary have their own components (shared/wizard).
+
+:host {
+  display: block;
+}
+
 .top {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--space-2) var(--space-4);
+  scroll-margin-top: 5.5rem;
 
   .reset {
     min-height: var(--tap, 2.75rem);
   }
-}
 
-// Creation wizard: steps as bookmark ribbons, the form on the page, and the live preview
-// as a themed index card (side panel on desktop, below the form on phones).
+  @media (max-width: 44.99rem) {
+    scroll-margin-top: 0.5rem;
+
+    h1 {
+      margin-bottom: 0;
+    }
+  }
+}
 
 .draft-notice {
   max-width: 44rem;
@@ -36,34 +50,34 @@
   }
 }
 
-.steps {
-  display: flex;
-  gap: 0.3rem;
-  margin: 0 0 var(--space-5);
-  padding: 0.25rem 0.25rem 0.5rem;
-  overflow-x: auto;
-  scrollbar-width: thin;
-
-  button {
-    @include nb.step-ribbon;
-  }
-
-  @media (max-width: 44.99rem) {
-    margin-inline: -0.5rem;
-    // a scrollable strip; hint that there's more
-    mask-image: linear-gradient(to right, black calc(100% - 1.5rem), transparent);
-    padding-right: 1.5rem;
-  }
-}
-
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 17rem;
-  gap: var(--space-6);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
   align-items: start;
 
-  @media (max-width: 52rem) {
-    grid-template-columns: minmax(0, 1fr);
+  @media (min-width: 60rem) {
+    grid-template-columns: minmax(0, 1fr) 17.5rem;
+    grid-template-areas: 'step side';
+    gap: var(--space-5);
+
+    .side {
+      grid-area: side;
+      position: sticky;
+      top: 6.5rem;
+      max-height: calc(100dvh - 7.5rem);
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .step {
+      grid-area: step;
+    }
+
+    // the last step shows the whole sheet in the page: no side column
+    &.solo {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 }
 
@@ -71,6 +85,10 @@
   display: grid;
   gap: var(--space-4);
   min-width: 0;
+
+  &:focus {
+    outline: none;
+  }
 
   > * {
     margin-block: 0;
@@ -114,14 +132,32 @@
     margin-right: var(--space-2);
   }
 
-  h2 {
-    margin: var(--space-3) 0 0;
-  }
-
   h3 {
     margin: var(--space-2) 0 0;
     font-size: var(--fs-md);
   }
+
+  .hint,
+  small.abbr {
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+
+  p.hint {
+    margin: 0;
+    font-size: var(--fs-sm);
+  }
+}
+
+// a note tapped in the footer or the review: the part that solves it, lit for a moment
+[data-anchor] {
+  scroll-margin: 6rem 0 9rem;
+  border-radius: var(--radius-md);
+  transition: box-shadow 0.4s;
+}
+
+.flash {
+  box-shadow: 0 0 0 3px var(--warn);
 }
 
 .class-row .row {
@@ -132,18 +168,19 @@
   flex: 1 1 100%;
 }
 
-.hp {
-  display: flex;
-  flex-wrap: wrap;
+.class-row .sub {
+  display: grid;
   gap: var(--space-2);
+  flex: 1 1 100%;
+}
 
-  label:not(.inline) {
-    font-size: var(--fs-sm);
-  }
+.add-class small {
+  color: var(--ink-soft);
+}
 
-  input {
-    width: 4.5rem;
-  }
+.class-head {
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--line-strong);
 }
 
 // Lineage cards of the species picker (its own template).
@@ -151,22 +188,99 @@
   @include cards.text;
 }
 
+.traits {
+  display: grid;
+  gap: var(--space-3);
+}
+
+// what the chosen background gives
+.gives {
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+
+  h3 {
+    margin: 0 0 var(--space-2);
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.15rem var(--space-3);
+    margin: 0;
+  }
+
+  dt {
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.feat-text summary {
+  min-height: var(--tap);
+  display: flex;
+  align-items: center;
+  color: var(--ink-blue);
+  cursor: pointer;
+}
+
+.feat-title {
+  color: var(--accent);
+}
+
+.points strong {
+  color: var(--accent);
+}
+
 .scores {
-  width: auto;
+  width: 100%;
+  max-width: 36rem;
   font-size: var(--fs-md);
   background: transparent;
 
-  th {
-    padding-right: var(--space-4);
-    font-family: var(--font-note);
-    vertical-align: middle;
-  }
-
+  th,
   td {
+    padding: 0.3rem 0.25rem;
     vertical-align: middle;
   }
 
-  td:last-child {
+  thead th {
+    font-size: var(--fs-xs);
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+
+  tbody th {
+    font-family: var(--font-note);
+    text-align: left;
+  }
+
+  .tag {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--fs-xs);
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+
+  .primary .tag:first-of-type {
+    color: var(--accent);
+  }
+
+  .tag.issue {
+    color: var(--danger);
+  }
+
+  .bonus {
+    text-align: center;
+    color: var(--ink-soft);
+  }
+
+  .total {
     white-space: nowrap;
   }
 
@@ -174,29 +288,9 @@
     background: transparent;
   }
 
-  @media (max-width: 44.99rem) {
-    th {
-      padding-right: var(--space-2);
-    }
-
-    th,
-    td {
-      padding-left: 0.2rem;
-      padding-right: 0.2rem;
-    }
-
-    .stepper input {
-      width: 2.8rem;
-    }
-
-    strong {
-      font-size: 1.3rem;
-    }
-  }
-
   strong {
     font-family: var(--font-hand);
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     color: var(--accent);
   }
 
@@ -204,10 +298,10 @@
   .stepper {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1);
+    gap: 0.15rem;
 
     button {
-      min-width: var(--tap, 2.75rem);
+      min-width: 2.4rem;
       min-height: var(--tap, 2.75rem);
       padding: 0;
       font-size: 1.3rem;
@@ -215,102 +309,86 @@
     }
 
     input {
-      width: 3.5rem;
+      width: 3.2rem;
       text-align: center;
+    }
+  }
+
+  @media (max-width: 44.99rem) {
+    font-size: var(--fs-sm);
+
+    .stepper input {
+      width: 2.6rem;
+      padding-inline: 0.1rem;
+    }
+
+    strong {
+      font-size: 1.25rem;
     }
   }
 }
 
-.missing {
-  @include nb.sticky-note(-0.4deg);
-  padding-left: 2rem;
-  list-style: none;
-
-  ul {
-    margin: var(--space-2) 0;
-    padding-left: 0;
-    list-style: none;
-  }
-
-  li {
-    margin-bottom: 0.25rem;
-  }
-}
-
-ul.missing {
-  padding-left: 1rem;
-}
-
-.nav,
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-3);
-  padding-top: var(--space-3);
-  border-top: 1px dashed var(--line-strong);
-}
-
-.preview {
-  position: sticky;
-  top: 4.75rem;
-  padding: 2.6rem var(--space-4) var(--space-4);
-  background-color: var(--card);
-  border: 1px solid var(--line);
+// hit points: the maximum always in view, then the actions on every level, then each class
+.hp-total {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  background: var(--card);
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-2);
-  overflow: hidden;
+  box-shadow: var(--shadow-1);
 
-  h2 {
-    margin: 0 0 var(--space-1);
-    font-size: var(--fs-xl);
+  .big {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: var(--fs-lg);
+
+    strong {
+      font-family: var(--font-hand);
+      font-size: 2.6rem;
+      line-height: 1;
+      color: var(--accent);
+    }
   }
 
-  > p:first-of-type {
-    font-family: var(--font-note);
+  .formula {
+    margin: 0;
     font-size: var(--fs-sm);
-  }
-
-  dl {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 0.2rem var(--space-2);
-  }
-
-  dt {
-    font-weight: 400;
     color: var(--ink-soft);
   }
+}
 
-  dd {
+.hp-all button {
+  min-height: var(--tap);
+}
+
+.hp-write {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-2) var(--space-3);
+  flex: 1 1 100%;
+
+  input {
+    width: 6rem;
+  }
+
+  p {
+    flex: 1 1 100%;
     margin: 0;
-    font-family: var(--font-hand);
-    font-size: 1.35rem;
-    font-weight: 700;
-    line-height: 1.1;
-    color: var(--accent);
   }
+}
 
-  .mini-abilities {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-1);
-    margin: 0;
+.hint.rule {
+  font-style: italic;
+}
 
-    span {
-      padding: 0.1rem;
-      font-size: var(--fs-sm);
-      text-align: center;
-      border: 1px solid var(--line-strong);
-      border-radius: nb.$hand-radius;
-    }
-  }
-
-  @media (max-width: 52rem) {
-    position: relative; // keeps the theme ornaments inside the card
-    top: 0;
-  }
+.spells h3.todo {
+  color: var(--warn);
 }
 
 .issue {
@@ -320,6 +398,85 @@ ul.missing {
 legend.issue,
 h3.issue {
   color: var(--danger);
+}
+
+.create-own {
+  margin: var(--space-3) 0;
+}
+
+// last step: name and folder, what's pending (each item goes to it), then the sheet
+.identity {
+  display: grid;
+  gap: var(--space-3);
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.portrait-slot:empty {
+  display: none;
+}
+
+.pending {
+  @include nb.sticky-note(-0.3deg);
+
+  h3 {
+    margin: 0 0 var(--space-2);
+  }
+
+  h4 {
+    margin: var(--space-2) 0 0;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .link {
+    min-height: var(--tap);
+    padding: 0;
+    color: var(--ink-blue);
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .item {
+    display: flex;
+    justify-content: flex-start;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: var(--tap);
+    padding: 0.15rem 0.3rem;
+    font-family: var(--font-body);
+    font-size: var(--fs-sm);
+    text-align: left;
+    background: none;
+    border: 0;
+    box-shadow: none;
+
+    &.issue {
+      color: var(--danger);
+    }
+
+    .arrow {
+      margin-left: auto;
+      white-space: nowrap;
+      color: var(--ink-blue);
+    }
+  }
+
+  &.ok p {
+    margin: 0;
+    color: var(--ok);
+  }
+}
+
+.sheet-title {
+  margin-bottom: calc(-1 * var(--space-2));
 }
 
 // -- starting equipment: the book's packages as cards, the purse and the shop ------------------
@@ -528,21 +685,4 @@ h3.issue {
     background-color: var(--accent);
     border-color: var(--accent);
   }
-}
-
-// moving to a step scrolls here (below the sticky header on wide screens)
-.steps {
-  scroll-margin-top: 5.5rem;
-
-  @media (max-width: 44.99rem) {
-    scroll-margin-top: 0.5rem;
-  }
-}
-
-.step:focus {
-  outline: none;
-}
-
-.create-own {
-  margin: var(--space-3) 0;
 }

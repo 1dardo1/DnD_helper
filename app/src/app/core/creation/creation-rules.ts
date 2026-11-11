@@ -14,6 +14,7 @@ import {
 import { TOOL_CHOICE, castingOf } from '../rules/engine';
 import { multiclassGains } from '../rules/multiclass';
 import { Sheet } from '../rules/sheet';
+import { hpMethodAt } from './hp-levels';
 import { countsFor, spellCasters, spellsByClassOf } from './spell-choices';
 import { ABILITIES, SKILL_ABILITY } from '../rules/tables';
 
@@ -318,13 +319,27 @@ export function visibleOptions(
 }
 
 export type Step =
-  'class' | 'background' | 'species' | 'abilities' | 'choices' | 'equipment' | 'details';
+  | 'class'
+  | 'background'
+  | 'species'
+  | 'abilities'
+  | 'hp'
+  | 'choices'
+  | 'spells'
+  | 'equipment'
+  | 'details';
+/**
+ * The wizard's steps, in the order of the 2024 Player's Handbook; hit points after the ability
+ * scores (Constitution counts), and 'spells' only for casters.
+ */
 export const STEPS: Step[] = [
   'class',
   'background',
   'species',
   'abilities',
+  'hp',
   'choices',
+  'spells',
   'equipment',
   'details',
 ];
@@ -553,7 +568,9 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
     background: [],
     species: [],
     abilities: [],
+    hp: [],
     choices: [],
+    spells: [],
     equipment: [],
     details: [],
   };
@@ -629,6 +646,15 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
   )
     out.abilities.push({ key: 'create.missing.pointBuy', kind: 'issue' });
 
+  // hit points: a level to be rolled that wasn't rolled yet (it counts as the average meanwhile)
+  ch.classes.forEach((c, ci) => {
+    const cls = ctx.classes[ci];
+    if (!cls) return;
+    for (let i = 0; i < c.level; i++)
+      if (hpMethodAt(c, i) === 'roll' && c.hp[i] == null)
+        miss('hp', 'create.missing.hpRoll', { cls: cls.name, level: i + 1 });
+  });
+
   // class choices
   if (classes.length) {
     const picks = skillPicks(classes);
@@ -682,14 +708,19 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
         const { cantrips, leveled } = countsFor(pickedBy, caster, ctx.spells);
         const maxC = sc.cantripsByLevel?.[c.level - 1];
         const maxP = sc.preparedByLevel?.[c.level - 1];
-        if (maxC !== undefined && cantrips > maxC)
-          out.choices.push({
+        // fewer than the class table gives: still to pick (the spells step)
+        if (maxC != null && cantrips < maxC)
+          miss('spells', 'create.missing.cantrips', { cls: cls.name, count: maxC - cantrips });
+        if (maxP != null && leveled < maxP)
+          miss('spells', 'create.missing.spells', { cls: cls.name, count: maxP - leveled });
+        if (maxC != null && cantrips > maxC)
+          out.spells.push({
             key: 'create.issue.tooManyCantrips',
             params: { cls: cls.name, count: maxC },
             kind: 'issue',
           });
-        if (maxP !== undefined && leveled > maxP)
-          out.choices.push({
+        if (maxP != null && leveled > maxP)
+          out.spells.push({
             key: 'create.issue.tooManySpells',
             params: { cls: cls.name, count: maxP },
             kind: 'issue',
