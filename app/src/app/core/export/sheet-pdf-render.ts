@@ -1,5 +1,6 @@
-import { PDFDocument, PDFFont, PDFPage, RGB, StandardFonts, rgb } from 'pdf-lib';
+import { PDFDocument, PDFFont, PDFImage, PDFPage, RGB, StandardFonts, rgb } from 'pdf-lib';
 
+import { portraitToBytes } from '../characters/portrait';
 import { PdfColor, toWinAnsi } from './pdf-text';
 import { PdfOp, PdfPage, SheetPdfInput, composeSheetPdf } from './sheet-pdf';
 
@@ -29,14 +30,52 @@ export async function renderSheetPdf(input: SheetPdfInput): Promise<Uint8Array> 
   doc.setTitle(toWinAnsi(input.name));
   doc.setCreator('D&D Helper');
   doc.setProducer('D&D Helper');
+  const images = new Map<string, PDFImage | null>();
   for (const spec of composeSheetPdf(input, measure)) {
+    for (const op of spec.ops) {
+      if (op.k === 'image' && !images.has(op.data)) {
+        images.set(op.data, await embedPortrait(doc, op.data));
+      }
+    }
     const page = doc.addPage([spec.width, spec.height]);
-    for (const op of spec.ops) draw(page, spec, op, regular, bold);
+    for (const op of spec.ops) draw(page, spec, op, regular, bold, images);
   }
   return doc.save();
 }
 
-function draw(page: PDFPage, spec: PdfPage, op: PdfOp, regular: PDFFont, bold: PDFFont): void {
+/** pdf-lib embeds PNG and JPEG only: a WebP portrait is redrawn as JPEG first. A failure = no image. */
+async function embedPortrait(doc: PDFDocument, dataUrl: string): Promise<PDFImage | null> {
+  try {
+    const parsed = portraitToBytes(dataUrl);
+    if (!parsed) return null;
+    if (parsed.mime === 'image/png') return await doc.embedPng(parsed.bytes);
+    if (parsed.mime === 'image/jpeg') return await doc.embedJpg(parsed.bytes);
+    const bitmap = await createImageBitmap(
+      new Blob([parsed.bytes as BlobPart], { type: parsed.mime }),
+    );
+    const canvas = document.createElement('canvas');
+    canvas.width = bitmap.width;
+    canvas.height = bitmap.height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return null;
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(bitmap, 0, 0);
+    const jpeg = portraitToBytes(canvas.toDataURL('image/jpeg', 0.92));
+    return jpeg ? await doc.embedJpg(jpeg.bytes) : null;
+  } catch {
+    return null;
+  }
+}
+
+function draw(
+  page: PDFPage,
+  spec: PdfPage,
+  op: PdfOp,
+  regular: PDFFont,
+  bold: PDFFont,
+  images: Map<string, PDFImage | null>,
+): void {
   const H = spec.height;
   switch (op.k) {
     case 'rect':
@@ -66,6 +105,11 @@ function draw(page: PDFPage, spec: PdfPage, op: PdfOp, regular: PDFFont, bold: P
         borderWidth: op.stroke ? (op.lw ?? 0.8) : 0,
       });
       break;
+    case 'image': {
+      const img = images.get(op.data);
+      if (img) page.drawImage(img, { x: op.x, y: H - op.y - op.h, width: op.w, height: op.h });
+      break;
+    }
     case 'half':
       page.drawSvgPath(
         `M ${op.cx} ${op.cy - op.r} A ${op.r} ${op.r} 0 0 0 ${op.cx} ${op.cy + op.r} Z`,

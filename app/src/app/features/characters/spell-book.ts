@@ -1,5 +1,5 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject, input, output, resource, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { spellListOf, spellsFor } from '../../core/creation/creation-rules';
@@ -12,12 +12,15 @@ import {
   spellsOf,
   toggleSpellFor,
 } from '../../core/creation/spell-choices';
+import { matchesQuery } from '../../core/characters/sheet-helpers';
 import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service';
+import { PhrasePipe } from '../../core/i18n/glossary';
 import { TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character } from '../../core/models/character';
 import { Spell } from '../../core/models/compendium';
 import { castingOf } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
+import { EntryDetails } from '../../shared/picker/entry-details';
 import { defaultOrder } from '../../shared/picker/entry-order';
 import { SwipeDirective, stepOf } from '../../shared/swipe.directive';
 
@@ -38,7 +41,14 @@ interface Caster {
  */
 @Component({
   selector: 'app-spell-book',
-  imports: [RouterLink, TranslatePipe, DataNamePipe, SwipeDirective],
+  imports: [
+    NgTemplateOutlet,
+    TranslatePipe,
+    DataNamePipe,
+    PhrasePipe,
+    SwipeDirective,
+    EntryDetails,
+  ],
   templateUrl: './spell-book.html',
   styleUrl: './spell-book.scss',
 })
@@ -144,6 +154,20 @@ export class SpellBook {
     delete spellSwap[c.classId];
     this.editing.set(null);
     this.changed.emit({ ...ch, state: { ...ch.state, spellSwap } });
+  }
+
+  /** The quick search over the spells (shown when there are many). */
+  protected readonly query = signal('');
+  protected readonly total = computed(() =>
+    this.casters().reduce((n, c) => n + c.cantrips.length + c.prepared.length, 0),
+  );
+
+  /** The spells of a list that match the search (by their English or translated name). */
+  protected shownOf(list: Spell[]): Spell[] {
+    const q = this.query();
+    return q.trim()
+      ? list.filter((s) => matchesQuery(q, s.name, this.dataText.name(s.name)))
+      : list;
   }
 
   /** Phones, with two or more casting classes: the one shown (a strip of tabs, or a swipe). */

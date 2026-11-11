@@ -41,6 +41,7 @@ import {
   SPECIES_SLOT,
   featsForSlot,
   featsForSpecies,
+  optionGroupFull,
   optionGroupsFor,
   optionLocks,
   optionUncheckedNote,
@@ -107,6 +108,7 @@ import { traitChoiceFor, traitChoiceKey, translatedOptions } from '../../core/ru
 import { FeatChoices } from '../../shared/feat-choices';
 import { HpLevels } from '../../shared/hp-levels';
 import { resizeHp, spreadHpTotal, withMethodEverywhere } from '../../core/creation/hp-levels';
+import { PortraitPicker } from '../../shared/portrait-picker';
 import { TraitChoice, TraitChoiceItem } from '../../shared/trait-choice';
 import { PickOptionLabel, TraitPicks } from '../../shared/trait-picks';
 import { RulesDataService } from '../../core/rules/rules-data.service';
@@ -161,6 +163,7 @@ type ClassEntry = Character['classes'][number];
   host: { '(window:beforeunload)': 'onBeforeUnload($event)' },
   imports: [
     RouterLink,
+    PortraitPicker,
     NgTemplateOutlet,
     TranslatePipe,
     LocalDatePipe,
@@ -1433,6 +1436,7 @@ export class CharacterCreate implements LeaveCheck {
   }
 
   protected readonly planGroup = PLAN_GROUP;
+  protected readonly isFull = optionGroupFull;
   /** Every compendium item, for the plan pickers. */
   protected readonly allItems = computed(() => [
     ...(this.data.value()?.rules.items.values() ?? []),
@@ -1690,6 +1694,10 @@ export class CharacterCreate implements LeaveCheck {
         .filter((f): f is string => !!f),
     ]),
   ]);
+
+  protected withPortrait(portrait: string | null) {
+    return (c: Character) => ({ ...c, portrait });
+  }
 
   protected withNotes(notes: string) {
     return (c: Character) => ({ ...c, notes });

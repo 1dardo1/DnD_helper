@@ -7,7 +7,7 @@
   @for (group of groups; track group.source.type + group.source.id + group.source.name) {
     <h3>{{ group.source.name | dataName }}</h3>
     @for (f of group.features; track $index) {
-      <details class="feature">
+      <details class="feature" [open]="featuresOpen() || !!featureQuery()">
         <summary>
           @if (group.source.type === 'class' || group.source.type === 'subclass') {
             <small>{{ 'compendium.level' | t: { level: f.level } }}</small>
@@ -37,30 +37,41 @@
     [appClassTheme]="{ classId: c.classes[0]?.id, subclassId: c.classes[0]?.subclassId }"
     appClassThemeScope="parent"
   >
-    <div class="title-row">
-      <h1>{{ s.name }}</h1>
-      <span
-        class="chip"
-        [attr.data-status]="status() ?? v.record.status"
-        [title]="'characters.status.' + (status() ?? v.record.status) | t"
-        ><span aria-hidden="true">☁</span>
-        <span class="label">{{
-          'characters.status.' + (status() ?? v.record.status) | t
-        }}</span></span
-      >
+    <div class="head-main">
+      <div class="avatar-slot">
+        <app-character-portrait
+          [portrait]="c.portrait"
+          [name]="s.name"
+          (portraitChange)="saveCharacter({ ...c, portrait: $event })"
+        />
+      </div>
+      <div class="head-text">
+        <div class="title-row">
+          <h1>{{ s.name }}</h1>
+          <span
+            class="chip"
+            [attr.data-status]="status() ?? v.record.status"
+            [title]="'characters.status.' + (status() ?? v.record.status) | t"
+            ><span aria-hidden="true">☁</span>
+            <span class="label">{{
+              'characters.status.' + (status() ?? v.record.status) | t
+            }}</span></span
+          >
+        </div>
+        <p class="subtitle">
+          {{ classLine(s) }}
+          @if (s.species) {
+            · {{ s.species | dataName }}
+          }
+          @if (s.background) {
+            · {{ s.background | dataName }}
+            @if (s.backgroundHomebrew; as h) {
+              <app-homebrew-badge variant="inline" [approved]="h === 'approved'" />
+            }
+          }
+        </p>
+      </div>
     </div>
-    <p class="subtitle">
-      {{ classLine(s) }}
-      @if (s.species) {
-        · {{ s.species | dataName }}
-      }
-      @if (s.background) {
-        · {{ s.background | dataName }}
-        @if (s.backgroundHomebrew; as h) {
-          <app-homebrew-badge variant="inline" [approved]="h === 'approved'" />
-        }
-      }
-    </p>
     <div class="actions-line">
       <!-- Wide screens: all the buttons in a row. -->
       <span class="links wide">
@@ -75,6 +86,9 @@
           </button>
         }
         <app-export-pdf-button [character]="c" />
+        <button type="button" class="btn danger-link" (click)="remove()">
+          {{ 'sheet.delete' | t }}
+        </button>
       </span>
       <!-- Phones and tablets: level up (when it applies) and one actions menu. -->
       <span class="links compact">
@@ -123,6 +137,9 @@
                 </button>
               }
               <app-export-pdf-button [character]="c" menuItem (done)="menuOpen.set(false)" />
+              <button type="button" role="menuitem" class="btn danger-link" (click)="remove()">
+                {{ 'sheet.delete' | t }}
+              </button>
             </div>
           }
         </span>
@@ -152,7 +169,19 @@
       </summary>
       <ul>
         @for (w of s.warnings; track w) {
-          <li>{{ warning(w) }}</li>
+          <li>
+            {{ warning(w) }}
+            @let fix = warningFix(w);
+            @if (fix && 'step' in fix) {
+              <button type="button" class="fix" (click)="fixInEditor(fix.step)">
+                {{ 'sheetx.fix' | t }} →
+              </button>
+            } @else if (fix && 'tab' in fix) {
+              <a class="fix" [routerLink]="tabLink(c.id, fix.tab)" replaceUrl
+                >{{ 'sheetx.fixHere' | t }} →</a
+              >
+            }
+          </li>
         }
       </ul>
     </details>
@@ -181,8 +210,17 @@
       @switch (tab()) {
         @case ('resumen') {
           <div class="page summary" data-page="resumen">
+            <nav class="jump" [attr.aria-label]="'sheetx.jump' | t">
+              <button type="button" (click)="jumpTo('sec-play')">{{ 'play.title' | t }}</button>
+              <button type="button" (click)="jumpTo('sec-attacks')">
+                {{ 'sheet.attacks' | t }}
+              </button>
+              <button type="button" (click)="jumpTo('sec-abilities')">
+                {{ 'sheet.abilities' | t }}
+              </button>
+            </nav>
             <div class="col-side">
-              <section class="abilities-block">
+              <section class="abilities-block" id="sec-abilities">
                 <h2>{{ 'sheet.abilities' | t }}</h2>
                 <div class="abilities">
                   @for (a of abilities; track a) {
@@ -269,6 +307,14 @@
                 }
               </section>
 
+              <app-play-panel
+                id="sec-play"
+                part="hp"
+                [sheet]="s"
+                [state]="c.state"
+                (changed)="saveState($event)"
+              />
+
               @if (s.hitPoints.levels.length) {
                 <details class="hp-breakdown">
                   <summary>{{ 'hp.breakdown' | t }}</summary>
@@ -312,13 +358,6 @@
               }
 
               <app-play-panel
-                part="hp"
-                [sheet]="s"
-                [state]="c.state"
-                (changed)="saveState($event)"
-              />
-
-              <app-play-panel
                 part="resources"
                 [sheet]="s"
                 [state]="c.state"
@@ -326,6 +365,7 @@
               />
 
               <app-equipment-panel
+                id="sec-attacks"
                 part="attacks"
                 [character]="c"
                 [sheet]="s"
@@ -360,24 +400,51 @@
                   </a>
                 }
               </div>
-              <ng-container *ngTemplateOutlet="groupsTpl; context: { $implicit: classGroups() }" />
+              @if (featureCount() > 6) {
+                <div class="quick-filter" role="search">
+                  <input
+                    type="search"
+                    enterkeyhint="search"
+                    [placeholder]="'sheetx.filter.features' | t"
+                    [attr.aria-label]="'sheetx.filter.features' | t"
+                    [value]="featureQuery()"
+                    (input)="featureQuery.set($any($event.target).value)"
+                  />
+                  <button
+                    type="button"
+                    class="btn-ghost"
+                    [attr.aria-pressed]="featuresOpen()"
+                    (click)="featuresOpen.set(!featuresOpen())"
+                  >
+                    {{ (featuresOpen() ? 'sheetx.closeAll' : 'sheetx.openAll') | t }}
+                  </button>
+                </div>
+                @if (!featuresFound()) {
+                  <p class="none" role="status">
+                    {{ 'sheetx.filter.none' | t: { q: featureQuery() } }}
+                  </p>
+                }
+              }
+              <ng-container
+                *ngTemplateOutlet="groupsTpl; context: { $implicit: shownClassGroups() }"
+              />
             </section>
 
             <div class="col-side">
-              @if (speciesGroups().length) {
+              @if (shownSpeciesGroups().length) {
                 <section>
                   <h2>{{ 'sheet.speciesTraits' | t }}</h2>
                   <ng-container
-                    *ngTemplateOutlet="groupsTpl; context: { $implicit: speciesGroups() }"
+                    *ngTemplateOutlet="groupsTpl; context: { $implicit: shownSpeciesGroups() }"
                   />
                 </section>
               }
 
-              @if (otherGroups().length) {
+              @if (shownOtherGroups().length) {
                 <section>
                   <h2>{{ 'sheet.featsAndBackground' | t }}</h2>
                   <ng-container
-                    *ngTemplateOutlet="groupsTpl; context: { $implicit: otherGroups() }"
+                    *ngTemplateOutlet="groupsTpl; context: { $implicit: shownOtherGroups() }"
                   />
                 </section>
               }
@@ -471,9 +538,6 @@
                     [state]="c.state"
                     (changed)="saveState($event)"
                   />
-                  @if (s.spellcasting.pact; as pact) {
-                    <p>{{ 'sheet.pact' | t: { slots: pact.slots, level: pact.level } }}</p>
-                  }
                 </div>
               </div>
             </section>
@@ -577,18 +641,33 @@
             <section>
               <h2>{{ 'sheet.notes' | t }}</h2>
               <textarea
-                rows="10"
+                rows="12"
                 [value]="notesDraft() ?? c.notes"
-                (input)="notesDraft.set($any($event.target).value)"
+                (input)="typeNotes($any($event.target).value)"
+                (blur)="flushNotes()"
                 [attr.aria-label]="'sheet.notes' | t"
+                aria-describedby="notes-state"
               ></textarea>
-              <p class="actions">
-                <button type="button" (click)="saveNotes()" [disabled]="notesDraft() === null">
-                  {{ 'sheet.saveNotes' | t }}
-                </button>
-                <button type="button" class="danger" (click)="remove()">
-                  {{ 'sheet.delete' | t }}
-                </button>
+              <p
+                class="notes-state"
+                id="notes-state"
+                role="status"
+                [attr.data-state]="notesState()"
+              >
+                @switch (notesState()) {
+                  @case ('pending') {
+                    {{ 'sheetx.notes.pending' | t }}
+                  }
+                  @case ('saving') {
+                    {{ 'sheetx.notes.saving' | t }}
+                  }
+                  @case ('saved') {
+                    ✓ {{ 'sheetx.notes.saved' | t }}
+                  }
+                  @default {
+                    {{ 'sheetx.notes.hint' | t }}
+                  }
+                }
               </p>
             </section>
           </div>

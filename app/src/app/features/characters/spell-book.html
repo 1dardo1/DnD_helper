@@ -1,5 +1,42 @@
 @let all = casters();
 @let shown = shownCaster() < all.length ? shownCaster() : 0;
+<!-- One spell: tap to read it here (time, range, components, duration, text). -->
+<ng-template #spellTpl let-s>
+  <li>
+    <details>
+      <summary>
+        <small class="lvl">{{
+          s.level === 0 ? ('spell.cantrip' | t) : ('spell.levelShort' | t: { level: s.level })
+        }}</small>
+        <span class="nm">{{ s.name | dataName: true }}</span>
+        @if (s.concentration) {
+          <abbr class="tag" [title]="'sheetx.spell.concentration' | t">{{
+            'sheetx.spell.concShort' | t
+          }}</abbr>
+        }
+        @if (s.ritual) {
+          <abbr class="tag" [title]="'sheetx.spell.ritual' | t">{{
+            'sheetx.spell.ritualShort' | t
+          }}</abbr>
+        }
+        <span class="when">{{ s.castingTime.raw.split(',')[0] | phrase }}</span>
+      </summary>
+      <app-entry-details [entry]="s" />
+    </details>
+  </li>
+</ng-template>
+@if (total() > 8) {
+  <div class="quick-filter" role="search">
+    <input
+      type="search"
+      enterkeyhint="search"
+      [placeholder]="'sheetx.filter.spells' | t"
+      [attr.aria-label]="'sheetx.filter.spells' | t"
+      [value]="query()"
+      (input)="query.set(value($event))"
+    />
+  </div>
+}
 @if (all.length > 1) {
   <div class="caster-tabs" role="tablist" [attr.aria-label]="'sheet.spellcasting' | t">
     @for (c of all; track c.classId) {
@@ -30,10 +67,8 @@
           <strong>{{ 'spells.cantrips' | t }}</strong>
         </p>
         <ul class="spells">
-          @for (s of c.cantrips; track s.id) {
-            <li>
-              <a [routerLink]="['/compendium', 'spell', s.id]">{{ s.name | dataName: true }}</a>
-            </li>
+          @for (s of shownOf(c.cantrips); track s.id) {
+            <ng-container *ngTemplateOutlet="spellTpl; context: { $implicit: s }" />
           }
         </ul>
       }
@@ -46,15 +81,12 @@
         }
       </p>
       <ul class="spells">
-        @for (s of c.prepared; track s.id) {
-          <li>
-            <a [routerLink]="['/compendium', 'spell', s.id]"
-              ><small>{{ 'spell.levelShort' | t: { level: s.level } }}</small>
-              {{ s.name | dataName: true }}</a
-            >
-          </li>
+        @for (s of shownOf(c.prepared); track s.id) {
+          <ng-container *ngTemplateOutlet="spellTpl; context: { $implicit: s }" />
         } @empty {
-          <li class="none">—</li>
+          <li class="none">
+            {{ query() ? ('sheetx.filter.none' | t: { q: query() }) : '—' }}
+          </li>
         }
       </ul>
 
