@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-11T18:26:15.599Z",
+  "updatedAt": "2026-11-11T18:26:27.459Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -349,14 +349,7 @@
       "attack:snipers-bracelet",
       "spell:cure-wounds",
       "feature:subclass:artificer/artillerist-ua:eldritch-cannon@bonus"
-    ],
-    "cannon": {
-      "active": true,
-      "size": "Small",
-      "aspect": "legs",
-      "damage": 0,
-      "temp": 0
-    }
+    ]
   },
   "notes": "General de la casa de Don, terror de las brumas",
   "money": {
