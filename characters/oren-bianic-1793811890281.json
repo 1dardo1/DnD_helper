@@ -3,7 +3,7 @@
   "id": "oren-bianic-1793811890281",
   "name": "Oren Bianic",
   "dataVersion": "2026-10-30T17:28:19+00:00",
-  "updatedAt": "2026-11-11T18:06:20.423Z",
+  "updatedAt": "2026-11-11T18:06:27.020Z",
   "updatedBy": "Linux armv81",
   "species": {
     "id": "gnome",
@@ -286,7 +286,7 @@
     }
   ],
   "state": {
-    "hpCurrent": 14,
+    "hpCurrent": null,
     "hpTemp": 0,
     "spentSlots": [
       0,
