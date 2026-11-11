@@ -1364,7 +1364,8 @@ export const es: Record<keyof typeof en, string> = {
   'picker.sort.crAsc': 'Desafío, de menor a mayor',
   'picker.sort.crDesc': 'Desafío, de mayor a menor',
   'picker.sort.name': 'Nombre',
-  'monster.crValue': 'VD {cr}',
+  // non-breaking space: "VD" and its number never split across lines
+  'monster.crValue': 'VD {cr}',
   'monster.walkOnly': 'Solo a pie',
   'monster.legendaryShort': 'L',
   'monster.sense.darkvision': 'Visión en la oscuridad',

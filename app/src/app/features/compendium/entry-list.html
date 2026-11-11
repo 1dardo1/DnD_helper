@@ -77,6 +77,30 @@
       </label>
     }
   </app-filter-bar>
+  @if (quick(); as qs) {
+    <nav class="quick" [attr.aria-label]="'browse.quickBy' | t: { facet: qs.label }">
+      <button
+        type="button"
+        class="chip"
+        [class.on]="qs.all"
+        [attr.aria-pressed]="qs.all"
+        (click)="setQuick(qs.key, '')"
+      >
+        {{ 'browse.quickAll' | t }}
+      </button>
+      @for (c of qs.chips; track c.value) {
+        <button
+          type="button"
+          class="chip"
+          [class.on]="c.on"
+          [attr.aria-pressed]="c.on"
+          (click)="setQuick(qs.key, c.value)"
+        >
+          {{ c.label }}
+        </button>
+      }
+    </nav>
+  }
   <ng-template #card let-e>
     <li
       class="card-item"
@@ -120,3 +144,5 @@
     </p>
   }
 }
+
+<app-scroll-top />

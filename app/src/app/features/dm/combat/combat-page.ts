@@ -1,4 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   Component,
   DestroyRef,
@@ -35,6 +36,7 @@ import { CombatStore } from '../../../core/dm/combat-store.service';
 import { DataTextService } from '../../../core/i18n/data-text.service';
 import { I18nService, TranslatePipe } from '../../../core/i18n/i18n.service';
 import { MonsterStatBlock } from '../../compendium/monster-stat-block';
+import { ScrollTop } from '../../compendium/scroll-top';
 import { CombatSetup } from './combat-setup';
 import { MonsterCard } from './monster-card';
 
@@ -58,7 +60,7 @@ interface Row extends OrderEntry {
  */
 @Component({
   selector: 'app-combat-page',
-  imports: [TranslatePipe, NgTemplateOutlet, CombatSetup, MonsterCard, MonsterStatBlock],
+  imports: [TranslatePipe, NgTemplateOutlet, CombatSetup, MonsterCard, MonsterStatBlock, ScrollTop],
   templateUrl: './combat-page.html',
   styleUrl: './combat-page.scss',
 })
@@ -160,13 +162,19 @@ export class CombatPage implements OnInit {
     }
   }
 
+  private readonly destroyRef = inject(DestroyRef);
+
   ngOnInit(): void {
-    const id = this.route.snapshot.queryParamMap.get('encounter');
-    if (id) {
-      // straight to the order and the cards: no setup step
-      this.setupOpen.set(false);
-      void this.openEncounter(id);
-    }
+    // the query, not its snapshot: "Empezar combate" from a page that reuses this one (already on
+    // /dm/combat) still brings the encounter in
+    this.route.queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      const id = params.get('encounter');
+      if (id) {
+        // straight to the order and the cards: no setup step
+        this.setupOpen.set(false);
+        void this.openEncounter(id);
+      }
+    });
   }
 
   // -- encounter -----------------------------------------------------------------------------

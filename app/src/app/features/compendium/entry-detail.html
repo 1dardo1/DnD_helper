@@ -10,7 +10,7 @@
 } @else if (entry.error()) {
   <app-load-error [error]="entry.error()" />
 } @else if (entry.value(); as e) {
-  <article [appClassTheme]="e">
+  <article #article [appClassTheme]="e">
     <h1>{{ e.name | dataName }}</h1>
     <p class="meta">
       @if (e.custom) {
@@ -24,7 +24,14 @@
       @if (e.url) {
         <a [href]="e.url" target="_blank" rel="noopener">{{ 'compendium.originalPage' | t }}</a>
       }
+      <button type="button" class="btn-ghost share" (click)="share(e)">
+        {{ (canShare ? 'browse.share' : copied() ? 'browse.linkCopied' : 'browse.copyLink') | t }}
+      </button>
+      <span class="visually-hidden" aria-live="polite">{{
+        copied() ? ('browse.linkCopied' | t) : ''
+      }}</span>
     </p>
+    <app-section-jump [root]="article" />
     @if (e.custom) {
       <app-custom-background-panel [background]="$any(e)" />
     }
@@ -49,8 +56,13 @@
             {{ s.level === 0 ? ('spell.cantrip' | t) : s.level }} ·
             <a [routerLink]="['/compendium', 'spell']" [queryParams]="{ school: s.school }">{{
               s.school | term: 'school'
-            }}</a
-            >{{ s.ritual ? ' (' + ('spell.ritual' | t) + ')' : '' }}
+            }}</a>
+            @if (s.concentration) {
+              <span class="tag">{{ 'picker.facet.concentration' | t }}</span>
+            }
+            @if (s.ritual) {
+              <span class="tag">{{ 'spell.ritual' | t }}</span>
+            }
           </dd>
           <dt>{{ 'spell.castingTime' | t }}</dt>
           <dd>{{ s.castingTime.raw | dataText | phrase }}</dd>
@@ -730,3 +742,5 @@
 } @else {
   <p>{{ 'compendium.notFound' | t }}</p>
 }
+
+<app-scroll-top />

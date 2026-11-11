@@ -49,6 +49,7 @@ import { applyFacets, modeKey } from '../../shared/picker/picker-filters';
 import { RARITY_ORDER } from './compendium-filters';
 import { normalise, rankName } from './compendium-search';
 import { LoadError } from './load-error';
+import { ScrollTop } from './scroll-top';
 
 const RULE_MUNDANE = 'equipment/crafting-non-magical-items';
 const RULE_MAGIC = 'magic-item/crafting-magical-items';
@@ -81,7 +82,7 @@ type FacetId = 'tool' | 'requirement' | 'cost' | 'time' | 'rarity' | 'consumable
  */
 @Component({
   selector: 'app-crafting-page',
-  imports: [RouterLink, TranslatePipe, TermPipe, DataNamePipe, LoadError, FilterBar],
+  imports: [RouterLink, TranslatePipe, TermPipe, DataNamePipe, LoadError, FilterBar, ScrollTop],
   template: `
     <p>
       <a routerLink="/compendium">← {{ 'nav.compendium' | t }}</a>
@@ -341,6 +342,7 @@ type FacetId = 'tool' | 'requirement' | 'cost' | 'time' | 'rarity' | 'consumable
         </div>
       </div>
     }
+    <app-scroll-top />
   `,
   styles: `
     .links {

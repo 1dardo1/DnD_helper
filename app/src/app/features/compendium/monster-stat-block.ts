@@ -47,6 +47,16 @@ const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
             {{ m.hp }} <span class="soft">({{ m.hitDice }})</span>
           </dd>
         </div>
+        <!-- the challenge rating up here: what a DM looks at first (the book prints it lower) -->
+        <div class="wide">
+          <dt>{{ 'monster.cr' | t }}</dt>
+          <dd>
+            <a [routerLink]="['/compendium', 'monster']" [queryParams]="{ challenge: m.cr }">{{
+              cr()
+            }}</a>
+            <span class="soft">{{ ' ' + crDetails() }}</span>
+          </dd>
+        </div>
         <div class="wide">
           <dt>{{ 'monster.speed' | t }}</dt>
           <dd>{{ speed() }}</dd>
@@ -93,13 +103,6 @@ const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
         <dd>{{ senses() }}</dd>
         <dt>{{ 'monster.languages' | t }}</dt>
         <dd>{{ m.languages ? (m.languages | dataText) : ('compendium.none' | t) }}</dd>
-        <dt>{{ 'monster.cr' | t }}</dt>
-        <dd>
-          <a [routerLink]="['/compendium', 'monster']" [queryParams]="{ challenge: m.cr }">{{
-            cr()
-          }}</a>
-          <span class="soft">{{ ' ' + crDetails() }}</span>
-        </dd>
       </dl>
 
       @for (part of parts(); track part.key) {

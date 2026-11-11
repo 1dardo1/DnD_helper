@@ -31,6 +31,7 @@ import { LoadError } from '../compendium/load-error';
 import { MonsterStatBlock } from '../compendium/monster-stat-block';
 import { RATING_KEY, encounterStats } from './encounter-stats';
 import { PasswordForm, PasswordSubmit } from './password-form';
+import { ScrollTop } from '../compendium/scroll-top';
 
 /** Total level of a saved character (1 when it has no class yet). */
 export function characterLevel(c: Character): number {
@@ -52,6 +53,7 @@ export function characterLevel(c: Character): number {
     MonsterStatBlock,
     LoadError,
     PasswordForm,
+    ScrollTop,
   ],
   templateUrl: './encounter-editor.html',
   styleUrl: './encounter-editor.scss',

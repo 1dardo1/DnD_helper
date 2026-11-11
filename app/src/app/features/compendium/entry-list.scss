@@ -8,10 +8,53 @@
 
 .crumbs {
   margin-bottom: var(--space-2);
+
+  // touch screens: "← Compendio" was a 24 px tall target
+  @media (pointer: coarse) {
+    a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap);
+    }
+  }
 }
 
 app-filter-bar {
   margin-bottom: var(--space-4);
+}
+
+// The quick filter: one row of chips; it scrolls sideways on phones instead of taking the screen
+.quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) 0.4rem;
+  margin: calc(-1 * var(--space-2)) 0 var(--space-4);
+
+  .chip {
+    min-height: var(--tap);
+    padding-inline: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .chip.on {
+    color: var(--on-accent);
+    background-color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  @media (max-width: 44.99rem) {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: -1rem;
+    padding: 0 1rem var(--space-1);
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+
+    .chip {
+      flex: none;
+      scroll-snap-align: start;
+    }
+  }
 }
 
 .cards {
@@ -20,6 +63,11 @@ app-filter-bar {
 
 .card-item {
   @include cards.frame;
+  // Long lists (1346 items, 641 spells): the browser skips the layout and painting of the cards
+  // out of view, so "Mostrar más" doesn't relay the whole list each time. The intrinsic size is a
+  // card's usual height until it has been laid out once (`auto` then remembers the real one).
+  content-visibility: auto;
+  contain-intrinsic-size: auto 10rem;
 }
 
 .card-link {
