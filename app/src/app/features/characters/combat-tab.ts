@@ -419,6 +419,8 @@ export class CombatTab {
   /** A change from the switches of the active states. */
   protected statesChanged(next: PlayState): void {
     this.emit(next);
+  }
+
   /** A row of a spell that needs concentration (the spell's data says so). */
   protected concentrates(r: CombatRow): boolean {
     return r.link?.type === 'spell' && !!this.lists.value()?.spells.get(r.link.id)?.concentration;
