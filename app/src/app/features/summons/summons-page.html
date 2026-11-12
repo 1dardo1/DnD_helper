@@ -10,6 +10,12 @@
     <h1>{{ 'summons.title' | t }}</h1>
   }
 
+  <app-wild-shape-panel
+    [character]="v.record.character"
+    [sheet]="v.sheet"
+    (changed)="wildShapeChanged($event)"
+  />
+
   @if (hasCannon()) {
     <section class="source cannon" data-coverage="structured">
       <header>

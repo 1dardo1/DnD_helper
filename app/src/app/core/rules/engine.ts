@@ -29,6 +29,7 @@ import { multiclassGains } from './multiclass';
 import { hpBreakdown } from '../creation/hp-levels';
 import { COUNTED_FEATURES } from '../play/play-state';
 import { featureNumbers } from './feature-stats';
+import { RAGE_RESISTANCES, activeStatesOf, stateOn, tagNotes } from './active-states';
 import { NaturalWeapon, naturalWeaponOf, unarmedTypeOf } from './natural-weapons';
 import { poolFor } from './pools';
 import { proficientWith } from './attacks';
@@ -500,6 +501,25 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   );
   if (combat.masterySlots > 0 && combat.masteryChosen.length < combat.masterySlots)
     warnings.push({ key: 'sheet.warn.weaponMastery' });
+
+  // -- states switched on in play (Rage, Wild Shape, Hex...): what they change ----------------
+  combat.states = activeStatesOf({
+    features,
+    classes: classes.map((c) => ({ id: c.cls.id, level: c.level })),
+    spells: new Set([...(ch.choices.spells ?? []), ...granted.spells.map((x) => x.id)]),
+    active: ch.state.active,
+    wildShape: ch.state.wildShape,
+    conditions: ch.state.conditions ?? [],
+    heavyArmor: armor?.kind === 'heavy',
+  });
+  tagNotes(combat.notes);
+  tagNotes(combat.stats);
+  // Rage: "You have Resistance to Bludgeoning, Piercing, and Slashing damage"
+  if (stateOn(combat.states, 'rage'))
+    for (const r of RAGE_RESISTANCES) if (!resistances.includes(r)) resistances.push(r);
+  // Innate Sorcery: "The spell save DC of your Sorcerer spells increases by 1"
+  if (stateOn(combat.states, 'innateSorcery'))
+    for (const sc of spellClasses) if (sc.classId === 'sorcerer') sc.saveDc += 1;
 
   // -- class resources -----------------------------------------------------------------
   const resources = classes.flatMap((c) =>
@@ -1229,7 +1249,9 @@ function combatOf(
   if (barb) {
     const dmg = col(barb.cls, barb.level, 'Rage Damage');
     rageDamage = parseInt(dmg, 10) || 0;
-    if (dmg) combat.notes.push({ id: 'rage', source: 'Rage', params: { n: dmg } });
+    // the text adds the sign ("+{n} damage"): the number alone
+    if (dmg) combat.notes.push({ id: 'rage', source: 'Rage', params: { n: rageDamage } });
+    combat.rageDamage = rageDamage;
   }
   const rogue = classes.find((c) => c.cls.id === 'rogue');
   if (rogue) {

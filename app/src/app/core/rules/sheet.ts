@@ -1,4 +1,5 @@
 import type { HpLevelRow } from '../creation/hp-levels';
+import type { SheetActiveState } from './active-states';
 import { Ability } from '../models/compendium';
 import type { FeatureNote } from './feature-stats';
 import type { NaturalWeapon } from './natural-weapons';
@@ -135,6 +136,13 @@ export interface CombatInfo {
   pactBlade: boolean;
   /** Attack rolls score a critical hit from this number (Champion: 19, 18); 20 = normal. */
   critRange: number;
+  /** Barbarian's Rage Damage bonus (0 without it): added to Strength attacks while raging. */
+  rageDamage?: number;
+  /**
+   * States the player can switch on (Rage, Wild Shape, Hex...: core/rules/active-states.ts) and
+   * which are on. Absent in sheets built by hand (tests): none.
+   */
+  states?: SheetActiveState[];
 }
 
 export interface SheetFeatSpell {

@@ -1,4 +1,5 @@
 import { Ability, Item } from '../models/compendium';
+import { stateOn } from './active-states';
 import { Sheet } from './sheet';
 
 /** One line of the attacks table. */
@@ -91,6 +92,10 @@ export function shiftDamage(damage: string, delta: number): string {
   if (!m) return damage;
   return `${m[1]}${signed(Number(m[2] ?? 0) + delta)}`;
 }
+
+/** Damage dice ("1d8+3") or a flat number ("3") plus n. */
+const addFlat = (damage: string, n: number) =>
+  /^\d+$/.test(damage) ? `${Number(damage) + n}` : shiftDamage(damage, n);
 
 const faces = (dice: string) => Number(/d(\d+)/.exec(dice)?.[1] ?? 1);
 
@@ -245,7 +250,15 @@ function addRowNotes(sheet: Sheet, rows: Attack[]): void {
   const combat = sheet.combat;
   if (!combat) return;
   const radiant = !!combat.notes?.some((n) => n.id === 'radiantStrikes');
+  // Rage: "When you make an attack using Strength—with either a weapon or an Unarmed Strike—and
+  // deal damage to the target, you gain a bonus to the damage" (only while it's on)
+  const rage = stateOn(combat.states, 'rage') ? (combat.rageDamage ?? 0) : 0;
   for (const a of rows) {
+    if (rage && a.ability === 'STR') {
+      a.damage = addFlat(a.damage, rage);
+      if (a.versatile) a.versatile = addFlat(a.versatile, rage);
+      a.notes.push({ id: 'rageOn', params: { n: rage } });
+    }
     if (combat.critRange && combat.critRange < 20)
       a.notes.push({ id: 'crit', params: { n: combat.critRange } });
     // a Melee weapon or an Unarmed Strike (they have a reach), not a ranged weapon

@@ -20,6 +20,8 @@ export const DEFAULT_TAB: SheetTab = 'resumen';
 export interface TabInput {
   spellcasting: { classes: readonly unknown[]; slots: readonly number[]; pact: unknown };
   classes: readonly { id: string; level: number }[];
+  /** Features gained: Wild Shape's forms live in the summons tab too. */
+  features?: readonly { name: string; source: { id: string } }[];
 }
 
 export interface TabContext {
@@ -58,7 +60,12 @@ export function visibleTabs(sheet: TabInput, ctx: TabContext): SheetTab[] {
   return SHEET_TABS.filter((tab) => {
     if (tab === 'conjuros') return hasSpellsTab(sheet, ctx.featSpells);
     if (tab === 'invocaciones')
-      return ctx.summonSources > 0 || (ctx.summoned ?? 0) > 0 || !!ctx.hasCannon;
+      return (
+        ctx.summonSources > 0 ||
+        (ctx.summoned ?? 0) > 0 ||
+        !!ctx.hasCannon ||
+        !!sheet.features?.some((f) => f.name === 'Wild Shape' && f.source.id === 'druid')
+      );
     return true;
   });
 }

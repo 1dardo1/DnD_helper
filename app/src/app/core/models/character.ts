@@ -120,6 +120,11 @@ export interface Character {
      * slot: "background", "class:<id>" or "multiclass:<id>".
      */
     toolChoices: { slot: string; tools: string[] }[];
+    /**
+     * Druid's Wild Shape: the Beast forms the character knows (monster ids of data/monsters.json),
+     * at most as many as the Beast Shapes table allows (core/rules/wild-shape.ts). Absent: none.
+     */
+    wildShapeForms?: string[];
     /** Starting equipment package letters (class, background) and what was bought with gold. */
     startingEquipment?: {
       class: string | null;
@@ -180,8 +185,26 @@ export interface Character {
      * sheet asks "keep or change?" for them; cleared once answered or skipped (= keep).
      */
     restChoices?: string[];
+    /**
+     * States switched on in play (core/rules/active-states.ts ids: "rage", "hex",
+     * "huntersMark", "innateSorcery"), in the order they were switched on. Absent: none.
+     */
+    active?: string[];
+    /**
+     * The Wild Shape form the Druid is in (a monster id), when it was taken, and how many hours
+     * the form lasts (to end it on a rest it can't outlast). Absent/null: in their own form.
+     */
+    wildShape?: WildShapeState | null;
   };
   notes: string;
+}
+
+export interface WildShapeState {
+  formId: string;
+  /** ISO date and time it was taken. */
+  since?: string;
+  /** Hours the form lasts ("half your Druid level"). */
+  hours?: number;
 }
 
 /** The player's choices for one feat; what is asked depends on the feat (feat-effects.ts). */
@@ -352,7 +375,39 @@ function normalizeState(base: Character['state'], raw: Character['state'] | unde
   const cannon = normalizeCannon(raw?.cannon);
   if (cannon) state.cannon = cannon;
   else delete state.cannon;
+  const active = normalizeIds(raw?.active);
+  if (active) state.active = active;
+  else delete state.active;
+  const wildShape = normalizeWildShape(raw?.wildShape);
+  if (wildShape) state.wildShape = wildShape;
+  else delete state.wildShape;
   return state;
+}
+
+/** A list of non-empty strings without repeats; null when there is none. */
+function normalizeIds(raw: unknown): string[] | null {
+  if (!Array.isArray(raw)) return null;
+  const ids = [...new Set(raw.filter((x): x is string => typeof x === 'string' && !!x))];
+  return ids.length ? ids : null;
+}
+
+function normalizeWildShape(raw: unknown): WildShapeState | null {
+  if (!raw || typeof raw !== 'object') return null;
+  const w = raw as Partial<WildShapeState>;
+  if (typeof w.formId !== 'string' || !w.formId) return null;
+  return {
+    formId: w.formId,
+    ...(typeof w.since === 'string' ? { since: w.since } : {}),
+    ...(typeof w.hours === 'number' && w.hours > 0 ? { hours: w.hours } : {}),
+  };
+}
+
+function normalizeChoices(base: Character['choices'], raw: Character['choices'] | undefined) {
+  const choices = { ...base, ...(raw ?? {}) };
+  const forms = normalizeIds(raw?.wildShapeForms);
+  if (forms) choices.wildShapeForms = forms;
+  else delete choices.wildShapeForms;
+  return choices;
 }
 
 /** '' or anything that isn't a string becomes null: "no folder" has one spelling everywhere. */
@@ -374,7 +429,7 @@ export function normalizeCharacter(raw: unknown): Character | null {
     schemaVersion: 1,
     folder: normalizeFolder(c.folder),
     ...(portrait ? { portrait } : {}),
-    choices: { ...base.choices, ...(c.choices ?? {}) },
+    choices: normalizeChoices(base.choices, c.choices),
     equipped: { ...base.equipped, ...(c.equipped ?? {}) },
     inventory: c.inventory ?? inventoryFromEquipped(c.equipped),
     state: normalizeState(base.state, c.state),

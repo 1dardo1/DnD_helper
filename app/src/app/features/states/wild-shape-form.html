@@ -1,0 +1,178 @@
+@let v = view();
+@let m = v.monster;
+@let st = state();
+<section class="ws-form" data-testid="wild-shape-form">
+  <header>
+    <h3>{{ 'ws.current' | t: { name: (m.name | dataName: true) } }}</h3>
+    <span class="soft">
+      @for (z of m.size; track z; let last = $last) {
+        {{ z | term: 'size' }}{{ last ? '' : ' / ' }}
+      }
+      · {{ 'ws.crShort' | t: { cr: cr() } }}
+      @if (st.wildShape?.since; as since) {
+        · {{ 'ws.since' | t: { date: dateOf(since), hours: v.rules.hours } }}
+      }
+    </span>
+  </header>
+
+  <dl class="tiles">
+    <div>
+      <dt>{{ 'sheet.armorClassShort' | t }}</dt>
+      <dd>
+        {{ v.ac }}
+        @if (v.acFromCircle) {
+          <small>{{ 'ws.acCircle' | t }}</small>
+        }
+      </dd>
+    </div>
+    <div class="hp">
+      <dt>{{ 'ws.yourHp' | t }}</dt>
+      <dd>
+        {{ hp() }}<small>/{{ sheet().hitPoints.max }}</small>
+        @if (st.hpTemp) {
+          <small class="temp">+{{ st.hpTemp }}</small>
+        }
+      </dd>
+    </div>
+    <div>
+      <dt>{{ 'sheet.initiative' | t }}</dt>
+      <dd>{{ signed(v.initiative) }}</dd>
+    </div>
+    <div class="wide">
+      <dt>{{ 'sheet.speed' | t }}</dt>
+      <dd>
+        @for (sp of speeds(); track sp.kind; let first = $first) {
+          @if (!first) {
+            <small> · </small>
+          }
+          {{ sp.value }}
+          @if (sp.kind !== 'walk') {
+            <small>{{ sp.kind | term: 'speed' }}</small>
+          }
+        }
+      </dd>
+    </div>
+    <div>
+      <dt>{{ 'combat.head.passive' | t }}</dt>
+      <dd>{{ v.passivePerception }}</dd>
+    </div>
+  </dl>
+
+  <ul class="abilities">
+    @for (a of abilities; track a) {
+      <li [class.beast]="v.abilities[a].from === 'beast'">
+        <abbr [title]="'ability.' + a | t">{{ 'abbr.' + a | t }}</abbr>
+        <span class="score">{{ v.abilities[a].score }}</span>
+        <span class="pair"
+          ><small>{{ 'monster.mod' | t }}</small> {{ signed(v.abilities[a].modifier) }}</span
+        >
+        <span class="pair" [class.beast]="v.saves[a].from === 'beast'"
+          ><small>{{ 'monster.save' | t }}</small> {{ signed(v.saves[a].modifier) }}</span
+        >
+      </li>
+    }
+  </ul>
+  @if (v.rules.toughness) {
+    <p class="soft small">{{ 'abbr.CON' | t }}: {{ 'ws.toughness' | t }}</p>
+  }
+
+  <dl class="details">
+    @if (v.skills.length) {
+      <dt>{{ 'monster.skills' | t }}</dt>
+      <dd>
+        @for (s of v.skills; track s.id; let last = $last) {
+          <span [class.beast]="s.from === 'beast'"
+            >{{ 'skill.' + s.id | t }} {{ signed(s.modifier) }}</span
+          >{{ last ? '' : ', ' }}
+        }
+      </dd>
+    }
+    @if (senses().length) {
+      <dt>{{ 'monster.senses' | t }}</dt>
+      <dd>
+        @for (x of senses(); track x.kind; let last = $last) {
+          {{ 'monster.sense.' + x.kind | t }}
+          {{ 'compendium.feet' | t: { n: x.range } }}{{ last ? '' : ', ' }}
+        }
+      </dd>
+    }
+    @if (m.resistances.length) {
+      <dt>{{ 'monster.resistances' | t }}</dt>
+      <dd>{{ terms(m.resistances, 'damage') }}</dd>
+    }
+    @if (m.immunities.length || m.conditionImmunities.length) {
+      <dt>{{ 'monster.immunities' | t }}</dt>
+      <dd>
+        {{ terms(m.immunities, 'damage') }}
+        @if (m.immunities.length && m.conditionImmunities.length) {
+          ;
+        }
+        {{ terms(m.conditionImmunities, 'condition') }}
+      </dd>
+    }
+    @if (m.vulnerabilities.length) {
+      <dt>{{ 'monster.vulnerabilities' | t }}</dt>
+      <dd>{{ terms(m.vulnerabilities, 'damage') }}</dd>
+    }
+  </dl>
+  <p class="soft small legend"><span class="beast">■</span> {{ 'ws.fromBeast' | t }}</p>
+
+  @if (v.attacks.length) {
+    <h4>{{ 'ws.attacks' | t }}</h4>
+    <ul class="attacks">
+      @for (a of v.attacks; track a.name) {
+        <li data-testid="ws-attack">
+          <strong>{{ a.name | dataName: true }}</strong>
+          @if (a.bonus !== null) {
+            <span class="hit">{{ 'combat.line.hit' | t: { n: signed(a.bonus) } }}</span>
+          }
+          @if (damage(a); as d) {
+            <span>{{ d }}</span>
+          }
+          @if (a.reach) {
+            <span class="soft">{{ 'sheet.feet' | t: { n: a.reach } }}</span>
+          }
+          @if (a.range) {
+            <span class="soft">{{ 'sheet.rangeFeet' | t: { range: a.range } }}</span>
+          }
+          @for (n of a.notes; track n.id) {
+            <small class="note">{{ 'combat.note.' + n.id | t: n.params }}</small>
+          }
+        </li>
+      }
+    </ul>
+  }
+
+  @for (
+    part of [
+      { key: 'actions', items: v.otherActions },
+      { key: 'bonusActions', items: v.bonusActions },
+      { key: 'reactions', items: v.reactions },
+      { key: 'traits', items: v.traits },
+    ];
+    track part.key
+  ) {
+    @if (part.items.length) {
+      <h4>{{ 'monster.' + part.key | t }}</h4>
+      @for (f of part.items; track $index) {
+        <div
+          class="md feature"
+          [innerHTML]="
+            '**' + (f.name | dataName: true) + '.** ' + (f.description | dataText) | markdown
+          "
+        ></div>
+      }
+    }
+  }
+
+  <p class="spells">{{ 'ws.spells.' + v.rules.spells | t: { dc: spellDc() } }}</p>
+  <details class="keeps">
+    <summary>{{ 'ws.keeps' | t }} / {{ 'ws.changes' | t }}</summary>
+    <p>
+      <strong>{{ 'ws.keeps' | t }}:</strong> {{ 'ws.keepsText' | t }}
+    </p>
+    <p>
+      <strong>{{ 'ws.changes' | t }}:</strong> {{ 'ws.changesText' | t }}
+    </p>
+  </details>
+</section>

@@ -33,6 +33,8 @@ import { CompendiumService } from '../../core/compendium/compendium.service';
 import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service';
 import { TermPipe } from '../../core/i18n/glossary';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
+import { STATES_TEXTS } from '../../core/i18n/states.es';
+import { ActiveStateId, stateOn } from '../../core/rules/active-states';
 import { Character, Coins, InventoryEntry } from '../../core/models/character';
 import { Item, Spell } from '../../core/models/compendium';
 import { attacksFor, proficientWith } from '../../core/rules/attacks';
@@ -345,7 +347,13 @@ export class EquipmentPanel {
   private removedTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
+    this.i18n.extend(STATES_TEXTS);
     inject(DestroyRef).onDestroy(() => this.clearRemoved());
+  }
+
+  /** A note of a state that is off (Rage damage without Rage): shown dimmed. */
+  protected off(state: ActiveStateId | undefined): boolean {
+    return !!state && !stateOn(this.sheet().combat.states, state);
   }
 
   protected remove(e: InventoryEntry, item: Item | null | undefined): void {

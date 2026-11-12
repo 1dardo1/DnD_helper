@@ -82,7 +82,7 @@
     @if (sheet().combat.notes.length) {
       <ul class="combat-notes" data-testid="combat-notes">
         @for (n of sheet().combat.notes; track n.id) {
-          <li>
+          <li [class.off]="off(n.while)" [title]="off(n.while) ? ('state.whileOff' | t) : ''">
             <strong>{{ n.source | dataName }}:</strong> {{ 'combat.note.' + n.id | t: n.params }}
           </li>
         }
@@ -96,7 +96,7 @@
         </summary>
         <ul class="combat-notes">
           @for (n of sheet().combat.stats; track n.id + n.source) {
-            <li>
+            <li [class.off]="off(n.while)">
               <strong>{{ n.source | dataName }}:</strong>
               {{ 'combat.stat.' + n.id | t: n.params }}
               @if (n.ability) {

@@ -68,6 +68,7 @@ import {
 import { LoadError } from '../compendium/load-error';
 import { MonsterStatBlock } from '../compendium/monster-stat-block';
 import { MonsterCard } from '../dm/combat/monster-card';
+import { WildShapePanel } from '../states/wild-shape-panel';
 import { CombatMutator } from '../dm/combat/monster-summary';
 
 /** More options than this: only the summoned ones are cards, the rest wait in a list. */
@@ -105,7 +106,15 @@ const slug = (s: string) =>
  */
 @Component({
   selector: 'app-summons-page',
-  imports: [RouterLink, TranslatePipe, DataNamePipe, LoadError, MonsterCard, MonsterStatBlock],
+  imports: [
+    RouterLink,
+    TranslatePipe,
+    DataNamePipe,
+    LoadError,
+    MonsterCard,
+    MonsterStatBlock,
+    WildShapePanel,
+  ],
   templateUrl: './summons-page.html',
   styleUrl: './summons-page.scss',
 })
@@ -266,6 +275,11 @@ export class SummonsPage {
         () => undefined,
         (e) => console.error(e),
       );
+  }
+
+  /** Known forms or the form taken (the Wild Shape panel). */
+  protected wildShapeChanged(character: Character): void {
+    this.commitCharacter(character);
   }
 
   private commit(next: SummonsState): void {

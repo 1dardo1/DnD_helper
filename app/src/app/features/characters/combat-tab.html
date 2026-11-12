@@ -1,12 +1,25 @@
 @let s = sheet();
 @let st = state();
 
+<!-- Rage, Wild Shape, Hex...: switches, and the sheet of the form the Druid is in -->
+<app-active-states-bar
+  [character]="character()"
+  [sheet]="s"
+  [forms]="knownForms()"
+  [current]="currentForm()"
+  [rules]="wildRules()"
+  (changed)="statesChanged($event)"
+/>
+@if (form(); as f) {
+  <app-wild-shape-form class="form" [view]="f" [sheet]="s" [state]="st" />
+}
+
 <!-- The numbers of a fight, in one compact strip. HP buttons are in the sticky bar above. -->
 <section class="head" [attr.aria-label]="'combat.head.title' | t" data-testid="combat-head">
   <dl class="tiles">
     <div>
       <dt>{{ 'sheet.armorClassShort' | t }}</dt>
-      <dd>{{ s.armorClass.value }}</dd>
+      <dd>{{ ac() }}</dd>
     </div>
     <div class="hp">
       <dt>{{ 'sheet.hitPointsShort' | t }}</dt>
@@ -19,7 +32,7 @@
     </div>
     <div>
       <dt>{{ 'sheet.initiative' | t }}</dt>
-      <dd>{{ signed(s.initiative) }}</dd>
+      <dd>{{ signed(initiative()) }}</dd>
     </div>
     <div>
       <dt>{{ 'sheet.speed' | t }}</dt>
@@ -37,7 +50,7 @@
     </div>
     <div>
       <dt>{{ 'combat.head.passive' | t }}</dt>
-      <dd>{{ s.passivePerception }}</dd>
+      <dd>{{ passive() }}</dd>
     </div>
     <div>
       <dt>{{ 'combat.head.pb' | t }}</dt>
@@ -134,7 +147,7 @@
 <ng-template #rowTpl let-r let-tagKind="tagKind">
   @let fav = favorites().has(r.id);
   @let opened = open().has(r.id);
-  <li class="row" [attr.data-id]="r.id" [attr.data-kind]="r.kind">
+  <li class="row" [attr.data-id]="r.id" [attr.data-kind]="r.kind" [class.dim]="dimmed(r)">
     <div class="row-head">
       <button
         type="button"

@@ -1,0 +1,79 @@
+@if (states().length) {
+  <section class="states" data-testid="active-states" [attr.aria-label]="'state.title' | t">
+    <h3>{{ 'state.title' | t }}</h3>
+    <ul>
+      @for (s of states(); track s.id) {
+        @let live = s.on && !s.ended;
+        <li class="state" [class.on]="live" [class.ended]="!!s.ended" [attr.data-state]="s.id">
+          <div class="top">
+            <strong class="name">{{ s.source | dataName: true }}</strong>
+            <span class="badge" [class.on]="live">{{ (live ? 'state.on' : 'state.off') | t }}</span>
+            <span class="spacer"></span>
+            @if (s.id === 'wildShape') {
+              @if (s.on) {
+                <button type="button" (click)="set(s, false)" data-testid="ws-revert">
+                  {{ 'ws.revert' | t }}
+                </button>
+              }
+            } @else if (s.on) {
+              <button type="button" (click)="set(s, false)">{{ 'state.end' | t }}</button>
+            } @else {
+              <button
+                type="button"
+                class="primary"
+                [disabled]="left(s) === 0"
+                (click)="set(s, true)"
+                [attr.data-testid]="'switch-' + s.id"
+              >
+                {{ switchLabel(s) }}
+              </button>
+            }
+          </div>
+          @if (s.ended) {
+            <p class="warn" role="status">{{ 'state.ended.' + s.ended | t }}</p>
+          }
+          @if (s.id === 'wildShape') {
+            @if (s.on) {
+              <p class="form">
+                {{
+                  'ws.current' | t: { name: current() ? (current()!.name | dataName: true) : '…' }
+                }}
+              </p>
+            } @else if (forms().length) {
+              <div class="pick">
+                <label>
+                  {{ 'ws.pickForm' | t }}
+                  <select [value]="picked()" (change)="pick($event)" data-testid="ws-pick">
+                    @for (f of forms(); track f.id) {
+                      <option [value]="f.id">{{ f.name | dataName: true }}</option>
+                    }
+                  </select>
+                </label>
+                <button
+                  type="button"
+                  class="primary"
+                  [disabled]="left(s) === 0 || !picked()"
+                  (click)="transform()"
+                  data-testid="ws-transform"
+                >
+                  {{ switchLabel(s) }}
+                </button>
+              </div>
+            } @else {
+              <p class="soft">
+                {{ 'ws.noForms' | t }}
+                <a [routerLink]="['/characters', character().id, 'invocaciones']" replaceUrl>{{
+                  'ws.goForms' | t
+                }}</a>
+              </p>
+            }
+          }
+          <p class="fx" [title]="live ? '' : ('state.whileOff' | t)">{{ effects(s) }}</p>
+          @if (duration(s); as d) {
+            <p class="dur">{{ d }}</p>
+          }
+        </li>
+      }
+    </ul>
+  </section>
+}
