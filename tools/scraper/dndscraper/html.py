@@ -253,15 +253,20 @@ class Trait:
     description: str
 
 
-def traits(nodes: list, nest_options: bool = True) -> tuple[str, list[Trait]]:
+def traits(nodes: list, nest_options: bool = True, end_nesting: bool = False) -> tuple[str, list[Trait]]:
     """Split paragraphs of the form '**Name.** text' into named traits.
 
     Paragraphs that don't start a new trait are appended to the current one, and so are
     named paragraphs following a trait that introduces options (nest_options).
+    end_nesting: the options of a trait end with their list (<ul>/<ol>) or, when they are named
+    paragraphs, with the first plain paragraph after them; a named paragraph after that is a new
+    trait (Goliath's Large Form after the Giant Ancestry list, Hexblood's Hex Magic after Eerie
+    Token's options), not one more option.
     Returns (markdown before the first trait, traits)."""
     lead: list[str] = []
     out: list[Trait] = []
     nesting = False
+    nested = False   # an option has been nested under the current trait
     for el in nodes:
         md = to_markdown([el])
         if not md:
@@ -271,7 +276,9 @@ def traits(nodes: list, nest_options: bool = True) -> tuple[str, list[Trait]]:
             m = None
         if m and nesting:
             out[-1].description = (out[-1].description + "\n\n" + md).strip()
+            nested = True
         elif m:
+            nested = False
             if nest_options and _INTRODUCES_OPTIONS.search(md):
                 nesting = True
             name = clean(m.group(1))
@@ -279,6 +286,8 @@ def traits(nodes: list, nest_options: bool = True) -> tuple[str, list[Trait]]:
             out.append(Trait(name, body))
         elif out:
             out[-1].description = (out[-1].description + "\n\n" + md).strip()
+            if end_nesting and nesting and (el.name in ("ul", "ol") or nested):
+                nesting = False
             if nest_options and _INTRODUCES_OPTIONS.search(md):
                 nesting = True
         else:

@@ -36,7 +36,7 @@ describe('traitChoice', () => {
     expect(split.options[0].text).not.toContain('Stealth');
   });
 
-  it("splits Goliath's Giant Ancestry into its six benefits, keeping Large Form/Powerful Build as tail", () => {
+  it("splits Goliath's Giant Ancestry into its six benefits (Large Form/Powerful Build are their own traits)", () => {
     const goliath = byId.get('goliath')!;
     const trait = goliath.traits.find((t) => t.name === 'Giant Ancestry')!;
     const split = traitChoice(trait.description)!;
@@ -48,8 +48,12 @@ describe('traitChoice', () => {
       "Stone's Endurance (Stone Giant)",
       "Storm's Thunder (Storm Giant)",
     ]);
-    expect(split.tail).toContain('Large Form');
-    expect(split.tail).toContain('Powerful Build');
+    expect(split.tail).toBe('');
+    expect(goliath.traits.map((t) => t.name)).toEqual([
+      'Giant Ancestry',
+      'Large Form',
+      'Powerful Build',
+    ]);
   });
 
   it('returns null for traits that only mention "choose" in passing, or for a re-pick each use', () => {
