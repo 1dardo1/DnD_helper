@@ -39,12 +39,15 @@ import { combatEs } from '../../core/i18n/combat.es';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character } from '../../core/models/character';
 import { Rule } from '../../core/models/compendium';
+import { dropConcentration, startConcentration } from '../../core/play/concentration';
 import { PlayState, currentHp, playResources } from '../../core/play/play-state';
 import { attacksFor } from '../../core/rules/attacks';
 import { RulesData } from '../../core/rules/engine';
 import { Sheet } from '../../core/rules/sheet';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { SwipeDirective, stepOf } from '../../shared/swipe.directive';
+import { ConcentrationChip } from './concentration-chip';
+import { ConcentrationNotices } from './concentration-notice';
 
 export type CombatColumn = ActionKind | 'favorites';
 export const COMBAT_COLUMNS: readonly CombatColumn[] = [...ACTION_KINDS, 'favorites'];
@@ -93,6 +96,7 @@ export function writeColumn(
     DataTextPipe,
     MarkdownPipe,
     SwipeDirective,
+    ConcentrationChip,
   ],
   templateUrl: './combat-tab.html',
   styleUrl: './combat-tab.scss',
@@ -106,6 +110,7 @@ export class CombatTab {
   private readonly compendium = inject(CompendiumService);
   private readonly dataText = inject(DataTextService);
   private readonly i18n = inject(I18nService);
+  private readonly notices = inject(ConcentrationNotices);
 
   private readonly lists = resource({
     loader: async () => {
@@ -355,6 +360,28 @@ export class CombatTab {
     return r.cost?.k === 'resource' && (this.state().resources[r.cost.key] ?? 0) > 0;
   }
 
+  /** A row of a spell that needs concentration (the spell's data says so). */
+  protected concentrates(r: CombatRow): boolean {
+    return r.link?.type === 'spell' && !!this.lists.value()?.spells.get(r.link.id)?.concentration;
+  }
+
+  protected isConcentrating(r: CombatRow): boolean {
+    return !!r.link && this.state().concentration?.spellId === r.link.id;
+  }
+
+  /** Marks the spell as the one being concentrated on (replacing, and saying so, any other). */
+  protected concentrate(r: CombatRow): void {
+    if (r.link?.type !== 'spell') return;
+    const out = startConcentration(this.state(), r.link.id);
+    if (out.replaced)
+      this.notices.show({ kind: 'replaced', oldId: out.replaced, newId: r.link.id });
+    this.emit(out.state);
+  }
+
+  protected release(): void {
+    this.emit(dropConcentration(this.state()));
+  }
+
   protected toggleFavorite(id: string): void {
     const list = toggleFavorite(this.state().combatFavorites, id);
     const next: PlayState = { ...this.state(), combatFavorites: list };
@@ -362,7 +389,7 @@ export class CombatTab {
     this.emit(next);
   }
 
-  private emit(next: PlayState): void {
+  protected emit(next: PlayState): void {
     if (next !== this.state()) this.changed.emit(next);
   }
 

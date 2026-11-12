@@ -32,9 +32,11 @@ import {
   setExhaustion,
   toggleCondition,
 } from '../../core/play/conditions';
+import { endOnRest, settleConcentration } from '../../core/play/concentration';
 import { promptRestChoices } from '../../core/play/rest-choices';
 import { swapsAfterLongRest } from '../../core/play/spell-swap';
 import { Sheet } from '../../core/rules/sheet';
+import { ConcentrationNotices } from './concentration-notice';
 
 /** Up to this many uses are shown as pips; more (Focus Points, Sorcery Points) as a counter. */
 const MAX_PIPS = 10;
@@ -60,6 +62,7 @@ export class PlayPanel {
    */
   readonly part = input<'hp' | 'slots' | 'resources' | 'bar'>('hp');
   private readonly i18n = inject(I18nService);
+  private readonly concentration = inject(ConcentrationNotices);
 
   protected readonly maxPips = MAX_PIPS;
   protected readonly tapPip = tapPip;
@@ -116,7 +119,15 @@ export class PlayPanel {
   // -- hit points --
 
   protected damage(): void {
-    this.applyAmount((s, n) => applyDamage(s, n, this.maxHp()));
+    const concentrating = this.state().concentration?.spellId;
+    this.applyAmount((s, n) => {
+      const next = applyDamage(s, n, this.maxHp());
+      // still concentrating after the hit (0 HP or a condition already ended it): the save is due
+      if (concentrating && !settleConcentration(next, this.maxHp()).lost) {
+        this.concentration.show({ kind: 'check', spellId: concentrating, damage: n });
+      }
+      return next;
+    });
   }
 
   protected heal(): void {
@@ -186,26 +197,42 @@ export class PlayPanel {
 
   protected shortRest(): void {
     if (!confirm(this.i18n.t('play.confirmShort'))) return;
-    this.emit(promptRestChoices(shortRest(this.state(), this.resources()), this.sheet(), 'short'));
+    this.emit(
+      this.endConcentration(
+        promptRestChoices(shortRest(this.state(), this.resources()), this.sheet(), 'short'),
+      ),
+    );
   }
 
   protected longRest(): void {
     if (!confirm(this.i18n.t('play.confirmLong'))) return;
     const artificer = this.sheet().classes.find((k) => k.id === 'artificer')?.level ?? 0;
     this.emit(
-      promptAfterLongRest(
-        promptRestChoices(
-          { ...longRest(this.state()), spellSwap: swapsAfterLongRest(this.sheet()) },
-          this.sheet(),
-          'long',
+      this.endConcentration(
+        promptAfterLongRest(
+          promptRestChoices(
+            { ...longRest(this.state()), spellSwap: swapsAfterLongRest(this.sheet()) },
+            this.sheet(),
+            'long',
+          ),
+          artificer,
         ),
-        artificer,
       ),
     );
   }
 
+  /** A rest ends the concentration (and says so). */
+  private endConcentration(next: PlayState): PlayState {
+    const out = endOnRest(next);
+    if (out.lost) this.concentration.show({ kind: 'lost', ...out.lost });
+    return out.state;
+  }
+
+  /** Every change goes through here: at 0 HP or with an incapacitating condition, concentration ends. */
   private emit(next: PlayState): void {
-    if (next !== this.state()) this.changed.emit(next);
+    const settled = settleConcentration(next, this.maxHp());
+    if (settled.lost) this.concentration.show({ kind: 'lost', ...settled.lost });
+    if (settled.state !== this.state()) this.changed.emit(settled.state);
   }
 
   protected signed(n: number): string {

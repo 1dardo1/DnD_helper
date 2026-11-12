@@ -2,6 +2,7 @@ import { CannonState, normalizeCannon } from '../artificer/cannon';
 import { ReplicatedItem, normalizeReplicated } from '../artificer/replicated-state';
 import { TempSlot, normalizeCharges, normalizeTempSlots } from '../artificer/tinker';
 import { normalizeFavorites } from '../combat/favorites';
+import { Concentration, normalizeConcentration } from '../play/concentration';
 import { SummonsState, normalizeSummons } from '../summons/summon-state';
 import { normalizeHpMethod } from '../creation/hp-method';
 import { normalizePortrait } from '../characters/portrait-data';
@@ -180,6 +181,8 @@ export interface Character {
      * sheet asks "keep or change?" for them; cleared once answered or skipped (= keep).
      */
     restChoices?: string[];
+    /** The concentration spell being kept up (absent or null: none). Ends on rests, 0 HP... */
+    concentration?: Concentration | null;
   };
   notes: string;
 }
@@ -352,6 +355,9 @@ function normalizeState(base: Character['state'], raw: Character['state'] | unde
   const cannon = normalizeCannon(raw?.cannon);
   if (cannon) state.cannon = cannon;
   else delete state.cannon;
+  const concentration = normalizeConcentration(raw?.concentration);
+  if (concentration) state.concentration = concentration;
+  else delete state.concentration;
   return state;
 }
 

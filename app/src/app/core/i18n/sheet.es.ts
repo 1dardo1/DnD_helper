@@ -24,4 +24,17 @@ export const sheetEs: Record<keyof typeof sheetEn, string> = {
   'sheetx.spell.ritualShort': 'R',
   'sheetx.spell.concentration': 'Concentración',
   'sheetx.spell.ritual': 'Ritual',
+  'sheetx.conc.title': 'Concentrado en',
+  'sheetx.conc.start': 'Concentrar',
+  'sheetx.conc.active': 'Concentrando',
+  'sheetx.conc.drop': 'Soltar',
+  'sheetx.conc.close': 'Cerrar',
+  'sheetx.conc.replaced': 'Dejas de concentrarte en {old} para concentrarte en {new}.',
+  'sheetx.conc.check':
+    '{damage} de daño mientras te concentras en {spell}: salvación de Constitución, CD {dc} (10 o la mitad del daño, lo que sea mayor).',
+  'sheetx.conc.passed': 'Superada',
+  'sheetx.conc.failed': 'Fallida (se pierde la concentración)',
+  'sheetx.conc.lost.hp': 'Quedas a 0 PG: pierdes la concentración en {spell}.',
+  'sheetx.conc.lost.condition': 'Tu estado rompe la concentración en {spell}.',
+  'sheetx.conc.lost.rest': 'El descanso termina tu concentración en {spell}.',
 };

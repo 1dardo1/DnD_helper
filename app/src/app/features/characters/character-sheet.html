@@ -188,8 +188,9 @@
   }
 
   <!-- Sticky: hit points, AC, initiative and rests stay in reach on every tab. -->
-  <div class="sheet-bar">
+  <div class="sheet-bar" (pointerdown)="barPressed()">
     <app-play-panel part="bar" [sheet]="s" [state]="c.state" (changed)="saveState($event)" />
+    <app-concentration-chip [state]="c.state" [notices]="true" (changed)="saveState($event)" />
   </div>
   <app-trait-rest-dialog [character]="c" [sheet]="s" (changed)="saveCharacter($event)" />
 

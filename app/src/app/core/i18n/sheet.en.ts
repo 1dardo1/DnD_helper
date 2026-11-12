@@ -26,4 +26,17 @@ export const sheetEn = {
   'sheetx.spell.ritualShort': 'R',
   'sheetx.spell.concentration': 'Concentration',
   'sheetx.spell.ritual': 'Ritual',
+  'sheetx.conc.title': 'Concentrating on',
+  'sheetx.conc.start': 'Concentrate',
+  'sheetx.conc.active': 'Concentrating',
+  'sheetx.conc.drop': 'Drop',
+  'sheetx.conc.close': 'Close',
+  'sheetx.conc.replaced': 'You stop concentrating on {old} to concentrate on {new}.',
+  'sheetx.conc.check':
+    '{damage} damage while concentrating on {spell}: Constitution saving throw, DC {dc} (10 or half the damage, whichever is higher).',
+  'sheetx.conc.passed': 'Passed',
+  'sheetx.conc.failed': 'Failed (concentration lost)',
+  'sheetx.conc.lost.hp': 'You drop to 0 HP: your concentration on {spell} ends.',
+  'sheetx.conc.lost.condition': 'Your condition breaks your concentration on {spell}.',
+  'sheetx.conc.lost.rest': 'The rest ends your concentration on {spell}.',
 } as const;

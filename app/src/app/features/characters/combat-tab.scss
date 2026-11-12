@@ -86,7 +86,15 @@
 
 .col-tabs {
   position: sticky;
-  top: calc(var(--sheet-top, 0px) + var(--bar-h, 5rem) + var(--tabs-h, 3.4rem));
+  // under the bar and the tab strip (the sheet sets --col-stick while they are collapsed)
+  top: calc(
+    var(--sheet-top, 0px) + var(--col-stick, calc(var(--bar-h, 5rem) + var(--tabs-h, 3.4rem)))
+  );
+  transition: top 0.2s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
   z-index: 5;
   display: flex;
   gap: 0.2rem;
@@ -347,6 +355,16 @@
   min-height: 2rem;
   padding: 0.1rem 0.5rem;
   font-size: var(--fs-sm);
+
+  &.on {
+    color: var(--paper);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+}
+
+.conc {
+  margin-top: 0.3rem;
 }
 
 .more {

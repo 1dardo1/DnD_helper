@@ -10,9 +10,12 @@
         }}</small>
         <span class="nm">{{ s.name | dataName: true }}</span>
         @if (s.concentration) {
-          <abbr class="tag" [title]="'sheetx.spell.concentration' | t">{{
-            'sheetx.spell.concShort' | t
-          }}</abbr>
+          <abbr
+            class="tag"
+            [class.on]="isConcentrating(s.id)"
+            [title]="'sheetx.spell.concentration' | t"
+            >{{ 'sheetx.spell.concShort' | t }}</abbr
+          >
         }
         @if (s.ritual) {
           <abbr class="tag" [title]="'sheetx.spell.ritual' | t">{{
@@ -21,6 +24,22 @@
         }
         <span class="when">{{ s.castingTime.raw.split(',')[0] | phrase }}</span>
       </summary>
+      @if (s.concentration) {
+        @if (isConcentrating(s.id)) {
+          <p class="conc-line">
+            <strong>{{ 'sheetx.conc.active' | t }}</strong>
+            <button type="button" class="mini" (click)="release()">
+              {{ 'sheetx.conc.drop' | t }}
+            </button>
+          </p>
+        } @else {
+          <p class="conc-line">
+            <button type="button" class="mini" (click)="concentrate(s)">
+              {{ 'sheetx.conc.start' | t }}
+            </button>
+          </p>
+        }
+      }
       <app-entry-details [entry]="s" />
     </details>
   </li>

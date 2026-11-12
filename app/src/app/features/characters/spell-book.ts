@@ -17,12 +17,14 @@ import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service
 import { PhrasePipe } from '../../core/i18n/glossary';
 import { TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character } from '../../core/models/character';
+import { dropConcentration, startConcentration } from '../../core/play/concentration';
 import { Spell } from '../../core/models/compendium';
 import { castingOf } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { EntryDetails } from '../../shared/picker/entry-details';
 import { defaultOrder } from '../../shared/picker/entry-order';
 import { SwipeDirective, stepOf } from '../../shared/swipe.directive';
+import { ConcentrationNotices } from './concentration-notice';
 
 interface Caster {
   classId: string;
@@ -60,6 +62,7 @@ export class SpellBook {
   private readonly compendium = inject(CompendiumService);
   private readonly rules = inject(RulesDataService);
   private readonly dataText = inject(DataTextService);
+  private readonly notices = inject(ConcentrationNotices);
 
   private readonly data = resource({
     loader: async () => {
@@ -136,6 +139,23 @@ export class SpellBook {
     this.changed.emit(
       this.withPicks(this.character(), toggleSpellFor(this.picked(), classId, id, on)),
     );
+  }
+
+  protected isConcentrating(id: string): boolean {
+    return this.character().state.concentration?.spellId === id;
+  }
+
+  /** Marks the spell as the one being concentrated on (replacing, and saying so, any other). */
+  protected concentrate(spell: Spell): void {
+    const ch = this.character();
+    const out = startConcentration(ch.state, spell.id);
+    if (out.replaced) this.notices.show({ kind: 'replaced', oldId: out.replaced, newId: spell.id });
+    this.changed.emit({ ...ch, state: out.state });
+  }
+
+  protected release(): void {
+    const ch = this.character();
+    this.changed.emit({ ...ch, state: dropConcentration(ch.state) });
   }
 
   protected swapOne(c: Caster): void {
