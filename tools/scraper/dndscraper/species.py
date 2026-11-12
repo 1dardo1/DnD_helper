@@ -126,7 +126,7 @@ def parse_species_2024(page: Page) -> tuple[dict | None, list[str]]:
         if _heading_level(el):
             break
         trait_nodes.append(el)
-    _, items = traits(trait_nodes)
+    _, items = traits(trait_nodes, end_nesting=True)
     for t in items:   # some pages write "**Size.** ..." as a trait instead of a field
         if _NON_MECHANICAL.match(t.name):
             fields.setdefault(t.name.lower(), t.description)
