@@ -1,0 +1,121 @@
+@if (rules(); as r) {
+  <section class="ws-panel" data-testid="wild-shape-panel">
+    <header>
+      <h2>{{ 'ws.title' | t }}</h2>
+      <a class="desc" [routerLink]="['/compendium', 'class', 'druid']">{{
+        'Wild Shape' | dataName: true
+      }}</a>
+    </header>
+    <p class="lead">{{ summary() }}</p>
+
+    @if (form(); as f) {
+      <app-wild-shape-form [view]="f" [sheet]="sheet()" [state]="character().state" />
+      <p class="actions">
+        <button type="button" (click)="revert()" data-testid="ws-revert">
+          {{ 'ws.revert' | t }}
+        </button>
+      </p>
+    }
+
+    <h3>{{ 'ws.known' | t: { n: known().length, max: r.known } }}</h3>
+    <p class="note">{{ 'ws.knownHint' | t }}</p>
+    @if (known().length) {
+      <ul class="known">
+        @for (k of known(); track k.monster.id) {
+          @let m = k.monster;
+          @let on = character().state.wildShape?.formId === m.id;
+          <li class="card" [class.on]="on" [class.bad]="!k.allowed" data-testid="ws-known">
+            <div class="title">
+              <strong>{{ m.name | dataName: true }}</strong>
+              <span class="soft">{{ 'ws.crShort' | t: { cr: cr(m) } }}</span>
+            </div>
+            <p class="facts">{{ 'monster.ac' | t }} {{ m.ac }} · {{ speed(m) }}</p>
+            @if (!k.allowed) {
+              <p class="warn">{{ 'ws.notAllowed' | t }}</p>
+            }
+            <div class="buttons">
+              <button
+                type="button"
+                class="primary"
+                [disabled]="!k.allowed || left() === 0"
+                (click)="transform(m.id)"
+              >
+                {{
+                  left() === 0 ? ('state.noUses' | t) : ('ws.transformCost' | t: { left: left() })
+                }}
+              </button>
+              <button type="button" (click)="openSheet(m)">{{ 'ws.sheet' | t }}</button>
+              <button type="button" class="btn-ghost" (click)="toggleKnown(m.id)">
+                {{ 'ws.forget' | t }}
+              </button>
+            </div>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="empty">{{ 'ws.noForms' | t }}</p>
+    }
+
+    <p class="actions">
+      <button
+        type="button"
+        [attr.aria-expanded]="choosing()"
+        (click)="choosing.set(!choosing())"
+        data-testid="ws-choose"
+      >
+        {{ (choosing() ? 'ws.done' : 'ws.choose') | t }}
+      </button>
+    </p>
+
+    @if (choosing()) {
+      <div class="picker" data-testid="ws-picker">
+        <label class="search">
+          {{ 'ws.search' | t }}
+          <input type="search" [value]="query()" (input)="search($event)" />
+        </label>
+        <p class="soft">
+          {{ 'ws.eligible' | t: { n: eligible().length } }}
+          @if (full()) {
+            · {{ 'ws.full' | t: { max: r.known } }}
+          }
+        </p>
+        <ul class="eligible">
+          @for (m of eligible(); track m.id) {
+            @let has = knownIds().has(m.id);
+            <li [class.on]="has">
+              <span class="name">
+                <strong>{{ m.name | dataName: true }}</strong>
+                <small class="soft">
+                  {{ 'ws.crShort' | t: { cr: cr(m) } }} · {{ 'monster.ac' | t }} {{ m.ac }} ·
+                  {{ speed(m) }}
+                </small>
+              </span>
+              <button type="button" class="mini btn-ghost" (click)="openSheet(m)">
+                {{ 'ws.sheet' | t }}
+              </button>
+              <button
+                type="button"
+                class="mini"
+                [class.primary]="!has"
+                [disabled]="!has && full()"
+                (click)="toggleKnown(m.id)"
+              >
+                {{ (has ? 'ws.forget' : 'ws.learn') | t }}
+              </button>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  </section>
+
+  <dialog #dialog class="stat-dialog" (close)="shown.set(null)">
+    <div class="dialog-head">
+      <h2>{{ shown()?.name ?? '' | dataName: true }}</h2>
+      <button type="button" (click)="closeSheet()" [attr.aria-label]="'combat.close' | t">✕</button>
+    </div>
+    @if (shown(); as m) {
+      <app-monster-stat-block [monster]="m" />
+    }
+  </dialog>
+}

@@ -1,0 +1,117 @@
+// Switches of the active states: one card each, its effects dimmed while it's off.
+:host {
+  display: block;
+}
+
+.states {
+  margin-bottom: var(--space-2);
+
+  h3 {
+    margin: 0 0 0.3rem;
+    font-size: var(--fs-md);
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.state {
+  min-width: 0;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--card);
+
+  &.on {
+    border: 2px solid var(--accent);
+  }
+
+  &.ended {
+    border-color: var(--danger);
+  }
+
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.5rem;
+  }
+
+  .spacer {
+    flex: 1 1 0;
+  }
+
+  button {
+    min-height: var(--tap, 2.75rem);
+  }
+
+  p {
+    margin: 0.25rem 0 0;
+    font-size: var(--fs-sm);
+  }
+
+  .fx,
+  .dur {
+    color: var(--ink-soft);
+  }
+
+  &:not(.on) .fx {
+    opacity: 0.6;
+  }
+
+  &.on .fx {
+    color: var(--ink);
+  }
+
+  .warn {
+    color: var(--danger);
+    font-weight: 600;
+  }
+
+  .form {
+    font-weight: 600;
+  }
+}
+
+.badge {
+  padding: 0 0.45rem;
+  font-size: var(--fs-xs);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--ink-soft);
+
+  &.on {
+    color: var(--paper);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+}
+
+.pick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.3rem 0.5rem;
+  margin-top: 0.3rem;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--fs-sm);
+  }
+
+  select {
+    min-height: var(--tap, 2.75rem);
+    max-width: 14rem;
+  }
+}
+
+.soft {
+  color: var(--ink-soft);
+}

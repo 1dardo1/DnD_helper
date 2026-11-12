@@ -38,13 +38,18 @@ import { combatEn } from '../../core/i18n/combat.en';
 import { combatEs } from '../../core/i18n/combat.es';
 import { I18nService, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character } from '../../core/models/character';
-import { Rule } from '../../core/models/compendium';
+import { Monster, Rule } from '../../core/models/compendium';
 import { PlayState, currentHp, playResources } from '../../core/play/play-state';
+import { STATES_TEXTS } from '../../core/i18n/states.es';
+import { stateOn } from '../../core/rules/active-states';
 import { attacksFor } from '../../core/rules/attacks';
 import { RulesData } from '../../core/rules/engine';
 import { Sheet } from '../../core/rules/sheet';
+import { formView, knownForms, wildShapeRules } from '../../core/rules/wild-shape';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { SwipeDirective, stepOf } from '../../shared/swipe.directive';
+import { ActiveStatesBar } from '../states/active-states-bar';
+import { WildShapeForm } from '../states/wild-shape-form';
 
 export type CombatColumn = ActionKind | 'favorites';
 export const COMBAT_COLUMNS: readonly CombatColumn[] = [...ACTION_KINDS, 'favorites'];
@@ -93,6 +98,8 @@ export function writeColumn(
     DataTextPipe,
     MarkdownPipe,
     SwipeDirective,
+    ActiveStatesBar,
+    WildShapeForm,
   ],
   templateUrl: './combat-tab.html',
   styleUrl: './combat-tab.scss',
@@ -120,6 +127,33 @@ export class CombatTab {
     },
   });
 
+  // -- Wild Shape (Druid): the known forms and the form taken ---------------------------------
+  protected readonly wildRules = computed(() => wildShapeRules(this.sheet()));
+  private readonly monsters = resource({
+    params: () => (this.wildRules() ? true : undefined),
+    loader: () => this.compendium.all('monster'),
+  });
+  private readonly monsterById = computed(
+    () => new Map((this.monsters.value() ?? []).map((m) => [m.id, m])),
+  );
+  protected readonly knownForms = computed<Monster[]>(() => {
+    const r = this.wildRules();
+    if (!r) return [];
+    return knownForms(this.character().choices.wildShapeForms, this.monsterById(), r)
+      .filter((k) => k.allowed)
+      .map((k) => k.monster);
+  });
+  protected readonly currentForm = computed(() => {
+    const id = this.character().state.wildShape?.formId;
+    return (id && this.monsterById().get(id)) || null;
+  });
+  /** The sheet in the form the Druid is in (null in their own form). */
+  protected readonly form = computed(() => {
+    const m = this.currentForm();
+    const r = this.wildRules();
+    return m && r ? formView(this.sheet(), m, r) : null;
+  });
+
   protected readonly columns = COMBAT_COLUMNS;
   protected readonly kinds = ACTION_KINDS;
   protected readonly state = computed(() => this.character().state);
@@ -138,6 +172,7 @@ export class CombatTab {
       spells: l.spells,
       rules: l.rules,
       resources: this.resources(),
+      form: this.form(),
     });
   });
   protected readonly loading = computed(() => !this.lists.value() && !this.lists.error());
@@ -170,6 +205,7 @@ export class CombatTab {
 
   constructor() {
     this.i18n.extend(COMBAT_TEXTS);
+    this.i18n.extend(STATES_TEXTS);
     effect(() => this.current.set(readColumn(browserStorage(), this.character().id)));
     const destroyRef = inject(DestroyRef);
     afterNextRender(() => {
@@ -200,8 +236,18 @@ export class CombatTab {
   // -- header ---------------------------------------------------------------------------------
 
   protected readonly hp = computed(() => currentHp(this.state(), this.sheet().hitPoints.max));
+  /** In a Wild Shape form: the Beast's AC, Speeds, Initiative and passive Perception. */
+  protected readonly ac = computed(() => this.form()?.ac ?? this.sheet().armorClass.value);
+  protected readonly initiative = computed(
+    () => this.form()?.initiative ?? this.sheet().initiative,
+  );
+  protected readonly passive = computed(
+    () => this.form()?.passivePerception ?? this.sheet().passivePerception,
+  );
   protected readonly speeds = computed(() =>
-    Object.entries(this.sheet().speed).map(([kind, value]) => ({ kind, value })),
+    Object.entries(this.form()?.speed ?? this.sheet().speed)
+      .filter(([, value]) => typeof value === 'number')
+      .map(([kind, value]) => ({ kind, value: value as number })),
   );
   protected readonly dcs = computed(() => featureDcs(this.sheet()));
   protected readonly advantages = computed(() => advantagesOf(this.sheet()));
@@ -353,6 +399,21 @@ export class CombatTab {
 
   protected canRefund(r: CombatRow): boolean {
     return r.cost?.k === 'resource' && (this.state().resources[r.cost.key] ?? 0) > 0;
+  }
+
+  /**
+   * A row that doesn't apply now: a feature that needs a state that is off (Frenzy without Rage),
+   * or a spell while raging ("you can't cast spells").
+   */
+  protected dimmed(r: CombatRow): boolean {
+    const states = this.sheet().combat.states;
+    if (r.while && !stateOn(states, r.while)) return true;
+    return r.id.startsWith('spell:') && stateOn(states, 'rage');
+  }
+
+  /** A change from the switches of the active states. */
+  protected statesChanged(next: PlayState): void {
+    this.emit(next);
   }
 
   protected toggleFavorite(id: string): void {

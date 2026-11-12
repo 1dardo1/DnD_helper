@@ -1,0 +1,171 @@
+// Wild Shape in the summons tab: known forms as cards, the picker of eligible Beasts as a list.
+:host {
+  display: block;
+}
+
+.ws-panel {
+  margin-bottom: var(--space-5);
+
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 var(--space-3);
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+  h3 {
+    margin: var(--space-3) 0 var(--space-1);
+  }
+}
+
+.lead,
+.note,
+.soft {
+  color: var(--ink-soft);
+}
+
+.empty {
+  padding: var(--space-3);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-md);
+}
+
+.actions button,
+.buttons button {
+  min-height: var(--tap, 2.75rem);
+}
+
+.known {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  min-width: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--card);
+
+  &.on {
+    border: 2px solid var(--accent);
+  }
+
+  &.bad {
+    border-style: dashed;
+  }
+
+  .title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0 var(--space-2);
+  }
+
+  .facts {
+    margin: 0.2rem 0;
+    font-size: var(--fs-sm);
+  }
+
+  .warn {
+    margin: 0.2rem 0;
+    color: var(--danger);
+    font-size: var(--fs-sm);
+  }
+
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+}
+
+.picker {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--card);
+
+  .search {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: var(--fs-sm);
+
+    input {
+      min-height: var(--tap, 2.75rem);
+    }
+  }
+}
+
+.eligible {
+  max-height: 26rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0;
+    border-bottom: 1px dotted var(--line);
+
+    &.on .name strong {
+      color: var(--accent);
+    }
+  }
+
+  .name {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  button {
+    flex: none;
+    min-height: var(--tap, 2.75rem);
+  }
+}
+
+.stat-dialog {
+  width: min(44rem, calc(100vw - 1.5rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 0 1rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-page);
+
+  &::backdrop {
+    background: rgb(0 0 0 / 0.55);
+  }
+}
+
+.dialog-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  background: var(--paper);
+
+  h2 {
+    margin: 0;
+  }
+}

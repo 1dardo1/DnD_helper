@@ -1,4 +1,5 @@
 import { Character } from '../models/character';
+import { ACTIVE_STATES } from '../rules/active-states';
 import { Sheet } from '../rules/sheet';
 import { poolsOf } from '../rules/pools';
 import { Recovery, recover, restKey, restRule } from './rest-rules';
@@ -401,7 +402,7 @@ export function shortRest(state: PlayState, resources: PlayResource[]): PlayStat
   for (const r of resources) {
     if (used[r.key]) used[r.key] = recover(used[r.key], r.short);
   }
-  return { ...state, pactSlotsSpent: 0, resources: used };
+  return endStatesOnRest({ ...state, pactSlotsSpent: 0, resources: used }, 'short');
 }
 
 /**
@@ -410,17 +411,49 @@ export function shortRest(state: PlayState, resources: PlayResource[]): PlayStat
  */
 export function longRest(state: PlayState): PlayState {
   const { tempSlots: _temp, ...rest } = state; // extra slots from Drain Magic Item end here
-  return {
-    ...rest,
-    hpCurrent: null,
-    hpTemp: 0,
-    spentSlots: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    pactSlotsSpent: 0,
-    resources: {},
-    hitDiceSpent: {},
-    deathSaves: { successes: 0, failures: 0 },
-    exhaustion: Math.max(0, (state.exhaustion ?? 0) - 1),
-  };
+  return endStatesOnRest(
+    {
+      ...rest,
+      hpCurrent: null,
+      hpTemp: 0,
+      spentSlots: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      pactSlotsSpent: 0,
+      resources: {},
+      hitDiceSpent: {},
+      deathSaves: { successes: 0, failures: 0 },
+      exhaustion: Math.max(0, (state.exhaustion ?? 0) - 1),
+    },
+    'long',
+  );
+}
+
+/** Back to the character's own form after Wild Shape (the Temporary Hit Points left stay). */
+export function leaveForm(state: PlayState): PlayState {
+  if (!state.wildShape) return state;
+  const next = { ...state };
+  delete next.wildShape;
+  return next;
+}
+
+/** Hours of each rest: a Short Rest is 1 hour, a Long Rest 8. */
+const REST_HOURS = { short: 1, long: 8 } as const;
+
+/**
+ * What a rest ends: the states that can't outlast it (active-states.ts' endsOn), and a Wild
+ * Shape form whose hours are no more than the rest's (a form without its hours: on a Long Rest).
+ */
+export function endStatesOnRest(state: PlayState, rest: 'short' | 'long'): PlayState {
+  let next = state;
+  const list = state.active ?? [];
+  const kept = list.filter((id) => !ACTIVE_STATES.find((d) => d.id === id)?.endsOn.includes(rest));
+  if (kept.length !== list.length) {
+    next = { ...next, active: kept };
+    if (!kept.length) delete next.active;
+  }
+  const ws = state.wildShape;
+  if (ws && (ws.hours === undefined ? rest === 'long' : ws.hours <= REST_HOURS[rest]))
+    next = leaveForm(next);
+  return next;
 }
 
 function clamp(n: number, min: number, max: number): number {

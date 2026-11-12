@@ -524,3 +524,8 @@ details.fold {
     border-color: var(--accent);
   }
 }
+
+// notes of a state that is off (Rage damage while not raging): dimmed
+.combat-notes li.off {
+  opacity: 0.55;
+}

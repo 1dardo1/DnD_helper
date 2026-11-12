@@ -11,6 +11,16 @@
   margin-bottom: var(--space-2);
 }
 
+// the sheet of the Wild Shape form, above the numbers it changes
+.form {
+  margin-bottom: var(--space-2);
+}
+
+// a feature that needs a state that is off (Frenzy without Rage), a spell while raging
+.row.dim {
+  opacity: 0.55;
+}
+
 .tiles {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(5.8rem, 1fr));

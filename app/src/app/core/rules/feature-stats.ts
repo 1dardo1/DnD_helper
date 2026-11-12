@@ -1,4 +1,5 @@
 import { Ability } from '../models/compendium';
+import type { ActiveStateId } from './active-states';
 import { RuleText } from './feat-effects';
 import { poolsOf } from './pools';
 import { Sheet, SheetFeature } from './sheet';
@@ -34,6 +35,8 @@ export interface FeatureNote {
   spends?: string;
   /** Save DC the effect forces, already worked out. */
   saveDc?: number;
+  /** It only holds while this state is on (Rage, Hex...: core/rules/active-states.ts). */
+  while?: ActiveStateId;
 }
 
 export type UseKind = 'action' | 'bonus' | 'reaction' | 'free' | 'onHit' | 'passive';

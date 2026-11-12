@@ -1,0 +1,211 @@
+// The sheet in a Wild Shape form: a card with the Beast's numbers; what comes from the Beast is
+// marked with the accent colour (the rest is the character's own).
+:host {
+  display: block;
+}
+
+.ws-form {
+  padding: var(--space-2) var(--space-3);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: var(--card);
+
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 var(--space-2);
+    margin-bottom: var(--space-2);
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  h4 {
+    margin: var(--space-3) 0 var(--space-1);
+  }
+}
+
+.soft {
+  color: var(--ink-soft);
+}
+
+.small {
+  font-size: var(--fs-sm);
+  margin: 0.2rem 0;
+}
+
+.beast {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.8rem, 1fr));
+  gap: 0.3rem;
+  margin: 0;
+
+  > div {
+    min-width: 0;
+    padding: 0.2rem 0.4rem;
+    text-align: center;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+  }
+
+  .wide {
+    grid-column: span 2;
+  }
+
+  dt {
+    font-size: var(--fs-xs);
+    color: var(--ink-soft);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  dd {
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    line-height: 1.15;
+
+    small {
+      display: inline-block;
+      font-size: var(--fs-xs);
+      font-weight: 400;
+      color: var(--ink-soft);
+    }
+  }
+
+  .temp {
+    color: var(--accent);
+  }
+}
+
+.abilities {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.3rem;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: 45rem) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 0.3rem;
+    padding: 0.2rem 0.4rem;
+    font-size: var(--fs-sm);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--paper);
+
+    &.beast {
+      border-color: var(--accent);
+    }
+  }
+
+  abbr {
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .score {
+    text-align: right;
+    font-family: var(--font-title);
+    font-weight: 700;
+  }
+
+  .pair {
+    grid-column: span 2;
+    display: flex;
+    justify-content: space-between;
+    color: var(--ink);
+    font-weight: 400;
+
+    small {
+      color: var(--ink-soft);
+    }
+  }
+}
+
+.details {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.15rem var(--space-2);
+  margin: var(--space-2) 0 0;
+  font-size: var(--fs-sm);
+
+  dt {
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.attacks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.1rem 0.5rem;
+    padding: 0.3rem 0;
+    border-bottom: 1px dotted var(--line);
+  }
+
+  .hit {
+    font-weight: 700;
+  }
+
+  .note {
+    flex-basis: 100%;
+    color: var(--ink-soft);
+  }
+}
+
+.feature {
+  font-size: var(--fs-sm);
+
+  :first-child {
+    margin-top: 0;
+  }
+}
+
+.spells {
+  margin: var(--space-3) 0 var(--space-1);
+  padding: 0.3rem 0.5rem;
+  font-size: var(--fs-sm);
+  border-left: 3px solid var(--accent);
+  background: var(--paper);
+}
+
+.keeps {
+  font-size: var(--fs-sm);
+
+  summary {
+    cursor: pointer;
+    min-height: var(--tap, 2.75rem);
+    display: flex;
+    align-items: center;
+  }
+
+  p {
+    margin: 0.2rem 0;
+  }
+}

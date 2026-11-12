@@ -4,8 +4,10 @@ import { Ability, Rule, Spell } from '../models/compendium';
 import { PlayResource } from '../play/play-state';
 import { Attack } from '../rules/attacks';
 import { RulesData } from '../rules/engine';
+import type { ActiveStateId } from '../rules/active-states';
 import { FeatureNote, UseKind, dcValue, writtenDc } from '../rules/feature-stats';
 import { Sheet, SheetFeature } from '../rules/sheet';
+import type { FormView } from '../rules/wild-shape';
 import { Timing, Use, blocksOf, sentencesOf, usesOf } from './action-text';
 
 /**
@@ -98,6 +100,8 @@ export interface CombatRow {
   tab?: 'invocaciones';
   /** Sort order inside its section (lower first); ties keep the order they were made. */
   rank: number;
+  /** It only applies while this state is on (Frenzy, Divine Fury...: dimmed while it's off). */
+  while?: ActiveStateId;
 }
 
 export interface CombatInput {
@@ -111,6 +115,11 @@ export interface CombatInput {
   /** The generic actions (data/rules.json, category "actions"). */
   rules: readonly Rule[];
   resources: readonly PlayResource[];
+  /**
+   * The Wild Shape form the Druid is in (core/rules/wild-shape.ts): its attacks and actions
+   * replace the weapons, and only the spells the form allows stay.
+   */
+  form?: FormView | null;
 }
 
 /** Features whose rows come from structured data instead of their text. */
@@ -172,7 +181,8 @@ const signed = (n: number) => (n > 0 ? `+${n}` : n < 0 ? `${n}` : '');
 
 // -- attacks -----------------------------------------------------------------------------------
 
-function attackRows({ attacks }: CombatInput): CombatRow[] {
+function attackRows({ attacks, form }: CombatInput): CombatRow[] {
+  if (form) return formRows(form);
   return attacks.map((a, i) => {
     // the second Psychic Blade is thrown as a Bonus Action (attacks.ts)
     const bonusAction = a.nameKey === 'sheet.psychicBladeBonus';
@@ -198,6 +208,64 @@ function attackRows({ attacks }: CombatInput): CombatRow[] {
       rank: (a.equipped ? 0 : 100) + i,
     } satisfies CombatRow;
   });
+}
+
+/**
+ * The attacks and actions of a Wild Shape form: the stat block's numbers ("Your game statistics
+ * are replaced by the Beast's stat block"), with the notes of the Druid's features.
+ */
+function formRows(form: FormView): CombatRow[] {
+  const id = (name: string) => `form:${form.monster.id}:${slugOf(name)}`;
+  const rows: CombatRow[] = form.attacks.map((a, i) => {
+    const line: LinePart[] = [];
+    if (a.bonus !== null) line.push({ k: 'hit', n: a.bonus });
+    if (a.damage && a.type) line.push({ k: 'damage', dice: a.damage, type: a.type });
+    for (const x of a.extra) line.push({ k: 'damage', dice: x.damage, type: x.type });
+    if (a.reach) line.push({ k: 'reach', feet: a.reach });
+    if (a.range) line.push({ k: 'range', text: a.range });
+    for (const n of a.notes) line.push({ k: 'ui', key: `combat.note.${n.id}`, params: n.params });
+    return {
+      id: id(a.name),
+      kind: 'action',
+      section: 'natural',
+      timing: 'attack',
+      name: a.name,
+      line,
+      cost: null,
+      more: { text: a.text, block: null },
+      rank: i,
+    } satisfies CombatRow;
+  });
+  const others = (
+    list: { name: string; description: string }[],
+    kind: ActionKind,
+    timing: Timing,
+  ) =>
+    list.forEach((f, i) =>
+      rows.push({
+        id: `${id(f.name)}@${kind}`,
+        kind,
+        section: 'natural',
+        timing,
+        name: f.name,
+        line: [
+          {
+            k: 'sentence',
+            text: sentencesOf(f.description)[0] ?? f.description,
+            of: f.description,
+            block: null,
+            index: 0,
+          },
+        ],
+        cost: null,
+        more: { text: f.description, block: null },
+        rank: 50 + i,
+      }),
+    );
+  others(form.otherActions, 'action', 'action');
+  others(form.bonusActions, 'bonus', 'bonus');
+  others(form.reactions, 'reaction', 'reaction');
+  return rows;
 }
 
 // -- spells -----------------------------------------------------------------------------------
@@ -252,7 +320,12 @@ function spellRows(input: CombatInput): CombatRow[] {
           : { k: 'slot', level: spell.level, pact: false };
     rows.push({ ...spellRow(spell, caster, sheet.totalLevel, cost), source: fs.feat.name });
   }
-  return rows;
+  // in a Wild Shape form: "You can't cast spells" (but the Circle of the Moon's, or all of them
+  // with Beast Spells)
+  const rules = input.form?.rules;
+  if (!rules || rules.spells === 'all') return rows;
+  const allowed = new Set(rules.spells === 'circle' ? rules.circleSpells : []);
+  return rows.filter((r) => allowed.has(r.id.replace(/^spell:/, '')));
 }
 
 const DAMAGE =
@@ -440,7 +513,9 @@ function featureRows(input: CombatInput): CombatRow[] {
         }));
         for (const n of mine)
           if (n.saveDc) line.push({ k: 'dc', n: n.saveDc, ability: n.ability ?? null });
+        const w = mine.find((n) => n.while)?.while;
         rows.push({
+          ...(w ? { while: w } : {}),
           id: `${base}@${timing}`,
           kind: KIND_OF[timing],
           section: sectionOf(timing, cost),
