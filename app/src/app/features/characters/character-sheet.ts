@@ -12,6 +12,7 @@ import {
   input,
   resource,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -54,6 +55,7 @@ import { SpellBook } from './spell-book';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { LoadError } from '../compendium/load-error';
 import type { CombatTab } from './combat-tab';
+import { ConcentrationChip } from './concentration-chip';
 import { PlayPanel } from './play-panel';
 import { ReplicatePanel } from './replicate-panel';
 import { CharacterPortrait } from './character-portrait';
@@ -81,6 +83,7 @@ const NOTES_DELAY_MS = 1200;
     MarkdownPipe,
     LoadError,
     PlayPanel,
+    ConcentrationChip,
     SpellBook,
     EquipmentPanel,
     ExportPdfButton,
@@ -325,16 +328,92 @@ export class CharacterSheet {
       });
     });
 
+    // a new tab starts with the bar and the tabs in view
+    effect(() => {
+      this.tab();
+      untracked(() => this.revealChrome(1200));
+    });
+
     const destroyRef = inject(DestroyRef);
     afterNextRender(() => {
       const measure = () => this.measure();
       window.addEventListener('resize', measure);
       void document.fonts?.ready.then(measure);
+      const stopScroll = this.watchScroll();
       destroyRef.onDestroy(() => {
         window.removeEventListener('resize', measure);
+        stopScroll();
         this.barObserver?.disconnect();
       });
     });
+  }
+
+  // -- phones: the tab strip hides while reading down, and comes back going up ---------------
+
+  private chromeHidden = false;
+  /** Until this time (ms) scrolling doesn't hide the chrome: jumps and tab changes scroll alone. */
+  private chromeLockUntil = 0;
+
+  private setChromeHidden(hidden: boolean): void {
+    if (hidden === this.chromeHidden) return;
+    this.chromeHidden = hidden;
+    this.host.nativeElement.classList.toggle('chrome-off', hidden);
+  }
+
+  /** Shows the tabs and the whole bar again; `lockMs` keeps a scroll that follows from hiding them. */
+  protected revealChrome(lockMs = 0): void {
+    if (lockMs) this.chromeLockUntil = Math.max(this.chromeLockUntil, performance.now() + lockMs);
+    this.setChromeHidden(false);
+  }
+
+  /** Tapping the compact bar opens it (the buttons in it still do their thing). */
+  protected barPressed(): void {
+    if (this.chromeHidden) this.revealChrome(800);
+  }
+
+  /**
+   * Phones (< 45rem) only: scrolling down far enough hides the tab strip and the lower rows of
+   * the bar (the sheet's CSS, class `chrome-off`: nothing changes size, so the page doesn't
+   * jump); scrolling up a little, reaching the top or tapping the bar brings them back.
+   */
+  private watchScroll(): () => void {
+    const phone = window.matchMedia?.('(max-width: 44.99rem)');
+    if (!phone) return () => undefined;
+    let lastY = window.scrollY;
+    let run = 0; // pixels scrolled in the current direction (+ down, − up)
+    let frame = 0;
+    const step = () => {
+      frame = 0;
+      const y = Math.max(0, window.scrollY);
+      const dy = y - lastY;
+      lastY = y;
+      if (!phone.matches || y <= 8) {
+        run = 0;
+        this.setChromeHidden(false);
+        return;
+      }
+      const root = document.documentElement;
+      const atBottom = y + window.innerHeight >= root.scrollHeight - 2;
+      if (performance.now() < this.chromeLockUntil || dy === 0 || atBottom) {
+        run = 0;
+        return;
+      }
+      run = Math.sign(dy) === Math.sign(run) ? run + dy : dy;
+      const bar = this.host.nativeElement.querySelector('.sheet-bar');
+      // typing in the bar, or a message waiting there, keeps it whole
+      const busy =
+        !!bar && (bar.contains(document.activeElement) || !!bar.querySelector('.notice'));
+      if (run > 40 && y > 96 && !busy) this.setChromeHidden(true);
+      else if (run < -12) this.setChromeHidden(false);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(step);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }
 
   private barObserver?: ResizeObserver;
@@ -362,7 +441,17 @@ export class CharacterSheet {
       this.barObserver.observe(bar);
       this.observedBar = bar;
     }
-    if (bar) style.setProperty('--bar-h', `${bar.getBoundingClientRect().height}px`);
+    if (bar) {
+      const box = bar.getBoundingClientRect();
+      style.setProperty('--bar-h', `${box.height}px`);
+      // the compact bar (phones, scrolled down): its first row, the numbers and the rests
+      let first = 0;
+      const stats = bar.querySelector('.bar-stats')?.getBoundingClientRect();
+      if (stats) first = stats.bottom;
+      const rests = bar.querySelector('.bar-rests')?.getBoundingClientRect();
+      if (rests && stats && rests.top < stats.bottom - 2) first = Math.max(first, rests.bottom);
+      if (first) style.setProperty('--bar-min-h', `${Math.ceil(first - box.top) + 6}px`);
+    }
     // the strip of tabs sticks under the bar on phones and tablets (the combat tab's own strip
     // of columns sticks under it)
     const tabs = this.host.nativeElement.querySelector('.tabs');
@@ -507,6 +596,8 @@ export class CharacterSheet {
 
   /** Summary on phones: the chips that jump to a part of the (long) page. */
   protected jumpTo(id: string): void {
+    // the target's margin counts on the whole bar and tabs: they stay while the jump scrolls
+    this.revealChrome(1500);
     this.host.nativeElement
       .querySelector(`#${id}`)
       ?.scrollIntoView({ behavior: 'smooth', block: 'start' });

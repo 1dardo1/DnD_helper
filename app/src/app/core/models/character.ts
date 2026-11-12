@@ -2,6 +2,7 @@ import { CannonState, normalizeCannon } from '../artificer/cannon';
 import { ReplicatedItem, normalizeReplicated } from '../artificer/replicated-state';
 import { TempSlot, normalizeCharges, normalizeTempSlots } from '../artificer/tinker';
 import { normalizeFavorites } from '../combat/favorites';
+import { Concentration, normalizeConcentration } from '../play/concentration';
 import { SummonsState, normalizeSummons } from '../summons/summon-state';
 import { normalizeHpMethod } from '../creation/hp-method';
 import { normalizePortrait } from '../characters/portrait-data';
@@ -195,6 +196,8 @@ export interface Character {
      * the form lasts (to end it on a rest it can't outlast). Absent/null: in their own form.
      */
     wildShape?: WildShapeState | null;
+    /** The concentration spell being kept up (absent or null: none). Ends on rests, 0 HP... */
+    concentration?: Concentration | null;
   };
   notes: string;
 }
@@ -381,6 +384,9 @@ function normalizeState(base: Character['state'], raw: Character['state'] | unde
   const wildShape = normalizeWildShape(raw?.wildShape);
   if (wildShape) state.wildShape = wildShape;
   else delete state.wildShape;
+  const concentration = normalizeConcentration(raw?.concentration);
+  if (concentration) state.concentration = concentration;
+  else delete state.concentration;
   return state;
 }
 

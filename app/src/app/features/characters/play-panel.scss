@@ -280,7 +280,25 @@ input[type='number'] {
       color: var(--danger);
     }
 
+    // concentrating: a small badge on the corner (the compact bar hides the chip)
+    .conc-dot {
+      position: absolute;
+      top: -0.35rem;
+      right: -0.35rem;
+      min-width: 1.1rem;
+      padding: 0 0.2rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      line-height: 1.1rem;
+      text-align: center;
+      text-decoration: none;
+      color: var(--paper);
+      background: var(--accent);
+      border-radius: 999px;
+    }
+
     &.hp {
+      position: relative;
       flex-direction: row;
       flex-wrap: wrap;
       align-items: baseline;

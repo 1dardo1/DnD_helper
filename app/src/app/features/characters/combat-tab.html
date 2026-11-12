@@ -89,6 +89,9 @@
       </div>
     }
   </dl>
+  @if (st.concentration) {
+    <div class="conc"><app-concentration-chip [state]="st" (changed)="emit($event)" /></div>
+  }
   <ul class="facts">
     @for (d of dcs(); track d.source + d.n) {
       <li>
@@ -199,6 +202,17 @@
             </button>
           }
         </div>
+      }
+      @if (concentrates(r)) {
+        @if (isConcentrating(r)) {
+          <button type="button" class="mini on" (click)="release()">
+            {{ 'sheetx.conc.active' | t }} · {{ 'sheetx.conc.drop' | t }}
+          </button>
+        } @else {
+          <button type="button" class="mini" (click)="concentrate(r)">
+            {{ 'sheetx.conc.start' | t }}
+          </button>
+        }
       }
       @if (r.more || r.link || r.tab) {
         <span class="links">

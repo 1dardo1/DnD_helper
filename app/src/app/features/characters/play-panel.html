@@ -9,6 +9,11 @@
         @if (state().hpTemp) {
           <span class="temp">+{{ state().hpTemp }}</span>
         }
+        @if (state().concentration) {
+          <abbr class="conc-dot" [title]="'sheetx.conc.title' | t">{{
+            'sheetx.spell.concShort' | t
+          }}</abbr>
+        }
       </span>
       <span class="stat">
         <small>{{ 'sheet.armorClassShort' | t }}</small>

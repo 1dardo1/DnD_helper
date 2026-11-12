@@ -103,6 +103,26 @@
     border-radius: 999px;
   }
 
+  .tag.on {
+    color: var(--paper);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  // "Concentrate" / "Drop" inside the open spell
+  .conc-line {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0 0.75rem 0.4rem;
+    font-size: var(--fs-sm);
+
+    button {
+      min-height: 2.25rem;
+    }
+  }
+
   app-entry-details {
     padding: 0 0.75rem 0.6rem;
   }
