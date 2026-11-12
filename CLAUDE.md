@@ -29,8 +29,12 @@ fijada en `.github/workflows/{pages,apk}.yml` y en `app/src/app/core/settings/se
   próxima extracción lo borraría. Ver skill `datos`.
 - Toda mecánica nueva sale del **texto real** de `data/*.json`, con tests Vitest que usen datos reales.
   Nunca inventes reglas: si no está en los datos, dilo.
-- Cada texto de UI nuevo va en `es.ts` **y** `en.ts`; términos de juego nuevos, en el glosario
-  (`npm run check-glossary` lo exige).
+- Cada texto de UI nuevo va en español **y** en inglés; términos de juego nuevos, en el glosario
+  (`npm run check-glossary` lo exige). Dónde: lo que sale en la barra, la navegación o los títulos
+  de ruta, en `es.ts`/`en.ts` (siempre cargados). Lo de una zona con chunk propio, en su fichero
+  diferido (`core/i18n/{combat,sheet,settings,browse,wizard}.{es,en}.ts`, cargados con
+  `I18nService.extend()`): así el bundle inicial no crece. Si mueves una clave a un fichero
+  diferido, comprueba que ninguna pantalla siempre cargada (barra, títulos de ruta) la lee.
 - Nombres en español ya decididos por el usuario (no "corregir"): "Tiflin", "Caballero
   sobrenatural", "Cuchillo del alma".
 - Antes de empujar: skill `verificar` (tests, prettier, glosario, build de producción).
@@ -94,10 +98,11 @@ defecto. El usuario lo pidió expresamente, así que aquí sí se puede fijar `e
    `validate` lo detecta. Los datos actuales siguen valiendo.
 6. **Cuota de Cloudflare** (~170 imágenes/día): los 331 monstruos tardan 2 días; la ejecución
    diaria programada lo continúa sola.
-7. **Elecciones dentro de rasgos sin resolver**: truco/idioma/herramienta "of your choice" dentro de
-   rasgos de especie (Half-Elf Cantrip, Kobold Draconic Sorcery, Astral Elf, herramientas), Boon of
-   Energy Resistance y Planar Wanderer (varias resistencias cambiables en descanso). Las de opción
-   (X o Y) y las de habilidad/tipo de daño sí están (`trait-choices.ts`).
+7. **Elecciones dentro de rasgos sin resolver**: Boon of Energy Resistance y Planar Wanderer
+   (varias resistencias cambiables en descanso); los rasgos que se re-eligen en cada uso
+   (Hobgoblin Fey Gift...) se dejan como texto a propósito. Las demás (opción X o Y, habilidades,
+   trucos, herramientas, característica de lanzamiento, descanso) ya tienen selector
+   (`species-picks.ts`, `trait-choices.ts`, diálogo de descanso).
 8. **Cambios de modelo de personaje**: `schemaVersion: 1`; todo campo nuevo debe ser opcional y
    normalizarse en `normalizeCharacter` (personajes viejos en GitHub y en dispositivos).
 9. **Extracción completa del scraper**: si alguien lanza `scrape.yml`, regenera `data/`. Todo lo
@@ -107,12 +112,13 @@ defecto. El usuario lo pidió expresamente, así que aquí sí se puede fijar `e
 ## Desarrollos que el usuario ha pedido o quedaron a medias
 
 - Retratos IA (bloqueado por los secretos de Cloudflare; skill `retratos`).
-- Sub-elecciones anidadas en rasgos de especie (Half-Elf, Kobold, Merfolk) y resistencias
-  múltiples cambiables (Boon of Energy Resistance, Planar Wanderer).
-- Cañón sobrenatural y criaturas invocadas en el combate rastreado de la Mesa del DM (hoy solo
-  viven en la hoja del personaje).
+- Criaturas invocadas con sus acciones dentro de la pestaña Combate (hoy solo una fila con enlace)
+  y Cañón/invocaciones en el combate rastreado de la Mesa del DM.
 - Crafteo: lista de qué fabrica cada herramienta de artesano (no está en los datos del scraper).
 - Carpetas sincronizadas entre dispositivos (hoy la lista de carpetas es local; la carpeta de cada
   personaje/encuentro sí se sincroniza).
 - Dotes con recursos propios sin contador (Death Points, Psionic Energy Dice de dotes) y épicas
   que deberían pedir conjuro (Boon of Magic School Mastery, Boon of Siberys).
+- Rasgos de otros libros y de 2014 con números sin tratar (83 y 135 según la última auditoría).
+- Lista de personajes con PG y CA de un vistazo (exige calcular cada hoja).
+- Mensaje de "sin red" más amable con botón de reintentar en el compendio.
