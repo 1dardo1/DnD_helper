@@ -1,4 +1,5 @@
 import { Character } from '../models/character';
+import { featResistSource } from '../rules/feat-effects';
 import { Sheet } from '../rules/sheet';
 
 /**
@@ -25,11 +26,26 @@ export function promptRestChoices(
 export function answerRestChoices(ch: Character, changed: Record<string, string[]>): Character {
   const state = { ...ch.state };
   delete state.restChoices;
+  if (!Object.keys(changed).length) return { ...ch, state };
   const picks = { ...(ch.choices.traitPicks ?? {}) };
-  for (const [key, values] of Object.entries(changed)) picks[key] = values;
+  const feats = { ...(ch.choices.featChoices ?? {}) };
+  let featsChanged = false;
+  for (const [key, values] of Object.entries(changed)) {
+    // a feat's damage types live with the feat's choices (featChoices), the rest with the traits
+    const src = featResistSource(key);
+    if (src) {
+      const { resistance: _single, ...rest } = feats[src] ?? {};
+      feats[src] = { ...rest, resistances: values };
+      featsChanged = true;
+    } else picks[key] = values;
+  }
   return {
     ...ch,
     state,
-    choices: Object.keys(changed).length ? { ...ch.choices, traitPicks: picks } : ch.choices,
+    choices: {
+      ...ch.choices,
+      traitPicks: picks,
+      ...(featsChanged ? { featChoices: feats } : {}),
+    },
   };
 }

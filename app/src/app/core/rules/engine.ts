@@ -21,7 +21,10 @@ import {
   abilityRule,
   featList,
   featPicks,
+  featResistKey,
   featRules,
+  pickedResistances,
+  resistanceChangesOnRest,
   slug,
   listOfFeatName,
 } from './feat-effects';
@@ -463,6 +466,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   granted.spells.push(...fromTraits.spells);
   granted.uses.push(...fromTraits.uses);
   granted.missing.push(...fromTraits.missing);
+  const restPicks = [...speciesPicked.rest, ...granted.restPicks];
   const resistances = [
     ...new Set([
       ...granted.resistances,
@@ -587,7 +591,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     resistances,
     combat,
     featMissing: granted.missing,
-    ...(speciesPicked.rest.length ? { restPicks: speciesPicked.rest } : {}),
+    ...(restPicks.length ? { restPicks } : {}),
     warnings,
   };
 }
@@ -693,6 +697,7 @@ function featGrants(
   const tools: string[] = [];
   const langs: string[] = [];
   const resistances: string[] = [];
+  const restPicks: NonNullable<Sheet['restPicks']> = [];
   const missing: Sheet['featMissing'] = [];
   let draconic = false;
   const pickedLang: string[] = [];
@@ -831,8 +836,18 @@ function featGrants(
     }
     langs.push(...rules.languages);
     if (picks.resistance) {
-      if (choice.resistance) resistances.push(choice.resistance);
-      else need('resistance');
+      // "X or Y" is a choice: only what was picked counts; fewer than asked shows the pick pending
+      const got = pickedResistances(choice, picks.resistance);
+      if (got.length < picks.resistance.count) need('resistance');
+      resistances.push(...got);
+      // a text that lets the player change them at a Long Rest: offered in the rest dialog
+      if (resistanceChangesOnRest(text))
+        restPicks.push({
+          key: featResistKey(src.key),
+          trait: feat.name,
+          rest: 'long',
+          resist: { ...picks.resistance, picked: got },
+        });
     }
     resistances.push(...rules.resistances);
   }
@@ -842,6 +857,7 @@ function featGrants(
     uses,
     tools,
     resistances,
+    restPicks,
     missing,
     /**
      * The languages the feats teach: Thieves' Cant (Harper Agent), and Draconic (Cult of the

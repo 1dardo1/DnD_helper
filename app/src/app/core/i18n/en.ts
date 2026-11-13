@@ -468,6 +468,7 @@ export const en = {
   'featchoice.tool': 'Tool {n}',
   'featchoice.language': 'Language (only if you already know {lang})',
   'featchoice.resistance': 'Damage type you resist',
+  'featchoice.resistanceN': 'Damage type you resist {n}',
   'featchoice.group.skills': 'Skills',
   'featchoice.group.tools': 'Tools',
   'picker.grants': 'Gives',

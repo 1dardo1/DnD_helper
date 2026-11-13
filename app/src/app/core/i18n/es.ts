@@ -472,6 +472,7 @@ export const es: Record<keyof typeof en, string> = {
   'featchoice.tool': 'Herramienta {n}',
   'featchoice.language': 'Idioma (solo si ya conoces {lang})',
   'featchoice.resistance': 'Tipo de daño al que resistes',
+  'featchoice.resistanceN': 'Tipo de daño al que resistes {n}',
   'featchoice.group.skills': 'Habilidades',
   'featchoice.group.tools': 'Herramientas',
   'picker.grants': 'Da',
