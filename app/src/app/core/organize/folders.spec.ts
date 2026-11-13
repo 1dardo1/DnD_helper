@@ -1,4 +1,4 @@
-import { groupByFolder, removeFolderFrom, renameFolderIn } from './folders';
+import { groupByFolder, knownFolderNames, removeFolderFrom, renameFolderIn } from './folders';
 
 interface Item {
   id: string;
@@ -66,5 +66,51 @@ describe('removeFolderFrom', () => {
     expect(after).toHaveLength(before.length);
     expect(after.map((i) => i.folder)).toEqual([null, undefined, null]);
     expect(names(after)).toEqual(names(before));
+  });
+});
+
+describe('knownFolderNames', () => {
+  it('lists the folders of the items on a device with no local folder names', () => {
+    const items = [item('a', 'Allies'), item('b'), item('c', 'Foes'), item('d', 'Allies')];
+    expect(knownFolderNames(items, folderOf)).toEqual(['Allies', 'Foes']);
+  });
+
+  it('still shows an empty local folder, before the items', () => {
+    const items = [item('a', 'Foes')];
+    expect(knownFolderNames(items, folderOf, ['Allies'])).toEqual(['Allies', 'Foes']);
+  });
+
+  it('never repeats a folder that is both local and on an item', () => {
+    const items = [item('a', 'Allies'), item('b', 'Allies')];
+    expect(knownFolderNames(items, folderOf, ['Allies', 'Allies'])).toEqual(['Allies']);
+  });
+
+  it('keeps local order first, then item folders in the order items first show them', () => {
+    const items = [item('a', 'Zeta'), item('b', 'Alfa'), item('c', 'Zeta')];
+    expect(knownFolderNames(items, folderOf, ['Foes', 'Allies'])).toEqual([
+      'Foes',
+      'Allies',
+      'Zeta',
+      'Alfa',
+    ]);
+  });
+
+  it('never offers "no folder": null, undefined, empty or blank names are skipped', () => {
+    const items = [item('a', ''), item('b', null), item('c'), item('d', '   ')];
+    expect(knownFolderNames(items, folderOf, ['', '  '])).toEqual([]);
+  });
+
+  it('trims surrounding spaces like groupByFolder, but keeps case as typed', () => {
+    const items = [item('a', 'Allies '), item('b', 'allies'), item('c', 'Allies')];
+    expect(knownFolderNames(items, folderOf, ['Allies'])).toEqual(['Allies', 'allies']);
+  });
+
+  it('agrees with the named groups groupByFolder builds from the same input', () => {
+    const items = [item('a', ' Foes'), item('b'), item('c', 'Allies'), item('d', 'Foes ')];
+    const known = ['Allies', 'Party'];
+    const fromGroups = groupByFolder(items, folderOf, known)
+      .map((g) => g.folder)
+      .filter((f): f is string => f !== null);
+    expect(knownFolderNames(items, folderOf, known)).toEqual(fromGroups);
   });
 });

@@ -8,7 +8,12 @@ import { DataTextService } from '../../core/i18n/data-text.service';
 import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, CharacterRecord } from '../../core/models/character';
 import { FolderPrefs } from '../../core/organize/folder-prefs';
-import { groupByFolder, removeFolderFrom, renameFolderIn } from '../../core/organize/folders';
+import {
+  groupByFolder,
+  knownFolderNames,
+  removeFolderFrom,
+  renameFolderIn,
+} from '../../core/organize/folders';
 import { BackupPanel } from '../../shared/backup-panel';
 import { PortraitAvatar } from '../../shared/portrait-avatar';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
@@ -285,7 +290,7 @@ export class CharacterList implements OnInit {
     );
 
   protected folderNames(): string[] {
-    return this.folderPrefs.names();
+    return knownFolderNames(this.store.all(), (r) => r.character.folder, this.folderPrefs.names());
   }
 
   protected isCollapsed(folder: string | null): boolean {

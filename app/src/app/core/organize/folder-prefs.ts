@@ -8,12 +8,16 @@ export interface FolderPrefsData {
 }
 
 /**
- * Which folders the user created (so an empty one doesn't disappear, and it's offered as a
- * suggestion for the next one) and which are collapsed, for one screen (characters or
- * encounters). Kept in this browser's localStorage only: it's an organizing preference, not game
- * data, so it doesn't go through GitHub/IndexedDB sync — see the `folder` field on Character and
- * Encounter for the data that does. If folders ever need to roam between a player's devices,
- * this is the piece to move into the synced record instead.
+ * This device's folder preferences for one screen (characters or encounters): the folder names
+ * the user created here, so an empty one doesn't disappear and is offered as a suggestion for the
+ * next one, and which folders are collapsed. Kept in this browser's localStorage only; it doesn't
+ * go through GitHub/IndexedDB sync.
+ *
+ * Folders that hold something do travel between devices: each Character and Encounter carries its
+ * own `folder` field, which is synced. The folder list the screens show is the union of both
+ * (`knownFolderNames` in folders.ts), so a new device lists those folders even with empty local
+ * storage. The limit: an empty folder created on one device doesn't appear on another, and the
+ * collapsed state is per device on purpose (a screen preference, not data).
  */
 export class FolderPrefs {
   private readonly data;

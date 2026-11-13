@@ -48,6 +48,28 @@ export function groupByFolder<T>(
 }
 
 /**
+ * The folder names to offer on a list: first the ones this device knows (`prefsNames`, in
+ * creation order, empty ones included), then any folder an item carries that isn't among them,
+ * in the order the items first show it. This is the union that makes a folder with content show
+ * up on a new device, where the local preference is still empty. Names are trimmed the way
+ * groupByFolder trims them, blanks and "no folder" never appear, and case is kept as typed.
+ */
+export function knownFolderNames<T>(
+  items: readonly T[],
+  folderOf: (item: T) => string | null | undefined,
+  prefsNames: readonly string[] = [],
+): string[] {
+  const names = new Set<string>();
+  const add = (raw: string | null | undefined) => {
+    const folder = raw?.trim();
+    if (folder) names.add(folder);
+  };
+  prefsNames.forEach(add);
+  for (const item of items) add(folderOf(item));
+  return [...names];
+}
+
+/**
  * `items` with every one whose folder is `from` moved to `to` (everything else unchanged, same
  * length and order): used when a folder is renamed, so nothing in it is lost.
  */

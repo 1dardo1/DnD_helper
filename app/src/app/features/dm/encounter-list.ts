@@ -8,7 +8,12 @@ import { Encounter } from '../../core/dm/encounter';
 import { EncounterStore } from '../../core/dm/encounter-store.service';
 import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 import { FolderPrefs } from '../../core/organize/folder-prefs';
-import { groupByFolder, removeFolderFrom, renameFolderIn } from '../../core/organize/folders';
+import {
+  groupByFolder,
+  knownFolderNames,
+  removeFolderFrom,
+  renameFolderIn,
+} from '../../core/organize/folders';
 import { RATING_KEY, encounterStats } from './encounter-stats';
 import { PasswordForm, PasswordSubmit } from './password-form';
 
@@ -527,7 +532,7 @@ export class EncounterList {
   }
 
   protected folderNames(): string[] {
-    return this.folderPrefs.names();
+    return knownFolderNames(this.store.all(), (e) => e.folder, this.folderPrefs.names());
   }
 
   protected isCollapsed(folder: string | null): boolean {
