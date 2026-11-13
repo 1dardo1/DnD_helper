@@ -12,6 +12,10 @@ export const browseEs: Record<BrowseKey, string> = {
   'browse.recent': 'Vistos hace poco',
   'browse.clearRecent': 'Borrar la lista de vistos hace poco',
   'browse.challenge': 'Desafío',
+  'browse.noConnection.title': 'No hay conexión',
+  'browse.noConnection.text':
+    'El compendio se descarga la primera vez que lo abres y después funciona sin conexión. Revisa la conexión y vuelve a intentarlo.',
+  'browse.retry': 'Reintentar',
 };
 
 /** Both languages, for I18nService.extend (once per page that shows them). */

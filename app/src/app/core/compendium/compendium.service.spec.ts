@@ -44,3 +44,15 @@ describe('CompendiumService meta', () => {
     await expect(withTimeout(new Promise(() => undefined), 5)).rejects.toThrow('5 ms');
   });
 });
+
+describe('CompendiumService without a device copy', () => {
+  it('reports the failure, and retry() tries the network again', async () => {
+    let fail = true;
+    const { service } = setup(() =>
+      fail ? Promise.reject(new Error('offline')) : Promise.resolve(META),
+    );
+    await expect(service.getMeta()).rejects.toThrow('offline');
+    fail = false;
+    await expect(service.retry()).resolves.toEqual(META);
+  });
+});
