@@ -23,6 +23,17 @@ export interface FeatSource {
 
 export const SPELL_ABILITIES: Ability[] = ['INT', 'WIS', 'CHA'];
 export const MAGIC_INITIATE_LISTS = ['cleric', 'druid', 'wizard'];
+/** The eight schools of magic, as the compendium writes them (lowercase). */
+export const SCHOOLS = [
+  'abjuration',
+  'conjuration',
+  'divination',
+  'enchantment',
+  'evocation',
+  'illusion',
+  'necromancy',
+  'transmutation',
+];
 
 /** A spell the feat's text gives. */
 export interface FeatSpellGrant {
@@ -72,6 +83,8 @@ export type SpellAbilityRule =
   | { mode: 'choice' }
   | { mode: 'fixed'; ability: Ability }
   | { mode: 'increased' }
+  /** The class's spellcasting ability (the text doesn't say it: Boon of Magic School Mastery). */
+  | { mode: 'class' }
   | { mode: 'none' };
 
 export interface FeatRules {
@@ -322,16 +335,33 @@ export interface PickRule {
   count: number;
   /** Spell lists it may come from; absent = the list picked for the feat. */
   lists?: string[];
+  /** Spell lists of the character's casting classes ("a spell on your class's spell list"). */
+  classLists?: boolean;
   schools?: string[];
+  /** The school the player picked for the feat (Boon of Magic School Mastery). */
+  schoolOfChoice?: boolean;
+  /** Also any spell of the feat's own table (Boon of Siberys' Siberys Dragonmark Spells). */
+  table?: boolean;
+  /**
+   * How it can be cast without a spell slot: 'at-will' (the text states no limit), or once per
+   * 'long' or 'short-or-long' rest. Absent: the feat's text decides (Magic Initiate...).
+   */
+  slotless?: 'at-will' | 'long' | 'short-or-long';
 }
 
 /** What a feat asks the player to choose besides the spellcasting ability (feat-effects text). */
 export interface FeatPicks {
   /** Spell list to choose among (Magic Initiate). */
   list?: string[];
+  /** The school to choose one of (Boon of Magic School Mastery). */
+  school?: string[];
   cantrips?: PickRule;
-  /** A leveled spell. */
-  spell?: PickRule & { level: number };
+  /** A leveled spell: exactly `level`, or `maxLevel` or lower. */
+  spell?: PickRule & { level?: number; maxLevel?: number };
+  /** A second spell, of `maxLevel` or lower (Boon of Magic School Mastery's Signature Arcanum). */
+  signature?: PickRule & { level?: number; maxLevel?: number };
+  /** The spellcasting ability is the class's: nothing for the player to choose. */
+  castingAbility?: boolean;
   /** Skills and tools, any mix (Skilled). */
   skillsOrTools?: number;
   /**
@@ -358,6 +388,20 @@ export const FEAT_PICKS: Record<string, FeatPicks> = {
     list: MAGIC_INITIATE_LISTS,
     cantrips: { count: 2 },
     spell: { count: 1, level: 1 },
+  },
+  // "Rote Casting: a level 1 spell of the chosen school on your class's list, always prepared,
+  // cast without a spell slot or components" (no limit stated: at will). "Signature Arcanum: a
+  // level 7 or lower spell of the chosen school, cast once without a slot per Long Rest".
+  'boon-of-magic-school-mastery': {
+    school: SCHOOLS,
+    spell: { count: 1, level: 1, classLists: true, schoolOfChoice: true, slotless: 'at-will' },
+    signature: { count: 1, maxLevel: 7, schoolOfChoice: true, slotless: 'long' },
+    castingAbility: true,
+  },
+  // "Aberrant Magic: a level 8 or lower Sorcerer spell, or a spell of the Siberys Dragonmark
+  // Spells table; cast once without a slot per Short or Long Rest"
+  'boon-of-siberys': {
+    spell: { count: 1, maxLevel: 8, lists: ['sorcerer'], table: true, slotless: 'short-or-long' },
   },
   'fey-touched': { spell: { count: 1, level: 1, schools: ['divination', 'enchantment'] } },
   'shadow-touched': { spell: { count: 1, level: 1, schools: ['illusion', 'necromancy'] } },
@@ -462,7 +506,30 @@ export function abilityRule(feat: Feat): SpellAbilityRule {
   const rules = featRules(feat);
   if (rules.ability.mode !== 'none') return rules.ability;
   const p = featPicks(feat);
+  if (p.castingAbility) return { mode: 'class' };
   return p.list || p.cantrips || p.spell ? { mode: 'choice' } : rules.ability;
+}
+
+/**
+ * The lines of a feat's table ("| Animal Shapes | Handling |") that follow `heading` in its text.
+ * Boon of Siberys: its twelve spells are read from the text, not typed in.
+ */
+export function tableSpellNames(text: string, heading: string): string[] {
+  const at = text.indexOf(heading);
+  if (at < 0) return [];
+  return text
+    .slice(at + heading.length)
+    .split('\n')
+    .map((l) => l.trim())
+    .filter((l) => l.startsWith('|'))
+    .map((l) => l.split('|')[1]?.trim() ?? '')
+    .filter((n) => n && n !== 'Spell' && !/^-+$/.test(n));
+}
+
+/** The spell ids of the Siberys Dragonmark Spells table (the text of Boon of Siberys). */
+export function siberysSpellIds(feat: RuleText): string[] {
+  // the bold heading: the same words also appear in the Aberrant Magic sentence above it
+  return tableSpellNames(feat.description ?? '', '**Siberys Dragonmark Spells**').map(slug);
 }
 
 /** Whether the player has anything to choose for this feat. */
@@ -503,17 +570,39 @@ export interface SpellLike {
   classes: string[];
 }
 
-/** The spells a pick can be made from, given the list picked for the feat. */
+/** What a pick is made among, besides the rule (the player's choices for the feat). */
+export interface PickContext {
+  /** Spell list picked for the feat (Magic Initiate). */
+  list?: string | null;
+  /** School picked for the feat (Boon of Magic School Mastery). */
+  school?: string | null;
+  /** Spell lists of the character's casting classes. */
+  casterLists?: readonly string[];
+  /** Spell ids of the feat's own table (Boon of Siberys). */
+  table?: readonly string[];
+}
+
+/**
+ * The spells a pick can be made from. `list` is the list picked for the feat (Magic Initiate);
+ * `ctx` holds the other choices the rule may depend on. A table spell is always a candidate.
+ */
 export function pickable(
   spells: readonly SpellLike[],
-  rule: PickRule & { level?: number },
+  rule: PickRule & { level?: number; maxLevel?: number },
   list: string | null,
+  ctx: PickContext = {},
 ): SpellLike[] {
-  const lists = rule.lists ?? (list ? [list] : null);
+  const lists =
+    rule.lists ?? (rule.classLists ? [...(ctx.casterLists ?? [])] : list ? [list] : null);
+  const schools = rule.schools ?? (rule.schoolOfChoice ? (ctx.school ? [ctx.school] : []) : null);
+  const table = rule.table ? new Set(ctx.table ?? []) : null;
+  const level = (s: SpellLike) =>
+    rule.maxLevel !== undefined ? s.level <= rule.maxLevel : s.level === (rule.level ?? 0);
   return spells.filter(
     (s) =>
-      s.level === (rule.level ?? 0) &&
-      (!lists || lists.some((l) => s.classes.includes(l))) &&
-      (!rule.schools || rule.schools.includes(s.school.toLowerCase())),
+      table?.has(s.id) ||
+      (level(s) &&
+        (!lists || lists.some((l) => s.classes.includes(l))) &&
+        (!schools || schools.includes(s.school.toLowerCase()))),
   );
 }

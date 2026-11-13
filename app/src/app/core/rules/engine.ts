@@ -181,10 +181,13 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     const f = src.feat;
     // Magic Initiate (Cleric) / Magic Initiate (Wizard): the same feat twice, told apart by its list
     const list = f.repeatable ? featList(src, choiceOf(src)) : null;
+    const school = f.repeatable ? choiceOf(src).school : undefined;
     const name =
       list && !f.name.includes('(')
         ? `${f.name} (${list[0].toUpperCase()}${list.slice(1)})`
-        : f.name;
+        : school && !f.name.includes('(')
+          ? `${f.name} (${school[0].toUpperCase()}${school.slice(1)})`
+          : f.name;
     features.push({
       name,
       level: 1,
@@ -445,7 +448,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   if (pactCasters.length > 1) warnings.push({ key: 'sheet.warn.twoPacts' });
 
   // -- what the feats give: spells, uses, proficiencies ----------------------------------------
-  const granted = featGrants(featSources, ch, abilities, pb, totalLevel);
+  const granted = featGrants(featSources, ch, abilities, pb, totalLevel, spellClasses[0]?.ability);
   const fromTraits = traitGrants({
     traits,
     species,
@@ -671,6 +674,23 @@ export function castingOf(cls: DndClass, sub: Subclass | undefined): Spellcastin
   return cls.spellcasting ?? sub?.spellcasting ?? null;
 }
 
+/**
+ * The spell lists of the character's casting classes: the class's own, or the one its subclass
+ * uses (Eldritch Knight → wizard). "A spell on your class's spell list" for the feats; no
+ * casting class → []. Read by the screens that offer those picks (shared/feat-choices.ts).
+ */
+export function casterSpellLists(ch: Character, data: RulesData): string[] {
+  const out: string[] = [];
+  for (const c of ch.classes) {
+    const cls = data.classes.get(c.id);
+    if (!cls) continue;
+    const sub = c.subclassId ? data.subclasses.get(c.subclassId) : undefined;
+    const sc = castingOf(cls, sub);
+    if (sc) out.push(sc.spellList ?? cls.id);
+  }
+  return [...new Set(out)];
+}
+
 function gained(list: Feature[], level: number, source: SheetFeature['source']): SheetFeature[] {
   return list
     .filter((f) => f.level <= level)
@@ -692,6 +712,7 @@ function featGrants(
   abilities: Sheet['abilities'],
   pb: number,
   totalLevel: number,
+  casterAbility: Ability | undefined,
 ) {
   const spells: SheetFeatSpell[] = [];
   const uses: SheetFeatUse[] = [];
@@ -726,6 +747,10 @@ function featGrants(
     else if (rule.mode === 'choice') {
       if (choice.ability) ability = choice.ability;
       else chosen = false;
+    } else if (rule.mode === 'class') {
+      // the class's spellcasting ability; no spellcasting class: nothing to cast with
+      if (casterAbility) ability = casterAbility;
+      else chosen = false;
     } else {
       // "the one chosen for the Faithful Companion benefit of your Familiar Friend feat"
       const other = sources.find((o) => o !== src && ch.choices.featChoices?.[o.key]?.ability);
@@ -743,6 +768,8 @@ function featGrants(
       slots: boolean;
       atWill?: boolean;
       freeUses?: 1 | 'mod' | 'pb';
+      /** When the free cast comes back (default: Long Rest). */
+      rest?: 'long' | 'short-or-long';
     }) => {
       const freeKey = g.free ? key(g.id) : null;
       spells.push({
@@ -772,7 +799,7 @@ function featGrants(
               : g.freeUses === 'pb'
                 ? pb
                 : 1,
-          rest: 'long',
+          rest: g.rest ?? 'long',
         });
     };
 
@@ -789,21 +816,39 @@ function featGrants(
       for (const id of got)
         addSpell({ id, name: nameOf(id), cantrip: true, free: false, slots: false });
     }
+    // a leveled spell the player picked, cast with slots and, per its rule, without one
+    const pickSpell = (
+      id: string,
+      slot: { slotless?: 'at-will' | 'long' | 'short-or-long'; maxLevel?: number },
+    ) => {
+      // Magic Initiate / Fey Touched (no rule given): once per Long Rest when the text says so
+      const slotless =
+        slot.slotless ?? (SLOTLESS_FREE.test(text) && /Long Rest/i.test(text) ? 'long' : undefined);
+      addSpell({
+        id,
+        name: nameOf(id),
+        // "a level 7 or lower spell" can be any level: the compendium says which
+        cantrip: slot.maxLevel !== undefined ? null : false,
+        free: slotless === 'long' || slotless === 'short-or-long',
+        atWill: slotless === 'at-will',
+        slots: true,
+        rest: slotless === 'short-or-long' ? 'short-or-long' : 'long',
+      });
+    };
+    if (picks.school && !choice.school) need('school');
+    // a spell cast with the class's ability needs a spellcasting class to have one
+    const castable = rule.mode !== 'class' || chosen;
     if (picks.spell) {
       if (!choice.spell) need('spell');
-      else {
-        // Magic Initiate / Fey Touched: cast once without a slot per Long Rest, or with slots
-        const free = SLOTLESS_FREE.test(text) && /Long Rest/i.test(text);
-        addSpell({
-          id: choice.spell,
-          name: nameOf(choice.spell),
-          cantrip: false,
-          free,
-          slots: true,
-        });
-      }
+      else if (castable) pickSpell(choice.spell, picks.spell);
     }
-    if (!chosen && (rules.spells.length || picks.cantrips || picks.spell)) need('ability');
+    if (picks.signature) {
+      if (!choice.signature) need('signature');
+      else if (castable) pickSpell(choice.signature, picks.signature);
+    }
+    if (rule.mode === 'class') {
+      if (!chosen) need('caster');
+    } else if (!chosen && (rules.spells.length || picks.cantrips || picks.spell)) need('ability');
 
     // uses: Luck Points, "PB times per Long Rest", "once per Long Rest"
     const several = rules.uses.length > 1;

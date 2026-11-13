@@ -219,6 +219,10 @@ export interface FeatChoice {
   /** Spell ids picked as cantrips / as the leveled spell. */
   cantrips?: string[];
   spell?: string;
+  /** School of magic picked (Boon of Magic School Mastery); its spells are picked from it. */
+  school?: string;
+  /** Second spell (Boon of Magic School Mastery's Signature Arcanum). */
+  signature?: string;
   /** Skill ids (Skilled, Purple Dragon Rook...), tools and languages picked. */
   skills?: string[];
   tools?: string[];

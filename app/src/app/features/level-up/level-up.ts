@@ -63,7 +63,7 @@ import { FeatChoices } from '../../shared/feat-choices';
 import { HpLevels } from '../../shared/hp-levels';
 import { Ability, ClassOption, DndClass, Feat, Species } from '../../core/models/compendium';
 import { swapRule } from '../../core/play/spell-swap';
-import { computeSheet } from '../../core/rules/engine';
+import { casterSpellLists, computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
 import { Sheet } from '../../core/rules/sheet';
 import { PLAN_GROUP, plansReplaced, plansTaken } from '../../core/artificer/plans';
@@ -585,6 +585,13 @@ export class LevelUp {
     const feat = this.slotFeatEntry(slot);
     return feat ? { key: slot, feat } : null;
   }
+
+  /** The spell lists of the character's casting classes (the feats' "your class's spell list"). */
+  protected readonly casterLists = computed(() => {
+    const d = this.data.value();
+    const c = this.draft();
+    return d && c ? casterSpellLists(c, d.rules) : [];
+  });
 
   protected featChoice(key: string): FeatChoice | undefined {
     return this.draft()?.choices.featChoices?.[key];

@@ -93,7 +93,7 @@ import {
 import { Ability, ClassOption, DndClass, Feat, Feature, Item } from '../../core/models/compendium';
 import { attacksFor, proficientWith } from '../../core/rules/attacks';
 import { weaponEntriesOf } from '../../core/characters/weapons';
-import { castingOf, computeSheet } from '../../core/rules/engine';
+import { casterSpellLists, castingOf, computeSheet } from '../../core/rules/engine';
 import { FeatSource, listOfFeatName } from '../../core/rules/feat-effects';
 import {
   SpeciesPick,
@@ -1184,6 +1184,12 @@ export class CharacterCreate implements LeaveCheck {
     const feat = this.slotFeatEntry(slot);
     return feat ? { key: slot, feat } : null;
   }
+
+  /** The spell lists of the character's casting classes (the feats' "your class's spell list"). */
+  protected readonly casterLists = computed(() => {
+    const d = this.data.value();
+    return d ? casterSpellLists(this.draft(), d.rules) : [];
+  });
 
   protected featChoice(key: string): FeatChoice | undefined {
     return this.draft().choices.featChoices?.[key];
