@@ -54,6 +54,55 @@ describe('pools of dice read from the text of the subclass', () => {
   });
 });
 
+describe('the same pool of dice read from a table (Psionic Power, Despairing Strikes)', () => {
+  it.each([
+    ['rogue', 'rogue/soulknife', 'Psionic Energy Dice', 5, 'd8', 6],
+    ['fighter', 'fighter/psi-warrior', 'Psionic Energy Dice', 11, 'd10', 8],
+    ['fighter', 'fighter/sorrow-knight', 'Despairing Strike Dice', 3, 'd8', 3],
+    ['fighter', 'fighter/sorrow-knight', 'Despairing Strike Dice', 10, 'd10', 4],
+    ['fighter', 'fighter/sorrow-knight', 'Despairing Strike Dice', 15, 'd12', 5],
+  ])('%s, %s, %s at level %i', (classId, sub, name, level, die, count) => {
+    expect(find(res(classId, level, sub), name)).toMatchObject({ die, max: count });
+  });
+
+  it('Despairing Strike Dice all come back on a Short Rest, and on a Long Rest', () => {
+    const rs = res('fighter', 3, 'fighter/sorrow-knight');
+    const key = find(rs, 'Despairing Strike Dice')!.key;
+    const spent = { resources: { [key]: 2 } } as never;
+    expect(shortRest(spent, rs).resources[key]).toBe(0);
+    expect(longRest(spent).resources[key]).toBeUndefined();
+  });
+});
+
+describe('a use formula and the rest that gives it back in the next sentence', () => {
+  const uses = (classId: string, level: number, sub: string, name: string, con = 14) =>
+    find(res(classId, level, sub, { CON: con }), name);
+
+  it("Path of Lament's Banshee's Wail: Constitution modifier, back on a Long Rest", () => {
+    expect(uses('barbarian', 3, 'barbarian/path-of-lament-ua', "Banshee's Wail")).toMatchObject({
+      max: 2,
+      short: 0,
+    });
+    expect(uses('barbarian', 3, 'barbarian/path-of-lament-ua', "Banshee's Wail", 6)?.max).toBe(1);
+  });
+
+  it('Hell Knight Infernal Wound: back on a Short or Long Rest', () => {
+    expect(
+      uses('fighter', 3, 'fighter/hell-knight-ua14-18-06-2026', 'Infernal Wound'),
+    ).toMatchObject({ max: 2, short: 'all' });
+  });
+
+  it('keeps the counters that say it in one sentence (Virulent Burst, Chilling Retribution)', () => {
+    const virulent = res('cleric', 6, 'cleric/pestilence-domain-ua', { WIS: 16 });
+    expect(virulent.find((r) => r.name === 'Virulent Burst')?.max).toBe(3);
+    expect(
+      res('ranger', 11, 'ranger/winter-walker', { WIS: 14 }).find(
+        (r) => r.name === 'Chilling Retribution',
+      )?.max,
+    ).toBe(2);
+  });
+});
+
 describe('the size of the die a counter holds', () => {
   it('Bardic Inspiration shows the Bardic Die of the level', () => {
     expect(find(res('bard', 1, null), 'Bardic Inspiration')?.die).toBe('d6');

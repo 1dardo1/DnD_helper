@@ -501,6 +501,7 @@ export const es: Record<keyof typeof en, string> = {
   'play.res.strokeOfLuck': 'Golpe de suerte',
   'play.res.psionicEnergyDice': 'Dados de Energía Psiónica',
   'play.res.deathPoints': 'Puntos de muerte',
+  'play.res.despairingStrikeDice': 'Dados de Golpe Desesperado',
   'play.res.innateSorcery': 'Hechicería innata',
   'play.res.magicalCunning': 'Astucia mágica',
   'play.res.mysticArcanum': 'Arcano místico',

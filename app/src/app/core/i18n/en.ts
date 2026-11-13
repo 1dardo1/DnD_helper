@@ -497,6 +497,7 @@ export const en = {
   'play.res.strokeOfLuck': 'Stroke of Luck',
   'play.res.psionicEnergyDice': 'Psionic Energy Dice',
   'play.res.deathPoints': 'Death Points',
+  'play.res.despairingStrikeDice': 'Despairing Strike Dice',
   'play.res.innateSorcery': 'Innate Sorcery',
   'play.res.magicalCunning': 'Magical Cunning',
   'play.res.mysticArcanum': 'Mystic Arcanum',

@@ -295,7 +295,9 @@
     "blood curses known": "Maldiciones de sangre conocidas",
     "psionic energy dice": "Dados de energía psiónica",
     "psionic energy die": "Dado de energía psiónica",
-    "death points": "Puntos de muerte"
+    "death points": "Puntos de muerte",
+    "despairing strike dice": "Dados de golpe desesperado",
+    "despairing strike die": "Dado de golpe desesperado"
   },
   "condition": {
     "blinded": "cegado",
