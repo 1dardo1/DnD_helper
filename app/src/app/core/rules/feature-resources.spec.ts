@@ -111,3 +111,49 @@ describe('limited uses of class features', () => {
       expect(f.filter((r) => r.name === n)).toHaveLength(1);
   });
 });
+
+describe('pools of feats: Death Points and Psionic Energy Dice', () => {
+  /** A fighter with the given feats in its slots (the slot key is any text; the feat is real). */
+  const withFeats = (level: number, feats: string[]) =>
+    sheetOf('fighter', level, null, {
+      featSlots: feats.map((featId, i) => ({ slot: `fighter:${4 + i}`, featId })),
+    } as never);
+  const pool = (level: number, feats: string[], name: string) =>
+    playResources(withFeats(level, feats)).filter((r) => r.name === name);
+
+  it('Death Knight Initiate: Death Points equal to the Proficiency Bonus', () => {
+    const at1 = pool(1, ['death-knight-initiate-ua'], 'Death Points');
+    expect(at1).toHaveLength(1);
+    expect(at1[0]).toMatchObject({
+      max: 2,
+      labelKey: 'play.res.deathPoints',
+      feat: 'Death Knight Initiate',
+    });
+    expect(pool(9, ['death-knight-initiate-ua'], 'Death Points')[0].max).toBe(4);
+  });
+
+  it('Ascension gives no count of its own: with Initiate there is still one counter', () => {
+    expect(pool(1, ['death-knight-ascension-ua'], 'Death Points')).toHaveLength(0);
+    const both = pool(9, ['death-knight-initiate-ua', 'death-knight-ascension-ua'], 'Death Points');
+    expect(both).toHaveLength(1);
+    expect(both[0].max).toBe(4);
+  });
+
+  it('Tadpole Host: Psionic Energy Dice equal to the Proficiency Bonus, Long Rest only', () => {
+    const rs = playResources(withFeats(5, ['tadpole-host-ua']));
+    const r = rs.find((x) => x.name === 'Psionic Energy Dice')!;
+    expect(r).toMatchObject({ max: 3, labelKey: 'play.res.psionicEnergyDice' });
+    expect(r.die).toBeUndefined(); // the feat's text gives no die size
+    const spent = { resources: { [r.key]: 2 } } as never;
+    expect(shortRest(spent, rs).resources[r.key]).toBe(2);
+    expect(longRest(spent).resources[r.key]).toBeUndefined();
+  });
+
+  it('a Long Rest restores the Death Points, a Short Rest does not', () => {
+    const rs = playResources(withFeats(9, ['death-knight-initiate-ua']));
+    const key = rs.find((x) => x.name === 'Death Points')!.key;
+    const spent = { resources: { [key]: 3 } } as never;
+    expect(shortRest(spent, rs).resources[key]).toBe(3);
+    expect(longRest(spent).resources[key]).toBeUndefined();
+  });
+});
