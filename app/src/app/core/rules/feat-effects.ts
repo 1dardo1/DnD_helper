@@ -251,27 +251,72 @@ function parseFeat(feat: RuleText): FeatRules {
     // (a paragraph that gives spells counts its free casts as spell uses, not as a second counter)
     const casting = casts || traitCasts;
     if (!(casting && !/Bonus Action/i.test(p)) || (/number of times/i.test(p) && !grants.length)) {
+      const rest = /Short (?:or|rest or) Long Rest/i.test(p)
+        ? 'short-or-long'
+        : /Long Rest/i.test(p)
+          ? 'long'
+          : null;
       const label = heading && heading !== 'Cantrip' ? heading : feat.name;
       const count =
-        /(?:a (?:total )?number of times|Luck Points) equal to your (?:Proficiency Bonus|(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) modifier)/i.exec(
+        /(?:a (?:total )?number of times(?: per day)?|Luck Points) equal to your (?:Proficiency Bonus|(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) modifier)/i.exec(
           p,
         );
       // the formula and the rest may be in different sentences: "You can use this feature a number
       // of times equal to your Constitution modifier (minimum of once)." + "You regain all expended
       // uses when you finish a Long Rest."
       const countRest = restIn(p) ?? regainRest;
+      const onceRest = ONCE_USE.exec(p)?.[0] ? restIn(ONCE_USE.exec(p)![0]) : null;
       if (countRest && count && (/regain|recover/i.test(p) || regainRest)) {
         add(out.uses, {
           label,
           max: count[1] ? (count[1].slice(0, 3).toUpperCase() as Ability) : 'pb',
           rest: countRest,
         });
-      } else if (!casting) {
+      } else if (!casting && onceRest) {
         // "Once you use this benefit, you can't use it again until you roll Initiative or finish a
         // Long or Short rest": one use, back on the rest (the Initiative is not counted)
-        const once = ONCE_USE.exec(p);
-        const rest = once ? restIn(once[0]) : null;
-        if (rest) add(out.uses, { label, max: 1, rest });
+        add(out.uses, { label, max: 1, rest: onceRest });
+      } else if (
+        rest &&
+        !casting &&
+        // a count that grows with the level ("twice between rests starting at 15th level", "Starting
+        // at level 17, you can use it twice") is not one use: it stays as text
+        !/\b(?:once|twice|three times|four times|five times|\d+ times)\b[^.]*\b(?:starting at|between rests)\b|\bstarting at\b[^.]*\buses?\b/i.test(
+          p,
+        ) &&
+        // 2014 wording: "Once you use this trait, you can't use it again until you finish a short
+        // or long rest"; "You can't use this feature again until you finish a long rest"; "Once you
+        // use this feature, you must finish a short or long rest before you can use it again"
+        /(?:you can(?:'|’)t|you cannot) (?!cast\b)[^.]*?again until (?:you )?(?:finish|complete) a (?:Short (?:or|rest or) Long|Long|Short) Rest|must finish a (?:Short (?:or|rest or) Long|Long|Short) Rest before/i.test(
+          p,
+        )
+      ) {
+        add(out.uses, { label, max: 1, rest });
+      } else if (rest && !casting && /regain|recover/i.test(p)) {
+        // "You can use this feature three times" (2014 Fighting Spirit, Steady Aim): a fixed count.
+        // A count that changes with the level ("twice between rests starting at 15th level") is
+        // not read: its sentence is left out
+        // ("At 15th level, you can invoke each rune ... twice, rather than once": a level, not a count)
+        const sentence = p
+          .split(/(?<=[.!?])\s+/)
+          .find((s) =>
+            /you can (?:use|make|invoke) [^.]{0,60}?\b(?:once|twice|three times|four times|five times)\b/i.test(
+              s,
+            ),
+          );
+        const times =
+          sentence &&
+          /you can (?:use|make|invoke) [^.]{0,60}?\b(once|twice|three times|four times|five times)\b/i.exec(
+            sentence,
+          );
+        if (times && !/starting at|\blevel\b|rather than/i.test(sentence!))
+          add(out.uses, {
+            label,
+            max: { once: 1, twice: 2, 'three times': 3, 'four times': 4, 'five times': 5 }[
+              times[1].toLowerCase()
+            ] as number,
+            rest,
+          });
       }
     }
 
