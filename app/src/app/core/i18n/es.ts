@@ -474,6 +474,14 @@ export const es: Record<keyof typeof en, string> = {
   'featchoice.resistance': 'Tipo de daño al que resistes',
   'featchoice.group.skills': 'Habilidades',
   'featchoice.group.tools': 'Herramientas',
+  'featchoice.school': 'Escuela de magia',
+  'featchoice.spellUpTo': 'Conjuro de nivel {level} o inferior',
+  'featchoice.signature': 'Arcanum de firma: nivel {level} o inferior',
+  'featchoice.pickSchoolFirst': 'Elige primero la escuela de magia.',
+  'featchoice.noCaster':
+    'Sin clase lanzadora no hay lista de conjuros: el personaje necesita una clase con conjuros.',
+  'featchoice.tableHint':
+    'También vale cualquier conjuro de la tabla del dote (Siberys Dragonmark Spells).',
   'picker.grants': 'Da',
   'picker.choose': 'Eliges',
   'play.usePip': '{name}: uso {n} gastado',

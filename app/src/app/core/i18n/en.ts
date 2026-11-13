@@ -470,6 +470,14 @@ export const en = {
   'featchoice.resistance': 'Damage type you resist',
   'featchoice.group.skills': 'Skills',
   'featchoice.group.tools': 'Tools',
+  'featchoice.school': 'School of magic',
+  'featchoice.spellUpTo': 'Spell of level {level} or lower',
+  'featchoice.signature': 'Signature Arcanum: level {level} or lower',
+  'featchoice.pickSchoolFirst': 'Pick the school of magic first.',
+  'featchoice.noCaster':
+    'Without a spellcasting class there is no spell list: the character needs a class that casts spells.',
+  'featchoice.tableHint':
+    "Any spell from the feat's table (Siberys Dragonmark Spells) also counts.",
   'picker.grants': 'Gives',
   'picker.choose': 'You choose',
   'play.usePip': '{name}: use {n} spent',

@@ -87,7 +87,16 @@ export interface Sheet {
   featMissing: {
     feat: string;
     key: string;
-    what: 'ability' | 'list' | 'cantrips' | 'spell' | 'proficiencies' | 'resistance';
+    what:
+      | 'ability'
+      | 'list'
+      | 'cantrips'
+      | 'spell'
+      | 'signature'
+      | 'school'
+      | 'caster'
+      | 'proficiencies'
+      | 'resistance';
   }[];
   /**
    * Picks inside species traits the text lets the player change after a rest (Kalashtar's skill,

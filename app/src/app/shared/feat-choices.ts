@@ -13,12 +13,15 @@ import { FeatChoice } from '../core/models/character';
 import { Spell } from '../core/models/compendium';
 import {
   FeatSource,
+  PickContext,
+  PickRule,
   SPELL_ABILITIES,
   abilityRule,
   featList,
   featPicks,
   featRules,
   pickable,
+  siberysSpellIds,
   togglePick,
 } from '../core/rules/feat-effects';
 import { SKILL_ABILITY } from '../core/rules/tables';
@@ -92,18 +95,56 @@ import { Picker } from './picker/picker';
           </div>
         }
 
+        @if (picks().school; as schools) {
+          <label data-testid="feat-school">
+            {{ 'featchoice.school' | t }}
+            <select [value]="cv().school ?? ''" (change)="setSchool(text($event))">
+              <option value="">—</option>
+              @for (sc of schools; track sc) {
+                <option [value]="sc">{{ sc | term: 'school' }}</option>
+              }
+            </select>
+          </label>
+        }
+
         @if (picks().spell; as sp) {
           <div class="spell-pick" data-testid="feat-spell">
-            <h3>{{ 'featchoice.spell' | t: { level: sp.level } }}</h3>
-            @if (listMissing()) {
-              <p class="hint">{{ 'featchoice.pickListFirst' | t }}</p>
+            <h3>
+              @if (sp.maxLevel !== undefined) {
+                {{ 'featchoice.spellUpTo' | t: { level: sp.maxLevel } }}
+              } @else {
+                {{ 'featchoice.spell' | t: { level: levelOf(sp) } }}
+              }
+            </h3>
+            @if (sp.table) {
+              <p class="hint">{{ 'featchoice.tableHint' | t }}</p>
+            }
+            @if (blockedKey(sp); as blocked) {
+              <p class="hint">{{ blocked | t }}</p>
             } @else {
               <app-picker
                 [items]="spellOptions()"
                 [facets]="spellFacets"
                 [selected]="cv().spell ? [cv().spell!] : []"
-                [label]="'featchoice.spell' | t: { level: sp.level }"
+                [label]="'featchoice.spell' | t: { level: levelOf(sp) }"
                 (picked)="set({ spell: $event.id })"
+              />
+            }
+          </div>
+        }
+
+        @if (picks().signature; as sg) {
+          <div class="spell-pick" data-testid="feat-signature">
+            <h3>{{ 'featchoice.signature' | t: { level: levelOf(sg) } }}</h3>
+            @if (blockedKey(sg); as blocked) {
+              <p class="hint">{{ blocked | t }}</p>
+            } @else {
+              <app-picker
+                [items]="signatureOptions()"
+                [facets]="spellFacets"
+                [selected]="cv().signature ? [cv().signature!] : []"
+                [label]="'featchoice.signature' | t: { level: levelOf(sg) }"
+                (picked)="set({ signature: $event.id })"
               />
             }
           </div>
@@ -219,6 +260,8 @@ export class FeatChoices {
   readonly source = input.required<FeatSource>();
   readonly choice = input<FeatChoice | undefined>(undefined);
   readonly spells = input<readonly Spell[]>([]);
+  /** Spell lists of the character's casting classes (casterSpellLists in engine.ts). */
+  readonly casterLists = input<readonly string[]>([]);
   readonly changed = output<FeatChoice>();
 
   private readonly dataText = inject(DataTextService);
@@ -252,6 +295,8 @@ export class FeatChoices {
   });
 
   protected readonly listMissing = computed(() => !!this.picks().list && !this.list());
+  /** Ids of the spells of the feat's own table (Siberys Dragonmark Spells); none for other feats. */
+  private readonly tableIds = computed(() => siberysSpellIds(this.source().feat));
 
   /** "cleric" -> "Clérigo" / "Cleric". */
   protected listLabel(id: string): string {
@@ -285,8 +330,44 @@ export class FeatChoices {
 
   protected spellOptions(): Spell[] {
     const rule = this.picks().spell;
-    if (!rule || this.listMissing()) return [];
-    return pickable(this.spells(), rule, this.list()) as Spell[];
+    if (!rule || this.blockedKey(rule)) return [];
+    return pickable(this.spells(), rule, this.list(), this.pickContext()) as Spell[];
+  }
+
+  protected signatureOptions(): Spell[] {
+    const rule = this.picks().signature;
+    if (!rule || this.blockedKey(rule)) return [];
+    return pickable(this.spells(), rule, this.list(), this.pickContext()) as Spell[];
+  }
+
+  /** The level a spell rule is about: its maximum ("level 7 or lower") or its exact level. */
+  protected levelOf(rule: { level?: number; maxLevel?: number }): number {
+    return rule.maxLevel ?? rule.level ?? 0;
+  }
+
+  /** The translation key of what must be chosen before a spell rule can offer spells; '' if none. */
+  protected blockedKey(rule: PickRule): string {
+    const p = this.picks();
+    if (!rule.lists && !rule.classLists && p.list && !this.list())
+      return 'featchoice.pickListFirst';
+    if (rule.schoolOfChoice && !this.choice()?.school) return 'featchoice.pickSchoolFirst';
+    if (rule.classLists && this.casterLists().length === 0) return 'featchoice.noCaster';
+    return '';
+  }
+
+  protected setSchool(school: string): void {
+    // the spells picked from the old school no longer apply
+    this.set({ school: school || undefined, spell: undefined, signature: undefined });
+  }
+
+  /** What the spell rules are picked among: the list, the school, the casting classes' lists. */
+  private pickContext(): PickContext {
+    return {
+      list: this.list(),
+      school: this.choice()?.school ?? null,
+      casterLists: this.casterLists(),
+      table: this.tableIds(),
+    };
   }
 
   /** Ticks or unticks a cantrip; a pick beyond the feat's count is ignored. */

@@ -577,7 +577,15 @@ export class EntryLabels {
     if (abilityRule(f).mode === 'choice') parts.push(this.t('featchoice.ability'));
     if (p.list) parts.push(this.t('featchoice.list'));
     if (p.cantrips) parts.push(`${p.cantrips.count} ${this.t('sheet.cantrips').toLowerCase()}`);
-    if (p.spell) parts.push(this.t('featchoice.spell', { level: p.spell.level }));
+    if (p.school) parts.push(this.t('featchoice.school'));
+    if (p.spell)
+      parts.push(
+        p.spell.maxLevel !== undefined
+          ? this.t('featchoice.spellUpTo', { level: p.spell.maxLevel })
+          : this.t('featchoice.spell', { level: p.spell.level ?? 0 }),
+      );
+    if (p.signature)
+      parts.push(this.t('featchoice.signature', { level: p.signature.maxLevel ?? 0 }));
     if (p.skillsOrTools)
       parts.push(
         `${p.skillsOrTools} ${this.t('featchoice.group.skills').toLowerCase()} / ${this.t('featchoice.group.tools').toLowerCase()}`,
