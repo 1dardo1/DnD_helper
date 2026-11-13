@@ -14,9 +14,11 @@ import {
   removeFolderFrom,
   renameFolderIn,
 } from '../../core/organize/folders';
+import { RulesDataService } from '../../core/rules/rules-data.service';
 import { BackupPanel } from '../../shared/backup-panel';
 import { PortraitAvatar } from '../../shared/portrait-avatar';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
+import { CharacterVitals } from './character-vitals';
 
 /** The select's "create a new folder" option, never a real folder name. */
 const NEW_FOLDER = '\u0000new';
@@ -31,6 +33,7 @@ const NEW_FOLDER = '\u0000new';
     ClassThemeDirective,
     BackupPanel,
     PortraitAvatar,
+    CharacterVitals,
   ],
   template: `
     <h1>{{ 'characters.title' | t }}</h1>
@@ -96,6 +99,7 @@ const NEW_FOLDER = '\u0000new';
                     @if (summary(r.character); as line) {
                       <span class="summary">{{ line }}</span>
                     }
+                    <app-character-vitals [character]="r.character" [data]="rules.value()" />
                     <span class="status" [attr.data-status]="r.status">{{
                       'characters.status.' + r.status | t
                     }}</span>
@@ -279,6 +283,10 @@ export class CharacterList implements OnInit {
   private readonly data = inject(DataTextService);
   private readonly compendium = inject(CompendiumService);
   private readonly i18n = inject(I18nService);
+  private readonly rulesData = inject(RulesDataService);
+
+  /** The compendium tables for the HP/AC chips, loaded once for the whole list (null: not yet). */
+  protected readonly rules = resource({ loader: () => this.rulesData.load() });
 
   private readonly folderPrefs = new FolderPrefs('dnd-helper.characterFolders');
   protected readonly newFolderOption = NEW_FOLDER;
