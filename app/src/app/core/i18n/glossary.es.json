@@ -294,7 +294,9 @@
     "hemocraft die": "Dado de hemocracia",
     "blood curses known": "Maldiciones de sangre conocidas",
     "psionic energy dice": "Dados de energía psiónica",
-    "psionic energy die": "Dado de energía psiónica"
+    "psionic energy die": "Dado de energía psiónica",
+    "despairing strike dice": "Dados de golpe desesperado",
+    "despairing strike die": "Dado de golpe desesperado"
   },
   "condition": {
     "blinded": "cegado",

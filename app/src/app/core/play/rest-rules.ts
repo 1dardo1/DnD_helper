@@ -35,6 +35,7 @@ export const REST_RULES: Record<string, RestRule> = {
   'stroke of luck': { short: 'all' },
   'hybrid transformation': { short: 'all' }, // Blood Hunter, Order of the Lycan
   'psionic energy dice': { short: 1 }, // Rogue, Soulknife; Fighter, Psi Warrior
+  'despairing strike dice': { short: 'all' }, // Fighter, Sorrow Knight: Short or Long Rest
   'signature spells': { short: 'all' }, // Wizard 20: each of the two spells, per Short or Long Rest
   // -- numbers in the class tables that are not spent --
   'weapon mastery': { short: 0, passive: true },

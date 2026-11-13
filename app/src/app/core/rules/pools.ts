@@ -89,6 +89,15 @@ export const POOLS: PoolDef[] = [
         : null;
     },
   },
+  {
+    // "| Fighter Level | Dice Size | Number |" table: "| 3 | D8 | 3 |" (the same shape as Psionic Power)
+    subclassId: 'fighter/sorrow-knight',
+    feature: 'Despairing Strikes',
+    name: 'Despairing Strike Dice',
+    labelKey: 'play.res.despairingStrikeDice',
+    from: 3,
+    read: energyDiceTable,
+  },
 ];
 
 export function poolFor(subclassId: string | null | undefined, feature: string) {

@@ -495,6 +495,7 @@ export const en = {
   'play.res.naturesVeil': "Nature's Veil",
   'play.res.strokeOfLuck': 'Stroke of Luck',
   'play.res.psionicEnergyDice': 'Psionic Energy Dice',
+  'play.res.despairingStrikeDice': 'Despairing Strike Dice',
   'play.res.innateSorcery': 'Innate Sorcery',
   'play.res.magicalCunning': 'Magical Cunning',
   'play.res.mysticArcanum': 'Mystic Arcanum',

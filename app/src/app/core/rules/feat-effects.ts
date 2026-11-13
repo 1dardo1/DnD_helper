@@ -131,6 +131,9 @@ function parseFeat(feat: RuleText): FeatRules {
     .map((p) => p.trim())
     .filter((p) => p && !p.startsWith('|') && !p.startsWith('#'));
 
+  // the rest that gives back the uses, wherever the text says it ("You regain all expended uses...")
+  const regainRest = restIn(plain(text).match(/regain all expended uses[^.]*\./i)?.[0] ?? '');
+
   let heading = '';
   for (const raw of paragraphs) {
     const h = /^\*\*(.+?)\.?\*\*\.?\s*(.*)$/.exec(raw);
@@ -222,30 +225,27 @@ function parseFeat(feat: RuleText): FeatRules {
     // (a paragraph that gives spells counts its free casts as spell uses, not as a second counter)
     const casting = casts || traitCasts;
     if (!(casting && !/Bonus Action/i.test(p)) || (/number of times/i.test(p) && !grants.length)) {
-      const rest = /Short or Long Rest/i.test(p)
-        ? 'short-or-long'
-        : /Long Rest/i.test(p)
-          ? 'long'
-          : null;
       const label = heading && heading !== 'Cantrip' ? heading : feat.name;
       const count =
         /(?:a (?:total )?number of times|Luck Points) equal to your (?:Proficiency Bonus|(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) modifier)/i.exec(
           p,
         );
-      if (rest && count && /regain|recover/i.test(p)) {
+      // the formula and the rest may be in different sentences: "You can use this feature a number
+      // of times equal to your Constitution modifier (minimum of once)." + "You regain all expended
+      // uses when you finish a Long Rest."
+      const countRest = restIn(p) ?? regainRest;
+      if (countRest && count && (/regain|recover/i.test(p) || regainRest)) {
         add(out.uses, {
           label,
           max: count[1] ? (count[1].slice(0, 3).toUpperCase() as Ability) : 'pb',
-          rest,
+          rest: countRest,
         });
-      } else if (
-        rest &&
-        !casting &&
-        /(?:Once you|After you) [^.]*?, you can(?:'|’)t [^.]*?again until you finish a (?:Short or Long|Long|Short) Rest/i.test(
-          p,
-        )
-      ) {
-        add(out.uses, { label, max: 1, rest });
+      } else if (!casting) {
+        // "Once you use this benefit, you can't use it again until you roll Initiative or finish a
+        // Long or Short rest": one use, back on the rest (the Initiative is not counted)
+        const once = ONCE_USE.exec(p);
+        const rest = once ? restIn(once[0]) : null;
+        if (rest) add(out.uses, { label, max: 1, rest });
       }
     }
 
@@ -271,6 +271,17 @@ function parseFeat(feat: RuleText): FeatRules {
     if (/proficiency with improvised weapons/i.test(p)) out.weapons.push('Improvised weapons');
   }
   return out;
+}
+
+/** "Once you use this benefit, you can't (use it / do so) again until ..." (the rest is read after it). */
+const ONCE_USE =
+  /(?:Once you|After you) [^.]*?, you can(?:'|’)t [^.]*?again until you (?:roll Initiative or )?finish an? (?:Short or Long|Long or Short|Long|Short) Rest/i;
+
+/** The rest a text names: "Long Rest", or "Short or Long Rest" (either order) when both count. */
+function restIn(s: string): 'short-or-long' | 'long' | null {
+  if (/Short or Long Rest|Long or Short Rest/i.test(s)) return 'short-or-long';
+  if (/Long Rest/i.test(s)) return 'long';
+  return null;
 }
 
 function add(list: FeatUseRule[], u: FeatUseRule): void {

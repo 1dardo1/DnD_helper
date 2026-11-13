@@ -65,6 +65,21 @@ describe('featRules: what the text of a feat gives', () => {
     expect(rules('fey-touched').uses).toEqual([]);
   });
 
+  it('counts "once, until you roll Initiative or finish a Short or Long rest" as one use', () => {
+    // the Initiative part is not counted: the use comes back on the rest only
+    expect(rules('boon-of-erupting-spellpower').uses).toEqual([
+      { label: 'Spell Overload', max: 1, rest: 'short-or-long' },
+    ]);
+    expect(rules('boon-of-unwavering-devotion-ua').uses).toEqual([
+      { label: 'Undeniable Confidence', max: 1, rest: 'short-or-long' },
+    ]);
+    // two benefits, each with its own use
+    expect(rules('tactical-combatant').uses).toEqual([
+      { label: 'Buffering Strike', max: 1, rest: 'short-or-long' },
+      { label: 'Honed Instincts', max: 1, rest: 'short-or-long' },
+    ]);
+  });
+
   it('reads flat bonuses', () => {
     expect(rules('tough').hpPerLevel).toBe(2);
     expect(rules('boon-of-fortitude').hpFlat).toBe(40);
