@@ -131,6 +131,43 @@
   </ul>
 </section>
 
+<!-- The creatures summoned now: each one is its card (the summons tab's), closed when there are more than two -->
+@let blocks = summonBlocks();
+@if (blocks.length) {
+  <section class="summoned" [attr.aria-label]="'combat.summoned' | t" data-testid="combat-summoned">
+    <h3>{{ 'combat.summoned' | t }}</h3>
+    @for (b of blocks; track b.key) {
+      <details class="creature" [open]="b.open">
+        <summary>
+          <span class="cname">{{ b.label }}</span>
+          <span class="cnums">
+            <span
+              >{{ 'monster.ac' | t }} <strong>{{ b.instance.ac }}</strong></span
+            >
+            <span
+              >{{ 'monster.hp' | t }} <strong>{{ b.instance.hp }}</strong
+              ><small>/{{ b.instance.hpMax }}</small>
+              @if (b.instance.temp) {
+                <small class="temp">+{{ b.instance.temp }}</small>
+              }
+            </span>
+          </span>
+        </summary>
+        <app-monster-card
+          [instance]="b.instance"
+          [monster]="b.monster"
+          [label]="b.label"
+          [mutator]="b.mutate"
+          [ordered]="false"
+          [controls]="true"
+          statBlockKey="summons.fullSheet"
+          (statBlock)="openStatBlock(b)"
+        />
+      </details>
+    }
+  </section>
+}
+
 <!-- Phones: one column at a time; this strip (or a swipe) changes it. -->
 <div class="col-tabs" role="tablist" [attr.aria-label]="'combat.columns' | t">
   @for (col of columns; track col) {
@@ -324,3 +361,15 @@
   </div>
   <p class="credit">{{ 'combat.credit' | t }}</p>
 }
+
+<dialog #statDialog class="stat-dialog" (close)="shownBlock.set(null)">
+  <div class="dialog-head">
+    <h2>{{ shownBlock()?.label }}</h2>
+    <button type="button" (click)="closeStatBlock()" [attr.aria-label]="'combat.close' | t">
+      ✕
+    </button>
+  </div>
+  @if (shownBlock(); as b) {
+    <app-monster-stat-block [monster]="b.monster" />
+  }
+</dialog>

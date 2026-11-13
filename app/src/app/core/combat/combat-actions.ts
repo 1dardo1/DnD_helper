@@ -1,6 +1,7 @@
+import type { CombatMonster } from '../dm/combat';
 import { spellCasters, spellsByClassOf, spellsOf } from '../creation/spell-choices';
 import { Character } from '../models/character';
-import { Ability, Rule, Spell } from '../models/compendium';
+import { Ability, Monster, Rule, Spell } from '../models/compendium';
 import { PlayResource } from '../play/play-state';
 import { Attack } from '../rules/attacks';
 import { RulesData } from '../rules/engine';
@@ -8,6 +9,7 @@ import type { ActiveStateId } from '../rules/active-states';
 import { FeatureNote, UseKind, dcValue, writtenDc } from '../rules/feature-stats';
 import { Sheet, SheetFeature } from '../rules/sheet';
 import type { FormView } from '../rules/wild-shape';
+import { SummonedCreature, toCombatMonster } from '../summons/summon-state';
 import { Timing, Use, blocksOf, sentencesOf, usesOf } from './action-text';
 
 /**
@@ -585,6 +587,40 @@ function summonRows({ character }: CombatInput): CombatRow[] {
       rank: 1000,
     },
   ];
+}
+
+// -- summoned creatures (the blocks under the tab's numbers) ---------------------------------
+
+/** A creature of the character's summons, with its label already translated. */
+export interface SummonedInput {
+  key: string;
+  label: string;
+  monster: Monster;
+  state: SummonedCreature;
+}
+
+/** A block of the combat tab: the card of a creature that is out. */
+export interface SummonedBlock {
+  key: string;
+  label: string;
+  monster: Monster;
+  /** The creature with its hit points and limited uses, as the summons card shows it. */
+  instance: CombatMonster;
+  /** Open at first: one or two creatures out (more than two: closed, to keep the tab short). */
+  open: boolean;
+}
+
+/** The creatures marked as out, in the order given (the ones marked off are left out). */
+export function summonedBlocks(items: readonly SummonedInput[]): SummonedBlock[] {
+  const out = items.filter((i) => i.state.on);
+  const open = out.length <= 2;
+  return out.map((i) => ({
+    key: i.key,
+    label: i.label,
+    monster: i.monster,
+    instance: toCombatMonster(i.key, i.monster, i.state),
+    open,
+  }));
 }
 
 // -- generic actions (SRD 5.2.1, data/rules.json) ---------------------------------------------

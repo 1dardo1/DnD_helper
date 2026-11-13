@@ -1,6 +1,7 @@
 import {
   Component,
   DestroyRef,
+  ElementRef,
   afterNextRender,
   computed,
   effect,
@@ -9,6 +10,7 @@ import {
   output,
   resource,
   signal,
+  viewChild,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -21,12 +23,15 @@ import {
   CombatRow,
   LinePart,
   Section,
+  SummonedBlock,
+  SummonedInput,
   advantagesOf,
   combatRows,
   definitions,
   favoriteRows,
   featureDcs,
   sectionsOf,
+  summonedBlocks,
 } from '../../core/combat/combat-actions';
 import { toggleFavorite } from '../../core/combat/favorites';
 import { leftOf, spend, refund } from '../../core/combat/spend';
@@ -47,12 +52,28 @@ import { attacksFor } from '../../core/rules/attacks';
 import { RulesData } from '../../core/rules/engine';
 import { Sheet } from '../../core/rules/sheet';
 import { formView, knownForms, wildShapeRules } from '../../core/rules/wild-shape';
+import {
+  creaturesOfSource,
+  optionLabel,
+  SummonOption,
+  summonSourcesOf,
+} from '../../core/summons/catalog';
+import { SummonCatalogService } from '../../core/summons/summon-catalog.service';
+import { summonedCount, updateCreature } from '../../core/summons/summon-state';
+import type { CombatMonster } from '../../core/dm/combat';
+import { MonsterStatBlock } from '../compendium/monster-stat-block';
+import { MonsterCard } from '../dm/combat/monster-card';
 import { MarkdownPipe } from '../../shared/markdown.pipe';
 import { SwipeDirective, stepOf } from '../../shared/swipe.directive';
 import { ActiveStatesBar } from '../states/active-states-bar';
 import { WildShapeForm } from '../states/wild-shape-form';
 import { ConcentrationChip } from './concentration-chip';
 import { ConcentrationNotices } from './concentration-notice';
+
+/** A block of the summoned creatures: its card's changes go to the sheet's state. */
+interface SummonBlockView extends SummonedBlock {
+  mutate: (f: (m: CombatMonster) => CombatMonster) => void;
+}
 
 export type CombatColumn = ActionKind | 'favorites';
 export const COMBAT_COLUMNS: readonly CombatColumn[] = [...ACTION_KINDS, 'favorites'];
@@ -104,6 +125,8 @@ export function writeColumn(
     ActiveStatesBar,
     WildShapeForm,
     ConcentrationChip,
+    MonsterCard,
+    MonsterStatBlock,
   ],
   templateUrl: './combat-tab.html',
   styleUrl: './combat-tab.scss',
@@ -158,6 +181,80 @@ export class CombatTab {
     const r = this.wildRules();
     return m && r ? formView(this.sheet(), m, r) : null;
   });
+
+  // -- the creatures summoned now: one block each (the summons tab's card, reused) -----------
+
+  private readonly catalogs = inject(SummonCatalogService);
+  protected readonly summonedOut = computed(() => summonedCount(this.state().summons) > 0);
+  /** The stat blocks of the summoning spells, read only while a creature is out. */
+  private readonly summonCatalog = resource({
+    params: () => (this.summonedOut() ? true : undefined),
+    loader: () => this.catalogs.load(),
+  });
+
+  protected readonly summonBlocks = computed<SummonBlockView[]>(() => {
+    const catalog = this.summonCatalog.value();
+    const summons = this.state().summons;
+    if (!catalog || !summons || !this.summonedOut()) return [];
+    this.dataText.shownLanguage();
+    const sheet = this.sheet();
+    const items: SummonedInput[] = [];
+    for (const source of summonSourcesOf(
+      this.character(),
+      sheet,
+      this.data().subclasses,
+      catalog,
+    )) {
+      for (const c of creaturesOfSource(source, sheet, catalog, summons).creatures) {
+        if (!c.state.on) continue;
+        items.push({
+          key: c.key,
+          label: this.summonLabel(c.option, c.monster),
+          monster: c.monster,
+          state: c.state,
+        });
+      }
+    }
+    return summonedBlocks(items).map((b) => ({
+      ...b,
+      mutate: (f) => this.mutateCreature(b.key, b.monster, f),
+    }));
+  });
+
+  private summonLabel(option: SummonOption, monster: Monster): string {
+    return optionLabel(
+      option,
+      monster,
+      (key, fallback) => {
+        const text = this.i18n.t(key as never);
+        return text === key ? fallback : text;
+      },
+      (name) => this.dataText.shortName(name),
+    );
+  }
+
+  /** A change on a creature's card (damage, healing, a use ticked) goes into the sheet's state. */
+  private mutateCreature(
+    key: string,
+    monster: Monster,
+    f: (m: CombatMonster) => CombatMonster,
+  ): void {
+    const st = this.state();
+    this.emit({ ...st, summons: updateCreature(st.summons, key, monster, f) });
+  }
+
+  /** The full stat block of a creature, in a dialog (as in the summons tab). */
+  private readonly statDialog = viewChild<ElementRef<HTMLDialogElement>>('statDialog');
+  protected readonly shownBlock = signal<SummonBlockView | null>(null);
+
+  protected openStatBlock(b: SummonBlockView): void {
+    this.shownBlock.set(b);
+    this.statDialog()?.nativeElement.showModal();
+  }
+
+  protected closeStatBlock(): void {
+    this.statDialog()?.nativeElement.close();
+  }
 
   protected readonly columns = COMBAT_COLUMNS;
   protected readonly kinds = ACTION_KINDS;

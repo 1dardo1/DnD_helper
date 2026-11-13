@@ -2,6 +2,7 @@ import { Character } from '../models/character';
 import { Ability, Monster, Spell } from '../models/compendium';
 import { Sheet, SheetFeature } from '../rules/sheet';
 import { Resolved, SummonContext, deriveVariants, resolveBlock } from './resolve';
+import { SummonedCreature, SummonsState, creatureKey, creatureOf } from './summon-state';
 import { StatBlockTemplate, extractStatBlocks } from './stat-block';
 
 /**
@@ -140,7 +141,8 @@ const CHAIN_FORMS = [
   'venomous-snake',
 ];
 
-const slug = (s: string) =>
+/** "Bestial Spirit" → "bestial-spirit" (the keys of the UI texts). */
+export const slug = (s: string) =>
   s
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
@@ -499,4 +501,58 @@ export function resolveOption(
     ...(source.id === 'spell:phantom-steed' ? { speed: { ...base.speed, walk: 100 } } : {}),
   };
   return { monster: patched, unresolved: [] };
+}
+
+// -- the creatures of a source, as the character has them now ------------------------------
+
+/**
+ * The name of a creature option, translated when the UI has its text (`tr` returns the fallback
+ * when it has none). Monsters keep their own name, shortened by `shortName`.
+ */
+export function optionLabel(
+  option: SummonOption,
+  monster: Monster,
+  tr: (key: string, fallback: string) => string,
+  shortName: (name: string) => string,
+): string {
+  if (option.kind === 'monster') return shortName(monster.name);
+  const title = option.template!.title;
+  const base = tr(`summons.c.${slug(title)}`, title);
+  if (!option.variant) return base;
+  return `${base} (${tr(`summons.v.${slug(option.variant)}`, option.variant)})`;
+}
+
+/** One creature of a source: its key, its monster with the caster's numbers, and its state. */
+export interface SourceCreature {
+  key: string;
+  option: SummonOption;
+  monster: Monster;
+  state: SummonedCreature;
+}
+
+/** The creatures of a source for the state of the character: the slot level and type chosen. */
+export interface SourceCreatures {
+  slot: number;
+  type: string;
+  creatures: SourceCreature[];
+}
+
+/** Resolves every creature of a source (the summons tab and the combat tab both use it). */
+export function creaturesOfSource(
+  source: SummonSource,
+  sheet: Sheet,
+  catalog: SummonCatalog,
+  state: SummonsState | undefined,
+): SourceCreatures {
+  const slot = slotLevelOf(source, sheet, state?.scale[source.id]);
+  const type = state?.types[source.id] ?? source.typeChoices[0] ?? '';
+  const ctx = contextFor(source, sheet, slot);
+  const creatures: SourceCreature[] = [];
+  for (const option of source.options) {
+    const resolved = resolveOption(source, option, ctx, catalog, type);
+    if (!resolved) continue;
+    const key = creatureKey(source.id, option.key);
+    creatures.push({ key, option, monster: resolved.monster, state: creatureOf(state, key) });
+  }
+  return { slot, type, creatures };
 }
