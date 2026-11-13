@@ -392,3 +392,89 @@
   font-size: var(--fs-xs);
   color: var(--ink-soft);
 }
+
+// the creatures summoned now: one closed or open block each, its card inside
+.summoned {
+  margin-bottom: var(--space-2);
+
+  h3 {
+    margin: 0 0 var(--space-1);
+  }
+}
+
+.creature {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+  margin-bottom: var(--space-2);
+
+  > summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 0.75rem;
+    min-height: var(--tap);
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    list-style-position: inside;
+  }
+
+  .cname {
+    font-family: var(--font-display, inherit);
+    font-weight: 600;
+  }
+
+  .cnums {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    font-size: var(--fs-sm);
+    color: var(--ink-soft);
+
+    strong {
+      color: var(--ink);
+    }
+  }
+
+  .temp {
+    color: var(--ok, inherit);
+  }
+
+  > app-monster-card {
+    display: block;
+    padding: 0 0.6rem 0.6rem;
+  }
+}
+
+// the full stat block of a creature (as in the summons tab)
+.stat-dialog {
+  width: min(44rem, calc(100vw - 1.5rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 0 1rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-page);
+
+  &::backdrop {
+    background: rgb(0 0 0 / 0.55);
+  }
+}
+
+.dialog-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  background: var(--paper);
+
+  h2 {
+    margin: 0;
+  }
+}

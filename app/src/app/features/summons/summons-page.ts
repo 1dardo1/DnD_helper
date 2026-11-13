@@ -43,17 +43,14 @@ import { RulesDataService } from '../../core/rules/rules-data.service';
 import {
   SummonOption,
   SummonSource,
-  contextFor,
+  creaturesOfSource,
   maxSlotOf,
-  resolveOption,
-  slotLevelOf,
+  optionLabel,
   summonSourcesOf,
 } from '../../core/summons/catalog';
 import { SummonCatalogService } from '../../core/summons/summon-catalog.service';
 import {
   SummonsState,
-  creatureKey,
-  creatureOf,
   dismissAll,
   emptySummons,
   resetSummons,
@@ -92,12 +89,6 @@ interface GroupView {
   /** Possible creatures that are not out (a long list: shown apart). */
   others: CardView[];
 }
-
-const slug = (s: string) =>
-  s
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
 
 /**
  * The creatures a character can summon with its spells and features: a card per creature (the
@@ -180,25 +171,15 @@ export class SummonsPage {
     const state = this.summons();
     const out: GroupView[] = [];
     for (const source of v.sources) {
-      const slot = slotLevelOf(source, v.sheet, state.scale[source.id]);
-      const type = state.types[source.id] ?? source.typeChoices[0] ?? '';
-      const ctx = contextFor(source, v.sheet, slot);
-      const all: CardView[] = [];
-      for (const option of source.options) {
-        const resolved = resolveOption(source, option, ctx, v.catalog, type);
-        if (!resolved) continue;
-        const key = creatureKey(source.id, option.key);
-        const own = creatureOf(state, key);
-        const monster = resolved.monster;
-        all.push({
-          key,
-          label: this.label(option, monster),
-          monster,
-          instance: toCombatMonster(key, monster, own),
-          on: own.on,
-          mutate: (f) => this.commit(updateCreature(this.summons(), key, monster, f)),
-        });
-      }
+      const { slot, type, creatures } = creaturesOfSource(source, v.sheet, v.catalog, state);
+      const all: CardView[] = creatures.map(({ key, option, monster, state: own }) => ({
+        key,
+        label: this.label(option, monster),
+        monster,
+        instance: toCombatMonster(key, monster, own),
+        on: own.on,
+        mutate: (f) => this.commit(updateCreature(this.summons(), key, monster, f)),
+      }));
       const long = all.length > MANY;
       const cards = all.filter((c) => c.on || (!long && !state.hideInactive));
       const others = long && !state.hideInactive ? all.filter((c) => !c.on) : [];
@@ -249,11 +230,12 @@ export class SummonsPage {
   }
 
   private label(option: SummonOption, monster: Monster): string {
-    if (option.kind === 'monster') return this.data.shortName(monster.name);
-    const title = option.template!.title;
-    const base = this.tr(`summons.c.${slug(title)}`, title);
-    if (!option.variant) return base;
-    return `${base} (${this.tr(`summons.v.${slug(option.variant)}`, option.variant)})`;
+    return optionLabel(
+      option,
+      monster,
+      (key, fallback) => this.tr(key, fallback),
+      (name) => this.data.shortName(name),
+    );
   }
 
   protected typeName(type: string): string {

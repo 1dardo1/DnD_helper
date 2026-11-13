@@ -2,16 +2,18 @@ import kassRaw from '../../../../../characters/kassasdin-1793879600138.json';
 import kriugRaw from '../../../../../characters/kriug-1793958485566.json';
 import orenRaw from '../../../../../characters/oren-bianic-1793811890281.json';
 import esSubclasses from '../../../../../data/es/subclasses.json';
+import monstersRaw from '../../../../../data/monsters.json';
 import rulesRaw from '../../../../../data/rules.json';
 import { weaponEntriesOf } from '../characters/weapons';
 import { combatEn } from '../i18n/combat.en';
 import { en } from '../i18n/en';
 import { Character, normalizeCharacter } from '../models/character';
-import { Rule } from '../models/compendium';
+import { Monster, Rule } from '../models/compendium';
 import { playResources } from '../play/play-state';
 import { attacksFor } from '../rules/attacks';
 import { computeSheet } from '../rules/engine';
 import { REAL, REAL_CLASSES, REAL_SPELLS, REAL_SUBCLASSES, hero } from '../rules/real-data.testing';
+import { SummonedCreature } from '../summons/summon-state';
 import { blocksOf, translatedSentence, usesOf } from './action-text';
 import {
   CombatRow,
@@ -24,6 +26,7 @@ import {
   orderRows,
   resourceFor,
   sectionsOf,
+  summonedBlocks,
 } from './combat-actions';
 import { normalizeFavorites, toggleFavorite } from './favorites';
 import { leftOf, refund, slotFor, spend } from './spend';
@@ -318,5 +321,46 @@ describe('favorites', () => {
       rank,
     });
     expect(orderRows([r('b', 1), r('a', 0), r('c', 1)]).map((x) => x.id)).toEqual(['a', 'b', 'c']);
+  });
+});
+
+describe('summonedBlocks: the creatures out, with their numbers (real monsters)', () => {
+  const MONSTERS = monstersRaw as unknown as Monster[];
+  const monster = (id: string) => MONSTERS.find((m) => m.id === id)!;
+  const out = (damage = 0): SummonedCreature => ({ on: true, damage, temp: 0, used: {} });
+  const off: SummonedCreature = { on: false, damage: 0, temp: 0, used: {} };
+
+  it('a creature out: its name, its AC and a real action', () => {
+    const bat = monster('bat');
+    const [block] = summonedBlocks([
+      { key: 'spell:x|bat', label: 'Bat', monster: bat, state: out() },
+    ]);
+    expect(block.label).toBe('Bat');
+    expect(block.instance.ac).toBe(bat.ac);
+    expect(block.instance.ac).toBe(12);
+    expect(block.monster.actions.map((a) => a.name)).toContain('Bite');
+    expect(block.instance.hp).toBe(block.instance.hpMax);
+  });
+
+  it('the hit points lost are kept in the block; the ones marked off are left out', () => {
+    const giantOwl = monster('giant-owl');
+    const items = [
+      { key: 'a', label: 'Giant Owl', monster: giantOwl, state: out(5) },
+      { key: 'b', label: 'Owl', monster: monster('owl'), state: off },
+    ];
+    const blocks = summonedBlocks(items);
+    expect(blocks.map((b) => b.key)).toEqual(['a']);
+    expect(blocks[0].instance.hp).toBe(giantOwl.hp - 5);
+    expect(blocks[0].instance.hpMax).toBe(giantOwl.hp);
+  });
+
+  it('open with one or two creatures out, closed from three', () => {
+    const one = { key: 'a', label: 'Bat', monster: monster('bat'), state: out() };
+    const two = { key: 'b', label: 'Owl', monster: monster('owl'), state: out() };
+    const three = { key: 'c', label: 'Wolf', monster: monster('wolf'), state: out() };
+    expect(summonedBlocks([one]).every((b) => b.open)).toBe(true);
+    expect(summonedBlocks([one, two]).every((b) => b.open)).toBe(true);
+    expect(summonedBlocks([one, two, three]).every((b) => !b.open)).toBe(true);
+    expect(summonedBlocks([])).toEqual([]);
   });
 });
