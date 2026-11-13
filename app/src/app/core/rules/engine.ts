@@ -21,6 +21,7 @@ import {
   abilityRule,
   featList,
   featPicks,
+  FEAT_POOL_LABEL_KEY,
   featRules,
   slug,
   listOfFeatName,
@@ -801,11 +802,18 @@ function featGrants(
 
     // uses: Luck Points, "PB times per Long Rest", "once per Long Rest"
     const several = rules.uses.length > 1;
-    for (const u of rules.uses)
+    for (const u of rules.uses) {
+      // a pool shared by every feat that gives it (Death Points): one counter, not one per feat
+      const k = u.pool ? `feat:pool:${u.pool}` : key(slugOf(u.label));
+      if (uses.some((x) => x.key === k)) continue;
       uses.push({
-        key: key(slugOf(u.label)),
-        label: several ? `${feat.name}: ${u.label}` : feat.name,
-        labelKey: feat.id === 'lucky' ? 'play.res.luckPoints' : null,
+        key: k,
+        label: u.pool ? u.label : several ? `${feat.name}: ${u.label}` : feat.name,
+        labelKey: u.pool
+          ? FEAT_POOL_LABEL_KEY[u.pool]
+          : feat.id === 'lucky'
+            ? 'play.res.luckPoints'
+            : null,
         feat: feat.name,
         kind: 'use',
         max:
@@ -816,6 +824,7 @@ function featGrants(
               : u.max,
         rest: u.rest,
       });
+    }
 
     // proficiencies and the rest of the picks
     const wantSkills = (picks.skills?.count ?? 0) + (picks.skillsOrTools ?? 0);

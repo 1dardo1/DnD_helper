@@ -53,7 +53,20 @@ export interface FeatUseRule {
   /** 'pb': equal to the Proficiency Bonus; an ability: its modifier (minimum 1). */
   max: 'pb' | Ability | number;
   rest: 'long' | 'short-or-long';
+  /**
+   * A pool several feats may give (Death Points of Death Knight Initiate and Ascension): all the
+   * feats with the same pool share one counter, so it is never counted twice.
+   */
+  pool?: FeatPool;
 }
+
+export type FeatPool = 'death-points' | 'psionic-energy-dice';
+
+/** UI text key of each pool's counter (es.ts / en.ts). */
+export const FEAT_POOL_LABEL_KEY: Record<FeatPool, string> = {
+  'death-points': 'play.res.deathPoints',
+  'psionic-energy-dice': 'play.res.psionicEnergyDice',
+};
 
 export type SpellAbilityRule =
   | { mode: 'choice' }
@@ -269,6 +282,20 @@ function parseFeat(feat: RuleText): FeatRules {
     const known = /You know (Thieves' Cant|Thieves’ Cant)\b/.exec(p);
     if (known) out.languages.push("Thieves' Cant");
     if (/proficiency with improvised weapons/i.test(p)) out.weapons.push('Improvised weapons');
+  }
+
+  // -- a pool of points or dice --------------------------------------------------------------
+  // "You have a number of Death Points equal to your Proficiency Bonus. You regain all expended
+  // Death Points when you finish a Long Rest." (the sentences may sit in different paragraphs)
+  const whole = plain(joinBroken(text));
+  const pool =
+    /a number of (Death Points|Psionic Energy Dice) equal to your Proficiency Bonus/i.exec(whole);
+  if (
+    pool &&
+    new RegExp(`regain all expended ${pool[1]} when you finish a Long Rest`, 'i').test(whole)
+  ) {
+    const id: FeatPool = /death/i.test(pool[1]) ? 'death-points' : 'psionic-energy-dice';
+    add(out.uses, { label: pool[1], max: 'pb', rest: 'long', pool: id });
   }
   return out;
 }
