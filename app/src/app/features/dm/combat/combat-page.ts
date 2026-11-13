@@ -18,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CharacterStore } from '../../../core/characters/character-store.service';
 import { CompendiumService } from '../../../core/compendium/compendium.service';
 import {
+  CombatMonster,
   CombatState,
   OrderEntry,
   canMove,
@@ -31,13 +32,16 @@ import {
   setInitiative,
 } from '../../../core/dm/combat';
 import { CombatEncounter, ENCOUNTER_SOURCE } from '../../../core/dm/combat-encounter';
-import { addEncounter } from '../../../core/dm/combat-sources';
+import { CANNON_MONSTER_ID, addEncounter } from '../../../core/dm/combat-sources';
 import { CombatStore } from '../../../core/dm/combat-store.service';
 import { DataTextService } from '../../../core/i18n/data-text.service';
 import { I18nService, TranslatePipe } from '../../../core/i18n/i18n.service';
+import { Monster } from '../../../core/models/compendium';
+import { SummonCatalogService } from '../../../core/summons/summon-catalog.service';
 import { MonsterStatBlock } from '../../compendium/monster-stat-block';
 import { ScrollTop } from '../../compendium/scroll-top';
 import { CombatSetup } from './combat-setup';
+import { DM_COMBAT_TEXTS } from './combat-texts';
 import { MonsterCard } from './monster-card';
 
 /** The order column beside the monster card from this width; below, the card goes under it. */
@@ -50,6 +54,7 @@ interface Row extends OrderEntry {
   down: boolean;
   up: boolean;
   downMove: boolean;
+  ally: boolean;
 }
 
 /**
@@ -75,6 +80,7 @@ export class CombatPage implements OnInit {
   private readonly data = inject(DataTextService);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly injector = inject(Injector);
+  private readonly summonCatalogs = inject(SummonCatalogService);
 
   protected readonly state = this.store.state;
   protected readonly wide = signal(false);
@@ -90,16 +96,30 @@ export class CombatPage implements OnInit {
     () => new Map((this.monsters.value() ?? []).map((m) => [m.id, m])),
   );
 
+  /** The summons' stat blocks, for the allies' section of the setup (null until loaded). */
+  protected readonly summonCatalog = resource({ loader: () => this.summonCatalogs.load() });
+
+  /** The stat block of a combatant: a compendium monster, or the ally's own (summons, cannon). */
+  protected monsterOf(m: CombatMonster): Monster | undefined {
+    return m.statBlock ?? this.byId().get(m.monsterId);
+  }
+
   protected readonly playerLabel = computed(() => this.i18n.t('combat.player'));
 
   private readonly labels = computed(() => {
     this.data.shownLanguage();
     const s = this.state();
     const count = new Map<string, number>();
-    for (const m of s.monsters) count.set(m.monsterId, (count.get(m.monsterId) ?? 0) + 1);
+    for (const m of s.monsters) {
+      if (!m.ally) count.set(m.monsterId, (count.get(m.monsterId) ?? 0) + 1);
+    }
     const out = new Map<string, string>();
     s.players.forEach((p, i) => out.set(p.id, p.name || `${this.playerLabel()} ${i + 1}`));
     for (const m of s.monsters) {
+      if (m.ally) {
+        out.set(m.id, this.allyLabel(m));
+        continue;
+      }
       const name = this.data.shortName(m.name);
       out.set(
         m.id,
@@ -108,6 +128,13 @@ export class CombatPage implements OnInit {
     }
     return out;
   });
+
+  /** An ally: "Bat (Lía)", the cannon's name in the language shown, or just the creature's. */
+  private allyLabel(m: CombatMonster): string {
+    const base =
+      m.monsterId === CANNON_MONSTER_ID ? this.i18n.t('cannon.title') : this.data.shortName(m.name);
+    return m.owner ? `${base} (${m.owner})` : base;
+  }
 
   private readonly order = computed(() => initiativeOrder(this.state()));
 
@@ -126,6 +153,7 @@ export class CombatPage implements OnInit {
         down: !!m && isDefeated(m),
         up: canMove(order, e.id, -1),
         downMove: canMove(order, e.id, 1),
+        ally: !!m?.ally,
       };
     });
   });
@@ -149,10 +177,18 @@ export class CombatPage implements OnInit {
 
   /** The monster whose stat block is shown in the dialog. */
   protected readonly statBlockId = signal<string | null>(null);
-  protected readonly statBlock = computed(() => this.byId().get(this.statBlockId() ?? ''));
+  protected readonly statBlock = computed<Monster | undefined>(() => {
+    const id = this.statBlockId();
+    if (!id) return undefined;
+    // the card's own creature first: an ally's stat block isn't in the compendium
+    const shown = this.selected();
+    if (shown && shown.monsterId === id) return this.monsterOf(shown);
+    return this.byId().get(id);
+  });
   private readonly dialog = viewChild<ElementRef<HTMLDialogElement>>('dialog');
 
   constructor() {
+    this.i18n.extend(DM_COMBAT_TEXTS);
     const media = typeof matchMedia === 'function' ? matchMedia(WIDE) : null;
     if (media) {
       this.wide.set(media.matches);

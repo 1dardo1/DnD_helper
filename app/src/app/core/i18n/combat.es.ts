@@ -56,6 +56,22 @@ export const combatEs: Record<keyof typeof combatEn, string> = {
   'combat.generic.ready.reaction': 'Acción preparada (su desencadenante)',
   'combat.generic.light-property.bonus': 'Ataque extra con arma Ligera',
   'combat.generic.opportunity-attacks.reaction': 'Ataque de oportunidad',
+  'combat.ally.title': 'Aliados',
+  'combat.ally.hint':
+    'Los aliados tiran su propia iniciativa y no están ligados a la hoja del personaje.',
+  'combat.ally.tag': 'Aliado',
+  'combat.ally.owner': 'Lo invoca',
+  'combat.ally.ownerHint': 'Nombre del personaje (opcional)',
+  'combat.ally.summons': 'Invocaciones',
+  'combat.ally.search': 'Buscar una invocación…',
+  'combat.ally.casterLevel': 'Nivel de conjurador',
+  'combat.ally.spellMod': 'Modificador de conjuro',
+  'combat.ally.type': 'Tipo de criatura',
+  'combat.ally.add': 'Añadir al combate',
+  'combat.ally.artificerLevel': 'Nivel de artificiero',
+  'combat.ally.intMod': 'Modificador de Inteligencia',
+  'combat.ally.addCannon': 'Añadir el cañón',
+  'combat.ally.noSummon': 'Ninguna invocación coincide.',
   'combat.credit':
     'Acciones genéricas: System Reference Document 5.2.1 («SRD 5.2.1») de Wizards of the Coast LLC, CC-BY-4.0 (dndbeyond.com/srd).',
 };

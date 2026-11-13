@@ -5,6 +5,8 @@
  * takes a state and returns a new one; CombatStore keeps it and saves it on the device.
  */
 
+import type { Monster } from '../models/compendium';
+
 export interface CombatPlayer {
   id: string;
   /** Empty: shown as "Player 1", "Player 2"… */
@@ -30,6 +32,15 @@ export interface CombatMonster {
   initiative: number | null;
   /** Limited uses spent: usage key (monster-actions.ts) → how many. */
   used: Record<string, number>;
+  /**
+   * An ally: a summoned creature or the Eldritch Cannon, added with addAlly. It has its own
+   * initiative roll and is not linked to the character sheet. Absent in older combats.
+   */
+  ally?: boolean;
+  /** Ally: the character that summons it, as typed by the DM. Absent when none. */
+  owner?: string;
+  /** Ally: its stat block as it was when added (summons and the cannon aren't in the compendium). */
+  statBlock?: Monster;
 }
 
 export interface CombatState {
@@ -109,7 +120,7 @@ export function modifier(score: number): number {
 export function addMonsters(state: CombatState, m: MonsterInfo, count: number): CombatState {
   const n = Math.max(0, Math.floor(count) || 0);
   if (!n) return state;
-  const same = state.monsters.filter((x) => x.monsterId === m.id);
+  const same = state.monsters.filter((x) => x.monsterId === m.id && !x.ally);
   let last = Math.max(0, ...same.map((x) => x.number));
   const shared = !state.perMonster && same.length ? same[0].initiative : null;
   let nextId = state.nextId;
@@ -146,7 +157,7 @@ export function removeMonster(state: CombatState, id: string): CombatState {
 
 /** Removes the highest-numbered monster of a kind (the "−" of its count). */
 export function removeLastOf(state: CombatState, monsterId: string): CombatState {
-  const same = state.monsters.filter((m) => m.monsterId === monsterId);
+  const same = state.monsters.filter((m) => m.monsterId === monsterId && !m.ally);
   if (!same.length) return state;
   const last = same.reduce((a, b) => (b.number > a.number ? b : a));
   return removeMonster(state, last.id);
@@ -158,11 +169,40 @@ export function monsterGroups(
 ): { monsterId: string; name: string; count: number }[] {
   const groups = new Map<string, { monsterId: string; name: string; count: number }>();
   for (const m of state.monsters) {
+    if (m.ally) continue;
     const g = groups.get(m.monsterId);
     if (g) g.count++;
     else groups.set(m.monsterId, { monsterId: m.monsterId, name: m.name, count: 1 });
   }
   return [...groups.values()];
+}
+
+/**
+ * Adds an ally (a summoned creature, the Eldritch Cannon) with its own stat block: its hit points
+ * and AC are the ones of `monster`, and it has no initiative until it rolls. It is kept apart from
+ * the monsters of its kind (own roll, own numbering, not counted in their groups).
+ */
+export function addAlly(state: CombatState, monster: Monster, owner = ''): CombatState {
+  const hpMax = Math.max(1, monster.hp);
+  const name = owner.trim();
+  const ally: CombatMonster = {
+    id: `m${state.nextId}`,
+    monsterId: monster.id,
+    name: monster.name,
+    number: 1,
+    ac: monster.ac,
+    hpMax,
+    hp: hpMax,
+    temp: 0,
+    initBonus: monster.initiative ?? modifier(monster.abilities.DEX),
+    dex: monster.abilities.DEX,
+    initiative: null,
+    used: {},
+    ally: true,
+    statBlock: monster,
+    ...(name ? { owner: name } : {}),
+  };
+  return { ...state, monsters: [...state.monsters, ally], nextId: state.nextId + 1 };
 }
 
 export function updateMonster(
@@ -214,8 +254,9 @@ export function setInitiative(state: CombatState, id: string, value: number | nu
 
 /**
  * Rolls d20 + initiative bonus for the monsters: one roll per kind of monster (they act together),
- * or one per monster with `perMonster`. Rolling again replaces the old rolls; with `missing`, only
- * those without an initiative roll (a kind that already has one shares it).
+ * or one per monster with `perMonster`. Allies always roll on their own. Rolling again replaces
+ * the old rolls; with `missing`, only those without an initiative roll (a kind that already has
+ * one shares it).
  */
 export function rollMonsterInitiative(
   state: CombatState,
@@ -225,7 +266,7 @@ export function rollMonsterInitiative(
   const groupRoll = new Map<string, number>();
   if (opts.missing && !state.perMonster) {
     for (const m of state.monsters) {
-      if (m.initiative !== null && !groupRoll.has(m.monsterId)) {
+      if (!m.ally && m.initiative !== null && !groupRoll.has(m.monsterId)) {
         groupRoll.set(m.monsterId, m.initiative - m.initBonus);
       }
     }
@@ -235,7 +276,7 @@ export function rollMonsterInitiative(
     if (opts.missing && m.initiative !== null) return m;
     delete ties[m.id];
     let roll: number;
-    if (state.perMonster) roll = d20();
+    if (state.perMonster || m.ally) roll = d20();
     else {
       if (!groupRoll.has(m.monsterId)) groupRoll.set(m.monsterId, d20());
       roll = groupRoll.get(m.monsterId)!;

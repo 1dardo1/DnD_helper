@@ -139,3 +139,57 @@ h3 {
   text-align: center;
   font-variant-numeric: lining-nums tabular-nums;
 }
+
+// allies: the summon search, the caster's numbers and the cannon
+.allies {
+  h4 {
+    margin: 0.7rem 0 0.2rem;
+    font-size: var(--fs-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+  }
+
+  .owner,
+  .caster label {
+    display: grid;
+    gap: 0.15rem;
+    font-size: var(--fs-sm);
+  }
+
+  .owner input,
+  .caster input {
+    width: 100%;
+  }
+
+  .caster {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem;
+    margin: 0.3rem 0;
+  }
+
+  .search {
+    margin-bottom: 0.3rem;
+  }
+
+  .result-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+
+    .result {
+      flex: 1 1 100%;
+    }
+
+    .pick {
+      flex: 1 1 8rem;
+      min-height: var(--tap);
+    }
+  }
+
+  .cannon {
+    width: 100%;
+    margin-top: 0.4rem;
+  }
+}
