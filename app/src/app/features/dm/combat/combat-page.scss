@@ -312,3 +312,13 @@ button {
     margin: 0;
   }
 }
+
+// an ally (summoned creature, cannon): its row is blue like a player's, with this tag
+.tag {
+  font-size: var(--fs-xs);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--info);
+}

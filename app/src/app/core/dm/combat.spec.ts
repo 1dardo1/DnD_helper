@@ -1,6 +1,8 @@
+import type { Monster } from '../models/compendium';
 import {
   CombatState,
   MonsterInfo,
+  addAlly,
   addMonsters,
   applyDamage,
   applyHealing,
@@ -256,5 +258,89 @@ describe('saved state', () => {
     expect(normalizeCombat(JSON.parse(JSON.stringify(s)))).toEqual(s);
     expect(normalizeCombat({ combatants: [], round: 2 })).toBeUndefined();
     expect(normalizeCombat(null)).toBeUndefined();
+  });
+
+  it('a combat saved before allies existed loads without the ally fields', () => {
+    const old = JSON.parse(JSON.stringify(table()));
+    const loaded = normalizeCombat(old);
+    expect(loaded).toEqual(table());
+    expect(loaded!.monsters.every((m) => !m.ally && m.owner === undefined)).toBe(true);
+  });
+
+  it('keeps an ally with its owner and its stat block', () => {
+    const s = addAlly(table(), bat, 'Lía');
+    const loaded = normalizeCombat(JSON.parse(JSON.stringify(s)));
+    expect(loaded).toEqual(s);
+    expect(loaded!.monsters.at(-1)).toMatchObject({ ally: true, owner: 'Lía', statBlock: bat });
+  });
+});
+
+// -- allies: summoned creatures and the Eldritch Cannon ------------------------------------------
+
+const bat = {
+  id: 'bat',
+  name: 'Bat',
+  ac: 12,
+  hp: 1,
+  initiative: null,
+  abilities: { STR: 2, DEX: 15, CON: 8, INT: 2, WIS: 12, CHA: 6 },
+} as unknown as Monster;
+
+describe('allies', () => {
+  it('adds an ally with its own stat block, full hit points and no initiative yet', () => {
+    const s = addAlly(emptyCombat(0), bat, ' Lía ');
+    expect(s.monsters).toHaveLength(1);
+    expect(s.monsters[0]).toMatchObject({
+      ally: true,
+      owner: 'Lía',
+      monsterId: 'bat',
+      name: 'Bat',
+      ac: 12,
+      hpMax: 1,
+      hp: 1,
+      initBonus: 2,
+      initiative: null,
+      statBlock: bat,
+    });
+  });
+
+  it('without a name there is no owner', () => {
+    expect(addAlly(emptyCombat(0), bat).monsters[0].owner).toBeUndefined();
+    expect(addAlly(emptyCombat(0), bat, '  ').monsters[0].owner).toBeUndefined();
+  });
+
+  it('stays apart from the monsters of its kind: numbering, groups and removal', () => {
+    let s = addMonsters(emptyCombat(0), goblin, 2);
+    s = addAlly(s, { ...bat, id: goblin.id, name: goblin.name } as Monster, 'Ana');
+    expect(monsterGroups(s).map((g) => [g.monsterId, g.count])).toEqual([['goblin-warrior', 2]]);
+    s = removeLastOf(s, 'goblin-warrior');
+    expect(s.monsters.filter((m) => m.ally)).toHaveLength(1);
+    expect(s.monsters.filter((m) => !m.ally).map((m) => m.number)).toEqual([1]);
+    s = addMonsters(s, goblin, 1);
+    expect(s.monsters.filter((m) => !m.ally).map((m) => m.number)).toEqual([1, 2]);
+  });
+
+  it('rolls its own initiative, not the roll of the monsters of its kind', () => {
+    let s = addMonsters(emptyCombat(0), goblin, 2);
+    s = addAlly(s, { ...bat, id: goblin.id, name: goblin.name } as Monster, 'Ana');
+    s = rollMonsterInitiative(s, rolls(10, 5));
+    expect(s.monsters.map((m) => m.initiative)).toEqual([12, 12, 7]);
+  });
+
+  it('a new roll for those missing one only gives the ally its own', () => {
+    let s = rollMonsterInitiative(addMonsters(emptyCombat(0), goblin, 1), rolls(10));
+    s = addAlly(s, bat, 'Lía');
+    s = rollMonsterInitiative(s, rolls(3), { missing: true });
+    expect(s.monsters.map((m) => m.initiative)).toEqual([12, 5]);
+  });
+
+  it('is ordered with the others by its initiative, and can be damaged like a monster', () => {
+    let s = rollMonsterInitiative(addMonsters(emptyCombat(0), dragon, 1), rolls(5));
+    s = addAlly(s, bat, 'Lía');
+    s = rollMonsterInitiative(s, rolls(20), { missing: true });
+    const ally = s.monsters.find((m) => m.ally)!;
+    expect(ids(s)[0]).toBe(ally.id);
+    s = updateMonster(s, ally.id, (m) => applyDamage(m, 1));
+    expect(isDefeated(s.monsters.find((m) => m.ally)!)).toBe(true);
   });
 });
