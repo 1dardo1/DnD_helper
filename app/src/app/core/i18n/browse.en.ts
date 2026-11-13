@@ -15,6 +15,10 @@ export const browseEn = {
   'browse.recent': 'Recently viewed',
   'browse.clearRecent': 'Clear the recently viewed list',
   'browse.challenge': 'Challenge',
+  'browse.noConnection.title': 'No connection',
+  'browse.noConnection.text':
+    'The compendium is downloaded the first time you open it, and then it works offline. Check your connection and try again.',
+  'browse.retry': 'Retry',
 };
 
 /** A key of these texts. */

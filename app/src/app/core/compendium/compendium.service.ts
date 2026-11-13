@@ -79,6 +79,12 @@ export class CompendiumService {
     this.files.clear();
   }
 
+  /** Try the data source again after a failed load (keeps the device copy, if any). */
+  retry(): Promise<DataMeta> {
+    this.reset();
+    return this.getMeta();
+  }
+
   /** Forget everything cached (memory and device) and download again on next use. */
   async refresh(): Promise<void> {
     this.reset();
