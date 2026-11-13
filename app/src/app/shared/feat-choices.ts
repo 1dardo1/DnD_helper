@@ -180,19 +180,27 @@ import { Picker } from './picker/picker';
           </label>
         }
 
-        @if (picks().resistance; as kinds) {
-          <label>
-            {{ 'featchoice.resistance' | t }}
-            <select
-              [value]="cv().resistance ?? ''"
-              (change)="set({ resistance: text($event) || undefined })"
-            >
-              <option value="">—</option>
-              @for (k of kinds; track k) {
-                <option [value]="k">{{ k | term: 'damage' }}</option>
-              }
-            </select>
-          </label>
+        @if (picks().resistance; as rs) {
+          @for (n of resistanceSlots(); track n) {
+            <label>
+              {{
+                (rs.count > 1 ? 'featchoice.resistanceN' : 'featchoice.resistance')
+                  | t: { n: n + 1 }
+              }}
+              <select
+                [value]="resistanceValue(n)"
+                (change)="setResistance(n, text($event))"
+                data-testid="feat-resistance"
+              >
+                <option value="">—</option>
+                @for (k of rs.from; track k) {
+                  <option [value]="k" [disabled]="takenResistance(k, n)">
+                    {{ k | term: 'damage' }}
+                  </option>
+                }
+              </select>
+            </label>
+          }
         }
       </fieldset>
     }
@@ -266,6 +274,28 @@ export class FeatChoices {
   }
   protected toolSlots(): number[] {
     return range(this.picks().tools?.count ?? 0);
+  }
+  /** One selector per damage type the feat lets you resist ("two", never three). */
+  protected resistanceSlots(): number[] {
+    return range(this.picks().resistance?.count ?? 0);
+  }
+  protected resistanceValue(n: number): string {
+    const c = this.choice();
+    return (this.picks().resistance?.count ?? 1) > 1
+      ? (c?.resistances?.[n] ?? '')
+      : (c?.resistance ?? '');
+  }
+  protected takenResistance(value: string, n: number): boolean {
+    return this.resistanceSlots().some((i) => i !== n && this.resistanceValue(i) === value);
+  }
+  protected setResistance(n: number, value: string): void {
+    if ((this.picks().resistance?.count ?? 1) <= 1) {
+      this.set({ resistance: value || undefined });
+      return;
+    }
+    const list = [...(this.choice()?.resistances ?? [])];
+    list[n] = value;
+    this.set({ resistances: list.filter(Boolean) });
   }
   protected skillOptions(): string[] {
     return this.picks().skills?.from ?? this.skills;

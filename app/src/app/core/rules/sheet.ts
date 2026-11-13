@@ -91,9 +91,16 @@ export interface Sheet {
   }[];
   /**
    * Picks inside species traits the text lets the player change after a rest (Kalashtar's skill,
-   * Astral Knowledge, an Eladrin's season...): the key in `choices.traitPicks`. Absent: none.
+   * Astral Knowledge, an Eladrin's season...): the key in `choices.traitPicks`. Also a feat's
+   * damage types the text lets the player change (`resist`; key from featResistKey, stored in
+   * `choices.featChoices`). Absent: none.
    */
-  restPicks?: { key: string; trait: string; rest: 'long' | 'short' }[];
+  restPicks?: {
+    key: string;
+    trait: string;
+    rest: 'long' | 'short';
+    resist?: { from: string[]; count: number; picked: string[] };
+  }[];
   /** Things the engine couldn't resolve (ids not in the compendium, missing choices...). */
   warnings: SheetWarning[];
 }

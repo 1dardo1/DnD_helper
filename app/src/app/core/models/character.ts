@@ -225,6 +225,8 @@ export interface FeatChoice {
   languages?: string[];
   /** Damage type picked (Portal Jumper's Resistance). */
   resistance?: string;
+  /** Damage types picked when the feat takes more than one (Boon of Energy Resistance: two). */
+  resistances?: string[];
 }
 
 export interface InventoryEntry {
@@ -408,8 +410,27 @@ function normalizeWildShape(raw: unknown): WildShapeState | null {
   };
 }
 
+/** Feat choices: a damage-type list keeps only its texts (absent when there's none). */
+function normalizeFeatChoices(
+  raw: Character['choices']['featChoices'] | undefined,
+): Character['choices']['featChoices'] | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const out: NonNullable<Character['choices']['featChoices']> = {};
+  for (const [key, choice] of Object.entries(raw)) {
+    if (!choice || typeof choice !== 'object') continue;
+    const { resistances, ...rest } = choice;
+    const list = Array.isArray(resistances)
+      ? resistances.filter((r): r is string => typeof r === 'string' && !!r)
+      : [];
+    out[key] = list.length ? { ...rest, resistances: list } : rest;
+  }
+  return out;
+}
+
 function normalizeChoices(base: Character['choices'], raw: Character['choices'] | undefined) {
   const choices = { ...base, ...(raw ?? {}) };
+  const featChoices = normalizeFeatChoices(raw?.featChoices);
+  if (featChoices) choices.featChoices = featChoices;
   const forms = normalizeIds(raw?.wildShapeForms);
   if (forms) choices.wildShapeForms = forms;
   else delete choices.wildShapeForms;

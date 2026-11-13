@@ -175,18 +175,38 @@ export class TraitRestDialog {
   private readonly picks = computed<SpeciesPick[]>(() => {
     const data = this.data.value();
     const ch = this.character();
+    const pending = this.pending();
+    if (!pending.length) return [];
+    // a feat's damage types that the text lets the player change (the sheet's restPicks)
+    const fromFeats = (this.sheet().restPicks ?? []).flatMap((p): SpeciesPick[] => {
+      const r = p.resist;
+      if (!r || !pending.includes(p.key)) return [];
+      return [
+        {
+          key: p.key,
+          traitKey: p.key,
+          trait: p.trait,
+          pick: { kind: 'resistance', count: r.count, from: r.from, rest: 'long' },
+          count: r.count,
+          picked: r.picked,
+        },
+      ];
+    });
     const species = ch.species ? data?.species.get(ch.species.id) : undefined;
-    if (!species || !this.pending().length) return [];
+    if (!species) return fromFeats;
     const views = speciesTraits(
       species,
       chosenVariant(species, ch.species?.variant),
       ch.choices,
       this.sheet().totalLevel || 1,
     );
-    return views
-      .filter((v) => !v.hidden)
-      .flatMap((v) => v.picks)
-      .filter((p) => this.pending().includes(p.key));
+    return [
+      ...views
+        .filter((v) => !v.hidden)
+        .flatMap((v) => v.picks)
+        .filter((p) => pending.includes(p.key)),
+      ...fromFeats,
+    ];
   });
 
   protected readonly items = computed(() =>

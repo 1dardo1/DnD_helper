@@ -334,7 +334,11 @@ export interface FeatPicks {
   tools?: { count: number; group: string };
   /** A language of the player's choice; the feat gives this one unless already known. */
   language?: string;
-  resistance?: string[];
+  /**
+   * Damage types the player resists: `from` is the closed list, `count` how many to pick. The
+   * table's entries, or the text's own (resistancePickOf: Boon of Energy Resistance, Planar Wanderer).
+   */
+  resistance?: { from: string[]; count: number };
 }
 
 /** What the data's text can't tell: who picks what. Keyed by feat id. */
@@ -375,13 +379,71 @@ export const FEAT_PICKS: Record<string, FeatPicks> = {
     skills: { count: 1, from: ['insight', 'investigation', 'perception'], upgrade: true },
   },
   'cult-of-the-dragon-initiate': { language: 'Draconic' },
-  'portal-jumper': { resistance: ['Necrotic', 'Psychic', 'Radiant'] },
-  dragonscarred: { resistance: ['Acid', 'Cold', 'Fire', 'Lightning', 'Poison'] },
-  'spell-resistant': { resistance: ['Necrotic', 'Psychic', 'Radiant', 'Thunder'] },
+  'portal-jumper': { resistance: { from: ['Necrotic', 'Psychic', 'Radiant'], count: 1 } },
+  dragonscarred: {
+    resistance: { from: ['Acid', 'Cold', 'Fire', 'Lightning', 'Poison'], count: 1 },
+  },
+  'spell-resistant': {
+    resistance: { from: ['Necrotic', 'Psychic', 'Radiant', 'Thunder'], count: 1 },
+  },
 };
 
 export function featPicks(feat: Feat): FeatPicks {
-  return FEAT_PICKS[feat.id] ?? {};
+  const fromText = resistancePickOf(feat.description);
+  return { ...(fromText ? { resistance: fromText } : {}), ...(FEAT_PICKS[feat.id] ?? {}) };
+}
+
+const CHOICE_WORDS: Record<string, number> = { one: 1, two: 2 };
+
+/** "Acid, Cold, Fire, or Poison" -> ['Acid', 'Cold', 'Fire', 'Poison'] (the names as the data writes them). */
+function damageNames(raw: string): string[] {
+  return raw
+    .split(/,\s*(?:or\s+)?|\s+or\s+/)
+    .map((w) => w.trim())
+    .filter(Boolean)
+    .map((w) => w[0].toUpperCase() + w.slice(1).toLowerCase());
+}
+
+/**
+ * The damage types the text itself lets the player pick, when it says so: "Resistance to two of
+ * the following damage types of your choice: Acid, ..., or Thunder" (Boon of Energy Resistance) or
+ * "resistance to either acid, cold or fire damage (your choice)" (Planar Wanderer). Null otherwise.
+ */
+export function resistancePickOf(
+  text: string | null | undefined,
+): { from: string[]; count: number } | null {
+  const p = plain(text ?? '');
+  const closed =
+    /Resistance to (one|two) of the following damage types of your choice:\s*([^.]+)\./i.exec(p);
+  if (closed) return { from: damageNames(closed[2]), count: CHOICE_WORDS[closed[1].toLowerCase()] };
+  const either = /resistance to either ([a-z ,]+?) damage \(your choice\)/i.exec(p);
+  if (either) return { from: damageNames(either[1]), count: 1 };
+  return null;
+}
+
+/** Whether the text lets the player change the pick at every Long Rest ("Whenever you finish a Long Rest..."). */
+export function resistanceChangesOnRest(text: string | null | undefined): boolean {
+  return /\b(?:Whenever|When) you finish a long rest\b/i.test(plain(text ?? ''));
+}
+
+/**
+ * The damage types a resistance pick holds: the ones stored (`resistances`, and the single
+ * `resistance` of the older feats), valid for the pick, no more than it asks for.
+ */
+export function pickedResistances(
+  choice: { resistance?: string; resistances?: string[] },
+  rule: { from: string[]; count: number },
+): string[] {
+  const stored = [...(choice.resistances ?? []), ...(choice.resistance ? [choice.resistance] : [])];
+  return [...new Set(stored)].filter((v) => rule.from.includes(v)).slice(0, rule.count);
+}
+
+/** Key of a feat's damage-type pick in the rest dialog (`state.restChoices`), by feat source. */
+const FEAT_RESIST = 'feat-resist:';
+export const featResistKey = (srcKey: string): string => FEAT_RESIST + srcKey;
+/** The feat source key behind a `featResistKey`, or null for any other (trait) key. */
+export function featResistSource(key: string): string | null {
+  return key.startsWith(FEAT_RESIST) ? key.slice(FEAT_RESIST.length) : null;
 }
 
 /** Who chooses the spellcasting ability: the text says it, or (Magic Initiate) the picks imply it. */
