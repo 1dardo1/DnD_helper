@@ -139,6 +139,15 @@ export function featRules(feat: RuleText): FeatRules {
 }
 
 function parseFeat(feat: RuleText): FeatRules {
+  // Labels are the bold headings of the text. A bulleted benefit's heading ("- **Chromatic
+  // Infusion.**") is used only when two counters would otherwise share a label (Gift of the
+  // Chromatic Dragon), so the other feats keep the label they always had.
+  const plainLabels = parseText(feat, false);
+  const names = plainLabels.uses.map((u) => u.label);
+  return new Set(names).size === names.length ? plainLabels : parseText(feat, true);
+}
+
+function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
   const text = feat.description ?? '';
   const out: FeatRules = {
     spells: [],
@@ -160,10 +169,33 @@ function parseFeat(feat: RuleText): FeatRules {
   // the rest that gives back the uses, wherever the text says it ("You regain all expended uses...")
   const regainRest = restIn(plain(text).match(/regain all expended uses[^.]*\./i)?.[0] ?? '');
 
-  let heading = '';
+  // the sections (bold headings, '' for the whole feature) whose uses already come from a formula
+  // ("a number of times per day equal to your proficiency bonus"): another "can't ... again until
+  // a rest" sentence in the same section is a different limit, not a second counter
+  const countedBy = new Set<string>();
+  let section = '';
   for (const raw of paragraphs) {
-    const h = /^\*\*(.+?)\.?\*\*\.?\s*(.*)$/.exec(raw);
-    if (h) heading = plain(h[1]).replace(/\.$/, '');
+    const h = HEADING_LINE.exec(raw);
+    if (h) section = plain(h[1]).replace(/\.$/, '');
+    const p = plain(raw);
+    if (
+      /(?:a (?:total )?number of times(?: per day)?|Luck Points) equal to your (?:Proficiency Bonus|(?:Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) modifier)/i.test(
+        p,
+      ) &&
+      /regain|recover/i.test(p) &&
+      (restIn(p) ?? regainRest)
+    )
+      countedBy.add(section);
+  }
+
+  let heading = '';
+  section = '';
+  for (const raw of paragraphs) {
+    const h = HEADING_LINE.exec(raw);
+    if (h) {
+      section = plain(h[1]).replace(/\.$/, '');
+      if (bulletLabels || !raw.startsWith('-')) heading = section;
+    }
     const p = plain(raw);
 
     // -- spells -------------------------------------------------------------------------
@@ -265,20 +297,23 @@ function parseFeat(feat: RuleText): FeatRules {
       // of times equal to your Constitution modifier (minimum of once)." + "You regain all expended
       // uses when you finish a Long Rest."
       const countRest = restIn(p) ?? regainRest;
-      const onceRest = ONCE_USE.exec(p)?.[0] ? restIn(ONCE_USE.exec(p)![0]) : null;
+      const onceUse = ONCE_USE.exec(p)?.[0];
+      const onceRest = onceUse ? restIn(onceUse) : null;
+      const sectionCounted = countedBy.has(section);
       if (countRest && count && (/regain|recover/i.test(p) || regainRest)) {
         add(out.uses, {
           label,
           max: count[1] ? (count[1].slice(0, 3).toUpperCase() as Ability) : 'pb',
           rest: countRest,
         });
-      } else if (!casting && onceRest) {
+      } else if (!casting && onceRest && !sectionCounted) {
         // "Once you use this benefit, you can't use it again until you roll Initiative or finish a
         // Long or Short rest": one use, back on the rest (the Initiative is not counted)
         add(out.uses, { label, max: 1, rest: onceRest });
       } else if (
         rest &&
         !casting &&
+        !sectionCounted &&
         // a count that grows with the level ("twice between rests starting at 15th level", "Starting
         // at level 17, you can use it twice") is not one use: it stays as text
         !/\b(?:once|twice|three times|four times|five times|\d+ times)\b[^.]*\b(?:starting at|between rests)\b|\bstarting at\b[^.]*\buses?\b/i.test(
@@ -359,8 +394,12 @@ function parseFeat(feat: RuleText): FeatRules {
 }
 
 /** "Once you use this benefit, you can't (use it / do so) again until ..." (the rest is read after it). */
+// "can't cast that spell again" is one use per spell (House Insignia), not one use of the feature
 const ONCE_USE =
-  /(?:Once you|After you) [^.]*?, you can(?:'|’)t [^.]*?again until you (?:roll Initiative or )?finish an? (?:Short or Long|Long or Short|Long|Short) Rest/i;
+  /(?:Once you|After you) [^.]*?, you can(?:'|’)t (?!cast that spell)[^.]*?again until you (?:roll Initiative or )?finish an? (?:Short or Long|Long or Short|Long|Short) Rest/i;
+
+/** A paragraph that opens with a bold heading ("**Chromatic Infusion.** ..."), bulleted or not. */
+const HEADING_LINE = /^(?:-\s+)?\*\*(.+?)\.?\*\*\.?\s*(.*)$/;
 
 /** The rest a text names: "Long Rest", or "Short or Long Rest" (either order) when both count. */
 function restIn(s: string): 'short-or-long' | 'long' | null {

@@ -1,4 +1,5 @@
 import classes from '../../../../../data/classes.json';
+import featsData from '../../../../../data/feats.json';
 import species from '../../../../../data/species.json';
 import subclasses from '../../../../../data/subclasses.json';
 import { featRules } from './feat-effects';
@@ -104,6 +105,49 @@ describe('the 2024 wording still works (no change for the same text)', () => {
   it('Large Form (Goliath): once per Long Rest, with the level it starts at', () => {
     expect(usesOf(species, 'goliath', 'Large Form')).toEqual([
       expect.objectContaining({ max: 1, rest: 'long' }),
+    ]);
+  });
+});
+
+describe('one counter per benefit, not per sentence', () => {
+  const feats = featsData as { id: string; name: string; description: string }[];
+
+  it('Order of Scribes, Manifest Mind: only the proficiency-bonus counter', () => {
+    // "...a number of times per day equal to your proficiency bonus, and you regain all expended
+    // uses when you finish a long rest." + "Once you conjure the mind, you can't do so again until
+    // you finish a long rest, unless you expend a spell slot..." (another limit: not a counter)
+    expect(usesOf(subclasses, 'wizard/order-of-scribes', 'Manifest Mind')).toEqual([
+      { label: 'Manifest Mind', max: 'pb', rest: 'long' },
+    ]);
+  });
+
+  it('Gift of the Chromatic Dragon: two benefits, each counter named by its bold heading', () => {
+    const gift = feats.find((f) => f.id === 'gift-of-the-chromatic-dragon')!;
+    expect(featRules(gift).uses).toEqual([
+      // "- **Chromatic Infusion.** ... After you use this bonus action, you can't do so again until you finish a long rest."
+      { label: 'Chromatic Infusion', max: 1, rest: 'long' },
+      // "- **Reactive Resistance.** ... a number of times equal to your proficiency bonus, and you regain all expended uses..."
+      { label: 'Reactive Resistance', max: 'pb', rest: 'long' },
+    ]);
+  });
+
+  it('House Insignia: "can\'t cast that spell again" is one use per spell, so no counter', () => {
+    // "Once you cast a spell using your insignia, you can't cast that spell again until you finish a Long Rest"
+    expect(usesOf(subclasses, 'rogue/house-agent-ua', 'House Insignia')).toEqual([]);
+  });
+
+  it('the single-spell features keep their counter (their text does not say "cast that spell")', () => {
+    expect(usesOf(subclasses, 'warlock/the-raven-queen', "Queen's Right Hand")).toEqual([
+      { label: "Queen's Right Hand", max: 1, rest: 'long' },
+    ]);
+    expect(usesOf(classes, 'warlock', 'Contact Patron')).toEqual([
+      { label: 'Contact Patron', max: 1, rest: 'long' },
+    ]);
+    expect(usesOf(subclasses, 'rogue/revived', 'Connect with the Dead')).toEqual([
+      { label: 'Connect with the Dead', max: 1, rest: 'short-or-long' },
+    ]);
+    expect(featRules(feats.find((f) => f.id === 'ritual-caster')!).uses).toEqual([
+      { label: 'Quick Ritual', max: 1, rest: 'long' },
     ]);
   });
 });
