@@ -6,23 +6,23 @@ Fuente: `data/classes.json` (`paladin`), `data/subclasses.json` (`classId` = `pa
 
 | Bloque | ✅ | ⚠️ | ❌ | — |
 | --- | --- | --- | --- | --- |
-| Clase base | 11 | 5 | 1 | 4 |
-| Conquest (2014) | 2 | 0 | 0 | 4 |
+| Clase base | 12 | 4 | 1 | 3 |
+| Conquest (2014) | 2 | 0 | 0 | 3 |
 | Devotion (2024) | 3 | 0 | 0 | 2 |
 | Glory (2024) | 4 | 0 | 1 | 1 |
 | Heroism UA (2014) | 2 | 0 | 0 | 3 |
 | Redemption (2014) | 1 | 0 | 0 | 4 |
 | Ancients (2024) | 3 | 1 | 0 | 1 |
 | Crown (2014) | 2 | 0 | 0 | 3 |
-| Noble Genies (2024) | 3 | 0 | 3 | 1 |
+| Noble Genies (2024) | 4 | 0 | 2 | 1 |
 | Spellguard UA (2024) | 2 | 0 | 0 | 4 |
 | Watchers (2014) | 2 | 0 | 0 | 3 |
-| Treachery UA (2014) | 4 | 0 | 0 | 3 |
-| Vengeance (2024) | 3 | 0 | 0 | 2 |
-| Oathbreaker UA (2024) | 3 | 0 | 0 | 3 |
-| **Total** | **43** | **6** | **5** | **38** |
+| Treachery UA (2014) | 4 | 0 | 0 | 2 |
+| Vengeance (2024) | 3 | 0 | 0 | 3 |
+| Oathbreaker UA (2024) | 3 | 0 | 0 | 2 |
+| **Total** | **47** | **5** | **4** | **35** |
 
-Las filas "Oath Spells" y "Channel Divinity" de cada juramento cuentan como un elemento (✅ en todos). Las "Tenets" son texto y no se cuentan.
+Los recuentos son de las tablas de abajo; las "Tenets" son texto y no se cuentan.
 
 Lo grave, por orden de impacto:
 1. **Blessed Warrior** (Estilo de combate) no pide los 2 trucos de Clérigo y el Paladín no tiene hueco de trucos (`cantripsByLevel: null`).
