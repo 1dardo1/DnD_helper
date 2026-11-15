@@ -454,6 +454,7 @@ export const en = {
   'sheet.featSource': 'Feat: {name}',
   'sheet.featSpells': 'Spells from feats and traits',
   'sheet.featSpell.free': 'once per Long Rest without a spell slot',
+  'sheet.featSpell.deathPoints': 'without a spell slot, costs {n} Death Point(s)',
   'sheet.featSpell.slots': 'also with spell slots',
   'sheet.featSpell.noAbility': 'Spellcasting ability not chosen yet: using {ability}.',
   'sheet.resistances': 'Damage resistance',

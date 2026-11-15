@@ -458,6 +458,7 @@ export const es: Record<keyof typeof en, string> = {
   'sheet.featSource': 'Dote: {name}',
   'sheet.featSpells': 'Conjuros de dotes y rasgos',
   'sheet.featSpell.free': 'una vez por descanso largo sin espacio de conjuro',
+  'sheet.featSpell.deathPoints': 'sin espacio de conjuro, cuesta {n} Punto(s) de muerte',
   'sheet.featSpell.slots': 'también con espacios de conjuro',
   'sheet.featSpell.noAbility': 'Característica de lanzamiento sin elegir: se usa {ability}.',
   'sheet.resistances': 'Resistencia al daño',
