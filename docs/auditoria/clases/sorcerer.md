@@ -144,7 +144,7 @@ Contador de Innate Sorcery: `core/play/play-state.ts` (FEATURE_USES, 2 usos, lar
 | 14 · Controlled Chaos | Texto | — | — | — |
 | 18 · Tamed Surge | Contador 1/largo | ✅ | — | `effects-audit.spec.ts` |
 
-### Ancestral/Defiled/Demonic/Faerzress son UA; las demás de 2024 son oficiales.
+Nota: Ancestral, Defiled, Demonic y Faerzress son UA; el resto de 2024 es oficial.
 
 ## Subclases 2014 / UA
 

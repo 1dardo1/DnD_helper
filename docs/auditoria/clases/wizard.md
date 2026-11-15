@@ -33,10 +33,10 @@ Recuento de filas (una fila = un rasgo o grupo de rasgos de la tabla de cada cla
 | Chronurgy Magic | 4 | 0 | 0 | 1 |
 | Graviturgy Magic | 2 | 0 | 0 | 2 |
 | Lore Mastery (UA) | 3 | 0 | 1 | 2 |
-| Onomancy (UA) | 1 | 1 | 3 | 1 |
+| Onomancy (UA) | 0 | 1 | 4 | 1 |
 | Order of Scribes | 3 | 0 | 0 | 2 |
-| Psionics (UA) | 1 | 1 | 2 | 3 |
-| School of Invention (UA) | 1 | 0 | 2 | 2 |
+| Psionics (UA) | 0 | 1 | 2 | 3 |
+| School of Invention (UA) | 1 | 0 | 2 | 3 |
 | Technomancy (UA) | 2 | 0 | 0 | 3 |
 | Theurgy (UA) | 0 | 0 | 6 | 1 |
 | War Magic | 1 | 0 | 2 | 2 |
@@ -291,7 +291,7 @@ Conclusiones gordas:
 | 10 · Arcane Priest | Texto | ❌ | Rasgos de dominio nivel 6 | igual |
 | 14 · Arcane High Priest | Texto | ❌ | Rasgos de dominio nivel 17 | igual |
 
-(Se cuentan 6 ❌ y 1 — en la tabla resumen; el rasgo hijo Divine Arcana es "—".)
+(6 ❌ y 1 —: el rasgo hijo Divine Arcana es "—".)
 
 ### War Magic (Xanathar, 2014)
 
