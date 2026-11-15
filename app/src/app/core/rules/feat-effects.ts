@@ -55,6 +55,11 @@ export interface FeatSpellGrant {
   freeUses: 1 | 'mod' | 'pb';
   /** 'mod' by a named ability ("a number of times equal to your Charisma modifier"). */
   freeAbility?: Ability;
+  /**
+   * Death Points it costs to cast without a spell slot ("by expending 1 Death Point"): paid from the
+   * Death Points counter, not at will and not once per rest. Absent for the other spells.
+   */
+  deathPoints?: number;
 }
 
 /** A countable use of a feat. */
@@ -241,11 +246,15 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
       traitCasts &&
       /\bonce\b/i.test(p) &&
       /until you finish a long rest|recharges after a long rest/i.test(p);
+    // "You can cast it without expending a spell slot by expending 1 Death Point" (Death Knight feats)
+    const deathCost = /by expending (\d+) Death Points?\b/i.exec(p);
     for (const g of grants) {
       if (out.spells.some((s) => s.id === slug(g.name))) continue;
       const isCantrip = g.cantrip === true;
       // "can cast it as a Magic action without expending a spell slot" with no rest: at will
-      const atWill = casts && !/Long Rest|Short Rest|number of times|\bonce\b|\btwice\b/i.test(p);
+      // (not when the text says what it costs: Death Points)
+      const atWill =
+        casts && !deathCost && !/Long Rest|Short Rest|number of times|\bonce\b|\btwice\b/i.test(p);
       out.spells.push({
         name: g.name,
         id: slug(g.name),
@@ -261,6 +270,7 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
             ? 'pb'
             : 1,
         ...(named ? { freeAbility: named } : {}),
+        ...(deathCost && casts && !isCantrip ? { deathPoints: Number(deathCost[1]) } : {}),
       });
     }
 
@@ -690,3 +700,6 @@ export function pickable(
         (!schools || schools.includes(s.school.toLowerCase()))),
   );
 }
+
+/** Key of a pool's shared counter in state.resources: every feat that gives the pool uses it. */
+export const poolKey = (pool: FeatPool): string => `feat:pool:${pool}`;

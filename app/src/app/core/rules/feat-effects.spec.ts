@@ -2,6 +2,7 @@ import backgrounds from '../../../../../data/backgrounds.json';
 import feats from '../../../../../data/feats.json';
 import spells from '../../../../../data/spells.json';
 import { Background, Feat } from '../models/compendium';
+import { playResources } from '../play/play-state';
 import {
   FEAT_PICKS,
   abilityRule,
@@ -10,8 +11,10 @@ import {
   featRules,
   listOfFeatName,
   pickable,
+  poolKey,
   togglePick,
 } from './feat-effects';
+import { sheetOf } from './real-data.testing';
 
 const all = feats as unknown as Feat[];
 const byId = new Map(all.map((f) => [f.id, f]));
@@ -164,5 +167,51 @@ describe('Magic Initiate from a background', () => {
     );
     expect(featList({ key: 'x', feat }, undefined)).toBeNull();
     expect(featPicks(feat).list).toEqual(['cleric', 'druid', 'wizard']);
+  });
+});
+
+describe('spells cast by expending Death Points (Death Knight feats)', () => {
+  const spellOf = (featId: string) => rules(featId).spells[0];
+
+  it.each([
+    ['death-knight-initiate-ua', 'wrathful-smite'],
+    ['deathly-presence-ua', 'fear'],
+    ['dread-authority-ua', 'command'],
+    ['unholy-steed-ua', 'find-steed'],
+    ['harbinger-of-doom-ua', 'bane'],
+  ])('%s: %s costs 1 Death Point, so it is not at will', (featId, spellId) => {
+    expect(spellOf(featId)).toMatchObject({
+      id: spellId,
+      deathPoints: 1,
+      atWill: false,
+      free: false,
+      slots: true,
+    });
+  });
+
+  it('a spell the text gives without a spell slot and with no cost stays at will', () => {
+    // Boon of the Cleansed Heart: "You can cast Dispel Evil and Good without expending a spell slot."
+    expect(spellOf('boon-of-the-cleansed-heart-ua')).toMatchObject({
+      id: 'dispel-evil-and-good',
+      atWill: true,
+    });
+    expect(spellOf('boon-of-the-cleansed-heart-ua').deathPoints).toBeUndefined();
+  });
+
+  it('Wrathful Smite and Fear share the Initiate Death Points counter (Proficiency Bonus 3 at level 5)', () => {
+    const sheet = sheetOf('fighter', 5, null, {
+      featSlots: ['death-knight-initiate-ua', 'deathly-presence-ua'].map((featId, i) => ({
+        slot: `fighter:${4 + i}`,
+        featId,
+      })),
+    } as never);
+    const pool = poolKey('death-points');
+    const smite = sheet.featSpells.find((s) => s.id === 'wrathful-smite')!;
+    const fear = sheet.featSpells.find((s) => s.id === 'fear')!;
+    expect(smite).toMatchObject({ atWill: false, freeKey: pool, deathPoints: 1 });
+    expect(fear).toMatchObject({ atWill: false, freeKey: pool, deathPoints: 1 });
+    const counters = playResources(sheet).filter((r) => r.key === pool);
+    expect(counters).toHaveLength(1);
+    expect(counters[0]).toMatchObject({ max: 3, labelKey: 'play.res.deathPoints' });
   });
 });

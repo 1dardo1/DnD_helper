@@ -25,6 +25,7 @@ import {
   featResistKey,
   featRules,
   pickedResistances,
+  poolKey,
   resistanceChangesOnRest,
   slug,
   listOfFeatName,
@@ -768,10 +769,12 @@ function featGrants(
       slots: boolean;
       atWill?: boolean;
       freeUses?: 1 | 'mod' | 'pb';
+      /** Death Points it costs without a slot: paid from the Death Points counter (its pool). */
+      deathPoints?: number;
       /** When the free cast comes back (default: Long Rest). */
       rest?: 'long' | 'short-or-long';
     }) => {
-      const freeKey = g.free ? key(g.id) : null;
+      const freeKey = g.deathPoints ? poolKey('death-points') : g.free ? key(g.id) : null;
       spells.push({
         id: g.id,
         name: g.name,
@@ -785,10 +788,13 @@ function featGrants(
         freeKey,
         slots: g.slots,
         atWill: g.atWill,
+        ...(g.deathPoints ? { deathPoints: g.deathPoints } : {}),
       });
-      if (freeKey)
+      // a free cast has its own counter; a Death Points cast uses the pool's (its counter comes from
+      // Death Knight Initiate's text, in the uses loop below)
+      if (g.free)
         uses.push({
-          key: freeKey,
+          key: key(g.id),
           label: g.name,
           labelKey: null,
           feat: feat.name,

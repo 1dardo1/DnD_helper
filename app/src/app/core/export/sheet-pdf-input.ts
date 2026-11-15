@@ -288,7 +288,11 @@ function spellsOf_(src: PdfSource): Pick<SheetPdfInput, 'spellcasting' | 'spells
       [
         t('sheet.featSource', { name: src.shortName(fs.feat.name) }),
         `${t(`abbr.${fs.ability}` as TranslationKey)} ${t('pdf.dcShort')} ${fs.saveDc} · ${t('pdf.atkShort')} ${fs.attack >= 0 ? '+' : ''}${fs.attack}`,
-        fs.freeKey ? t('sheet.featSpell.free') : '',
+        fs.deathPoints
+          ? t('sheet.featSpell.deathPoints', { n: fs.deathPoints })
+          : fs.freeKey
+            ? t('sheet.featSpell.free')
+            : '',
       ],
       ' · ',
     );
