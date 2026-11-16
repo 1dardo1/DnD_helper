@@ -1,6 +1,6 @@
 # Informe de extracción
 
-Generado: 2026-11-16T06:47:18+00:00
+Generado: 2026-11-16T10:37:19+00:00
 
 ## Totales
 

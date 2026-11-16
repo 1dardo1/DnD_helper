@@ -270,6 +270,8 @@ export class FeatChoices {
   readonly spells = input<readonly Spell[]>([]);
   /** Spell lists of the character's casting classes (casterSpellLists in engine.ts). */
   readonly casterLists = input<readonly string[]>([]);
+  /** The text doesn't name the ability and INT/WIS/CHA tie: the player picks it (sheet.featMissing). */
+  readonly askAbility = input(false);
   readonly changed = output<FeatChoice>();
 
   private readonly dataText = inject(DataTextService);
@@ -292,7 +294,7 @@ export class FeatChoices {
     const feat = this.source().feat;
     const p = this.picks();
     return (
-      abilityRule(feat).mode === 'choice' &&
+      (abilityRule(feat).mode === 'choice' || this.askAbility() || !!this.choice()?.ability) &&
       (featRules(feat).spells.length > 0 || !!p.cantrips || !!p.spell)
     );
   });

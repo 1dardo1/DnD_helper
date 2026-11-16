@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import re
 from dataclasses import dataclass, field
 
@@ -159,6 +160,9 @@ def _block(el, blocks: list[str]) -> None:
     elif name in ("ul", "ol"):
         items = []
         for i, li in enumerate(el.find_all("li", recursive=False), 1):
+            # on a copy: converting the same element twice must give the same text (the
+            # sub-lists are taken out of the item to be written after it)
+            li = copy.copy(li)
             sub = [c for c in li.children if isinstance(c, Tag) and c.name in ("ul", "ol")]
             for s in sub:
                 s.extract()

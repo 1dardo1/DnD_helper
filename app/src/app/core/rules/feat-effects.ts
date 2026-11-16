@@ -115,6 +115,12 @@ export interface FeatRules {
   hpFlat: number;
   hpPerLevel: number;
   ac: number;
+  /**
+   * Mariner: "As long as you are not wearing heavy armor or using a shield, you have a swimming
+   * speed and a climbing speed equal to your normal speed, and you gain a +1 bonus to armor class"
+   * (with or without other armor).
+   */
+  unlessHeavy?: { ac: number; speeds: ('swim' | 'climb')[] };
   languages: string[];
   weapons: string[];
   /** Damage types the text says you resist ("You have Resistance to Necrotic and Poison damage"). */
@@ -524,7 +530,14 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
       out.hpPerLevel = 2;
     const hp = /Hit Point maximum increases by (\d+)\b/i.exec(p);
     if (hp) out.hpFlat += Number(hp[1]);
-    if (/you gain a \+1 bonus to Armor Class/i.test(p) && /wearing/i.test(p)) out.ac += 1;
+    if (/not wearing heavy armor or using a shield/i.test(p) && /\+1 bonus to armor class/i.test(p))
+      out.unlessHeavy = {
+        ac: 1,
+        speeds: (['swim', 'climb'] as const).filter((k) =>
+          new RegExp(`${k === 'swim' ? 'swimming' : 'climbing'} speed`, 'i').test(p),
+        ),
+      };
+    else if (/you gain a \+1 bonus to Armor Class/i.test(p) && /wearing/i.test(p)) out.ac += 1;
     const known = /You know (Thieves' Cant|Thieves’ Cant)\b/.exec(p);
     if (known) out.languages.push("Thieves' Cant");
     if (/proficiency with improvised weapons/i.test(p)) out.weapons.push('Improvised weapons');

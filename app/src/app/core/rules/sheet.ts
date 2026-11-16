@@ -264,6 +264,7 @@ export interface SheetWarning {
     | 'sheet.warn.traitChoiceMissing'
     | 'sheet.warn.traitPickMissing'
     | 'sheet.warn.speciesAbilityMissing'
-    | 'sheet.warn.weaponMastery';
+    | 'sheet.warn.weaponMastery'
+    | 'sheet.warn.chainedAbility';
   params?: Record<string, string>;
 }

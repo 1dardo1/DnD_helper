@@ -207,6 +207,8 @@ export const en = {
   'sheet.warn.armorBase':
     'Magic armor "{name}": choose which armor it is in the inventory to work out the AC.',
   'sheet.warn.traitChoiceMissing': '{trait}: no option chosen yet.',
+  'sheet.warn.chainedAbility':
+    '{feat}: the +1 goes to the ability chosen for {parent} ({ability}).',
   'sheet.warn.traitPickMissing': '{trait}: pick what it asks for.',
   'sheet.warn.weaponMastery': 'Weapon Mastery: choose which kinds of weapon it applies to.',
   // -- magic weapons and armor with a base chosen by the player ------------------------

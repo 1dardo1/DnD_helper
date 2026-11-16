@@ -71,7 +71,9 @@ def parse_feat(page: Page, category: str | None) -> tuple[dict | None, list[str]
         md = to_markdown([el])
         plain = clean(re.sub(r"\*+", "", md))
         if len(rest) < 2 and prereq_raw is None and header_cat is None and len(plain) < 300 and (
-                "prerequisite" in plain.lower() or re.search(r"\bfeat\b", plain, re.I) and md.startswith("*")):
+                # the category line is in italics ("*Origin Feat*"); a bold benefit that mentions
+                # "this feat" ("**Two Cantrips.** ...") is part of the text
+                "prerequisite" in plain.lower() or re.search(r"\bfeat\b", plain, re.I) and re.match(r"\*(?!\*)", md)):
             m = re.search(r"(origin|general|fighting style|epic boon|dragonmark)\s*feat", plain, re.I)
             if m:
                 header_cat = slug(m.group(1))

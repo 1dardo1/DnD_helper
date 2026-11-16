@@ -390,6 +390,11 @@ export class LevelUp {
     }));
   }
 
+  /** The feat's spellcasting ability is for the player to pick (a tie of INT, WIS and CHA). */
+  protected abilityAsked(key: string): boolean {
+    return !!this.after()?.featMissing.some((m) => m.key === key && m.what === 'ability');
+  }
+
   protected patch(fn: (c: Character) => Character): void {
     const ch = this.draft();
     if (ch) this.draft.set(fn(structuredClone(ch)));

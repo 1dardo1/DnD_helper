@@ -242,3 +242,32 @@ describe('form states switched on in play', () => {
     expect(s.resistances).toEqual(expect.arrayContaining(['Bludgeoning', 'Piercing', 'Slashing']));
   });
 });
+
+describe('answers to the rules doubts', () => {
+  it('Mariner: +1 AC and swim/climb speeds without armor too, not with a shield', () => {
+    const base = sheetOf('fighter', 1);
+    const s = sheetOf('fighter', 1, null, { feats: ['mariner'] });
+    expect(s.armorClass.value - base.armorClass.value).toBe(1);
+    expect(s.speed['swim']).toBe(s.speed['walk']);
+    expect(s.speed['climb']).toBe(s.speed['walk']);
+  });
+
+  it('a feat that does not name its casting ability: the highest; a tie asks the player', () => {
+    // Cartomancer: "...the spell" with no ability named
+    const tie = sheetOf('fighter', 1, null, {
+      feats: ['cartomancer'],
+      scores: { WIS: 14, CHA: 14, INT: 8 },
+    });
+    expect(tie.featMissing.some((m) => m.feat === 'Cartomancer' && m.what === 'ability')).toBe(
+      true,
+    );
+    const clear = sheetOf('fighter', 1, null, {
+      feats: ['cartomancer'],
+      scores: { WIS: 10, CHA: 16, INT: 8 },
+    });
+    expect(clear.featMissing.some((m) => m.feat === 'Cartomancer' && m.what === 'ability')).toBe(
+      false,
+    );
+    expect(clear.featSpells.find((f) => f.feat.name === 'Cartomancer')?.ability).toBe('CHA');
+  });
+});

@@ -4306,7 +4306,7 @@
     "name": "Magic Initiate",
     "edition": "2024",
     "source": "Player's Handbook",
-    "description": "You gain the following benefits.\n\n**Level 1 Spell.** Choose a level 1 spell from the same list you selected for this feat's cantrips. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have.\n\n**Spell Change.** Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list.\n\n**Repeatable.** You can take this feat more than once, but you must choose a different spell list each time.",
+    "description": "You gain the following benefits.\n\n**Two Cantrips.** You learn two cantrips of your choice from the Cleric, Druid, or Wizard spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).\n\n**Level 1 Spell.** Choose a level 1 spell from the same list you selected for this feat's cantrips. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have.\n\n**Spell Change.** Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list.\n\n**Repeatable.** You can take this feat more than once, but you must choose a different spell list each time.",
     "url": "https://dnd2024.wikidot.com/feat:magic-initiate",
     "category": "origin",
     "prerequisites": null,
@@ -5599,7 +5599,7 @@
     "name": "Scion Of Elemental Air",
     "edition": "2014",
     "source": "Unearthed Arcana 85 - Wonders of the Multiverse",
-    "description": "You've been exposed to the primordial magic of the Elemental Plane of Air, granting you the following  \nbenefits:\n\n**Wind's Glide.** You can use a bonus action to gain a flying speed equal to your walking speed until the end of your turn. If you are airborne at the end of your turn after using this movement and aren't held aloft by other means, you fall. You can use this bonus action a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest.",
+    "description": "You've been exposed to the primordial magic of the Elemental Plane of Air, granting you the following  \nbenefits:\n\n**Elemental Magic.** You learn the Minor Illusion cantrip, using Intelligence, Wisdom, or Charisma as the spellcasting ability (choose when you select this feat).\n\n**Wind's Glide.** You can use a bonus action to gain a flying speed equal to your walking speed until the end of your turn. If you are airborne at the end of your turn after using this movement and aren't held aloft by other means, you fall. You can use this bonus action a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest.",
     "url": "https://dnd5e.wikidot.com/feat:scion-of-elemental-air-ua",
     "category": "general",
     "prerequisites": {
@@ -5618,7 +5618,7 @@
     "name": "Scion Of Elemental Earth",
     "edition": "2014",
     "source": "Unearthed Arcana 85 - Wonders of the Multiverse",
-    "description": "You've been exposed to the primordial magic of the Elemental Plane of Earth, granting you the following benefits:\n\n**Earthen Shield.** You can use a bonus action to conjure a bulwark of earth that provides half cover to you or a creature of your choice within 30 feet of yourself. The bulwark remains until the start of your next turn. You can create this bulwark a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest.",
+    "description": "You've been exposed to the primordial magic of the Elemental Plane of Earth, granting you the following benefits:\n\n**Elemental Magic.** You learn the Druidcraft cantrip, using Intelligence, Wisdom, or Charisma as the spellcasting ability (choose when you select this feat).\n\n**Earthen Shield.** You can use a bonus action to conjure a bulwark of earth that provides half cover to you or a creature of your choice within 30 feet of yourself. The bulwark remains until the start of your next turn. You can create this bulwark a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest.",
     "url": "https://dnd5e.wikidot.com/feat:scion-of-elemental-earth-ua",
     "category": "general",
     "prerequisites": {
@@ -5637,7 +5637,7 @@
     "name": "Scion Of Elemental Fire",
     "edition": "2014",
     "source": "Unearthed Arcana 85 - Wonders of the Multiverse",
-    "description": "You've been exposed to the primordial magic of the Elemental Plane of Fire, granting you the following benefits:\n\n**Fervent Blaze.** You learn the Produce Flame cantrip, using the same spellcasting ability chosen for this feat's Elemental Magic benefit. You can cast produce flame as normal, and you can also cast it as a bonus action a number of times equal to your proficiency bonus, regaining all expended uses when you finish a long rest.",
+    "description": "You've been exposed to the primordial magic of the Elemental Plane of Fire, granting you the following benefits:\n\n**Elemental Magic.** You learn the Dancing Lights cantrip, using Intelligence, Wisdom, or Charisma as the spellcasting ability (choose when you select this feat).\n\n**Fervent Blaze.** You learn the Produce Flame cantrip, using the same spellcasting ability chosen for this feat's Elemental Magic benefit. You can cast produce flame as normal, and you can also cast it as a bonus action a number of times equal to your proficiency bonus, regaining all expended uses when you finish a long rest.",
     "url": "https://dnd5e.wikidot.com/feat:scion-of-elemental-fire-ua",
     "category": "general",
     "prerequisites": {
@@ -5656,7 +5656,7 @@
     "name": "Scion Of Elemental Water",
     "edition": "2014",
     "source": "Unearthed Arcana 85 - Wonders of the Multiverse",
-    "description": "You've been exposed to the primordial magic of the  \nElemental Plane of Water, granting you the following  \nbenefits:\n\n**Wave Surge.** You can use a bonus action to create a forceful surge of water directed at a creature within 15 feet of you that you can see. The target must make a Strength saving throw; the DC for this save is equal to 8 + your proficiency bonus + the spellcasting ability modifier chosen for this feat, and a creature can choose to fail this saving throw. On a failure, the target is pushed up to 10 feet away from you or pulled up to 10 feet toward you (your choice). The water vanishes immediately after the creature succeeds or fails. You can create this effect a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest.",
+    "description": "You've been exposed to the primordial magic of the  \nElemental Plane of Water, granting you the following  \nbenefits:\n\n**Elemental Magic.** You learn the Thaumaturgy cantrip, using Intelligence, Wisdom, or Charisma as the spellcasting ability (choose when you select this feat).\n\n**Wave Surge.** You can use a bonus action to create a forceful surge of water directed at a creature within 15 feet of you that you can see. The target must make a Strength saving throw; the DC for this save is equal to 8 + your proficiency bonus + the spellcasting ability modifier chosen for this feat, and a creature can choose to fail this saving throw. On a failure, the target is pushed up to 10 feet away from you or pulled up to 10 feet toward you (your choice). The water vanishes immediately after the creature succeeds or fails. You can create this effect a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest.",
     "url": "https://dnd5e.wikidot.com/feat:scion-of-elemental-water-ua",
     "category": "general",
     "prerequisites": {
@@ -6011,11 +6011,11 @@
     "name": "Skilled",
     "edition": "2024",
     "source": "Player's Handbook",
-    "description": "You gain proficiency in any combination of three skills or tools of your choice.",
+    "description": "You gain proficiency in any combination of three skills or tools of your choice.\n\n**Repeatable.** You can take this feat more than once.",
     "url": "https://dnd2024.wikidot.com/feat:skilled",
     "category": "origin",
     "prerequisites": null,
-    "repeatable": false,
+    "repeatable": true,
     "abilityIncrease": null,
     "replaced": [
       "https://dnd5e.wikidot.com/feat:skilled"
@@ -7304,7 +7304,7 @@
     "name": "Wonder Maker",
     "edition": "2014",
     "source": "Unearthed Arcana 39 - Feats for Races",
-    "description": "You master the tinker techniques of your people. You gain the following benefits:\n\n- Increase your Dexterity or Intelligence score by 1, to a maximum of 20.\n\n- When you make a check using your proficiency with tinker's tools, you add double your proficiency bonus to the check.\n\n- When you make a device with your Tinker trait, you have the following additional options for what you make:",
+    "description": "You master the tinker techniques of your people. You gain the following benefits:\n\n- Increase your Dexterity or Intelligence score by 1, to a maximum of 20.\n\n- When you make a check using your proficiency with tinker's tools, you add double your proficiency bonus to the check.\n\n- When you make a device with your Tinker trait, you have the following additional options for what you make:\n  - ***Alarm***: This device senses when a creature moves to within 15 feet of it without speaking aloud a password chosen when you create it. One round after a creature moves into range, the alarm makes a shrill ringing that lasts for 1 minute and can be heard from up to 300 feet away.\n  - ***Calculator***: This device makes doing sums easy.\n  - ***Lifter***: This device can be used as a block and tackle, allowing its user to hoist five times the weight the user can normally lift.\n  - ***Timekeeper***: This pocket watch keeps accurate time.\n  - ***Weather Sensor***: When used as an action, this device predicts weather conditions in a 1-mile radius over the next 4 hours, showing one symbol (clouds, sun/moon, rain, or snow) for each hour",
     "url": "https://dnd5e.wikidot.com/feat:wonder-maker",
     "category": "racial",
     "prerequisites": {

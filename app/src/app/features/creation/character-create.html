@@ -284,6 +284,7 @@
                   [choice]="featChoice(src.key)"
                   [spells]="d.spells"
                   [casterLists]="casterLists()"
+                  [askAbility]="abilityAsked(src.key)"
                   (changed)="setFeatChoice(src.key, $event)"
                 />
               </div>
@@ -443,6 +444,7 @@
                   [choice]="featChoice(src.key)"
                   [spells]="d.spells"
                   [casterLists]="casterLists()"
+                  [askAbility]="abilityAsked(src.key)"
                   (changed)="setFeatChoice(src.key, $event)"
                 />
               }
@@ -699,6 +701,7 @@
                         [choice]="featChoice(src.key)"
                         [spells]="d.spells"
                         [casterLists]="casterLists()"
+                        [askAbility]="abilityAsked(src.key)"
                         (changed)="setFeatChoice(src.key, $event)"
                       />
                     }

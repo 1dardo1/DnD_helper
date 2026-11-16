@@ -409,6 +409,15 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     }
   }
 
+  // Mariner: +1 AC (and swim/climb speeds, below) unless in heavy armor or with a shield
+  const mariner = feats.map((f) => featRules(f).unlessHeavy).filter((x) => !!x);
+  const marinerOn = armor?.kind !== 'heavy' && !shield;
+  if (marinerOn)
+    for (const m of mariner)
+      armorClass = {
+        value: armorClass.value + m.ac,
+        formula: `${armorClass.formula} + ${m.ac}`,
+      };
   // Warforged's Integrated Protection (+1), the Knight's Defender's Blade (+1 in heavy armor)
   for (const t of traits)
     for (const b of fx(t).ac)
@@ -444,6 +453,9 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     );
     if (bonus) speed['walk'] += bonus;
   }
+  if (marinerOn)
+    for (const m of mariner)
+      for (const k of m.speeds) speed[k] = Math.max(speed[k] ?? 0, speed['walk']);
   // Fly / Swim / Climb Speed ("equal to your Speed" or a number of feet)
   for (const t of traits)
     for (const m of fx(t).speeds) {
@@ -522,7 +534,15 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   if (pactCasters.length > 1) warnings.push({ key: 'sheet.warn.twoPacts' });
 
   // -- what the feats give: spells, uses, proficiencies ----------------------------------------
-  const granted = featGrants(featSources, ch, abilities, pb, totalLevel, spellClasses[0]?.ability);
+  const granted = featGrants(
+    featSources,
+    ch,
+    abilities,
+    pb,
+    totalLevel,
+    spellClasses[0]?.ability,
+    warnings,
+  );
   const fromTraits = traitGrants({
     traits,
     species,
@@ -749,6 +769,17 @@ function ancestryResistance(
   return type && says ? [type] : [];
 }
 
+/** The feat another one continues ("the spellcasting ability chosen when you gained the X feat"). */
+function chainedFeat(feat: Feat, sources: FeatSource[]): FeatSource | undefined {
+  const m =
+    /spellcasting ability (?:is the one )?(?:you )?chose[n]? (?:when you gained|for) (?:the |your )?([A-Z][\w'’ -]+?) feat/i.exec(
+      feat.description ?? '',
+    );
+  if (!m) return undefined;
+  const name = m[1].trim().toLowerCase();
+  return sources.find((o) => o.feat !== feat && o.feat.name.toLowerCase() === name);
+}
+
 /** Damage types and conditions the character is immune to (absent: none). */
 function immunitiesOf(rules: TraitRules[]): Pick<Sheet, 'immunities' | 'conditionImmunities'> {
   const damage = [...new Set(rules.flatMap((r) => r.immunities))];
@@ -882,6 +913,7 @@ function featGrants(
   pb: number,
   totalLevel: number,
   casterAbility: Ability | undefined,
+  warnings: SheetWarning[] = [],
 ) {
   const spells: SheetFeatSpell[] = [];
   const uses: SheetFeatUse[] = [];
@@ -923,7 +955,40 @@ function featGrants(
     } else {
       // "the one chosen for the Faithful Companion benefit of your Familiar Friend feat"
       const other = sources.find((o) => o !== src && ch.choices.featChoices?.[o.key]?.ability);
-      if (other) ability = ch.choices.featChoices![other.key].ability!;
+      // a feat that continues another: "the spellcasting ability chosen when you gained the
+      // Divinely Favored feat", "... you chose for the Scion of the Outer Planes feat"
+      const parent = chainedFeat(feat, sources);
+      const parentAbility = parent && ch.choices.featChoices?.[parent.key]?.ability;
+      if (parentAbility) ability = parentAbility;
+      else if (choice.ability) ability = choice.ability;
+      else if (other) ability = ch.choices.featChoices![other.key].ability!;
+      else if (rules.spells.length) {
+        // the text doesn't say: the highest of INT, WIS and CHA; on a tie the player picks
+        const top = Math.max(
+          ...(['INT', 'WIS', 'CHA'] as Ability[]).map((a) => abilities[a].modifier),
+        );
+        const tied = (['INT', 'WIS', 'CHA'] as Ability[]).filter(
+          (a) => abilities[a].modifier === top,
+        );
+        if (tied.length > 1) {
+          chosen = false;
+          need('ability');
+        }
+      }
+    }
+    // "Increase the ability score of the spellcasting ability chosen when you gained the X feat"
+    const chain = chainedFeat(feat, sources);
+    const chainAbility = chain && ch.choices.featChoices?.[chain.key]?.ability;
+    if (
+      chainAbility &&
+      /Increase the ability score of the spellcasting ability chosen/i.test(feat.description)
+    ) {
+      const raised = ch.choices.abilityIncreases.find((i) => i.source === feat.id)?.ability;
+      if (raised && raised !== chainAbility)
+        warnings.push({
+          key: 'sheet.warn.chainedAbility',
+          params: { feat: feat.name, ability: chainAbility, parent: chain.feat.name },
+        });
     }
     const dc = 8 + pb + abilities[ability].modifier;
     const attack = pb + abilities[ability].modifier;

@@ -210,6 +210,8 @@ export const es: Record<keyof typeof en, string> = {
   'sheet.warn.armorBase':
     'Armadura mágica «{name}»: elige qué armadura es en el inventario para calcular la CA.',
   'sheet.warn.traitChoiceMissing': '{trait}: falta elegir una opción.',
+  'sheet.warn.chainedAbility':
+    '{feat}: el +1 va a la característica elegida en {parent} ({ability}).',
   'sheet.warn.traitPickMissing': '{trait}: falta elegir lo que pide.',
   'sheet.warn.weaponMastery': 'Maestría de armas: elige a qué tipos de arma se aplica.',
   // -- magic weapons and armor with a base chosen by the player ------------------------

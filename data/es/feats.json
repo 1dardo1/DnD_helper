@@ -4306,7 +4306,7 @@
     "name": "Iniciado en la magia",
     "edition": "2024",
     "source": "Manual del jugador",
-    "description": "Obtienes los siguientes beneficios.\n\n**Conjuro de nivel 1.** Elige un conjuro de nivel 1 de la misma lista que seleccionaste para los trucos de esta hazaña. Siempre tienes ese conjuro preparado. Puedes lanzarlo una vez sin un espacio de conjuro y recuperas la capacidad de lanzarlo de esa manera cuando termines un descanso largo. También puedes lanzar el conjuro usando cualquier espacios de conjuro que tengas.\n\n**Cambio de conjuro.** Siempre que ganes un nuevo nivel, puedes reemplazar uno de los conjuros que elegiste para esta hazaña con un conjuro diferente del mismo nivel de la lista de conjuros elegidos.\n\n**Repetible.** Puedes realizar esta dote más de una vez, pero debes elegir una lista de conjuros diferente cada vez.",
+    "description": "Obtienes los siguientes beneficios.\n\n**Dos trucos.** Aprendes dos trucos a tu elección de la lista de conjuros de Clérigo, Druida o Mago. Inteligencia, Sabiduría o Carisma es tu aptitud mágica para los conjuros de esta dote (elige al seleccionarla).\n\n**Conjuro de nivel 1.** Elige un conjuro de nivel 1 de la misma lista que elegiste para los trucos de esta dote. Siempre lo tienes preparado. Puedes lanzarlo una vez sin un espacio de conjuro, y recuperas la capacidad de lanzarlo así cuando terminas un descanso largo. También puedes lanzar el conjuro usando cualquier espacios de conjuro que tengas.\n\n**Cambio de conjuro.** Siempre que subas de nivel, puedes sustituir uno de los conjuros que elegiste para esta dote por otro conjuro del mismo nivel de la lista de conjuros elegida.\n\n**Repetible.** Puedes elegir esta dote más de una vez, pero debes elegir una lista de conjuros distinta cada vez.",
     "url": "https://dnd2024.wikidot.com/feat:magic-initiate",
     "category": "origin",
     "prerequisites": null,
@@ -5599,7 +5599,7 @@
     "name": "Vástago del aire elemental",
     "edition": "2014",
     "source": "Arcanos 85 desenterrados - Maravillas del multiverso",
-    "description": "Has estado expuesto a la magia primordial del Plano Elemental del Aire, otorgándote lo siguiente  \nbeneficios:\n\n**Deslizamiento del viento.** Puedes usar un acción adicional para ganar una velocidad de vuelo igual a tu velocidad al caminar hasta el final de tu turno. Si estás en el aire al final de tu turno después de usar este movimiento y no te mantienen en el aire por otros medios, te caes. Puedes usar este acción adicional una cantidad de veces igual a tu bonificador de competencia, y recuperarás todos los usos gastados cuando termines un descanso largo.",
+    "description": "Has estado expuesto a la magia primigenia del Plano Elemental del Aire, lo que te otorga los siguientes  \nbeneficios:\n\n**Magia elemental.** Aprendes el truco Ilusión menor, usando Inteligencia, Sabiduría o Carisma como aptitud mágica (elige al seleccionar esta dote).\n\n**Planeo del viento.** Puedes usar una acción adicional para obtener una velocidad de vuelo igual a tu velocidad caminando hasta el final de tu turno. Si estás en el aire al final de tu turno tras usar este movimiento y no te sostiene ningún otro medio, caes. Puedes usar esta acción adicional un número de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
     "url": "https://dnd5e.wikidot.com/feat:scion-of-elemental-air-ua",
     "category": "general",
     "prerequisites": {
@@ -5618,7 +5618,7 @@
     "name": "Vástago de la tierra elemental",
     "edition": "2014",
     "source": "Arcanos 85 desenterrados - Maravillas del multiverso",
-    "description": "Has estado expuesto a la magia primordial del Plano Elemental de la Tierra, otorgándote los siguientes beneficios:\n\n**Escudo de tierra.** Puedes usar un acción adicional para conjurar un baluarte de tierra que te proporcione media cobertura a ti o a una criatura de tu elección dentro de un radio de 30 pies de ti. El baluarte permanece hasta el comienzo de tu siguiente turno. Puedes crear este baluarte un número de veces igual a tu bonificador de competencia, y recuperarás todos los usos gastados cuando termines un descanso largo.",
+    "description": "Has estado expuesto a la magia primigenia del Plano Elemental de la Tierra, lo que te otorga los siguientes beneficios:\n\n**Magia elemental.** Aprendes el truco Druidismo, usando Inteligencia, Sabiduría o Carisma como aptitud mágica (elige al seleccionar esta dote).\n\n**Escudo de tierra.** Puedes usar una acción adicional para conjurar un baluarte de tierra que proporciona cobertura media a ti o a una criatura de tu elección a 30 pies o menos de ti. El baluarte permanece hasta el comienzo de tu siguiente turno. Puedes crear este baluarte un número de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
     "url": "https://dnd5e.wikidot.com/feat:scion-of-elemental-earth-ua",
     "category": "general",
     "prerequisites": {
@@ -5637,7 +5637,7 @@
     "name": "Vástago del fuego elemental",
     "edition": "2014",
     "source": "Arcanos 85 desenterrados - Maravillas del multiverso",
-    "description": "Has estado expuesto a la magia primordial del Plano Elemental de Fuego, otorgándote los siguientes beneficios:\n\n**Fervent Blaze.** Aprendes el truco Produce Flame, usando el mismo aptitud mágica elegido para el beneficio de Magia Elemental de esta hazaña. Puedes lanzar producir llama de forma normal y también puedes lanzarlo como acción adicional un número de veces igual a tu bonificador de competencia, recuperando todos los usos gastados cuando termines un descanso largo.",
+    "description": "Has estado expuesto a la magia primigenia del Plano Elemental del Fuego, lo que te otorga los siguientes beneficios:\n\n**Magia elemental.** Aprendes el truco Luces danzantes, usando Inteligencia, Sabiduría o Carisma como aptitud mágica (elige al seleccionar esta dote).\n\n**Llamarada fervorosa.** Aprendes el truco Crear llama, usando la misma aptitud mágica elegida para el beneficio Magia elemental de esta dote. Puedes lanzar Crear llama con normalidad, y también puedes lanzarlo como una acción adicional un número de veces igual a tu bonificador de competencia, recuperando todos los usos gastados cuando terminas un descanso largo.",
     "url": "https://dnd5e.wikidot.com/feat:scion-of-elemental-fire-ua",
     "category": "general",
     "prerequisites": {
@@ -5656,7 +5656,7 @@
     "name": "Vástago del agua elemental",
     "edition": "2014",
     "source": "Arcanos 85 desenterrados - Maravillas del multiverso",
-    "description": "Has estado expuesto a la magia primordial del  \nPlano Elemental de Agua, que te otorga lo siguiente  \nbeneficios:\n\n**Oleada de onda.** Puedes usar un acción adicional para crear una fuerte oleada de agua dirigida a una criatura a 15 pies de ti que puedas ver. El objetivo debe hacer una Fuerza tirada de salvación; el CD para esta salvación es igual a 8 + tu bonificador de competencia + el modificador aptitud mágica elegido para esta hazaña, y una criatura puede optar por fallar este tirada de salvación. Si falla, el objetivo es empujado hasta 10 pies de distancia de usted o atraído hasta 10 pies hacia usted (usted elige). El agua desaparece inmediatamente después de que la criatura tenga éxito o falle. Puedes crear este efecto una cantidad de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
+    "description": "Has estado expuesto a la magia primigenia del  \nPlano Elemental del Agua, lo que te otorga los siguientes  \nbeneficios:\n\n**Magia elemental.** Aprendes el truco Taumaturgia, usando Inteligencia, Sabiduría o Carisma como aptitud mágica (elige al seleccionar esta dote).\n\n**Oleada de ola.** Puedes usar una acción adicional para crear una poderosa oleada de agua dirigida a una criatura que veas a 15 pies o menos de ti. El objetivo debe hacer una tirada de salvación de Fuerza; la CD de esta salvación es igual a 8 + tu bonificador de competencia + el modificador de aptitud mágica elegido para esta dote, y una criatura puede elegir fallar esta tirada de salvación. Si falla, el objetivo es empujado hasta 10 pies lejos de ti o atraído hasta 10 pies hacia ti (a tu elección). El agua se desvanece inmediatamente después de que la criatura supere o falle la tirada. Puedes crear este efecto un número de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo.",
     "url": "https://dnd5e.wikidot.com/feat:scion-of-elemental-water-ua",
     "category": "general",
     "prerequisites": {
@@ -6011,11 +6011,11 @@
     "name": "Habilidoso",
     "edition": "2024",
     "source": "Manual del jugador",
-    "description": "Obtienes competencia en cualquier combinación de tres habilidades o herramientas de tu elección.",
+    "description": "Obtienes competencia en cualquier combinación de tres habilidades o herramientas a tu elección.\n\n**Repetible.** Puedes elegir esta dote más de una vez.",
     "url": "https://dnd2024.wikidot.com/feat:skilled",
     "category": "origin",
     "prerequisites": null,
-    "repeatable": false,
+    "repeatable": true,
     "abilityIncrease": null,
     "replaced": [
       "https://dnd5e.wikidot.com/feat:skilled"
@@ -7304,7 +7304,7 @@
     "name": "Hacedor de maravillas",
     "edition": "2014",
     "source": "Arcanos desenterrados 39 - Hazañas para las razas",
-    "description": "Dominas las técnicas de bricolaje de tu gente. Obtienes los siguientes beneficios:\n\n- Aumenta tu puntuación de Destreza o Inteligencia en 1, hasta un máximo de 20.\n\n- Cuando haces una prueba usando tu habilidad con Herramientas de hojalatero, agregas el doble de tu bonificador de competencia a la prueba.\n\n- Cuando creas un dispositivo con tu rasgo Tinker, tienes las siguientes opciones adicionales para lo que haces:",
+    "description": "Dominas las técnicas de ingenio de tu pueblo. Obtienes los siguientes beneficios:\n\n- Aumenta en 1 tu puntuación de Destreza o de Inteligencia, hasta un máximo de 20.\n\n- Cuando haces una prueba usando tu competencia con Herramientas de hojalatero, añades el doble de tu bonificador de competencia a la prueba.\n\n- Cuando fabricas un artefacto con tu rasgo Ingenio, tienes las siguientes opciones adicionales sobre lo que fabricas:\n  - ***Alarma***: Este artefacto detecta cuándo una criatura se acerca a 15 pies o menos de él sin pronunciar en voz alta una contraseña elegida cuando lo creas. Un asalto después de que una criatura entre en su alcance, la alarma emite un timbre estridente que dura 1 minuto y puede oírse hasta a 300 pies de distancia.\n  - ***Calculadora***: Este artefacto facilita hacer sumas.\n  - ***Elevador***: Este artefacto puede usarse como un polipasto, permitiendo a su usuario izar cinco veces el peso que normalmente puede levantar.\n  - ***Cronómetro***: Este reloj de bolsillo marca la hora con exactitud.\n  - ***Sensor meteorológico***: Cuando se usa como acción, este artefacto predice las condiciones meteorológicas en un radio de 1 milla durante las próximas 4 horas, mostrando un símbolo (nubes, sol/luna, lluvia o nieve) por cada hora",
     "url": "https://dnd5e.wikidot.com/feat:wonder-maker",
     "category": "racial",
     "prerequisites": {

@@ -740,6 +740,11 @@ export class CharacterCreate implements LeaveCheck {
   }
 
   // -- generic helpers -----------------------------------------------------------------
+  /** The feat's spellcasting ability is for the player to pick (a tie of INT, WIS and CHA). */
+  protected abilityAsked(key: string): boolean {
+    return !!this.sheet()?.featMissing.some((m) => m.key === key && m.what === 'ability');
+  }
+
   protected patch(fn: (c: Character) => Character): void {
     this.draft.update((c) => fn(this.withSpellClasses(structuredClone(c))));
   }
