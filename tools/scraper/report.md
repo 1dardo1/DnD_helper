@@ -1,6 +1,6 @@
 # Informe de extracción
 
-Generado: 2026-10-30T17:28:19+00:00
+Generado: 2026-11-16T06:47:18+00:00
 
 ## Totales
 
@@ -8,21 +8,21 @@ Generado: 2026-10-30T17:28:19+00:00
 |---|---|---|---|
 | classes | 14 | 13 | 1 |
 | subclasses | 205 | 105 | 100 |
-| options | 92 | 60 | 32 |
+| options | 167 | 123 | 44 |
 | spells | 641 | 469 | 172 |
-| feats | 360 | 242 | 118 |
+| feats | 313 | 197 | 116 |
 | species | 89 | 30 | 59 |
-| backgrounds | 75 | 75 | 0 |
-| items | 1346 | 707 | 639 |
-| rules | 84 | 39 | 45 |
+| backgrounds | 61 | 61 | 0 |
+| items | 1369 | 730 | 639 |
+| rules | 89 | 44 | 45 |
 
 Páginas descargadas en esta ejecución: 0  
-Fallos de descarga: 0 · Páginas que no se pudieron convertir: 1
+Fallos de descarga: 0 · Páginas que no se pudieron convertir: 3
 
 ## Sustituidos por la versión de 2024
 
 - **classes**: 13
-- **subclasses**: 68 (renombrados: Aberrant Mind → Aberrant Sorcery, Beast Master Conclave → Beast Master, Bladesinging → Bladesinger, Circle of Stars → Circle of the Stars, Clockwork Soul → Clockwork Sorcery, Draconic Bloodline → Draconic Sorcery, Gloom Stalker Conclave → Gloom Stalker, Hunter Conclave → Hunter, Path of the Totem Warrior → Path of the Wild Heart, School of Abjuration → Abjurer, School of Conjuration → Conjurer, School of Divination → Diviner, School of Enchantment → Enchanter, School of Evocation → Evoker, School of Illusion → Illusionist, School of Necromancy → Necromancer, School of Transmutation → Transmuter, Shadow Magic → Shadow Sorcery, The Archfey → Archfey Patron, The Celestial → Celestial Patron, The Fiend → Fiend Patron, The Great Old One → Great Old One Patron, The Undead → Undead Patron, Way of Mercy → Warrior of Mercy, Way of Shadow → Warrior of Shadow, Way of the Four Elements → Warrior of the Elements, Way of the Open Hand → Warrior of the Open Hand, Wild Magic → Wild Magic Sorcery)
+- **subclasses**: 67 (renombrados: Aberrant Mind → Aberrant Sorcery, Beast Master Conclave → Beast Master, Bladesinging → Bladesinger, Circle of Stars → Circle of the Stars, Clockwork Soul → Clockwork Sorcery, Draconic Bloodline → Draconic Sorcery, Gloom Stalker Conclave → Gloom Stalker, Hunter Conclave → Hunter, Path of the Totem Warrior → Path of the Wild Heart, School of Abjuration → Abjurer, School of Conjuration → Conjurer, School of Divination → Diviner, School of Enchantment → Enchanter, School of Evocation → Evoker, School of Illusion → Illusionist, School of Necromancy → Necromancer, School of Transmutation → Transmuter, Shadow Magic → Shadow Sorcery, The Archfey → Archfey Patron, The Celestial → Celestial Patron, The Fiend → Fiend Patron, The Great Old One → Great Old One Patron, The Undead → Undead Patron, Way of Mercy → Warrior of Mercy, Way of Shadow → Warrior of Shadow, Way of the Four Elements → Warrior of the Elements, Way of the Open Hand → Warrior of the Open Hand, Wild Magic → Wild Magic Sorcery)
 - **options**: 43
 - **spells**: 394
 - **feats**: 59
@@ -148,12 +148,14 @@ Su clase o subclase es la versión de 2024, que tiene su propia lista o ya no us
 
 ## Excluidos (Psion)
 
-6 páginas solo de la clase Psion (sus páginas de clase, disciplinas y subclases ni se descargan).
+249 páginas solo de la clase Psion (sus páginas de clase, disciplinas y subclases ni se descargan).
 
 
 ## Páginas que fallaron
 
+- https://dnd2024.wikidot.com/species:bariaur: no '<Species> Traits' heading
 - https://dnd5e.wikidot.com/artifact-properties: empty page
+- https://dnd5e.wikidot.com/rogue:arcane-trickster: could not download
 
 ## Avisos (datos dudosos, revisar)
 

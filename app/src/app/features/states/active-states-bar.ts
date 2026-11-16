@@ -105,6 +105,14 @@ export class ActiveStatesBar {
         const dc = sheet.spellcasting.classes.find((c) => c.classId === 'sorcerer')?.saveDc ?? 0;
         return t('state.fx.innateSorcery', { dc: s.on && !s.ended ? dc : dc + 1 });
       }
+      case 'bladesong':
+        return t('state.fx.bladesong', { n: Math.max(1, sheet.abilities.INT.modifier) });
+      case 'wrathOfTheSea':
+        return t('state.fx.wrathOfTheSea');
+      case 'formOfDread':
+        return t('state.fx.formOfDread');
+      case 'starryForm':
+        return t('state.fx.starryForm');
       case 'wildShape': {
         const r = this.rules();
         if (!r) return '';
@@ -133,6 +141,13 @@ export class ActiveStatesBar {
         return t('state.dur.concentration');
       case 'innateSorcery':
         return t('state.dur.innateSorcery');
+      case 'bladesong':
+        return t('state.dur.bladesong');
+      case 'formOfDread':
+        return t('state.dur.formOfDread');
+      case 'wrathOfTheSea':
+      case 'starryForm':
+        return t('state.dur.tenMinutes');
       case 'wildShape':
         return '';
     }

@@ -1,3 +1,5 @@
+import { computeSheet } from './engine';
+import { REAL, hero } from './real-data.testing';
 import { longRest, playResources, restPerks, shortRest } from '../play/play-state';
 import { newCharacter } from '../models/character';
 import { featureChoiceKey } from './class-picks';
@@ -198,3 +200,45 @@ describe('counters and rests read from the features', () => {
 function newState() {
   return newCharacter('x', 'y').state;
 }
+
+describe('Dragonborn 2024 (data re-extracted with all its traits)', () => {
+  it('resists the damage type of the chosen ancestry and sees in the dark', () => {
+    const c = hero('fighter', 5, null, { speciesId: 'dragonborn' });
+    c.species = { id: 'dragonborn', variant: 'Black' };
+    const s = computeSheet(c, REAL);
+    expect(s.resistances).toContain('Acid');
+    expect(s.darkvision).toBe(60);
+    expect(s.featUses.some((u) => /Breath Weapon/.test(u.label))).toBe(true);
+  });
+});
+
+describe('form states switched on in play', () => {
+  const on = (cls: string, level: number, sub: string, id: string) => {
+    const c = hero(cls, level, sub);
+    c.state = { ...c.state, active: [id] };
+    return computeSheet(c, REAL);
+  };
+
+  it('Bladesong: + INT to AC and 10 feet of Speed, only while on', () => {
+    const off = sheetOf('wizard', 3, 'wizard/bladesinger', { scores: { INT: 16 } });
+    const c = hero('wizard', 3, 'wizard/bladesinger', { scores: { INT: 16 } });
+    c.state = { ...c.state, active: ['bladesong'] };
+    const s = computeSheet(c, REAL);
+    expect(s.combat.states?.some((x) => x.id === 'bladesong')).toBe(true);
+    expect(s.armorClass.value - off.armorClass.value).toBe(3);
+    expect(s.speed['walk'] - off.speed['walk']).toBe(10);
+  });
+
+  it('Wrath of the Sea with Stormborn: Fly Speed and Cold/Lightning/Thunder resistance', () => {
+    const s = on('druid', 10, 'druid/circle-of-the-sea', 'wrathOfTheSea');
+    expect(s.speed['fly']).toBe(s.speed['walk']);
+    expect(s.resistances).toEqual(expect.arrayContaining(['Cold', 'Lightning', 'Thunder']));
+  });
+
+  it('Form of Dread with Superior Dread: immune to Frightened, flight, B/P/S resistance', () => {
+    const s = on('warlock', 14, 'warlock/undead-patron', 'formOfDread');
+    expect(s.conditionImmunities).toContain('Frightened');
+    expect(s.speed['fly']).toBeGreaterThan(0);
+    expect(s.resistances).toEqual(expect.arrayContaining(['Bludgeoning', 'Piercing', 'Slashing']));
+  });
+});

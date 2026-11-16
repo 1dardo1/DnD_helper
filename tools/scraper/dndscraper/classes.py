@@ -538,6 +538,7 @@ SECTION_OPTIONS = {
     "2014": {},
     "2024": {
         "fighter:battle-master": ("Maneuver Options", "maneuver", "fighter", "fighter/battle-master"),
+        "fighter:arcane-archer": ("Arcane Shot Options", "arcane-shot", "fighter", "fighter/arcane-archer"),
     },
 }
 
@@ -678,8 +679,28 @@ def subclass_spellcasting(blocks: list, features: list[dict]) -> dict | None:
             "kind": "pact" if pact_n is not None else "third",
             "preparation": "known" if prep_i is not None and "known" in head[prep_i] else "prepared",
             "spellList": slug(spell_list.group(1)) if spell_list else None,
-            "cantripsByLevel": cantrips if cantrip_i is not None else None,
+            "cantripsByLevel": cantrips if cantrip_i is not None else _cantrips_from_text(feat["description"], prepared),
             "preparedByLevel": prepared if prep_i is not None else None,
             "slotsByLevel": slots,
         }
     return None
+
+
+_NUMBER_WORDS = {"one": 1, "two": 2, "three": 3, "four": 4}
+
+
+def _cantrips_from_text(text: str, prepared: list[int]) -> list[int] | None:
+    """Cantrips known of a subclass caster whose table has no Cantrips column (Eldritch Knight,
+    Arcane Trickster, Warrior of the Mystic Arts): "You know two cantrips ..." from the first level
+    with prepared spells, and one more at "When you reach Fighter level 10, you learn another ...
+    cantrip"."""
+    m = re.search(r"You know (one|two|three|four) cantrips", text, re.I)
+    if not m:
+        return None
+    start = next((i for i, n in enumerate(prepared) if n), None)
+    if start is None:
+        return None
+    base = _NUMBER_WORDS[m.group(1).lower()]
+    more = [int(x) for x in re.findall(r"When you reach \w+ level (\d+), you learn another [\w ]*?cantrip", text, re.I)]
+    return [0 if i < start else base + sum(1 for lv in more if i + 1 >= lv) for i in range(20)]
+

@@ -3341,7 +3341,7 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Obtén los siguientes rasgos de la tabla de rasgos básicos Druida: Punto de golpe Muere y entrena con armadura ligera y escudos.\n- Obtenga las características de nivel 1 del Druida, que se enumeran en la tabla de características del Druida. Consulte las reglas de multiclase en multiclase para determinar su espacios de conjuro disponible.",
+      "proficienciesGained": "- Obtienes los siguientes rasgos de la tabla de Rasgos básicos de Druida: el dado de punto de golpe y el entrenamiento con armadura ligera y escudos.\n- Obtienes los rasgos de nivel 1 de Druida, que aparecen en la tabla de Rasgos de Druida. Consulta las reglas de multiclase para determinar tus espacios de conjuro disponibles.",
       "gains": {
         "armor": [
           "Light armor",

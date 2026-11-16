@@ -12,7 +12,14 @@ import { Monster, Rule } from '../models/compendium';
 import { playResources } from '../play/play-state';
 import { attacksFor } from '../rules/attacks';
 import { computeSheet } from '../rules/engine';
-import { REAL, REAL_CLASSES, REAL_SPELLS, REAL_SUBCLASSES, hero } from '../rules/real-data.testing';
+import {
+  REAL,
+  REAL_CLASSES,
+  REAL_SPELLS,
+  REAL_SUBCLASSES,
+  hero,
+  sheetOf,
+} from '../rules/real-data.testing';
 import { SummonedCreature } from '../summons/summon-state';
 import { blocksOf, translatedSentence, usesOf } from './action-text';
 import {
@@ -362,5 +369,14 @@ describe('summonedBlocks: the creatures out, with their numbers (real monsters)'
     expect(summonedBlocks([one, two]).every((b) => b.open)).toBe(true);
     expect(summonedBlocks([one, two, three]).every((b) => !b.open)).toBe(true);
     expect(summonedBlocks([])).toEqual([]);
+  });
+});
+
+describe('2014 Monk subclasses: "ki points" are paid with Focus Points', () => {
+  it('Searing Arc Strike (Way of the Sun Soul) spends Focus Points', () => {
+    const sheet = sheetOf('monk', 6, 'monk/way-of-the-sun-soul');
+    const f = sheet.features.find((x) => x.name === 'Searing Arc Strike')!;
+    const r = resourceFor(f, null, f.description, playResources(sheet));
+    expect(r?.name).toBe('Focus Points');
   });
 });

@@ -122,7 +122,7 @@
     "speed": {
       "walk": 30
     },
-    "darkvision": null,
+    "darkvision": 60,
     "traits": [
       {
         "name": "Darkvision",
@@ -841,14 +841,35 @@
       "Medium"
     ],
     "speed": {
-      "walk": 30
+      "walk": 30,
+      "fly": 30
     },
-    "darkvision": null,
+    "darkvision": 60,
     "traits": [
       {
         "name": "Draconic Ancestry",
         "level": 1,
         "description": "Your lineage stems from a dragon progenitor. Choose the kind of dragon from the Draconic Ancestors table. Your choice affects your Breath Weapon and Damage Resistance traits as well as your appearance."
+      },
+      {
+        "name": "Breath Weapon",
+        "level": 1,
+        "description": "When you take the Attack action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot Cone or a 30-foot Line that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw (DC 8 plus your Constitution modifier and Proficiency Bonus). On a failed save, a creature takes 1d10 damage of the type determined by your Draconic Ancestry trait. On a successful save, a creature takes half as much damage. This damage increases by 1d10 when you reach character levels 5 (2d10), 11 (3d10), and 17 (4d10).\n\nYou can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest."
+      },
+      {
+        "name": "Damage Resistance",
+        "level": 1,
+        "description": "You have Resistance to the damage type determined by your Draconic Ancestry trait."
+      },
+      {
+        "name": "Darkvision",
+        "level": 1,
+        "description": "You have Darkvision with a range of 60 feet."
+      },
+      {
+        "name": "Draconic Flight",
+        "level": 1,
+        "description": "When you reach character level 5, you can channel draconic magic to give yourself temporary flight. As a Bonus Action, you sprout spectral wings on your back that last for 10 minutes or until you retract the wings (no action required) or have the Incapacitated condition. During that time, you have a Fly Speed equal to your Speed. Your wings appear to be made of the same energy as your Breath Weapon. Once you use this trait, you can't use it again until you finish a Long Rest."
       }
     ],
     "variants": [
@@ -2106,7 +2127,8 @@
             "description": "Most goblins on Zendikar belong to one of three tribes: the Grotag, the Lavastep, and the Tuktuk. Choose one of these tribes.\n\n- Grotag Tribe\n  - Smaller and weaker than their cousins, and with larger hands and feet, goblins of the Grotag tribe attempt to live by their wits-though seldom with much success. When a Grotag goblin has the bright idea of trying to tame fleshpiercer mites, at least a few others will be willing to follow that goblin into a nest-usually to predictably horrible results. But though the Grotag seem to have a never-ending supply of bad ideas, and a horrible ratio of bad ideas to good, the Grotag likewise seem to have a never-ending supply of Grotag. As such, by trial and error (and more error), these goblins have stumbled across a great deal of knowledge useful for surviving the deep places of Zendikar, and for dealing with the creatures that live there. The Grotag imagine themselves to have a sort of empathy with beasts, and they lose hundreds of goblins each year to ill-advised attempts at monster taming. But, every now and again, one of these efforts is successful.\n  - **Grotag Tamer.** You have proficiency in the Animal Handling skill.\n- Lavastep Tribe\n  - The Lavastep tribe is the most industrious of the goblin tribes, and possesses much hard-won knowledge of the geothermal activity in Akoum. More so than members of the other tribes, the Lavastep goblins build surprisingly effective equipment out of the crystal shards and veins of strange metals that occasionally boil up to the surface. The most warlike of their kind, Lavastep goblins frequently harass the kor, elves, and humans of Akoum.\n  - **Lavastep Grit.** You have advantage on Dexterity (Stealth) checks made to hide in rocky or subterranean environments.\n- Tuktuk Tribe\n  - Among the goblins, the Tuktuk are most likely to hire themselves out as ruin guides to other races. Of course, their usual plan is to help find something of value, steal it, trigger a trap intentionally, and then run.\n  - **Tuktuk Cunning.** You have proficiency with thieves' tools."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": false
       }
     ],
     "adjustments": [
@@ -2263,7 +2285,7 @@
     "speed": {
       "walk": 30
     },
-    "darkvision": null,
+    "darkvision": 60,
     "traits": [
       {
         "name": "Darkvision",
@@ -2353,7 +2375,7 @@
     "speed": {
       "walk": 30
     },
-    "darkvision": null,
+    "darkvision": 60,
     "traits": [
       {
         "name": "Darkvision",
@@ -4825,7 +4847,7 @@
     "speed": {
       "walk": 30
     },
-    "darkvision": null,
+    "darkvision": 60,
     "traits": [
       {
         "name": "Darkvision",

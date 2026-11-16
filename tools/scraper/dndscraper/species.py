@@ -77,7 +77,9 @@ def _speed(raw: str, trait_text: str) -> dict:
 
 
 def _darkvision(text: str) -> int | None:
-    m = re.search(r"darkvision[^\n]{0,90}?(\d+) feet", text, re.I)
+    m = re.search(r"darkvision[^\n]{0,90}?(\d+) feet", text, re.I) or re.search(
+        # 2014: "Darkvision. Accustomed to twilit forests ... you can see in dim light within 60 feet"
+        r"darkvision\.[^\n]{0,400}?\bwithin (\d+) feet", text, re.I)
     return int(m.group(1)) if m else None
 
 
@@ -121,11 +123,21 @@ def parse_species_2024(page: Page) -> tuple[dict | None, list[str]]:
     fields = _fields_from(section)
     body = [el for el in section if not re.match(r"^\**(Creature Type|Size|Speed)\**:", to_markdown([el]))]
     # stop traits at the first sub-heading (lineage tables, etc.)
+    # ...unless the heading only titles a table in the middle of the traits (Dragonborn: the
+    # "Draconic Ancestors" table between Draconic Ancestry and Breath Weapon)
     trait_nodes = []
-    for el in body:
+    i = 0
+    while i < len(body):
+        el = body[i]
         if _heading_level(el):
+            rest = [x for x in body[i + 1:] if to_markdown([x]).strip()]
+            is_table = bool(rest) and (rest[0].name == "table" or (isinstance(rest[0], Tag) and rest[0].find("table") is not None))
+            if is_table and len(rest) > 1 and re.match(r"^\*{2,3}[A-Z][^*\n]+\.\*{2,3}", to_markdown([rest[1]]).strip()):
+                i = body.index(rest[1])
+                continue
             break
         trait_nodes.append(el)
+        i += 1
     _, items = traits(trait_nodes, end_nesting=True)
     for t in items:   # some pages write "**Size.** ..." as a trait instead of a field
         if _NON_MECHANICAL.match(t.name):

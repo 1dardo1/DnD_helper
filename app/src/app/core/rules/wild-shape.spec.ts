@@ -240,7 +240,7 @@ describe('Active states: Rage and the others', () => {
     for (const d of ACTIVE_STATES) {
       const t = d.spell
         ? REAL_SPELLS.find((s) => s.id === d.spell)!.description
-        : text(d.feature!.cls, d.feature!.name);
+        : text(d.feature!.sub ?? d.feature!.cls, d.feature!.name);
       expect(t).toMatch(d.anchor);
     }
     for (const id of ['hex', 'hunters-mark'])

@@ -102,7 +102,8 @@ def parse_feat(page: Page, category: str | None) -> tuple[dict | None, list[str]
 
 def _ability_increase(md: str) -> dict | None:
     plain = clean(re.sub(r"\*+", "", md))
-    m = re.search(r"Increase (?:your |one )?(.{0,120}?)(?:scores?)? by (\d|one|two)(?:,| to)? (?:to )?a maximum of (\d+)", plain, re.I)
+    # "to a maximum of 20", and the 2014 "up to a maximum of 20"
+    m = re.search(r"Increase (?:your |one )?(.{0,120}?)(?:scores?)? by (\d|one|two)(?:,| to)? (?:up )?(?:to )?a maximum of (\d+)", plain, re.I)
     if not m:
         return None
     what = m.group(1)

@@ -410,6 +410,21 @@
     }
   },
   {
+    "id": "allosaurus",
+    "type": "item",
+    "name": "Alosaurio",
+    "edition": "2024",
+    "source": null,
+    "description": "**Capacidad de carga:** 570 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 1000,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "amethyst-lodestone",
     "type": "item",
     "name": "Piedra imán amatista",
@@ -1232,7 +1247,7 @@
     },
     "weight": 1,
     "weapon": {
-      "kind": "martial",
+      "kind": null,
       "ranged": false,
       "damage": [],
       "properties": [],
@@ -1372,7 +1387,7 @@
     "name": "Hacha de los señores enanos",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "Un joven príncipe enano se propuso forjar un arma que fuera considerada un símbolo de unidad entre su pueblo. Aventurándose bajo las montañas, más profundamente de lo que jamás había profundizado ningún enano, el príncipe llegó al corazón ardiente de un gran volcán. Con la ayuda de Moradin, un dios de la creación, primero creó cuatro poderosas herramientas: Starmetal Pick, Earthheart Forge, Anvil of Songs y Shaping Hammer. Con estas herramientas, forjó el *Hacha de los Señores Enanos.*\n\nArmado con el Artefacto, el príncipe trajo la paz a los clanes enanos, poniendo fin a los rencores y respondiendo a los desaires. Los clanes se convirtieron en aliados, hicieron retroceder a sus enemigos y disfrutaron de una era de prosperidad. Este joven enano es recordado como el Primer Rey. Cuando envejeció, pasó el arma, que se había convertido en su insignia de cargo, a su heredero. Los legítimos herederos transmitieron el hacha durante muchas generaciones.\n\nMás tarde, en una época marcada por la traición y la maldad, el hacha se perdió en una sangrienta guerra civil fomentada por la codicia por su poder y el estatus que otorgaba. Siglos después, los enanos todavía buscan el hacha, y muchos aventureros se han dedicado a perseguir rumores y saquear viejas bóvedas para encontrarla.\n\n**Arma Mágica.** El Hacha de los Señores Enanos es un arma mágica que otorga una bonificación de +3 a las tiradas de ataque y de daño realizadas con ella.\n\nCuando atacas a una criatura con el hacha y obtienes un 20 en el d20 para la tirada de ataque, el hacha inflige 20 de daño cortante adicional.\n\nEl hacha tiene la propiedad Lanzada con un alcance normal de 20 pies y un alcance largo de 60 pies. Cuando golpeas con un ataque a distancia usando esta arma, causa 1d8 de daño de Fuerza adicional, o 2d8 de daño de Fuerza adicional si el objetivo es una criatura del tipo Gigante. Inmediatamente después de acertar o fallar, el arma vuelve a tu mano.\n\n***Bendiciones de Moradin.*** Mientras estás en sintonía con el hacha, obtienes los siguientes beneficios:\n\n**Visión en la oscuridad.** Obtienes visión en la oscuridad con un alcance de 60 pies. Si ya tienes visión en la oscuridad, su alcance aumenta en 60 pies.\n\n**Fortaleza de la Piedra.** Tu Constitución aumenta en 2, hasta un máximo de 20.\n\n**Regalos del Creador.** Tienes competencia con Utensilios de cervecero, Herramientas de albañil y Herramientas de herrero.\n\n**Uno con la Forja.** Tienes inmunidad al daño por veneno y resistencia al daño por fuego.\n\n**Sunder.** Cuando golpeas un objeto con el hacha, el objeto sufre la máxima cantidad de daño posible.\n\n***Conjurar elemental de tierra.*** Mientras sostienes el hacha, puedes tomar un acción de Magia para invocar un elemental de tierra. Aparece en un espacio desocupado que tú eliges a menos de 30 pies de ti, comprende tus idiomas, obedece tus órdenes y toma su turno inmediatamente después de ti en tu recuento de Iniciativa. El elemental desaparece después de 24 horas, cuando muere o cuando lo descartas como acción adicional. No podrá volver a utilizar esta propiedad hasta el próximo amanecer.\n\n**Propiedades aleatorias.** El hacha tiene las siguientes propiedades aleatorias (ver \"Artefactos\"):\n\n- 2 propiedades beneficiosas menores\n- 1 propiedad beneficiosa importante\n- 2 propiedades perjudiciales menores\n\n**Viaja por las profundidades.** Puedes tomar un acción de Magia para tocar con el hacha una pieza fija de piedra enana y lanzar Teletransporte desde el hacha. Si su destino previsto es subterráneo, no hay posibilidad de sufrir un percance o de llegar a algún lugar inesperado. No podrás volver a utilizar esta propiedad hasta que hayan transcurrido 3 días.\n\n**Destruir el hacha.** La única forma de destruir el hacha es fundirla en Earthheart Forge, donde fue creada. Debe permanecer en la fragua ardiendo durante 50 años antes de que finalmente sucumba al fuego y se consuma.",
+    "description": "Un joven príncipe enano se propuso forjar un arma que fuera considerada un símbolo de unidad entre su pueblo. Aventurándose en lo más profundo de las montañas, más hondo de lo que ningún enano había excavado jamás, el príncipe llegó al corazón ardiente de un gran volcán. Con la ayuda de Moradin, un dios de la creación, primero fabricó cuatro poderosas herramientas: el Pico de Metal Estelar, la Forja del Corazón de la Tierra, el Yunque de las Canciones y el Martillo Modelador. Con ellas forjó el *Hacha de los Señores Enanos.*\n\nArmado con el artefacto, el príncipe trajo la paz a los clanes enanos, poniendo fin a rencores y respondiendo a las afrentas. Los clanes se convirtieron en aliados, rechazaron a sus enemigos y disfrutaron de una era de prosperidad. Este joven enano es recordado como el Primer Rey. Cuando envejeció, legó el arma, que se había convertido en su insignia de cargo, a su heredero. Los legítimos herederos se transmitieron el hacha durante muchas generaciones.\n\nMás tarde, en una era marcada por la traición y la maldad, el hacha se perdió en una sangrienta guerra civil fomentada por la codicia de su poder y del estatus que otorgaba. Siglos después, los enanos aún buscan el hacha, y muchos aventureros han hecho carrera persiguiendo rumores y saqueando antiguas cámaras para encontrarla.\n\n**Arma mágica.** El Hacha de los Señores Enanos es un arma mágica que otorga un bonificador de +3 a las tiradas de ataque y de daño realizadas con ella.\n\nCuando atacas a una criatura con el hacha y sacas un 20 en el d20 de la tirada de ataque, el hacha inflige 20 puntos de daño cortante adicionales.\n\nEl hacha tiene la propiedad Arrojadiza con un alcance normal de 20 pies y un alcance largo de 60 pies. Cuando impactas con un ataque a distancia con esta arma, inflige 1d8 de daño de fuerza adicional, o 2d8 de daño de fuerza adicional si el objetivo es una criatura de tipo Gigante. Inmediatamente después de impactar o fallar, el arma vuela de vuelta a tu mano.\n\n***Bendiciones de Moradin.*** Mientras estés sintonizado con el hacha, obtienes los siguientes beneficios:\n\n**Visión en la oscuridad.** Obtienes visión en la oscuridad con un alcance de 60 pies. Si ya tienes visión en la oscuridad, su alcance aumenta en 60 pies.\n\n**Fortaleza de la piedra.** Tu Constitución aumenta en 2, hasta un máximo de 20.\n\n**Dones del Creador.** Tienes competencia con Utensilios de cervecero, Herramientas de albañil y Herramientas de herrero.\n\n**Uno con la forja.** Tienes inmunidad al daño de veneno y resistencia al daño de fuego.\n\n**Hendir.** Cuando impactas a un objeto con el hacha, el objeto sufre la cantidad máxima de daño posible.\n\n***Conjurar elemental de tierra.*** Mientras sostienes el hacha, puedes realizar una acción de Magia para invocar a un elemental de tierra. Aparece en un espacio desocupado que elijas a 30 pies o menos de ti, entiende tus idiomas, obedece tus órdenes y juega su turno inmediatamente después del tuyo en tu cuenta de iniciativa. El elemental desaparece tras 24 horas, cuando muere o cuando lo despides como una acción adicional. No puedes volver a usar esta propiedad hasta el siguiente amanecer.\n\n**Propiedades aleatorias.** El hacha tiene las siguientes propiedades aleatorias.\n\n- 2 propiedades beneficiosas menores\n- 1 propiedad beneficiosa mayor\n- 2 propiedades perjudiciales menores\n\n**Viajar por las profundidades.** Puedes realizar una acción de Magia para tocar con el hacha una obra de cantería enana fija y lanzar Teletransporte desde el hacha. Si tu destino previsto está bajo tierra, no hay posibilidad de contratiempo ni de llegar a un lugar inesperado. No puedes volver a usar esta propiedad hasta que pasen 3 días.\n\n**Destruir el hacha.** La única forma de destruir el hacha es fundirla en la Forja del Corazón de la Tierra, donde fue creada. Debe permanecer en la forja ardiente durante 50 años antes de sucumbir finalmente al fuego y ser consumida.",
     "url": "https://dnd2024.wikidot.com/magic-item:axe-of-the-dwarvish-lords",
     "category": "weapon",
     "cost": null,
@@ -2802,6 +2817,37 @@
     }
   },
   {
+    "id": "bola",
+    "type": "item",
+    "name": "Boleadora",
+    "edition": "2024",
+    "source": null,
+    "description": "",
+    "url": "https://dnd2024.wikidot.com/equipment:weapon",
+    "category": "weapon",
+    "cost": {
+      "amount": 2,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "weapon": {
+      "kind": "martial",
+      "ranged": true,
+      "damage": [
+        {
+          "dice": "1",
+          "type": "bludgeoning"
+        }
+      ],
+      "properties": [
+        "Finesse",
+        "Thrown (Range 20/40)"
+      ],
+      "range": "20/40",
+      "mastery": "Topple"
+    }
+  },
+  {
     "id": "bolts",
     "type": "item",
     "name": "Virotes",
@@ -2816,7 +2862,7 @@
     },
     "weight": 0.5,
     "weapon": {
-      "kind": "martial",
+      "kind": null,
       "ranged": false,
       "damage": [],
       "properties": [],
@@ -2894,7 +2940,7 @@
     "name": "Libro de hazañas exaltadas",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "El tratado definitivo sobre todo lo bueno en el multiverso, el *Libro de los Hechos Exaltados* ocupa un lugar destacado en muchas religiones. En lugar de ser una escritura dedicada a una fe particular, los autores del libro llenaron las páginas con sus propias visiones de la verdadera virtud, brindando orientación para derrotar al mal.\n\n*El Libro de los Hechos Exaltados* rara vez permanece en un solo lugar. Tan pronto como se lee el libro, desaparece en algún otro rincón del multiverso donde su guía moral puede traer esperanza a un mundo en peligro. Aunque se han hecho intentos de copiar la obra, los esfuerzos por hacerlo no logran capturar su naturaleza mágica ni traducir los beneficios que ofrece a quienes son puros de corazón y firmes de propósito.\n\nUn cierre pesado, forjado para que parezca alas de ángel, mantiene seguro el contenido del libro. Sólo una criatura que esté en sintonía con el libro puede soltar el cierre que lo mantiene cerrado. Una vez abierto el libro, la criatura sintonizada debe pasar 80 horas leyendo y estudiando el libro para digerir su contenido y obtener sus beneficios.\n\nOtras criaturas que leen detenidamente las páginas abiertas del libro pueden leer el texto, pero no obtienen ningún significado más profundo ni obtienen ningún beneficio. Un demonio, un no-muerto o un sirviente de un dios de los planos inferiores que intenta leer el libro sufre 24d6 de daño radiante. Este daño ignora la Resistencia y la Inmunidad y no se puede reducir ni evitar de ninguna manera. Una criatura reducida a 0 puntos de golpe por este daño desaparece en un instante y es destruida, dejando atrás sus posesiones. Luego, el libro desaparece y finaliza la sintonía de la criatura con él.\n\nLos beneficios otorgados por el *Libro de las Obras Exaltadas* duran sólo mientras te esfuerces por hacer el bien. Si no realiza al menos un acto de bondad o generosidad en el lapso de 10 días, o si voluntariamente realiza un acto malvado, perderá todos los beneficios otorgados por el libro.\n\n**Calma Celestial.** Mientras estás en sintonía con el libro, tienes inmunidad a las condiciones de Encantado y Asustado y resistencia al daño psíquico. Estos beneficios se vuelven permanentes después de dedicar la cantidad de tiempo necesaria a leer y estudiar el libro.\n\n**Sabiduría Divina.** Después de pasar la cantidad de tiempo necesaria leyendo y estudiando el libro, tu Sabiduría aumenta en 2, hasta un máximo de 24. No puedes obtener este beneficio del libro más de una vez.\n\n**Magia iluminada.** Después de pasar la cantidad de tiempo necesaria leyendo y estudiando el libro, cualquier espacio de conjuro que gastes para lanzar un conjuro cuenta como un espacio de conjuro de un nivel superior.\n\n**Halo.** Después de pasar la cantidad de tiempo necesaria leyendo y estudiando el libro, obtienes un halo protector. Este halo arroja luz brillante en un radio de 10 pies y luz tenue en 10 pies adicionales. Puedes descartar o manifestar el halo como un acción adicional. Mientras está presente, el halo te da ventaja en las pruebas de Carisma (Persuasión). Además, los Demonios y No-muertos dentro de la Luz Brillante del halo realizan tiradas de ataque contra ti con Desventaja.\n\n**Propiedades aleatorias.** *El Libro de los Hechos Exaltados* tiene las siguientes propiedades aleatorias (ver \"Artefactos\"):\n\n- 2 propiedades beneficiosas menores\n- 2 propiedades beneficiosas principales\n\n**Destruyendo el Libro.** *El Libro de los Hechos Exaltados* no puede ser destruido. Sin embargo, ahogar el libro en el río Styx elimina toda la escritura y las imágenes de sus páginas y deja al libro impotente durante 1d100 años.",
+    "description": "El tratado definitivo sobre todo lo que es bueno en el multiverso, el *Libro de los Actos Exaltados* ocupa un lugar destacado en muchas religiones. En lugar de ser una escritura dedicada a una fe concreta, los autores del libro llenaron sus páginas con sus propias visiones de la verdadera virtud, ofreciendo guía para derrotar al mal.\n\nEl *Libro de los Actos Exaltados* rara vez permanece en un mismo lugar. En cuanto se lee, desaparece hacia algún otro rincón del multiverso donde su guía moral pueda llevar esperanza a un mundo en peligro. Aunque se han hecho intentos de copiar la obra, los esfuerzos por hacerlo no logran capturar su naturaleza mágica ni trasladar los beneficios que ofrece a quienes tienen el corazón puro y firmeza de propósito.\n\nUn pesado cierre, trabajado para parecerse a alas de ángel, mantiene seguro el contenido del libro. Solo una criatura sintonizada con el libro puede soltar el cierre que lo mantiene cerrado. Una vez abierto el libro, la criatura sintonizada debe pasar 80 horas leyéndolo y estudiándolo para asimilar su contenido y obtener sus beneficios.\n\nOtras criaturas que hojeen las páginas abiertas del libro pueden leer el texto, pero no extraen ningún significado más profundo ni obtienen beneficio alguno. Un Infernal, un No muerto o un sirviente de un dios de los Planos Inferiores que intente leer el libro sufre 24d6 de daño radiante. Este daño ignora la resistencia y la inmunidad, y no puede reducirse ni evitarse por ningún medio. Una criatura reducida a 0 puntos de golpe por este daño desaparece en un destello y queda destruida, dejando atrás sus posesiones. Entonces el libro se desvanece y la sintonización de la criatura con él termina.\n\nLos beneficios que otorga el *Libro de los Actos Exaltados* duran solo mientras te esfuerces por hacer el bien. Si no realizas al menos un acto de bondad o generosidad en el lapso de 10 días, o si realizas voluntariamente un acto malvado, pierdes todos los beneficios que te otorga el libro.\n\n**Calma celestial.** Mientras estés sintonizado con el libro, tienes inmunidad a las condiciones de hechizado y asustado y resistencia al daño psíquico. Estos beneficios se vuelven permanentes después de que pases el tiempo necesario leyendo y estudiando el libro.\n\n**Sabiduría divina.** Después de que pases el tiempo necesario leyendo y estudiando el libro, tu Sabiduría aumenta en 2, hasta un máximo de 24. No puedes obtener este beneficio del libro más de una vez.\n\n**Magia iluminada.** Después de que pases el tiempo necesario leyendo y estudiando el libro, cualquier espacio de conjuro que gastes para lanzar un conjuro cuenta como un espacio de conjuro de un nivel superior.\n\n**Halo.** Después de que pases el tiempo necesario leyendo y estudiando el libro, obtienes un halo protector. Este halo emite luz brillante en un radio de 10 pies y luz tenue en 10 pies adicionales. Puedes descartar o manifestar el halo como una acción adicional. Mientras está presente, el halo te da ventaja en las pruebas de Carisma (Persuasión). Además, los Infernales y los No muertos dentro de la luz brillante del halo realizan tiradas de ataque contra ti con desventaja.\n\n**Propiedades aleatorias.** El *Libro de los Actos Exaltados* tiene las siguientes propiedades aleatorias:\n\n- 2 propiedades beneficiosas menores\n- 2 propiedades beneficiosas mayores\n\n**Destruir el libro.** El *Libro de los Actos Exaltados* no puede ser destruido. Sin embargo, ahogar el libro en el río Estigia elimina toda la escritura e imágenes de sus páginas y deja el libro sin poder durante 1d100 años.",
     "url": "https://dnd2024.wikidot.com/magic-item:book-of-exalted-deeds",
     "category": "other",
     "cost": null,
@@ -2917,7 +2963,7 @@
     "name": "Libro de la vil oscuridad",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "El contenido de este inmundo manuscrito es la comida y la bebida de los malvados. Contiene conocimientos tan horribles que incluso vislumbrar las páginas garabateadas invita a la perdición.\n\nLa mayoría cree que el dios exánime Vecna ​​fue el autor del *Libro de la Oscuridad Vil*. Registró en sus páginas cada idea horrible, cada pensamiento corrupto y cada ejemplo de magia repugnante que encontró o ideó.\n\nOtros practicantes del mal han añadido sus propios aportes al catálogo de conocimientos viles del libro. Sus adiciones son claras, ya que los escritores de obras posteriores cosieron en el tomo todo lo que estaban escribiendo o, en algunos casos, hicieron anotaciones y adiciones al texto existente. Hay lugares donde faltan páginas, están rotas o están tan completamente cubiertas de tinta, sangre y rayones que no se puede adivinar el texto original.\n\nLa naturaleza no puede soportar la presencia del libro. Las plantas comunes se marchitan en su presencia, los animales comunes no están dispuestos a acercarse a él y el libro destruye gradualmente todo lo que toca. Incluso la piedra se agrieta y se convierte en polvo si el libro permanece sobre ella el tiempo suficiente.\n\nSiempre que una criatura que no es un Demonio o un No-muerto se sintoniza con el *Libro de la Oscuridad Vil*, esa criatura genera un CD 17 Carisma tirada de salvación. En una salvación fallida, la criatura se transforma mágicamente en una Larva bajo el control del DM. Sólo un conjuro de Deseo puede revertir esta vil transformación.\n\nUna criatura en sintonía con el libro debe pasar 80 horas leyéndolo y estudiándolo para digerir su contenido y usar sus propiedades Ajustada puntuaciones de característica, Forma incansable, Conjuros, Conocimiento vil y Habla vil.\n\nEl *Libro de la Vile Oscuridad* permanecerá contigo sólo mientras te esfuerces por obrar el mal en el mundo. Si no realizas al menos un acto malvado en el lapso de 10 días, o si voluntariamente realizas un acto bueno, el libro desaparece, tu Sintonía con él finaliza inmediatamente y pierdes todos los beneficios que te otorga. Si mueres mientras estás en sintonía con el libro, una entidad de gran maldad reclama tu alma. No puedes ser devuelto a la vida de ninguna manera mientras tu alma permanezca prisionera.\n\n**Ajustado puntuaciones de característica.** Un puntuación de característica de tu elección aumenta en 2, hasta un máximo de 24. Otro puntuación de característica de tu elección disminuye en 2, hasta un mínimo de 3. El libro no puede ajustar tu puntuaciones de característica nuevamente.\n\n**Forma incansable.** Mientras el libro esté contigo, tienes inmunidad a la condición de agotamiento.\n\n**Propiedades aleatorias.** El *Libro de la Oscuridad Vil* tiene las siguientes propiedades aleatorias (ver \"Artefactos\"):\n\n- 3 propiedades beneficiosas menores\n- 1 propiedad beneficiosa importante\n- 3 propiedades perjudiciales menores\n- 2 propiedades perjudiciales importantes\n\n**Conjuros.** Mientras estás en sintonía con el libro y lo sostienes, puedes lanzar los siguientes conjuros (excepto CD 18) desde él:\n\n- Animar muertos\n- Círculo de la Muerte\n- Dominar monstruo\n- Dedo de la Muerte\n\nUna vez que uses el libro para lanzar un conjuro, no podrás volver a lanzarlo hasta el siguiente amanecer.\n\n**Conocimiento vil.** Puedes consultar el *Libro de la oscuridad vil* cada vez que realices una prueba de Inteligencia para recordar información sobre algún aspecto del mal, como el conocimiento sobre los demonios. Cuando lo haga, tendrá Ventaja en ese cheque.\n\nA discreción del DM, el libro podría revelar secretos que ningún mortal debería saber, como los verdaderos nombres de demonios poderosos, ritos inmundos que permiten a uno transformarse en un caballero de la muerte o en un lich, o conjuros perdidos hace mucho tiempo creados por seres tan malvados que sus nombres nunca deberían pronunciarse en voz alta.\n\n**Discurso vil.** Mientras tienes el libro encima, puedes tomar un acción de Magia para recitar palabras de sus páginas en un lenguaje soez y muerto. Cada vez que lo haces, recibes 1d12 de daño psíquico y cada criatura a 15 pies de ti recibe 3d6 de daño psíquico, a menos que la criatura sea un Demonio o un No-muerto.\n\n**Destruyendo el libro.** El *Libro de la Vile Oscuridad* permite que se le arranquen páginas, pero cualquier conocimiento maligno contenido en esas páginas eventualmente regresa al libro, generalmente cuando un nuevo autor agrega páginas al tomo.\n\nSi un sol rompe el libro en dos, el libro se destruye durante 1d100 años, después de lo cual se vuelve a formar en algún rincón lejano del multiverso.\n\nUna criatura en sintonía con el libro durante 100 años puede descubrir una frase oculta en el texto original que, cuando se traduce al idioma Celestial y se pronuncia en voz alta, destruye tanto al hablante como al libro en un destello de resplandor. Sin embargo, mientras el mal exista en el multiverso, el libro se reforma 1d10 × 100 años después.",
+    "description": "El contenido de este repugnante manuscrito es el pan y el sustento de los malvados. Contiene un conocimiento tan horrible que incluso vislumbrar sus páginas garabateadas invita a la perdición.\n\nLa mayoría cree que el dios lich Vecna escribió el *Libro de la Oscuridad Vil*. Registró en sus páginas cada idea horrenda, cada pensamiento corrupto y cada ejemplo de magia inmunda que encontró o ideó.\n\nOtros practicantes del mal han añadido su propia aportación al catálogo de conocimiento vil del libro. Sus añadidos son evidentes, pues los autores de obras posteriores cosieron al tomo lo que estuvieran escribiendo o, en algunos casos, hicieron anotaciones y adiciones al texto existente. Hay lugares donde faltan páginas, están rasgadas o cubiertas tan por completo de tinta, sangre y arañazos que el texto original no puede descifrarse.\n\nLa naturaleza no soporta la presencia del libro. Las plantas corrientes se marchitan en su presencia, los animales comunes se niegan a acercarse y el libro destruye gradualmente todo lo que toca. Incluso la piedra se agrieta y se convierte en polvo si el libro reposa sobre ella el tiempo suficiente.\n\nSiempre que una criatura que no sea un Infernal ni un No muerto se sintoniza con el *Libro de la Oscuridad Vil*, esa criatura realiza una tirada de salvación de Carisma (CD 17). Si falla la salvación, la criatura se transforma mágicamente en una Larva bajo el control del DM. Solo un conjuro de Deseo puede revertir esta vil transformación.\n\nUna criatura sintonizada con el libro debe pasar 80 horas leyéndolo y estudiándolo para asimilar su contenido y usar sus propiedades Ajuste de puntuaciones de característica, Forma incansable, Conjuros, Conocimiento vil y Habla vil.\n\nEl *Libro de la Oscuridad Vil* permanece contigo solo mientras te esfuerces por obrar el mal en el mundo. Si no realizas al menos un acto malvado en el lapso de 10 días, o si realizas voluntariamente un acto bueno, el libro desaparece, tu sintonización con él termina de inmediato y pierdes todos los beneficios que te otorga. Si mueres mientras estás sintonizado con el libro, una entidad de gran maldad reclama tu alma. No puedes ser devuelto a la vida por ningún medio mientras tu alma permanezca aprisionada.\n\n**Ajuste de puntuaciones de característica.** Una puntuación de característica de tu elección aumenta en 2, hasta un máximo de 24. Otra puntuación de característica de tu elección disminuye en 2, hasta un mínimo de 3. El libro no puede volver a ajustar tu puntuaciones de característica.\n\n**Forma incansable.** Mientras el libro esté en tu persona, tienes inmunidad a la condición de agotamiento.\n\n**Propiedades aleatorias.** El *Libro de la Oscuridad Vil* tiene las siguientes propiedades aleatorias:\n\n- 3 propiedades beneficiosas menores\n- 1 propiedad beneficiosa mayor\n- 3 propiedades perjudiciales menores\n- 2 propiedades perjudiciales mayores\n\n**Conjuros.** Mientras estés sintonizado con el libro y lo sostengas, puedes lanzar con él los siguientes conjuros (CD 18):\n\n- Animar a los muertos\n- Círculo de la muerte\n- Dominar monstruo\n- Dedo de la muerte\n\nUna vez que uses el libro para lanzar un conjuro, no puedes volver a lanzar ese conjuro con él hasta el siguiente amanecer.\n\n**Conocimiento vil.** Puedes consultar el *Libro de la Oscuridad Vil* siempre que hagas una prueba de Inteligencia para recordar información sobre algún aspecto del mal, como el saber sobre demonios. Cuando lo haces, tienes ventaja en esa prueba.\n\nA discreción del DM, el libro puede revelar secretos que ningún mortal debería conocer, como los nombres verdaderos de poderosos Infernales, ritos inmundos que permiten transformarse en caballero de la muerte o lich, o conjuros perdidos hace mucho, creados por seres tan malvados que sus nombres no deberían pronunciarse jamás en voz alta.\n\n**Habla vil.** Mientras el libro esté en tu persona, puedes realizar una acción de Magia para recitar palabras de sus páginas en una lengua muerta e inmunda. Cada vez que lo haces, sufres 1d12 de daño psíquico, y cada criatura a 15 pies o menos de ti sufre 3d6 de daño psíquico, a menos que sea un Infernal o un No muerto.\n\n**Destruir el libro.** El *Libro de la Oscuridad Vil* permite que se le arranquen páginas, pero todo el conocimiento malvado contenido en ellas acaba volviendo al libro, normalmente cuando un nuevo autor añade páginas al tomo.\n\nSi un solar parte el libro en dos, el libro queda destruido durante 1d100 años, tras los cuales se vuelve a formar en algún remoto rincón del multiverso.\n\nUna criatura sintonizada con el libro durante 100 años puede desenterrar una frase oculta en el texto original que, al traducirse al celestial y pronunciarse en voz alta, destruye tanto a quien la dice como al libro en un destello de resplandor. Sin embargo, mientras exista el mal en el multiverso, el libro se vuelve a formar 1d10 × 100 años después.",
     "url": "https://dnd2024.wikidot.com/magic-item:book-of-vile-darkness",
     "category": "other",
     "cost": null,
@@ -3739,7 +3785,7 @@
     },
     "weight": 2,
     "weapon": {
-      "kind": "martial",
+      "kind": null,
       "ranged": false,
       "damage": [],
       "properties": [],
@@ -3762,7 +3808,7 @@
     },
     "weight": 0.5,
     "weapon": {
-      "kind": "martial",
+      "kind": null,
       "ranged": false,
       "damage": [],
       "properties": [],
@@ -3852,7 +3898,7 @@
     "name": "Cristal de Calimemnon",
     "edition": "2024",
     "source": "Reinos Olvidados - Aventuras en Faerun",
-    "description": "Este diamante de sesenta lados impecablemente tallado cabe en una mano y, sin embargo, contiene todo un imperio de genios. El Cristal de Calimemnon fue creado mediante magia de los altos elfos para encarcelar a los notorios señores genios Calim y Memnon, quienes una vez gobernaron y lucharon por lo que ahora es Calimshan.\n\nCuando lo ve una criatura con visión verdadera, el normalmente hermoso diamante es una visión grotesca: atrapados dentro de la piedra preciosa hay más de cien genios, incluidas las formas físicas de Calim y Memnon. Los genios gritan y se esfuerzan con furia agonizante, presionando sus rostros beligerantes contra las paredes de su prisión cristalina.\n\n**Propiedades del Cristal.** Mientras estás en sintonía con el cristal, obtienes los siguientes beneficios:\n\n**Enfoque Arcano.** Puedes usar el Cristal Calimemnon como Enfoque Arcano.\n\n**Vuelo.** Tienes una velocidad de vuelo de 30 pies y puedes flotar.\n\n**Conjuros.** Puedes lanzar estos conjuros con el cristal (CD de salvación de conjuros 18): Crear o destruir agua, Ampliar/Reducir, Invisibilidad (dirigido a ti mismo únicamente) e Imagen principal.\n\n**Aura de frío.** La temperatura cae precipitadamente en una emanación de 20 pies que se origina en el cristal. Cada vez que la Emanación entra en el espacio de una criatura y cada vez que una criatura entra en la Emanación o termina su turno allí, la criatura sufre 2d6 de daño por Frío. Una criatura sufre este daño sólo una vez por turno. Mientras estás en sintonía con el cristal, el aura no te afecta y puedes tomar acción de Magia para desactivar o activar el aura.\n\n**Rayos curativos/daños.** Mientras sostienes el cristal, puedes tomar un acción de Magia para disparar seis rayos de energía volátil desde el cristal a una o más criaturas en un radio de 60 pies. Puedes apuntar los rayos a un objetivo o a varios. Para cada rayo, elija uno de los siguientes efectos:\n\n**Rayo de daño.** El objetivo obtiene una Destreza CD 18 tirada de salvación, recibiendo 6d6 + 6 de daño Radiante en una salvación fallida o la mitad de daño en una salvada exitosa.\n\n**Rayo curativo.** El objetivo recupera 2d6 + 2 puntos de golpe.\n\nEsta propiedad no podrá volver a utilizarse hasta el próximo amanecer.\n\n**Propiedades aleatorias.** El artefacto tiene las siguientes propiedades aleatorias (consulte el capítulo 7 de la Guía del Dungeon Master):\n\n- 1 propiedad beneficiosa menor\n- 1 propiedad beneficiosa importante\n- 1 propiedad perjudicial menor\n- 1 propiedad perjudicial importante\n\n**Destruyendo el Cristal.** El *Cristal de Calimenón* se destruye si la criatura en sintonía con él lanza el conjuro Deseo y desea que el cristal sea destruido. Nada más puede dañarlo. Cuando se destruye el cristal, todos los genios del cristal se liberan.",
+    "description": "Este diamante de sesenta caras, cortado de forma impecable, cabe en una mano, pero contiene todo un imperio de genios. El Cristal de Calimemnon fue creado mediante magia de altos elfos para aprisionar a los infames señores genio Calim y Memnon, que antaño gobernaron y guerrearon por lo que hoy es Calimshan.\n\nCuando lo contempla una criatura con visión verdadera, el diamante, normalmente hermoso, resulta un espectáculo grotesco: atrapados en la gema hay más de un centenar de genios, incluidas las formas físicas de Calim y Memnon. Los genios gritan y se esfuerzan con furia agonizante, presionando sus rostros beligerantes contra las paredes de su prisión cristalina.\n\n**Propiedades del cristal.** Mientras estés sintonizado con el cristal, obtienes los siguientes beneficios:\n\n**Foco arcano.** Puedes usar el Cristal de Calimemnon como foco arcano.\n\n**Vuelo.** Tienes una velocidad de vuelo de 30 pies y puedes flotar.\n\n**Conjuros.** Puedes lanzar estos conjuros con el cristal (CD de salvación de conjuros 18): Crear o destruir agua, Aumentar/reducir, Invisibilidad (solo sobre ti mismo) e Imagen mayor.\n\n**Aura de frío.** La temperatura desciende drásticamente en una Emanación de 20 pies que se origina en el cristal. Siempre que la Emanación entra en el espacio de una criatura y siempre que una criatura entra en la Emanación o termina su turno en ella, la criatura sufre 2d6 de daño de frío. Una criatura sufre este daño solo una vez por turno. Mientras estés sintonizado con el cristal, el aura no te afecta, y puedes realizar una acción de Magia para desactivar o activar el aura.\n\n**Rayos curativos/dañinos.** Mientras sostienes el cristal, puedes realizar una acción de Magia para disparar desde el cristal seis rayos de energía volátil contra una o más criaturas a 60 pies o menos. Puedes dirigir los rayos a un solo objetivo o a varios. Para cada rayo, elige uno de los siguientes efectos:\n\n**Rayo dañino.** El objetivo realiza una tirada de salvación de Destreza (CD 18) y sufre 6d6 + 6 de daño radiante si falla la salvación, o la mitad de ese daño si la supera.\n\n**Rayo curativo.** El objetivo recupera 2d6 + 2 puntos de golpe.\n\nEsta propiedad no puede volver a usarse hasta el siguiente amanecer.\n\n**Propiedades aleatorias.** El artefacto tiene las siguientes propiedades aleatorias:\n\n- 1 propiedad beneficiosa menor\n- 1 propiedad beneficiosa mayor\n- 1 propiedad perjudicial menor\n- 1 propiedad perjudicial mayor\n\n**Destruir el cristal.** El *Cristal de Calimemnon* queda destruido si la criatura sintonizada con él lanza el conjuro Deseo y desea que el cristal sea destruido. Nada más puede dañarlo. Cuando el cristal es destruido, todos los genios que contiene quedan liberados.",
     "url": "https://dnd2024.wikidot.com/magic-item:calimemnon-crystal",
     "category": "other",
     "cost": null,
@@ -5679,7 +5725,7 @@
     "name": "Corona de cuernos",
     "edition": "2024",
     "source": "Reinos Olvidados - Aventuras en Faerun",
-    "description": "La *Corona de Cuernos* contiene la esencia y la inteligencia de Myrkul, uno de los Tres Muertos. Esta espantosa corona es un aro de plata pálida con cuatro huesos curvos alrededor de su borde. En la frente de la corona hay engastado un diamante negro cuyas profundidades se arremolinan con una energía extraña y maligna.\n\nMyrkul creó la *Corona de Cuernos* en el apogeo de su poder. Cuando Mystra mató a Myrkul, imbuyó la corona con su esencia moribunda. Desde entonces, Myrkul ha regresado para convertirse en uno de los Tres Muertos, y la *Corona de Cuernos* continúa impulsando su espantosa voluntad buscando agentes mortales y transformándolos gradualmente en poderosos vástagos no-muertos. Si un portador demuestra ser indigno de este honor, la corona se teletransporta para encontrar un nuevo mortal al que corromper para su amo.\n\n**Maldita.** La corona está maldita. Sintonizarte con la corona te extiende la maldición. Sólo un conjuro de Deseo o la voluntad de Myrkul pueden eliminar esta maldición. Mientras permanezcas maldito, se te aplicarán las siguientes propiedades:\n\n**Atado.** No estás dispuesto a desprenderte de la corona, la usas en todo momento y no puedes finalizar voluntariamente tu Sintonía con la corona.\n\n**Cruel.** Tu alineación se convierte en Neutral Evil.\n\n**Condenado.** Te transformas lentamente en un monstruoso sirviente de Myrkul en el transcurso de 365 días. Durante ese tiempo, la transformación es puramente cosmética; Estos cambios cosméticos se desvanecen lentamente si finalizas la Sintonía con la corona antes de completar la transformación. Cuando se completa la transformación, te conviertes en un Lich bajo el control del DM. Cada vez que usas el beneficio Cono de no muerte de este artefacto o Mano de Myrkul, existe un 10 por ciento de probabilidad acumulativa de completar instantáneamente esta transformación.\n\n**Cono de no-muerte.** Puedes tomar un acción de Magia para desatar una ola de luz impía en un cono de 60 pies. Cada criatura en el Cono obtiene una Constitución de CD 18 tirada de salvación, recibiendo 4d8 de daño necrótico si falla la salvación o la mitad de daño si tiene éxito. Un humanoide asesinado por Cone of Undeath se levanta al comienzo de tu siguiente turno como un espectro que sigue tus órdenes verbales.\n\n**Inmunidad al daño.** Tienes inmunidad al daño necrótico.\n\n**Aura de miedo.** Mientras usas la corona, emites un aura de energía aterradora en una emanación de 60 pies. Una criatura que ingresa a esta área por primera vez en un turno o comienza su turno allí debe tener éxito con CD 16 de Sabiduría tirada de salvación o tener la condición Asustada. Un objetivo Asustado debe utilizar su movimiento en sus turnos para alejarse lo más posible de ti, moviéndose por la ruta más segura.\n\nSi dañas a un objetivo asustado o si un objetivo asustado termina su turno a más de 120 pies de ti, el objetivo puede repetir la salvación de Sabiduría, terminando la condición sobre sí mismo si tiene éxito. Una criatura que tiene éxito en la salvación contra este efecto es inmune a él durante 1 minuto, después del cual puede verse afectada nuevamente.\n\nEl aura está inactiva mientras estás en la condición de Incapacitado. Puedes activar o desactivar el aura como un acción adicional.\n\n**La mano de Myrkul.** Mientras usas la corona, puedes lanzar el conjuro Power Word Kill (guarda CD 18) desde ella. Un humanoide asesinado por este conjuro se levanta al comienzo de tu siguiente turno como un Espectro que sigue tus órdenes verbales. Una vez que uses la corona para lanzar este conjuro, no podrás volver a lanzarlo desde la corona hasta el siguiente amanecer.\n\n**Teletransportación.** Mientras usas la corona, puedes lanzar el conjuro Teletransportar. La corona también puede lanzar este conjuro por su propia voluntad. Una vez que se ha lanzado el conjuro usando la corona, no se puede volver a lanzar hasta que hayan pasado 7 días.\n\n**Propiedades aleatorias.** El artefacto tiene las siguientes propiedades aleatorias (consulte el capítulo 7 de la Guía del Dungeon Master):\n\n- 1 propiedad beneficiosa menor\n- 1 propiedad perjudicial menor\n- 1 propiedad perjudicial importante\n\n**Sentiencia.** La Corona de Cuernos es un artefacto malvado neutral sensible con una inteligencia de 10, una sabiduría de 16 y un carisma de 19. Tiene audición y visión en la oscuridad hasta 120 pies.\n\nLa corona se comunica telepáticamente con su portador y conoce lo común.\n\n**Personalidad.** La corona contiene la esencia de Myrkul y existe para difundir la voluntad de ese dios, que es matar a los vivos, resucitar a los muertos y sembrar miedo en todo el Plano Material. La corona insta a su portador a sembrar terror y destrucción siempre que sea posible.\n\n**Destruyendo la corona.** La corona se destruye si la usa el sucesor de Myrkul, Kelemvor, mientras se sienta en el trono del antiguo reino de Myrkul, el Castillo de Hueso.",
+    "description": "La *Corona de Cuernos* contiene la esencia y la inteligencia de Myrkul, uno de los Tres Muertos. Esta espectral corona es un aro de plata pálida con cuatro huesos curvados engarzados alrededor de su borde. En la frente de la corona hay incrustado un diamante negro cuyas profundidades se agitan con una energía extraña y maligna.\n\nMyrkul creó la *Corona de Cuernos* en el apogeo de su poder. Cuando Mystra mató a Myrkul, este impregnó la corona con su esencia moribunda. Myrkul ha regresado desde entonces para convertirse en uno de los Tres Muertos, y la *Corona de Cuernos* sigue promoviendo su macabra voluntad buscando agentes mortales y transformándolos gradualmente en poderosos vástagos No muertos. Si un portador resulta indigno de este honor, la corona se teletransporta lejos para encontrar un nuevo mortal al que corromper para su señor.\n\n**Maldita.** La corona está maldita. Sintonizarte con la corona te extiende la maldición. Solo un conjuro de Deseo o la voluntad de Myrkul pueden eliminar esta maldición. Mientras sigas maldito, se aplican las siguientes propiedades:\n\n**Atado.** No estás dispuesto a separarte de la corona, la llevas puesta en todo momento y no puedes poner fin voluntariamente a tu sintonización con ella.\n\n**Cruel.** Tu alineamiento pasa a ser Neutral malvado.\n\n**Condenado.** Te transformas lentamente en un monstruoso siervo de Myrkul a lo largo de 365 días. Durante ese tiempo, la transformación es puramente cosmética; estos cambios cosméticos se desvanecen lentamente si terminas la sintonización con la corona antes de completar la transformación. Cuando la transformación se completa, te conviertes en un Lich bajo el control del DM. Cada vez que uses el beneficio Cono de no muerte o Mano de Myrkul de este artefacto, hay un 10 por ciento acumulativo de probabilidad de que completes instantáneamente esta transformación.\n\n**Cono de no muerte.** Puedes realizar una acción de Magia para desatar una oleada de luz profana en un Cono de 60 pies. Cada criatura en el Cono realiza una tirada de salvación de Constitución (CD 18) y sufre 4d8 de daño necrótico si falla la salvación, o la mitad de ese daño si la supera. Un Humanoide muerto por el Cono de no muerte se levanta al comienzo de tu siguiente turno como un Espectro que sigue tus órdenes verbales.\n\n**Inmunidad al daño.** Tienes inmunidad al daño necrótico.\n\n**Aura de miedo.** Mientras llevas la corona, emites un aura de energía aterradora en una Emanación de 60 pies. Una criatura que entre en esta área por primera vez en un turno o comience su turno en ella debe superar una tirada de salvación de Sabiduría (CD 16) o tendrá la condición de asustado. Un objetivo asustado debe usar su movimiento en sus turnos para alejarse de ti tanto como pueda, moviéndose por la ruta más segura.\n\nSi dañas a un objetivo asustado, o si un objetivo asustado termina su turno a más de 120 pies de ti, el objetivo puede repetir la salvación de Sabiduría y, si la supera, termina la condición sobre sí mismo. Una criatura que supere la salvación contra este efecto es inmune a él durante 1 minuto, tras lo cual puede volver a verse afectada.\n\nEl aura está inactiva mientras tengas la condición de incapacitado. Puedes activar o desactivar el aura como una acción adicional.\n\n**Mano de Myrkul.** Mientras llevas la corona, puedes lanzar con ella el conjuro Palabra de poder: matar (CD 18). Un Humanoide muerto por este conjuro se levanta al comienzo de tu siguiente turno como un Alma en pena que sigue tus órdenes verbales. Una vez que uses la corona para lanzar este conjuro, no puedes volver a lanzarlo con ella hasta el siguiente amanecer.\n\n**Teletransporte.** Mientras llevas la corona, puedes lanzar el conjuro Teletransporte. La corona también puede lanzar este conjuro por voluntad propia. Una vez que el conjuro se ha lanzado con la corona, no puede volver a lanzarse hasta que pasen 7 días.\n\n**Propiedades aleatorias.** El artefacto tiene las siguientes propiedades aleatorias:\n\n- 1 propiedad beneficiosa menor\n- 1 propiedad perjudicial menor\n- 1 propiedad perjudicial mayor\n\n**Sensibilidad.** La Corona de Cuernos es un artefacto sensible de alineamiento Neutral malvado con Inteligencia 10, Sabiduría 16 y Carisma 19. Tiene oído y visión en la oscuridad hasta 120 pies.\n\nLa corona se comunica telepáticamente con su portador y conoce el común.\n\n**Personalidad.** La corona contiene la esencia de Myrkul y existe para extender la voluntad de ese dios, que consiste en matar a los vivos, alzar a los muertos y sembrar el miedo por el Plano Material. La corona insta a su portador a propagar el terror y la destrucción siempre que sea posible.\n\n**Destruir la corona.** La corona queda destruida si la lleva puesta el sucesor de Myrkul, Kelemvor, mientras está sentado en el trono del antiguo reino de Myrkul, el Castillo de Hueso.",
     "url": "https://dnd2024.wikidot.com/magic-item:crown-of-horns",
     "category": "other",
     "cost": null,
@@ -6679,7 +6725,7 @@
     "name": "Demonómicon de Iggwilv",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "Este tratado, compuesto por el archimago Iggwilv, documenta las capas y los habitantes del Abismo y es ampliamente considerado como el tomo de demonología más completo y blasfemo del multiverso. El tomo relata las blasfemias más antiguas y actuales del Abismo y los demonios. Los demonios han intentado censurar el texto, y aunque se han arrancado secciones del lomo del libro, los capítulos generales permanecen, revelando siempre secretos demoníacos. Enjaulada detrás de líneas de guión se agita una pieza secreta del propio Abismo, que mantiene el libro actualizado, sin importar cuántas páginas se eliminen, y anhela ser más que un mero material de referencia.\n\n**Conocimiento abisal.** Puedes consultar el *Demonomicon* cada vez que hagas una prueba de Inteligencia para discernir información sobre demonios o una prueba de Sabiduría (Supervivencia) relacionada con el Abismo. Cuando lo hace, obtiene Ventaja en el cheque.\n\n**Contención.** Las primeras diez páginas del *Demonomicon* están en blanco. Como acción de Magia mientras sostienes el libro, puedes apuntar a un Demonio que puedas ver que esté atrapado dentro del área de un conjuro de Círculo Mágico. El Demonio debe tener éxito en un CD 20 Carisma tirada de salvación con Desventaja o quedar atrapado dentro de una de las páginas en blanco del *Demonomicon*, que se llena de escritos que detallan el nombre ampliamente conocido y las depravaciones de la criatura atrapada. Una vez utilizada, esta acción no se puede volver a utilizar hasta el siguiente amanecer.\n\nCuando termines un descanso largo, si tú y el *Demonomicon* estáis en el mismo plano de existencia, una criatura atrapada dentro del libro puede intentar poseeros. Obtienes un CD 20 Carisma tirada de salvación. Si fallas la salvación, eres poseído por la criatura, que te controla como a una marioneta. Como acción de Magia, la criatura poseedora puede liberarte y aparecer en el espacio desocupado más cercano a ti. Con una salvación exitosa, el Demonio no puede intentar poseerte nuevamente durante 7 días (pero otro Demonio atrapado en el libro ciertamente puede intentarlo).\n\nCuando se descubre el tomo, tiene 1d4 Demonios ocupando sus páginas, normalmente una variedad de demonios.\n\n**Atrapamiento.** Mientras llevas el libro, cada vez que lanzas Círculo Mágico nombrando solo Demonios o lanzas Vinculación Planar apuntando a un Demonio, el conjuro se lanza en el nivel 9, independientemente del nivel espacio de conjuro que hayas usado, si corresponde. Además, el Demonio tiene Desventaja en su tirada de salvación contra el conjuro.\n\n**Azote diabólico.** Mientras llevas el libro, cuando haces una tirada de daño para un conjuro que lanzaste contra un Demonio, usas el máximo resultado posible en lugar de tirar.\n\n**Propiedades aleatorias.** El artefacto tiene las siguientes propiedades aleatorias (ver \"Artefactos\"):\n\n- 2 propiedades beneficiosas menores\n- 1 propiedad perjudicial menor\n- 1 propiedad perjudicial importante\n\n**Conjuros.** El libro tiene 8 cargas y recupera 1d8 cargas gastadas diariamente al amanecer. Mientras sostienes el libro, puedes tomar un acción de Magia para lanzar uno de los conjuros (ahorra CD 20) en la siguiente tabla. La tabla indica cuántas cargas debes gastar para lanzar el conjuro.\n\n| Conjuro | Costo de cargo |\n|---|---|\n| Círculo Mágico | 1 |\n| Tarro mágico | 3 |\n| Aliado plano | 3 |\n| Encuadernación plana | 2 |\n| Cambio de plano | 3 |\n| Invocar demonio | 3 |\n| La horrible risa de Tasha | 0 |\n\n**Destruyendo el Demononomicon.** Para destruir el libro, seis señores demonios diferentes deben arrancar cada uno una sexta parte de las páginas del libro. Si esto ocurre, las páginas reaparecen después de 24 horas. Antes de que pasen todas esas horas, cualquiera que abra la encuadernación restante del libro es transportado a una capa naciente del Abismo que se encuentra oculta dentro del libro. En el corazón de este dominio mortal y semiconsciente se encuentra un artefacto perdido hace mucho tiempo, el *Bastón de Fraz-Urb'luu*. Si sacan el bastón del avión de bolsillo, el tomo se reduce a una copia mundana y obsoleta del *Tomo de Zyx*, la obra que sirvió como base del *Demonomicon de Iggwilv. El Tomo de Zyx* puede destruirse como cualquier libro normal. Una vez que emerge el bastón, el señor demonio Fraz-Urb'luu lo sabe al instante.",
+    "description": "Este tratado, compuesto por la archimaga Iggwilv, documenta las capas del Abismo y a sus habitantes, y es ampliamente considerado el tomo de demonología más exhaustivo y blasfemo del multiverso. El tomo relata tanto las profanidades más antiguas como las más actuales del Abismo y los demonios. Los demonios han intentado censurar el texto, y aunque se han arrancado secciones del lomo del libro, los capítulos generales permanecen, revelando sin cesar secretos demoníacos. Enjaulado tras las líneas de escritura bulle un fragmento secreto del propio Abismo, que mantiene el libro actualizado sin importar cuántas páginas se arranquen, y anhela ser algo más que un mero material de consulta.\n\n**Saber abisal.** Puedes consultar el *Demonomicón* siempre que hagas una prueba de Inteligencia para discernir información sobre demonios o una prueba de Sabiduría (Supervivencia) relacionada con el Abismo. Cuando lo haces, tienes ventaja en la prueba.\n\n**Contención.** Las primeras diez páginas del *Demonomicón* están en blanco. Como una acción de Magia mientras sostienes el libro, puedes designar como objetivo a un Infernal que puedas ver y que esté atrapado dentro del área de un conjuro Círculo mágico. El Infernal debe superar una tirada de salvación de Carisma con desventaja (CD 20) o quedar atrapado en una de las páginas en blanco del *Demonomicón*, que se llena de escritura que detalla el nombre ampliamente conocido y las depravaciones de la criatura atrapada. Una vez usada, esta acción no puede volver a usarse hasta el siguiente amanecer.\n\nCuando terminas un descanso largo, si tú y el *Demonomicón* estáis en el mismo plano de existencia, una criatura atrapada en el libro puede intentar poseerte. Realizas una tirada de salvación de Carisma (CD 20). Si fallas la salvación, la criatura te posee y te controla como a una marioneta. Como una acción de Magia, la criatura poseedora puede liberarte y aparecer en el espacio desocupado más cercano a ti. Si superas la salvación, el Infernal no puede intentar poseerte de nuevo durante 7 días (pero otro Infernal atrapado en el libro sin duda puede intentarlo).\n\nCuando se descubre el tomo, tiene 1d4 Infernales ocupando sus páginas, normalmente una variedad de demonios.\n\n**Apresamiento.** Mientras llevas el libro, siempre que lances Círculo mágico nombrando solo a Infernales o lances Ligadura planaria contra un Infernal, el conjuro se lanza a nivel 9, sin importar qué espacio de conjuro hayas usado, si es que usaste alguno. Además, el Infernal tiene desventaja en su tirada de salvación contra el conjuro.\n\n**Flagelo infernal.** Mientras llevas el libro, cuando haces una tirada de daño de un conjuro que lanzas contra un Infernal, usas el resultado máximo posible en lugar de tirar.\n\n**Propiedades aleatorias.** El artefacto tiene las siguientes propiedades aleatorias:\n\n- 2 propiedades beneficiosas menores\n- 1 propiedad perjudicial menor\n- 1 propiedad perjudicial mayor\n\n**Conjuros.** El libro tiene 8 cargas y recupera 1d8 cargas gastadas cada día al amanecer. Mientras sostienes el libro, puedes realizar una acción de Magia para lanzar uno de los conjuros (CD 20) de la siguiente tabla. La tabla indica cuántas cargas debes gastar para lanzar el conjuro.\n\n| Conjuro | Coste en cargas |\n|---|---|\n| Círculo mágico | 1 |\n| Frasco mágico | 3 |\n| Aliado de los planos | 3 |\n| Ligadura planaria | 2 |\n| Cambio de plano | 3 |\n| Invocar infernal | 3 |\n| Risa horrible de Tasha | 0 |\n\n**Destruir el Demonomicón.** Para destruir el libro, seis señores demonio diferentes deben arrancar cada uno una sexta parte de las páginas del libro. Si esto ocurre, las páginas reaparecen tras 24 horas. Antes de que pasen todas esas horas, cualquiera que abra la encuadernación restante del libro es transportado a una capa incipiente del Abismo que permanece oculta dentro del libro. En el corazón de este mortífero dominio semisensible yace un artefacto perdido hace mucho, el *Bastón de Fraz-Urb'luu*. Si el bastón es sacado a rastras del plano de bolsillo, el tomo queda reducido a una copia mundana y desfasada del *Tomo de Zyx*, la obra que sirvió de base al *Demonomicón de Iggwilv. El Tomo de Zyx* puede destruirse como cualquier libro corriente. En cuanto el bastón emerge, el señor demonio Fraz-Urb'luu lo sabe al instante.",
     "url": "https://dnd2024.wikidot.com/magic-item:demonomicon-of-iggwilv",
     "category": "other",
     "cost": null,
@@ -6884,6 +6930,21 @@
     "replaced": [
       "https://dnd5e.wikidot.com/adventuring-gear"
     ]
+  },
+  {
+    "id": "dire-wolf",
+    "type": "item",
+    "name": "Lobo terrible",
+    "edition": "2024",
+    "source": null,
+    "description": "**Capacidad de carga:** 510 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 750,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "disguise-kit",
@@ -8089,6 +8150,21 @@
     ]
   },
   {
+    "id": "elk",
+    "type": "item",
+    "name": "Alce",
+    "edition": "2024",
+    "source": null,
+    "description": "**Capacidad de carga:** 480 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 150,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "elocutionists-lexicon",
     "type": "item",
     "name": "Léxico del orador",
@@ -8553,7 +8629,7 @@
     "name": "Ojo y Mano de Vecna",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "Vecna ​​fue un poderoso Mago que, mediante la magia y la conquista, forjó un terrible imperio. Sin embargo, a pesar de todo su poder, Vecna ​​temía a la muerte y tomó medidas para evitar su desaparición convirtiéndose en un lich.\n\nUn teniente traicionero llamado Kas puso fin al gobierno de Vecna ​​en una terrible batalla. De Vecna, todo lo que quedó fue una mano y un ojo, artefactos espantosos que todavía buscan hacer cumplir la voluntad de Vecna ​​en el mundo.\n\nEl *Ojo de Vecna* y la *Mano de Vecna* son artefactos separados que pueden encontrarse juntos o por separado. El ojo parece un órgano inyectado en sangre arrancado de su órbita. La mano es una extremidad izquierda arrugada.\n\n**Propiedades aleatorias del ojo y la mano.** *El Ojo de Vecna* y la *Mano de Vecna* tienen cada uno las siguientes propiedades aleatorias (ver \"Artefactos\"):\n\n- 1 propiedad beneficiosa menor\n- 1 propiedad beneficiosa importante\n- 1 propiedad perjudicial menor\n\n**Sintonización con el ojo.** Para sintonizarse con el ojo, debes presionarlo en tu cuenca vacía. El ojo se injerta en tu cabeza y permanece allí hasta que mueres. Si alguna vez te quitan el ojo, mueres.\n\n**Propiedades del Ojo.** Mientras estás en sintonía con el ojo, tu alineación es Neutral Malvada y obtienes los siguientes beneficios:\n\n**Visión verdadera.** Tienes visión verdadera hasta 240 pies.\n\n**Lanzamiento de conjuros.** El ojo tiene 8 cargas y recupera 1d4 + 4 cargas gastadas diariamente al amanecer. Puedes lanzar un conjuro en la tabla de conjuros del Ojo de Vecna ​​desde el ojo (guarda CD 18). La tabla indica cuántas cargas debes gastar para lanzar el conjuro. Cada vez que lanzas un conjuro desde el ojo, hay un 5 por ciento de posibilidades de que Vecna ​​arranque tu alma del cuerpo, la devore y luego tome el control del cuerpo como una marioneta. Si eso sucede, te conviertes en un NPC bajo el control del DM.\n\n#### Conjuros del Ojo de Vecna\n\n| Conjuro | Costo de cargo |\n|---|---|\n| Clarividencia | 2 |\n| Corona de la Locura | 1 |\n| Desintegrarse | 4 |\n| Dominar Monstruo | 5 |\n| Mordedura de ojo | 4 |\n\n**Visión de rayos X.** Puede tomar un acción de Magia para obtener visión de rayos X con un alcance de 30 pies durante 1 minuto. Para usted, los objetos sólidos dentro de ese radio parecen transparentes y no impiden que la luz los atraviese. La visión puede penetrar 1 pie de piedra, 1 pulgada de metal común o hasta 3 pies de madera o tierra. Las sustancias más espesas bloquean la visión, al igual que una fina lámina de plomo.\n\n**Sintonización con la mano.** Para sintonizar con la mano, debes presionarla contra el muñón donde estaba tu mano izquierda. La mano se injerta en su brazo y se convierte en un apéndice funcional. Si alguna vez te quitan la mano, mueres.\n\n**Propiedades de la Mano.** Cuando estás en sintonía con la mano, tu alineación es Neutral Malvada y obtienes los siguientes beneficios:\n\n**Gran fuerza.** Tu fuerza se convierte en 20 a menos que ya sea 20 o más.\n\n**Icy Touch.** Cualquier ataque de conjuro cuerpo a cuerpo que realices con la mano y cualquier ataque cuerpo a cuerpo realizado con un arma sostenida por ella causa 2d8 de daño de Frío adicional con cada golpe.\n\n**Lanzamiento de conjuros.** La mano tiene 8 cargas y recupera 1d4 + 4 cargas gastadas diariamente al amanecer. Puedes lanzar un conjuro en la tabla de Conjuros de la Mano de Vecna ​​desde la mano (guarda CD 18). La tabla indica cuántas cargas debes gastar para lanzar el conjuro. Cada vez que lanzas un conjuro, la mano te lanza Sugestión (salvo CD 18; no se requiere Concentración), exigiendo que cometas un acto malvado. La mano podría tener un acto específico en mente o dejarlo en tus manos.\n\n#### Conjuros de mano de Vecna\n\n| Conjuro | Costo de cargo |\n|---|---|\n| Dedo de la Muerte | 5 |\n| Dormir | 1 |\n| Lento | 2 |\n| Teletransportarse | 3 |\n\n**Propiedades del ojo y la mano.** Si estás en sintonía con la mano y el ojo, obtendrás los siguientes beneficios adicionales:\n\n**Sentido de peligro.** Tienes ventaja en las tiradas de iniciativa.\n\n**Reducción necrótica.** Como acción de Magia, puedes apuntar a una criatura que puedas ver a 5 pies de ti. El objetivo obtiene una Constitución de CD 18 tirada de salvación, recibiendo 7d6 de daño necrótico si falla la salvación o la mitad de daño si tiene éxito. Una criatura reducida a 0 puntos de golpe por este daño se transforma en limo verde (ver capítulo 3) que cubre el suelo en su espacio, cada cuadrado de limo de 5 pies representa un parche separado. Los objetos no mágicos usados ​​o transportados por el objetivo que estén hechos de metal o material orgánico son destruidos por el limo.\n\n**Inmunidad al veneno.** Tienes inmunidad al daño por veneno y la condición de envenenado.\n\n**Regeneración.** Si comienzas tu turno con al menos 1 punto de golpe, recuperas 1d10 puntos de golpe.\n\n**Deseo.** Puedes lanzar Deseo. Una vez utilizada, esta propiedad no podrá volver a utilizarse hasta que hayan transcurrido 30 días.**Destruyendo el Ojo y la Mano.** Si el *Ojo de Vecna* y la *Mano de Vecna* están unidos a la misma criatura y esa criatura es asesinada por la Espada de Kas, tanto el ojo como la mano estallan en llamas, se convierten en cenizas y son destruidos. Cualquier otro intento de destruir el ojo o la mano parece funcionar, pero el Artefacto reaparece en una de las muchas bóvedas ocultas de Vecna, donde espera ser redescubierto.",
+    "description": "Vecna fue un poderoso Mago que, mediante la magia y la conquista, forjó un terrible imperio. Pese a todo su poder, sin embargo, Vecna temía a la muerte y tomó medidas para evitar su fin convirtiéndose en lich.\n\nUn traicionero lugarteniente llamado Kas puso fin al dominio de Vecna en una terrible batalla. De Vecna solo quedaron una mano y un ojo, macabros artefactos que aún buscan cumplir la voluntad de Vecna en el mundo.\n\nEl *Ojo de Vecna* y la *Mano de Vecna* son artefactos distintos que pueden encontrarse juntos o por separado. El ojo parece un órgano inyectado en sangre arrancado de su cuenca. La mano es una extremidad izquierda reseca.\n\n**Propiedades aleatorias del ojo y la mano.** El *Ojo de Vecna* y la *Mano de Vecna* tienen cada uno las siguientes propiedades aleatorias:\n\n- 1 propiedad beneficiosa menor\n- 1 propiedad beneficiosa mayor\n- 1 propiedad perjudicial menor\n\n**Sintonizarse con el ojo.** Para sintonizarte con el ojo, debes presionarlo contra tu cuenca vacía. El ojo se injerta en tu cabeza y permanece ahí hasta que mueras. Si el ojo llega a ser retirado, mueres.\n\n**Propiedades del ojo.** Mientras estés sintonizado con el ojo, tu alineamiento es Neutral malvado y obtienes los siguientes beneficios:\n\n**Visión verdadera.** Tienes visión verdadera hasta 240 pies.\n\n**Lanzamiento de conjuros.** El ojo tiene 8 cargas y recupera 1d4 + 4 cargas gastadas cada día al amanecer. Puedes lanzar con el ojo un conjuro de la tabla de Conjuros del Ojo de Vecna (CD 18). La tabla indica cuántas cargas debes gastar para lanzar el conjuro. Cada vez que lanzas un conjuro con el ojo, hay un 5 por ciento de probabilidad de que Vecna arranque tu alma de tu cuerpo, la devore y luego tome el control del cuerpo como una marioneta. Si eso ocurre, te conviertes en un PNJ bajo el control del DM.\n\n#### Conjuros del Ojo de Vecna\n\n| Conjuro | Coste en cargas |\n|---|---|\n| Clarividencia | 2 |\n| Corona de locura | 1 |\n| Desintegrar | 4 |\n| Dominar monstruo | 5 |\n| Mordisco de ojo | 4 |\n\n**Visión de rayos X.** Puedes realizar una acción de Magia para obtener visión de rayos X con un alcance de 30 pies durante 1 minuto. Para ti, los objetos sólidos dentro de ese radio parecen transparentes y no impiden que la luz los atraviese. La visión puede penetrar 1 pie de piedra, 1 pulgada de metal común o hasta 3 pies de madera o tierra. Las sustancias más gruesas bloquean la visión, al igual que una fina lámina de plomo.\n\n**Sintonizarse con la mano.** Para sintonizarte con la mano, debes presionarla contra el muñón donde estaba tu mano izquierda. La mano se injerta en tu brazo y se convierte en un apéndice funcional. Si la mano llega a ser retirada, mueres.\n\n**Propiedades de la mano.** Cuando estás sintonizado con la mano, tu alineamiento es Neutral malvado y obtienes los siguientes beneficios:\n\n**Gran fuerza.** Tu Fuerza pasa a ser 20, a menos que ya sea 20 o superior.\n\n**Toque gélido.** Cualquier ataque de conjuro cuerpo a cuerpo que hagas con la mano y cualquier ataque cuerpo a cuerpo hecho con un arma sostenida por ella inflige 2d8 de daño de frío adicional al impactar.\n\n**Lanzamiento de conjuros.** La mano tiene 8 cargas y recupera 1d4 + 4 cargas gastadas cada día al amanecer. Puedes lanzar con la mano un conjuro de la tabla de Conjuros de la Mano de Vecna (CD 18). La tabla indica cuántas cargas debes gastar para lanzar el conjuro. Cada vez que lanzas un conjuro con ella, la mano lanza Sugestión sobre ti (CD 18; no requiere concentración), exigiéndote que cometas un acto malvado. La mano puede tener un acto concreto en mente o dejarlo a tu elección.\n\n#### Conjuros de la Mano de Vecna\n\n| Conjuro | Coste en cargas |\n|---|---|\n| Dedo de la muerte | 5 |\n| Sueño | 1 |\n| Lentitud | 2 |\n| Teletransporte | 3 |\n\n**Propiedades del ojo y la mano.** Mientras estés sintonizado tanto con la mano como con el ojo, obtienes los siguientes beneficios adicionales:\n\n**Sentido del peligro.** Tienes ventaja en las tiradas de iniciativa.\n\n**Reducción necrótica.** Como una acción de Magia, puedes designar como objetivo a una criatura que puedas ver a 5 pies o menos de ti. El objetivo realiza una tirada de salvación de Constitución (CD 18) y sufre 7d6 de daño necrótico si falla la salvación, o la mitad de ese daño si la supera. Una criatura reducida a 0 puntos de golpe por este daño se transforma en moho verde (véase el capítulo 3) que cubre el suelo de su espacio, y cada cuadrado de 5 pies de moho representa una mancha separada. Los objetos no mágicos que lleve o porte el objetivo y que estén hechos de metal o de material orgánico son destruidos por el moho.\n\n**Inmunidad al veneno.** Tienes inmunidad al daño de veneno y a la condición de envenenado.\n\n**Regeneración.** Si comienzas tu turno con al menos 1 punto de golpe, recuperas 1d10 puntos de golpe.\n\n**Deseo.** Puedes lanzar Deseo. Una vez usada, esta propiedad no puede volver a usarse hasta que pasen 30 días.\n\n**Destruir el ojo y la mano.** Si el *Ojo de Vecna* y la *Mano de Vecna* están ambos unidos a la misma criatura y esa criatura es muerta por la Espada de Kas, tanto el ojo como la mano estallan en llamas, se convierten en ceniza y quedan destruidos. Cualquier otro intento de destruir el ojo o la mano parece funcionar, pero el artefacto reaparece en una de las muchas cámaras ocultas de Vecna, donde espera a ser redescubierto.",
     "url": "https://dnd2024.wikidot.com/magic-item:eye-and-hand-of-vecna",
     "category": "other",
     "cost": null,
@@ -8930,6 +9006,21 @@
     }
   },
   {
+    "id": "ffolk-sailing-ship",
+    "type": "item",
+    "name": "Barco de vela ffolk",
+    "edition": "2024",
+    "source": null,
+    "description": "**Velocidad:** 2 mph\n**Tripulación:** 20\n**Pasajeros:** 20\n**Carga (toneladas):** 100\n**CA:** 15\n**PG:** 400\n**Umbral de daño:** 20",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 20000,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "figurine-of-wondrous-power",
     "type": "item",
     "name": "Figurita de poder maravilloso",
@@ -9263,6 +9354,18 @@
       "attunementBy": "un lanzador de conjuros",
       "raw": "Objeto maravilloso, muy raro (requiere sintonía por parte de un lanzador de conjuros)"
     }
+  },
+  {
+    "id": "flying-machine",
+    "type": "item",
+    "name": "Máquina voladora",
+    "edition": "2024",
+    "source": null,
+    "description": "**Velocidad:** 4 mph\n**Tripulación:** 1\n**Pasajeros:** 0\n**Carga:** 300 lb\n**CA:** 19\n**PG:** 27",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": null,
+    "weight": null
   },
   {
     "id": "flying-snake",
@@ -9681,6 +9784,81 @@
     }
   },
   {
+    "id": "giant-bat",
+    "type": "item",
+    "name": "Murciélago gigante",
+    "edition": "2024",
+    "source": null,
+    "description": "**Capacidad de carga:** 450 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 2000,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
+    "id": "giant-goat",
+    "type": "item",
+    "name": "Cabra gigante",
+    "edition": "2024",
+    "source": null,
+    "description": "**Capacidad de carga:** 510 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 400,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
+    "id": "giant-hyena",
+    "type": "item",
+    "name": "Hiena gigante",
+    "edition": "2024",
+    "source": null,
+    "description": "**Capacidad de carga:** 480 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 750,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
+    "id": "giant-lizard",
+    "type": "item",
+    "name": "Lagarto gigante",
+    "edition": "2024",
+    "source": null,
+    "description": "**Capacidad de carga:** 450 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 100,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
+    "id": "giant-seahorse",
+    "type": "item",
+    "name": "Caballito de mar gigante",
+    "edition": "2024",
+    "source": null,
+    "description": "**Capacidad de carga:** 450 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 1000,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "giant-slayer",
     "type": "item",
     "name": "Matagigantes",
@@ -9702,6 +9880,21 @@
     "replaced": [
       "https://dnd5e.wikidot.com/wondrous-items:giant-slayer"
     ]
+  },
+  {
+    "id": "giant-turtle",
+    "type": "item",
+    "name": "Tortuga gigante",
+    "edition": "2024",
+    "source": null,
+    "description": "**Capacidad de carga:** 480 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 500,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "glaive",
@@ -10024,6 +10217,21 @@
     }
   },
   {
+    "id": "goblin-trike",
+    "type": "item",
+    "name": "Triciclo goblin",
+    "edition": "2024",
+    "source": null,
+    "description": "**Velocidad:** 3 mph\n**Tripulación:** 1\n**Pasajeros:** 0\n**Carga:** 600 lb\n**CA:** 19\n**PG:** 27",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 400,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "goggles-of-foe-finding",
     "type": "item",
     "name": "Gafas de búsqueda de enemigos",
@@ -10336,6 +10544,21 @@
     "replaced": [
       "https://dnd5e.wikidot.com/explosives"
     ]
+  },
+  {
+    "id": "griffon",
+    "type": "item",
+    "name": "Grifo",
+    "edition": "2024",
+    "source": null,
+    "description": "**Capacidad de carga:** 540 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 2000,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "grimoire-infinitus",
@@ -14629,6 +14852,36 @@
     }
   },
   {
+    "id": "mechano-hog",
+    "type": "item",
+    "name": "Mecanoverraco",
+    "edition": "2024",
+    "source": null,
+    "description": "**Velocidad:** 4 mph\n**Tripulación:** 1\n**Pasajeros:** 1\n**Carga:** 800 lb\n**CA:** 19\n**PG:** 27",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 4000,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
+    "id": "mechanostrider",
+    "type": "item",
+    "name": "Mecanotrotador",
+    "edition": "2024",
+    "source": null,
+    "description": "**Capacidad de carga:** 420 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 450,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "medal-of-muscle",
     "type": "item",
     "name": "Medalla del músculo",
@@ -14790,6 +15043,21 @@
     "replaced": [
       "https://dnd5e.wikidot.com/wondrous-items:medallion-of-thoughts"
     ]
+  },
+  {
+    "id": "mekgineers-chopper",
+    "type": "item",
+    "name": "Chopper del mecaingeniero",
+    "edition": "2024",
+    "source": null,
+    "description": "**Velocidad:** 4 mph\n**Tripulación:** 1\n**Pasajeros:** 1\n**Carga:** 800 lb\n**CA:** 19\n**PG:** 27",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 4000,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "mess-kit",
@@ -15820,7 +16088,7 @@
     },
     "weight": 1,
     "weapon": {
-      "kind": "martial",
+      "kind": null,
       "ranged": false,
       "damage": [],
       "properties": [],
@@ -16033,6 +16301,21 @@
     ]
   },
   {
+    "id": "norlander-longship",
+    "type": "item",
+    "name": "Drakkar norlander",
+    "edition": "2024",
+    "source": null,
+    "description": "**Velocidad:** 6 mph\n**Tripulación:** 50\n**Pasajeros:** 100\n**Carga (toneladas):** 10\n**CA:** 17\n**PG:** 300\n**Umbral de daño:** 15",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 20000,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "oathbow",
     "type": "item",
     "name": "Arco de juramento",
@@ -16241,7 +16524,7 @@
     "name": "Orbe de Damara",
     "edition": "2024",
     "source": "Reinos Olvidados - Aventuras en Faerun",
-    "description": "Una Mago llamada Damara creó este orbe mientras ideaba una forma de convertirse en dragón. Con la ayuda de un misterioso mago (en realidad un aspecto de Tiamat disfrazado), Damara finalmente creó un Artefacto que le permitiría lograr su sueño. Sin embargo, el poder potencial de su creación aterrorizó tanto a Damara que no se atrevió a utilizar el orbe. En cambio, el Mago se sepultó con el Artefacto para sellarlo.\n\nEl *Orbe de Damara* tiene aproximadamente 6 pulgadas de diámetro y está hecho de un material vidrioso e iridiscente que es como la obsidiana pero increíblemente duro. Si se acerca a los labios con la intención de consumirlo, el orbe se reduce al tamaño de una uva.\n\n**Propiedades del orbe.** Mientras estás en sintonía con el orbe, obtienes los siguientes beneficios:\n\n**Aliento de Dragón.** Puedes tomar un acción de Magia para exhalar un cono de 15 pies. Cuando lo hagas, elige Ácido, Frío, Fuego, Rayo o Veneno. Cada criatura en el Cono obtiene una Destreza CD 18 tirada de salvación, recibiendo 6d6 de daño del tipo elegido en una salvación fallida o la mitad de daño en una exitosa.\n\n**Aura de miedo.** Exudas un aura aterradora en una emanación de 20 pies mientras no tengas la condición de Incapacitado. Puedes tomar un acción de Magia para desactivar o activar esta aura. Cualquier enemigo que comience su turno en el aura debe tener éxito con CD 18 de Sabiduría tirada de salvación o tener la condición Asustado hasta el comienzo de su siguiente turno. Una criatura que supera esta salvación es inmune a los efectos del aura durante 24 horas.\n\n**Vuelo.** Tienes una velocidad de vuelo de 60 pies y puedes flotar.\n\n**Propiedades aleatorias.** El artefacto tiene las siguientes propiedades aleatorias (consulte el capítulo 7 de la Guía del Dungeon Master):\n\n- 2 propiedades beneficiosas menores\n- 2 propiedades perjudiciales menores\n\n**Lanzamiento de conjuros.** El orbe tiene 6 cargas y recupera 1d4 + 2 cargas gastadas diariamente al amanecer. Mientras estás en sintonía con el orbe, puedes lanzar desde él uno de los conjuros de la siguiente tabla (+10 modificador de ataque de conjuros, CD de salvación de conjuros 18). La tabla indica cuántas cargas debes gastar para lanzar el conjuro.\n\n| Conjuro | Costo de cargo |\n|---|---|\n| Disfrazarse | 0 |\n| Escudo de fuego | 2 |\n| Retener persona | 1 |\n| Ver Invisibilidad | 1 |\n| Invocar Dragón (Versión Nivel 9) | 4 |\n\n**Transformación del Dragón.** Si te tragas el orbe, te transformas en un dragón cromático adulto bajo el control del DM. El tipo de dragón cromático depende de tu alineación y personalidad y queda en manos del DM decidir. La transformación es permanente, pero si el dragón muere, su cuerpo vuelve a su forma original y el orbe reaparece fuera de su cuerpo.\n\n**Destruyendo el orbe.** Si un antiguo dragón dorado se traga voluntariamente el orbe, tanto el orbe como el dragón son destruidos.",
+    "description": "Un Mago llamado Damara creó este orbe mientras ideaba la forma de convertirse en dragón. Ayudado por un misterioso mago (en realidad un aspecto de Tiamat disfrazado), Damara acabó creando un artefacto que le permitiría alcanzar su sueño. Sin embargo, el poder potencial de su creación aterró tanto a Damara que no se atrevió a usar el orbe. En su lugar, el Mago se sepultó junto con el artefacto para sellarlo.\n\nEl *Orbe de Damara* mide unas 6 pulgadas de diámetro y está hecho de un material vítreo e iridiscente, parecido a la obsidiana pero increíblemente duro. Si se acerca a los propios labios con la intención de consumirlo, el orbe se encoge hasta el tamaño de una uva.\n\n**Propiedades del orbe.** Mientras estés sintonizado con el orbe, obtienes los siguientes beneficios:\n\n**Aliento de dragón.** Puedes realizar una acción de Magia para exhalar un Cono de 15 pies. Cuando lo haces, elige ácido, frío, fuego, relámpago o veneno. Cada criatura en el Cono realiza una tirada de salvación de Destreza (CD 18) y sufre 6d6 de daño del tipo elegido si falla la salvación, o la mitad de ese daño si la supera.\n\n**Aura de miedo.** Desprendes un aura aterradora en una Emanación de 20 pies mientras no tengas la condición de incapacitado. Puedes realizar una acción de Magia para desactivar o activar esta aura. Cualquier enemigo que comience su turno en el aura debe superar una tirada de salvación de Sabiduría (CD 18) o tendrá la condición de asustado hasta el comienzo de su siguiente turno. Una criatura que supere esta salvación es inmune a los efectos del aura durante 24 horas.\n\n**Vuelo.** Tienes una velocidad de vuelo de 60 pies y puedes flotar.\n\n**Propiedades aleatorias.** El artefacto tiene las siguientes propiedades aleatorias:\n\n- 2 propiedades beneficiosas menores\n- 2 propiedades perjudiciales menores\n\n**Lanzamiento de conjuros.** El orbe tiene 6 cargas y recupera 1d4 + 2 cargas gastadas cada día al amanecer. Mientras estés sintonizado con el orbe, puedes lanzar con él uno de los conjuros de la siguiente tabla (+10 modificador de ataque de conjuros, CD de salvación de conjuros 18). La tabla indica cuántas cargas debes gastar para lanzar el conjuro.\n\n| Conjuro | Coste en cargas |\n|---|---|\n| Disfrazarse | 0 |\n| Escudo de fuego | 2 |\n| Inmovilizar persona | 1 |\n| Ver invisibilidad | 1 |\n| Invocar dragón (versión de nivel 9) | 4 |\n\n**Transformación en dragón.** Si te tragas el orbe, te transformas en un dragón cromático adulto bajo el control del DM. El tipo de dragón cromático depende de tu alineamiento y personalidad y se deja a decisión del DM. La transformación es permanente, pero si el dragón es muerto, su cuerpo vuelve a su forma original y el orbe reaparece fuera de su cuerpo.\n\n**Destruir el orbe.** Si un Dragón de oro ancestral se traga voluntariamente el orbe, tanto el orbe como el dragón quedan destruidos.",
     "url": "https://dnd2024.wikidot.com/magic-item:orb-of-damara",
     "category": "other",
     "cost": null,
@@ -16304,7 +16587,7 @@
     "name": "Orbe de los dragones",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "Hace mucho tiempo, en el escenario de Dragonlance, los elfos y los humanos libraron una terrible guerra contra los dragones cromáticos. Cuando el mundo parecía condenado, los magos de las Torres de la Alta Hechicería se unieron y forjaron cinco *Orbes de Dragonkind* para ayudar a derrotar a los dragones. Se llevó un orbe a cada una de las cinco torres, y allí se utilizaron para acelerar la guerra hacia un final victorioso. Los magos usaron los orbes para atraer dragones y luego los destruyeron con magia poderosa.\n\nCuando las Torres de la Alta Hechicería cayeron en épocas posteriores, los orbes fueron destruidos o se desvanecieron en la leyenda, y se cree que solo tres sobrevivieron. Su magia se ha deformado a lo largo de los siglos. Su propósito principal de llamar dragones todavía funciona, pero también permiten cierto control sobre los dragones.\n\nCada orbe contiene la esencia de un dragón malvado, una presencia a la que le molesta cualquier intento de sacarle magia. Aquellos que intentan ejercer la magia de un orbe pero carecen de la suficiente fuerza de personalidad pueden encontrarse bajo el control del orbe.\n\nUn orbe es un globo de cristal grabado de unas 10 pulgadas de diámetro. Cuando se usa, crece hasta aproximadamente 20 pulgadas de diámetro y la niebla se arremolina en su interior.\n\nMientras estás en sintonía con un orbe, puedes tomar un acción de Magia para mirar en las profundidades del orbe. Luego debes hacer un CD 15 Carisma tirada de salvación. Si guardas con éxito, controlarás el orbe mientras permanezcas en sintonía con él. Si falla la salvación, el orbe te impone la condición de Encantado mientras permanezcas en sintonía con ella.\n\nMientras estás encantado con el orbe, no puedes finalizar voluntariamente tu sintonía con él, y el orbe te lanza Sugestión a voluntad (salva CD 18), instándote a trabajar hacia los fines malvados que desea. La esencia del dragón dentro del orbe puede querer muchas cosas: la aniquilación de una sociedad u organización en particular, liberarse del orbe, difundir el sufrimiento en el mundo, promover el culto a Tiamat o cualquier otra cosa que decida el DM.\n\n**Propiedades aleatorias.** Un *Orbe de Dragonkind* tiene las siguientes propiedades aleatorias (ver \"Artefactos\"):\n\n- 2 propiedades beneficiosas menores\n- 1 propiedad perjudicial menor\n- 1 propiedad perjudicial importante\n\n**Conjuros.** El orbe tiene 7 cargas y recupera 1d4 + 3 cargas gastadas diariamente al amanecer. Si controlas el orbe, puedes lanzar desde él uno de los conjuros de la siguiente tabla. La tabla indica cuántas cargas debes gastar para lanzar el conjuro.\n\n| Conjuro | Costo de cargo |\n|---|---|\n| Curar heridas (versión nivel 9) | 4 |\n| Luz del día | 1 |\n| Custodia contra la muerte | 2 |\n| Detectar Magia | 0 |\n| Adivinación (guardar CD 18) | 3 |\n\n**Llama a los dragones.** Mientras controlas el orbe, puedes tomar un acción de Magia para hacer que el orbe emita una llamada telepática que se extiende en todas direcciones por 40 millas. Los dragones cromáticos dentro del alcance se sienten obligados a llegar al orbe lo antes posible por la ruta más directa. Las deidades dragón como Tiamat no se ven afectadas por esta llamada. Los dragones cromáticos atraídos por el orbe pueden ser hostiles hacia ti por obligarlos en contra de su voluntad. Una vez que haya utilizado esta propiedad, no podrá volver a utilizarla durante 1 hora.\n\n**Destruyendo un Orbe.** Un *Orbe de Dragonkind* tiene CA 20 y se destruye si recibe daño de un Arma +3 o un conjuro de Desintegración. Nada más puede dañarlo.",
+    "description": "Hace mucho tiempo, en el escenario de Dragonlance, elfos y humanos libraron una terrible guerra contra los dragones cromáticos. Cuando el mundo parecía condenado, los magos de las Torres de la Alta Hechicería se unieron y forjaron cinco *Orbes de Dragones* para ayudar a derrotar a los dragones. Un orbe fue llevado a cada una de las cinco torres, y allí se usaron para acelerar la guerra hacia un final victorioso. Los magos usaron los orbes para atraer dragones hacia ellos y luego los destruyeron con poderosa magia.\n\nCuando las Torres de la Alta Hechicería cayeron en eras posteriores, los orbes fueron destruidos o se desvanecieron en la leyenda, y se cree que solo sobreviven tres. Su magia ha sido distorsionada a lo largo de los siglos. Su propósito principal de llamar a los dragones sigue funcionando, pero también permiten cierto grado de control sobre los dragones.\n\nCada orbe contiene la esencia de un dragón malvado, una presencia que resiente cualquier intento de arrancarle magia. Quienes intentan manejar la magia de un orbe pero carecen de fuerza de personalidad suficiente pueden verse bajo el control del orbe.\n\nUn orbe es un globo de cristal grabado de unas 10 pulgadas de diámetro. Cuando se usa, crece hasta unas 20 pulgadas de diámetro y en su interior se arremolina una niebla.\n\nMientras estés sintonizado con un orbe, puedes realizar una acción de Magia para asomarte a las profundidades del orbe. Entonces debes hacer una tirada de salvación de Carisma (CD 15). Si superas la salvación, controlas el orbe mientras sigas sintonizado con él. Si fallas la salvación, el orbe te impone la condición de hechizado mientras sigas sintonizado con él.\n\nMientras estés hechizado por el orbe, no puedes poner fin voluntariamente a tu sintonización con él, y el orbe lanza Sugestión sobre ti a voluntad (CD 18), instándote a trabajar por los fines malvados que desea. La esencia de dragón del interior del orbe puede desear muchas cosas: la aniquilación de una sociedad u organización concreta, la libertad del orbe, extender el sufrimiento por el mundo, promover el culto a Tiamat o cualquier otra cosa que decida el DM.\n\n**Propiedades aleatorias.** Un *Orbe de Dragones* tiene las siguientes propiedades aleatorias:\n\n- 2 propiedades beneficiosas menores\n- 1 propiedad perjudicial menor\n- 1 propiedad perjudicial mayor\n\n**Conjuros.** El orbe tiene 7 cargas y recupera 1d4 + 3 cargas gastadas cada día al amanecer. Si controlas el orbe, puedes lanzar con él uno de los conjuros de la siguiente tabla. La tabla indica cuántas cargas debes gastar para lanzar el conjuro.\n\n| Conjuro | Coste en cargas |\n|---|---|\n| Curar heridas (versión de nivel 9) | 4 |\n| Luz del día | 1 |\n| Protección contra la muerte | 2 |\n| Detectar magia | 0 |\n| Escudriñar (CD 18) | 3 |\n\n**Llamar a los dragones.** Mientras controlas el orbe, puedes realizar una acción de Magia para hacer que el orbe emita una llamada telepática que se extiende en todas direcciones hasta 40 millas. Los dragones cromáticos dentro del alcance se sienten obligados a acudir al orbe tan pronto como puedan por la ruta más directa. Las deidades dragón como Tiamat no se ven afectadas por esta llamada. Los dragones cromáticos atraídos al orbe pueden ser hostiles contigo por obligarlos contra su voluntad. Una vez que hayas usado esta propiedad, no puede volver a usarse durante 1 hora.\n\n**Destruir un orbe.** Un *Orbe de Dragones* tiene CA 20 y queda destruido si recibe daño de un arma +3 o de un conjuro Desintegrar. Nada más puede dañarlo.",
     "url": "https://dnd2024.wikidot.com/magic-item:orb-of-dragonkind",
     "category": "other",
     "cost": null,
@@ -17034,7 +17317,7 @@
   {
     "id": "pipes-of-pestilence",
     "type": "item",
-    "name": "Flauta de la pestilencia",
+    "name": "Gaitas de la pestilencia",
     "edition": "2024",
     "source": "Bienvenido al Club Fuego Infernal",
     "description": "Si tocas estas tuberías como un acción de Magia, invocas un enjambre de ratas corruptas en un espacio desocupado a 60 pies de ti. El enjambre es amistoso contigo y tus aliados mientras sigas tocando las flautas en cada ronda como un acción de Magia. Mientras es Amistoso, el enjambre está bajo tu control, obedece tus órdenes y no realiza otra acción que defenderse si no le das ninguna orden. Una vez que finaliza tu control, el enjambre desaparece y las tuberías no se pueden volver a utilizar hasta el siguiente amanecer.",
@@ -17134,6 +17417,37 @@
       ],
       "range": "50/150",
       "mastery": null
+    }
+  },
+  {
+    "id": "pitchfork",
+    "type": "item",
+    "name": "Horca",
+    "edition": "2024",
+    "source": null,
+    "description": "",
+    "url": "https://dnd2024.wikidot.com/equipment:weapon",
+    "category": "weapon",
+    "cost": {
+      "amount": 1,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "weapon": {
+      "kind": "simple",
+      "ranged": false,
+      "damage": [
+        {
+          "dice": "1d6",
+          "type": "piercing"
+        }
+      ],
+      "properties": [
+        "Reach",
+        "Two-Handed"
+      ],
+      "range": null,
+      "mastery": "Push"
     }
   },
   {
@@ -18831,7 +19145,7 @@
     "name": "Maravilloso ruiseñor de la reina Ehlissa",
     "edition": "2024",
     "source": "Arcanos desatados",
-    "description": "El maravilloso ruiseñor de la reina Ehlissa lleva el nombre de su primer dueño, una reina del este de Flanaess en el mundo de Greyhawk. Se desconoce su origen, pero una leyenda sostiene que se hizo para consolar a la reina cuando un querido pájaro cantor encontró su desafortunado final.\n\nEste pájaro cantor mecánico tiene ojos de cristal, plumas doradas y una pequeña llave de cuerda en la espalda. Como acción de Magia, puedes hacer que el pájaro cobre vida durante 10 minutos, tiempo durante el cual canta una hermosa melodía audible a 300 pies, o puedes devolver el pájaro a su forma mecánica. Cuando el ruiseñor vuelve a ser mecánico, no puede volver a la vida durante 1 hora.\n\n**Ensemble Casting.** El ruiseñor tiene 6 cargas y recupera 1d6+1 cargas gastadas diariamente al amanecer. Como acción adicional mientras el ruiseñor canta y a 60 pies de ti, puedes gastar cargas para lanzar uno de los conjuros en la tabla de abajo desde el ruiseñor (salva CD 18). La tabla muestra la cantidad de cargas que debes gastar para lanzar el conjuro.\n\n| Conjuro | Cargos |\n|---|---|\n| Calmar las emociones | 1 |\n| Compulsión | 3 |\n| Bola de fuego explosiva retrasada | 6 |\n| Detectar el Mal y el Bien | 0 |\n| Mayor Restauración | 4 |\n| Aerosol prismático | 6 |\n| Lento | 2 |\n| Habla con animales | 0 |\n\n**Aura de la Verdad.** Mientras el ruiseñor canta, el efecto de un conjuro de Zona de la Verdad (salvación CD 18) llena una Emanación de 15 pies que se origina en el ruiseñor. Mientras estás en sintonía con el ruiseñor, sabes qué criaturas tienen éxito o fallan en el tirada de salvación contra este efecto.\n\n**Contraconjuro.** Mientras el ruiseñor canta, puedes reaccionar para lanzar un Contraconjuro (salvo CD 18) en respuesta al desencadenante de ese conjuro. Una vez que se usa esta propiedad, no se puede volver a usar hasta el siguiente amanecer.\n\n**Propiedades aleatorias.**El artefacto tiene las siguientes propiedades aleatorias (consulte la sección \"Artefactos\" en la Guía del Dungeon Master):\n\n- 2 propiedades beneficiosas menores\n- 1 propiedad beneficiosa importante\n- 1 propiedad perjudicial menor\n\n**Destruyendo el ruiseñor.** El ruiseñor se destruye si se suelta en un torbellino en el Limbo.",
+    "description": "El Ruiseñor Maravilloso de la reina Ehlissa debe su nombre a su primera propietaria, una reina del este del Flanaess en el mundo de Greyhawk. Su origen es desconocido, pero una leyenda sostiene que fue hecho para consolar a la reina cuando un querido pájaro cantor suyo tuvo un desafortunado final.\n\nEste pájaro cantor mecánico tiene ojos de cristal, plumas doradas y una pequeña llave de cuerda en la espalda. Como una acción de Magia, puedes hacer que el pájaro cobre vida durante 10 minutos, tiempo durante el cual canta una hermosa melodía audible a 300 pies, o puedes devolver el pájaro a su forma mecánica. Cuando el ruiseñor vuelve a ser mecánico, no puede volver a cobrar vida durante 1 hora.\n\n**Lanzamiento en conjunto.** El ruiseñor tiene 6 cargas y recupera 1d6+1 cargas gastadas cada día al amanecer. Como una acción adicional mientras el ruiseñor canta y está a 60 pies o menos de ti, puedes gastar cargas para lanzar con el ruiseñor uno de los conjuros de la tabla siguiente (CD 18). La tabla muestra el número de cargas que debes gastar para lanzar el conjuro.\n\n| Conjuro | Cargas |\n|---|---|\n| Calmar emociones | 1 |\n| Compulsión | 3 |\n| Bola de fuego retardada | 6 |\n| Detectar el bien y el mal | 0 |\n| Restauración mayor | 4 |\n| Rociada prismática | 6 |\n| Lentitud | 2 |\n| Hablar con los animales | 0 |\n\n**Aura de verdad.** Mientras el ruiseñor canta, el efecto de un conjuro Zona de verdad (CD 18) llena una Emanación de 15 pies originada en el ruiseñor. Mientras estés sintonizado con el ruiseñor, sabes qué criaturas superan o fallan la tirada de salvación contra este efecto.\n\n**Contraconjuro.** Mientras el ruiseñor canta, puedes realizar una reacción para lanzar Contraconjuro (CD 18) en respuesta al desencadenante de ese conjuro. Una vez usada esta propiedad, no puede volver a usarse hasta el siguiente amanecer.\n\n**Propiedades aleatorias.** El artefacto tiene las siguientes propiedades aleatorias:\n\n- 2 propiedades beneficiosas menores\n- 1 propiedad beneficiosa mayor\n- 1 propiedad perjudicial menor\n\n**Destruir el ruiseñor.** El ruiseñor queda destruido si es liberado en un torbellino en el Limbo.",
     "url": "https://dnd2024.wikidot.com/magic-item:queen-ehlissa-s-marvelous-nightingale",
     "category": "other",
     "cost": null,
@@ -21022,6 +21336,21 @@
       "attunementBy": null,
       "raw": "Objeto maravilloso, artefacto"
     }
+  },
+  {
+    "id": "rusted-hulk",
+    "type": "item",
+    "name": "Armatoste oxidado",
+    "edition": "2024",
+    "source": null,
+    "description": "**Velocidad:** 2 mph\n**Tripulación:** 60\n**Pasajeros:** 90\n**Carga (toneladas):** 250\n**CA:** 18\n**PG:** 500\n**Umbral de daño:** 25",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 50000,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "sack",
@@ -23428,7 +23757,7 @@
     "name": "Incensario vinculante de espíritus",
     "edition": "2024",
     "source": "Arcanos desatados - Deadfall",
-    "description": "Este incensario de latón es reconfortante y cálido al tacto.\n\nLanzamiento de conjuros. El incensario tiene 10 cargas y recupera 1d6 cargas diariamente al amanecer. Mientras sostienes el incensario, puedes lanzar un conjuro en la tabla de Conjuros del incensario (guarda CD 18). La tabla indica cuántas cargas debes gastar para lanzar el conjuro.\n\n| Conjuro | Costo de cargo |\n|---|---|\n| Destierro | 4 |\n| Bendice | 1 |\n| Círculo de poder | 5 |\n| Disipar la magia | 3 |\n| Eliminar maldición | 3 |\n\n**Incienso protector.** Como acción de Magia, mientras sostienes el incensario, puedes hacer que salga humo mágico del incensario, llenando una emanación de 30 pies que se origina en el incensario durante 1 hora o hasta que lo termines (no se requiere ninguna acción). El área de la Emanación está ligeramente oscurecida y las criaturas de tu elección (incluido tú mismo) obtienen los beneficios del conjuro Protección contra el mal y el bien mientras están dentro de la Emanación. Una vez utilizada, esta propiedad no podrá volver a utilizarse hasta el siguiente amanecer.\n\n**Encarcelamiento espiritual.** Cuando una criatura muere a 30 pies de ti mientras sostienes el incensario, puedes extraer el alma de la criatura hacia el incensario, atrapándola dentro.\n\nMientras el alma de una criatura esté atrapada dentro del incensario, esa criatura no puede volver a la vida. Si la criatura tenía un rasgo que le permitiría revivir, como el rasgo de Restauración Diabólica del Diablo de Púas o el rasgo de Jarra Espiritual del Lich, ese rasgo no funciona mientras el alma de la criatura está atrapada. El incensario sólo puede contener un alma a la vez. El alma de una criatura permanece atrapada dentro del incensario durante 100 años, hasta que tomas un acción de Magia para liberar el alma, o hasta que el incensario es destruido (ver \"Destruir el incensario\" más abajo).\n\n**Propiedades aleatorias.** El incensario tiene las siguientes propiedades aleatorias (consulte la Guía del Dungeon Master):\n\n- 1 propiedad beneficiosa menor\n\n- 1 propiedad beneficiosa importante\n\n**Destruir el incensario.** Si no contiene alma, el incensario se destruye después de estar sumergido en el río Styx durante 1 año.",
+    "description": "Este incensario de latón resulta reconfortantemente cálido al tacto.\n\nLanzamiento de conjuros. El incensario tiene 10 cargas y recupera 1d6 cargas cada día al amanecer. Mientras sostienes el incensario, puedes lanzar con él un conjuro de la tabla de Conjuros del incensario (CD 18). La tabla indica cuántas cargas debes gastar para lanzar el conjuro.\n\n| Conjuro | Coste en cargas |\n|---|---|\n| Destierro | 4 |\n| Bendición | 1 |\n| Círculo de poder | 5 |\n| Disipar magia | 3 |\n| Quitar maldición | 3 |\n\n**Incienso protector.** Como una acción de Magia mientras sostienes el incensario, puedes hacer que salga del incensario un humo mágico que llena una Emanación de 30 pies originada en el incensario durante 1 hora o hasta que le pongas fin (no requiere acción). El área de la Emanación está ligeramente oscurecida, y las criaturas que elijas (incluido tú mismo) obtienen los beneficios del conjuro Protección contra el bien y el mal mientras estén dentro de la Emanación. Una vez usada, esta propiedad no puede volver a usarse hasta el siguiente amanecer.\n\n**Aprisionamiento de espíritus.** Cuando una criatura muere a 30 pies o menos de ti mientras sostienes el incensario, puedes extraer el alma de la criatura al incensario, atrapándola en su interior.\n\nMientras el alma de una criatura esté atrapada en el incensario, esa criatura no puede ser devuelta a la vida. Si la criatura tenía un rasgo que le permitiría revivir, como el rasgo Restauración diabólica de un Diablo barbado o el rasgo Frasco de espíritu de un Lich, ese rasgo no funciona mientras el alma de la criatura esté atrapada. El incensario solo puede contener un alma a la vez. El alma de una criatura permanece atrapada en el incensario durante 100 años, hasta que realices una acción de Magia para liberar el alma, o hasta que el incensario sea destruido (véase \"Destruir el incensario\" más abajo).\n\n**Propiedades aleatorias.** El incensario tiene las siguientes propiedades aleatorias:\n\n- 1 propiedad beneficiosa menor\n\n- 1 propiedad beneficiosa mayor\n\n**Destruir el incensario.** Si no contiene un alma, el incensario queda destruido tras estar sumergido en el río Estigia durante 1 año.",
     "url": "https://dnd2024.wikidot.com/magic-item:spirit-binding-censer",
     "category": "other",
     "cost": null,
@@ -24674,7 +25003,7 @@
     "name": "Espada de Kas",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "Kas era un poderoso guerrero que sirvió a Vecna ​​y cuya lealtad fue recompensada con esta espada. A medida que el poder de Kas crecía, también crecía su arrogancia. La espada instó a Kas a destruir a Vecna ​​y usurpar su trono. La leyenda dice que la destrucción de Vecna ​​llegó a manos de Kas, pero Vecna ​​también forjó la perdición de su teniente rebelde, dejando solo la espada de Kas.\n\n**Sed de sangre.** La espada tiene sed de sangre. Si la espada no sabe a sangre en su hoja dentro de 1 minuto de haber sido sacada de su vaina, su portador obtiene un CD 15 Carisma tirada de salvación. Con una salvación exitosa, el portador sufre 3d6 de daño psíquico. En una salvación fallida, el portador es dominado por la espada, como si fuera el conjuro Dominar Monstruo, y la espada exige sangre. El efecto del conjuro termina cuando se cumple la demanda de la espada.\n\n**Arma mágica.** Obtienes una bonificación de +3 a las tiradas de ataque y daño realizadas con la espada, que obtiene un golpe crítico con una tirada de 19 o 20 en el d20 y causa 2d10 de daño cortante adicional a los no muertos.\n\n**Propiedades aleatorias.** La espada tiene las siguientes propiedades aleatorias (ver \"Artefactos\"):\n\n- 1 propiedad beneficiosa menor\n- 1 propiedad beneficiosa importante\n- 1 propiedad perjudicial menor\n- 1 propiedad perjudicial importante\n\n**Conjuros.** Mientras la espada está sobre tu persona, puedes lanzar los siguientes conjuros (excepto CD 18) desde ella:\n\n- Llamar relámpago\n- Palabra Divina\n- Dedo de la Muerte\n\nUna vez que usas la espada para lanzar un conjuro, no puedes volver a lanzarlo hasta el siguiente amanecer.\n\n**Espíritu de Kas.** Mientras la espada esté sobre tu persona, obtendrás los siguientes beneficios:\n\n**Hambre de batalla.** Añades 1d10 a tus tiradas de Iniciativa.\n\n**Blade of Defense.** Cuando realizas una acción para atacar con la espada, puedes transferir parte o la totalidad de su bonificación de ataque a tu Clase de Armadura. Las bonificaciones ajustadas permanecen vigentes hasta el comienzo de tu siguiente turno.\n\n**Resistencia necrótica.** Tienes resistencia al daño necrótico.\n\n**Sentiencia.** La *Espada de Kas* es un arma inteligente caótica y malvada con una Inteligencia de 15, una Sabiduría de 13 y un Carisma de 16. Tiene audición y visión en la oscuridad hasta 120 pies.\n\nEl arma se comunica telepáticamente con su portador y habla común.\n\n**Personalidad.** El propósito de la espada es arruinar a Vecna. Matar a los adoradores de Vecna, destruir las obras del lich y frustrar sus maquinaciones ayudan a cumplir este objetivo.\n\nLa *Espada de Kas* también busca destruir a cualquiera corrompido por el Ojo y la Mano de Vecna.\n\n**Destruyendo la Espada.** Una criatura sintonizada tanto con el Ojo de Vecna ​​como con la Mano de Vecna ​​puede usar la propiedad Deseo de esos Artefactos combinados para deshacer la *Espada de Kas*, siempre que la espada esté a menos de 30 pies del lanzador del conjuro. Al lanzar Deseo, la criatura genera un CD 18 Carisma tirada de salvación. Si falla la salvación, no sucede nada y el conjuro Deseo se desperdicia. Con una salvación exitosa, la *Espada de Kas* es destruida.",
+    "description": "Kas fue un poderoso guerrero que sirvió a Vecna y cuya lealtad fue recompensada con esta espada. A medida que crecía el poder de Kas, también crecía su soberbia. La espada instó a Kas a destruir a Vecna y usurpar su trono. La leyenda dice que la destrucción de Vecna llegó a manos de Kas, pero Vecna también provocó la perdición de su rebelde lugarteniente, dejando solo la espada de Kas.\n\n**Sed de sangre.** La espada tiene sed de sangre. Si la espada no prueba sangre en su hoja en el plazo de 1 minuto desde que es desenvainada, su portador realiza una tirada de salvación de Carisma (CD 15). Si supera la salvación, el portador sufre 3d6 de daño psíquico. Si falla la salvación, el portador queda dominado por la espada, como por el conjuro Dominar monstruo, y la espada exige sangre. El efecto del conjuro termina cuando se satisface la exigencia de la espada.\n\n**Arma mágica.** Obtienes un bonificador de +3 a las tiradas de ataque y de daño realizadas con la espada, que logra un impacto crítico con un 19 o 20 en el d20 e inflige 2d10 de daño cortante adicional a los No muertos.\n\n**Propiedades aleatorias.** La espada tiene las siguientes propiedades aleatorias:\n\n- 1 propiedad beneficiosa menor\n- 1 propiedad beneficiosa mayor\n- 1 propiedad perjudicial menor\n- 1 propiedad perjudicial mayor\n\n**Conjuros.** Mientras la espada esté en tu persona, puedes lanzar con ella los siguientes conjuros (CD 18):\n\n- Invocar relámpago\n- Palabra divina\n- Dedo de la muerte\n\nUna vez que uses la espada para lanzar un conjuro, no puedes volver a lanzar ese conjuro con ella hasta el siguiente amanecer.\n\n**Espíritu de Kas.** Mientras la espada esté en tu persona, obtienes los siguientes beneficios:\n\n**Hambre de batalla.** Sumas 1d10 a tus tiradas de iniciativa.\n\n**Hoja de defensa.** Cuando realizas una acción para atacar con la espada, puedes transferir parte o todo su bonificador de ataque a tu Clase de Armadura. Los bonificadores ajustados permanecen en vigor hasta el comienzo de tu siguiente turno.\n\n**Resistencia necrótica.** Tienes resistencia al daño necrótico.\n\n**Sensibilidad.** La *Espada de Kas* es un arma sensible de alineamiento Caótico malvado con Inteligencia 15, Sabiduría 13 y Carisma 16. Tiene oído y visión en la oscuridad hasta 120 pies.\n\nEl arma se comunica telepáticamente con su portador y habla común.\n\n**Personalidad.** El propósito de la espada es traer la ruina a Vecna. Matar a los adoradores de Vecna, destruir las obras del lich y frustrar sus maquinaciones contribuyen a cumplir este objetivo.\n\nLa *Espada de Kas* también busca destruir a cualquiera corrompido por el Ojo y la Mano de Vecna.\n\n**Destruir la espada.** Una criatura sintonizada tanto con el Ojo de Vecna como con la Mano de Vecna puede usar la propiedad de Deseo de esos artefactos combinados para deshacer la *Espada de Kas*, siempre que la espada esté a 30 pies o menos del lanzador del conjuro. Al lanzar Deseo, la criatura realiza una tirada de salvación de Carisma (CD 18). Si falla la salvación, no ocurre nada y el conjuro Deseo se desperdicia. Si supera la salvación, la *Espada de Kas* queda destruida.",
     "url": "https://dnd2024.wikidot.com/magic-item:sword-of-kas",
     "category": "weapon",
     "cost": null,
@@ -25466,6 +25795,21 @@
       "attunementBy": null,
       "raw": "Arma (tridente), muy rara (requiere sintonía)"
     }
+  },
+  {
+    "id": "tiger",
+    "type": "item",
+    "name": "Tigre",
+    "edition": "2024",
+    "source": null,
+    "description": "**Capacidad de carga:** 510 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 750,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "timepiece-of-travel",
@@ -26550,7 +26894,7 @@
     "name": "Varita de Orcus",
     "edition": "2024",
     "source": "Guía del Dungeon Master",
-    "description": "Creada y empuñada por Orcus, esta espantosa varita se escapa del alcance del señor demonio de vez en cuando. Cuando lo hace, aparece mágicamente dondequiera que el señor demonio sienta una oportunidad para lograr algún objetivo.\n\nLa varita está rematada con una calavera que alguna vez perteneció a un héroe humano asesinado por Orcus. La varita puede cambiar mágicamente de tamaño para adaptarse mejor al agarre de su usuario. Toda el agua bendita a 10 pies de la varita se destruye.\n\nCualquier criatura además de Orcus que intente sintonizarse con la varita obtiene una Constitución CD 17 tirada de salvación. Con una salvación exitosa, la criatura sufre 10d6 de daño necrótico. Si falla la salvación, la criatura muere y, si es un humanoide, se convierte en un zombi.\n\n**Arma mágica.** Puedes empuñar la varita como una maza mágica que otorga una bonificación de +3 a las tiradas de ataque y daño realizadas con ella. La varita inflige 2d12 de daño necrótico adicional con un golpe.\n\n**Propiedades aleatorias.** La Varita de Orcus tiene las siguientes propiedades aleatorias (ver \"Artefactos\"):\n\n- 2 propiedades beneficiosas menores\n- 1 propiedad beneficiosa importante\n- 2 propiedades perjudiciales menores\n- 1 propiedad perjudicial importante\n\nLas propiedades perjudiciales de la Varita de Orcus se suprimen mientras la varita está en sintonía con Orcus.\n\n**Protección.** Obtienes una bonificación de +3 a Clase de Armadura mientras sostienes la varita.\n\n**Conjuros.** La varita tiene 7 cargas y recupera 1d4 + 3 cargas gastadas diariamente al amanecer. Mientras sostienes la varita, puedes lanzar uno de los conjuros de la siguiente tabla (guarda CD 18). La tabla indica cuántas cargas debes gastar para lanzar el conjuro.\n\n| Conjuro | Costo de cargo |\n|---|---|\n| Animar muertos | 1 |\n| Plaga | 2 |\n| Círculo de la Muerte | 3 |\n| Dedo de la Muerte | 3 |\n| Palabra de poder matar | 4 |\n| Habla con los muertos | 1 |\n\nMientras está en sintonía con la varita, Orcus o un seguidor bendecido por él puede lanzar cada uno de los conjuros de la varita usando 2 cargas menos (mínimo de 0).\n\n**Llama a los no-muertos.** Mientras sostienes la varita, puedes tomar un acción de Magia para conjurar 15 esqueletos y 15 zombis. Estos no-muertos se levantan mágicamente del suelo o se forman en espacios desocupados a menos de 300 pies de ti y obedecen tus órdenes hasta que son destruidos o hasta el siguiente amanecer, cuando colapsan en montones inanimados de huesos y cadáveres en descomposición. Una vez que uses esta propiedad, no podrás volver a usarla hasta el siguiente amanecer.\n\nMientras sostiene la varita, Orcus puede convocar a cualquier tipo de no-muerto, no sólo esqueletos y zombis. Estos No-muertos no mueren al amanecer del día siguiente y permanecen hasta que Orcus los despide.\n\n**Sentiencia.** La *Varita de Orcus* es un objeto caótico maligno sensible con una Inteligencia de 16, una Sabiduría de 12 y un Carisma de 16. Tiene audición y visión en la oscuridad hasta 120 pies.\n\nLa varita se comunica telepáticamente con su portador y habla Abisal y Común.\n\n**Personalidad.** El propósito de la varita es ayudar a satisfacer el deseo de Orcus de matar todo en el multiverso. La varita es cruel, nihilista y carente de humor.\n\nPara promover los objetivos de Orcus, la varita finge devoción hacia su usuario actual y hace promesas grandiosas que no tiene intención de cumplir, como prometer ayudar a su usuario a derrocar a Orcus.\n\n**Destruir la Varita.** Destruir la *Varita de Orcus* requiere que el antiguo héroe cuyo cráneo la corona la lleve al Plano Positivo. Para que esto suceda, primero se debe devolver la vida al héroe perdido hace mucho tiempo, lo que no es una tarea fácil, dado que Orcus ha aprisionado el alma del héroe y la mantiene oculta y bien custodiada.\n\nBañar la varita en energía positiva (como la que impregna el Plano Positivo) hace que se agriete y explote, pero a menos que se cumplan las condiciones anteriores, la varita se vuelve a formar instantáneamente en la capa del Abismo de Orcus.",
+    "description": "Fabricada y empuñada por Orcus, esta espectral varita se desliza de vez en cuando de las garras del señor demonio. Cuando lo hace, aparece mágicamente allí donde el señor demonio intuye una oportunidad de lograr algún siniestro propósito.\n\nLa varita está coronada por un cráneo que perteneció a un héroe humano asesinado por Orcus. La varita puede cambiar mágicamente de tamaño para adaptarse mejor a la empuñadura de su usuario. Toda el agua bendita a 10 pies o menos de la varita queda destruida.\n\nCualquier criatura que no sea Orcus e intente sintonizarse con la varita realiza una tirada de salvación de Constitución (CD 17). Si supera la salvación, la criatura sufre 10d6 de daño necrótico. Si falla la salvación, la criatura muere y, si es un Humanoide, se convierte en un Zombi.\n\n**Arma mágica.** Puedes empuñar la varita como una maza mágica que otorga un bonificador de +3 a las tiradas de ataque y de daño realizadas con ella. La varita inflige 2d12 de daño necrótico adicional al impactar.\n\n**Propiedades aleatorias.** La Varita de Orcus tiene las siguientes propiedades aleatorias:\n\n- 2 propiedades beneficiosas menores\n- 1 propiedad beneficiosa mayor\n- 2 propiedades perjudiciales menores\n- 1 propiedad perjudicial mayor\n\nLas propiedades perjudiciales de la Varita de Orcus quedan suprimidas mientras la varita está sintonizada con Orcus.\n\n**Protección.** Obtienes un bonificador de +3 a la Clase de Armadura mientras sostienes la varita.\n\n**Conjuros.** La varita tiene 7 cargas y recupera 1d4 + 3 cargas gastadas cada día al amanecer. Mientras sostienes la varita, puedes lanzar con ella uno de los conjuros de la siguiente tabla (CD 18). La tabla indica cuántas cargas debes gastar para lanzar el conjuro.\n\n| Conjuro | Coste en cargas |\n|---|---|\n| Animar a los muertos | 1 |\n| Marchitar | 2 |\n| Círculo de la muerte | 3 |\n| Dedo de la muerte | 3 |\n| Palabra de poder: matar | 4 |\n| Hablar con los muertos | 1 |\n\nMientras esté sintonizada con la varita, Orcus o un seguidor bendecido por él puede lanzar cada uno de los conjuros de la varita gastando 2 cargas menos (mínimo de 0).\n\n**Llamar a los no muertos.** Mientras sostienes la varita, puedes realizar una acción de Magia para conjurar 15 Esqueletos y 15 Zombis. Estos No muertos se alzan mágicamente del suelo o se forman de otro modo en espacios desocupados a 300 pies o menos de ti y obedecen tus órdenes hasta que son destruidos o hasta el siguiente amanecer, cuando se desploman convertidos en montones inanimados de huesos y cadáveres en descomposición. Una vez que uses esta propiedad, no puedes volver a usarla hasta el siguiente amanecer.\n\nMientras sostiene la varita, Orcus puede invocar cualquier tipo de No muerto, no solo esqueletos y zombis. Estos No muertos no perecen al amanecer del día siguiente, sino que permanecen hasta que Orcus los despide.\n\n**Sensibilidad.** La *Varita de Orcus* es un objeto sensible de alineamiento Caótico malvado con Inteligencia 16, Sabiduría 12 y Carisma 16. Tiene oído y visión en la oscuridad hasta 120 pies.\n\nLa varita se comunica telepáticamente con su portador y habla abisal y común.\n\n**Personalidad.** El propósito de la varita es ayudar a satisfacer el deseo de Orcus de matar todo lo que existe en el multiverso. La varita es cruel, nihilista y carente de humor.\n\nPara promover los objetivos de Orcus, la varita finge devoción hacia su usuario actual y hace grandiosas promesas que no tiene intención de cumplir, como jurar que ayudará a su usuario a derrocar a Orcus.\n\n**Destruir la varita.** Destruir la *Varita de Orcus* requiere que el antiguo héroe cuyo cráneo la corona la lleve al Plano Positivo. Para que esto ocurra, el héroe perdido hace mucho debe ser devuelto primero a la vida, tarea nada fácil, dado que Orcus ha aprisionado el alma del héroe y la mantiene oculta y bien custodiada.\n\nBañar la varita en energía positiva (como la que impregna el Plano Positivo) hace que se resquebraje y explote, pero, a menos que se cumplan las condiciones anteriores, la varita se reforma al instante en la capa del Abismo de Orcus.",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-orcus",
     "category": "other",
     "cost": null,
@@ -27288,6 +27632,39 @@
     ]
   },
   {
+    "id": "weighted-chain",
+    "type": "item",
+    "name": "Cadena lastrada",
+    "edition": "2024",
+    "source": null,
+    "description": "",
+    "url": "https://dnd2024.wikidot.com/equipment:weapon",
+    "category": "weapon",
+    "cost": {
+      "amount": 15,
+      "unit": "gp"
+    },
+    "weight": 19,
+    "weapon": {
+      "kind": "martial",
+      "ranged": false,
+      "damage": [
+        {
+          "dice": "1d8",
+          "type": "bludgeoning"
+        }
+      ],
+      "properties": [
+        "Finesse",
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "range": null,
+      "mastery": "Graze"
+    }
+  },
+  {
     "id": "weird-tank",
     "type": "item",
     "name": "Tanque extraño",
@@ -27329,6 +27706,21 @@
     "replaced": [
       "https://dnd5e.wikidot.com/wondrous-items:well-of-many-worlds"
     ]
+  },
+  {
+    "id": "whaleboat",
+    "type": "item",
+    "name": "Ballenero",
+    "edition": "2024",
+    "source": null,
+    "description": "**Velocidad:** 3 mph\n**Tripulación:** 6\n**Pasajeros:** 1\n**CA:** 13\n**PG:** 100\n**Umbral de daño:** 10",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 500,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "wheel-of-stars",

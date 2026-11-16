@@ -62,6 +62,8 @@ const TEXT_ONLY = new Set([
   'subclass:wizard/diviner:The Third Eye',
   // a benefit of whoever carries the stone
   "subclass:wizard/transmuter:Transmuter's Stone",
+  // the type of the chosen ancestry: applied by the engine (ancestryResistance)
+  'species:dragonborn:Damage Resistance',
 ]);
 
 interface Check {

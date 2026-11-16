@@ -209,6 +209,12 @@ const OPTION_COUNT_BY_LEVEL: Record<string, Record<number, number>> = {
   metamagic: { 2: 2, 10: 4, 17: 6 },
   maneuver: { 3: 3, 7: 5, 10: 7, 15: 9 },
   mutagen: { 3: 4, 7: 5, 11: 6, 15: 7, 18: 8 },
+  // "two Arcane Shot options... an additional one when you reach Fighter levels 7, 10, 15, and 18"
+  'arcane-shot': { 3: 2, 7: 3, 10: 4, 15: 5, 18: 6 },
+  // Rune Knight's Runes Known table
+  rune: { 3: 2, 7: 3, 10: 4, 15: 5 },
+  // "one rite ... an additional crimson rite at 7th level, and again at 14th level"
+  'crimson-rite': { 2: 1, 7: 2, 14: 3 },
 };
 
 export interface OptionGroup {

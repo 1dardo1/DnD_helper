@@ -86,6 +86,7 @@ const abilityOf = (sp: string, a: string) => ({ [speciesAbilityKey(sp)]: [a] });
 
 /** Choice phrases that stay as text, and why. Anything new in the data must be decided here. */
 const TEXT_ONLY: Record<string, string> = {
+  'dragonborn:Breath Weapon': 'the shape (Cone or Line) is chosen each time it is used',
   // chosen each time the trait is used, in play: not a pick of the sheet
   'aasimar:Celestial Revelation': 'per use (each transformation)',
   'deep-imaskari-ua:Aura of Unlight': 'per use (each aura)',

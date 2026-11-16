@@ -26,6 +26,18 @@ export const statesEs: Record<keyof typeof statesEn, string> = {
   'state.fx.innateSorcery':
     'CD de conjuros de hechicero {dc} (+1, ya sumado) · ventaja en las tiradas de ataque de conjuros de hechicero',
   'state.dur.innateSorcery': 'Dura 1 minuto.',
+  'state.fx.bladesong':
+    '+{n} a la CA (Inteligencia, ya sumado) · +10 pies de velocidad · ventaja en Destreza (Acrobacias) · Inteligencia en las salvaciones de Constitución para mantener la concentración',
+  'state.fx.wrathOfTheSea':
+    'Emanación de 1,5 m: empuja y hace daño de frío; con Nacido de la tormenta, velocidad de vuelo y resistencias (ya aplicadas)',
+  'state.fx.formOfDread':
+    'PG temporales de 1d10 + nivel de brujo · inmune a Asustado · puede asustar al impactar; con Pavor superior, resistencia y vuelo (ya aplicados)',
+  'state.fx.starryForm': 'Elige la constelación (Arquero, Cáliz o Dragón) al adoptar la forma',
+  'state.dur.bladesong':
+    'Dura 1 minuto; termina si te pones armadura o escudo, quedas Incapacitado o atacas a dos manos.',
+  'state.dur.formOfDread': 'Dura 1 minuto o hasta que quedes Incapacitado.',
+  'state.dur.tenMinutes': 'Dura 10 minutos.',
+  'state.ended.armor': 'Ha terminado: llevas armadura o escudo.',
   'state.whileOff': 'solo con el estado activo',
   'combat.note.rageOn': 'furia: +{n} al daño ya sumado',
   'combat.note.lunarRadiance': 'Resplandor lunar: puedes hacer el daño radiante',

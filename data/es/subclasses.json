@@ -5065,7 +5065,28 @@
       "kind": "third",
       "preparation": "prepared",
       "spellList": "wizard",
-      "cantripsByLevel": null,
+      "cantripsByLevel": [
+        0,
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
       "preparedByLevel": [
         0,
         0,
@@ -6161,7 +6182,28 @@
       "kind": "third",
       "preparation": "prepared",
       "spellList": "sorcerer",
-      "cantripsByLevel": null,
+      "cantripsByLevel": [
+        0,
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
       "preparedByLevel": [
         0,
         0,
@@ -8646,7 +8688,28 @@
       "kind": "third",
       "preparation": "prepared",
       "spellList": "wizard",
-      "cantripsByLevel": null,
+      "cantripsByLevel": [
+        0,
+        0,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
       "preparedByLevel": [
         0,
         0,
@@ -8891,10 +8954,7 @@
           0
         ]
       ]
-    },
-    "replaced": [
-      "https://dnd5e.wikidot.com/rogue:arcane-trickster"
-    ]
+    }
   },
   {
     "id": "rogue/assassin",

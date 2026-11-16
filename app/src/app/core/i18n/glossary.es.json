@@ -122,7 +122,10 @@
     "mutagen": "Mutágenos",
     "artificer-infusion": "Infusiones de artífice",
     "magic-item-plan": "Planos de objetos mágicos",
-    "elemental-discipline": "Disciplinas elementales"
+    "elemental-discipline": "Disciplinas elementales",
+    "arcane-shot": "Disparos arcanos",
+    "rune": "Runas",
+    "crimson-rite": "Ritos carmesí"
   },
   "ruleCategory": {
     "actions": "Acciones (SRD)",

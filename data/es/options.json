@@ -1,5 +1,109 @@
 [
   {
+    "id": "arcane-shot/banishing-shot",
+    "type": "option",
+    "name": "Disparo de destierro",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Tu munición secuestra temporalmente a tu objetivo en un semiplano inofensivo. La criatura a la que impactas sufre daño psíquico adicional igual a una tirada de tu dado de Disparo arcano y debe superar una tirada de salvación de Carisma o quedar desterrada. Mientras está desterrada, la criatura tiene la condición de incapacitado y una velocidad de 0. Al final de su siguiente turno, el objetivo reaparece en el espacio que dejó o, si ese espacio está ocupado, en el espacio desocupado más cercano.",
+    "url": "https://dnd2024.wikidot.com/fighter:arcane-archer",
+    "group": "arcane-shot",
+    "classId": "fighter",
+    "subclassId": "fighter/arcane-archer",
+    "prerequisites": null
+  },
+  {
+    "id": "arcane-shot/beguiling-shot",
+    "type": "option",
+    "name": "Disparo de embeleso",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Tu munición embelesa a tu objetivo. La criatura a la que impactas sufre daño psíquico adicional igual a dos tiradas de tu dado de Disparo arcano y debe superar una tirada de salvación de Sabiduría o tendrá la condición de hechizado hasta el comienzo de tu siguiente turno, considerando como hechicero a ti o a uno de tus aliados a 30 pies o menos del objetivo (a tu elección). La condición de hechizado termina antes de tiempo si el hechicero ataca al objetivo, le inflige daño o lo obliga a hacer una tirada de salvación.",
+    "url": "https://dnd2024.wikidot.com/fighter:arcane-archer",
+    "group": "arcane-shot",
+    "classId": "fighter",
+    "subclassId": "fighter/arcane-archer",
+    "prerequisites": null
+  },
+  {
+    "id": "arcane-shot/bursting-shot",
+    "type": "option",
+    "name": "Disparo explosivo",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Imbuyes tu munición con energía mágica explosiva. Inmediatamente después de infligir daño a la criatura, tu objetivo y cada criatura dentro de una Emanación de 10 pies originada en el objetivo sufren daño de fuerza igual a dos tiradas de tu dado de Disparo arcano.",
+    "url": "https://dnd2024.wikidot.com/fighter:arcane-archer",
+    "group": "arcane-shot",
+    "classId": "fighter",
+    "subclassId": "fighter/arcane-archer",
+    "prerequisites": null
+  },
+  {
+    "id": "arcane-shot/enfeebling-shot",
+    "type": "option",
+    "name": "Disparo debilitante",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Tu munición merma la fuerza de tu objetivo. La criatura a la que impactas sufre daño necrótico adicional igual a dos tiradas de tu dado de Disparo arcano. El objetivo debe superar además una tirada de salvación de Constitución o tendrá la condición de envenenado hasta el final de su siguiente turno. Siempre que un objetivo envenenado de este modo impacte con una tirada de ataque, resta una cantidad igual a una tirada de tu dado de Disparo arcano del daño total de ese ataque.",
+    "url": "https://dnd2024.wikidot.com/fighter:arcane-archer",
+    "group": "arcane-shot",
+    "classId": "fighter",
+    "subclassId": "fighter/arcane-archer",
+    "prerequisites": null
+  },
+  {
+    "id": "arcane-shot/grasping-shot",
+    "type": "option",
+    "name": "Disparo de agarre",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Tu munición crea zarzas aprehensoras alrededor de tu objetivo. La criatura a la que impactas sufre daño cortante adicional igual a una tirada de tu dado de Disparo arcano y debe superar una tirada de salvación de Fuerza o tendrá la condición de apresado durante 1 minuto o hasta que uses esta opción de nuevo. El objetivo o una criatura a su alcance puede realizar una acción para hacer una prueba de Fuerza (Atletismo) contra tu Disparo arcano tirada de salvación CD; si tiene éxito, elimina las zarzas y termina la condición de apresado sobre el objetivo.",
+    "url": "https://dnd2024.wikidot.com/fighter:arcane-archer",
+    "group": "arcane-shot",
+    "classId": "fighter",
+    "subclassId": "fighter/arcane-archer",
+    "prerequisites": null
+  },
+  {
+    "id": "arcane-shot/piercing-shot",
+    "type": "option",
+    "name": "Disparo perforante",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Das a tu munición una cualidad etérea. Cuando usas esta opción, no haces una tirada de ataque para el ataque. En su lugar, la munición sale disparada hacia delante en una Línea de 30 pies de largo y 1 pie de ancho originada en ti, y luego se desvanece. La Línea ignora la cobertura, ya que la munición atraviesa los objetos sólidos. Cada criatura en la Línea realiza una tirada de salvación de Destreza. Si falla la salvación, la criatura sufre el daño como si hubiera sido impactada más daño perforante adicional igual a dos tiradas de tu dado de Disparo arcano. Si supera la salvación, la criatura sufre la mitad de ese daño.",
+    "url": "https://dnd2024.wikidot.com/fighter:arcane-archer",
+    "group": "arcane-shot",
+    "classId": "fighter",
+    "subclassId": "fighter/arcane-archer",
+    "prerequisites": null
+  },
+  {
+    "id": "arcane-shot/seeking-shot",
+    "type": "option",
+    "name": "Disparo buscador",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Tu munición puede buscar a un objetivo. Cuando usas esta opción, no haces una tirada de ataque para el ataque. En su lugar, elige a una criatura que hayas visto en el último minuto. La munición vuela hacia esa criatura, rodeando esquinas si es necesario e ignorando la cobertura media y la cobertura de tres cuartos. Si el objetivo está dentro del alcance largo de tu arma, el objetivo realiza una tirada de salvación de Destreza. Si falla la salvación, el objetivo sufre el daño como si hubiera sido impactado más daño de fuerza adicional igual a dos tiradas de tu dado de Disparo arcano, y averiguas la ubicación actual del objetivo. Si supera la salvación, el objetivo sufre únicamente la mitad de ese daño. Si el objetivo está más allá del alcance largo de tu arma, la munición desaparece después de recorrer toda la distancia que pueda.",
+    "url": "https://dnd2024.wikidot.com/fighter:arcane-archer",
+    "group": "arcane-shot",
+    "classId": "fighter",
+    "subclassId": "fighter/arcane-archer",
+    "prerequisites": null
+  },
+  {
+    "id": "arcane-shot/shadow-shot",
+    "type": "option",
+    "name": "Disparo de sombra",
+    "edition": "2024",
+    "source": "Arcanos desatados",
+    "description": "Tu munición ocluye la visión de tu enemigo con sombras. La criatura a la que impactas sufre daño psíquico adicional igual a una tirada de tu dado de Disparo arcano y debe superar una tirada de salvación de Sabiduría o tendrá la condición de cegado hasta el final de su siguiente turno.",
+    "url": "https://dnd2024.wikidot.com/fighter:arcane-archer",
+    "group": "arcane-shot",
+    "classId": "fighter",
+    "subclassId": "fighter/arcane-archer",
+    "prerequisites": null
+  },
+  {
     "id": "blood-curse/blood-curse-of-binding",
     "type": "option",
     "name": "Maldición de sangre de la atadura",
@@ -166,6 +270,93 @@
       "raw": "Nivel 18, Orden del Alma Profana",
       "level": 18
     }
+  },
+  {
+    "id": "crimson-rite/rite-of-the-dead",
+    "type": "option",
+    "name": "Rito de los Muertos",
+    "edition": "2014",
+    "source": "DND más allá",
+    "description": "Tu daño de rito es daño necrótico.",
+    "url": "https://dnd5e.wikidot.com/blood-hunter",
+    "group": "crimson-rite",
+    "classId": "blood-hunter",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Requisito previo: nivel 14",
+      "level": 14
+    }
+  },
+  {
+    "id": "crimson-rite/rite-of-the-flame",
+    "type": "option",
+    "name": "Rito de la Llama",
+    "edition": "2014",
+    "source": "DND más allá",
+    "description": "Tu daño de rito es daño de fuego.",
+    "url": "https://dnd5e.wikidot.com/blood-hunter",
+    "group": "crimson-rite",
+    "classId": "blood-hunter",
+    "subclassId": null,
+    "prerequisites": null
+  },
+  {
+    "id": "crimson-rite/rite-of-the-frozen",
+    "type": "option",
+    "name": "Rito de los Congelados",
+    "edition": "2014",
+    "source": "DND más allá",
+    "description": "Tu daño de rito es daño de frío.",
+    "url": "https://dnd5e.wikidot.com/blood-hunter",
+    "group": "crimson-rite",
+    "classId": "blood-hunter",
+    "subclassId": null,
+    "prerequisites": null
+  },
+  {
+    "id": "crimson-rite/rite-of-the-oracle",
+    "type": "option",
+    "name": "Rito del Oráculo",
+    "edition": "2014",
+    "source": "DND más allá",
+    "description": "Tu daño de rito es daño psíquico.",
+    "url": "https://dnd5e.wikidot.com/blood-hunter",
+    "group": "crimson-rite",
+    "classId": "blood-hunter",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Requisito previo: nivel 14",
+      "level": 14
+    }
+  },
+  {
+    "id": "crimson-rite/rite-of-the-roar",
+    "type": "option",
+    "name": "Rito del Rugido",
+    "edition": "2014",
+    "source": "DND más allá",
+    "description": "Tu daño de rito es daño de trueno.",
+    "url": "https://dnd5e.wikidot.com/blood-hunter",
+    "group": "crimson-rite",
+    "classId": "blood-hunter",
+    "subclassId": null,
+    "prerequisites": {
+      "raw": "Requisito previo: nivel 14",
+      "level": 14
+    }
+  },
+  {
+    "id": "crimson-rite/rite-of-the-storm",
+    "type": "option",
+    "name": "Rito de la Tormenta",
+    "edition": "2014",
+    "source": "DND más allá",
+    "description": "Tu daño de rito es daño de relámpago.",
+    "url": "https://dnd5e.wikidot.com/blood-hunter",
+    "group": "crimson-rite",
+    "classId": "blood-hunter",
+    "subclassId": null,
+    "prerequisites": null
   },
   {
     "id": "eldritch-invocation/agonizing-blast",
@@ -2421,5 +2612,89 @@
     "classId": "blood-hunter",
     "subclassId": "blood-hunter/order-of-the-mutant",
     "prerequisites": null
+  },
+  {
+    "id": "rune/cloud-rune",
+    "type": "option",
+    "name": "Runa de las nubes",
+    "edition": "2014",
+    "source": "El caldero de todo de Tasha",
+    "description": "Esta runa emula la magia engañosa que usan algunos gigantes de las nubes. Mientras lleves puesto o portes un objeto inscrito con esta runa, tienes ventaja en las pruebas de Destreza (Juego de manos) y de Carisma (Engaño).",
+    "url": "https://dnd5e.wikidot.com/fighter:rune-knight",
+    "group": "rune",
+    "classId": "fighter",
+    "subclassId": "fighter/rune-knight",
+    "prerequisites": null
+  },
+  {
+    "id": "rune/fire-rune",
+    "type": "option",
+    "name": "Runa de fuego",
+    "edition": "2014",
+    "source": "El caldero de todo de Tasha",
+    "description": "La magia de esta runa canaliza la maestría artesanal de los grandes herreros. Mientras lleves puesto o portes un objeto inscrito con esta runa, tu bonificador de competencia se duplica en cualquier prueba de característica que hagas y que use tu competencia con una herramienta.",
+    "url": "https://dnd5e.wikidot.com/fighter:rune-knight",
+    "group": "rune",
+    "classId": "fighter",
+    "subclassId": "fighter/rune-knight",
+    "prerequisites": null
+  },
+  {
+    "id": "rune/frost-rune",
+    "type": "option",
+    "name": "Runa de escarcha",
+    "edition": "2014",
+    "source": "El caldero de todo de Tasha",
+    "description": "La magia de esta runa evoca el poderío de quienes sobreviven en los parajes invernales, como los gigantes de escarcha. Mientras lleves puesto o portes un objeto inscrito con esta runa, tienes ventaja en las pruebas de Sabiduría (Trato con animales) y de Carisma (Intimidación).",
+    "url": "https://dnd5e.wikidot.com/fighter:rune-knight",
+    "group": "rune",
+    "classId": "fighter",
+    "subclassId": "fighter/rune-knight",
+    "prerequisites": null
+  },
+  {
+    "id": "rune/hill-rune",
+    "type": "option",
+    "name": "Runa de las colinas",
+    "edition": "2014",
+    "source": "El caldero de todo de Tasha",
+    "description": "La magia de esta runa confiere una resistencia que recuerda a la de un gigante de las colinas. Mientras lleves puesto o portes un objeto que lleve esta runa, tienes ventaja en las tiradas de salvación para evitar ser envenenado y tienes resistencia al daño de veneno.",
+    "url": "https://dnd5e.wikidot.com/fighter:rune-knight",
+    "group": "rune",
+    "classId": "fighter",
+    "subclassId": "fighter/rune-knight",
+    "prerequisites": {
+      "raw": "Nivel 7 o superior",
+      "level": 7
+    }
+  },
+  {
+    "id": "rune/stone-rune",
+    "type": "option",
+    "name": "Runa de piedra",
+    "edition": "2014",
+    "source": "El caldero de todo de Tasha",
+    "description": "La magia de esta runa canaliza la sensatez asociada a los gigantes de piedra. Mientras lleves puesto o portes un objeto inscrito con esta runa, tienes ventaja en las pruebas de Sabiduría (Perspicacia) y tienes visión en la oscuridad hasta un alcance de 120 pies.",
+    "url": "https://dnd5e.wikidot.com/fighter:rune-knight",
+    "group": "rune",
+    "classId": "fighter",
+    "subclassId": "fighter/rune-knight",
+    "prerequisites": null
+  },
+  {
+    "id": "rune/storm-rune",
+    "type": "option",
+    "name": "Runa de tormenta",
+    "edition": "2014",
+    "source": "El caldero de todo de Tasha",
+    "description": "Usando esta runa, puedes vislumbrar el futuro como un vidente gigante de las tormentas. Mientras lleves puesto o portes un objeto inscrito con esta runa, tienes ventaja en las pruebas de Inteligencia (Arcanos) y no puedes ser sorprendido mientras no estés incapacitado.",
+    "url": "https://dnd5e.wikidot.com/fighter:rune-knight",
+    "group": "rune",
+    "classId": "fighter",
+    "subclassId": "fighter/rune-knight",
+    "prerequisites": {
+      "raw": "Nivel 7 o superior",
+      "level": 7
+    }
   }
 ]

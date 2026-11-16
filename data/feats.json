@@ -578,7 +578,15 @@
       "level": 4
     },
     "repeatable": false,
-    "abilityIncrease": null,
+    "abilityIncrease": {
+      "choose": 1,
+      "from": [
+        "CON",
+        "CHA"
+      ],
+      "amount": 1,
+      "max": 20
+    },
     "adjustments": [
       "Added the level 4 prerequisite of 2024 general feats"
     ]
@@ -2397,7 +2405,16 @@
       "level": 4
     },
     "repeatable": false,
-    "abilityIncrease": null,
+    "abilityIncrease": {
+      "choose": 1,
+      "from": [
+        "STR",
+        "CON",
+        "CHA"
+      ],
+      "amount": 1,
+      "max": 20
+    },
     "adjustments": [
       "Added the level 4 prerequisite of 2024 general feats"
     ]
@@ -2917,7 +2934,14 @@
       "level": 4
     },
     "repeatable": false,
-    "abilityIncrease": null,
+    "abilityIncrease": {
+      "choose": 1,
+      "from": [
+        "CHA"
+      ],
+      "amount": 1,
+      "max": 20
+    },
     "adjustments": [
       "Added the level 4 prerequisite of 2024 general feats"
     ]
@@ -3771,7 +3795,14 @@
       "level": 4
     },
     "repeatable": false,
-    "abilityIncrease": null,
+    "abilityIncrease": {
+      "choose": 1,
+      "from": [
+        "CON"
+      ],
+      "amount": 1,
+      "max": 20
+    },
     "adjustments": [
       "Added the level 4 prerequisite of 2024 general feats"
     ]
@@ -4755,7 +4786,15 @@
       "level": 4
     },
     "repeatable": false,
-    "abilityIncrease": null,
+    "abilityIncrease": {
+      "choose": 1,
+      "from": [
+        "STR",
+        "CON"
+      ],
+      "amount": 1,
+      "max": 20
+    },
     "adjustments": [
       "Added the level 4 prerequisite of 2024 general feats"
     ]
@@ -6281,10 +6320,10 @@
       "species": [
         "dwarf"
       ],
-      "level": 4,
       "size": [
         "Small"
-      ]
+      ],
+      "level": 4
     },
     "repeatable": false,
     "abilityIncrease": {

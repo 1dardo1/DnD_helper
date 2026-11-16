@@ -35,7 +35,13 @@ import { multiclassGains } from './multiclass';
 import { hpBreakdown } from '../creation/hp-levels';
 import { COUNTED_FEATURES } from '../play/play-state';
 import { featureNumbers } from './feature-stats';
-import { RAGE_RESISTANCES, activeStatesOf, stateOn, tagNotes } from './active-states';
+import {
+  ACTIVE_STATES,
+  RAGE_RESISTANCES,
+  activeStatesOf,
+  stateOn,
+  tagNotes,
+} from './active-states';
 import { NaturalWeapon, naturalWeaponOf, unarmedTypeOf } from './natural-weapons';
 import { poolFor } from './pools';
 import { proficientWith } from './attacks';
@@ -48,7 +54,7 @@ import {
   speciesGains,
   speciesTraits,
 } from './species-picks';
-import { TraitRules, traitRules } from './trait-effects';
+import { TraitRules, traitRules, traitRulesOfText } from './trait-effects';
 import { Bonus, Sheet, SheetFeatSpell, SheetFeatUse, SheetFeature, SheetWarning } from './sheet';
 import { ABILITIES, MULTICLASS_SLOTS, SKILL_ABILITY, modifier, proficiencyBonus } from './tables';
 
@@ -551,6 +557,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       ...fromTraits.resistances,
       ...speciesPicked.resistances,
       ...classPicked.resistances,
+      ...ancestryResistance(species, variant),
     ]),
   ];
   const traitTools = traits.flatMap((t) => fx(t).tools);
@@ -599,6 +606,8 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     wildShape: ch.state.wildShape,
     conditions: ch.state.conditions ?? [],
     heavyArmor: armor?.kind === 'heavy',
+    armor: !!armor && armor.kind !== 'shield',
+    shield: shield > 0,
   });
   tagNotes(combat.notes);
   tagNotes(combat.stats);
@@ -608,6 +617,30 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   // Innate Sorcery: "The spell save DC of your Sorcerer spells increases by 1"
   if (stateOn(combat.states, 'innateSorcery'))
     for (const sc of spellClasses) if (sc.classId === 'sorcerer') sc.saveDc += 1;
+  // Bladesong: "a bonus to your AC equal to your Intelligence modifier (minimum of +1), and your
+  // Speed increases by 10 feet"
+  if (stateOn(combat.states, 'bladesong')) {
+    const bonus = Math.max(1, mod('INT'));
+    armorClass = { value: armorClass.value + bonus, formula: `${armorClass.formula} + INT` };
+    speed['walk'] += 10;
+  }
+  // forms whose features only hold while they're on (Stormborn, Superior Dread...): their speeds,
+  // resistances and immunities, read from the text as if unconditional
+  const formImmunities: string[] = [];
+  const formConditions: string[] = [];
+  for (const def of ACTIVE_STATES)
+    if (def.forms && stateOn(combat.states, def.id))
+      for (const f of features)
+        if (def.forms.includes(f.name) && f.source.id === def.feature?.sub) {
+          const r = traitRulesOfText(f.description, { inState: true });
+          for (const x of r.speeds) {
+            const v = x.value === 'speed' ? speed['walk'] : x.value;
+            speed[x.kind] = Math.max(speed[x.kind] ?? 0, v);
+          }
+          for (const t of r.resistances) if (!resistances.includes(t)) resistances.push(t);
+          formImmunities.push(...r.immunities);
+          formConditions.push(...r.conditionImmunities);
+        }
 
   // -- class resources -----------------------------------------------------------------
   const resources = classes.flatMap((c) =>
@@ -673,7 +706,10 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     featSpells: granted.spells,
     featUses: granted.uses,
     resistances,
-    ...immunitiesOf(traits.map((t) => fx(t))),
+    ...immunitiesOf([
+      ...traits.map((t) => fx(t)),
+      { immunities: formImmunities, conditionImmunities: formConditions } as TraitRules,
+    ]),
     ...featureChoicesOf(classViews),
     combat,
     featMissing: granted.missing,
@@ -696,6 +732,21 @@ function featureChoicesOf(views: FeatureChoiceView[]): Pick<Sheet, 'featureChoic
       picks: v.picks,
     }));
   return out.length ? { featureChoices: out } : {};
+}
+
+/**
+ * Dragonborn: "You have Resistance to the damage type determined by your Draconic Ancestry trait",
+ * the type being in the chosen ancestry ("**Damage Type:** Acid").
+ */
+function ancestryResistance(
+  species: Species | undefined,
+  variant: SpeciesVariant | undefined,
+): string[] {
+  const type = variant && /\*\*Damage Type:\*\*\s*([A-Z][a-z]+)/.exec(variant.description)?.[1];
+  const says = species?.traits.some((t) =>
+    /You have Resistance to the damage type determined by your [\w ]*Ancestry/i.test(t.description),
+  );
+  return type && says ? [type] : [];
 }
 
 /** Damage types and conditions the character is immune to (absent: none). */

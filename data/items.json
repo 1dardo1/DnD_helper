@@ -410,6 +410,21 @@
     }
   },
   {
+    "id": "allosaurus",
+    "type": "item",
+    "name": "Allosaurus",
+    "edition": "2024",
+    "source": null,
+    "description": "**Carrying Capacity:** 570 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 1000,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "amethyst-lodestone",
     "type": "item",
     "name": "Amethyst Lodestone",
@@ -1232,7 +1247,7 @@
     },
     "weight": 1,
     "weapon": {
-      "kind": "martial",
+      "kind": null,
       "ranged": false,
       "damage": [],
       "properties": [],
@@ -1372,7 +1387,7 @@
     "name": "Axe of the Dwarvish Lords",
     "edition": "2024",
     "source": "Dungeon Master's Guide",
-    "description": "A young dwarf prince set out to forge a weapon that would be regarded as a symbol of unity among his people. Venturing deep under the mountains, deeper than any dwarf had ever delved, the prince came to the blazing heart of a great volcano. With the aid of Moradin, a god of creation, he first crafted four mighty tools: the Starmetal Pick, the Earthheart Forge, the Anvil of Songs, and the Shaping Hammer. With these tools, he forged the *Axe of the Dwarvish Lords.*\n\nArmed with the Artifact, the prince brought peace to the dwarf clans, ending grudges and answering slights. The clans became allies, and they threw back their enemies and enjoyed an era of prosperity. This young dwarf is remembered as the First King. When he became old, he passed the weapon, which had become his badge of office, to his heir. The rightful inheritors passed the axe on for many generations.\n\nLater, in an era marked by treachery and wickedness, the axe was lost in a bloody civil war fomented by greed for its power and the status it bestowed. Centuries later, the dwarves still search for the axe, and many adventurers have made careers of chasing after rumors and plundering old vaults to find it.\n\n**Magic Weapon.** The Axe of the Dwarvish Lords is a magic weapon that grants a +3 bonus to attack rolls and damage rolls made with it.\n\nWhen you attack a creature with the axe and roll a 20 on the d20 for the attack roll, the axe deals an extra 20 Slashing damage.\n\nThe axe has the Thrown property with a normal range of 20 feet and a long range of 60 feet. When you hit with a ranged attack using this weapon, it deals an extra 1d8 Force damage, or an extra 2d8 Force damage if the target is a creature of the Giant type. Immediately after hitting or missing, the weapon flies back to your hand.\n\n***Blessings of Moradin.*** While attuned to the axe, you gain the following benefits:\n\n**Darkvision.** You gain Darkvision with a range of 60 feet. If you already have Darkvision, its range increases by 60 feet.\n\n**Fortitude of Stone.** Your Constitution increases by 2, to a maximum of 20.\n\n**Gifts of the Creator.** You have proficiency with Brewer's Supplies, Mason's Tools, and Smith's Tools.\n\n**One with the Forge.** You have Immunity to Poison damage and Resistance to Fire damage.\n\n**Sunder.** When you hit an object with the axe, the object takes the maximum amount of damage possible.\n\n***Conjure Earth Elemental.*** While holding the axe, you can take a Magic action to summon an Earth Elemental. It appears in an unoccupied space you choose within 30 feet of yourself, understands your languages, obeys your commands, and takes its turn immediately after you on your Initiative count. The elemental disappears after 24 hours, when it dies, or when you dismiss it as a Bonus Action. You can't use this property again until the next dawn.\n\n**Random Properties.** The axe has the following random properties (see \"Artifacts\"):\n\n- 2 minor beneficial properties\n- 1 major beneficial property\n- 2 minor detrimental properties\n\n**Travel the Depths.** You can take a Magic action to touch the axe to a fixed piece of dwarven stonework and cast Teleport from the axe. If your intended destination is underground, there is no chance of a mishap or arriving somewhere unexpected. You can't use this property again until 3 days have passed.\n\n**Destroying the Axe.** The only way to destroy the axe is to melt it down in the Earthheart Forge, where it was created. It must remain in the burning forge for 50 years before it finally succumbs to the fire and is consumed.",
+    "description": "A young dwarf prince set out to forge a weapon that would be regarded as a symbol of unity among his people. Venturing deep under the mountains, deeper than any dwarf had ever delved, the prince came to the blazing heart of a great volcano. With the aid of Moradin, a god of creation, he first crafted four mighty tools: the Starmetal Pick, the Earthheart Forge, the Anvil of Songs, and the Shaping Hammer. With these tools, he forged the *Axe of the Dwarvish Lords.*\n\nArmed with the Artifact, the prince brought peace to the dwarf clans, ending grudges and answering slights. The clans became allies, and they threw back their enemies and enjoyed an era of prosperity. This young dwarf is remembered as the First King. When he became old, he passed the weapon, which had become his badge of office, to his heir. The rightful inheritors passed the axe on for many generations.\n\nLater, in an era marked by treachery and wickedness, the axe was lost in a bloody civil war fomented by greed for its power and the status it bestowed. Centuries later, the dwarves still search for the axe, and many adventurers have made careers of chasing after rumors and plundering old vaults to find it.\n\n**Magic Weapon.** The Axe of the Dwarvish Lords is a magic weapon that grants a +3 bonus to attack rolls and damage rolls made with it.\n\nWhen you attack a creature with the axe and roll a 20 on the d20 for the attack roll, the axe deals an extra 20 Slashing damage.\n\nThe axe has the Thrown property with a normal range of 20 feet and a long range of 60 feet. When you hit with a ranged attack using this weapon, it deals an extra 1d8 Force damage, or an extra 2d8 Force damage if the target is a creature of the Giant type. Immediately after hitting or missing, the weapon flies back to your hand.\n\n***Blessings of Moradin.*** While attuned to the axe, you gain the following benefits:\n\n**Darkvision.** You gain Darkvision with a range of 60 feet. If you already have Darkvision, its range increases by 60 feet.\n\n**Fortitude of Stone.** Your Constitution increases by 2, to a maximum of 20.\n\n**Gifts of the Creator.** You have proficiency with Brewer's Supplies, Mason's Tools, and Smith's Tools.\n\n**One with the Forge.** You have Immunity to Poison damage and Resistance to Fire damage.\n\n**Sunder.** When you hit an object with the axe, the object takes the maximum amount of damage possible.\n\n***Conjure Earth Elemental.*** While holding the axe, you can take a Magic action to summon an Earth Elemental. It appears in an unoccupied space you choose within 30 feet of yourself, understands your languages, obeys your commands, and takes its turn immediately after you on your Initiative count. The elemental disappears after 24 hours, when it dies, or when you dismiss it as a Bonus Action. You can't use this property again until the next dawn.\n\n**Random Properties.** The axe has the following random properties.\n\n- 2 minor beneficial properties\n- 1 major beneficial property\n- 2 minor detrimental properties\n\n**Travel the Depths.** You can take a Magic action to touch the axe to a fixed piece of dwarven stonework and cast Teleport from the axe. If your intended destination is underground, there is no chance of a mishap or arriving somewhere unexpected. You can't use this property again until 3 days have passed.\n\n**Destroying the Axe.** The only way to destroy the axe is to melt it down in the Earthheart Forge, where it was created. It must remain in the burning forge for 50 years before it finally succumbs to the fire and is consumed.",
     "url": "https://dnd2024.wikidot.com/magic-item:axe-of-the-dwarvish-lords",
     "category": "weapon",
     "cost": null,
@@ -2802,6 +2817,37 @@
     }
   },
   {
+    "id": "bola",
+    "type": "item",
+    "name": "Bola",
+    "edition": "2024",
+    "source": null,
+    "description": "",
+    "url": "https://dnd2024.wikidot.com/equipment:weapon",
+    "category": "weapon",
+    "cost": {
+      "amount": 2,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "weapon": {
+      "kind": "martial",
+      "ranged": true,
+      "damage": [
+        {
+          "dice": "1",
+          "type": "bludgeoning"
+        }
+      ],
+      "properties": [
+        "Finesse",
+        "Thrown (Range 20/40)"
+      ],
+      "range": "20/40",
+      "mastery": "Topple"
+    }
+  },
+  {
     "id": "bolts",
     "type": "item",
     "name": "Bolts",
@@ -2816,7 +2862,7 @@
     },
     "weight": 0.5,
     "weapon": {
-      "kind": "martial",
+      "kind": null,
       "ranged": false,
       "damage": [],
       "properties": [],
@@ -2894,7 +2940,7 @@
     "name": "Book of Exalted Deeds",
     "edition": "2024",
     "source": "Dungeon Master's Guide",
-    "description": "The definitive treatise on all that is good in the multiverse, the *Book of Exalted Deeds* figures prominently in many religions. Rather than being a scripture devoted to a particular faith, the book's authors filled the pages with their own visions of true virtue, providing guidance for defeating evil.\n\n*The Book of Exalted Deeds* rarely lingers in one place. As soon as the book is read, it vanishes to some other corner of the multiverse where its moral guidance can bring hope to an endangered world. Although attempts have been made to copy the work, efforts to do so fail to capture its magical nature or translate the benefits it offers to those pure of heart and firm of purpose.\n\nA heavy clasp, wrought to look like angel wings, keeps the book's contents secure. Only a creature that is attuned to the book can release the clasp that holds it shut. Once the book is opened, the attuned creature must spend 80 hours reading and studying the book to digest its contents and gain its benefits.\n\nOther creatures that peruse the book's open pages can read the text but glean no deeper meaning and reap no benefits. A Fiend, an Undead, or a servant of a god from the Lower Planes that tries to read from the book takes 24d6 Radiant damage. This damage ignores Resistance and Immunity, and it can't be reduced or avoided by any means. A creature reduced to 0 Hit Points by this damage disappears in a flash and is destroyed, leaving its possessions behind. The book then vanishes, and the creature's Attunement to it ends.\n\nBenefits granted by the *Book of Exalted Deeds* last only as long as you strive to do good. If you fail to perform at least one act of kindness or generosity within the span of 10 days, or if you willingly perform an evil act, you lose all the benefits granted by the book.\n\n**Celestial Calm.** While attuned to the book, you have Immunity to the Charmed and Frightened conditions and Resistance to Psychic damage. These benefits become permanent after you spend the requisite amount of time reading and studying the book.\n\n**Divine Wisdom.** After you spend the requisite amount of time reading and studying the book, your Wisdom increases by 2, to a maximum of 24. You can't gain this benefit from the book more than once.\n\n**Enlightened Magic.** After you spend the requisite amount of time reading and studying the book, any spell slot you expend to cast a spell counts as a spell slot of one level higher.\n\n**Halo.** After you spend the requisite amount of time reading and studying the book, you gain a protective halo. This halo sheds Bright Light in a 10-foot radius and Dim Light for an additional 10 feet. You can dismiss or manifest the halo as a Bonus Action. While present, the halo gives you Advantage on Charisma (Persuasion) checks. In addition, Fiends and Undead within the halo's Bright Light make attack rolls against you with Disadvantage.\n\n**Random Properties.** *The Book of Exalted Deeds* has the following random properties (see \"Artifacts\"):\n\n- 2 minor beneficial properties\n- 2 major beneficial properties\n\n**Destroying the Book.** *The Book of Exalted Deeds* can't be destroyed. However, drowning the book in the River Styx removes all writing and imagery from its pages and renders the book powerless for 1d100 years.",
+    "description": "The definitive treatise on all that is good in the multiverse, the *Book of Exalted Deeds* figures prominently in many religions. Rather than being a scripture devoted to a particular faith, the book's authors filled the pages with their own visions of true virtue, providing guidance for defeating evil.\n\n*The Book of Exalted Deeds* rarely lingers in one place. As soon as the book is read, it vanishes to some other corner of the multiverse where its moral guidance can bring hope to an endangered world. Although attempts have been made to copy the work, efforts to do so fail to capture its magical nature or translate the benefits it offers to those pure of heart and firm of purpose.\n\nA heavy clasp, wrought to look like angel wings, keeps the book's contents secure. Only a creature that is attuned to the book can release the clasp that holds it shut. Once the book is opened, the attuned creature must spend 80 hours reading and studying the book to digest its contents and gain its benefits.\n\nOther creatures that peruse the book's open pages can read the text but glean no deeper meaning and reap no benefits. A Fiend, an Undead, or a servant of a god from the Lower Planes that tries to read from the book takes 24d6 Radiant damage. This damage ignores Resistance and Immunity, and it can't be reduced or avoided by any means. A creature reduced to 0 Hit Points by this damage disappears in a flash and is destroyed, leaving its possessions behind. The book then vanishes, and the creature's Attunement to it ends.\n\nBenefits granted by the *Book of Exalted Deeds* last only as long as you strive to do good. If you fail to perform at least one act of kindness or generosity within the span of 10 days, or if you willingly perform an evil act, you lose all the benefits granted by the book.\n\n**Celestial Calm.** While attuned to the book, you have Immunity to the Charmed and Frightened conditions and Resistance to Psychic damage. These benefits become permanent after you spend the requisite amount of time reading and studying the book.\n\n**Divine Wisdom.** After you spend the requisite amount of time reading and studying the book, your Wisdom increases by 2, to a maximum of 24. You can't gain this benefit from the book more than once.\n\n**Enlightened Magic.** After you spend the requisite amount of time reading and studying the book, any spell slot you expend to cast a spell counts as a spell slot of one level higher.\n\n**Halo.** After you spend the requisite amount of time reading and studying the book, you gain a protective halo. This halo sheds Bright Light in a 10-foot radius and Dim Light for an additional 10 feet. You can dismiss or manifest the halo as a Bonus Action. While present, the halo gives you Advantage on Charisma (Persuasion) checks. In addition, Fiends and Undead within the halo's Bright Light make attack rolls against you with Disadvantage.\n\n**Random Properties.** *The Book of Exalted Deeds* has the following random properties:\n\n- 2 minor beneficial properties\n- 2 major beneficial properties\n\n**Destroying the Book.** *The Book of Exalted Deeds* can't be destroyed. However, drowning the book in the River Styx removes all writing and imagery from its pages and renders the book powerless for 1d100 years.",
     "url": "https://dnd2024.wikidot.com/magic-item:book-of-exalted-deeds",
     "category": "other",
     "cost": null,
@@ -2917,7 +2963,7 @@
     "name": "Book of Vile Darkness",
     "edition": "2024",
     "source": "Dungeon Master's Guide",
-    "description": "The contents of this foul manuscript are the meat and drink of the wicked. It contains knowledge so horrid that to even glimpse the scrawled pages invites doom.\n\nMost believe the lich-god Vecna authored the *Book of Vile Darkness*. He recorded in its pages every horrid idea, every corrupt thought, and every example of foul magic he came across or devised.\n\nOther practitioners of evil have added their own input to the book's catalog of vile knowledge. Their additions are clear, for the writers of later works stitched whatever they were writing into the tome or, in some cases, made notations and additions to existing text. There are places where pages are missing, torn, or covered so completely with ink, blood, and scratches that the original text can't be divined.\n\nNature can't abide the book's presence. Ordinary plants wither in its presence, common animals are unwilling to approach it, and the book gradually destroys whatever it touches. Even stone cracks and turns to powder if the book rests on it long enough.\n\nWhenever a creature that isn't a Fiend or an Undead attunes to the *Book of Vile Darkness*, that creature makes a DC 17 Charisma saving throw. On a failed save, the creature is magically transformed into a Larva under the DM's control. Only a Wish spell can reverse this vile transformation.\n\nA creature attuned to the book must spend 80 hours reading and studying it to digest its contents and use its Adjusted Ability Scores, Tireless Form, Spells, Vile Lore, and Vile Speech properties.\n\nThe *Book of Vile Darkness* remains with you only as long as you strive to work evil in the world. If you fail to perform at least one evil act within the span of 10 days, or if you willingly perform a good act, the book disappears, your Attunement to it ends immediately, and you lose all benefits granted by it. If you die while attuned to the book, an entity of great evil claims your soul. You can't be restored to life by any means while your soul remains imprisoned.\n\n**Adjusted Ability Scores.** One ability score of your choice increases by 2, to a maximum of 24. Another ability score of your choice decreases by 2, to a minimum of 3. The book can't adjust your ability scores again.\n\n**Tireless Form.** While the book is on your person, you have Immunity to the Exhaustion condition.\n\n**Random Properties.** The *Book of Vile Darkness* has the following random properties (see \"Artifacts\"):\n\n- 3 minor beneficial properties\n- 1 major beneficial property\n- 3 minor detrimental properties\n- 2 major detrimental properties\n\n**Spells.** While attuned to the book and holding it, you can cast the following spells (save DC 18) from it:\n\n- Animate Dead\n- Circle of Death\n- Dominate Monster\n- Finger of Death\n\nOnce you use the book to cast a spell, you can't cast that spell again from it until the next dawn.\n\n**Vile Lore.** You can reference the *Book of Vile Darkness* whenever you make an Intelligence check to recall information about some aspect of evil, such as lore about demons. When you do so, you have Advantage on that check.\n\nAt the DM's discretion, the book might reveal secrets no mortal should know, such as the true names of powerful Fiends, foul rites that allow one to transform into a death knight or lich, or long-lost spells crafted by beings so evil their names ought never to be spoken aloud.\n\n**Vile Speech.** While the book is on your person, you can take a Magic action to recite words from its pages in a foul, dead language. Each time you do so, you take 1d12 Psychic damage, and each creature within 15 feet of you takes 3d6 Psychic damage unless the creature is a Fiend or an Undead.\n\n**Destroying the Book.** The *Book of Vile Darkness* allows pages to be torn from it, but any evil lore contained on those pages finds its way back into the book eventually, usually when a new author adds pages to the tome.\n\nIf a solar tears the book in two, the book is destroyed for 1d100 years, after which it re-forms in some far corner of the multiverse.\n\nA creature attuned to the book for 100 years can unearth a phrase hidden in the original text that, when translated to Celestial and spoken aloud, destroys both the speaker and the book in a flash of radiance. However, as long as evil exists in the multiverse, the book re-forms 1d10 × 100 years later.",
+    "description": "The contents of this foul manuscript are the meat and drink of the wicked. It contains knowledge so horrid that to even glimpse the scrawled pages invites doom.\n\nMost believe the lich-god Vecna authored the *Book of Vile Darkness*. He recorded in its pages every horrid idea, every corrupt thought, and every example of foul magic he came across or devised.\n\nOther practitioners of evil have added their own input to the book's catalog of vile knowledge. Their additions are clear, for the writers of later works stitched whatever they were writing into the tome or, in some cases, made notations and additions to existing text. There are places where pages are missing, torn, or covered so completely with ink, blood, and scratches that the original text can't be divined.\n\nNature can't abide the book's presence. Ordinary plants wither in its presence, common animals are unwilling to approach it, and the book gradually destroys whatever it touches. Even stone cracks and turns to powder if the book rests on it long enough.\n\nWhenever a creature that isn't a Fiend or an Undead attunes to the *Book of Vile Darkness*, that creature makes a DC 17 Charisma saving throw. On a failed save, the creature is magically transformed into a Larva under the DM's control. Only a Wish spell can reverse this vile transformation.\n\nA creature attuned to the book must spend 80 hours reading and studying it to digest its contents and use its Adjusted Ability Scores, Tireless Form, Spells, Vile Lore, and Vile Speech properties.\n\nThe *Book of Vile Darkness* remains with you only as long as you strive to work evil in the world. If you fail to perform at least one evil act within the span of 10 days, or if you willingly perform a good act, the book disappears, your Attunement to it ends immediately, and you lose all benefits granted by it. If you die while attuned to the book, an entity of great evil claims your soul. You can't be restored to life by any means while your soul remains imprisoned.\n\n**Adjusted Ability Scores.** One ability score of your choice increases by 2, to a maximum of 24. Another ability score of your choice decreases by 2, to a minimum of 3. The book can't adjust your ability scores again.\n\n**Tireless Form.** While the book is on your person, you have Immunity to the Exhaustion condition.\n\n**Random Properties.** The *Book of Vile Darkness* has the following random properties:\n\n- 3 minor beneficial properties\n- 1 major beneficial property\n- 3 minor detrimental properties\n- 2 major detrimental properties\n\n**Spells.** While attuned to the book and holding it, you can cast the following spells (save DC 18) from it:\n\n- Animate Dead\n- Circle of Death\n- Dominate Monster\n- Finger of Death\n\nOnce you use the book to cast a spell, you can't cast that spell again from it until the next dawn.\n\n**Vile Lore.** You can reference the *Book of Vile Darkness* whenever you make an Intelligence check to recall information about some aspect of evil, such as lore about demons. When you do so, you have Advantage on that check.\n\nAt the DM's discretion, the book might reveal secrets no mortal should know, such as the true names of powerful Fiends, foul rites that allow one to transform into a death knight or lich, or long-lost spells crafted by beings so evil their names ought never to be spoken aloud.\n\n**Vile Speech.** While the book is on your person, you can take a Magic action to recite words from its pages in a foul, dead language. Each time you do so, you take 1d12 Psychic damage, and each creature within 15 feet of you takes 3d6 Psychic damage unless the creature is a Fiend or an Undead.\n\n**Destroying the Book.** The *Book of Vile Darkness* allows pages to be torn from it, but any evil lore contained on those pages finds its way back into the book eventually, usually when a new author adds pages to the tome.\n\nIf a solar tears the book in two, the book is destroyed for 1d100 years, after which it re-forms in some far corner of the multiverse.\n\nA creature attuned to the book for 100 years can unearth a phrase hidden in the original text that, when translated to Celestial and spoken aloud, destroys both the speaker and the book in a flash of radiance. However, as long as evil exists in the multiverse, the book re-forms 1d10 × 100 years later.",
     "url": "https://dnd2024.wikidot.com/magic-item:book-of-vile-darkness",
     "category": "other",
     "cost": null,
@@ -3739,7 +3785,7 @@
     },
     "weight": 2,
     "weapon": {
-      "kind": "martial",
+      "kind": null,
       "ranged": false,
       "damage": [],
       "properties": [],
@@ -3762,7 +3808,7 @@
     },
     "weight": 0.5,
     "weapon": {
-      "kind": "martial",
+      "kind": null,
       "ranged": false,
       "damage": [],
       "properties": [],
@@ -3852,7 +3898,7 @@
     "name": "Calimemnon Crystal",
     "edition": "2024",
     "source": "Forgotten Realms - Adventures in Faerun",
-    "description": "This immaculately cut sixty-sided diamond fits in one hand, yet it contains an entire genie empire. The Calimemnon Crystal was made by high elf magic to imprison the notorious genie lords Calim and Memnon, who once ruled and warred over what is now Calimshan.\n\nWhen viewed by a creature with Truesight, the normally beautiful diamond is a grotesque sight: trapped within the gemstone are more than a hundred genies, including the physical forms of Calim and Memnon. The genies scream and strain in agonized fury, pressing their belligerent faces against the walls of their crystalline prison.\n\n**Properties of the Crystal.** While attuned to the crystal, you gain the following benefits:\n\n**Arcane Focus.** You can use the Calimemnon Crystal as an Arcane Focus.\n\n**Flight.** You have a Fly Speed of 30 feet and can hover.\n\n**Spells.** You can cast these spells with the crystal (spell save DC 18): Create or Destroy Water, Enlarge/Reduce, Invisibility (targeting yourself only), and Major Image.\n\n**Aura of Cold.** The temperature drops precipitously in a 20-foot Emanation originating from the crystal. Whenever the Emanation enters a creature's space and whenever a creature enters the Emanation or ends its turn there, the creature takes 2d6 Cold damage. A creature takes this damage only once per turn. While attuned to the crystal, you are unaffected by the aura, and you can take a Magic action to disable or enable the aura.\n\n**Healing/Damage Rays.** While holding the crystal, you can take a Magic action to fire six rays of volatile energy from the crystal at one or more creatures within 60 feet. You can aim the rays at one target or at several. For each ray, choose one of the following effects:\n\n**Damage Ray.** The target makes a DC 18 Dexterity saving throw, taking 6d6 + 6 Radiant damage on a failed save or half as much damage on a successful one.\n\n**Healing Ray.** The target regains 2d6 + 2 Hit Points.\n\nThis property can't be used again until the next dawn.\n\n**Random Properties.** The Artifact has the following random properties (see chapter 7 of the Dungeon Master's Guide):\n\n- 1 minor beneficial property\n- 1 major beneficial property\n- 1 minor detrimental property\n- 1 major detrimental property\n\n**Destroying the Crystal.** The *Calimemnon Crystal* is destroyed if the creature attuned to it casts the Wish spell and wishes the crystal destroyed. Nothing else can harm it. When the crystal is destroyed, all the genies in the crystal are released.",
+    "description": "This immaculately cut sixty-sided diamond fits in one hand, yet it contains an entire genie empire. The Calimemnon Crystal was made by high elf magic to imprison the notorious genie lords Calim and Memnon, who once ruled and warred over what is now Calimshan.\n\nWhen viewed by a creature with Truesight, the normally beautiful diamond is a grotesque sight: trapped within the gemstone are more than a hundred genies, including the physical forms of Calim and Memnon. The genies scream and strain in agonized fury, pressing their belligerent faces against the walls of their crystalline prison.\n\n**Properties of the Crystal.** While attuned to the crystal, you gain the following benefits:\n\n**Arcane Focus.** You can use the Calimemnon Crystal as an Arcane Focus.\n\n**Flight.** You have a Fly Speed of 30 feet and can hover.\n\n**Spells.** You can cast these spells with the crystal (spell save DC 18): Create or Destroy Water, Enlarge/Reduce, Invisibility (targeting yourself only), and Major Image.\n\n**Aura of Cold.** The temperature drops precipitously in a 20-foot Emanation originating from the crystal. Whenever the Emanation enters a creature's space and whenever a creature enters the Emanation or ends its turn there, the creature takes 2d6 Cold damage. A creature takes this damage only once per turn. While attuned to the crystal, you are unaffected by the aura, and you can take a Magic action to disable or enable the aura.\n\n**Healing/Damage Rays.** While holding the crystal, you can take a Magic action to fire six rays of volatile energy from the crystal at one or more creatures within 60 feet. You can aim the rays at one target or at several. For each ray, choose one of the following effects:\n\n**Damage Ray.** The target makes a DC 18 Dexterity saving throw, taking 6d6 + 6 Radiant damage on a failed save or half as much damage on a successful one.\n\n**Healing Ray.** The target regains 2d6 + 2 Hit Points.\n\nThis property can't be used again until the next dawn.\n\n**Random Properties.** The Artifact has the following random properties:\n\n- 1 minor beneficial property\n- 1 major beneficial property\n- 1 minor detrimental property\n- 1 major detrimental property\n\n**Destroying the Crystal.** The *Calimemnon Crystal* is destroyed if the creature attuned to it casts the Wish spell and wishes the crystal destroyed. Nothing else can harm it. When the crystal is destroyed, all the genies in the crystal are released.",
     "url": "https://dnd2024.wikidot.com/magic-item:calimemnon-crystal",
     "category": "other",
     "cost": null,
@@ -5679,7 +5725,7 @@
     "name": "Crown Of Horns",
     "edition": "2024",
     "source": "Forgotten Realms - Adventures in Faerun",
-    "description": "The *Crown of Horns* contains the essence and intelligence of Myrkul, one of the Dead Three. This ghastly crown is a pale silver circlet with four curved bones set around its rim. On the crown's brow is set a black diamond whose depths swirl with weird, malignant energy.\n\nMyrkul created the *Crown of Horns* at the height of his power. When Myrkul was slain by Mystra, he imbued the crown with his dying essence. Myrkul has since returned to become one of the Dead Three, and the *Crown of Horns* continues to further his gruesome will by seeking out mortal agents and gradually transforming them into powerful Undead scions. Should a wearer prove unworthy of this honor, the crown teleports away to find a new mortal to corrupt for its master.\n\n**Cursed.** The crown is cursed. Attuning to the crown extends the curse to you. Only a Wish spell or the will of Myrkul can remove this curse. As long as you remain cursed, the following properties apply to you:\n\n**Bound.** You are unwilling to part with the crown, wearing it at all times, and you can't voluntarily end your Attunement to the crown.\n\n**Cruel.** Your alignment becomes Neutral Evil.\n\n**Doomed.** You slowly transform into a monstrous servant of Myrkul over the course of 365 days. During that time, the transformation is purely cosmetic; these cosmetic changes slowly fade if you end Attunement to the crown before completing the transformation. When the transformation is complete, you become a Lich under the DM's control. Each time you use this Artifact's Cone of Undeath or Myrkul's Hand benefit, there is a 10 percent cumulative chance that you instantly complete this transformation.\n\n**Cone of Undeath.** You can take a Magic action to unleash a wave of unholy light in a 60-foot Cone. Each creature in the Cone makes a DC 18 Constitution saving throw, taking 4d8 Necrotic damage on a failed save or half as much damage on a successful one. A Humanoid killed by Cone of Undeath rises at the start of your next turn as a Specter that follows your verbal orders.\n\n**Damage Immunity.** You have Immunity to Necrotic damage.\n\n**Fear Aura.** While wearing the crown, you emit an aura of terrifying energy in a 60-foot Emanation. A creature that enters this area for the first time on a turn or starts its turn there must succeed on a DC 16 Wisdom saving throw or have the Frightened condition. A Frightened target must use its movement on its turns to get as far away as possible from you, moving by the safest route.\n\nIf you damage a Frightened target or if a Frightened target ends its turn more than 120 feet away from you, the target can repeat the Wisdom save, ending the condition on itself on a success. A creature that succeeds on the save against this effect is immune to it for 1 minute, after which it can be affected again.\n\nThe aura is inactive while you have the Incapacitated condition. You can activate or deactivate the aura as a Bonus Action.\n\n**Myrkul's Hand.** While wearing the crown, you can cast the Power Word Kill spell (save DC 18) from it. A Humanoid killed by this spell rises at the start of your next turn as a Wraith that follows your verbal orders. Once you use the crown to cast this spell, you can't cast it again from the crown until the next dawn.\n\n**Teleportation.** While wearing the crown, you can cast the Teleport spell. The crown can also cast this spell of its own free will. Once the spell has been cast using the crown, it can't be cast again until 7 days have passed.\n\n**Random Properties.** The Artifact has the following random properties (see chapter 7 of the Dungeon Master's Guide):\n\n- 1 minor beneficial property\n- 1 minor detrimental property\n- 1 major detrimental property\n\n**Sentience.** The Crown of Horns is a sentient Neutral Evil Artifact with an Intelligence of 10, a Wisdom of 16, and a Charisma of 19. It has hearing and Darkvision out to 120 feet.\n\nThe crown communicates telepathically with its wearer and knows Common.\n\n**Personality.** The crown contains the essence of Myrkul and exists to spread that god's will, which is to slay the living, raise the dead, and sow fear across the Material Plane. The crown urges its wearer to spread dread and destruction wherever possible.\n\n**Destroying the Crown.** The crown is destroyed if it is worn by Myrkul's successor, Kelemvor, while he sits on the throne of Myrkul's former realm, the Bone Castle.",
+    "description": "The *Crown of Horns* contains the essence and intelligence of Myrkul, one of the Dead Three. This ghastly crown is a pale silver circlet with four curved bones set around its rim. On the crown's brow is set a black diamond whose depths swirl with weird, malignant energy.\n\nMyrkul created the *Crown of Horns* at the height of his power. When Myrkul was slain by Mystra, he imbued the crown with his dying essence. Myrkul has since returned to become one of the Dead Three, and the *Crown of Horns* continues to further his gruesome will by seeking out mortal agents and gradually transforming them into powerful Undead scions. Should a wearer prove unworthy of this honor, the crown teleports away to find a new mortal to corrupt for its master.\n\n**Cursed.** The crown is cursed. Attuning to the crown extends the curse to you. Only a Wish spell or the will of Myrkul can remove this curse. As long as you remain cursed, the following properties apply to you:\n\n**Bound.** You are unwilling to part with the crown, wearing it at all times, and you can't voluntarily end your Attunement to the crown.\n\n**Cruel.** Your alignment becomes Neutral Evil.\n\n**Doomed.** You slowly transform into a monstrous servant of Myrkul over the course of 365 days. During that time, the transformation is purely cosmetic; these cosmetic changes slowly fade if you end Attunement to the crown before completing the transformation. When the transformation is complete, you become a Lich under the DM's control. Each time you use this Artifact's Cone of Undeath or Myrkul's Hand benefit, there is a 10 percent cumulative chance that you instantly complete this transformation.\n\n**Cone of Undeath.** You can take a Magic action to unleash a wave of unholy light in a 60-foot Cone. Each creature in the Cone makes a DC 18 Constitution saving throw, taking 4d8 Necrotic damage on a failed save or half as much damage on a successful one. A Humanoid killed by Cone of Undeath rises at the start of your next turn as a Specter that follows your verbal orders.\n\n**Damage Immunity.** You have Immunity to Necrotic damage.\n\n**Fear Aura.** While wearing the crown, you emit an aura of terrifying energy in a 60-foot Emanation. A creature that enters this area for the first time on a turn or starts its turn there must succeed on a DC 16 Wisdom saving throw or have the Frightened condition. A Frightened target must use its movement on its turns to get as far away as possible from you, moving by the safest route.\n\nIf you damage a Frightened target or if a Frightened target ends its turn more than 120 feet away from you, the target can repeat the Wisdom save, ending the condition on itself on a success. A creature that succeeds on the save against this effect is immune to it for 1 minute, after which it can be affected again.\n\nThe aura is inactive while you have the Incapacitated condition. You can activate or deactivate the aura as a Bonus Action.\n\n**Myrkul's Hand.** While wearing the crown, you can cast the Power Word Kill spell (save DC 18) from it. A Humanoid killed by this spell rises at the start of your next turn as a Wraith that follows your verbal orders. Once you use the crown to cast this spell, you can't cast it again from the crown until the next dawn.\n\n**Teleportation.** While wearing the crown, you can cast the Teleport spell. The crown can also cast this spell of its own free will. Once the spell has been cast using the crown, it can't be cast again until 7 days have passed.\n\n**Random Properties.** The Artifact has the following random properties:\n\n- 1 minor beneficial property\n- 1 minor detrimental property\n- 1 major detrimental property\n\n**Sentience.** The Crown of Horns is a sentient Neutral Evil Artifact with an Intelligence of 10, a Wisdom of 16, and a Charisma of 19. It has hearing and Darkvision out to 120 feet.\n\nThe crown communicates telepathically with its wearer and knows Common.\n\n**Personality.** The crown contains the essence of Myrkul and exists to spread that god's will, which is to slay the living, raise the dead, and sow fear across the Material Plane. The crown urges its wearer to spread dread and destruction wherever possible.\n\n**Destroying the Crown.** The crown is destroyed if it is worn by Myrkul's successor, Kelemvor, while he sits on the throne of Myrkul's former realm, the Bone Castle.",
     "url": "https://dnd2024.wikidot.com/magic-item:crown-of-horns",
     "category": "other",
     "cost": null,
@@ -6679,7 +6725,7 @@
     "name": "Demonomicon of Iggwilv",
     "edition": "2024",
     "source": "Dungeon Master's Guide",
-    "description": "This treatise, composed by Iggwilv the archmage, documents the Abyss's layers and inhabitants and is widely regarded as the most thorough and blasphemous tome of demonology in the multiverse. The tome recounts both the oldest and most current profanities of the Abyss and demons. Demons have attempted to censor the text, and while sections have been ripped from the book's spine, the general chapters remain, ever revealing demonic secrets. Caged behind lines of script roils a secret piece of the Abyss itself, which keeps the book up-to-date, no matter how many pages are removed, and it longs to be more than mere reference material.\n\n**Abyssal Lore.** You can reference the *Demonomicon* whenever you make an Intelligence check to discern information about demons or a Wisdom (Survival) check related to the Abyss. When you do so, you gain Advantage on the check.\n\n**Containment.** The first ten pages of the *Demonomicon* are blank. As a Magic action while holding the book, you can target a Fiend that you can see that is trapped within the area of a Magic Circle spell. The Fiend must succeed on a DC 20 Charisma saving throw with Disadvantage or become trapped within one of the *Demonomicon's* blank pages, which fills with writing detailing the trapped creature's widely known name and depravities. Once used, this action can't be used again until the next dawn.\n\nWhen you finish a Long Rest, if you and the *Demonomicon* are on the same plane of existence, one trapped creature within the book can attempt to possess you. You make a DC 20 Charisma saving throw. On a failed save, you are possessed by the creature, which controls you like a puppet. As a Magic action, the possessing creature can release you and appear in the closest unoccupied space to you. On a successful save, the Fiend can't try to possess you again for 7 days (but another Fiend trapped in the book can certainly try).\n\nWhen the tome is discovered, it has 1d4 Fiends occupying its pages—typically an assortment of demons.\n\n**Ensnarement.** While carrying the book, whenever you cast Magic Circle naming only Fiends or cast Planar Binding targeting a Fiend, the spell is cast at level 9, regardless of what level spell slot you used, if any. Additionally, the Fiend has Disadvantage on its saving throw against the spell.\n\n**Fiendish Scourging.** While carrying the book, when you make a damage roll for a spell you cast against a Fiend, you use the maximum possible result instead of rolling.\n\n**Random Properties.** The Artifact has the following random properties (see \"Artifacts\"):\n\n- 2 minor beneficial properties\n- 1 minor detrimental property\n- 1 major detrimental property\n\n**Spells.** The book has 8 charges and regains 1d8 expended charges daily at dawn. While holding the book, you can take a Magic action to cast one of the spells (save DC 20) on the following table. The table indicates how many charges you must expend to cast the spell.\n\n| Spell | Charge Cost |\n|---|---|\n| Magic Circle | 1 |\n| Magic Jar | 3 |\n| Planar Ally | 3 |\n| Planar Binding | 2 |\n| Plane Shift | 3 |\n| Summon Fiend | 3 |\n| Tasha's Hideous Laughter | 0 |\n\n**Destroying the Demonomicon.** To destroy the book, six different demon lords must each tear out a sixth of the book's pages. If this occurs, the pages reappear after 24 hours. Before all those hours pass, anyone who opens the book's remaining binding is transported to a nascent layer of the Abyss that lies hidden within the book. At the heart of this deadly, semisentient domain lies a long-lost Artifact, *Fraz-Urb'luu's Staff*. If the staff is dragged from the pocket plane, the tome is reduced to a mundane and out-of-date copy of the *Tome of Zyx*, the work that served as the foundation of the *Demonomicon of Iggwilv. The Tome of Zyx* can be destroyed like any ordinary book. Once the staff emerges, the demon lord Fraz-Urb'luu knows instantly.",
+    "description": "This treatise, composed by Iggwilv the archmage, documents the Abyss's layers and inhabitants and is widely regarded as the most thorough and blasphemous tome of demonology in the multiverse. The tome recounts both the oldest and most current profanities of the Abyss and demons. Demons have attempted to censor the text, and while sections have been ripped from the book's spine, the general chapters remain, ever revealing demonic secrets. Caged behind lines of script roils a secret piece of the Abyss itself, which keeps the book up-to-date, no matter how many pages are removed, and it longs to be more than mere reference material.\n\n**Abyssal Lore.** You can reference the *Demonomicon* whenever you make an Intelligence check to discern information about demons or a Wisdom (Survival) check related to the Abyss. When you do so, you gain Advantage on the check.\n\n**Containment.** The first ten pages of the *Demonomicon* are blank. As a Magic action while holding the book, you can target a Fiend that you can see that is trapped within the area of a Magic Circle spell. The Fiend must succeed on a DC 20 Charisma saving throw with Disadvantage or become trapped within one of the *Demonomicon's* blank pages, which fills with writing detailing the trapped creature's widely known name and depravities. Once used, this action can't be used again until the next dawn.\n\nWhen you finish a Long Rest, if you and the *Demonomicon* are on the same plane of existence, one trapped creature within the book can attempt to possess you. You make a DC 20 Charisma saving throw. On a failed save, you are possessed by the creature, which controls you like a puppet. As a Magic action, the possessing creature can release you and appear in the closest unoccupied space to you. On a successful save, the Fiend can't try to possess you again for 7 days (but another Fiend trapped in the book can certainly try).\n\nWhen the tome is discovered, it has 1d4 Fiends occupying its pages—typically an assortment of demons.\n\n**Ensnarement.** While carrying the book, whenever you cast Magic Circle naming only Fiends or cast Planar Binding targeting a Fiend, the spell is cast at level 9, regardless of what level spell slot you used, if any. Additionally, the Fiend has Disadvantage on its saving throw against the spell.\n\n**Fiendish Scourging.** While carrying the book, when you make a damage roll for a spell you cast against a Fiend, you use the maximum possible result instead of rolling.\n\n**Random Properties.** The Artifact has the following random properties:\n\n- 2 minor beneficial properties\n- 1 minor detrimental property\n- 1 major detrimental property\n\n**Spells.** The book has 8 charges and regains 1d8 expended charges daily at dawn. While holding the book, you can take a Magic action to cast one of the spells (save DC 20) on the following table. The table indicates how many charges you must expend to cast the spell.\n\n| Spell | Charge Cost |\n|---|---|\n| Magic Circle | 1 |\n| Magic Jar | 3 |\n| Planar Ally | 3 |\n| Planar Binding | 2 |\n| Plane Shift | 3 |\n| Summon Fiend | 3 |\n| Tasha's Hideous Laughter | 0 |\n\n**Destroying the Demonomicon.** To destroy the book, six different demon lords must each tear out a sixth of the book's pages. If this occurs, the pages reappear after 24 hours. Before all those hours pass, anyone who opens the book's remaining binding is transported to a nascent layer of the Abyss that lies hidden within the book. At the heart of this deadly, semisentient domain lies a long-lost Artifact, *Fraz-Urb'luu's Staff*. If the staff is dragged from the pocket plane, the tome is reduced to a mundane and out-of-date copy of the *Tome of Zyx*, the work that served as the foundation of the *Demonomicon of Iggwilv. The Tome of Zyx* can be destroyed like any ordinary book. Once the staff emerges, the demon lord Fraz-Urb'luu knows instantly.",
     "url": "https://dnd2024.wikidot.com/magic-item:demonomicon-of-iggwilv",
     "category": "other",
     "cost": null,
@@ -6884,6 +6930,21 @@
     "replaced": [
       "https://dnd5e.wikidot.com/adventuring-gear"
     ]
+  },
+  {
+    "id": "dire-wolf",
+    "type": "item",
+    "name": "Dire Wolf",
+    "edition": "2024",
+    "source": null,
+    "description": "**Carrying Capacity:** 510 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 750,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "disguise-kit",
@@ -8089,6 +8150,21 @@
     ]
   },
   {
+    "id": "elk",
+    "type": "item",
+    "name": "Elk",
+    "edition": "2024",
+    "source": null,
+    "description": "**Carrying Capacity:** 480 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 150,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "elocutionists-lexicon",
     "type": "item",
     "name": "Elocutionist's Lexicon",
@@ -8553,7 +8629,7 @@
     "name": "Eye and Hand of Vecna",
     "edition": "2024",
     "source": "Dungeon Master's Guide",
-    "description": "Vecna was a mighty wizard who, through magic and conquest, forged a terrible empire. For all his power, however, Vecna feared death and took steps to prevent his demise by becoming a lich.\n\nA treacherous lieutenant named Kas brought Vecna's rule to an end in a terrible battle. Of Vecna, all that remained were one hand and one eye, grisly Artifacts that still seek to work Vecna's will in the world.\n\nThe *Eye of Vecna* and the *Hand of Vecna* are separate Artifacts that might be found together or separately. The eye looks like a bloodshot organ torn free from the socket. The hand is a shriveled left extremity.\n\n**Random Properties of the Eye and Hand.** *The Eye of Vecna* and the *Hand of Vecna* each have the following random properties (see \"Artifacts\"):\n\n- 1 minor beneficial property\n- 1 major beneficial property\n- 1 minor detrimental property\n\n**Attuning to the Eye.** To attune to the eye, you must press it into your empty socket. The eye grafts itself to your head and remains there until you die. If the eye is ever removed, you die.\n\n**Properties of the Eye.** While you are attuned to the eye, your alignment is Neutral Evil, and you gain the following benefits:\n\n**Truesight.** You have Truesight out to 240 feet.\n\n**Spellcasting.** The eye has 8 charges and regains 1d4 + 4 expended charges daily at dawn. You can cast a spell on the Eye of Vecna Spells table from the eye (save DC 18). The table indicates how many charges you must expend to cast the spell. Each time you cast a spell from the eye, there is a 5 percent chance that Vecna tears your soul from your body, devours it, and then takes control of the body like a puppet. If that happens, you become an NPC under the DM's control.\n\n#### Eye of Vecna Spells\n\n| Spell | Charge Cost |\n|---|---|\n| Clairvoyance | 2 |\n| Crown of Madness | 1 |\n| Disintegrate | 4 |\n| Dominate Monster | 5 |\n| Eyebite | 4 |\n\n**X-ray Vision.** You can take a Magic action to gain X-ray vision with a range of 30 feet for 1 minute. To you, solid objects within that radius appear transparent and don't prevent light from passing through themselves. The vision can penetrate 1 foot of stone, 1 inch of common metal, or up to 3 feet of wood or dirt. Thicker substances block the vision, as does a thin sheet of lead.\n\n**Attuning to the Hand.** To attune to the hand, you must press it against the stump where your left hand was. The hand grafts itself to your arm and becomes a functioning appendage. If the hand is ever removed, you die.\n\n**Properties of the Hand.** When you are attuned to the hand, your alignment is Neutral Evil, and you gain the following benefits:\n\n**Great Strength.** Your Strength becomes 20 unless it is already 20 or higher.\n\n**Icy Touch.** Any melee spell attack you make with the hand and any melee attack made with a weapon held by it deals an extra 2d8 Cold damage on a hit.\n\n**Spellcasting.** The hand has 8 charges and regains 1d4 + 4 expended charges daily at dawn. You can cast a spell on the Hand of Vecna Spells table from the hand (save DC 18). The table indicates how many charges you must expend to cast the spell. Each time you cast a spell from it, the hand casts Suggestion on you (save DC 18; no Concentration required), demanding that you commit an evil act. The hand might have a specific act in mind or leave it up to you.\n\n#### Hand of Vecna Spells\n\n| Spell | Charge Cost |\n|---|---|\n| Finger of Death | 5 |\n| Sleep | 1 |\n| Slow | 2 |\n| Teleport | 3 |\n\n**Properties of the Eye and Hand.** While attuned to both the hand and eye, you gain the following additional benefits:\n\n**Danger Sense.** You have Advantage on Initiative rolls.\n\n**Necrotic Reduction.** As a Magic action, you can target one creature you can see within 5 feet of yourself. The target makes a DC 18 Constitution saving throw, taking 7d6 Necrotic damage on a failed save or half as much damage on a successful one. A creature reduced to 0 Hit Points by this damage is transformed into green slime (see chapter 3) that covers the ground in its space, each 5-foot square of slime representing a separate patch. Nonmagical objects worn or carried by the target that are made of metal or organic material are destroyed by the slime.\n\n**Poison Immunity.** You have Immunity to Poison damage and the Poisoned condition.\n\n**Regeneration.** If you start your turn with at least 1 Hit Point, you regain 1d10 Hit Points.\n\n**Wish.** You can cast Wish. Once used, this property can't be used again until 30 days have passed.\n\n**Destroying the Eye and Hand.** If the *Eye of Vecna* and the *Hand of Vecna* are both attached to the same creature and that creature is slain by the Sword of Kas, both the eye and the hand burst into flame, turn to ash, and are destroyed. Any other attempt to destroy the eye or hand seems to work, but the Artifact reappears in one of Vecna's many hidden vaults, where it waits to be rediscovered.",
+    "description": "Vecna was a mighty wizard who, through magic and conquest, forged a terrible empire. For all his power, however, Vecna feared death and took steps to prevent his demise by becoming a lich.\n\nA treacherous lieutenant named Kas brought Vecna's rule to an end in a terrible battle. Of Vecna, all that remained were one hand and one eye, grisly Artifacts that still seek to work Vecna's will in the world.\n\nThe *Eye of Vecna* and the *Hand of Vecna* are separate Artifacts that might be found together or separately. The eye looks like a bloodshot organ torn free from the socket. The hand is a shriveled left extremity.\n\n**Random Properties of the Eye and Hand.** *The Eye of Vecna* and the *Hand of Vecna* each have the following random properties:\n\n- 1 minor beneficial property\n- 1 major beneficial property\n- 1 minor detrimental property\n\n**Attuning to the Eye.** To attune to the eye, you must press it into your empty socket. The eye grafts itself to your head and remains there until you die. If the eye is ever removed, you die.\n\n**Properties of the Eye.** While you are attuned to the eye, your alignment is Neutral Evil, and you gain the following benefits:\n\n**Truesight.** You have Truesight out to 240 feet.\n\n**Spellcasting.** The eye has 8 charges and regains 1d4 + 4 expended charges daily at dawn. You can cast a spell on the Eye of Vecna Spells table from the eye (save DC 18). The table indicates how many charges you must expend to cast the spell. Each time you cast a spell from the eye, there is a 5 percent chance that Vecna tears your soul from your body, devours it, and then takes control of the body like a puppet. If that happens, you become an NPC under the DM's control.\n\n#### Eye of Vecna Spells\n\n| Spell | Charge Cost |\n|---|---|\n| Clairvoyance | 2 |\n| Crown of Madness | 1 |\n| Disintegrate | 4 |\n| Dominate Monster | 5 |\n| Eyebite | 4 |\n\n**X-ray Vision.** You can take a Magic action to gain X-ray vision with a range of 30 feet for 1 minute. To you, solid objects within that radius appear transparent and don't prevent light from passing through themselves. The vision can penetrate 1 foot of stone, 1 inch of common metal, or up to 3 feet of wood or dirt. Thicker substances block the vision, as does a thin sheet of lead.\n\n**Attuning to the Hand.** To attune to the hand, you must press it against the stump where your left hand was. The hand grafts itself to your arm and becomes a functioning appendage. If the hand is ever removed, you die.\n\n**Properties of the Hand.** When you are attuned to the hand, your alignment is Neutral Evil, and you gain the following benefits:\n\n**Great Strength.** Your Strength becomes 20 unless it is already 20 or higher.\n\n**Icy Touch.** Any melee spell attack you make with the hand and any melee attack made with a weapon held by it deals an extra 2d8 Cold damage on a hit.\n\n**Spellcasting.** The hand has 8 charges and regains 1d4 + 4 expended charges daily at dawn. You can cast a spell on the Hand of Vecna Spells table from the hand (save DC 18). The table indicates how many charges you must expend to cast the spell. Each time you cast a spell from it, the hand casts Suggestion on you (save DC 18; no Concentration required), demanding that you commit an evil act. The hand might have a specific act in mind or leave it up to you.\n\n#### Hand of Vecna Spells\n\n| Spell | Charge Cost |\n|---|---|\n| Finger of Death | 5 |\n| Sleep | 1 |\n| Slow | 2 |\n| Teleport | 3 |\n\n**Properties of the Eye and Hand.** While attuned to both the hand and eye, you gain the following additional benefits:\n\n**Danger Sense.** You have Advantage on Initiative rolls.\n\n**Necrotic Reduction.** As a Magic action, you can target one creature you can see within 5 feet of yourself. The target makes a DC 18 Constitution saving throw, taking 7d6 Necrotic damage on a failed save or half as much damage on a successful one. A creature reduced to 0 Hit Points by this damage is transformed into green slime (see chapter 3) that covers the ground in its space, each 5-foot square of slime representing a separate patch. Nonmagical objects worn or carried by the target that are made of metal or organic material are destroyed by the slime.\n\n**Poison Immunity.** You have Immunity to Poison damage and the Poisoned condition.\n\n**Regeneration.** If you start your turn with at least 1 Hit Point, you regain 1d10 Hit Points.\n\n**Wish.** You can cast Wish. Once used, this property can't be used again until 30 days have passed.\n\n**Destroying the Eye and Hand.** If the *Eye of Vecna* and the *Hand of Vecna* are both attached to the same creature and that creature is slain by the Sword of Kas, both the eye and the hand burst into flame, turn to ash, and are destroyed. Any other attempt to destroy the eye or hand seems to work, but the Artifact reappears in one of Vecna's many hidden vaults, where it waits to be rediscovered.",
     "url": "https://dnd2024.wikidot.com/magic-item:eye-and-hand-of-vecna",
     "category": "other",
     "cost": null,
@@ -8930,6 +9006,21 @@
     }
   },
   {
+    "id": "ffolk-sailing-ship",
+    "type": "item",
+    "name": "Ffolk Sailing Ship",
+    "edition": "2024",
+    "source": null,
+    "description": "**Speed:** 2 mph\n**Crew:** 20\n**Passengers:** 20\n**Cargo (Tons):** 100\n**Ac:** 15\n**Hp:** 400\n**Damage Threshold:** 20",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 20000,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "figurine-of-wondrous-power",
     "type": "item",
     "name": "Figurine of Wondrous Power",
@@ -9263,6 +9354,18 @@
       "attunementBy": "a Spellcaster",
       "raw": "Wondrous item, Very Rare (Requires Attunement by a Spellcaster)"
     }
+  },
+  {
+    "id": "flying-machine",
+    "type": "item",
+    "name": "Flying Machine",
+    "edition": "2024",
+    "source": null,
+    "description": "**Speed:** 4 mph\n**Crew:** 1\n**Passengers:** 0\n**Cargo:** 300 lb.\n**Ac:** 19\n**Hp:** 27",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": null,
+    "weight": null
   },
   {
     "id": "flying-snake",
@@ -9681,6 +9784,81 @@
     }
   },
   {
+    "id": "giant-bat",
+    "type": "item",
+    "name": "Giant Bat",
+    "edition": "2024",
+    "source": null,
+    "description": "**Carrying Capacity:** 450 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 2000,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
+    "id": "giant-goat",
+    "type": "item",
+    "name": "Giant Goat",
+    "edition": "2024",
+    "source": null,
+    "description": "**Carrying Capacity:** 510 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 400,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
+    "id": "giant-hyena",
+    "type": "item",
+    "name": "Giant Hyena",
+    "edition": "2024",
+    "source": null,
+    "description": "**Carrying Capacity:** 480 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 750,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
+    "id": "giant-lizard",
+    "type": "item",
+    "name": "Giant Lizard",
+    "edition": "2024",
+    "source": null,
+    "description": "**Carrying Capacity:** 450 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 100,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
+    "id": "giant-seahorse",
+    "type": "item",
+    "name": "Giant Seahorse",
+    "edition": "2024",
+    "source": null,
+    "description": "**Carrying Capacity:** 450 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 1000,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "giant-slayer",
     "type": "item",
     "name": "Giant Slayer",
@@ -9702,6 +9880,21 @@
     "replaced": [
       "https://dnd5e.wikidot.com/wondrous-items:giant-slayer"
     ]
+  },
+  {
+    "id": "giant-turtle",
+    "type": "item",
+    "name": "Giant Turtle",
+    "edition": "2024",
+    "source": null,
+    "description": "**Carrying Capacity:** 480 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 500,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "glaive",
@@ -10024,6 +10217,21 @@
     }
   },
   {
+    "id": "goblin-trike",
+    "type": "item",
+    "name": "Goblin Trike",
+    "edition": "2024",
+    "source": null,
+    "description": "**Speed:** 3 mph\n**Crew:** 1\n**Passengers:** 0\n**Cargo:** 600 lb.\n**Ac:** 19\n**Hp:** 27",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 400,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "goggles-of-foe-finding",
     "type": "item",
     "name": "Goggles of Foe-Finding",
@@ -10336,6 +10544,21 @@
     "replaced": [
       "https://dnd5e.wikidot.com/explosives"
     ]
+  },
+  {
+    "id": "griffon",
+    "type": "item",
+    "name": "Griffon",
+    "edition": "2024",
+    "source": null,
+    "description": "**Carrying Capacity:** 540 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 2000,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "grimoire-infinitus",
@@ -14629,6 +14852,36 @@
     }
   },
   {
+    "id": "mechano-hog",
+    "type": "item",
+    "name": "Mechano-Hog",
+    "edition": "2024",
+    "source": null,
+    "description": "**Speed:** 4 mph\n**Crew:** 1\n**Passengers:** 1\n**Cargo:** 800 lb.\n**Ac:** 19\n**Hp:** 27",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 4000,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
+    "id": "mechanostrider",
+    "type": "item",
+    "name": "Mechanostrider",
+    "edition": "2024",
+    "source": null,
+    "description": "**Carrying Capacity:** 420 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 450,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "medal-of-muscle",
     "type": "item",
     "name": "Medal of Muscle",
@@ -14790,6 +15043,21 @@
     "replaced": [
       "https://dnd5e.wikidot.com/wondrous-items:medallion-of-thoughts"
     ]
+  },
+  {
+    "id": "mekgineers-chopper",
+    "type": "item",
+    "name": "Mekgineer's Chopper",
+    "edition": "2024",
+    "source": null,
+    "description": "**Speed:** 4 mph\n**Crew:** 1\n**Passengers:** 1\n**Cargo:** 800 lb.\n**Ac:** 19\n**Hp:** 27",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 4000,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "mess-kit",
@@ -15820,7 +16088,7 @@
     },
     "weight": 1,
     "weapon": {
-      "kind": "martial",
+      "kind": null,
       "ranged": false,
       "damage": [],
       "properties": [],
@@ -16033,6 +16301,21 @@
     ]
   },
   {
+    "id": "norlander-longship",
+    "type": "item",
+    "name": "Norlander Longship",
+    "edition": "2024",
+    "source": null,
+    "description": "**Speed:** 6 mph\n**Crew:** 50\n**Passengers:** 100\n**Cargo (Tons):** 10\n**Ac:** 17\n**Hp:** 300\n**Damage Threshold:** 15",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 20000,
+      "unit": "gp"
+    },
+    "weight": null
+  },
+  {
     "id": "oathbow",
     "type": "item",
     "name": "Oathbow",
@@ -16241,7 +16524,7 @@
     "name": "Orb of Damara",
     "edition": "2024",
     "source": "Forgotten Realms - Adventures in Faerun",
-    "description": "A wizard named Damara created this orb while devising a way to become a dragon. Aided by a mysterious magician (actually an aspect of Tiamat in disguise), Damara eventually created an Artifact that would enable him to achieve his dream. Yet the potential power of his creation terrified Damara so much that he dared not use the orb. Instead, the wizard entombed himself with the Artifact to seal it away.\n\nThe *Orb of Damara* is about 6 inches in diameter and is made of a glassy, iridescent material that's like obsidian but incredibly hard. If held to one's own lips with the intention of consuming it, the orb shrinks to the size of a grape.\n\n**Properties of the Orb.** While attuned to the orb, you gain the following benefits:\n\n**Dragon's Breath.** You can take a Magic action to exhale a 15-foot Cone. When you do, choose Acid, Cold, Fire, Lightning, or Poison. Each creature in the Cone makes a DC 18 Dexterity saving throw, taking 6d6 damage of the chosen type on a failed save or half as much damage on a successful one.\n\n**Fear Aura.** You exude a terrifying aura in a 20-foot Emanation while you don't have the Incapacitated condition. You can take a Magic action to disable or enable this aura. Any enemy that starts its turn in the aura must succeed on a DC 18 Wisdom saving throw or have the Frightened condition until the start of its next turn. A creature that succeeds on this save is immune to the aura's effects for 24 hours.\n\n**Flight.** You have a Fly Speed of 60 feet and can hover.\n\n**Random Properties.** The Artifact has the following random properties (see chapter 7 of the Dungeon Master's Guide):\n\n- 2 minor beneficial properties\n- 2 minor detrimental properties\n\n**Spellcasting.** The orb has 6 charges and regains 1d4 + 2 expended charges daily at dawn. While attuned to the orb, you can cast one of the spells on the following table from it (+10 spell attack modifier, spell save DC 18). The table indicates how many charges you must expend to cast the spell.\n\n| Spell | Charge Cost |\n|---|---|\n| Disguise Self | 0 |\n| Fire Shield | 2 |\n| Hold Person | 1 |\n| See Invisibility | 1 |\n| Summon Dragon (Level 9 Version) | 4 |\n\n**Dragon Transformation.** If you swallow the orb, you transform into an adult chromatic dragon under the DM's control. The type of chromatic dragon depends on your alignment and personality and is left to the DM to decide. The transformation is permanent, but if the dragon is slain, its body reverts to its original form and the orb reappears outside its body.\n\n**Destroying the Orb.** If an Ancient Gold Dragon willingly swallows the orb, the orb and the dragon are both destroyed.",
+    "description": "A wizard named Damara created this orb while devising a way to become a dragon. Aided by a mysterious magician (actually an aspect of Tiamat in disguise), Damara eventually created an Artifact that would enable him to achieve his dream. Yet the potential power of his creation terrified Damara so much that he dared not use the orb. Instead, the wizard entombed himself with the Artifact to seal it away.\n\nThe *Orb of Damara* is about 6 inches in diameter and is made of a glassy, iridescent material that's like obsidian but incredibly hard. If held to one's own lips with the intention of consuming it, the orb shrinks to the size of a grape.\n\n**Properties of the Orb.** While attuned to the orb, you gain the following benefits:\n\n**Dragon's Breath.** You can take a Magic action to exhale a 15-foot Cone. When you do, choose Acid, Cold, Fire, Lightning, or Poison. Each creature in the Cone makes a DC 18 Dexterity saving throw, taking 6d6 damage of the chosen type on a failed save or half as much damage on a successful one.\n\n**Fear Aura.** You exude a terrifying aura in a 20-foot Emanation while you don't have the Incapacitated condition. You can take a Magic action to disable or enable this aura. Any enemy that starts its turn in the aura must succeed on a DC 18 Wisdom saving throw or have the Frightened condition until the start of its next turn. A creature that succeeds on this save is immune to the aura's effects for 24 hours.\n\n**Flight.** You have a Fly Speed of 60 feet and can hover.\n\n**Random Properties.** The Artifact has the following random properties:\n\n- 2 minor beneficial properties\n- 2 minor detrimental properties\n\n**Spellcasting.** The orb has 6 charges and regains 1d4 + 2 expended charges daily at dawn. While attuned to the orb, you can cast one of the spells on the following table from it (+10 spell attack modifier, spell save DC 18). The table indicates how many charges you must expend to cast the spell.\n\n| Spell | Charge Cost |\n|---|---|\n| Disguise Self | 0 |\n| Fire Shield | 2 |\n| Hold Person | 1 |\n| See Invisibility | 1 |\n| Summon Dragon (Level 9 Version) | 4 |\n\n**Dragon Transformation.** If you swallow the orb, you transform into an adult chromatic dragon under the DM's control. The type of chromatic dragon depends on your alignment and personality and is left to the DM to decide. The transformation is permanent, but if the dragon is slain, its body reverts to its original form and the orb reappears outside its body.\n\n**Destroying the Orb.** If an Ancient Gold Dragon willingly swallows the orb, the orb and the dragon are both destroyed.",
     "url": "https://dnd2024.wikidot.com/magic-item:orb-of-damara",
     "category": "other",
     "cost": null,
@@ -16304,7 +16587,7 @@
     "name": "Orb of Dragonkind",
     "edition": "2024",
     "source": "Dungeon Master's Guide",
-    "description": "Long ago, in the Dragonlance setting, elves and humans waged a terrible war against chromatic dragons. When the world seemed doomed, the wizards of the Towers of High Sorcery came together and forged five *Orbs of Dragonkind* to help defeat the dragons. One orb was taken to each of the five towers, and there they were used to speed the war toward a victorious end. The wizards used the orbs to lure dragons to them, then destroyed the dragons with powerful magic.\n\nAs the Towers of High Sorcery fell in later ages, the orbs were destroyed or faded into legend, and only three are thought to survive. Their magic has been warped over the centuries. Their primary purpose of calling dragons still functions, but they also allow some measure of control over dragons.\n\nEach orb contains the essence of an evil dragon, a presence that resents any attempt to coax magic from it. Those who try to wield an orb's magic but lack sufficient force of personality might find themselves under the orb's control.\n\nAn orb is an etched crystal globe about 10 inches in diameter. When used, it grows to about 20 inches in diameter, and mist swirls inside it.\n\nWhile attuned to an orb, you can take a Magic action to peer into the orb's depths. You must then make a DC 15 Charisma saving throw. On a successful save, you control the orb for as long as you remain attuned to it. On a failed save, the orb imposes the Charmed condition on you for as long as you remain attuned to it.\n\nWhile you are Charmed by the orb, you can't voluntarily end your Attunement to it, and the orb casts Suggestion on you at will (save DC 18), urging you to work toward the evil ends it desires. The dragon essence within the orb might want many things: the annihilation of a particular society or organization, freedom from the orb, to spread suffering in the world, to advance the worship of Tiamat, or something else the DM decides.\n\n**Random Properties.** An *Orb of Dragonkind* has the following random properties (see \"Artifacts\"):\n\n- 2 minor beneficial properties\n- 1 minor detrimental property\n- 1 major detrimental property\n\n**Spells.** The orb has 7 charges and regains 1d4 + 3 expended charges daily at dawn. If you control the orb, you can cast one of the spells on the following table from it. The table indicates how many charges you must expend to cast the spell.\n\n| Spell | Charge Cost |\n|---|---|\n| Cure Wounds (level 9 version) | 4 |\n| Daylight | 1 |\n| Death Ward | 2 |\n| Detect Magic | 0 |\n| Scrying (save DC 18) | 3 |\n\n**Call Dragons.** While you control the orb, you can take a Magic action to cause the orb to issue a telepathic call that extends in all directions for 40 miles. Chromatic dragons in range feel compelled to come to the orb as soon as possible by the most direct route. Dragon deities such as Tiamat are unaffected by this call. Chromatic dragons drawn to the orb might be Hostile toward you for compelling them against their will. Once you have used this property, it can't be used again for 1 hour.\n\n**Destroying an Orb.** An *Orb of Dragonkind* has AC 20 and is destroyed if it takes damage from a +3 Weapon or a Disintegrate spell. Nothing else can harm it.",
+    "description": "Long ago, in the Dragonlance setting, elves and humans waged a terrible war against chromatic dragons. When the world seemed doomed, the wizards of the Towers of High Sorcery came together and forged five *Orbs of Dragonkind* to help defeat the dragons. One orb was taken to each of the five towers, and there they were used to speed the war toward a victorious end. The wizards used the orbs to lure dragons to them, then destroyed the dragons with powerful magic.\n\nAs the Towers of High Sorcery fell in later ages, the orbs were destroyed or faded into legend, and only three are thought to survive. Their magic has been warped over the centuries. Their primary purpose of calling dragons still functions, but they also allow some measure of control over dragons.\n\nEach orb contains the essence of an evil dragon, a presence that resents any attempt to coax magic from it. Those who try to wield an orb's magic but lack sufficient force of personality might find themselves under the orb's control.\n\nAn orb is an etched crystal globe about 10 inches in diameter. When used, it grows to about 20 inches in diameter, and mist swirls inside it.\n\nWhile attuned to an orb, you can take a Magic action to peer into the orb's depths. You must then make a DC 15 Charisma saving throw. On a successful save, you control the orb for as long as you remain attuned to it. On a failed save, the orb imposes the Charmed condition on you for as long as you remain attuned to it.\n\nWhile you are Charmed by the orb, you can't voluntarily end your Attunement to it, and the orb casts Suggestion on you at will (save DC 18), urging you to work toward the evil ends it desires. The dragon essence within the orb might want many things: the annihilation of a particular society or organization, freedom from the orb, to spread suffering in the world, to advance the worship of Tiamat, or something else the DM decides.\n\n**Random Properties.** An *Orb of Dragonkind* has the following random properties:\n\n- 2 minor beneficial properties\n- 1 minor detrimental property\n- 1 major detrimental property\n\n**Spells.** The orb has 7 charges and regains 1d4 + 3 expended charges daily at dawn. If you control the orb, you can cast one of the spells on the following table from it. The table indicates how many charges you must expend to cast the spell.\n\n| Spell | Charge Cost |\n|---|---|\n| Cure Wounds (level 9 version) | 4 |\n| Daylight | 1 |\n| Death Ward | 2 |\n| Detect Magic | 0 |\n| Scrying (save DC 18) | 3 |\n\n**Call Dragons.** While you control the orb, you can take a Magic action to cause the orb to issue a telepathic call that extends in all directions for 40 miles. Chromatic dragons in range feel compelled to come to the orb as soon as possible by the most direct route. Dragon deities such as Tiamat are unaffected by this call. Chromatic dragons drawn to the orb might be Hostile toward you for compelling them against their will. Once you have used this property, it can't be used again for 1 hour.\n\n**Destroying an Orb.** An *Orb of Dragonkind* has AC 20 and is destroyed if it takes damage from a +3 Weapon or a Disintegrate spell. Nothing else can harm it.",
     "url": "https://dnd2024.wikidot.com/magic-item:orb-of-dragonkind",
     "category": "other",
     "cost": null,
@@ -17034,7 +17317,7 @@
   {
     "id": "pipes-of-pestilence",
     "type": "item",
-    "name": "Pipes Of Pestilence",
+    "name": "Pipes of Pestilence",
     "edition": "2024",
     "source": "Welcome to the Hellfire Club",
     "description": "If you play these pipes as a Magic action, you summon one Swarm of Corrupted Rats in an unoccupied space within 60 feet of yourself. The swarm is Friendly to you and your allies for as long as you continue to play the pipes each round as a Magic action. While Friendly, the swarm is under your control, obeys your commands, and takes no action other than to defend itself if you issue it no commands. Once your control ends, the swarm vanishes, and the pipes can't be used again until the next dawn.",
@@ -17134,6 +17417,37 @@
       ],
       "range": "50/150",
       "mastery": null
+    }
+  },
+  {
+    "id": "pitchfork",
+    "type": "item",
+    "name": "Pitchfork",
+    "edition": "2024",
+    "source": null,
+    "description": "",
+    "url": "https://dnd2024.wikidot.com/equipment:weapon",
+    "category": "weapon",
+    "cost": {
+      "amount": 1,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "weapon": {
+      "kind": "simple",
+      "ranged": false,
+      "damage": [
+        {
+          "dice": "1d6",
+          "type": "piercing"
+        }
+      ],
+      "properties": [
+        "Reach",
+        "Two-Handed"
+      ],
+      "range": null,
+      "mastery": "Push"
     }
   },
   {
@@ -18831,7 +19145,7 @@
     "name": "Queen Ehlissa's Marvelous Nightingale",
     "edition": "2024",
     "source": "Arcana Unleashed",
-    "description": "Queen Ehlissa's Marvelous Nightingale is named for its first owner, a queen from the eastern Flanaess in the world of Greyhawk. Its origin is unknown, but one legend holds that it was made to console the queen when a beloved pet songbird met its unfortunate end.\n\nThis mechanical songbird has crystal eyes, golden feathers, and a small windup key on its back. As a Magic action, you can cause the bird to spring to life for 10 minutes, during which time it sings a beautiful melody audible within 300 feet, or you can revert the bird to its mechanical form. When the nightingale becomes mechanical again, it can't come to life again for 1 hour.\n\n**Ensemble Casting.** The nightingale has 6 charges and regains 1d6+1 expended charges daily at dawn. As a Bonus Action while the nightingale is singing and within 60 feet of you, you can expend charges to cast one of the spells on the table below from the nightingale (save DC 18). The table shows the number of charges you must expend to cast the spell.\n\n| Spell | Charges |\n|---|---|\n| Calm Emotions | 1 |\n| Compulsion | 3 |\n| Delayed Blast Fireball | 6 |\n| Detect Evil and Good | 0 |\n| Greater Restoration | 4 |\n| Prismatic Spray | 6 |\n| Slow | 2 |\n| Speak with Animals | 0 |\n\n**Aura of Truth.** While the nightingale sings, the effect of a Zone of Truth spell (save DC 18) fills a 15-foot Emanation originating from the nightingale. While attuned to the nightingale, you know which creatures succeed on or fail the saving throw against this effect.\n\n**Counterspell.** While the nightingale sings, you can take a Reaction to cast Counterspell (save DC 18) in response to that spell's trigger. Once this property is used, it can't be used again until the next dawn.\n\n**Random Properties.**The Artifact has the following random properties (see the \"Artifacts\" section in the Dungeon Master's Guide):\n\n- 2 minor beneficial properties\n- 1 major beneficial property\n- 1 minor detrimental property\n\n**Destroying the Nightingale.** The nightingale is destroyed if it is released into a whirlwind in Limbo.",
+    "description": "Queen Ehlissa's Marvelous Nightingale is named for its first owner, a queen from the eastern Flanaess in the world of Greyhawk. Its origin is unknown, but one legend holds that it was made to console the queen when a beloved pet songbird met its unfortunate end.\n\nThis mechanical songbird has crystal eyes, golden feathers, and a small windup key on its back. As a Magic action, you can cause the bird to spring to life for 10 minutes, during which time it sings a beautiful melody audible within 300 feet, or you can revert the bird to its mechanical form. When the nightingale becomes mechanical again, it can't come to life again for 1 hour.\n\n**Ensemble Casting.** The nightingale has 6 charges and regains 1d6+1 expended charges daily at dawn. As a Bonus Action while the nightingale is singing and within 60 feet of you, you can expend charges to cast one of the spells on the table below from the nightingale (save DC 18). The table shows the number of charges you must expend to cast the spell.\n\n| Spell | Charges |\n|---|---|\n| Calm Emotions | 1 |\n| Compulsion | 3 |\n| Delayed Blast Fireball | 6 |\n| Detect Evil and Good | 0 |\n| Greater Restoration | 4 |\n| Prismatic Spray | 6 |\n| Slow | 2 |\n| Speak with Animals | 0 |\n\n**Aura of Truth.** While the nightingale sings, the effect of a Zone of Truth spell (save DC 18) fills a 15-foot Emanation originating from the nightingale. While attuned to the nightingale, you know which creatures succeed on or fail the saving throw against this effect.\n\n**Counterspell.** While the nightingale sings, you can take a Reaction to cast Counterspell (save DC 18) in response to that spell's trigger. Once this property is used, it can't be used again until the next dawn.\n\n**Random Properties.**The Artifact has the following random properties:\n\n- 2 minor beneficial properties\n- 1 major beneficial property\n- 1 minor detrimental property\n\n**Destroying the Nightingale.** The nightingale is destroyed if it is released into a whirlwind in Limbo.",
     "url": "https://dnd2024.wikidot.com/magic-item:queen-ehlissa-s-marvelous-nightingale",
     "category": "other",
     "cost": null,
@@ -21022,6 +21336,21 @@
       "attunementBy": null,
       "raw": "Wondrous item, artifact"
     }
+  },
+  {
+    "id": "rusted-hulk",
+    "type": "item",
+    "name": "Rusted Hulk",
+    "edition": "2024",
+    "source": null,
+    "description": "**Speed:** 2 mph\n**Crew:** 60\n**Passengers:** 90\n**Cargo (Tons):** 250\n**Ac:** 18\n**Hp:** 500\n**Damage Threshold:** 25",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 50000,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "sack",
@@ -23428,7 +23757,7 @@
     "name": "Spirit-Binding Censer",
     "edition": "2024",
     "source": "Arcana Unleashed - Deadfall",
-    "description": "This brass censer is comfortingly warm to the touch.\n\nSpellcasting. The censer has 10 charges and regains 1d6 charges daily at dawn. While holding the censer, you can cast a spell on the Censer Spells table from it (save DC 18). The table indicates how many charges you must expend to cast the spell.\n\n| Spell | Charge Cost |\n|---|---|\n| Banishment | 4 |\n| Bless | 1 |\n| Circle of Power | 5 |\n| Dispel Magic | 3 |\n| Remove Curse | 3 |\n\n**Protective Incense.** As a Magic action while holding the censer, you can cause magical smoke to billow from the censer, filling a 30-foot Emanation originating from the censer for 1 hour or until you end it (no action required). The area of the Emanation is Lightly Obscured, and creatures of your choice (including yourself) gain the benefits of the Protection from Evil and Good spell while within the Emanation. Once used, this property can't be used again until the next dawn.\n\n**Spirit Imprisonment.** When a creature dies within 30 feet of you while you're holding the censer, you can siphon the creature's soul into the censer, trapping it within.\n\nWhile a creature's soul is trapped within the censer, that creature can't be restored to life. If the creature had a trait that would allow it to revive, such as a Barbed Devil's Diabolical Restoration trait or a Lich's Spirit Jar trait, that trait doesn't function while the creature's soul is trapped. The censer can contain only one soul at a time. A creature's soul remains trapped within the censer for 100 years, until you take a Magic action to release the soul, or until the censer is destroyed (see \"Destroying the Censer\" below).\n\n**Random Properties.** The censer has the following random properties (see the Dungeon Master's Guide):\n\n- 1 minor beneficial property\n\n- 1 major beneficial property\n\n**Destroying the Censer.** If it doesn't contain a soul, the censer is destroyed after being submerged in the River Styx for 1 year.",
+    "description": "This brass censer is comfortingly warm to the touch.\n\nSpellcasting. The censer has 10 charges and regains 1d6 charges daily at dawn. While holding the censer, you can cast a spell on the Censer Spells table from it (save DC 18). The table indicates how many charges you must expend to cast the spell.\n\n| Spell | Charge Cost |\n|---|---|\n| Banishment | 4 |\n| Bless | 1 |\n| Circle of Power | 5 |\n| Dispel Magic | 3 |\n| Remove Curse | 3 |\n\n**Protective Incense.** As a Magic action while holding the censer, you can cause magical smoke to billow from the censer, filling a 30-foot Emanation originating from the censer for 1 hour or until you end it (no action required). The area of the Emanation is Lightly Obscured, and creatures of your choice (including yourself) gain the benefits of the Protection from Evil and Good spell while within the Emanation. Once used, this property can't be used again until the next dawn.\n\n**Spirit Imprisonment.** When a creature dies within 30 feet of you while you're holding the censer, you can siphon the creature's soul into the censer, trapping it within.\n\nWhile a creature's soul is trapped within the censer, that creature can't be restored to life. If the creature had a trait that would allow it to revive, such as a Barbed Devil's Diabolical Restoration trait or a Lich's Spirit Jar trait, that trait doesn't function while the creature's soul is trapped. The censer can contain only one soul at a time. A creature's soul remains trapped within the censer for 100 years, until you take a Magic action to release the soul, or until the censer is destroyed (see \"Destroying the Censer\" below).\n\n**Random Properties.** The censer has the following random properties:\n\n- 1 minor beneficial property\n\n- 1 major beneficial property\n\n**Destroying the Censer.** If it doesn't contain a soul, the censer is destroyed after being submerged in the River Styx for 1 year.",
     "url": "https://dnd2024.wikidot.com/magic-item:spirit-binding-censer",
     "category": "other",
     "cost": null,
@@ -24674,7 +25003,7 @@
     "name": "Sword of Kas",
     "edition": "2024",
     "source": "Dungeon Master's Guide",
-    "description": "Kas was a powerful warrior who served Vecna and whose loyalty was rewarded with this sword. As Kas's power grew, so did his hubris. The sword urged Kas to destroy Vecna and usurp his throne. Legend says Vecna's destruction came at Kas's hand, but Vecna also wrought his rebellious lieutenant's doom, leaving only Kas's sword behind.\n\n**Bloodthirst.** The sword thirsts for blood. If the sword doesn't taste blood on its blade within 1 minute of being drawn from its scabbard, its wielder makes a DC 15 Charisma saving throw. On a successful save, the wielder takes 3d6 Psychic damage. On a failed save, the wielder is dominated by the sword, as if by the Dominate Monster spell, and the sword demands blood. The spell effect ends when the sword's demand is met.\n\n**Magic Weapon.** You gain a +3 bonus to attack rolls and damage rolls made with the sword, which scores a Critical Hit on a roll of 19 or 20 on the d20 and deals an extra 2d10 Slashing damage to Undead.\n\n**Random Properties.** The sword has the following random properties (see \"Artifacts\"):\n\n- 1 minor beneficial property\n- 1 major beneficial property\n- 1 minor detrimental property\n- 1 major detrimental property\n\n**Spells.** While the sword is on your person, you can cast the following spells (save DC 18) from it:\n\n- Call Lightning\n- Divine Word\n- Finger of Death\n\nOnce you use the sword to cast a spell, you can't cast that spell again from it until the next dawn.\n\n**Spirit of Kas.** While the sword is on your person, you gain the following benefits:\n\n**Battle Hunger.** You add 1d10 to your Initiative rolls.\n\n**Blade of Defense.** When you take an action to attack with the sword, you can transfer some or all of its attack bonus to your Armor Class instead. The adjusted bonuses remain in effect until the start of your next turn.\n\n**Necrotic Resistance.** You have Resistance to Necrotic damage.\n\n**Sentience.** The *Sword of Kas* is a sentient Chaotic Evil weapon with an Intelligence of 15, a Wisdom of 13, and a Charisma of 16. It has hearing and Darkvision out to 120 feet.\n\nThe weapon communicates telepathically with its wielder and speaks Common.\n\n**Personality.** The sword's purpose is to bring ruin to Vecna. Killing Vecna's worshipers, destroying the lich's works, and foiling his machinations all help to fulfill this goal.\n\nThe *Sword of Kas* also seeks to destroy anyone corrupted by the Eye and Hand of Vecna.\n\n**Destroying the Sword.** A creature attuned to both the Eye of Vecna and the Hand of Vecna can use the Wish property of those combined Artifacts to unmake the *Sword of Kas*, provided the sword is within 30 feet of the spell's caster. Upon casting Wish, the creature makes a DC 18 Charisma saving throw. On a failed save, nothing happens, and the Wish spell is wasted. On a successful save, the *Sword of Kas* is destroyed.",
+    "description": "Kas was a powerful warrior who served Vecna and whose loyalty was rewarded with this sword. As Kas's power grew, so did his hubris. The sword urged Kas to destroy Vecna and usurp his throne. Legend says Vecna's destruction came at Kas's hand, but Vecna also wrought his rebellious lieutenant's doom, leaving only Kas's sword behind.\n\n**Bloodthirst.** The sword thirsts for blood. If the sword doesn't taste blood on its blade within 1 minute of being drawn from its scabbard, its wielder makes a DC 15 Charisma saving throw. On a successful save, the wielder takes 3d6 Psychic damage. On a failed save, the wielder is dominated by the sword, as if by the Dominate Monster spell, and the sword demands blood. The spell effect ends when the sword's demand is met.\n\n**Magic Weapon.** You gain a +3 bonus to attack rolls and damage rolls made with the sword, which scores a Critical Hit on a roll of 19 or 20 on the d20 and deals an extra 2d10 Slashing damage to Undead.\n\n**Random Properties.** The sword has the following random properties:\n\n- 1 minor beneficial property\n- 1 major beneficial property\n- 1 minor detrimental property\n- 1 major detrimental property\n\n**Spells.** While the sword is on your person, you can cast the following spells (save DC 18) from it:\n\n- Call Lightning\n- Divine Word\n- Finger of Death\n\nOnce you use the sword to cast a spell, you can't cast that spell again from it until the next dawn.\n\n**Spirit of Kas.** While the sword is on your person, you gain the following benefits:\n\n**Battle Hunger.** You add 1d10 to your Initiative rolls.\n\n**Blade of Defense.** When you take an action to attack with the sword, you can transfer some or all of its attack bonus to your Armor Class instead. The adjusted bonuses remain in effect until the start of your next turn.\n\n**Necrotic Resistance.** You have Resistance to Necrotic damage.\n\n**Sentience.** The *Sword of Kas* is a sentient Chaotic Evil weapon with an Intelligence of 15, a Wisdom of 13, and a Charisma of 16. It has hearing and Darkvision out to 120 feet.\n\nThe weapon communicates telepathically with its wielder and speaks Common.\n\n**Personality.** The sword's purpose is to bring ruin to Vecna. Killing Vecna's worshipers, destroying the lich's works, and foiling his machinations all help to fulfill this goal.\n\nThe *Sword of Kas* also seeks to destroy anyone corrupted by the Eye and Hand of Vecna.\n\n**Destroying the Sword.** A creature attuned to both the Eye of Vecna and the Hand of Vecna can use the Wish property of those combined Artifacts to unmake the *Sword of Kas*, provided the sword is within 30 feet of the spell's caster. Upon casting Wish, the creature makes a DC 18 Charisma saving throw. On a failed save, nothing happens, and the Wish spell is wasted. On a successful save, the *Sword of Kas* is destroyed.",
     "url": "https://dnd2024.wikidot.com/magic-item:sword-of-kas",
     "category": "weapon",
     "cost": null,
@@ -25466,6 +25795,21 @@
       "attunementBy": null,
       "raw": "Weapon (trident), very rare (requires attunement)"
     }
+  },
+  {
+    "id": "tiger",
+    "type": "item",
+    "name": "Tiger",
+    "edition": "2024",
+    "source": null,
+    "description": "**Carrying Capacity:** 510 lb.",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 750,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "timepiece-of-travel",
@@ -26550,7 +26894,7 @@
     "name": "Wand of Orcus",
     "edition": "2024",
     "source": "Dungeon Master's Guide",
-    "description": "Crafted and wielded by Orcus, this ghastly wand slips from the demon lord's grasp from time to time. When it does, it magically appears wherever the demon lord senses an opportunity to achieve some fell goal.\n\nThe wand is topped with a skull that once belonged to a human hero slain by Orcus. The wand can magically change in size to better conform to the grip of its user. All Holy Water within 10 feet of the wand is destroyed.\n\nAny creature besides Orcus that tries to attune to the wand makes a DC 17 Constitution saving throw. On a successful save, the creature takes 10d6 Necrotic damage. On a failed save, the creature dies and, if it is a Humanoid, turns into a Zombie.\n\n**Magic Weapon.** You can wield the wand as a magic Mace that grants a +3 bonus to attack rolls and damage rolls made with it. The wand deals an extra 2d12 Necrotic damage on a hit.\n\n**Random Properties.** The Wand of Orcus has the following random properties (see \"Artifacts\"):\n\n- 2 minor beneficial properties\n- 1 major beneficial property\n- 2 minor detrimental properties\n- 1 major detrimental property\n\nThe detrimental properties of the Wand of Orcus are suppressed while the wand is attuned to Orcus.\n\n**Protection.** You gain a +3 bonus to Armor Class while holding the wand.\n\n**Spells.** The wand has 7 charges and regains 1d4 + 3 expended charges daily at dawn. While holding the wand, you can cast one of the spells on the following table from it (save DC 18). The table indicates how many charges you must expend to cast the spell.\n\n| Spell | Charge Cost |\n|---|---|\n| Animate Dead | 1 |\n| Blight | 2 |\n| Circle of Death | 3 |\n| Finger of Death | 3 |\n| Power Word Kill | 4 |\n| Speak with Dead | 1 |\n\nWhile attuned to the wand, Orcus or a follower blessed by him can cast each of the wand's spells using 2 fewer charges (minimum of 0).\n\n**Call Undead.** While holding the wand, you can take a Magic action to conjure 15 Skeletons and 15 Zombies. These Undead magically rise up from the ground or otherwise form in unoccupied spaces within 300 feet of you and obey your commands until they are destroyed or until the next dawn, when they collapse into inanimate piles of bones and rotting corpses. Once you use this property, you can't use it again until the next dawn.\n\nWhile holding the wand, Orcus can summon any kind of Undead, not just skeletons and zombies. These Undead don't perish at dawn the following day, remaining until Orcus dismisses them.\n\n**Sentience.** The *Wand of Orcus* is a sentient Chaotic Evil item with an Intelligence of 16, a Wisdom of 12, and a Charisma of 16. It has hearing and Darkvision out to 120 feet.\n\nThe wand communicates telepathically with its wielder and speaks Abyssal and Common.\n\n**Personality.** The wand's purpose is to help satisfy Orcus's desire to slay everything in the multiverse. The wand is cruel, nihilistic, and bereft of humor.\n\nTo further Orcus's goals, the wand feigns devotion to its current user and makes grandiose promises that it has no intention of fulfilling, such as vowing to help its user overthrow Orcus.\n\n**Destroying the Wand.** Destroying the *Wand of Orcus* requires that it be taken to the Positive Plane by the ancient hero whose skull surmounts it. For this to happen, the long-lost hero must first be restored to life—no easy task, given the fact that Orcus has imprisoned the hero's soul and keeps it hidden and well guarded.\n\nBathing the wand in positive energy (such as that which permeates the Positive Plane) causes it to crack and explode, but unless the above conditions are met, the wand instantly re-forms on Orcus's layer of the Abyss.",
+    "description": "Crafted and wielded by Orcus, this ghastly wand slips from the demon lord's grasp from time to time. When it does, it magically appears wherever the demon lord senses an opportunity to achieve some fell goal.\n\nThe wand is topped with a skull that once belonged to a human hero slain by Orcus. The wand can magically change in size to better conform to the grip of its user. All Holy Water within 10 feet of the wand is destroyed.\n\nAny creature besides Orcus that tries to attune to the wand makes a DC 17 Constitution saving throw. On a successful save, the creature takes 10d6 Necrotic damage. On a failed save, the creature dies and, if it is a Humanoid, turns into a Zombie.\n\n**Magic Weapon.** You can wield the wand as a magic Mace that grants a +3 bonus to attack rolls and damage rolls made with it. The wand deals an extra 2d12 Necrotic damage on a hit.\n\n**Random Properties.** The Wand of Orcus has the following random properties:\n\n- 2 minor beneficial properties\n- 1 major beneficial property\n- 2 minor detrimental properties\n- 1 major detrimental property\n\nThe detrimental properties of the Wand of Orcus are suppressed while the wand is attuned to Orcus.\n\n**Protection.** You gain a +3 bonus to Armor Class while holding the wand.\n\n**Spells.** The wand has 7 charges and regains 1d4 + 3 expended charges daily at dawn. While holding the wand, you can cast one of the spells on the following table from it (save DC 18). The table indicates how many charges you must expend to cast the spell.\n\n| Spell | Charge Cost |\n|---|---|\n| Animate Dead | 1 |\n| Blight | 2 |\n| Circle of Death | 3 |\n| Finger of Death | 3 |\n| Power Word Kill | 4 |\n| Speak with Dead | 1 |\n\nWhile attuned to the wand, Orcus or a follower blessed by him can cast each of the wand's spells using 2 fewer charges (minimum of 0).\n\n**Call Undead.** While holding the wand, you can take a Magic action to conjure 15 Skeletons and 15 Zombies. These Undead magically rise up from the ground or otherwise form in unoccupied spaces within 300 feet of you and obey your commands until they are destroyed or until the next dawn, when they collapse into inanimate piles of bones and rotting corpses. Once you use this property, you can't use it again until the next dawn.\n\nWhile holding the wand, Orcus can summon any kind of Undead, not just skeletons and zombies. These Undead don't perish at dawn the following day, remaining until Orcus dismisses them.\n\n**Sentience.** The *Wand of Orcus* is a sentient Chaotic Evil item with an Intelligence of 16, a Wisdom of 12, and a Charisma of 16. It has hearing and Darkvision out to 120 feet.\n\nThe wand communicates telepathically with its wielder and speaks Abyssal and Common.\n\n**Personality.** The wand's purpose is to help satisfy Orcus's desire to slay everything in the multiverse. The wand is cruel, nihilistic, and bereft of humor.\n\nTo further Orcus's goals, the wand feigns devotion to its current user and makes grandiose promises that it has no intention of fulfilling, such as vowing to help its user overthrow Orcus.\n\n**Destroying the Wand.** Destroying the *Wand of Orcus* requires that it be taken to the Positive Plane by the ancient hero whose skull surmounts it. For this to happen, the long-lost hero must first be restored to life—no easy task, given the fact that Orcus has imprisoned the hero's soul and keeps it hidden and well guarded.\n\nBathing the wand in positive energy (such as that which permeates the Positive Plane) causes it to crack and explode, but unless the above conditions are met, the wand instantly re-forms on Orcus's layer of the Abyss.",
     "url": "https://dnd2024.wikidot.com/magic-item:wand-of-orcus",
     "category": "other",
     "cost": null,
@@ -27288,6 +27632,39 @@
     ]
   },
   {
+    "id": "weighted-chain",
+    "type": "item",
+    "name": "Weighted Chain",
+    "edition": "2024",
+    "source": null,
+    "description": "",
+    "url": "https://dnd2024.wikidot.com/equipment:weapon",
+    "category": "weapon",
+    "cost": {
+      "amount": 15,
+      "unit": "gp"
+    },
+    "weight": 19,
+    "weapon": {
+      "kind": "martial",
+      "ranged": false,
+      "damage": [
+        {
+          "dice": "1d8",
+          "type": "bludgeoning"
+        }
+      ],
+      "properties": [
+        "Finesse",
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "range": null,
+      "mastery": "Graze"
+    }
+  },
+  {
     "id": "weird-tank",
     "type": "item",
     "name": "Weird Tank",
@@ -27329,6 +27706,21 @@
     "replaced": [
       "https://dnd5e.wikidot.com/wondrous-items:well-of-many-worlds"
     ]
+  },
+  {
+    "id": "whaleboat",
+    "type": "item",
+    "name": "Whaleboat",
+    "edition": "2024",
+    "source": null,
+    "description": "**Speed:** 3 mph\n**Crew:** 6\n**Passengers:** 1\n**Ac:** 13\n**Hp:** 100\n**Damage Threshold:** 10",
+    "url": "https://dnd2024.wikidot.com/equipment:mounts-and-vehicles",
+    "category": "mount",
+    "cost": {
+      "amount": 500,
+      "unit": "gp"
+    },
+    "weight": null
   },
   {
     "id": "wheel-of-stars",

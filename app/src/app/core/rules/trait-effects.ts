@@ -165,7 +165,10 @@ export function traitRules(
 }
 
 /** Same as traitRules for a bare text (not memoised). */
-export function traitRulesOfText(text: string, opts: { situational?: boolean } = {}): TraitRules {
+export function traitRulesOfText(
+  text: string,
+  opts: { situational?: boolean; inState?: boolean } = {},
+): TraitRules {
   return parseTrait(text, opts);
 }
 
@@ -179,7 +182,8 @@ const KIND_OF: Record<string, SpeedKind> = {
   burrow: 'burrow',
 };
 
-function parseTrait(text: string, opts: { situational?: boolean }): TraitRules {
+/** `inState`: the state the text describes is on (a form), so its benefits hold. */
+function parseTrait(text: string, opts: { situational?: boolean; inState?: boolean }): TraitRules {
   const out: TraitRules = {
     senses: [],
     speeds: [],
@@ -215,7 +219,7 @@ function parseTrait(text: string, opts: { situational?: boolean }): TraitRules {
     // a bullet or a bold benefit of a list: one of several options, or part of a temporary form
     const option = /^[-•*]/.test(raw);
     if (!option) underCondition = STATE_INTRO.test(plain(raw)) || INTRO.test(raw);
-    const held = option && underCondition;
+    const held = option && underCondition && !opts.inState;
     // Thaumaturge / Magician: "a bonus to your Intelligence (Arcana or Religion) checks. The bonus
     // equals your Wisdom modifier" (two sentences)
     if (!opts.situational) {
@@ -233,8 +237,11 @@ function parseTrait(text: string, opts: { situational?: boolean }): TraitRules {
     }
     for (const full of sentencesOf(plain(raw))) {
       const s = full.replace(LEVEL_LEAD, '').replace(/^\w/, (c) => c.toUpperCase());
-      const cond = held || CONDITIONAL.test(s);
-      readMore(out, s, cond, option, opts.situational === true);
+      // in the state (inState) only a sentence's own conditions count, not the state's ("for 1
+      // minute", "while it's active")
+      const cond =
+        held || (opts.inState ? CONDITIONAL.test(s) && !STATE_INTRO.test(s) : CONDITIONAL.test(s));
+      readMore(out, s, cond, option && !opts.inState, opts.situational === true);
 
       // -- initiative (the sentences are conditional: "When you roll Initiative, you can add ...")
       if (/add your proficiency bonus to your initiative/i.test(s)) out.initiative.pb = true;

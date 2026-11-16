@@ -8,12 +8,26 @@ import type { SheetFeature } from './sheet';
  * against data/*.json). The character keeps the ids that are on in `state.active` (Wild Shape
  * apart: `state.wildShape` says which form); the engine works out what each one changes.
  */
-export type ActiveStateId = 'rage' | 'wildShape' | 'hex' | 'huntersMark' | 'innateSorcery';
+export type ActiveStateId =
+  | 'rage'
+  | 'wildShape'
+  | 'hex'
+  | 'huntersMark'
+  | 'innateSorcery'
+  | 'bladesong'
+  | 'wrathOfTheSea'
+  | 'formOfDread'
+  | 'starryForm';
 
 export interface ActiveStateDef {
   id: ActiveStateId;
-  /** The class feature that gives it, or the spell. */
-  feature?: { cls: string; name: string };
+  /** The class (or subclass, `sub`) feature that gives it, or the spell. */
+  feature?: { cls: string; name: string; sub?: string };
+  /**
+   * Features whose benefits only hold while it's on (Stormborn while Wrath of the Sea is active,
+   * Superior Dread in Form of Dread): their text is read for speeds, resistances and immunities.
+   */
+  forms?: string[];
   spell?: string;
   /** Sentence of the text that says how long it lasts (checked by a spec). */
   anchor: RegExp;
@@ -60,6 +74,36 @@ export const ACTIVE_STATES: readonly ActiveStateDef[] = [
     spends: 'Innate Sorcery',
     endsOn: ['short', 'long'],
   },
+  {
+    id: 'bladesong',
+    feature: { cls: 'wizard', sub: 'wizard/bladesinger', name: 'Bladesong' },
+    anchor: /The Bladesong lasts for 1 minute/,
+    spends: 'Bladesong',
+    endsOn: ['short', 'long'],
+  },
+  {
+    id: 'wrathOfTheSea',
+    feature: { cls: 'druid', sub: 'druid/circle-of-the-sea', name: 'Wrath of the Sea' },
+    anchor: /surrounds you for 10 minutes/,
+    spends: 'Wild Shape',
+    forms: ['Stormborn'],
+    endsOn: ['short', 'long'],
+  },
+  {
+    id: 'formOfDread',
+    feature: { cls: 'warlock', sub: 'warlock/undead-patron', name: 'Form of Dread' },
+    anchor: /gaining the benefits below for 1 minute/,
+    spends: 'Form of Dread',
+    forms: ['Form of Dread', 'Superior Dread'],
+    endsOn: ['short', 'long'],
+  },
+  {
+    id: 'starryForm',
+    feature: { cls: 'druid', sub: 'druid/circle-of-the-stars', name: 'Starry Form' },
+    anchor: /The form lasts for 10 minutes/,
+    spends: 'Wild Shape',
+    endsOn: ['short', 'long'],
+  },
 ];
 
 export const ACTIVE_STATE_IDS = new Set<string>(ACTIVE_STATES.map((d) => d.id));
@@ -75,7 +119,7 @@ export interface SheetActiveState {
    * Switched on, but the text says it has ended: Rage with Heavy armor donned or with the
    * Incapacitated condition (Unconscious only, from Persistent Rage). Its effects don't apply.
    */
-  ended: 'heavyArmor' | 'incapacitated' | 'unconscious' | null;
+  ended: 'heavyArmor' | 'armor' | 'incapacitated' | 'unconscious' | null;
   /** The counter it spends when switched on. */
   spends?: string;
 }
@@ -93,10 +137,17 @@ export interface ActiveStatesInput {
   wildShape: unknown;
   conditions: readonly string[];
   heavyArmor: boolean;
+  /** Wearing any armor / a Shield (Bladesong). */
+  armor?: boolean;
+  shield?: boolean;
 }
 
-const hasFeature = (input: ActiveStatesInput, cls: string, name: string) =>
-  input.features.some((f) => f.name === name && f.source.type === 'class' && f.source.id === cls);
+const hasFeature = (input: ActiveStatesInput, cls: string, name: string, sub?: string) =>
+  input.features.some((f) =>
+    sub
+      ? f.name === name && f.source.type === 'subclass' && f.source.id === sub
+      : f.name === name && f.source.type === 'class' && f.source.id === cls,
+  );
 
 /** The states this character can switch on, and which of them are on. */
 export function activeStatesOf(input: ActiveStatesInput): SheetActiveState[] {
@@ -104,7 +155,7 @@ export function activeStatesOf(input: ActiveStatesInput): SheetActiveState[] {
   const out: SheetActiveState[] = [];
   for (const def of ACTIVE_STATES) {
     let source: string | null = null;
-    if (def.feature && hasFeature(input, def.feature.cls, def.feature.name))
+    if (def.feature && hasFeature(input, def.feature.cls, def.feature.name, def.feature.sub))
       source = def.feature.name;
     // Hunter's Mark is always prepared with the Ranger's Favored Enemy
     if (def.id === 'huntersMark' && hasFeature(input, 'ranger', 'Favored Enemy'))
@@ -114,6 +165,9 @@ export function activeStatesOf(input: ActiveStatesInput): SheetActiveState[] {
     if (!source) continue;
     const isOn = def.id === 'wildShape' ? !!input.wildShape : on.has(def.id);
     let ended: SheetActiveState['ended'] = null;
+    // Bladesong: "ends early if ... you don armor or a Shield"
+    if (isOn && def.id === 'bladesong' && (input.heavyArmor || input.armor || input.shield))
+      ended = 'armor';
     if (isOn && def.id === 'rage') {
       // "it ends early if you don Heavy armor or have the Incapacitated condition"; Persistent
       // Rage (Barbarian 15): "ends early if you have the Unconscious condition ... or don Heavy armor"

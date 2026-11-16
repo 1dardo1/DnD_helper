@@ -449,7 +449,10 @@ export function resourceFor(
     const uses = resources.filter((r) => r.feat === f.source.name || r.feat === f.name);
     return uses.find((r) => text.includes(r.name)) ?? uses[0] ?? null;
   }
-  const flat = text.replace(/\*+/g, '');
+  // the Monk subclasses of the 2014 books spend "ki points": the 2024 Monk's Focus Points
+  const flat = text
+    .replace(/\*+/g, '')
+    .replace(/\bki points?\b/gi, (m) => (/s$/i.test(m) ? 'Focus Points' : 'Focus Point'));
   for (const r of resources) {
     if (r.feat) continue;
     const s = singular(r.name);

@@ -48,6 +48,7 @@ class Report:
         self.near: list[tuple[str, str, str]] = []
         self.skipped: list[str] = []
         self.excluded: list[str] = []   # pages that only belong to an excluded class (Psion)
+        self.excluded_names: set[str] = set()   # names of excluded entries (World of Warcraft)
         self.pruned_options: dict[str, int] = {}   # option group → 2014 options dropped
 
     def warn(self, page: Page | str, msgs: list[str]):
@@ -63,6 +64,10 @@ class Report:
 # "(UA)", "(Revised UA)", "(UA9 - 02.10.2025)", " UA", and source tags like "(SCC)", "(OGA)"
 _NAME_SUFFIX = re.compile(r"\s*\((?:[^)]*\bUA\d*\b[^)]*|Unearthed Arcana[^)]*|[A-Z]{2,5})\)\s*$|\s+UA$")
 _HOMEBREW_TAG = re.compile(r"\(HB\)")
+# Third-party settings the 2024 wiki hosts next to the official books (World of Warcraft, added in
+# 2026): not part of the app's rules, and some of their pages reuse official ids (Goblin,
+# Swashbuckler) and would replace the real entries.
+_EXCLUDED_SOURCES = re.compile(r"^World of Warcraft\b", re.I)
 
 
 def display_name(name: str) -> str:
@@ -147,6 +152,10 @@ class Run:
             return None
         if entry.pop("_excluded", False):      # e.g. a spell only on the Psion list
             self.r.excluded.append(page.url)
+            return None
+        if _EXCLUDED_SOURCES.search(entry.get("source") or ""):   # World of Warcraft
+            self.r.excluded.append(page.url)
+            self.r.excluded_names.add(entry.get("name") or "")
             return None
         self.r.warn(page, warns)
         entry["name"] = display_name(entry["name"])
@@ -436,6 +445,132 @@ _DRAGONMARK_IDS = {"dragonmark-ua", "greater-dragonmark-ua"}
 _EXCLUDED_FEAT_CATEGORIES = {"dragonmark", "planar-pact", "dark-gift"}
 
 
+# "Source: World of Warcraft" (sometimes misspelt "Souce") under an option's name
+_WOW_NOTE = re.compile(r"\bSou?r?ce:\s*World of Warcraft\b", re.I)
+# an option of that setting with no heading of its own, glued to the end of the one before it
+# ("... Prone condition.\n\nWarding Maneuver\n\nSource: World of Warcraft\n\nWhen you ...")
+_WOW_TAIL = re.compile(r"\n+[^\n]+\n+\s*Sou?r?ce:\s*World of Warcraft\b[\s\S]*$", re.I)
+
+
+_TITLE = re.compile(r"^\s*(?:#{1,6}\s|\*\*[^*]+\*\*\s*$|\*\*\*[^*]+\*\*\*\s*$)")
+
+
+def strip_excluded_sections(text: str) -> str:
+    """Removes the sections of an excluded setting inside an official text: a heading or a bold
+    title with "Source: World of Warcraft" in its first lines (a variant feature, a maneuver),
+    down to the next heading or title."""
+    lines = text.split("\n")
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        if _TITLE.match(lines[i]):
+            head = [x for x in lines[i + 1:i + 6] if x.strip()][:2]
+            # its "(Variant Feature)" sections too (Hunter Pets), even without the note
+            if (any(_WOW_NOTE.search(x) for x in head) or "(Variant Feature" in lines[i]
+                    or re.match(r"(?:World of )?Warcraft\b", re.sub(r"^[\s#*]+", "", lines[i]), re.I)):
+                # a heading's section ends at the next heading as high; a bold title's at the next title
+                heading = lines[i].lstrip().startswith("#")
+                depth = len(lines[i].lstrip()) - len(lines[i].lstrip().lstrip("#"))
+                end = re.compile(r"^\s*#{1,%d}\s" % depth) if heading else _TITLE
+                i += 1
+                while i < len(lines) and not end.match(lines[i]):
+                    i += 1
+                continue
+        out.append(lines[i])
+        i += 1
+    return re.sub(r"\n{3,}", "\n\n", "\n".join(out)).rstrip()
+
+
+def drop_excluded_sources(entries: list[dict], report: Report) -> list[dict]:
+    """What's left of an excluded setting after the merge: options of a class page that only say
+    "Source: World of Warcraft" in their text or need one of its options, and the rows that list its
+    subclasses in the classes' tables."""
+    names = {n for n in report.excluded_names if n}
+    dropped: set[str] = set()
+    for e in entries:
+        if e["type"] != "option":
+            continue
+        text = e.get("description") or ""
+        if _EXCLUDED_SOURCES.search(e.get("source") or "") or _WOW_NOTE.match(text.strip()):
+            dropped.add(e["name"])
+        else:
+            e["description"] = _WOW_TAIL.sub("", text)
+    for _ in range(3):   # options that need a dropped one ("Pact of the Legion Invocation")
+        for e in entries:
+            pre = (e.get("prerequisites") or {}).get("raw") or ""
+            if e["type"] == "option" and any(n and n in pre for n in dropped):
+                dropped.add(e["name"])
+    out = []
+    for e in entries:
+        if e["type"] == "option" and e["name"] in dropped:
+            report.excluded.append(e.get("url") or e["id"])
+            continue
+        if e["type"] in ("class", "subclass"):
+            for f in e.get("features", []):
+                if _WOW_NOTE.search(f.get("description") or ""):
+                    f["description"] = strip_excluded_sections(f["description"])
+        if e.get("source") and "World of Warcraft" in e["source"]:   # "Dungeon Master's Guide, World of Warcraft"
+            e["source"] = ", ".join(x for x in e["source"].split(", ") if not _EXCLUDED_SOURCES.search(x))
+        if "World of Warcraft" in (e.get("description") or ""):   # rules, items
+            e["description"] = strip_excluded_sections(e["description"])
+        if e["type"] == "class" and names:
+            row = re.compile(r"^\|\s*(?:%s)\s*\|\s*$\n?" % "|".join(re.escape(n) for n in names), re.M)
+            for f in e.get("features", []):
+                f["description"] = row.sub("", f.get("description") or "")
+            for r in (e.get("progression") or {}).get("rows", []):
+                r["features"] = [re.sub(r"\s*\(Variant Feature\).*$", "", x) for x in r.get("features", [])]
+        out.append(e)
+    return out
+
+
+# Options described inside a feature's own text (each a bold name), not on a page or section of
+# their own: owner id, feature name → group. The player picks some of them (the app counts how many).
+FEATURE_OPTIONS = {
+    ("blood-hunter", "Crimson Rite"): "crimson-rite",
+    ("fighter/rune-knight", "Rune Carver"): "rune",
+}
+_BOLD_OPTION = re.compile(r"^\s*(?:-\s*)?\*{2,3}([^*\n]+?)\.\*{2,3}\s*(.*)$")
+_LEVEL_REQ = re.compile(r"\(?(?:Prerequisite:\s*)?(\d+)(?:st|nd|rd|th) [Ll]evel(?: or [Hh]igher)?\)?")
+
+
+def options_from_features(entries: list[dict]) -> list[dict]:
+    """Adds the options of FEATURE_OPTIONS as entries of options.json ("Rite of the Flame", "Fire
+    Rune"...), with the class level they need when the text gives one."""
+    have = {e["id"] for e in entries}
+    out = list(entries)
+    for e in entries:
+        if e["type"] not in ("class", "subclass"):
+            continue
+        for f in e.get("features", []):
+            group = FEATURE_OPTIONS.get((e["id"], f["name"]))
+            if not group:
+                continue
+            current: dict | None = None
+            for line in (f.get("description") or "").split("\n"):
+                m = _BOLD_OPTION.match(line)
+                if m:
+                    raw = m.group(1).strip()
+                    level = _LEVEL_REQ.search(raw) or _LEVEL_REQ.search(m.group(2))
+                    name = _LEVEL_REQ.sub("", raw).strip()
+                    current = {
+                        "id": f"{group}/{slug(name)}", "type": "option", "name": name,
+                        "edition": e["edition"], "source": e.get("source"),
+                        "description": _LEVEL_REQ.sub("", m.group(2)).strip(),
+                        "url": e.get("url"), "group": group,
+                        "classId": e.get("classId") or e["id"],
+                        "subclassId": e["id"] if e["type"] == "subclass" else None,
+                        "prerequisites": {"raw": level.group(0).strip("()"), "level": int(level.group(1))} if level else None,
+                    }
+                    if current["id"] not in have:
+                        have.add(current["id"])
+                        out.append(current)
+                elif current is not None and line.strip() and not line.lstrip().startswith(("#", "|")):
+                    current["description"] = (current["description"] + "\n\n" + line.strip()).strip()
+                elif line.lstrip().startswith("#"):
+                    current = None
+    return out
+
+
 def drop_dragonmarks(entries: list[dict], report: Report) -> list[dict]:
     feats_out = {e["id"] for e in entries if e["type"] == "feat"
                  and (e.get("category") in _EXCLUDED_FEAT_CATEGORIES or e["id"] in _DRAGONMARK_IDS)}
@@ -647,6 +782,8 @@ def run(root: Path, offline: bool = False, delay: float = 0.5, translate: bool =
     e14 = r.parse_2014()
     successors = load_successors(root / "tools/scraper/successors.yaml")
     merged = drop_dragonmarks(prune_options(merge(e14, e24, successors, report), report), report)
+    merged = drop_excluded_sources(merged, report)
+    merged = options_from_features(merged)
     merged = plans.add_plans(merged, report)   # artificer magic item plans (options), from the class + items
     apply_multiclass_gains(merged, root / "tools/scraper/multiclass.yaml", report)
     meta = write(merged, root / "data", report, crawler, root / "tools/scraper/report.md")

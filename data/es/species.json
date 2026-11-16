@@ -122,7 +122,7 @@
     "speed": {
       "walk": 30
     },
-    "darkvision": null,
+    "darkvision": 60,
     "traits": [
       {
         "name": "Visión en la oscuridad",
@@ -841,14 +841,35 @@
       "Medium"
     ],
     "speed": {
-      "walk": 30
+      "walk": 30,
+      "fly": 30
     },
-    "darkvision": null,
+    "darkvision": 60,
     "traits": [
       {
         "name": "Ascendencia dracónica",
         "level": 1,
         "description": "Tu linaje proviene de un progenitor dragón. Elige el tipo de dragón de la tabla de Ancestros Draconicos. Tu elección afecta tus rasgos de arma de aliento y resistencia al daño, así como tu apariencia."
+      },
+      {
+        "name": "Arma de aliento",
+        "level": 1,
+        "description": "Cuando realizas la acción de Atacar en tu turno, puedes sustituir uno de tus ataques por una exhalación de energía mágica en un Cono de 15 pies o en una Línea de 30 pies de largo y 5 pies de ancho (elige la forma cada vez). Cada criatura en esa área debe hacer una tirada de salvación de Destreza (CD 8 más tu modificador de Constitución y bonificador de competencia). Si falla la salvación, una criatura sufre 1d10 de daño del tipo determinado por tu rasgo Ascendencia dracónica. Si supera la salvación, una criatura sufre la mitad de ese daño. Este daño aumenta en 1d10 cuando alcanzas los niveles de personaje 5 (2d10), 11 (3d10) y 17 (4d10).\n\nPuedes usar esta Arma de aliento un número de veces igual a tu bonificador de competencia, y recuperas todos los usos gastados cuando terminas un descanso largo."
+      },
+      {
+        "name": "Resistencia al daño",
+        "level": 1,
+        "description": "Tienes resistencia al tipo de daño determinado por tu rasgo Ascendencia dracónica."
+      },
+      {
+        "name": "Visión en la oscuridad",
+        "level": 1,
+        "description": "Tienes visión en la oscuridad con un alcance de 60 pies."
+      },
+      {
+        "name": "Vuelo dracónico",
+        "level": 1,
+        "description": "Cuando alcanzas el nivel de personaje 5, puedes canalizar magia dracónica para otorgarte vuelo temporal. Como una acción adicional, te brotan alas espectrales en la espalda que duran 10 minutos o hasta que las repliegues (no requiere acción) o tengas la condición de incapacitado. Durante ese tiempo, tienes una velocidad de vuelo igual a tu velocidad. Tus alas parecen hechas de la misma energía que tu Arma de aliento. Una vez que uses este rasgo, no puedes volver a usarlo hasta que termines un descanso largo."
       }
     ],
     "variants": [
@@ -2106,7 +2127,8 @@
             "description": "La mayoría de los duendes de Zendikar pertenecen a una de tres tribus: los Grotag, los Lavastep y los Tuktuk. Elige una de estas tribus.\n\n- Tribu Grotag\n  - Más pequeños y débiles que sus primos, y con manos y pies más grandes, los duendes de la tribu Grotag intentan vivir de su ingenio, aunque rara vez con mucho éxito. Cuando un duende Grotag tiene la brillante idea de tratar de domesticar a los ácaros perforadores de carne, al menos algunos otros estarán dispuestos a seguir a ese duende hasta un nido, generalmente con resultados predeciblemente horribles. Pero aunque los Grotag parecen tener un suministro interminable de malas ideas, y una proporción horrible de malas ideas y buenas, los Grotag también parecen tener un suministro interminable de Grotag. Como tal, mediante prueba y error (y más errores), estos duendes han encontrado una gran cantidad de conocimiento útil para sobrevivir en los lugares profundos de Zendikar y para lidiar con las criaturas que viven allí. Los Grotag se imaginan que tienen una especie de empatía con las bestias, y pierden cientos de duendes cada año en intentos imprudentes de domesticar monstruos. Pero, de vez en cuando, uno de estos esfuerzos tiene éxito.\n  - **Grotag Tamer.** Tienes competencia en la habilidad Manejo de animales.\n- Tribu Paso de Lava\n  - La tribu Lavastep es la más trabajadora de las tribus goblin y posee muchos conocimientos adquiridos con mucho esfuerzo sobre la actividad geotérmica en Akoum. Más que los miembros de las otras tribus, los duendes de Lavastep construyen equipos sorprendentemente efectivos a partir de fragmentos de cristal y vetas de metales extraños que ocasionalmente suben a la superficie. Los goblins Paso de Lava, los más guerreros de su especie, acosan con frecuencia a los kor, los elfos y los humanos de Akoum.\n  - **Lavastep Grit.** Tienes ventaja en las pruebas de Destreza (Sigilo) realizadas para esconderte en entornos rocosos o subterráneos.\n- Tribu Tuktuk\n  - Entre los duendes, los Tuktuk son los más propensos a contratarse como guías de ruinas para otras razas. Por supuesto, su plan habitual es ayudar a encontrar algo de valor, robarlo, activar una trampa intencionalmente y luego huir.\n  - **Tuktuk Astucia.** Tienes competencia con Herramientas de ladrón."
           }
         ],
-        "spells": null
+        "spells": null,
+        "reprint": false
       }
     ],
     "adjustments": [
@@ -2263,7 +2285,7 @@
     "speed": {
       "walk": 30
     },
-    "darkvision": null,
+    "darkvision": 60,
     "traits": [
       {
         "name": "Visión en la oscuridad",
@@ -2353,7 +2375,7 @@
     "speed": {
       "walk": 30
     },
-    "darkvision": null,
+    "darkvision": 60,
     "traits": [
       {
         "name": "Visión en la oscuridad",
@@ -4825,7 +4847,7 @@
     "speed": {
       "walk": 30
     },
-    "darkvision": null,
+    "darkvision": 60,
     "traits": [
       {
         "name": "Visión en la oscuridad",

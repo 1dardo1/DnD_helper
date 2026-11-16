@@ -3341,7 +3341,7 @@
           "min": 13
         }
       ],
-      "proficienciesGained": "- Gain the following traits from the Core Druid Traits table: Hit Point Die and training with Light armor and Shields.\n- Gain the Druid's level 1 features, which are listed in the Druid Features table. See the multiclassing rules in multiclassing to determine your available spell slots.",
+      "proficienciesGained": "- Gain the following traits from the Core Druid Traits table: Hit Point Die and training with Light armor and Shields.\n- Gain the Druid's level 1 features, which are listed in the Druid Features table. See the multiclassing rules to determine your available spell slots.",
       "gains": {
         "armor": [
           "Light armor",

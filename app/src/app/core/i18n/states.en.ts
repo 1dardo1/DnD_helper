@@ -28,6 +28,19 @@ export const statesEn = {
   'state.fx.innateSorcery':
     'Sorcerer spell save DC {dc} (+1, already added) · Advantage on the attack rolls of Sorcerer spells',
   'state.dur.innateSorcery': 'Lasts 1 minute.',
+  'state.fx.bladesong':
+    '+{n} AC (Intelligence, already added) · +10 feet of Speed · Advantage on Dexterity (Acrobatics) · Intelligence on Constitution saves to keep Concentration',
+  'state.fx.wrathOfTheSea':
+    '5-foot Emanation: pushes and deals Cold damage; with Stormborn, Fly Speed and resistances (already applied)',
+  'state.fx.formOfDread':
+    'Temporary HP 1d10 + Warlock level · immune to Frightened · can frighten on a hit; with Superior Dread, resistance and flight (already applied)',
+  'state.fx.starryForm':
+    'Choose the constellation (Archer, Chalice or Dragon) when you take the form',
+  'state.dur.bladesong':
+    'Lasts 1 minute; ends if you don armor or a Shield, are Incapacitated or attack two-handed.',
+  'state.dur.formOfDread': 'Lasts 1 minute or until you are Incapacitated.',
+  'state.dur.tenMinutes': 'Lasts 10 minutes.',
+  'state.ended.armor': 'It has ended: you wear armor or a Shield.',
   'state.whileOff': 'only while it is on',
   'combat.note.rageOn': 'Rage: +{n} damage already added',
   'combat.note.lunarRadiance': 'Lunar Radiance: you can deal Radiant damage instead',

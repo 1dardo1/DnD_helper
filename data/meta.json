@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-30T17:28:19+00:00",
+  "generatedAt": "2026-11-16T06:49:14+00:00",
   "sources": {
     "2014": "https://dnd5e.wikidot.com",
     "2024": "https://dnd2024.wikidot.com",
@@ -9,13 +9,13 @@
   "counts": {
     "class": 14,
     "subclass": 205,
-    "option": 147,
+    "option": 167,
     "spell": 641,
     "feat": 313,
     "species": 89,
     "background": 61,
-    "item": 1346,
-    "rule": 102,
+    "item": 1369,
+    "rule": 107,
     "monster": 331
   },
   "byEdition": {
@@ -28,8 +28,8 @@
       "2014": 100
     },
     "option": {
-      "2014": 32,
-      "2024": 115
+      "2024": 123,
+      "2014": 44
     },
     "spell": {
       "2024": 469,
@@ -47,11 +47,11 @@
       "2024": 61
     },
     "item": {
-      "2024": 707,
+      "2024": 730,
       "2014": 639
     },
     "rule": {
-      "2024": 57,
+      "2024": 62,
       "2014": 45
     },
     "monster": {
@@ -60,11 +60,11 @@
   },
   "pagesDownloaded": 0,
   "downloadFailures": 0,
-  "parseFailures": 1,
-  "translatedAt": "2026-11-12T05:45:27+00:00",
+  "parseFailures": 3,
+  "translatedAt": "2026-11-16T10:32:43+00:00",
   "translation": {
     "es": {
-      "texts": 20543,
+      "texts": 20677,
       "untranslated": 0,
       "requests": 0,
       "complete": true
