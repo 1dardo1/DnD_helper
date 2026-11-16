@@ -37,12 +37,15 @@ export function spellSlug(name: string): string {
  * of your new prepared spells from the Bard, Cleric, Druid, and Wizard spell lists"). Read from the
  * text of its features gained so far; [] for the others.
  */
-export function extraSpellLists(cls: DndClass, level: number): string[] {
-  for (const f of cls.features ?? []) {
+export function extraSpellLists(cls: DndClass, level: number, sub?: Subclass | null): string[] {
+  for (const f of [...(cls.features ?? []), ...(sub?.features ?? [])]) {
     if ((f.level ?? 0) > level) continue;
-    const m = /choose any of your new prepared spells from the ([A-Za-z, ]+?) spell lists/i.exec(
-      f.description ?? '',
-    );
+    // Divine Magic (Divine Soul): "you can choose the new spell from the cleric spell list or the
+    // sorcerer spell list"
+    const m =
+      /choose any of your new prepared spells from the ([A-Za-z, ]+?) spell lists/i.exec(
+        f.description ?? '',
+      ) ?? /you can choose the new spell from the (\w+) spell list\b/i.exec(f.description ?? '');
     if (m)
       return m[1]
         .split(/,\s*(?:and\s+)?|\s+and\s+/)

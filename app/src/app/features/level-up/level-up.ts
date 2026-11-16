@@ -265,7 +265,7 @@ export class LevelUp {
         entry.level,
         d.spells,
         expandedSpellIds(sub, entry.level),
-        extraSpellLists(cls, entry.level),
+        extraSpellLists(cls, entry.level, sub),
       );
     return {
       ...g,

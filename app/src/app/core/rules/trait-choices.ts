@@ -208,6 +208,21 @@ export type TraitPickKind =
   | 'form';
 
 const NUMBER_WORDS: Record<string, number> = { one: 1, two: 2, three: 3 };
+const DAMAGE_TYPES = [
+  'Acid',
+  'Bludgeoning',
+  'Cold',
+  'Fire',
+  'Force',
+  'Lightning',
+  'Necrotic',
+  'Piercing',
+  'Poison',
+  'Psychic',
+  'Radiant',
+  'Slashing',
+  'Thunder',
+];
 /** Spell lists a cantrip pick can name ("two Wizard cantrips"). */
 const CLASS_LISTS = new Set([
   'artificer',
@@ -375,6 +390,28 @@ export function traitPicks(description: string | null | undefined): TraitPick[] 
       add({ kind: 'skill', count: 1, from: twoFrom });
       continue;
     }
+    // Aura of Elemental Shielding: "Choose one of the following damage types: Acid, Cold, Fire,
+    // Lightning, or Thunder." / Noble Genie: "resistance to acid, cold, fire, or lightning damage
+    // (your choice)" / Fiendish Resilience: "Choose one damage type, other than Force, whenever you
+    // finish a Short or Long Rest"
+    const dt =
+      /^Choose one of the following damage types:\s*(.+?)\.?$/i.exec(sentence) ??
+      /\bresistance to ([a-z]+(?:, [a-z]+)*,? or [a-z]+) damage \(your choice\)/i.exec(sentence);
+    if (dt) {
+      const from = dt[1]
+        .split(/,|\bor\b/)
+        .map((w) => w.trim())
+        .filter(Boolean)
+        .map((w) => w[0].toUpperCase() + w.slice(1).toLowerCase());
+      if (from.length > 1) add({ kind: 'resistance', count: 1, from });
+    }
+    const other = /^Choose one damage type, other than (\w+)/i.exec(sentence);
+    if (other)
+      add({
+        kind: 'resistance',
+        count: 1,
+        from: DAMAGE_TYPES.filter((d) => d.toLowerCase() !== other[1].toLowerCase()),
+      });
     // Indomitable Defense: "resistance to two damage types of your choice, choosing from
     // bludgeoning, necrotic, piercing, radiant, and slashing"
     const res2 =

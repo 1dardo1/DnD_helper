@@ -54,7 +54,7 @@ export function spellCasters(
     const sc = castingOf(cls, sub);
     if (!sc) continue;
     const extra = expandedSpellIds(sub, entry.level);
-    const alsoLists = extraSpellLists(cls, entry.level);
+    const alsoLists = extraSpellLists(cls, entry.level, sub);
     out.push({
       classId: cls.id,
       list: cls.spellcasting ? cls.id : (sc.spellList ?? cls.id),

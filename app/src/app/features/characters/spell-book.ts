@@ -142,7 +142,7 @@ export class SpellBook {
         entry.level,
         d.spells,
         expandedSpellIds(sub, entry.level),
-        extraSpellLists(cls, entry.level),
+        extraSpellLists(cls, entry.level, sub),
       );
       const rule = spellbookRule(cls);
       const bookIds = rule ? new Set(spellbookOf(ch, cls.id, by, byId)) : null;

@@ -634,3 +634,26 @@ describe('options to choose that must not all apply', () => {
     ).toBe(false);
   });
 });
+
+describe('resistances to choose and Divine Magic', () => {
+  const resistancePick = (s: ReturnType<typeof sheetOf>) =>
+    (s.featureChoices ?? []).flatMap((c) => c.picks).find((p) => p.pick.kind === 'resistance');
+  it('Fiendish Resilience: any type but Force; Aura of Elemental Shielding: one of five', () => {
+    const fiend = resistancePick(sheetOf('warlock', 10, 'warlock/fiend-patron'));
+    expect(fiend?.pick.from).not.toContain('Force');
+    expect(fiend?.pick.from).toContain('Necrotic');
+    const genie = resistancePick(sheetOf('paladin', 7, 'paladin/oath-of-the-noble-genies'));
+    expect(genie?.pick.from).toEqual(['Acid', 'Cold', 'Fire', 'Lightning', 'Thunder']);
+  });
+  it('the chosen one applies', () => {
+    const p = resistancePick(sheetOf('warlock', 10, 'warlock/fiend-patron'))!;
+    const s = sheetOf('warlock', 10, 'warlock/fiend-patron', { traitPicks: { [p.key]: ['Fire'] } });
+    expect(s.resistances).toContain('Fire');
+  });
+  it('Divine Soul prepares from the Cleric list too', () => {
+    const cls = REAL.classes.get('sorcerer')!;
+    expect(extraSpellLists(cls, 3, REAL.subclasses.get('sorcerer/divine-soul'))).toEqual([
+      'cleric',
+    ]);
+  });
+});
