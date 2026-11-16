@@ -451,3 +451,29 @@ describe("2014 Warlock patrons' expanded lists: added to the list, not always pr
     expect(REAL.subclasses.get('blood-hunter/order-of-the-profane-soul')!.spells ?? []).toEqual([]);
   });
 });
+
+describe('Circle of the Land: the land chosen after a Long Rest decides the circle spells', () => {
+  const key = featureChoiceKey('druid/circle-of-the-land', 'Circle of the Land Spells');
+  const ids = (s: ReturnType<typeof sheetOf>) => s.featSpells.map((f) => f.id);
+  it('no land chosen: none of the four lists, and the choice is asked', () => {
+    const s = sheetOf('druid', 5, 'druid/circle-of-the-land');
+    expect(ids(s)).not.toContain('blur');
+    expect(ids(s)).not.toContain('fog-cloud');
+    const c = s.featureChoices?.find((x) => x.key === key);
+    expect(c?.options?.map((o) => o.name)).toEqual([
+      'Arid Land',
+      'Polar Land',
+      'Temperate Land',
+      'Tropical Land',
+    ]);
+    expect(c?.optionRest).toBe('long');
+  });
+  it('Polar Land: its spells up to the Druid level', () => {
+    const s = sheetOf('druid', 5, 'druid/circle-of-the-land', {
+      traitChoices: { [key]: 'Polar Land' },
+    });
+    expect(ids(s)).toEqual(expect.arrayContaining(['fog-cloud', 'hold-person', 'sleet-storm']));
+    expect(ids(s)).not.toContain('ice-storm');
+    expect(ids(s)).not.toContain('blur');
+  });
+});

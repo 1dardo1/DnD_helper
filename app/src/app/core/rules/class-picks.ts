@@ -20,6 +20,25 @@ import { joinBroken } from './trait-effects';
  * with keys "class:<class or subclass id>:<feature>" that can't clash with the species' ones.
  */
 
+/**
+ * "Whenever you finish a Long Rest, choose one type of land: arid, polar, temperate, or tropical.
+ * Consult the table below that corresponds to the chosen type" (Circle of the Land): the options
+ * are the headings ("##### Arid Land") with their tables.
+ */
+const HEADED_CHOOSE =
+  /\bchoose one type of (\w+)\b[^.]*\.\s*Consult the table below that corresponds/i;
+
+function headedChoice(text: string): TraitChoiceSplit | null {
+  const m = HEADED_CHOOSE.exec(text);
+  if (!m) return null;
+  const parts = text.split(/^#{2,6}\s+(.+)$/m);
+  if (parts.length < 5) return null;
+  const options = [];
+  for (let i = 1; i + 1 < parts.length; i += 2)
+    options.push({ name: parts[i].trim(), text: parts[i + 1].trim() });
+  return { preamble: parts[0].trim(), tail: '', options };
+}
+
 /** "one of the following [sacred roles|options|feature options] of your choice". */
 const CLASS_CHOOSE =
   /\bone of the following\b[^.\n]*\bof your choice\b|\bChoose one of (?:these|the following)\b|\bone of the following (?:feature )?options\b/i;
@@ -34,7 +53,7 @@ const PLAIN_PICK =
   /one of the following (?:skills?|languages?|damage types?|cantrips?|spells?|conditions?)\b/i;
 /** "When you finish a short or long rest, choose one of the following benefits" (Bestial Soul). */
 const REST_CHOICE =
-  /When you finish a (short or long|long|short) rest, choose one of the following/i;
+  /When(?:ever)? you finish a (short or long|long|short) rest, choose one (?:of the following|type of)/i;
 /** "Whenever you finish a Short or Long Rest, you can replace the chosen option with the other". */
 const OPTION_REST =
   /Whenever you finish a (Short or Long|Long|Short) Rest, you can (?:replace the chosen option|change your choice)/i;
@@ -66,6 +85,8 @@ export interface FeatureChoiceView extends SpeciesTraitView {
 /** The options of a feature that offers a choice of one of them (null: no such choice). */
 export function featureChoice(description: string | null | undefined): TraitChoiceSplit | null {
   const text = joinBroken(description ?? '').replace(/\r\n/g, '\n');
+  const headed = headedChoice(text);
+  if (headed) return headed;
   const found = CLASS_CHOOSE.exec(text);
   if (!found) return null;
   const lineStart = text.lastIndexOf('\n', found.index) + 1;

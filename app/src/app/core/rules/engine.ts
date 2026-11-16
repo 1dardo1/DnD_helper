@@ -46,7 +46,12 @@ import {
 import { NaturalWeapon, naturalWeaponOf, unarmedTypeOf } from './natural-weapons';
 import { poolFor } from './pools';
 import { proficientWith } from './attacks';
-import { FeatureChoiceView, classFeatureViews } from './class-picks';
+import {
+  FeatureChoiceView,
+  classFeatureViews,
+  featureChoice,
+  featureChoiceKey,
+} from './class-picks';
 import { classKeyAbility, keyAbilityPick } from './class-ability';
 import {
   SpeciesTraitView,
@@ -1530,7 +1535,7 @@ function traitGrants(a: {
   // domain, oath, circle... spells: always prepared from the class level in the table (not a 2014
   // Warlock patron's expanded list: those are only added to the list to choose from)
   for (const { sub, level } of a.subclasses)
-    for (const row of expandsSpellList(sub) ? [] : (sub.spells ?? []))
+    for (const row of expandsSpellList(sub) ? [] : (chosenSpellRows(sub, a.ch) ?? sub.spells ?? []))
       if (row.classLevel <= level)
         for (const name of row.spells)
           add(
@@ -1726,4 +1731,30 @@ export function onlyFor(sub: Subclass, species: Species | null | undefined): str
   const first = (species.description ?? '').replace(/[*_]/g, '').split(/(?<=\.)\s/)[0];
   const isOne = name.includes(one) || new RegExp(`\\bare (?:\\w+ )?${who}\\b`, 'i').test(first);
   return isOne ? null : who;
+}
+
+/**
+ * A subclass whose spells depend on a choice made in a feature (Circle of the Land: "choose one
+ * type of land ... Consult the table below that corresponds to the chosen type"): the rows of the
+ * chosen option's table, [] while nothing is chosen. null: its spells don't depend on a choice.
+ */
+export function chosenSpellRows(
+  sub: Subclass,
+  ch: Character,
+): { classLevel: number; spells: string[] }[] | null {
+  for (const f of sub.features) {
+    const split = featureChoice(f.description);
+    if (!split || !split.options.some((o) => /^\|\s*\d+\s*\|/m.test(o.text))) continue;
+    const chosen = ch.choices.traitChoices?.[featureChoiceKey(sub.id, f.name)];
+    const option = split.options.find((o) => o.name === chosen);
+    if (!option) return [];
+    return [...option.text.matchAll(/^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|/gm)].map((m) => ({
+      classLevel: Number(m[1]),
+      spells: m[2]
+        .split(/,\s*/)
+        .map((x) => x.trim())
+        .filter(Boolean),
+    }));
+  }
+  return null;
 }
