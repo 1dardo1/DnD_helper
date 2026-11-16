@@ -113,6 +113,35 @@ const FEATURE_USES: {
     uses: (l) => (l >= 15 ? 6 : l >= 7 ? 5 : 4),
   },
   {
+    // 2014 copy of Combat Superiority: "four superiority dice ... another at 7th level and one
+    // more at 15th level", back on a Short or Long Rest
+    classId: 'fighter',
+    subclassId: 'fighter/monster-hunter',
+    name: 'Superiority Dice',
+    labelKey: 'play.res.superiorityDice',
+    from: 3,
+    uses: (l) => (l >= 15 ? 6 : l >= 7 ? 5 : 4),
+  },
+  {
+    // 2014 copy of Combat Superiority: "four superiority dice ... another at 7th level and one
+    // more at 15th level", back on a Short or Long Rest
+    classId: 'fighter',
+    subclassId: 'fighter/scout',
+    name: 'Superiority Dice',
+    labelKey: 'play.res.superiorityDice',
+    from: 3,
+    uses: (l) => (l >= 15 ? 6 : l >= 7 ? 5 : 4),
+  },
+  {
+    // "roll two d20s and record the numbers" each Long Rest; Greater Portent (14): three
+    classId: 'wizard',
+    subclassId: 'wizard/diviner',
+    name: 'Portent',
+    labelKey: 'play.res.portent',
+    from: 3,
+    uses: (l) => (l >= 14 ? 3 : 2),
+  },
+  {
     classId: 'monk',
     name: 'Uncanny Metabolism',
     labelKey: 'play.res.uncannyMetabolism',
@@ -397,19 +426,43 @@ export function setHeroicInspiration(state: PlayState, on: boolean): PlayState {
 // -- rests -------------------------------------------------------------------------------
 
 /** Pact Magic slots and the short-rest resources come back. Hit Dice are spent separately. */
-export function shortRest(state: PlayState, resources: PlayResource[]): PlayState {
+/** What the character's features add to a rest, read from their text. */
+export interface RestPerks {
+  /** Tireless: "Whenever you finish a Short Rest, your Exhaustion level, if any, decreases by 1". */
+  shortExhaustion: boolean;
+  /** Human's Resourceful: "You gain Heroic Inspiration whenever you finish a Long Rest". */
+  longInspiration: boolean;
+}
+
+export function restPerks(sheet: Pick<Sheet, 'features'>): RestPerks {
+  const text = sheet.features.map((f) => f.description ?? '').join('\n');
+  return {
+    shortExhaustion:
+      /Whenever you finish a Short Rest, your Exhaustion level[^.]*decreases by 1/i.test(text),
+    longInspiration: /gain Heroic Inspiration whenever you finish a Long Rest/i.test(text),
+  };
+}
+
+export function shortRest(
+  state: PlayState,
+  resources: PlayResource[],
+  perks?: RestPerks,
+): PlayState {
   const used = { ...state.resources };
   for (const r of resources) {
     if (used[r.key]) used[r.key] = recover(used[r.key], r.short);
   }
-  return endStatesOnRest({ ...state, pactSlotsSpent: 0, resources: used }, 'short');
+  const exhaustion = perks?.shortExhaustion
+    ? Math.max(0, (state.exhaustion ?? 0) - 1)
+    : state.exhaustion;
+  return endStatesOnRest({ ...state, pactSlotsSpent: 0, resources: used, exhaustion }, 'short');
 }
 
 /**
  * All hit points, all spell slots, all spent Hit Dice and every resource come back; temporary
  * HP are lost and Exhaustion goes down one level. Heroic Inspiration and conditions are kept.
  */
-export function longRest(state: PlayState): PlayState {
+export function longRest(state: PlayState, perks?: RestPerks): PlayState {
   const { tempSlots: _temp, ...rest } = state; // extra slots from Drain Magic Item end here
   return endStatesOnRest(
     {
@@ -422,6 +475,7 @@ export function longRest(state: PlayState): PlayState {
       hitDiceSpent: {},
       deathSaves: { successes: 0, failures: 0 },
       exhaustion: Math.max(0, (state.exhaustion ?? 0) - 1),
+      heroicInspiration: perks?.longInspiration ? true : state.heroicInspiration,
     },
     'long',
   );

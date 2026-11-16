@@ -1,3 +1,5 @@
+import { longRest, playResources, restPerks, shortRest } from '../play/play-state';
+import { newCharacter } from '../models/character';
 import { featureChoiceKey } from './class-picks';
 import { sheetOf } from './real-data.testing';
 import { pickKey } from './trait-choices';
@@ -161,3 +163,38 @@ describe('spells that class and subclass features give, in their own wording', (
     expect(spell(s, 'summon-beast')?.atWill).toBe(false);
   });
 });
+
+describe('counters and rests read from the features', () => {
+  it('Light Domain 6: Improved Warding Flare brings Warding Flare back on a Short Rest', () => {
+    const s = sheetOf('cleric', 6, 'cleric/light-domain');
+    expect(s.featUses.find((u) => /Warding Flare/.test(u.label))?.rest).toBe('short-or-long');
+  });
+
+  it('Diviner: Portent rolls (2, then 3 at level 14); Monster Hunter: Superiority Dice', () => {
+    const portent = (l: number) =>
+      playResources(sheetOf('wizard', l, 'wizard/diviner')).find((r) => r.name === 'Portent')?.max;
+    expect(portent(3)).toBe(2);
+    expect(portent(14)).toBe(3);
+    const dice = playResources(sheetOf('fighter', 7, 'fighter/monster-hunter')).find(
+      (r) => r.name === 'Superiority Dice',
+    );
+    expect(dice?.max).toBe(5);
+  });
+
+  it("Artificer: Drain Magic Item's counter is the panel's own", () => {
+    const keys = playResources(sheetOf('artificer', 9)).map((r) => r.key);
+    expect(keys).toContain('artificer:drain-magic-item');
+  });
+
+  it('Tireless lowers Exhaustion on a Short Rest; Resourceful gives Heroic Inspiration', () => {
+    const ranger = sheetOf('ranger', 10);
+    const state = { ...newState(), exhaustion: 2 };
+    expect(shortRest(state, playResources(ranger), restPerks(ranger)).exhaustion).toBe(1);
+    const human = sheetOf('fighter', 1); // the test hero is a Human
+    expect(longRest(newState(), restPerks(human)).heroicInspiration).toBe(true);
+  });
+});
+
+function newState() {
+  return newCharacter('x', 'y').state;
+}

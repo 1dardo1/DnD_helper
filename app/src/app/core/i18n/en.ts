@@ -499,6 +499,7 @@ export const en = {
   'play.leftOf': 'Left',
   'play.res.bardicInspiration': 'Bardic Inspiration',
   'play.res.actionSurge': 'Action Surge',
+  'play.res.portent': 'Portent rolls',
   'play.res.superiorityDice': 'Superiority Dice',
   'play.res.bloodMaledict': 'Blood Maledict',
   'play.res.flashOfGenius': 'Flash of Genius',

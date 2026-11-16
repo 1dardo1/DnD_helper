@@ -21,6 +21,7 @@ import {
   setResourceUsed,
   setSpentSlots,
   setTempHp,
+  restPerks,
   shortRest,
   tapPip,
 } from '../../core/play/play-state';
@@ -199,7 +200,11 @@ export class PlayPanel {
     if (!confirm(this.i18n.t('play.confirmShort'))) return;
     this.emit(
       this.endConcentration(
-        promptRestChoices(shortRest(this.state(), this.resources()), this.sheet(), 'short'),
+        promptRestChoices(
+          shortRest(this.state(), this.resources(), restPerks(this.sheet())),
+          this.sheet(),
+          'short',
+        ),
       ),
     );
   }
@@ -211,7 +216,10 @@ export class PlayPanel {
       this.endConcentration(
         promptAfterLongRest(
           promptRestChoices(
-            { ...longRest(this.state()), spellSwap: swapsAfterLongRest(this.sheet()) },
+            {
+              ...longRest(this.state(), restPerks(this.sheet())),
+              spellSwap: swapsAfterLongRest(this.sheet()),
+            },
             this.sheet(),
             'long',
           ),

@@ -708,6 +708,13 @@ function immunitiesOf(rules: TraitRules[]): Pick<Sheet, 'immunities' | 'conditio
   };
 }
 
+/** Uses the Artificer's own panels count (core/artificer): the counter read from the text shares them. */
+const PANEL_KEYS: Record<string, string> = {
+  'drain-magic-item': 'artificer:drain-magic-item',
+  'transmute-magic-item': 'artificer:transmute-magic-item',
+  'eldritch-cannon': 'artificer:eldritch-cannon',
+};
+
 /** Languages that come with a class feature of the same name. */
 const FEATURE_LANGUAGES = ['Druidic', "Thieves' Cant"];
 
@@ -1275,7 +1282,8 @@ function traitGrants(a: {
     for (const u of rules.uses) {
       const ability = typeof u.max === 'string' && u.max !== 'pb' ? u.max : null;
       uses.push({
-        key: `trait:${t.kind}:${id}:${slugOf(u.label)}`,
+        // the Artificer's panels keep these uses under keys of their own: same counter
+        key: PANEL_KEYS[slugOf(u.label)] ?? `trait:${t.kind}:${id}:${slugOf(u.label)}`,
         label: several ? `${t.name}: ${u.label}` : t.name,
         labelKey: null,
         feat: t.name,
@@ -1284,6 +1292,21 @@ function traitGrants(a: {
         rest: u.rest,
       });
     }
+  }
+  // a later feature that changes when another one's uses come back: "You regain all expended uses
+  // of your Warding Flare when you finish a Short or Long Rest" (Improved Warding Flare)
+  for (const t of a.traits) {
+    const m =
+      /You regain all expended uses of your ([A-Z][\w'’ ]+?) when you finish a Short or Long Rest/i.exec(
+        t.text.description ?? '',
+      );
+    if (!m) continue;
+    for (const u of uses)
+      if (
+        u.feat.toLowerCase() === m[1].toLowerCase() ||
+        u.label.toLowerCase() === m[1].toLowerCase()
+      )
+        u.rest = 'short-or-long';
   }
 
   // cantrips picked inside species traits

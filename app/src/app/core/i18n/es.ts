@@ -504,6 +504,7 @@ export const es: Record<keyof typeof en, string> = {
   'play.leftOf': 'Quedan',
   'play.res.bardicInspiration': 'Inspiración bárdica',
   'play.res.actionSurge': 'Oleada de acción',
+  'play.res.portent': 'Tiradas de presagio',
   'play.res.superiorityDice': 'Dados de superioridad',
   'play.res.bloodMaledict': 'Maldición de sangre',
   'play.res.flashOfGenius': 'Destello de genialidad',
