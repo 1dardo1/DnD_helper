@@ -12,6 +12,12 @@ import {
   spellsOf,
   toggleSpellFor,
 } from '../../core/creation/spell-choices';
+import {
+  spellbookOf,
+  spellbookRule,
+  spellbookSize,
+  toggleInBook,
+} from '../../core/creation/spellbook';
 import { matchesQuery } from '../../core/characters/sheet-helpers';
 import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service';
 import { PhrasePipe } from '../../core/i18n/glossary';
@@ -43,6 +49,11 @@ interface Caster {
   always: Spell[];
   /** Where the always-prepared spells come from ("Circle of the Moon"). */
   alwaysFrom: string[];
+  /**
+   * The Wizard's spellbook (core/creation/spellbook.ts): the spells in it, how many it gets for
+   * free at this level, and those that can be written in (a level with spell slots).
+   */
+  book: { spells: Spell[]; size: number; candidates: Spell[] } | null;
 }
 
 /**
@@ -120,12 +131,26 @@ export class SpellBook {
       );
       const sheet = this.sheet();
       const forList = spellsFor(list, sc, entry.level, d.spells);
+      const rule = spellbookRule(cls);
+      const bookIds = rule ? new Set(spellbookOf(ch, cls.id, by, byId)) : null;
+      const book = rule
+        ? {
+            spells: this.shown(
+              [...bookIds!].map((id) => byId.get(id)).filter((x): x is Spell => !!x),
+            ),
+            size: spellbookSize(rule, entry.level),
+            candidates: this.shown(forList.leveled),
+          }
+        : null;
       out.push({
         classId: cls.id,
         name: cls.name,
         cantrips: mine.filter((s) => s.level === 0),
         prepared: mine.filter((s) => s.level > 0),
-        available: this.shown(forList.leveled),
+        // a Wizard prepares from the spells in the book
+        available: this.shown(
+          bookIds ? forList.leveled.filter((x) => bookIds.has(x.id)) : forList.leveled,
+        ),
         availableCantrips: this.shown(forList.cantrips),
         maxCantrips:
           sheet?.spellcasting.classes.find((x) => x.classId === cls.id)?.cantrips ??
@@ -139,6 +164,7 @@ export class SpellBook {
             .filter((x): x is Spell => !!x),
         ),
         alwaysFrom: [...new Set(alwaysOf(sheet, cls.id).map((f) => f.feat.name))],
+        book,
       });
     }
     return out;
@@ -162,6 +188,21 @@ export class SpellBook {
     this.changed.emit(
       this.withPicks(this.character(), toggleSpellFor(this.picked(), classId, id, on)),
     );
+  }
+
+  protected inBook(c: Caster, id: string): boolean {
+    return !!c.book?.spells.some((x) => x.id === id);
+  }
+
+  /** Writes a spell in the book or takes it out (and out of the prepared ones). */
+  protected toggleBook(c: Caster, id: string): void {
+    const d = this.data.value();
+    if (!d) return;
+    const ch = this.character();
+    const byId = new Map(d.spells.map((x) => [x.id, x]));
+    const out = toggleInBook(ch, c.classId, this.picked(), byId, id, !this.inBook(c, id));
+    const next = this.withPicks(ch, out.by);
+    this.changed.emit({ ...next, choices: { ...next.choices, spellbook: out.book } });
   }
 
   protected isConcentrating(id: string): boolean {

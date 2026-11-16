@@ -199,3 +199,9 @@ aside label {
 aside select {
   width: 100%;
 }
+
+.hint {
+  margin: 0 0 var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}

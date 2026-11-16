@@ -854,6 +854,11 @@ export const es: Record<keyof typeof en, string> = {
   'spells.prepared': 'Conjuros preparados',
   'spells.swapAny': 'Tras el descanso largo puedes cambiar tus conjuros preparados.',
   'spells.swapOne': 'Tras el descanso largo puedes cambiar uno de tus conjuros preparados.',
+  'spells.book': 'Libro de conjuros',
+  'spells.bookMissing': 'Te faltan {n} conjuros por escribir en el libro.',
+  'spells.bookHint':
+    'Marca los conjuros escritos en tu libro (también los que copies de pergaminos u otros libros). Preparas los conjuros de entre los del libro.',
+  'spells.bookEdit': 'Editar el libro',
   'spells.always': 'Siempre preparados',
   'spells.alwaysFrom': 'de',
   'spells.freeEdit':

@@ -106,6 +106,14 @@ export interface Character {
      * characters from before it existed; core/creation/spell-choices.ts works it out from `spells`.
      */
     spellsByClass?: Record<string, string[]>;
+    /**
+     * The Wizard's spellbook: the level 1+ spell ids written in it ("It starts with six level 1
+     * Wizard spells of your choice ... add two Wizard spells ... whenever you gain a Wizard level").
+     * The prepared ones are chosen from it. Absent in characters from before it existed: the book
+     * is then the Wizard's own level 1+ picks (core/creation/spellbook.ts), written here the first
+     * time it is edited.
+     */
+    spellbook?: string[];
     /** Languages besides Common, and those granted by features (Druidic, Thieves' Cant). */
     languages: string[];
     /**
@@ -435,6 +443,9 @@ function normalizeChoices(base: Character['choices'], raw: Character['choices'] 
   const choices = { ...base, ...(raw ?? {}) };
   const featChoices = normalizeFeatChoices(raw?.featChoices);
   if (featChoices) choices.featChoices = featChoices;
+  const book = normalizeIds(raw?.spellbook);
+  if (book) choices.spellbook = book;
+  else delete choices.spellbook;
   const forms = normalizeIds(raw?.wildShapeForms);
   if (forms) choices.wildShapeForms = forms;
   else delete choices.wildShapeForms;

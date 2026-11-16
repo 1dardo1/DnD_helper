@@ -846,6 +846,11 @@ export const en = {
   'spells.prepared': 'Prepared spells',
   'spells.swapAny': 'After the Long Rest you can change your prepared spells.',
   'spells.swapOne': 'After the Long Rest you can change one of your prepared spells.',
+  'spells.book': 'Spellbook',
+  'spells.bookMissing': '{n} spells still to write in the book.',
+  'spells.bookHint':
+    'Tick the spells written in your book (also those copied from scrolls or other books). You prepare spells from those in the book.',
+  'spells.bookEdit': 'Edit the book',
   'spells.always': 'Always prepared',
   'spells.alwaysFrom': 'from',
   'spells.freeEdit':

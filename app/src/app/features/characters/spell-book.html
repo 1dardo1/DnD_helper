@@ -126,6 +126,59 @@
         </ul>
       }
 
+      @if (c.book; as b) {
+        <p class="list-title" data-testid="spellbook">
+          <strong>{{ 'spells.book' | t }}</strong>
+          <span [class.issue]="b.spells.length < b.size">
+            ({{ b.spells.length }} / {{ b.size }})</span
+          >
+        </p>
+        @if (b.spells.length < b.size) {
+          <p class="hint">{{ 'spells.bookMissing' | t: { n: b.size - b.spells.length } }}</p>
+        }
+        <ul class="spells">
+          @for (s of shownOf(b.spells); track s.id) {
+            <ng-container *ngTemplateOutlet="spellTpl; context: { $implicit: s }" />
+          } @empty {
+            <li class="none">—</li>
+          }
+        </ul>
+        @if (editing() === 'book:' + c.classId) {
+          <aside class="sticky">
+            <p>{{ 'spells.bookHint' | t }}</p>
+            <ul class="choose">
+              @for (s of b.candidates; track s.id) {
+                <li>
+                  <label>
+                    <input
+                      type="checkbox"
+                      [checked]="inBook(c, s.id)"
+                      (change)="toggleBook(c, s.id)"
+                    />
+                    <small>{{ 'spell.levelShort' | t: { level: s.level } }}</small>
+                    {{ s.name | dataName }}
+                  </label>
+                </li>
+              }
+            </ul>
+            <div class="done-bar">
+              <span [class.issue]="b.spells.length < b.size">
+                {{ 'spells.book' | t }}: {{ b.spells.length }} / {{ b.size }}
+              </span>
+              <button type="button" class="primary" (click)="editing.set(null)">
+                {{ 'spells.done' | t }}
+              </button>
+            </div>
+          </aside>
+        } @else {
+          <p>
+            <button type="button" (click)="editing.set('book:' + c.classId)">
+              {{ 'spells.bookEdit' | t }}
+            </button>
+          </p>
+        }
+      }
+
       @if (c.swap === null && editing() !== c.classId) {
         <p>
           <button type="button" (click)="editing.set(c.classId)">
