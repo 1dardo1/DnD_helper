@@ -1,0 +1,20 @@
+{
+  "app": "dnd-helper",
+  "kind": "folder-locks",
+  "version": 1,
+  "locks": [
+    {
+      "folder": "Pruebas",
+      "salt": "AfN8/R8dHEObIBM6B4LhPA==",
+      "argon2": {
+        "memoryKiB": 19456,
+        "passes": 2,
+        "parallelism": 1
+      },
+      "check": {
+        "iv": "ukCR9gkQGW9uIc+I",
+        "data": "2509YHcy6hU8VizdIsIywzaoKSXtilsvJj/Izu0uh153CVe3sZo="
+      }
+    }
+  ]
+}
