@@ -249,7 +249,10 @@ export class TraitPicks {
     return this.spells().filter(
       (s) =>
         s.level === 0 &&
-        (p.from ? p.from.includes(s.id) : !p.lists || p.lists.some((l) => s.classes.includes(l))),
+        (p.from
+          ? p.from.includes(s.id)
+          : (!p.lists || p.lists.some((l) => s.classes.includes(l))) &&
+            (!p.schools || p.schools.includes(s.school.toLowerCase()))),
     );
   });
 

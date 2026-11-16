@@ -144,6 +144,8 @@ interface Def {
   to: 'notes' | 'stats';
   /** The sentence of the feature's text the number comes from (checked by a spec). */
   anchor: RegExp;
+  /** Only when this option of the feature is the one chosen (Blessed Strikes: Divine Strike). */
+  option?: string;
   /** Other features whose text also counts (the same number grows in a later feature). */
   also?: { feature: string; anchor: RegExp }[];
   p?: (c: Ctx) => Params | null;
@@ -293,6 +295,7 @@ export const DEFS: Def[] = [
     cls: 'cleric',
     feature: 'Blessed Strikes',
     id: 'divineStrike',
+    option: 'Divine Strike',
     to: 'notes',
     anchor: /extra 1d8 Necrotic or Radiant damage/,
     also: [{ feature: 'Improved Blessed Strikes', anchor: /increases to 2d8/ }],
@@ -338,6 +341,7 @@ export const DEFS: Def[] = [
     cls: 'druid',
     feature: 'Elemental Fury',
     id: 'primalStrike',
+    option: 'Primal Strike',
     to: 'notes',
     anchor: /extra 1d8 Cold, Fire, Lightning, or Thunder damage/,
     also: [{ feature: 'Improved Elemental Fury', anchor: /increases to 2d8/ }],
@@ -853,6 +857,8 @@ export interface FeatureNumbersInput {
   /** The character's feats, with the ability each one raised (Inspiring Leader). */
   feats?: { name: string; description: string; increased?: Ability }[];
   totalLevel?: number;
+  /** The option chosen in a class/subclass feature (owner: class or subclass id). */
+  chosen?: (owner: string, feature: string) => string | null;
 }
 
 /**
@@ -916,6 +922,7 @@ export function featureNumbers(input: FeatureNumbersInput): {
     const c = input.classes.find((x) => x.id === def.cls);
     if (!c || (def.sub && c.subclassId !== def.sub) || !has(def.cls, def.sub, def.feature))
       continue;
+    if (def.option && input.chosen?.(def.sub ?? def.cls, def.feature) !== def.option) continue;
     const pool = pools.find((p) => p.classId === c.id);
     const ctx: Ctx = {
       level: c.level,

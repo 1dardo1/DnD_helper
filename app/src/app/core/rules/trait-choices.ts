@@ -185,6 +185,8 @@ export interface TraitPick {
   group?: string;
   /** 'cantrip': the spell lists it may come from ("wizard"). */
   lists?: string[];
+  /** 'cantrip': the schools it may come from ("necromancy"), from any list. */
+  schools?: string[];
   /** Chosen anew when the character finishes this rest. */
   rest?: 'long' | 'short';
   /** The text asks for something the character doesn't have yet ("that you don't have", "a different cantrip"). */
@@ -206,6 +208,28 @@ export type TraitPickKind =
   | 'form';
 
 const NUMBER_WORDS: Record<string, number> = { one: 1, two: 2, three: 3 };
+/** Spell lists a cantrip pick can name ("two Wizard cantrips"). */
+const CLASS_LISTS = new Set([
+  'artificer',
+  'bard',
+  'cleric',
+  'druid',
+  'paladin',
+  'ranger',
+  'sorcerer',
+  'warlock',
+  'wizard',
+]);
+const SCHOOLS = new Set([
+  'abjuration',
+  'conjuration',
+  'divination',
+  'enchantment',
+  'evocation',
+  'illusion',
+  'necromancy',
+  'transmutation',
+]);
 export const SKILL_IDS = new Set(Object.keys(SKILL_ABILITY));
 
 function skillList(list: string): string[] {
@@ -304,6 +328,18 @@ export function traitPicks(description: string | null | undefined): TraitPick[] 
     if (cl) add({ kind: 'cantrip', count: 1, from: null, lists: [cl[1].toLowerCase()] });
     const cf = /\bone of the following cantrips of your choice:\s*(.+?)\.?$/i.exec(sentence);
     if (cf) add({ kind: 'cantrip', count: 1, from: spellIds(cf[1]) });
+    // "You learn two Wizard cantrips of your choice" (Student of Arcana), "one druid cantrip of
+    // your choice" (Acolyte of Strength), "one necromancy cantrip of your choice from any spell
+    // list" (Reaper): a class's list or a school
+    const cw = /\b(?:learn|know) (one|two) (\w+) cantrips? of your choice\b/i.exec(sentence);
+    const word = cw?.[2].toLowerCase();
+    if (cw && word && (CLASS_LISTS.has(word) || SCHOOLS.has(word)))
+      add({
+        kind: 'cantrip',
+        count: NUMBER_WORDS[cw[1].toLowerCase()],
+        from: null,
+        ...(CLASS_LISTS.has(word) ? { lists: [word] } : { schools: [word] }),
+      });
 
     const sk =
       /\b(one|two|three)\s+(?:of the following\s+)?skills?\b(?:\s+proficienc\w+)?[^.:]*?\bof your choice\b(?::\s*(.+))?/i.exec(
@@ -318,13 +354,29 @@ export function traitPicks(description: string | null | undefined): TraitPick[] 
       });
       continue;
     }
-    // Viashino: "proficiency in the Acrobatics or the Stealth skill (your choice)"
-    const two = /proficiency in the (\w[\w ]*?) or the (\w[\w ]*?) skill \(your choice\)/i.exec(
-      sentence,
-    );
-    if (two) {
-      add({ kind: 'skill', count: 1, from: skillList(`${two[1]}, ${two[2]}`) });
+    // Viashino: "proficiency in the Acrobatics or the Stealth skill (your choice)"; Order Domain:
+    // "the Intimidation or Persuasion skill (your choice)"; Peace: "the Insight, Performance, or
+    // Persuasion skill (your choice)"
+    const two = /proficiency in the ([\w ,]+?) skill \(your choice\)/i.exec(sentence);
+    const twoFrom = two ? skillList(two[1].replace(/\bthe\b/gi, '')) : [];
+    if (twoFrom.length >= 2) {
+      add({ kind: 'skill', count: 1, from: twoFrom });
       continue;
+    }
+    // Indomitable Defense: "resistance to two damage types of your choice, choosing from
+    // bludgeoning, necrotic, piercing, radiant, and slashing"
+    const res2 =
+      /resistance to (one|two) damage types? of your choice, choosing from (.+?)\.?$/i.exec(
+        sentence,
+      );
+    if (res2) {
+      const from = res2[2]
+        .split(/,|\bor\b|\band\b/)
+        .map((w) => w.trim())
+        .filter(Boolean)
+        .map((w) => w[0].toUpperCase() + w.slice(1));
+      if (from.length)
+        add({ kind: 'resistance', count: NUMBER_WORDS[res2[1].toLowerCase()], from });
     }
     const res = /Resistance to one of the following damage types of your choice:\s*(.+?)\.?$/i.exec(
       sentence,

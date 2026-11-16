@@ -220,10 +220,19 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
   // "While your Wrath of the Sea is active, you gain the following benefits:" — the bullets and bold
   // benefits that follow only hold in that situation, even if each one reads unconditionally
   let underCondition = false;
+  // bullets after an intro that asks for nothing ("...becomes more powerful:") all apply (Saint of
+  // Forge and Fire); after one that asks to choose, or a bold benefit, they are options
+  let listOfBenefits = false;
   for (const raw of paragraphs) {
     // a bullet or a bold benefit of a list: one of several options, or part of a temporary form
-    const option = /^[-•*]/.test(raw);
-    if (!option) underCondition = STATE_INTRO.test(plain(raw)) || INTRO.test(raw);
+    const bullet = /^[-•]\s/.test(raw);
+    const option = /^[-•*]/.test(raw) && !(bullet && listOfBenefits && !underCondition);
+    if (!/^[-•*]/.test(raw)) {
+      underCondition = STATE_INTRO.test(plain(raw)) || INTRO.test(raw);
+      listOfBenefits =
+        /:\s*$/.test(raw) &&
+        !/\bchoose\b|\bof your choice\b|\bone of\b|\bfollowing options\b|\beither\b/i.test(raw);
+    }
     const held = option && underCondition && !opts.inState;
     // Thaumaturge / Magician: "a bonus to your Intelligence (Arcana or Religion) checks. The bonus
     // equals your Wisdom modifier" (two sentences)
@@ -241,7 +250,10 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
       }
     }
     for (const full of sentencesOf(plain(raw))) {
-      const s = full.replace(LEVEL_LEAD, '').replace(/^\w/, (c) => c.toUpperCase());
+      const s = full
+        .replace(/^[-•]\s+/, '')
+        .replace(LEVEL_LEAD, '')
+        .replace(/^\w/, (c) => c.toUpperCase());
       // in the state (inState) only a sentence's own conditions count, not the state's ("for 1
       // minute", "while it's active")
       const cond =

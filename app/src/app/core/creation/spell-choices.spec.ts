@@ -1,3 +1,4 @@
+import { isSealedCharacterFile } from '../organize/folder-lock';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -276,7 +277,12 @@ describe('saved characters', () => {
     items: byId(read<never>('items.json')),
   });
   const spells = byId(read<Spell>('spells.json'));
-  const files = readdirSync(join(root, 'characters')).filter((f) => f.endsWith('.json'));
+  // the encrypted ones (a folder with a password: Pruebas) can't be read without its key
+  const files = readdirSync(join(root, 'characters')).filter(
+    (f) =>
+      f.endsWith('.json') &&
+      !isSealedCharacterFile(JSON.parse(readFileSync(join(root, 'characters', f), 'utf8'))),
+  );
 
   it('finds the saved characters', () => {
     expect(files.length).toBeGreaterThan(0);

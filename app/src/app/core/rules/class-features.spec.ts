@@ -477,3 +477,62 @@ describe('Circle of the Land: the land chosen after a Long Rest decides the circ
     expect(ids(s)).not.toContain('blur');
   });
 });
+
+describe('a number of an option only when that option is chosen', () => {
+  const note = (cls: string, feature: string, option: string, id: string) =>
+    sheetOf(cls, 8, null, {
+      traitChoices: { [featureChoiceKey(cls, feature)]: option },
+    }).combat.notes.some((n) => n.id === id);
+  it('Blessed Strikes / Elemental Fury: Divine/Primal Strike, not Potent Spellcasting', () => {
+    expect(note('cleric', 'Blessed Strikes', 'Divine Strike', 'divineStrike')).toBe(true);
+    expect(note('cleric', 'Blessed Strikes', 'Potent Spellcasting', 'divineStrike')).toBe(false);
+    expect(note('druid', 'Elemental Fury', 'Primal Strike', 'primalStrike')).toBe(true);
+    expect(note('druid', 'Elemental Fury', 'Potent Spellcasting', 'primalStrike')).toBe(false);
+  });
+});
+
+describe('a list of benefits (bullets after an intro that asks to choose nothing) all apply', () => {
+  it('Saint of Forge and Fire: "- You gain immunity to fire damage."', () => {
+    expect(sheetOf('cleric', 17, 'cleric/forge-domain').immunities).toContain('Fire');
+  });
+});
+
+describe('picks inside domain features (verification of the test characters)', () => {
+  const pickOf = (sub: string, feature: string, level: number) => {
+    const s = sheetOf('cleric', level, sub);
+    const key = featureChoiceKey(sub, feature);
+    return { s, key, c: s.featureChoices?.find((x) => x.key === key) };
+  };
+  it('Student of Arcana: two Wizard cantrips', () => {
+    const { c } = pickOf('cleric/arcana-domain', 'Student of Arcana', 3);
+    const p = c?.picks.find((x) => x.pick.kind === 'cantrip');
+    expect(p?.pick).toMatchObject({ count: 2, lists: ['wizard'] });
+  });
+  it('Reaper: one necromancy cantrip from any list', () => {
+    const s = sheetOf('cleric', 3, 'cleric/death-domain');
+    const p = s.featureChoices?.flatMap((c) => c.picks).find((x) => x.pick.kind === 'cantrip');
+    expect(p?.pick).toMatchObject({ count: 1, schools: ['necromancy'] });
+  });
+  it('Order Domain: Intimidation or Persuasion; Peace: Insight, Performance or Persuasion', () => {
+    const order = sheetOf('cleric', 3, 'cleric/order-domain');
+    expect(
+      order.featureChoices?.flatMap((c) => c.picks).find((x) => x.pick.kind === 'skill')?.pick.from,
+    ).toEqual(['intimidation', 'persuasion']);
+    const peace = sheetOf('cleric', 3, 'cleric/peace-domain');
+    expect(
+      peace.featureChoices?.flatMap((c) => c.picks).find((x) => x.pick.kind === 'skill')?.pick.from,
+    ).toEqual(['insight', 'performance', 'persuasion']);
+  });
+  it('Indomitable Defense: two resistances to choose, applied', () => {
+    const s = sheetOf('cleric', 17, 'cleric/protection-domain-ua');
+    const p = s.featureChoices?.flatMap((c) => c.picks).find((x) => x.pick.kind === 'resistance');
+    expect(p?.pick).toMatchObject({
+      count: 2,
+      from: ['Bludgeoning', 'Necrotic', 'Piercing', 'Radiant', 'Slashing'],
+    });
+    const chosen = sheetOf('cleric', 17, 'cleric/protection-domain-ua', {
+      traitPicks: { [p!.key]: ['Necrotic', 'Radiant'] },
+    });
+    expect(chosen.resistances).toEqual(expect.arrayContaining(['Necrotic', 'Radiant']));
+  });
+});

@@ -652,6 +652,8 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
         };
       }),
       totalLevel,
+      chosen: (owner, feature) =>
+        ch.choices.traitChoices?.[featureChoiceKey(owner, feature)] ?? null,
       spells: new Set([...(ch.choices.spells ?? []), ...granted.spells.map((x) => x.id)]),
     },
   );
@@ -1602,6 +1604,7 @@ function combatOf(
     keyAbility: (classId: string) => Ability | undefined;
     feats: { name: string; description: string; increased?: Ability }[];
     totalLevel: number;
+    chosen: (owner: string, feature: string) => string | null;
     /** Ids of the spells the character has chosen or is given. */
     spells: Set<string>;
   },
@@ -1681,6 +1684,7 @@ function combatOf(
     keyAbility: extra.keyAbility,
     feats: extra.feats,
     totalLevel: extra.totalLevel,
+    chosen: extra.chosen,
   });
   combat.notes.push(...numbers.notes);
   combat.stats.push(...numbers.stats);

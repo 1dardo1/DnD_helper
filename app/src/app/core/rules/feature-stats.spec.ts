@@ -1,3 +1,4 @@
+import { featureChoiceKey } from './class-picks';
 import { DEFS, dcValue, writtenDc } from './feature-stats';
 import { attacksFor } from './attacks';
 import { critRangeOf } from './engine';
@@ -6,6 +7,11 @@ import { REAL, REAL_CLASSES, REAL_SUBCLASSES, sheetOf } from './real-data.testin
 const classFeatures = (cls: string) => REAL_CLASSES.find((c) => c.id === cls)!.features;
 const subFeatures = (sub: string) => REAL_SUBCLASSES.find((s) => s.id === sub)!.features;
 const featuresOf = (cls: string, sub?: string) => (sub ? subFeatures(sub) : classFeatures(cls));
+
+// Blessed Strikes: the Divine Strike option (Potent Spellcasting has no extra damage)
+const DIVINE_STRIKE = {
+  traitChoices: { [featureChoiceKey('cleric', 'Blessed Strikes')]: 'Divine Strike' },
+};
 
 describe('how each feature is used (for a combat tab)', () => {
   it('every number says whether it is an action, bonus action, reaction, free, a rider or passive', () => {
@@ -153,8 +159,12 @@ describe('numbers for the character', () => {
   it('Brutal Strike 1d10, 2d10 from level 17; Blessed Strikes 1d8, 2d8 from 14', () => {
     expect(note(sheetOf('barbarian', 9), 'brutalStrike')?.params).toEqual({ dice: '1d10' });
     expect(note(sheetOf('barbarian', 17), 'brutalStrike')?.params).toEqual({ dice: '2d10' });
-    expect(note(sheetOf('cleric', 7), 'divineStrike')?.params).toEqual({ dice: '1d8' });
-    expect(note(sheetOf('cleric', 14), 'divineStrike')?.params).toEqual({ dice: '2d8' });
+    expect(note(sheetOf('cleric', 7, null, DIVINE_STRIKE), 'divineStrike')?.params).toEqual({
+      dice: '1d8',
+    });
+    expect(note(sheetOf('cleric', 14, null, DIVINE_STRIKE), 'divineStrike')?.params).toEqual({
+      dice: '2d8',
+    });
   });
 
   it('Wild Shape: known forms and max CR from the Beast Shapes table, Moon uses level / 3', () => {
