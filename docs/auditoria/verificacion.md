@@ -48,13 +48,17 @@ el fallo de Elemental Fury (arreglado). **Artificiero Alchemist 3/5/11**: faltab
 - Thought Shield: resistencia psíquica. Dueling de Swords ("wielding").
 - Magical Secrets: el Bardo 10+ prepara de Clérigo, Druida y Mago.
 - Beast Tattoo ya no aplica los 5 tatuajes; Metal Magic amplía la lista en vez de prepararla.
+- Resistencias a elegir (Fiendish Resilience, Noble Genie, Aura of Elemental Shielding); Divine Soul
+  prepara también de la lista de Clérigo; habilidades a elegir de Charming Presence y Ancestor's Lore.
+
+No hay ningún personaje real tuyo de nivel 19 (los tuyos son de nivel 3 a 5): la prueba de nivel
+alto se hizo con el Paladín de nivel 19 y los de nivel 20 de la carpeta Pruebas.
 
 ## Pendiente (no arreglado aún)
 
-- **Selectores de subclase**: elemento Primordial, Fiendish Resilience, resistencia del Noble Genie,
-  Vestige Spells, Theurgy (Divine Inspiration, Arcane Acolyte), Psionics, Giant Soul, Divine Soul,
+- **Selectores de subclase**: elemento Primordial, Vestige Spells, Theurgy (Divine Inspiration, Arcane Acolyte), Psionics, Giant Soul,
   Scion of the Three, Favored Soul (dominio y armaduras), Armor Model (Armorer), Student of
-  Preservation, Charming Presence, Ancestor's Lore, patrón del Profane Soul, Deft Explorer (pericia y 2
+  Preservation, patrón del Profane Soul, Deft Explorer (pericia y 2
   idiomas), arcano de Mystic Arcanum, los dos tatuajes de Beast Tattoo, Magical Discoveries (2 conjuros).
 - **Contadores**: Psi Replenishment, Healing Hands, Protection from Evil and Good (Monster Hunter),
   Spell-Storing Item, Mantle of Whispers, Experimental Elixir, Channel Arcana, Resonant Utterance,
