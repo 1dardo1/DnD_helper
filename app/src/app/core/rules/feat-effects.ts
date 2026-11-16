@@ -61,6 +61,8 @@ export interface FeatSpellGrant {
    */
   /** What a cast without a slot costs from a pool (Death Points, a Psionic Energy Die). */
   poolCost?: SpellPoolCost;
+  /** Only as a ritual ("You can cast Detect Magic as a ritual"). */
+  ritual?: boolean;
 }
 
 /** A countable use of a feat. */
@@ -127,11 +129,22 @@ export const slug = (name: string) =>
     .replace(/^-|-$/g, '');
 
 /** Names with an "and" that must not be split as a list ("Detect Evil and Good"). */
-const AND_NAMES = new Set(['detect evil and good', 'protection from evil and good']);
+const AND_NAMES = new Set([
+  'detect evil and good',
+  'protection from evil and good',
+  'detect poison and disease',
+  'create or destroy water',
+]);
 
 function splitNames(raw: string): string[] {
   const cleaned = raw.replace(/\s+/g, ' ').trim();
   if (AND_NAMES.has(cleaned.toLowerCase())) return [cleaned];
+  // "Thaumaturgy and Detect Evil and Good": a list that ends with a name that has "and" in it
+  for (const n of AND_NAMES) {
+    const at = cleaned.toLowerCase().lastIndexOf(` and ${n}`);
+    if (at > 0 && at + n.length + 5 === cleaned.length)
+      return [...splitNames(cleaned.slice(0, at)), cleaned.slice(at + 5)];
+  }
   return cleaned
     .split(/\s*,\s*(?:and\s+)?|\s+and\s+/)
     .map((n) => n.trim())
@@ -143,6 +156,22 @@ const TRAIT_CAST =
   /(?:(?:Starting at|When you reach) (\d+)(?:st|nd|rd|th) level, )?[Yy]ou can (?:also )?cast (?:the )?((?:[A-Z][\w'’/-]*)(?: (?:[A-Z][\w'’/-]*|or|and|of|without|from))*?)(?: spells?)?(?: on yourself)?(?: with (?:this trait|it)\b| once, and it recharges after a long rest)/g;
 
 const plain = (s: string) => s.replace(/\*+/g, '').replace(/\s+/g, ' ').trim();
+
+/** Words that follow "You can cast" but aren't the name of a spell. */
+const NOT_A_SPELL =
+  /^(?:Spells?|Cantrips?|It|Them|That|This|These|Those|Any|One|Two|Rituals?|Warlock|Wizard|Cleric|Druid|Sorcerer|Bard|Paladin|Ranger|Artificer|Your|The|A|An|Chosen|Same|Each|Either|Another|Illusion Version|Spell)\b/;
+
+/** "sanctuary" / "Evard's black tentacles" → "Sanctuary" / "Evard's Black Tentacles". */
+function titleName(raw: string): string {
+  const small = new Set(['of', 'and', 'from', 'the', 'with', 'to', 'on', 'in', 'or']);
+  return raw
+    .trim()
+    .split(/\s+/)
+    .map((w, i) =>
+      i > 0 && small.has(w.toLowerCase()) ? w.toLowerCase() : w[0].toUpperCase() + w.slice(1),
+    )
+    .join(' ');
+}
 
 const cache = new WeakMap<RuleText, FeatRules>();
 
@@ -165,6 +194,12 @@ function parseFeat(feat: RuleText): FeatRules {
 }
 
 function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
+  // bold paragraphs that are options of the feature ("a spell based on your pact": one of them
+  // per patron), not benefits that all apply
+  const boldOptions =
+    /based on your|one of the following|of your choice|depending on|choose one/i.test(
+      (feat.description ?? '').split(/\n\s*\n/)[0] ?? '',
+    );
   const text = feat.description ?? '';
   const out: FeatRules = {
     spells: [],
@@ -184,7 +219,7 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
     .filter((p) => p && !p.startsWith('|') && !p.startsWith('#'));
 
   // the rest that gives back the uses, wherever the text says it ("You regain all expended uses...")
-  const featureOnce = /can(?:'|’)t use this (?:feature|trait) again until you finish/i.test(
+  const featureOnce = /can(?:'|’)t use (?:this (?:feature|trait)|it) again until you finish/i.test(
     plain(text),
   );
   const regainRest = restIn(plain(text).match(/regain all expended uses[^.]*\./i)?.[0] ?? '');
@@ -225,7 +260,12 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
       /using (?:any |the )?spell slots|also cast (?:it|the spell|these spells?|those spells)/i.test(
         p,
       );
-    const grants: { name: string; cantrip: boolean | null; minLevel: number }[] = [];
+    const grants: {
+      name: string;
+      cantrip: boolean | null;
+      minLevel: number;
+      ritual?: boolean;
+    }[] = [];
     // "You learn the Minor Illusion cantrip" / "You know the Shocking Grasp cantrip"
     for (const m of p.matchAll(
       /You (?:also )?(?:learn|know) the ([A-Z][\w' ’-]+?) (cantrip|spell)\b/g,
@@ -257,6 +297,78 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
       for (const n of splitNames(m[2]))
         grants.push({ name: n, cantrip: false, minLevel: m[1] ? Number(m[1]) : 1 });
     }
+    // -- other wordings (mostly the 2014 books); not inside a table (Profane Soul's per-patron
+    // spells are a choice of the patron, not all of them) -----------------------------------
+    // (nor in a bold option of a list: Revealed Arcana's spell for each patron is one of them)
+    const tableRow =
+      /^\|/.test(raw.trim()) || (boldOptions && /^\*{2,3}[^*]+\.\*{2,3}/.test(raw.trim()));
+    const grant = (name: string, cantrip: boolean | null, minLevel = 1, ritual = false) => {
+      if (tableRow) return;
+      for (const one of splitNames(titleName(name))) {
+        const n = titleName(one);
+        if (n && !NOT_A_SPELL.test(n) && !grants.some((g) => slug(g.name) === slug(n)))
+          grants.push({ name: n, cantrip, minLevel, ...(ritual ? { ritual } : {}) });
+      }
+    };
+    // "you learn the Spare the Dying cantrip", "you know the Light and Sacred Flame cantrips",
+    // "you gain the On/Off cantrip"
+    for (const m of p.matchAll(
+      /\b[Yy]ou (?:also )?(?:learn|know|gain) the ((?:[A-Z][\w'’/-]*)(?: (?:[A-Z][\w'’/-]*|and|of|from|the))*?) (cantrips?|spells?)\b/g,
+    ))
+      for (const n of splitNames(m[1])) grant(n, /cantrip/.test(m[2]) ? true : null);
+    // "you learn the spell Evard's Black Tentacles"
+    for (const m of p.matchAll(
+      /\b[Yy]ou (?:also )?learn the spell ([A-Z][\w'’ -]+?)(?=[.,;]| which)/g,
+    ))
+      grant(m[1], null);
+    // Rimekin: "When you reach character levels 3 and 5, you learn the Ice Knife spell and the Flame
+    // Blade spell, respectively"
+    const resp =
+      /When you reach character levels (\d+) and (\d+), you learn the ([A-Z][\w'’ -]+?) spell and the ([A-Z][\w'’ -]+?) spell, respectively/i.exec(
+        p,
+      );
+    if (resp) {
+      for (const [name, lvl] of [
+        [resp[3], resp[1]],
+        [resp[4], resp[2]],
+      ]) {
+        const at = grants.find((g) => slug(g.name) === slug(name));
+        if (at) at.minLevel = Number(lvl);
+        else grant(name, false, Number(lvl));
+      }
+    }
+    // only as rituals: "You can cast the Beast Sense and Speak with Animals spells but only as
+    // Rituals", "You can cast Detect Magic as a ritual", "the ability to cast the Detect Magic
+    // spell, but only as a ritual"
+    for (const m of p.matchAll(
+      /\b[Yy]ou can (?:also )?cast (?:the )?((?:[A-Z][\w'’/-]*)(?: (?:[A-Z][\w'’/-]*|and|of|from|with))*?)(?: spells?)?,? (?:but )?(?:only )?as (?:a )?[Rr]ituals?\b/g,
+    ))
+      for (const n of splitNames(m[1])) grant(n, false, 1, true);
+    for (const m of p.matchAll(
+      /ability to cast the ([A-Z][\w'’ -]+?) spell,? but only as a ritual/gi,
+    ))
+      grant(m[1], false, 1, true);
+    // "You can cast the Augury spell without expending a spell slot", "you can cast the sanctuary
+    // spell on yourself"
+    for (const m of p.matchAll(/\b[Yy]ou can (?:also )?cast the ([A-Za-z][\w'’/ -]+?) spell\b/g))
+      grant(m[1], null);
+    // "You can cast Finger of Death." / "You can cast Protection from Evil and Good, but ..."
+    for (const m of p.matchAll(
+      /\b[Yy]ou can (?:also )?cast ((?:[A-Z][\w'’/-]*)(?: (?:[A-Z][\w'’/-]*|of|and|from|with))*?)(?=\.|, but\b|$)/g,
+    ))
+      grant(m[1], null);
+    // "You always have the telekinesis spell prepared" (a 2014-style lowercase name)
+    for (const m of p.matchAll(/\b[Yy]ou always have the ([a-z][\w'’ -]+?) spell prepared/g))
+      grant(m[1], false);
+    // "You always have Counterspell prepared" (no "the ... spell")
+    for (const m of p.matchAll(/\b[Yy]ou always have ([A-Z][\w'’ -]+?) prepared/g))
+      grant(m[1], false);
+    // a cast paid with a class resource: "spend 2 ki points to cast the Burning Hands spell", "spend
+    // 3 Sorcery Points to cast Summon Beast", "expend 1 Focus Point to cast the Darkness spell"
+    for (const m of p.matchAll(
+      /(?:spend|expend) (?:\d+|one|two|three) (?:Sorcery|Focus|ki) Points? to cast (?:the )?([A-Z][\w'’ -]+?)(?: spell)?(?= as\b| without\b| on\b|\.|,)/gi,
+    ))
+      grant(m[1], null);
     const traitFree =
       traitCasts &&
       /\bonce\b/i.test(p) &&
@@ -271,6 +383,8 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
         }
       : null;
     for (const g of grants) {
+      // "Command as a Bonus Action": the name is the spell's, the rest says how it's cast
+      g.name = g.name.replace(/\s+as an? (?:Bonus Action|Action|Reaction|Magic action)\b.*$/i, '');
       if (out.spells.some((s) => s.id === slug(g.name))) continue;
       const isCantrip = g.cantrip === true;
       // "can cast it as a Magic action without expending a spell slot" with no rest: at will
@@ -281,16 +395,18 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
         casts &&
         !poolCost &&
         !featureOnce &&
+        !/(?:spend|expend) (?:\d+|one|two|three) (?:Sorcery|Focus|ki) Points?/i.test(p) &&
         !/Long Rest|Short Rest|number of times|\bonce\b|\btwice\b/i.test(p);
       out.spells.push({
         name: g.name,
         id: slug(g.name),
         minLevel: g.minLevel,
         cantrip: g.cantrip === false ? false : g.cantrip,
+        ...(g.ritual ? { ritual: true } : {}),
         // the free cast is for the spells ("always have ... prepared"), not for cantrips
-        free: (free || traitFree) && !isCantrip,
-        atWill: atWill && !isCantrip,
-        slots: !isCantrip && slots,
+        free: (free || traitFree) && !isCantrip && !g.ritual,
+        atWill: atWill && !isCantrip && !g.ritual,
+        slots: !isCantrip && slots && !g.ritual,
         freeUses: /a number of times equal to your (?:spellcasting ability|\w+) modifier/i.test(p)
           ? 'mod'
           : /a number of times equal to your Proficiency Bonus/i.test(p)

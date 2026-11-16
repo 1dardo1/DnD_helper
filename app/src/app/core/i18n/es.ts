@@ -462,6 +462,7 @@ export const es: Record<keyof typeof en, string> = {
   'sheetx.featureChoice.missing': 'por elegir',
   'sheetx.featureChoice.rest.short': 'Puedes cambiarla al terminar un descanso corto o largo.',
   'sheetx.featureChoice.rest.long': 'Puedes cambiarla al terminar un descanso largo.',
+  'sheet.featSpell.ritual': 'solo como ritual',
   'sheet.featSpell.deathPoints': 'sin espacio de conjuro, cuesta {n} Punto(s) de muerte',
   'sheet.featSpell.psionicEnergyDice':
     'sin espacio de conjuro, cuesta {n} Dado(s) de energía psiónica',

@@ -212,6 +212,8 @@ export interface SheetFeatSpell {
   poolCost?: SpellPoolCost;
   /** Can also be cast with spell slots. */
   slots: boolean;
+  /** Only as a ritual ("You can cast Detect Magic as a ritual"). */
+  ritual?: boolean;
 }
 
 export interface SheetFeatUse {

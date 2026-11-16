@@ -605,6 +605,9 @@
                             } @else if (fs.freeKey) {
                               · {{ 'sheet.featSpell.free' | t }} ({{ freeLeft(c, s, fs.freeKey) }})
                             }
+                            @if (fs.ritual) {
+                              · {{ 'sheet.featSpell.ritual' | t }}
+                            }
                             @if (fs.atWill) {
                               · {{ 'sheet.featSpell.atWill' | t }}
                             } @else if (fs.always) {

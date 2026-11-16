@@ -881,6 +881,8 @@ function featGrants(
       freeUses?: 1 | 'mod' | 'pb';
       /** What it costs without a slot from a pool (Death Points, Psionic Energy Dice). */
       poolCost?: SpellPoolCost;
+      /** Only as a ritual. */
+      ritual?: boolean;
       /** When the free cast comes back (default: Long Rest). */
       rest?: 'long' | 'short-or-long';
     }) => {
@@ -899,6 +901,7 @@ function featGrants(
         slots: g.slots,
         atWill: g.atWill,
         ...(g.poolCost ? { poolCost: g.poolCost } : {}),
+        ...(g.ritual ? { ritual: true } : {}),
       });
       // a free cast has its own counter; a Death Points cast uses the pool's (its counter comes from
       // Death Knight Initiate's text, in the uses loop below)
@@ -1237,6 +1240,7 @@ function traitGrants(a: {
       attack: a.pb + mod(ability),
       freeKey: free ? key : null,
       slots: g.slots,
+      ...(g.ritual ? { ritual: true } : {}),
     });
     if (free)
       uses.push({

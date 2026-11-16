@@ -132,3 +132,32 @@ describe('benefits of a temporary state are not permanent', () => {
     expect(s.featSpells.find((f) => f.id === 'see-invisibility')?.atWill ?? false).toBe(false);
   });
 });
+
+describe('spells that class and subclass features give, in their own wording', () => {
+  const spell = (s: ReturnType<typeof sheetOf>, id: string) =>
+    s.featSpells.find((f) => f.id === id);
+
+  it.each([
+    ['warlock', 3, 'warlock/the-undying', 'spare-the-dying'],
+    ['warlock', 3, 'warlock/the-undying-light', 'sacred-flame'],
+    ['warlock', 10, 'warlock/the-fathomless', 'evards-black-tentacles'],
+    ['warlock', 14, 'warlock/the-raven-queen', 'finger-of-death'],
+    ['cleric', 6, 'cleric/fate-domain-ua', 'augury'],
+    ['fighter', 18, 'fighter/psi-warrior', 'telekinesis'],
+    ['sorcerer', 6, 'sorcerer/spellfire-sorcery', 'counterspell'],
+    ['monk', 3, 'monk/warrior-of-shadow', 'darkness'],
+  ])('%s %i (%s): %s', (cls, level, sub, id) => {
+    expect(spell(sheetOf(cls, level, sub), id)).toBeDefined();
+  });
+
+  it('Animal Speaker: Beast Sense and Speak with Animals only as rituals', () => {
+    const s = sheetOf('barbarian', 3, 'barbarian/path-of-the-wild-heart');
+    for (const id of ['beast-sense', 'speak-with-animals'])
+      expect(spell(s, id)).toMatchObject({ ritual: true, atWill: false, freeKey: null });
+  });
+
+  it('Shadow Sorcery: Summon Beast paid with Sorcery Points is not at will', () => {
+    const s = sheetOf('sorcerer', 6, 'sorcerer/shadow-sorcery');
+    expect(spell(s, 'summon-beast')?.atWill).toBe(false);
+  });
+});

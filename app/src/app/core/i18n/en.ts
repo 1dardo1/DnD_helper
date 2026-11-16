@@ -458,6 +458,7 @@ export const en = {
   'sheetx.featureChoice.missing': 'to choose',
   'sheetx.featureChoice.rest.short': 'You can change it when you finish a Short or Long Rest.',
   'sheetx.featureChoice.rest.long': 'You can change it when you finish a Long Rest.',
+  'sheet.featSpell.ritual': 'only as a ritual',
   'sheet.featSpell.deathPoints': 'without a spell slot, costs {n} Death Point(s)',
   'sheet.featSpell.psionicEnergyDice': 'without a spell slot, costs {n} Psionic Energy Die (dice)',
   'sheet.featSpell.slots': 'also with spell slots',
