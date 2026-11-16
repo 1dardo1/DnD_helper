@@ -356,6 +356,16 @@ def _next_level(x: int, levels: list[int], first: int) -> int:
     return next((lv for lv in sorted(levels) if lv >= x), x)
 
 
+def _slot_level_at(cls: dict, spell_level: int) -> int:
+    """The class level at which the class first has spell slots of this level (Warlock 2014
+    expanded lists: "Spell Level | Spells"); Pact Magic slots count by their level."""
+    rows = (cls.get("spellcasting") or {}).get("slotsByLevel") or []
+    for i, row in enumerate(rows):
+        if len(row) >= spell_level and any(n > 0 for n in row[spell_level - 1:]):
+            return i + 1
+    return 2 * spell_level - 1
+
+
 def convert_subclass(e: dict, cls: dict) -> None:
     levels, first = cls["subclassFeatureLevels"], cls["subclassLevel"]
     changes = {}
@@ -369,6 +379,8 @@ def convert_subclass(e: dict, cls: dict) -> None:
     if e.get("spells"):
         merged: dict[int, list[str]] = {}
         for row in e["spells"]:
+            if "spellLevel" in row:
+                row = {"classLevel": _slot_level_at(cls, row["spellLevel"]), "spells": row["spells"]}
             lv = max(row["classLevel"], first)
             if lv != row["classLevel"]:
                 changes.setdefault(row["classLevel"], lv)

@@ -353,18 +353,36 @@ def _unwrap_tabs(blocks: list, warnings: list[str]) -> list:
 
 def subclass_spells(nodes: list) -> list[dict] | None:
     out = []
+    page = " ".join(text_of(n) for n in nodes if isinstance(n, Tag))
     for table in _all_tables(nodes):
         rows = table_rows(table)
         if len(rows) > 1 and sum(1 for c in rows[0] if c) == 1:
             rows = rows[1:]
         if len(rows) < 2 or not re.search(r"level", rows[0][0], re.I) or not re.search(r"spell", " ".join(rows[0][1:]), re.I):
             continue
+        # "Spell Level | Spells" (2014 Warlock expanded lists): the rows are spell levels, turned
+        # into class levels by convert_subclass with the class's spell slots
+        key = "spellLevel" if re.search(r"spell level", rows[0][0], re.I) else "classLevel"
+        # one column of spells per option (Genie: "Genie Spells | Dao Spells | Djinni Spells..."):
+        # only the first, common to all, is a list everyone gets; the others stay in the text
+        # (Lunar Sorcery learns every column: only when the text ties them to a choice)
+        per_option = sum(1 for c in rows[0][1:] if re.search(r"spells", c, re.I)) > 1 and bool(
+            re.search(r"your chosen element|your patron's kind", page)
+        )
         for r in rows[1:]:
             lv = number(r[0])
             if lv and len(r) > 1:
-                spells = [clean(s) for s in re.split(r",\s*", " ".join(r[1:])) if clean(s) and clean(s) != "-"]
-                if spells and not any(re.fullmatch(r"[\d\s+—-]+", s) for s in spells):
-                    out.append({"classLevel": lv, "spells": spells})
+                cells = r[1:2] if per_option else r[1:]
+                # each cell is a list of its own ("Shield | Ray of Sickness | Color Spray")
+                spells = [
+                    clean(s)
+                    for cell in cells
+                    for s in re.split(r",\s*", cell)
+                    if clean(s) and clean(s) not in ("-", "—")
+                ]
+                # a spellcasting table (Profane Soul: "2 2 1 1st") is not a list of spells
+                if spells and not any(re.fullmatch(r"[\d\s+—-]+", s) or re.match(r"\d", s) for s in spells):
+                    out.append({key: lv, "spells": spells})
     return out or None
 
 

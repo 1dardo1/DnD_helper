@@ -2,7 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject, input, output, resource, signal } from '@angular/core';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
-import { spellListOf, spellsFor } from '../../core/creation/creation-rules';
+import { spellListOf, spellsFor, expandedSpellIds } from '../../core/creation/creation-rules';
 import {
   isChosenFor,
   replaceSpellFor,
@@ -130,7 +130,14 @@ export class SpellBook {
           .filter((s): s is Spell => !!s),
       );
       const sheet = this.sheet();
-      const forList = spellsFor(list, sc, entry.level, d.spells);
+      // a 2014 Warlock patron's expanded list is added to the spells to choose from
+      const forList = spellsFor(
+        list,
+        sc,
+        entry.level,
+        d.spells,
+        expandedSpellIds(sub, entry.level),
+      );
       const rule = spellbookRule(cls);
       const bookIds = rule ? new Set(spellbookOf(ch, cls.id, by, byId)) : null;
       const book = rule

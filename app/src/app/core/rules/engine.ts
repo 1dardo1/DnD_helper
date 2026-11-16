@@ -33,6 +33,7 @@ import {
 } from './feat-effects';
 import { multiclassGains } from './multiclass';
 import { hpBreakdown } from '../creation/hp-levels';
+import { expandsSpellList } from './expanded-spells';
 import { COUNTED_FEATURES } from '../play/play-state';
 import { featureNumbers } from './feature-stats';
 import {
@@ -1526,9 +1527,10 @@ function traitGrants(a: {
         }
   }
 
-  // domain, oath, circle... spells: always prepared from the class level in the table
+  // domain, oath, circle... spells: always prepared from the class level in the table (not a 2014
+  // Warlock patron's expanded list: those are only added to the list to choose from)
   for (const { sub, level } of a.subclasses)
-    for (const row of sub.spells ?? [])
+    for (const row of expandsSpellList(sub) ? [] : (sub.spells ?? []))
       if (row.classLevel <= level)
         for (const name of row.spells)
           add(

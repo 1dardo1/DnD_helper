@@ -1657,116 +1657,7 @@
         "description": "Starting at 18th level, you learn to siphon the life energy from your fallen prey. You gain the Blood Curse of the Soul Eater for your Blood Maledict feature. This doesn't count against your number of blood curses known."
       }
     ],
-    "spells": [
-      {
-        "classLevel": 3,
-        "spells": [
-          "2 2 1 1st"
-        ]
-      },
-      {
-        "classLevel": 4,
-        "spells": [
-          "2 2 1 1st"
-        ]
-      },
-      {
-        "classLevel": 5,
-        "spells": [
-          "2 3 1 1st"
-        ]
-      },
-      {
-        "classLevel": 6,
-        "spells": [
-          "2 3 2 1st"
-        ]
-      },
-      {
-        "classLevel": 7,
-        "spells": [
-          "2 4 2 2nd"
-        ]
-      },
-      {
-        "classLevel": 8,
-        "spells": [
-          "2 4 2 2nd"
-        ]
-      },
-      {
-        "classLevel": 9,
-        "spells": [
-          "2 5 2 2nd"
-        ]
-      },
-      {
-        "classLevel": 10,
-        "spells": [
-          "3 5 2 2nd"
-        ]
-      },
-      {
-        "classLevel": 11,
-        "spells": [
-          "3 6 2 2nd"
-        ]
-      },
-      {
-        "classLevel": 12,
-        "spells": [
-          "3 6 2 2nd"
-        ]
-      },
-      {
-        "classLevel": 13,
-        "spells": [
-          "3 7 2 3rd"
-        ]
-      },
-      {
-        "classLevel": 14,
-        "spells": [
-          "3 7 2 3rd"
-        ]
-      },
-      {
-        "classLevel": 15,
-        "spells": [
-          "3 8 2 3rd"
-        ]
-      },
-      {
-        "classLevel": 16,
-        "spells": [
-          "3 8 2 3rd"
-        ]
-      },
-      {
-        "classLevel": 17,
-        "spells": [
-          "3 9 2 3rd"
-        ]
-      },
-      {
-        "classLevel": 18,
-        "spells": [
-          "3 9 2 3rd"
-        ]
-      },
-      {
-        "classLevel": 19,
-        "spells": [
-          "3 10 2 4th"
-        ]
-      },
-      {
-        "classLevel": 20,
-        "spells": [
-          "3 11 2 4th"
-        ]
-      }
-    ],
+    "spells": null,
     "spellcasting": {
       "ability": "INT",
       "abilityChoices": [
@@ -10249,26 +10140,36 @@
       {
         "classLevel": 3,
         "spells": [
-          "Shield Ray of Sickness Color Spray",
-          "Lesser Restoration Blindness/Deafness Alter Self"
+          "Shield",
+          "Ray of Sickness",
+          "Color Spray",
+          "Lesser Restoration",
+          "Blindness/Deafness",
+          "Alter Self"
         ]
       },
       {
         "classLevel": 5,
         "spells": [
-          "Dispel Magic Vampiric Touch Phantom Steed"
+          "Dispel Magic",
+          "Vampiric Touch",
+          "Phantom Steed"
         ]
       },
       {
         "classLevel": 7,
         "spells": [
-          "Death Ward Confusion Hallucinatory Terrain"
+          "Death Ward",
+          "Confusion",
+          "Hallucinatory Terrain"
         ]
       },
       {
         "classLevel": 9,
         "spells": [
-          "Rary's Telepathic Bond Hold Monster Mislead"
+          "Rary's Telepathic Bond",
+          "Hold Monster",
+          "Mislead"
         ]
       }
     ],
@@ -10645,13 +10546,18 @@
           "Thunderous Smite",
           "Wrathful Smite",
           "Branding Smite",
-          "Magic Weapon",
+          "Magic Weapon"
+        ]
+      },
+      {
+        "classLevel": 5,
+        "spells": [
           "Blinding Smite",
           "Elemental Weapon"
         ]
       },
       {
-        "classLevel": 4,
+        "classLevel": 7,
         "spells": [
           "Staggering Smite"
         ]
@@ -10659,7 +10565,7 @@
     ],
     "spellcasting": null,
     "adjustments": [
-      "Levels moved to the 2024 Sorcerer subclass levels [3, 6, 14, 18] (1→3, 2→3)"
+      "Levels moved to the 2024 Sorcerer subclass levels [3, 6, 14, 18] (1→3)"
     ]
   },
   {
@@ -11022,20 +10928,25 @@
           "Infallible Relay",
           "Remote Access",
           "Arcane Hacking",
-          "Digital Phantom",
+          "Digital Phantom"
+        ]
+      },
+      {
+        "classLevel": 5,
+        "spells": [
           "Haywire",
           "Invisibility to Cameras"
         ]
       },
       {
-        "classLevel": 4,
+        "classLevel": 7,
         "spells": [
           "Conjure Knowbot",
           "System Backdoor"
         ]
       },
       {
-        "classLevel": 5,
+        "classLevel": 9,
         "spells": [
           "Shutdown",
           "Synchronicity"
@@ -11044,7 +10955,7 @@
     ],
     "spellcasting": null,
     "adjustments": [
-      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
+      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3)"
     ]
   },
   {
@@ -11261,20 +11172,25 @@
           "Create or Destroy Water",
           "Thunderwave",
           "Gust of Wind",
-          "Shatter",
+          "Shatter"
+        ]
+      },
+      {
+        "classLevel": 5,
+        "spells": [
           "Lightning Bolt",
           "Sleet Storm"
         ]
       },
       {
-        "classLevel": 4,
+        "classLevel": 7,
         "spells": [
           "Control Water",
           "Evard's Black Tentacles"
         ]
       },
       {
-        "classLevel": 5,
+        "classLevel": 9,
         "spells": [
           "Commune with Nature",
           "Cone of Cold"
@@ -11283,7 +11199,7 @@
     ],
     "spellcasting": null,
     "adjustments": [
-      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
+      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3)"
     ]
   },
   {
@@ -11328,29 +11244,25 @@
         "classLevel": 3,
         "spells": [
           "Chromatic Orb",
-          "Darkvision Feather Fall",
-          "Shatter Entangle",
-          "Knock Burning Hands",
-          "Heat Metal Alter Self",
-          "Ice Knife"
+          "Darkvision"
         ]
       },
       {
         "classLevel": 5,
         "spells": [
-          "Elemental Weapon Fly Plant Growth Fireball Water Walk"
+          "Elemental Weapon"
         ]
       },
       {
         "classLevel": 7,
         "spells": [
-          "Summon Elemental (The spirit's element matches your chosen element) Freedom of Movement Vitriolic Sphere Wall of Fire Control Water"
+          "Summon Elemental (The spirit's element matches your chosen element)"
         ]
       },
       {
         "classLevel": 9,
         "spells": [
-          "Commune with Nature Steel Wind Strike Wall of Stone Flame Strike Cone of Cold"
+          "Commune with Nature"
         ]
       }
     ],
@@ -11482,20 +11394,25 @@
           "Create or Destroy Water",
           "Thunderwave",
           "Gust of Wind",
-          "Silence",
+          "Silence"
+        ]
+      },
+      {
+        "classLevel": 5,
+        "spells": [
           "Lightning Bolt",
           "Sleet Storm"
         ]
       },
       {
-        "classLevel": 4,
+        "classLevel": 7,
         "spells": [
           "Control Water",
           "Summon Elemental (Water only)"
         ]
       },
       {
-        "classLevel": 5,
+        "classLevel": 9,
         "spells": [
           "Bigby's Hand (appears as a tentacle)",
           "Cone of Cold"
@@ -11504,7 +11421,7 @@
     ],
     "spellcasting": null,
     "adjustments": [
-      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
+      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3)"
     ]
   },
   {
@@ -11548,33 +11465,38 @@
       {
         "classLevel": 3,
         "spells": [
-          "Detect Evil and Good Sanctuary Thunderwave Burning Hands Fog Cloud",
-          "Phantasmal Force Spike Growth Gust of Wind Scorching Ray Blur",
-          "Create Food and Water Meld into Stone Wind Wall Fireball Sleet Storm"
-        ]
-      },
-      {
-        "classLevel": 4,
-        "spells": [
-          "Phantasmal Killer Stone Shape Greater Invisibility Fire Shield Control Water"
+          "Detect Evil and Good",
+          "Phantasmal Force"
         ]
       },
       {
         "classLevel": 5,
         "spells": [
-          "Creation Wall of Stone Seeming Flame Strike Cone of Cold"
+          "Create Food and Water"
+        ]
+      },
+      {
+        "classLevel": 7,
+        "spells": [
+          "Phantasmal Killer"
         ]
       },
       {
         "classLevel": 9,
         "spells": [
-          "Wish — — — —"
+          "Creation"
+        ]
+      },
+      {
+        "classLevel": 17,
+        "spells": [
+          "Wish"
         ]
       }
     ],
     "spellcasting": null,
     "adjustments": [
-      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
+      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3)"
     ]
   },
   {
@@ -11626,20 +11548,25 @@
           "Shield",
           "Wrathful Smite",
           "Blur",
-          "Branding Smite",
+          "Branding Smite"
+        ]
+      },
+      {
+        "classLevel": 5,
+        "spells": [
           "Blink",
           "Elemental Weapon"
         ]
       },
       {
-        "classLevel": 4,
+        "classLevel": 7,
         "spells": [
           "Phantasmal Killer",
           "Staggering Smite"
         ]
       },
       {
-        "classLevel": 5,
+        "classLevel": 9,
         "spells": [
           "Banishing Smite",
           "Cone of Cold"
@@ -11648,7 +11575,7 @@
     ],
     "spellcasting": null,
     "adjustments": [
-      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
+      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3)"
     ]
   },
   {
@@ -11700,20 +11627,25 @@
           "Fog Cloud",
           "Sleep",
           "Enlarge/Reduce",
-          "Phantasmal Force",
+          "Phantasmal Force"
+        ]
+      },
+      {
+        "classLevel": 5,
+        "spells": [
           "Create Food and Water",
           "Protection from Energy"
         ]
       },
       {
-        "classLevel": 4,
+        "classLevel": 7,
         "spells": [
           "Polymorph",
           "Phantasmal Killer"
         ]
       },
       {
-        "classLevel": 5,
+        "classLevel": 9,
         "spells": [
           "Bigby's Hand",
           "Creation"
@@ -11722,7 +11654,7 @@
     ],
     "spellcasting": null,
     "adjustments": [
-      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
+      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3)"
     ]
   },
   {
@@ -11769,20 +11701,25 @@
           "False Life",
           "Sanctuary",
           "Silence",
-          "Spiritual Weapon",
+          "Spiritual Weapon"
+        ]
+      },
+      {
+        "classLevel": 5,
+        "spells": [
           "Feign Death",
           "Speak with Dead"
         ]
       },
       {
-        "classLevel": 4,
+        "classLevel": 7,
         "spells": [
           "Ice Storm",
           "Locate Creature"
         ]
       },
       {
-        "classLevel": 5,
+        "classLevel": 9,
         "spells": [
           "Commune",
           "Cone of Cold"
@@ -11791,7 +11728,7 @@
     ],
     "spellcasting": null,
     "adjustments": [
-      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
+      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3)"
     ]
   },
   {
@@ -11843,20 +11780,25 @@
           "Feather Fall",
           "Jump",
           "Levitate",
-          "Locate Object",
+          "Locate Object"
+        ]
+      },
+      {
+        "classLevel": 5,
+        "spells": [
           "Clairvoyance",
           "Sending"
         ]
       },
       {
-        "classLevel": 4,
+        "classLevel": 7,
         "spells": [
           "Arcane Eye",
           "Locate Creature"
         ]
       },
       {
-        "classLevel": 5,
+        "classLevel": 9,
         "spells": [
           "Legend Lore",
           "Passwall"
@@ -11865,7 +11807,7 @@
     ],
     "spellcasting": null,
     "adjustments": [
-      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
+      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3)"
     ]
   },
   {
@@ -11912,20 +11854,25 @@
           "False Life",
           "Ray of Sickness",
           "Blindness/Deafness",
-          "Silence",
+          "Silence"
+        ]
+      },
+      {
+        "classLevel": 5,
+        "spells": [
           "Feign Death",
           "Speak with Dead"
         ]
       },
       {
-        "classLevel": 4,
+        "classLevel": 7,
         "spells": [
           "Aura of Life",
           "Death Ward"
         ]
       },
       {
-        "classLevel": 5,
+        "classLevel": 9,
         "spells": [
           "Contagion",
           "Legend Lore"
@@ -11934,7 +11881,7 @@
     ],
     "spellcasting": null,
     "adjustments": [
-      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
+      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3)"
     ]
   },
   {
@@ -11979,18 +11926,23 @@
         "classLevel": 3,
         "spells": [
           "Burning Hands",
-          "Flaming Sphere",
+          "Flaming Sphere"
+        ]
+      },
+      {
+        "classLevel": 5,
+        "spells": [
           "Daylight"
         ]
       },
       {
-        "classLevel": 4,
+        "classLevel": 7,
         "spells": [
           "Fire Shield"
         ]
       },
       {
-        "classLevel": 5,
+        "classLevel": 9,
         "spells": [
           "Flame Strike"
         ]
@@ -11998,7 +11950,7 @@
     ],
     "spellcasting": null,
     "adjustments": [
-      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3, 2→3)"
+      "Levels moved to the 2024 Warlock subclass levels [3, 6, 10, 14] (1→3)"
     ]
   },
   {

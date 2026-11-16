@@ -31,6 +31,7 @@ import {
   spellsFor,
   subclassesFor,
   visibleOptions,
+  expandedSpellIds,
 } from '../../core/creation/creation-rules';
 import {
   SheetChange,
@@ -255,7 +256,15 @@ export class LevelUp {
     const sub = entry.subclassId ? d.rules.subclasses.get(entry.subclassId) : undefined;
     const before = d.original.classes.find((k) => k.id === entry.id);
     const g = levelGains(cls, entry.level, before, sub, d.options, !d.original.classes.length);
-    const sl = g.spells && spellsFor(g.spells.list, g.spells.sc, entry.level, d.spells);
+    const sl =
+      g.spells &&
+      spellsFor(
+        g.spells.list,
+        g.spells.sc,
+        entry.level,
+        d.spells,
+        expandedSpellIds(sub, entry.level),
+      );
     return {
       ...g,
       entry,

@@ -57,6 +57,7 @@ import {
   speciesFeatKind,
   subclassesFor,
   toolChoices,
+  expandedSpellIds,
 } from '../../core/creation/creation-rules';
 import {
   browserStorage,
@@ -292,7 +293,15 @@ export class CharacterCreate implements LeaveCheck {
       }
       const sub = entry.subclassId ? d.rules.subclasses.get(entry.subclassId) : undefined;
       const sc = castingOf(cls, sub);
-      const sl = sc ? spellsFor(spellListOf(cls, sc), sc, entry.level, d.spells) : null;
+      const sl = sc
+        ? spellsFor(
+            spellListOf(cls, sc),
+            sc,
+            entry.level,
+            d.spells,
+            expandedSpellIds(sub, entry.level),
+          )
+        : null;
       return {
         index,
         entry,

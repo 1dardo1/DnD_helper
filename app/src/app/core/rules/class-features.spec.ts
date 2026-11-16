@@ -1,11 +1,17 @@
 import { computeSheet } from './engine';
-import { REAL, hero } from './real-data.testing';
+import { REAL, REAL_SPELLS, hero } from './real-data.testing';
 import { longRest, playResources, restPerks, shortRest } from '../play/play-state';
 import { newCharacter } from '../models/character';
 import { featureChoiceKey } from './class-picks';
 import { sheetOf } from './real-data.testing';
 import { pickKey } from './trait-choices';
-import { classOnlyFeats, featsForClassSlot, featsForSlot } from '../creation/creation-rules';
+import {
+  classOnlyFeats,
+  featsForClassSlot,
+  featsForSlot,
+  spellsFor,
+} from '../creation/creation-rules';
+import { expandedSpellIds, expandsSpellList } from './expanded-spells';
 
 /**
  * Class and subclass features read from their real text (data/*.json): choices inside them
@@ -413,5 +419,35 @@ describe('situational numbers worked out (Channel Divinity, Healer, Heavy Armor 
       abilityIncreases: [{ source: 'inspiring-leader', ability: 'CHA', amount: 1 }],
     });
     expect(stat(s, 'bolsteringPerformance')).toEqual({ n: 5 + 3 });
+  });
+});
+
+describe("2014 Warlock patrons' expanded lists: added to the list, not always prepared", () => {
+  const fathomless = REAL.subclasses.get('warlock/the-fathomless')!;
+  it('reads it from the text and keeps the spells out of "always prepared"', () => {
+    expect(expandsSpellList(fathomless)).toBe(true);
+    expect(expandsSpellList(REAL.subclasses.get('cleric/life-domain')!)).toBe(false);
+    const s = sheetOf('warlock', 5, 'warlock/the-fathomless');
+    expect(s.featSpells.some((f) => f.id === 'thunderwave')).toBe(false);
+  });
+
+  it('by the Warlock level with slots of that spell level (1st → 1, 3rd → 5, 5th → 9)', () => {
+    expect(expandedSpellIds(fathomless, 3)).toContain('thunderwave');
+    expect(expandedSpellIds(fathomless, 3)).not.toContain('lightning-bolt');
+    expect(expandedSpellIds(fathomless, 5)).toContain('lightning-bolt');
+    expect(expandedSpellIds(fathomless, 9)).toContain('bigbys-hand');
+    const warlock = REAL.classes.get('warlock')!;
+    const picks = spellsFor(
+      'warlock',
+      warlock.spellcasting!,
+      5,
+      REAL_SPELLS,
+      expandedSpellIds(fathomless, 5),
+    );
+    expect(picks.leveled.map((x) => x.id)).toContain('lightning-bolt');
+  });
+
+  it('a spellcasting table is not a list of spells (Profane Soul)', () => {
+    expect(REAL.subclasses.get('blood-hunter/order-of-the-profane-soul')!.spells ?? []).toEqual([]);
   });
 });
