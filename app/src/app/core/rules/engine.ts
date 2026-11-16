@@ -39,6 +39,7 @@ import { RAGE_RESISTANCES, activeStatesOf, stateOn, tagNotes } from './active-st
 import { NaturalWeapon, naturalWeaponOf, unarmedTypeOf } from './natural-weapons';
 import { poolFor } from './pools';
 import { proficientWith } from './attacks';
+import { FeatureChoiceView, classFeatureViews } from './class-picks';
 import {
   SpeciesTraitView,
   chosenOf,
@@ -136,6 +137,27 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
         params: { cls: c.cls.name, title: c.cls.subclassTitle },
       });
   }
+  // Class and subclass features that offer a choice (Divine Order, Hunter's Prey...) or ask to pick
+  // a skill, a damage type, a cantrip... (class-picks.ts): resolved against the character's picks
+  // like the species' traits. Nothing chosen: none of the options applies, and it warns.
+  const classViews = classFeatureViews(classes, ch.choices);
+  const classPicked = speciesGains(classViews);
+  const classView = new Map(classViews.map((v) => [`${v.owner.id}|${v.trait.name}`, v]));
+  for (const v of classViews)
+    if (v.choiceMissing)
+      warnings.push({ key: 'sheet.warn.traitChoiceMissing', params: { trait: v.trait.name } });
+  for (const trait of classPicked.missing)
+    warnings.push({ key: 'sheet.warn.traitPickMissing', params: { trait } });
+  for (const f of features) {
+    if (f.source.type !== 'class' && f.source.type !== 'subclass') continue;
+    const v = classView.get(`${f.source.id}|${f.name}`);
+    if (!v) continue;
+    const chosen = [
+      ...(v.chosen ? [{ kind: 'option', values: [v.chosen] }] : []),
+      ...chosenOf(v, null),
+    ];
+    if (chosen.length) f.chosen = chosen;
+  }
   // Species/variant traits resolved against the character's picks (species-picks.ts): the option
   // of a trait that embeds its own choice (a lineage, a tribe...), the skills / damage type /
   // tools / weapons / cantrip "of your choice", a set of named options (Simic Hybrid, an Eladrin's
@@ -225,6 +247,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     chosenOptions,
     featSources,
     speciesView,
+    (owner, f) => classView.get(`${owner}|${f.name}`)?.trait ?? f,
   );
   const fx = (t: TraitSource): TraitRules => traitRules(t.text, { situational: t.situational });
 
@@ -241,6 +264,13 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       bonuses.push({ source: data.feats.get(inc.source)?.name ?? inc.source, amount: inc.amount });
       if (epicSources.has(inc.source)) cap = 30;
     }
+    // capstones: "Your Strength and Constitution scores increase by 4, to a maximum of 25"
+    for (const t of traits)
+      for (const b of fx(t).abilityBonus)
+        if (b.abilities.includes(a)) {
+          bonuses.push({ source: t.name, amount: b.amount });
+          cap = Math.max(cap, b.max);
+        }
     const raised = bonuses.reduce((n, b) => n + b.amount, base);
     const score = Math.min(raised, Math.max(cap, base));
     abilities[a] = { score, modifier: modifier(score), base, bonuses };
@@ -253,10 +283,17 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   // Resilient: proficiency in the saving throw of the ability it raised
   for (const inc of ch.choices.abilityIncreases)
     if (inc.source === 'resilient') saveProf.add(inc.ability);
+  // Slippery Mind, Disciplined Survivor, Iron Mind...: "proficiency in Wisdom saving throws"
+  for (const t of traits) for (const a of fx(t).saves) saveProf.add(a);
+  // Aura of Protection: + Charisma modifier (minimum +1) to every saving throw
+  const saveBonus = [...new Set(traits.flatMap((t) => fx(t).saveBonus))].reduce(
+    (n, a) => n + Math.max(1, mod(a)),
+    0,
+  );
   for (const a of ABILITIES) {
     savingThrows[a] = {
       proficient: saveProf.has(a),
-      modifier: mod(a) + (saveProf.has(a) ? pb : 0),
+      modifier: mod(a) + (saveProf.has(a) ? pb : 0) + saveBonus,
     };
   }
   const traitSkills = traits.flatMap((t) => fx(t).skills);
@@ -265,6 +302,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     ...ch.choices.skills,
     ...traitSkills,
     ...speciesPicked.skills,
+    ...classPicked.skills,
   ]);
   const expertise = new Set(ch.choices.expertise);
   // Feats that choose a single skill out of a closed list ("Acrobatics or Athletics", "Insight,
@@ -294,7 +332,12 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
           ? 'half'
           : 'none';
     const bonus = { none: 0, half: Math.floor(pb / 2), full: pb, expertise: pb * 2 }[level];
-    return { id, ability, proficiency: level, modifier: mod(ability) + bonus };
+    // Thaumaturge / Magician: + Wisdom modifier (minimum +1) to Arcana and Religion / Nature
+    const extra = traits
+      .flatMap((t) => fx(t).skillBonus)
+      .filter((b) => b.skills.includes(id))
+      .reduce((n, b) => n + Math.max(1, mod(b.ability)), 0);
+    return { id, ability, proficiency: level, modifier: mod(ability) + bonus + extra };
   });
   const perception = skills.find((s) => s.id === 'perception')!.modifier;
   // 2024 Alert: "Initiative Proficiency"
@@ -360,12 +403,22 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     }
   }
 
+  // Warforged's Integrated Protection (+1), the Knight's Defender's Blade (+1 in heavy armor)
+  for (const t of traits)
+    for (const b of fx(t).ac)
+      if (!b.heavy || armor?.kind === 'heavy')
+        armorClass = {
+          value: armorClass.value + b.amount,
+          formula: `${armorClass.formula} + ${b.amount}`,
+        };
+
   const speed: Record<string, number> = { ...(species?.speed ?? { walk: 30 }) };
   // "Your Speed increases to 35 feet" (Wood Elf)
   speed['walk'] = Math.max(speed['walk'], ...traits.map((t) => fx(t).speedTo));
-  // Fast Movement, Roving: lost in Heavy armor
+  // Fast Movement, Roving: lost in Heavy armor. The Monk's Unarmored Movement grows with the
+  // level: its value comes from the class table below, not from the "+10 feet" of its text.
   for (const t of traits)
-    for (const b of fx(t).armorSpeed)
+    for (const b of t.name === 'Unarmored Movement' ? [] : fx(t).armorSpeed)
       if (b.unless === 'heavy' ? armor?.kind !== 'heavy' : !armor && !shield)
         speed['walk'] += b.amount;
   // Speedy (+10), Transmuted Anatomy (+5); a Duskling's Mobility while it's the benefit picked
@@ -373,6 +426,10 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   for (const v of speciesView)
     if (v.pickedOption)
       speed['walk'] += featRules({ name: v.trait.name, description: v.text }).speed;
+  // Aura of Alacrity, Superior Mobility...: "Your Speed increases by 10 feet." (class features
+  // only: a species' benefit picked this way already counts above)
+  for (const t of traits)
+    if (t.kind === 'class' || t.kind === 'subclass') speed['walk'] += fx(t).speed;
   const monk = classes.find((c) => c.cls.id === 'monk');
   if (monk && !armor && !shield) {
     const bonus = parseInt(
@@ -405,6 +462,15 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   const casters = classes
     .map((c) => ({ ...c, sc: castingOf(c.cls, c.sub) }))
     .filter((c): c is typeof c & { sc: Spellcasting } => !!c.sc);
+  // Thaumaturge / Magician: "You know one extra cantrip from the Cleric spell list"
+  const withExtra = (n: number | null, classId: string) => {
+    const extra = traits
+      .filter((t) => t.classId === classId)
+      .flatMap((t) => fx(t).extraCantrips)
+      .filter((x) => x.list === classId)
+      .reduce((k, x) => k + x.count, 0);
+    return n === null ? null : n + extra;
+  };
   const spellClasses = casters.map((c) => {
     const chosen = c.spellAbility && c.sc.abilityChoices?.includes(c.spellAbility);
     const ability = (chosen ? c.spellAbility : c.sc.ability) ?? c.cls.primaryAbility[0] ?? 'INT';
@@ -413,7 +479,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       ability,
       saveDc: 8 + pb + mod(ability),
       attack: pb + mod(ability),
-      cantrips: c.sc.cantripsByLevel?.[c.level - 1] ?? null,
+      cantrips: withExtra(c.sc.cantripsByLevel?.[c.level - 1] ?? null, c.cls.id),
       prepared: c.sc.preparedByLevel?.[c.level - 1] ?? null,
     };
   });
@@ -468,17 +534,23 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     speciesAbility: { needed: speciesAbilityChoice, picked: speciesAbilityPicked },
     speciesCantrips: speciesPicked.cantrips,
     replaced: speciesPicked.replaced,
+    classCantrips: classViews.flatMap((v) =>
+      v.picks
+        .filter((p) => p.pick.kind === 'cantrip')
+        .flatMap((p) => p.picked.map((id) => ({ trait: v.trait.name, id, owner: v.owner }))),
+    ),
   });
   granted.spells.push(...fromTraits.spells);
   granted.uses.push(...fromTraits.uses);
   granted.missing.push(...fromTraits.missing);
-  const restPicks = [...speciesPicked.rest, ...granted.restPicks];
+  const restPicks = [...speciesPicked.rest, ...classPicked.rest, ...granted.restPicks];
   const resistances = [
     ...new Set([
       ...granted.resistances,
       ...traits.flatMap((t) => fx(t).resistances),
       ...fromTraits.resistances,
       ...speciesPicked.resistances,
+      ...classPicked.resistances,
     ]),
   ];
   const traitTools = traits.flatMap((t) => fx(t).tools);
@@ -488,9 +560,15 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     ch,
     classes.map((c) => c.cls),
     background,
-    [...granted.tools, ...traitTools, ...speciesPicked.tools],
-    [...featSources.flatMap((x) => featRules(x.feat).weapons), ...speciesPicked.weapons],
+    [...granted.tools, ...traitTools, ...speciesPicked.tools, ...classPicked.tools],
+    [
+      ...featSources.flatMap((x) => featRules(x.feat).weapons),
+      ...speciesPicked.weapons,
+      ...classPicked.weapons,
+      ...traits.flatMap((t) => fx(t).weapons),
+    ],
     feats,
+    traits.flatMap((t) => fx(t).armor),
   );
 
   // -- fighting styles and class numbers that go into the attacks ------------------------------
@@ -595,10 +673,38 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     featSpells: granted.spells,
     featUses: granted.uses,
     resistances,
+    ...immunitiesOf(traits.map((t) => fx(t))),
+    ...featureChoicesOf(classViews),
     combat,
     featMissing: granted.missing,
     ...(restPicks.length ? { restPicks } : {}),
     warnings,
+  };
+}
+
+/** The class/subclass features with something to choose, for the sheet's selectors. */
+function featureChoicesOf(views: FeatureChoiceView[]): Pick<Sheet, 'featureChoices'> {
+  const out = views
+    .filter((v) => v.split || v.picks.length)
+    .map((v) => ({
+      key: v.key,
+      feature: v.trait.name,
+      sourceId: v.owner.id,
+      ...(v.split ? { options: v.split.options.map((o) => ({ name: o.name, text: o.text })) } : {}),
+      chosen: v.chosen,
+      ...(v.optionRest ? { optionRest: v.optionRest } : {}),
+      picks: v.picks,
+    }));
+  return out.length ? { featureChoices: out } : {};
+}
+
+/** Damage types and conditions the character is immune to (absent: none). */
+function immunitiesOf(rules: TraitRules[]): Pick<Sheet, 'immunities' | 'conditionImmunities'> {
+  const damage = [...new Set(rules.flatMap((r) => r.immunities))];
+  const conditions = [...new Set(rules.flatMap((r) => r.conditionImmunities))];
+  return {
+    ...(damage.length ? { immunities: damage } : {}),
+    ...(conditions.length ? { conditionImmunities: conditions } : {}),
   };
 }
 
@@ -619,6 +725,8 @@ function proficiencies(
   featTools: string[] = [],
   featWeapons: string[] = [],
   feats: Feat[] = [],
+  /** Armor training from class/subclass/species features ("training with Heavy armor"). */
+  traitArmor: string[] = [],
 ): Sheet['proficiencies'] {
   const [first, ...rest] = classes;
   const armor = [...(first?.proficiencies.armor ?? [])];
@@ -635,6 +743,7 @@ function proficiencies(
   }
   tools.push(...ch.choices.toolChoices.flatMap((c) => c.tools), ...featTools);
   weapons.push(...featWeapons);
+  armor.push(...traitArmor);
   // Lightly / Moderately / Heavily Armored, Martial Weapon Training, Chef, Poisoner
   for (const f of feats) {
     const t = f.description ?? '';
@@ -990,6 +1099,8 @@ function traitSources(
   options: { opt: ClassOption; classLevel: number; classId: string }[],
   feats: FeatSource[],
   speciesView: SpeciesTraitView[],
+  /** A class/subclass feature with only its chosen option's text (class-picks.ts). */
+  resolve: (owner: string, f: Feature) => Feature = (_o, f) => f,
 ): TraitSource[] {
   const out: TraitSource[] = [];
   for (const c of classes) {
@@ -998,7 +1109,7 @@ function traitSources(
         out.push({
           kind: 'class',
           name: f.name,
-          text: f,
+          text: resolve(c.cls.id, f),
           level: f.level,
           scope: c.level,
           classId: c.cls.id,
@@ -1009,7 +1120,7 @@ function traitSources(
         out.push({
           kind: 'subclass',
           name: f.name,
-          text: f,
+          text: resolve(c.sub!.id, f),
           level: f.level,
           scope: c.level,
           classId: c.cls.id,
@@ -1073,6 +1184,12 @@ function traitGrants(a: {
   speciesCantrips: { trait: string; id: string; own: Ability | null }[];
   /** Spells of a trait another pick takes the place of (Khoravar's Friends). */
   replaced: string[];
+  /** Cantrips picked inside class/subclass features (Acolyte of Nature's druid cantrip). */
+  classCantrips?: {
+    trait: string;
+    id: string;
+    owner: { type: 'class' | 'subclass'; id: string; classId: string };
+  }[];
 }) {
   const spells: SheetFeatSpell[] = [];
   const uses: SheetFeatUse[] = [];
@@ -1180,6 +1297,22 @@ function traitGrants(a: {
         freeUses: 1,
       },
       { own: c.own },
+    );
+
+  // cantrips picked inside class and subclass features: cast with that class's ability
+  for (const c of a.classCantrips ?? [])
+    add(
+      { kind: c.owner.type, name: c.trait, id: slugOf(c.trait), classId: c.owner.classId },
+      {
+        name: nameOf(c.id),
+        id: c.id,
+        minLevel: 1,
+        cantrip: true,
+        free: false,
+        atWill: false,
+        slots: false,
+        freeUses: 1,
+      },
     );
 
   // lineage / legacy spells of a species variant: "Level 3: Faerie Fire", "Level 5: Darkness"

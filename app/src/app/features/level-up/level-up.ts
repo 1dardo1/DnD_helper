@@ -1,3 +1,5 @@
+import { FeatureChoice } from '../characters/feature-choice';
+import { SheetFeature, SheetFeatureChoice } from '../../core/rules/sheet';
 import {
   Component,
   computed,
@@ -98,6 +100,7 @@ type Step = 'class' | 'hp' | 'subclass' | 'feats' | 'choices' | 'summary';
   imports: [
     RouterLink,
     BackLink,
+    FeatureChoice,
     TranslatePipe,
     TermPipe,
     DataNamePipe,
@@ -363,6 +366,30 @@ export class LevelUp {
   });
 
   // -- helpers -------------------------------------------------------------------------
+  protected readonly spellList = computed(() => this.data.value()?.spells ?? []);
+
+  /** The selector of a newly gained class/subclass feature with something to choose. */
+  protected featureChoiceOf(f: SheetFeature): SheetFeatureChoice | undefined {
+    if (f.source.type !== 'class' && f.source.type !== 'subclass') return undefined;
+    return this.after()?.featureChoices?.find(
+      (c) => c.feature === f.name && c.sourceId === f.source.id,
+    );
+  }
+
+  protected setFeatureOption(key: string, option: string): void {
+    this.patch((c) => ({
+      ...c,
+      choices: { ...c.choices, traitChoices: { ...(c.choices.traitChoices ?? {}), [key]: option } },
+    }));
+  }
+
+  protected setFeaturePick(key: string, values: string[]): void {
+    this.patch((c) => ({
+      ...c,
+      choices: { ...c.choices, traitPicks: { ...(c.choices.traitPicks ?? {}), [key]: values } },
+    }));
+  }
+
   protected patch(fn: (c: Character) => Character): void {
     const ch = this.draft();
     if (ch) this.draft.set(fn(structuredClone(ch)));

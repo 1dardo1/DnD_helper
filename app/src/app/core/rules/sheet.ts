@@ -1,3 +1,4 @@
+import type { SpeciesPick } from './species-picks';
 import type { SpellPoolCost } from './feat-effects';
 import type { HpLevelRow } from '../creation/hp-levels';
 import type { SheetActiveState } from './active-states';
@@ -84,6 +85,15 @@ export interface Sheet {
   featUses: SheetFeatUse[];
   /** Damage types the character resists because of a feat (Portal Jumper). */
   resistances: string[];
+  /**
+   * Class and subclass features with something to choose: one of their options (Divine Order,
+   * Hunter's Prey...) and/or picks inside them (a skill, a damage type, a cantrip). Absent: none.
+   */
+  featureChoices?: SheetFeatureChoice[];
+  /** Damage types it is immune to (Wind Soul's Lightning and Thunder...). Absent: none. */
+  immunities?: string[];
+  /** Conditions it can't suffer (Aura of Courage: Frightened; "Disease"). Absent: none. */
+  conditionImmunities?: string[];
   /** Choices a feat asks for that are not made yet (the sheet works with what is there). */
   featMissing: {
     feat: string;
@@ -160,6 +170,20 @@ export interface CombatInfo {
    * which are on. Absent in sheets built by hand (tests): none.
    */
   states?: SheetActiveState[];
+}
+
+export interface SheetFeatureChoice {
+  /** `choices.traitChoices[key]` holds the option; the picks are under their own keys. */
+  key: string;
+  /** English name of the feature and where it comes from. */
+  feature: string;
+  sourceId: string;
+  /** The options to choose one of (absent: only picks). */
+  options?: { name: string; text: string }[];
+  chosen: string | null;
+  /** The option can be changed after this rest. */
+  optionRest?: 'long' | 'short';
+  picks: SpeciesPick[];
 }
 
 export interface SheetFeatSpell {

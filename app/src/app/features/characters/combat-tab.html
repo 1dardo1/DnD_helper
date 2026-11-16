@@ -107,6 +107,17 @@
         <strong>{{ 'sheet.resistances' | t }}:</strong> {{ terms(s.resistances, 'damage') }}
       </li>
     }
+    @if (s.immunities?.length) {
+      <li>
+        <strong>{{ 'sheet.immunities' | t }}:</strong> {{ terms(s.immunities!, 'damage') }}
+      </li>
+    }
+    @if (s.conditionImmunities?.length) {
+      <li>
+        <strong>{{ 'sheet.conditionImmunities' | t }}:</strong>
+        {{ terms(s.conditionImmunities!, 'condition') }}
+      </li>
+    }
     @for (a of advantages(); track a.source) {
       <li class="adv" [title]="a.text">
         <strong>{{ a.source | dataName: true }}:</strong> {{ 'combat.head.advantage' | t }}

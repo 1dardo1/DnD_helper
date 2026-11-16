@@ -314,7 +314,8 @@
     "prone": "derribado",
     "restrained": "apresado",
     "stunned": "aturdido",
-    "unconscious": "inconsciente"
+    "unconscious": "inconsciente",
+    "disease": "enfermedad"
   },
   "alignment": {
     "lawful good": "legal bueno",

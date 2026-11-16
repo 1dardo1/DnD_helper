@@ -32,6 +32,26 @@ export interface TraitRules {
   resistances: string[];
   /** Fighting style bonuses. */
   attack: { ranged: number; duelingDamage: number; thrownDamage: number };
+  /** Armor training and weapon proficiencies the text gives ("Heavy armor", "Martial weapons"). */
+  armor: string[];
+  weapons: string[];
+  /** Saving throw proficiencies ("proficiency in Wisdom and Charisma saving throws"). */
+  saves: Ability[];
+  /** Damage types and conditions it is immune to ("Immunity to the Charmed condition"). */
+  immunities: string[];
+  conditionImmunities: string[];
+  /** "Your Strength and Constitution scores increase by 4, to a maximum of 25" (capstones). */
+  abilityBonus: { abilities: Ability[]; amount: number; max: number }[];
+  /** Walking speed bonus with no condition ("Your Speed increases by 10 feet."). */
+  speed: number;
+  /** "+1 bonus to AC while wearing heavy armor" / "You gain a +1 bonus to your Armor Class". */
+  ac: { amount: number; heavy: boolean }[];
+  /** "a bonus to saving throws equal to your Charisma modifier (minimum bonus of +1)". */
+  saveBonus: Ability[];
+  /** "You know one extra cantrip from the Cleric spell list". */
+  extraCantrips: { list: string; count: number }[];
+  /** "a bonus to your Intelligence (Arcana or Religion) checks ... equals your Wisdom modifier". */
+  skillBonus: { skills: string[]; ability: Ability }[];
 }
 
 const DAMAGE_TYPES = [
@@ -89,6 +109,28 @@ const KNOWN_TOOLS = [
   'Forgery Kit',
 ];
 
+const CONDITIONS = [
+  'blinded',
+  'charmed',
+  'deafened',
+  'exhaustion',
+  'frightened',
+  'grappled',
+  'incapacitated',
+  'paralyzed',
+  'petrified',
+  'poisoned',
+  'prone',
+  'restrained',
+  'stunned',
+  'unconscious',
+];
+
+/** "At 3rd level, " / "When you choose this domain at 1st level, " / "Starting at 7th level, ":
+ * the level is already the feature's; what follows is what it gives. */
+const LEVEL_LEAD =
+  /^(?:(?:Also |Starting |Beginning )?at \d+(?:st|nd|rd|th)[ -]level|When you (?:choose|join|adopt) [^,]{0,60}? at \d+(?:st|nd|rd|th) level|When you reach \d+(?:st|nd|rd|th)[ -]level),\s*/i;
+
 const plain = (s: string) => s.replace(/\*+/g, '').replace(/\s+/g, ' ').trim();
 const sentencesOf = (p: string) => p.split(/(?<=[.!?])\s+(?=[A-Z"'])/);
 
@@ -143,14 +185,44 @@ function parseTrait(text: string, opts: { situational?: boolean }): TraitRules {
     hpGrowth: null,
     resistances: [],
     attack: { ranged: 0, duelingDamage: 0, thrownDamage: 0 },
+    armor: [],
+    weapons: [],
+    saves: [],
+    immunities: [],
+    conditionImmunities: [],
+    abilityBonus: [],
+    speed: 0,
+    ac: [],
+    saveBonus: [],
+    extraCantrips: [],
+    skillBonus: [],
   };
   const paragraphs = joinBroken(text)
     .split(/\n+/)
     .map((p) => p.trim())
     .filter((p) => p && !p.startsWith('|') && !p.startsWith('#'));
   for (const raw of paragraphs) {
-    for (const s of sentencesOf(plain(raw))) {
+    // a bullet or a bold benefit of a list: one of several options, or part of a temporary form
+    const option = /^[-•*]/.test(raw);
+    // Thaumaturge / Magician: "a bonus to your Intelligence (Arcana or Religion) checks. The bonus
+    // equals your Wisdom modifier" (two sentences)
+    if (!opts.situational) {
+      const check =
+        /bonus to your (?:Intelligence|Wisdom|Charisma|Strength|Dexterity) \(([A-Z][a-z ]+?) or ([A-Z][a-z ]+?)\) checks\. The bonus equals your (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) modifier/i.exec(
+          plain(raw),
+        );
+      if (check) {
+        const skills = [check[1], check[2]]
+          .map((w) => SKILL_WORDS[w.toLowerCase().trim()])
+          .filter(Boolean);
+        if (skills.length)
+          out.skillBonus.push({ skills, ability: ABILITY_WORDS[check[3].toLowerCase()] });
+      }
+    }
+    for (const full of sentencesOf(plain(raw))) {
+      const s = full.replace(LEVEL_LEAD, '').replace(/^\w/, (c) => c.toUpperCase());
       const cond = CONDITIONAL.test(s);
+      readMore(out, s, cond, option, opts.situational === true);
 
       // -- initiative (the sentences are conditional: "When you roll Initiative, you can add ...")
       if (/add your proficiency bonus to your initiative/i.test(s)) out.initiative.pb = true;
@@ -255,9 +327,14 @@ function parseTrait(text: string, opts: { situational?: boolean }): TraitRules {
       }
 
       // -- resistances: "You have Resistance to Necrotic and Radiant damage" ----------------------------
-      if (!opts.situational && !cond) {
+      // (an aura counts: the Paladin is always in it — Aura of Warding)
+      if (
+        !opts.situational &&
+        (!cond ||
+          /^You and your allies have Resistance to [^.]+ while in your Aura of Protection/i.test(s))
+      ) {
         const r =
-          /\b(?:You|you) (?:also )?(?:have|gain) Resistance to (.+?)(?: damage)?(?:,? and you\b|\.|$)/i.exec(
+          /\b(?:You|you)(?: and your allies)? (?:also )?(?:have|gain) Resistance to (.+?)(?: damage)?(?:,? and you\b|\.|$| while in your Aura)/i.exec(
             s,
           );
         if (r && !/\ball damage\b|\bany\b|\bone\b|\btwo\b/i.test(r[1])) {
@@ -268,6 +345,124 @@ function parseTrait(text: string, opts: { situational?: boolean }): TraitRules {
     }
   }
   return out;
+}
+
+/** What else a sentence gives (proficiencies, saves, immunities, numbers): see TraitRules. */
+function readMore(
+  out: TraitRules,
+  s: string,
+  cond: boolean,
+  option: boolean,
+  situational: boolean,
+): void {
+  if (situational || option) return;
+  // -- armor and weapons: "you gain proficiency with Martial weapons and training with Heavy armor"
+  if (!/\bor\b|of your choice|choose|if you don't|these weapons|that don't/i.test(s)) {
+    const self = /^(?:Trained for battle, )?(?:You|you) (?:also )?(?:gain|have)\b/.test(s);
+    if (self || /^You gain training/i.test(s)) {
+      for (const m of s.matchAll(/\b(?:proficiency|training) with ([^.;]+)/gi))
+        for (const item of m[1].split(/,\s*(?:and\s+)?|\s+and\s+(?:training with\s+)?/)) {
+          const w = item.trim().replace(/^the\s+/i, '');
+          const armor = /^(light|medium|heavy)(?: armor)?$/i.exec(w);
+          if (armor) addOnce(out.armor, `${cap(armor[1])} armor`);
+          else if (/^shields?$/i.test(w)) addOnce(out.armor, 'Shields');
+          else if (/^(simple|martial) weapons$/i.test(w))
+            addOnce(out.weapons, `${cap(w.split(' ')[0])} weapons`);
+          else if (/^scimitars?$/i.test(w)) addOnce(out.weapons, 'Scimitar');
+          else if (/'s tools$|tools$|kit$/i.test(w)) addOnce(out.tools, titleCase(w));
+        }
+    }
+  }
+  // -- saving throws: "you gain proficiency in Wisdom and Charisma saving throws" -----------------
+  if (!/\bif\b|\binstead\b|\bor\b|possession/i.test(s)) {
+    const save =
+      /\bproficiency in (all|[A-Z][a-z]+(?:,? (?:and )?[A-Z][a-z]+)*) saving throws/i.exec(s);
+    if (save) {
+      const words = /^all$/i.test(save[1])
+        ? Object.keys(ABILITY_WORDS)
+        : save[1].split(/,\s*(?:and\s+)?|\s+and\s+/).map((w) => w.trim().toLowerCase());
+      for (const w of words) if (ABILITY_WORDS[w]) addOnce(out.saves, ABILITY_WORDS[w]);
+    }
+  }
+  // -- immunities: "You have Immunity to the Charmed and Frightened conditions", "You are immune
+  // to poison damage and the poisoned condition", "can't be poisoned". Only the character's own,
+  // with no condition (an aura counts: the Paladin is always in it).
+  const auraOnly = /\bwhile in your Aura of Protection\b/i.test(s);
+  if ((!cond || auraOnly) && /^(?:You|you)\b(?: and your allies)?/.test(s)) {
+    const imm = /\b(?:Immunity|immune) to ([^.;]+)/i.exec(s);
+    if (imm && !/\bthis effect\b|\bbeing magically aged\b|\bthis feature\b/i.test(imm[1])) {
+      // the list ends where another benefit starts ("..., and resistance to necrotic damage",
+      // "..., and you have advantage on saving throws against being poisoned")
+      const list = imm[1]
+        .replace(/\bwhile in your Aura of Protection\b.*/i, '')
+        .split(/,? and you\b|\bresistance\b|\badvantage\b/i)[0];
+      if (/\bdisease\b/i.test(list)) addOnce(out.conditionImmunities, 'Disease');
+      for (const t of damageTypesIn(list.replace(/\b(?:the )?\w+ condition(?:s)?\b/gi, ''))) {
+        if (/damage/i.test(list)) addOnce(out.immunities, t);
+      }
+      for (const c of CONDITIONS)
+        if (new RegExp(`\\b${c}\\b`, 'i').test(list) && /condition|exhaustion|disease/i.test(list))
+          addOnce(out.conditionImmunities, cap(c));
+    }
+    if (/can(?:'|’)t be poisoned/i.test(s)) addOnce(out.conditionImmunities, 'Poisoned');
+  }
+  // "You gain advantage on death saving throws, immunity to the frightened condition, and
+  // resistance to necrotic damage" (a list after "You gain")
+  if (!cond && /^You gain\b/.test(s)) {
+    const res = /\bresistance to ([a-z]+(?:,? (?:and )?[a-z]+)*) damage\b/i.exec(s);
+    if (res && !/^You gain Resistance/i.test(s))
+      for (const t of damageTypesIn(res[1])) addOnce(out.resistances, t);
+    const imm = /\bimmunity to the ([a-z]+) condition\b/i.exec(s);
+    if (imm && CONDITIONS.includes(imm[1].toLowerCase()))
+      addOnce(out.conditionImmunities, cap(imm[1]));
+  }
+  // -- capstones: "Your Strength and Constitution scores increase by 4, to a maximum of 25" -------
+  const inc =
+    /^Your ([A-Z][a-z]+)(?: and ([A-Z][a-z]+))? scores? increases? by (\d+),? (?:to|up to) a maximum of (\d+)/.exec(
+      s,
+    );
+  if (inc) {
+    const abilities = [inc[1], inc[2]]
+      .filter((w): w is string => !!w)
+      .map((w) => ABILITY_WORDS[w.toLowerCase()])
+      .filter(Boolean);
+    if (abilities.length)
+      out.abilityBonus.push({ abilities, amount: Number(inc[3]), max: Number(inc[4]) });
+  }
+  // -- walking speed with no condition: "Your Speed increases by 10 feet." -------------------------
+  if (!cond) {
+    const sp = /^Your (?:walking )?speed increases by (\d+) feet(?:\.|,? and\b|$)/i.exec(s);
+    if (sp) out.speed += Number(sp[1]);
+  }
+  // -- Armor Class: "You gain a +1 bonus to your Armor Class", "+1 bonus to AC while wearing heavy
+  // armor" (the armor is checked by the engine)
+  const heavy = /\+(\d+) bonus to (?:your )?(?:AC|Armor Class) while wearing heavy armor/i.exec(s);
+  if (heavy) out.ac.push({ amount: Number(heavy[1]), heavy: true });
+  else if (!cond) {
+    const ac = /^You gain a \+(\d+) bonus to your (?:AC|Armor Class)\.?$/i.exec(s);
+    if (ac) out.ac.push({ amount: Number(ac[1]), heavy: false });
+  }
+  // -- Aura of Protection: "a bonus to saving throws equal to your Charisma modifier" ----------------
+  const sb =
+    /\bbonus to saving throws equal to your (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) modifier/i.exec(
+      s,
+    );
+  if (sb) addOnce(out.saveBonus, ABILITY_WORDS[sb[1].toLowerCase()]);
+  // -- Thaumaturge / Magician ------------------------------------------------------------------------
+  const extra = /^You know (one|two) extra cantrips? from the (\w+) spell list/i.exec(s);
+  if (extra)
+    out.extraCantrips.push({
+      list: extra[2].toLowerCase(),
+      count: extra[1].toLowerCase() === 'two' ? 2 : 1,
+    });
+}
+
+const cap = (w: string) => w[0].toUpperCase() + w.slice(1).toLowerCase();
+const titleCase = (w: string) =>
+  w.replace(/\b([a-z])/g, (c) => c.toUpperCase()).replace(/'S\b/g, "'s");
+
+function addOnce<T>(list: T[], x: T): void {
+  if (!list.includes(x)) list.push(x);
 }
 
 function addSense(out: TraitRules, kind: SenseKind, range: number): void {

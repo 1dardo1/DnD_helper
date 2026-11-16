@@ -45,7 +45,8 @@ import { sheetEs } from '../../core/i18n/sheet.es';
 import { Character } from '../../core/models/character';
 import { computeSheet } from '../../core/rules/engine';
 import { RulesDataService } from '../../core/rules/rules-data.service';
-import { Sheet, SheetFeature, SheetWarning } from '../../core/rules/sheet';
+import { Sheet, SheetFeature, SheetFeatureChoice, SheetWarning } from '../../core/rules/sheet';
+import { FeatureChoice } from './feature-choice';
 import { summonSourcesOf } from '../../core/summons/catalog';
 import { SummonCatalogService } from '../../core/summons/summon-catalog.service';
 import { ABILITIES } from '../../core/rules/tables';
@@ -84,6 +85,7 @@ const NOTES_DELAY_MS = 1200;
     MarkdownPipe,
     LoadError,
     PlayPanel,
+    FeatureChoice,
     ConcentrationChip,
     SpellBook,
     EquipmentPanel,
@@ -195,7 +197,7 @@ export class CharacterSheet {
 
   /** Every spell, to give the spells of the feats their level (some feats only say "spell"). */
   private readonly compendium = inject(CompendiumService);
-  private readonly allSpells = resource({ loader: () => this.compendium.all('spell') });
+  protected readonly allSpells = resource({ loader: () => this.compendium.all('spell') });
 
   /** The spells the feats give (Familiar Friend's Find Familiar...): cantrips first, then by level. */
   protected readonly featSpells = computed(() => {
@@ -538,6 +540,32 @@ export class CharacterSheet {
   }
 
   /** What was picked inside a trait (species-picks.ts), in the current language. */
+  /** The selector of a class/subclass feature with something to choose (class-picks.ts). */
+  protected featureChoiceOf(f: SheetFeature): SheetFeatureChoice | undefined {
+    if (f.source.type !== 'class' && f.source.type !== 'subclass') return undefined;
+    return this.view
+      .value()
+      ?.sheet.featureChoices?.find((c) => c.feature === f.name && c.sourceId === f.source.id);
+  }
+
+  protected setFeatureOption(key: string, option: string): void {
+    const c = this.view.value()?.record.character;
+    if (!c) return;
+    this.saveCharacter({
+      ...c,
+      choices: { ...c.choices, traitChoices: { ...(c.choices.traitChoices ?? {}), [key]: option } },
+    });
+  }
+
+  protected setFeaturePick(key: string, values: string[]): void {
+    const c = this.view.value()?.record.character;
+    if (!c) return;
+    this.saveCharacter({
+      ...c,
+      choices: { ...c.choices, traitPicks: { ...(c.choices.traitPicks ?? {}), [key]: values } },
+    });
+  }
+
   protected chosenText(chosen: { kind: string; values: string[] }[]): string {
     const spells = new Map((this.allSpells.value() ?? []).map((sp) => [sp.id, sp.name]));
     return chosen

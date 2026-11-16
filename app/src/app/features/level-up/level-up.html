@@ -506,6 +506,15 @@
                 </summary>
                 <div class="md" [innerHTML]="f.description | dataText | markdown"></div>
               </details>
+              @if (featureChoiceOf(f); as fc) {
+                <app-feature-choice
+                  [choice]="fc"
+                  [spells]="spellList()"
+                  [level]="after()?.totalLevel ?? 1"
+                  (chose)="setFeatureOption($event.key, $event.option)"
+                  (picked)="setFeaturePick($event.key, $event.values)"
+                />
+              }
             } @empty {
               <p>{{ 'levelUp.noFeatures' | t }}</p>
             }

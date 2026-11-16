@@ -20,6 +20,15 @@
             {{ 'sheet.chosen' | t: { list: chosenText(f.chosen) } }}
           </p>
         }
+        @if (featureChoiceOf(f); as fc) {
+          <app-feature-choice
+            [choice]="fc"
+            [spells]="allSpells.value() ?? []"
+            [level]="view.value()?.sheet?.totalLevel ?? 1"
+            (chose)="setFeatureOption($event.key, $event.option)"
+            (picked)="setFeaturePick($event.key, $event.values)"
+          />
+        }
       </details>
     }
   }
@@ -464,6 +473,14 @@
                   @if (s.resistances.length) {
                     <dt>{{ 'sheet.resistances' | t }}</dt>
                     <dd>{{ terms(s.resistances, 'damage') }}</dd>
+                  }
+                  @if (s.immunities?.length) {
+                    <dt>{{ 'sheet.immunities' | t }}</dt>
+                    <dd>{{ terms(s.immunities!, 'damage') }}</dd>
+                  }
+                  @if (s.conditionImmunities?.length) {
+                    <dt>{{ 'sheet.conditionImmunities' | t }}</dt>
+                    <dd>{{ terms(s.conditionImmunities!, 'condition') }}</dd>
                   }
                 </dl>
               </section>
