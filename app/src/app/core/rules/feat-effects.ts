@@ -236,10 +236,11 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
   // bold paragraphs that are options of the feature ("a spell based on your pact": one of them
   // per patron), not benefits that all apply
   const boldOptions =
-    /based on your|one of the following|of your choice|depending on|choose one/i.test(
+    /based on your|one of the following|of your choice|depending on|choose (?:one|two|three)\b|from the following options/i.test(
       (feat.description ?? '').split(/\n\s*\n/)[0] ?? '',
     );
   const text = feat.description ?? '';
+  const pickOptions = /\bchoose (?:two|three) [^.]*\bfrom the following options\b/i.test(text);
   const out: FeatRules = {
     spells: [],
     ability: { mode: 'none' },
@@ -428,6 +429,8 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
           n: /^\d+$/.test(costMatch[1]) ? Number(costMatch[1]) : 1,
         }
       : null;
+    // "Choose two tattoos from the following options": a bold option gives nothing by itself
+    if (pickOptions && /^\*{2,3}[^*]+\.\*{2,3}/.test(raw.trim())) grants.length = 0;
     for (const g of grants) {
       // "Command as a Bonus Action": the name is the spell's, the rest says how it's cast
       g.name = g.name.replace(/\s+as an? (?:Bonus Action|Action|Reaction|Magic action)\b.*$/i, '');

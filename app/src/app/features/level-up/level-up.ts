@@ -32,6 +32,7 @@ import {
   subclassesFor,
   visibleOptions,
   expandedSpellIds,
+  extraSpellLists,
 } from '../../core/creation/creation-rules';
 import {
   SheetChange,
@@ -264,6 +265,7 @@ export class LevelUp {
         entry.level,
         d.spells,
         expandedSpellIds(sub, entry.level),
+        extraSpellLists(cls, entry.level),
       );
     return {
       ...g,

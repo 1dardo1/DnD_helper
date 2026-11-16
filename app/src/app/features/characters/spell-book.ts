@@ -2,7 +2,12 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject, input, output, resource, signal } from '@angular/core';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
-import { spellListOf, spellsFor, expandedSpellIds } from '../../core/creation/creation-rules';
+import {
+  expandedSpellIds,
+  extraSpellLists,
+  spellListOf,
+  spellsFor,
+} from '../../core/creation/creation-rules';
 import {
   isChosenFor,
   replaceSpellFor,
@@ -137,6 +142,7 @@ export class SpellBook {
         entry.level,
         d.spells,
         expandedSpellIds(sub, entry.level),
+        extraSpellLists(cls, entry.level),
       );
       const rule = spellbookRule(cls);
       const bookIds = rule ? new Set(spellbookOf(ch, cls.id, by, byId)) : null;

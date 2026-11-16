@@ -58,6 +58,7 @@ import {
   subclassesFor,
   toolChoices,
   expandedSpellIds,
+  extraSpellLists,
 } from '../../core/creation/creation-rules';
 import {
   browserStorage,
@@ -300,6 +301,7 @@ export class CharacterCreate implements LeaveCheck {
             entry.level,
             d.spells,
             expandedSpellIds(sub, entry.level),
+            extraSpellLists(cls, entry.level),
           )
         : null;
       return {

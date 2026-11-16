@@ -1,4 +1,4 @@
-import { Subclass } from '../models/compendium';
+import { DndClass, Subclass } from '../models/compendium';
 
 /**
  * A subclass whose table adds spells to the class's list instead of preparing them: "the Fathomless
@@ -7,7 +7,7 @@ import { Subclass } from '../models/compendium';
  */
 export function expandsSpellList(sub: Subclass | undefined | null): boolean {
   return !!sub?.features.some((f) =>
-    /choose from an expanded list of spells|added to the \w+ spell list for you/i.test(
+    /choose from an expanded list of spells|added to the \w+ spell list for you|from the following list of spells, in addition to the \w+ spell list/i.test(
       f.description ?? '',
     ),
   );
@@ -30,4 +30,24 @@ export function spellSlug(name: string): string {
     .replace(/['’]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
+}
+
+/**
+ * Other classes' lists a class may prepare from at this level (Magical Secrets: "you can choose any
+ * of your new prepared spells from the Bard, Cleric, Druid, and Wizard spell lists"). Read from the
+ * text of its features gained so far; [] for the others.
+ */
+export function extraSpellLists(cls: DndClass, level: number): string[] {
+  for (const f of cls.features ?? []) {
+    if ((f.level ?? 0) > level) continue;
+    const m = /choose any of your new prepared spells from the ([A-Za-z, ]+?) spell lists/i.exec(
+      f.description ?? '',
+    );
+    if (m)
+      return m[1]
+        .split(/,\s*(?:and\s+)?|\s+and\s+/)
+        .map((w) => w.trim().toLowerCase())
+        .filter((w) => w && w !== cls.id);
+  }
+  return [];
 }

@@ -11,7 +11,7 @@ import {
   featsForSlot,
   spellsFor,
 } from '../creation/creation-rules';
-import { expandedSpellIds, expandsSpellList } from './expanded-spells';
+import { expandedSpellIds, expandsSpellList, extraSpellLists } from './expanded-spells';
 
 /**
  * Class and subclass features read from their real text (data/*.json): choices inside them
@@ -600,5 +600,37 @@ describe('verification batch 2: free casts, partly situational features, resista
   });
   it('Thought Shield: Resistance to Psychic damage', () => {
     expect(sheetOf('warlock', 10, 'warlock/great-old-one-patron').resistances).toContain('Psychic');
+  });
+});
+
+describe('Magical Secrets: Bard spells from the Cleric, Druid and Wizard lists from level 10', () => {
+  const bard = REAL.classes.get('bard')!;
+  it('reads the lists from the text, from level 10 on', () => {
+    expect(extraSpellLists(bard, 9)).toEqual([]);
+    expect(extraSpellLists(bard, 10)).toEqual(['cleric', 'druid', 'wizard']);
+  });
+  it("the picker offers Fireball at Bard 10 (not at 9), never another list's cantrips", () => {
+    const at = (lv: number) =>
+      spellsFor('bard', bard.spellcasting!, lv, REAL_SPELLS, [], extraSpellLists(bard, lv));
+    expect(at(9).leveled.some((s) => s.id === 'fireball')).toBe(false);
+    expect(at(10).leveled.some((s) => s.id === 'fireball')).toBe(true);
+    expect(at(10).cantrips.some((s) => s.id === 'fire-bolt')).toBe(false);
+  });
+});
+
+describe('options to choose that must not all apply', () => {
+  it('Beast Tattoo ("Choose two tattoos"): no tattoo applies until chosen', () => {
+    const s = sheetOf('monk', 6, 'monk/tattooed-warrior-ua8-18-09-25');
+    expect(s.senses.some((x) => x.kind === 'blindsight')).toBe(false);
+    expect(s.featSpells.some((f) => f.id === 'dancing-lights')).toBe(false);
+  });
+  it('Metal Magic: Stone Sorcery spells are added to the list, not always prepared', () => {
+    const stone = REAL.subclasses.get('sorcerer/stone-sorcery')!;
+    expect(expandsSpellList(stone)).toBe(true);
+    expect(
+      sheetOf('sorcerer', 10, 'sorcerer/stone-sorcery').featSpells.some(
+        (f) => f.id === 'searing-smite',
+      ),
+    ).toBe(false);
   });
 });

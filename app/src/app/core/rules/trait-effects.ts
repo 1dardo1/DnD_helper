@@ -239,6 +239,7 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
   // bullets after an intro that asks for nothing ("...becomes more powerful:") all apply (Saint of
   // Forge and Fire); after one that asks to choose, or a bold benefit, they are options
   let listOfBenefits = false;
+  let choiceIntro = false;
   // a feature only partly situational (Hungering Might: a save bonus, then a benefit "while you
   // are transformed"): only its paragraphs that name the situation, and the lists under them
   let situationalHere = false;
@@ -247,7 +248,11 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
     const situational = !!opts.situational && situationalHere;
     // a bullet or a bold benefit of a list: one of several options, or part of a temporary form
     const option = /^[-•*]/.test(raw) && !(listOfBenefits && !underCondition);
+    // options to choose among ("Choose two tattoos from the following options"): none applies by
+    // itself (the chosen one is applied by the feature's choice, class-picks.ts)
+    if (/^[-•*]/.test(raw) && choiceIntro) continue;
     if (!/^[-•*]/.test(raw)) {
+      choiceIntro = /\bchoose (?:two|three) [^.]*\bfrom the following options\b/i.test(raw);
       underCondition = STATE_INTRO.test(plain(raw)) || INTRO.test(raw);
       // "...paid off in two ways:", "You gain the following benefits."
       listOfBenefits =

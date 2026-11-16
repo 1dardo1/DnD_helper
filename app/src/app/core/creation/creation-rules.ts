@@ -12,7 +12,12 @@ import {
   Subclass,
 } from '../models/compendium';
 import { TOOL_CHOICE, castingOf } from '../rules/engine';
-export { expandedSpellIds, expandsSpellList, spellSlug } from '../rules/expanded-spells';
+export {
+  expandedSpellIds,
+  expandsSpellList,
+  extraSpellLists,
+  spellSlug,
+} from '../rules/expanded-spells';
 import { multiclassGains } from '../rules/multiclass';
 import { Sheet } from '../rules/sheet';
 import { hpMethodAt } from './hp-levels';
@@ -211,11 +216,18 @@ export function spellsFor(
   spells: Spell[],
   /** Spell ids added to the list for this character (a 2014 Warlock patron's expanded list). */
   extra: readonly string[] = [],
+  /** Other lists its leveled spells may come from (Magical Secrets); never its cantrips. */
+  alsoLists: readonly string[] = [],
 ): { cantrips: Spell[]; leveled: Spell[] } {
   const max = maxSpellLevel(sc, level);
   const added = new Set(extra);
   const mine = spells
-    .filter((s) => s.classes.includes(listId) || added.has(s.id))
+    .filter(
+      (s) =>
+        s.classes.includes(listId) ||
+        added.has(s.id) ||
+        (s.level > 0 && alsoLists.some((l) => s.classes.includes(l))),
+    )
     .sort((a, b) => a.level - b.level || a.name.localeCompare(b.name));
   return {
     cantrips: mine.filter((s) => s.level === 0),

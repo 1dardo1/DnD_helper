@@ -1,6 +1,7 @@
 import { Character } from '../models/character';
 import { DndClass, Spell, Subclass } from '../models/compendium';
 import { castingOf } from '../rules/engine';
+import { expandedSpellIds, extraSpellLists } from '../rules/expanded-spells';
 
 /**
  * Which class each spell was chosen for.
@@ -24,6 +25,19 @@ export interface SpellCaster {
   list: string;
   cantrips: number | null;
   prepared: number | null;
+  /** Spell ids its subclass adds to the list (2014 Warlock patron); absent: none. */
+  extra?: string[];
+  /** Other lists its leveled spells may come from (Magical Secrets); absent: none. */
+  alsoLists?: string[];
+}
+
+/** Whether the spell can be a pick of this caster (its list, or what the class adds to it). */
+export function onListOf(caster: SpellCaster, id: string, sp: SpellInfo): boolean {
+  return (
+    sp.classes.includes(caster.list) ||
+    !!caster.extra?.includes(id) ||
+    (sp.level > 0 && !!caster.alsoLists?.some((l) => sp.classes.includes(l)))
+  );
 }
 
 /** The casters among a character's classes, in the order of `ch.classes`. */
@@ -36,13 +50,18 @@ export function spellCasters(
   for (const entry of ch.classes) {
     const cls = classes.get(entry.id);
     if (!cls) continue;
-    const sc = castingOf(cls, entry.subclassId ? subclasses.get(entry.subclassId) : undefined);
+    const sub = entry.subclassId ? subclasses.get(entry.subclassId) : undefined;
+    const sc = castingOf(cls, sub);
     if (!sc) continue;
+    const extra = expandedSpellIds(sub, entry.level);
+    const alsoLists = extraSpellLists(cls, entry.level);
     out.push({
       classId: cls.id,
       list: cls.spellcasting ? cls.id : (sc.spellList ?? cls.id),
       cantrips: sc.cantripsByLevel?.[entry.level - 1] ?? null,
       prepared: sc.preparedByLevel?.[entry.level - 1] ?? null,
+      ...(extra.length ? { extra } : {}),
+      ...(alsoLists.length ? { alsoLists } : {}),
     });
   }
   return out;
@@ -121,7 +140,7 @@ export function countsFor(
   let leveled = 0;
   for (const id of spellsOf(by, caster.classId)) {
     const sp = spells.get(id);
-    if (!sp || !sp.classes.includes(caster.list)) continue;
+    if (!sp || !onListOf(caster, id, sp)) continue;
     if (sp.level === 0) cantrips++;
     else leveled++;
   }
@@ -160,7 +179,7 @@ export function spellsByClassOf(
     spellsOf(by, c.classId).filter((id) => kind(id) === k).length;
   const candidates = (id: string) => {
     const sp = spells.get(id);
-    return sp ? casters.filter((c) => sp.classes.includes(c.list)) : [];
+    return sp ? casters.filter((c) => onListOf(c, id, sp)) : [];
   };
   const put = (c: string, id: string) => (by[c] = [...(by[c] ?? []), id]);
 
