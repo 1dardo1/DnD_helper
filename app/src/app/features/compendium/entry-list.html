@@ -25,7 +25,7 @@
 @if (entries.isLoading() && !entries.hasValue()) {
   <p>{{ 'common.loading' | t }}</p>
 } @else if (entries.error()) {
-  <app-load-error [error]="entries.error()" />
+  <app-load-error [error]="entries.error()" [retryable]="true" (retry)="entries.reload()" />
 } @else if (choosing()) {
   <p>{{ 'picker.chooseGroup' | t }}</p>
   <ul class="groups">

@@ -182,7 +182,7 @@ describe('spells cast by expending Death Points (Death Knight feats)', () => {
   ])('%s: %s costs 1 Death Point, so it is not at will', (featId, spellId) => {
     expect(spellOf(featId)).toMatchObject({
       id: spellId,
-      deathPoints: 1,
+      poolCost: { pool: 'death-points', n: 1 },
       atWill: false,
       free: false,
       slots: true,
@@ -195,7 +195,7 @@ describe('spells cast by expending Death Points (Death Knight feats)', () => {
       id: 'dispel-evil-and-good',
       atWill: true,
     });
-    expect(spellOf('boon-of-the-cleansed-heart-ua').deathPoints).toBeUndefined();
+    expect(spellOf('boon-of-the-cleansed-heart-ua').poolCost).toBeUndefined();
   });
 
   it('Wrathful Smite and Fear share the Initiate Death Points counter (Proficiency Bonus 3 at level 5)', () => {
@@ -208,10 +208,30 @@ describe('spells cast by expending Death Points (Death Knight feats)', () => {
     const pool = poolKey('death-points');
     const smite = sheet.featSpells.find((s) => s.id === 'wrathful-smite')!;
     const fear = sheet.featSpells.find((s) => s.id === 'fear')!;
-    expect(smite).toMatchObject({ atWill: false, freeKey: pool, deathPoints: 1 });
-    expect(fear).toMatchObject({ atWill: false, freeKey: pool, deathPoints: 1 });
+    expect(smite).toMatchObject({
+      atWill: false,
+      freeKey: pool,
+      poolCost: { pool: 'death-points', n: 1 },
+    });
+    expect(fear).toMatchObject({
+      atWill: false,
+      freeKey: pool,
+      poolCost: { pool: 'death-points', n: 1 },
+    });
     const counters = playResources(sheet).filter((r) => r.key === pool);
     expect(counters).toHaveLength(1);
     expect(counters[0]).toMatchObject({ max: 3, labelKey: 'play.res.deathPoints' });
+  });
+});
+
+describe('spells paid with a Psionic Energy Die (Illithid feats)', () => {
+  const featById = (id: string) => (feats as { id: string }[]).find((f) => f.id === id)!;
+  it.each([
+    ['full-ceremorphosis-ua', 'detect-thoughts'],
+    ['illithid-thrallmaker-ua', 'charm-person'],
+    ['tadpoles-safeguard-ua', 'shield'],
+  ])('%s: %s costs a die instead of being at will', (featId, spellId) => {
+    const spell = featRules(featById(featId) as never).spells.find((s) => s.id === spellId)!;
+    expect(spell).toMatchObject({ atWill: false, poolCost: { pool: 'psionic-energy-dice', n: 1 } });
   });
 });

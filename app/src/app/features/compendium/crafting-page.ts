@@ -98,7 +98,7 @@ type FacetId = 'tool' | 'requirement' | 'cost' | 'time' | 'rarity' | 'consumable
     @if (items.isLoading()) {
       <p>{{ 'common.loading' | t }}</p>
     } @else if (items.error()) {
-      <app-load-error [error]="items.error()" />
+      <app-load-error [error]="items.error()" [retryable]="true" (retry)="items.reload()" />
     } @else {
       <nav class="sections" [attr.aria-label]="'crafting.sections' | t">
         <div class="strip">

@@ -8,7 +8,7 @@
 @if (entry.isLoading()) {
   <p>{{ 'common.loading' | t }}</p>
 } @else if (entry.error()) {
-  <app-load-error [error]="entry.error()" />
+  <app-load-error [error]="entry.error()" [retryable]="true" (retry)="entry.reload()" />
 } @else if (entry.value(); as e) {
   <article #article [appClassTheme]="e">
     <h1>{{ e.name | dataName }}</h1>

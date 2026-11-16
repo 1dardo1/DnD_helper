@@ -1,3 +1,4 @@
+import type { SpellPoolCost } from './feat-effects';
 import type { HpLevelRow } from '../creation/hp-levels';
 import type { SheetActiveState } from './active-states';
 import { Ability } from '../models/compendium';
@@ -183,8 +184,8 @@ export interface SheetFeatSpell {
   attack: number;
   /** Key of the use counter when it can be cast once without a spell slot per Long Rest. */
   freeKey: string | null;
-  /** Without a spell slot by expending this many Death Points (freeKey is then the pool's counter). */
-  deathPoints?: number;
+  /** Without a spell slot by expending from a pool (Death Points, a Psionic Energy Die); freeKey is then the pool's counter. */
+  poolCost?: SpellPoolCost;
   /** Can also be cast with spell slots. */
   slots: boolean;
 }

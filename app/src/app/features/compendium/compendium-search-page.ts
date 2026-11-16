@@ -46,7 +46,7 @@ const PREVIEW = 20;
     @if (all.isLoading()) {
       <p>{{ 'common.loading' | t }}</p>
     } @else if (all.error()) {
-      <app-load-error [error]="all.error()" />
+      <app-load-error [error]="all.error()" [retryable]="true" (retry)="all.reload()" />
     } @else if (normalised().length < 2) {
       <p>{{ 'search.hint' | t }}</p>
     } @else {

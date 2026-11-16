@@ -1,3 +1,4 @@
+import { POOL_COST_KEY } from '../../core/rules/feat-effects';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
@@ -122,6 +123,7 @@ export class CharacterSheet {
   private notesTimer: ReturnType<typeof setTimeout> | null = null;
 
   protected readonly abilities = ABILITIES;
+  protected readonly poolCostKey = POOL_COST_KEY;
 
   constructor() {
     this.i18n.extend(SHEET_TEXTS);

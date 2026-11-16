@@ -581,8 +581,8 @@
                           <span class="facts">
                             {{ 'abbr.' + fs.ability | t }} · {{ 'sheet.saveDc' | t }}
                             {{ fs.saveDc }} · {{ 'sheet.spellAttack' | t }} {{ signed(fs.attack) }}
-                            @if (fs.deathPoints) {
-                              · {{ 'sheet.featSpell.deathPoints' | t: { n: fs.deathPoints } }} ({{
+                            @if (fs.poolCost) {
+                              · {{ poolCostKey[fs.poolCost.pool] | t: { n: fs.poolCost.n } }} ({{
                                 freeLeft(c, s, fs.freeKey)
                               }})
                             } @else if (fs.freeKey) {

@@ -1,8 +1,7 @@
-import { Component, computed, inject, resource } from '@angular/core';
+import { Component, inject, resource } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { CompendiumService } from '../../core/compendium/compendium.service';
-import { RepositoryService } from '../../core/data/repository.service';
 import { BROWSE_TEXTS } from '../../core/i18n/browse.es';
 import { DataNamePipe } from '../../core/i18n/data-text.service';
 import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
@@ -58,15 +57,7 @@ import { RecentEntries } from './recent-entries';
     @if (meta.isLoading()) {
       <p>{{ 'common.loading' | t }}</p>
     } @else if (meta.error()) {
-      @if (needsSetup()) {
-        <app-load-error [error]="meta.error()" />
-      } @else {
-        <section class="no-connection" role="alert">
-          <h2>{{ 'browse.noConnection.title' | t }}</h2>
-          <p>{{ 'browse.noConnection.text' | t }}</p>
-          <button type="button" (click)="retry()">{{ 'browse.retry' | t }}</button>
-        </section>
-      }
+      <app-load-error [error]="meta.error()" [retryable]="true" (retry)="meta.reload()" />
     } @else if (meta.value(); as m) {
       <ul class="sections">
         @for (type of types; track type) {
@@ -205,18 +196,6 @@ import { RecentEntries } from './recent-entries';
     .credit {
       color: var(--ink-soft);
     }
-    .no-connection {
-      max-width: 30rem;
-      padding: var(--space-3) var(--space-4);
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-1);
-    }
-    .no-connection h2 {
-      margin-top: 0;
-      font-size: var(--fs-lg);
-    }
     /* recently viewed: one row of small cards, sideways on phones */
     .recent h2 {
       display: flex;
@@ -294,19 +273,10 @@ export class CompendiumHome {
   protected readonly recent = inject(RecentEntries);
   private readonly router = inject(Router);
   protected readonly types = ENTRY_TYPES;
-  private readonly repo = inject(RepositoryService);
-  protected readonly needsSetup = computed(() => this.repo.source() === null);
   protected readonly meta = resource({ loader: () => this.compendium.getMeta() });
 
   constructor() {
     inject(I18nService).extend(BROWSE_TEXTS);
-  }
-
-  /** Load the data again after a failed attempt. */
-  protected retry(): void {
-    // retry() starts the load; reload() then shares that same pending promise
-    this.compendium.retry();
-    this.meta.reload();
   }
 
   protected search(event: Event, q: string): void {

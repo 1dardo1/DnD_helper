@@ -59,7 +59,8 @@ export interface FeatSpellGrant {
    * Death Points it costs to cast without a spell slot ("by expending 1 Death Point"): paid from the
    * Death Points counter, not at will and not once per rest. Absent for the other spells.
    */
-  deathPoints?: number;
+  /** What a cast without a slot costs from a pool (Death Points, a Psionic Energy Die). */
+  poolCost?: SpellPoolCost;
 }
 
 /** A countable use of a feat. */
@@ -77,6 +78,17 @@ export interface FeatUseRule {
 }
 
 export type FeatPool = 'death-points' | 'psionic-energy-dice';
+
+export interface SpellPoolCost {
+  pool: FeatPool;
+  n: number;
+}
+
+/** UI text of "without a spell slot, costs N ..." for each pool. */
+export const POOL_COST_KEY = {
+  'death-points': 'sheet.featSpell.deathPoints',
+  'psionic-energy-dice': 'sheet.featSpell.psionicEnergyDice',
+} as const satisfies Record<FeatPool, string>;
 
 /** UI text key of each pool's counter (es.ts / en.ts). */
 export const FEAT_POOL_LABEL_KEY: Record<FeatPool, string> = {
@@ -246,15 +258,22 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
       traitCasts &&
       /\bonce\b/i.test(p) &&
       /until you finish a long rest|recharges after a long rest/i.test(p);
-    // "You can cast it without expending a spell slot by expending 1 Death Point" (Death Knight feats)
-    const deathCost = /by expending (\d+) Death Points?\b/i.exec(p);
+    // "You can cast it without expending a spell slot by expending 1 Death Point" (Death Knight
+    // feats), "... by expending a Psionic Energy Die" (Illithid feats): paid from that pool
+    const costMatch = /by expending (\d+|an?) (Death Points?|Psionic Energy Di(?:c)?e)\b/i.exec(p);
+    const poolCost: SpellPoolCost | null = costMatch
+      ? {
+          pool: /death/i.test(costMatch[2]) ? 'death-points' : 'psionic-energy-dice',
+          n: /^\d+$/.test(costMatch[1]) ? Number(costMatch[1]) : 1,
+        }
+      : null;
     for (const g of grants) {
       if (out.spells.some((s) => s.id === slug(g.name))) continue;
       const isCantrip = g.cantrip === true;
       // "can cast it as a Magic action without expending a spell slot" with no rest: at will
-      // (not when the text says what it costs: Death Points)
+      // (not when the text says what it costs: Death Points, a Psionic Energy Die)
       const atWill =
-        casts && !deathCost && !/Long Rest|Short Rest|number of times|\bonce\b|\btwice\b/i.test(p);
+        casts && !poolCost && !/Long Rest|Short Rest|number of times|\bonce\b|\btwice\b/i.test(p);
       out.spells.push({
         name: g.name,
         id: slug(g.name),
@@ -270,7 +289,7 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
             ? 'pb'
             : 1,
         ...(named ? { freeAbility: named } : {}),
-        ...(deathCost && casts && !isCantrip ? { deathPoints: Number(deathCost[1]) } : {}),
+        ...(poolCost && casts && !isCantrip ? { poolCost } : {}),
       });
     }
 

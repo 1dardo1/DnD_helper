@@ -455,6 +455,7 @@ export const en = {
   'sheet.featSpells': 'Spells from feats and traits',
   'sheet.featSpell.free': 'once per Long Rest without a spell slot',
   'sheet.featSpell.deathPoints': 'without a spell slot, costs {n} Death Point(s)',
+  'sheet.featSpell.psionicEnergyDice': 'without a spell slot, costs {n} Psionic Energy Die (dice)',
   'sheet.featSpell.slots': 'also with spell slots',
   'sheet.featSpell.noAbility': 'Spellcasting ability not chosen yet: using {ability}.',
   'sheet.resistances': 'Damage resistance',

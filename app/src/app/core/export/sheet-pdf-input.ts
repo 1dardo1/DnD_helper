@@ -1,3 +1,4 @@
+import { POOL_COST_KEY } from '../rules/feat-effects';
 import { knownPlans } from '../artificer/plans';
 import { enhancementsByHost } from '../characters/enhancement';
 import { gearOf } from '../characters/magic-base';
@@ -288,8 +289,8 @@ function spellsOf_(src: PdfSource): Pick<SheetPdfInput, 'spellcasting' | 'spells
       [
         t('sheet.featSource', { name: src.shortName(fs.feat.name) }),
         `${t(`abbr.${fs.ability}` as TranslationKey)} ${t('pdf.dcShort')} ${fs.saveDc} · ${t('pdf.atkShort')} ${fs.attack >= 0 ? '+' : ''}${fs.attack}`,
-        fs.deathPoints
-          ? t('sheet.featSpell.deathPoints', { n: fs.deathPoints })
+        fs.poolCost
+          ? t(POOL_COST_KEY[fs.poolCost.pool], { n: fs.poolCost.n })
           : fs.freeKey
             ? t('sheet.featSpell.free')
             : '',
