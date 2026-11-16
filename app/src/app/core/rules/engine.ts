@@ -637,6 +637,15 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       pb,
       spellDc: (classId) => spellClasses.find((x) => x.classId === classId)?.saveDc ?? null,
       keyAbility: (classId) => keyAbilities.get(classId)?.ability,
+      feats: feats.map((f) => {
+        const inc = ch.choices.abilityIncreases.find((i) => i.source === f.id);
+        return {
+          name: f.name,
+          description: f.description,
+          ...(inc ? { increased: inc.ability } : {}),
+        };
+      }),
+      totalLevel,
       spells: new Set([...(ch.choices.spells ?? []), ...granted.spells.map((x) => x.id)]),
     },
   );
@@ -1584,6 +1593,8 @@ function combatOf(
     pb: number;
     spellDc: (classId: string) => number | null;
     keyAbility: (classId: string) => Ability | undefined;
+    feats: { name: string; description: string; increased?: Ability }[];
+    totalLevel: number;
     /** Ids of the spells the character has chosen or is given. */
     spells: Set<string>;
   },
@@ -1661,6 +1672,8 @@ function combatOf(
     rageDamage,
     spellDc: extra.spellDc,
     keyAbility: extra.keyAbility,
+    feats: extra.feats,
+    totalLevel: extra.totalLevel,
   });
   combat.notes.push(...numbers.notes);
   combat.stats.push(...numbers.stats);

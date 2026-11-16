@@ -968,6 +968,18 @@ export const en = {
   'combat.stat.elementalBurst': '2 Focus Points: {dmg} of the chosen type (DEX save)',
   'combat.stat.auraOfProtection': '+{n} to saving throws for you and allies within {r} ft',
   'combat.stat.abjureFoes': 'affects {n} creatures (WIS save)',
+  'combat.stat.divineSpark':
+    'Divine Spark: {dice} {mod} healing or Necrotic/Radiant damage (CON save)',
+  'combat.note.touchOfDeath': 'Touch of Death: +{n} Necrotic damage on a melee hit',
+  'combat.stat.pathToTheGrave':
+    'Path to the Grave: ending the curse adds {n} Necrotic or Radiant damage',
+  'combat.stat.radiantDefense': 'Radiant Defense: the attacker takes 2d10 + {n} Radiant damage',
+  'combat.stat.fortifyingSpell': 'Fortifying Spell: 2d8 + {n} Temporary Hit Points to one target',
+  'combat.stat.battleMedic': 'Battle Medic: the Hit Point Die the creature spends + {n} HP',
+  'combat.stat.damageReduction':
+    'In Heavy armor: Bludgeoning, Piercing and Slashing damage from an attack is reduced by {n}',
+  'combat.stat.bolsteringPerformance':
+    'Bolstering Performance (after a rest): {n} Temporary Hit Points to up to six allies',
   'combat.stat.channelDivinityDc': 'DC of the effects with a save: {n} (your spell save DC)',
   'combat.stat.sacredWeapon': '+{n} to attack rolls with the imbued weapon',
   'combat.stat.inspiringSmite': 'after Divine Smite: {n} Temporary Hit Points to divide',

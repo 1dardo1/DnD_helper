@@ -56,3 +56,29 @@ Recogidas de las secciones "Dudas" de cada informe (ahí están con más context
 21. **Textos incompletos en los datos** — Scion of Elemental Fire/Water (falta "Elemental Magic"),
     Wonder Maker (opciones cortadas), Magic Initiate (falta el párrafo de los trucos). Arreglo de
     scraper.
+
+## Respuestas del usuario y estado
+
+| # | Respuesta | Estado |
+| --- | --- | --- |
+| 1 | Cifrar (a) | ✅ argon2id + AES-GCM (`core/organize/folder-lock*.ts`) |
+| 2 | Sí, con migración | Pendiente (Fase 3, S5) |
+| 3 | Lanzar el scraper | ✅ extracción local hecha; datos regenerados |
+| 4 | Incluir trucos (como hoy) | ✅ sin cambios |
+| 5 | Dejar Harbinger of Doom | ✅ sin cambios |
+| 6 | Enlazar ki con Focus Points | ✅ `combat-actions.ts` |
+| 7 | Divine Strike no sustituye a Blessed Strikes | ✅ se muestran los dos |
+| 8 | Ofrecer Blessed/Druidic Warrior | ✅ solo en el estilo de combate de Paladín/Explorador (leído del texto de la clase), con sus 2 trucos |
+| 9 | Selector para toda la clase | ✅ Hemocracia INT/SAB (la más alta por defecto): CD, Dark Augmentation, Brand of Castigation, Profane Soul (`class-ability.ts`) |
+| 10 | Selección | ✅ sin cambios |
+| 11 | Recarga automática + aclaración | ✅ contador con nota "cómo se recupera de verdad" en Recursos |
+| 12 | Elección en cada uso | ✅ texto |
+| 13 | Enlazar | ✅ heredan la característica de la dote previa (aviso si no cuadra) |
+| 14 | Correcto | ✅ sin cambios |
+| 15 | Preguntar en empate; si no, la más alta | ✅ |
+| 16 | Como está | ✅ sin cambios |
+| 17 | Bien asumido | ✅ sin cambios |
+| 18 | Sí | ✅ +1 CA y nado/trepa sin armadura pesada ni escudo |
+| 19 | Calculados | ✅ Healer, Heavy Armor Master, Inspiring Leader; Divine Spark, CD de Turn Undead, Touch of Death, Path to the Grave, Radiant Defense, Preserve Life (Solidarity), Fortifying Spell |
+| 20 | Avisar | ✅ aviso en la hoja si la especie no es la del texto ("Only dwarves can...") |
+| 21 | Arreglar el scraper | ✅ cabecera de dotes y listas anidadas |

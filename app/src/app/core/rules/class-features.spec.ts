@@ -377,3 +377,41 @@ describe('uses that come back some other way than a rest: a counter plus a note'
     expect(r?.recharge).toBe('castSlot');
   });
 });
+
+describe('situational numbers worked out (Channel Divinity, Healer, Heavy Armor Master, Inspiring Leader)', () => {
+  const stat = (s: ReturnType<typeof sheetOf>, id: string) =>
+    [...s.combat.stats, ...s.combat.notes].find((x) => x.id === id)?.params;
+
+  it('Divine Spark grows with the Cleric level; Turn Undead uses the spell DC', () => {
+    expect(stat(sheetOf('cleric', 2, null, { scores: { WIS: 16 } }), 'divineSpark')).toEqual({
+      dice: '1d8',
+      mod: '+3',
+    });
+    expect(
+      stat(sheetOf('cleric', 13, null, { scores: { WIS: 16 } }), 'divineSpark')?.['dice'],
+    ).toBe('3d8');
+    const s = sheetOf('cleric', 2, null, { scores: { WIS: 16 } });
+    expect(stat(s, 'channelDivinityDc')?.['n']).toBe(s.spellcasting.classes[0].saveDc);
+  });
+
+  it('Touch of Death: 5 + twice the Cleric level', () => {
+    expect(stat(sheetOf('cleric', 6, 'cleric/death-domain'), 'touchOfDeath')).toEqual({ n: 17 });
+  });
+
+  it('feats: Healer and Heavy Armor Master add the PB; Inspiring Leader level + the raised ability', () => {
+    expect(stat(sheetOf('fighter', 5, null, { feats: ['healer'] }), 'battleMedic')).toEqual({
+      n: 3,
+    });
+    expect(
+      stat(sheetOf('fighter', 5, null, { feats: ['heavy-armor-master'] }), 'damageReduction'),
+    ).toEqual({ n: 3 });
+    const none = sheetOf('fighter', 5, null, { feats: ['inspiring-leader'] });
+    expect(stat(none, 'bolsteringPerformance')).toBeUndefined();
+    const s = sheetOf('fighter', 5, null, {
+      feats: ['inspiring-leader'],
+      scores: { CHA: 15 },
+      abilityIncreases: [{ source: 'inspiring-leader', ability: 'CHA', amount: 1 }],
+    });
+    expect(stat(s, 'bolsteringPerformance')).toEqual({ n: 5 + 3 });
+  });
+});

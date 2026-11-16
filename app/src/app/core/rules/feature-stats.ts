@@ -90,6 +90,14 @@ const USE: Record<string, { action: UseKind; spends?: string; dc?: 'spell' | 'fo
   auraOfProtection: { action: 'passive' },
   abjureFoes: { action: 'action', spends: 'Channel Divinity', dc: 'spell' },
   channelDivinityDc: { action: 'passive' },
+  divineSpark: { action: 'action', spends: 'Channel Divinity', dc: 'spell' },
+  touchOfDeath: { action: 'onHit', spends: 'Channel Divinity' },
+  pathToTheGrave: { action: 'bonus', spends: 'Channel Divinity' },
+  radiantDefense: { action: 'action', spends: 'Channel Divinity' },
+  fortifyingSpell: { action: 'free', spends: 'Channel Divinity' },
+  battleMedic: { action: 'action' },
+  damageReduction: { action: 'passive' },
+  bolsteringPerformance: { action: 'free' },
   sacredWeapon: { action: 'free', spends: 'Channel Divinity' },
   inspiringSmite: { action: 'free', spends: 'Channel Divinity' },
   gloriousDefense: { action: 'reaction', spends: 'Glorious Defense' },
@@ -215,6 +223,71 @@ export const DEFS: Def[] = [
     to: 'stats',
     anchor: /number of d8s equal to your Wisdom modifier \(minimum of 1d8\)/,
     p: (c) => ({ dice: `${min1(c.mod('WIS'))}d8` }),
+  },
+  {
+    cls: 'cleric',
+    feature: 'Channel Divinity',
+    id: 'channelDivinityDc',
+    to: 'stats',
+    anchor: /the DC equals the spell save DC/,
+    p: (c) => (c.spellDc ? { n: c.spellDc } : null),
+  },
+  {
+    cls: 'cleric',
+    feature: 'Channel Divinity',
+    id: 'divineSpark',
+    to: 'stats',
+    anchor:
+      /Roll 1d8 and add your Wisdom modifier[^]*additional d8 when you reach Cleric levels 7 \(2d8\), 13 \(3d8\), and 18 \(4d8\)/,
+    p: (c) => ({
+      dice: `${c.level >= 18 ? 4 : c.level >= 13 ? 3 : c.level >= 7 ? 2 : 1}d8`,
+      mod: plus(c.mod('WIS')),
+    }),
+  },
+  {
+    cls: 'cleric',
+    sub: 'cleric/death-domain',
+    feature: 'Channel Divinity: Touch of Death',
+    id: 'touchOfDeath',
+    to: 'notes',
+    anchor: /The damage equals 5 \+ twice your cleric level/,
+    p: (c) => ({ n: 5 + 2 * c.level }),
+  },
+  {
+    cls: 'cleric',
+    sub: 'cleric/grave-domain',
+    feature: 'Path to the Grave',
+    id: 'pathToTheGrave',
+    to: 'stats',
+    anchor: /extra Necrotic or Radiant damage \(your choice\) equal to your Cleric level/,
+    p: (c) => ({ n: c.level }),
+  },
+  {
+    cls: 'cleric',
+    sub: 'cleric/protection-domain-ua',
+    feature: 'Channel Divinity: Radiant Defense',
+    id: 'radiantDefense',
+    to: 'stats',
+    anchor: /radiant damage equal to 2d10 \+ your cleric level/,
+    p: (c) => ({ n: c.level }),
+  },
+  {
+    cls: 'cleric',
+    sub: 'cleric/solidarity-domain-amonkhet',
+    feature: 'Channel Divinity: Preserve Life',
+    id: 'preserveLife',
+    to: 'stats',
+    anchor: /five times your cleric level/,
+    p: (c) => ({ n: 5 * c.level }),
+  },
+  {
+    cls: 'cleric',
+    sub: 'cleric/arcana-domain',
+    feature: 'Modify Magic',
+    id: 'fortifyingSpell',
+    to: 'stats',
+    anchor: /Temporary Hit Points equal to 2d8 plus your Cleric level/,
+    p: (c) => ({ n: c.level }),
   },
   {
     cls: 'cleric',
@@ -777,7 +850,52 @@ export interface FeatureNumbersInput {
   spellDc: (classId: string) => number | null;
   /** The ability of the modifier the class names (Hemocraft), if it has one (class-ability.ts). */
   keyAbility?: (classId: string) => Ability | undefined;
+  /** The character's feats, with the ability each one raised (Inspiring Leader). */
+  feats?: { name: string; description: string; increased?: Ability }[];
+  totalLevel?: number;
 }
+
+/**
+ * Numbers of a feat (FEAT_DEFS), with what they read: the Proficiency Bonus, the character level
+ * and the modifier of the ability the feat raised.
+ */
+interface FeatCtx {
+  pb: number;
+  level: number;
+  /** Modifier of the ability this feat raised; null when not chosen yet. */
+  raised: number | null;
+}
+
+export const FEAT_DEFS: {
+  feat: string;
+  id: string;
+  anchor: RegExp;
+  p: (c: FeatCtx) => Params | null;
+}[] = [
+  // "The creature regains a number of Hit Points equal to the roll plus your Proficiency Bonus."
+  {
+    feat: 'Healer',
+    id: 'battleMedic',
+    anchor: /regains a number of Hit Points equal to the roll plus your Proficiency Bonus/,
+    p: (c) => ({ n: c.pb }),
+  },
+  // "... damage dealt to you by that attack is reduced by an amount equal to your Proficiency Bonus."
+  {
+    feat: 'Heavy Armor Master',
+    id: 'damageReduction',
+    anchor: /reduced by an amount equal to your Proficiency Bonus/,
+    p: (c) => ({ n: c.pb }),
+  },
+  // "Temporary Hit Points equal to your character level plus the modifier of the ability you
+  // increased with this feat"
+  {
+    feat: 'Inspiring Leader',
+    id: 'bolsteringPerformance',
+    anchor:
+      /Temporary Hit Points equal to your character level plus the modifier of the ability you increased with this feat/,
+    p: (c) => (c.raised === null ? null : { n: Math.max(0, c.level + c.raised) }),
+  },
+];
 
 /** Notes and stats of the features the character has. */
 export function featureNumbers(input: FeatureNumbersInput): {
@@ -830,6 +948,17 @@ export function featureNumbers(input: FeatureNumbersInput): {
       ...(Object.keys(params).length ? { params } : {}),
     });
   }
+  // numbers of feats (Healer, Heavy Armor Master, Inspiring Leader)
+  for (const f of input.feats ?? [])
+    for (const def of FEAT_DEFS) {
+      if (def.feat !== f.name || !def.anchor.test(f.description.replace(/\s+/g, ' '))) continue;
+      const params = def.p({
+        pb: input.pb,
+        level: input.totalLevel ?? 1,
+        raised: f.increased ? mod(f.increased) : null,
+      });
+      if (params) stats.push({ id: def.id, source: f.name, action: USE[def.id].action, params });
+    }
   // save DCs the text writes out ("DC 8 plus your Wisdom modifier and Proficiency Bonus")
   const seen = new Set<string>();
   for (const f of input.features) {

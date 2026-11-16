@@ -981,6 +981,19 @@ export const es: Record<keyof typeof en, string> = {
   'combat.stat.auraOfProtection':
     '+{n} a las salvaciones tuyas y de tus aliados a menos de {r} pies',
   'combat.stat.abjureFoes': 'afecta a {n} criaturas (salvación de SAB)',
+  'combat.stat.divineSpark':
+    'Chispa divina: {dice} {mod} de curación o de daño necrótico/radiante (salvación de CON)',
+  'combat.note.touchOfDeath':
+    'Toque de muerte: +{n} de daño necrótico en un impacto cuerpo a cuerpo',
+  'combat.stat.pathToTheGrave':
+    'Senda a la tumba: al acabar la maldición, +{n} de daño necrótico o radiante',
+  'combat.stat.radiantDefense': 'Defensa radiante: el atacante recibe 2d10 + {n} de daño radiante',
+  'combat.stat.fortifyingSpell': 'Conjuro fortalecedor: 2d8 + {n} PG temporales a un objetivo',
+  'combat.stat.battleMedic': 'Médico de batalla: el dado de golpe que gasta la criatura + {n} PG',
+  'combat.stat.damageReduction':
+    'Con armadura pesada: el daño contundente, perforante y cortante de un ataque se reduce en {n}',
+  'combat.stat.bolsteringPerformance':
+    'Actuación alentadora (tras descansar): {n} PG temporales a hasta seis aliados',
   'combat.stat.channelDivinityDc': 'CD de los efectos con salvación: {n} (la de tus conjuros)',
   'combat.stat.sacredWeapon': '+{n} a las tiradas de ataque con el arma imbuida',
   'combat.stat.inspiringSmite': 'tras Castigo divino: {n} PG temporales a repartir',
