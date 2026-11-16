@@ -397,6 +397,12 @@
 
         @case ('rasgos') {
           <div class="page features" data-page="rasgos">
+            <!-- Artificer: Replicate Magic Item (plans known, items made), a class feature -->
+            <app-replicate-panel
+              [character]="c"
+              [slots]="s.spellcasting.slots"
+              (changed)="saveCharacter($event)"
+            />
             <section class="class-features">
               <div class="section-head">
                 <h2>{{ 'sheet.classFeatures' | t }}</h2>
@@ -629,11 +635,6 @@
                   </section>
                 }
 
-                <app-replicate-panel
-                  [character]="c"
-                  [slots]="s.spellcasting.slots"
-                  (changed)="saveCharacter($event)"
-                />
               </div>
             </div>
           </div>

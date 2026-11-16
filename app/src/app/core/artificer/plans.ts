@@ -1,4 +1,4 @@
-import { ClassOption, DndClass, Item } from '../models/compendium';
+import { Subclass, ClassOption, DndClass, Item } from '../models/compendium';
 
 /**
  * Artificer magic item plans (Replicate Magic Item, 2024). Each plan is an option of the group
@@ -26,10 +26,51 @@ const numberIn = (cls: DndClass, column: RegExp, level: number): number | null =
 };
 
 /** Plans known and magic items that can exist at once, from the class table at a level. */
-export function planCounts(cls: DndClass, level: number): { known: number; items: number } | null {
+export function planCounts(
+  cls: DndClass,
+  level: number,
+  sub?: Subclass | null,
+): { known: number; items: number; extra: ExtraPlan | null } | null {
   const known = numberIn(cls, /plans known/i, level);
   const items = numberIn(cls, /magic items/i, level);
-  return known === null ? null : { known, items: items ?? known };
+  const extra = extraPlanOf(sub, level);
+  return known === null
+    ? null
+    : {
+        known: known + (extra ? 1 : 0),
+        items: (items ?? known) + (extra?.item ? 1 : 0),
+        extra,
+      };
+}
+
+/** A plan (and item) a subclass adds, of one category only (Armorer: Armor Replication). */
+export interface ExtraPlan {
+  /** The category it must be in ("Armor"). */
+  category: string;
+  /** It also lets you create one more item, of that category. */
+  item: boolean;
+}
+
+/**
+ * "You learn an additional plan for your Replicate Magic Item feature, and it must be in the Armor
+ * category ... In addition, you can create an additional item with that feature, and the item must
+ * also be in the Armor category." (Armor Replication, from its level on). Read from the text.
+ */
+export function extraPlanOf(sub: Subclass | null | undefined, level: number): ExtraPlan | null {
+  for (const f of sub?.features ?? []) {
+    if ((f.level ?? 0) > level) continue;
+    const text = f.description ?? '';
+    const m =
+      /You learn an additional plan for your Replicate Magic Item feature, and it must be in the (\w+) category/i.exec(
+        text,
+      );
+    if (m)
+      return {
+        category: m[1],
+        item: /you can create an additional item with that feature/i.test(text),
+      };
+  }
+  return null;
 }
 
 export interface ResolvedPlan {

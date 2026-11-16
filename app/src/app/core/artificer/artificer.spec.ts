@@ -78,10 +78,10 @@ describe('plans: data', () => {
 describe('plans: counts', () => {
   it('reads Plans Known and Magic Items from the class table', () => {
     expect(planCounts(artificer, 1)).toBeNull();
-    expect(planCounts(artificer, 2)).toEqual({ known: 4, items: 2 });
-    expect(planCounts(artificer, 6)).toEqual({ known: 5, items: 3 });
-    expect(planCounts(artificer, 10)).toEqual({ known: 6, items: 4 });
-    expect(planCounts(artificer, 20)).toEqual({ known: 8, items: 6 });
+    expect(planCounts(artificer, 2)).toEqual({ known: 4, items: 2, extra: null });
+    expect(planCounts(artificer, 6)).toEqual({ known: 5, items: 3, extra: null });
+    expect(planCounts(artificer, 10)).toEqual({ known: 6, items: 4, extra: null });
+    expect(planCounts(artificer, 20)).toEqual({ known: 8, items: 6, extra: null });
   });
 
   it('the plan group appears from level 2 with its count', () => {

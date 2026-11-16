@@ -54,6 +54,15 @@ export interface PlanRef {
   name: string;
 }
 
+/**
+ * The bonus a plan fixes for an item that comes in +1, +2 or +3: "Weapon +2" makes a +2 weapon
+ * (the plan's name), never another one. Null for the other plans.
+ */
+export function planBonus(plan: Pick<PlanRef, 'name'>): number | null {
+  const m = /\+(\d)$/.exec(plan.name.trim());
+  return m ? Number(m[1]) : null;
+}
+
 export interface CreateResult {
   character: Character;
   /** Items that vanished to make room (oldest first). */
@@ -106,6 +115,7 @@ export function createReplicated(
         equipped: false,
         source: 'replicate',
         planId: plan.planId,
+        ...(planBonus(plan) ? { bonus: planBonus(plan)! } : {}),
       },
     ],
   };
@@ -148,6 +158,7 @@ export function transformReplicated(
     equipped: false,
     source: 'replicate',
     planId: plan.planId,
+    ...(planBonus(plan) ? { bonus: planBonus(plan)! } : {}),
   });
   const replicated = list.map((r) =>
     r === old ? { ...r, planId: plan.planId, itemId: plan.itemId, inventoryId: id } : r,

@@ -99,7 +99,10 @@ export function levelGains(
     xs ? { before: at(xs, level - 1), after: at(xs, level) } : null;
   const before = new Map(
     level > 1
-      ? optionGroupsFor(cls, level - 1, sub?.id ?? null, options).map((g) => [g.group, g.count])
+      ? optionGroupsFor(cls, level - 1, sub?.id ?? null, options, sub).map((g) => [
+          g.group,
+          g.count,
+        ])
       : [],
   );
   return {
@@ -120,7 +123,7 @@ export function levelGains(
         after: maxSpellLevel(sc, level),
       },
     },
-    optionGroups: optionGroupsFor(cls, level, sub?.id ?? null, options)
+    optionGroups: optionGroupsFor(cls, level, sub?.id ?? null, options, sub)
       .map((g) => ({
         ...g,
         before: before.get(g.group) ?? 0,

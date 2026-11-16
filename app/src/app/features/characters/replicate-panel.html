@@ -13,6 +13,11 @@
     <p class="rule">
       <small>{{ 'plans.rule' | t }}</small>
     </p>
+    @if (counts()?.extra; as x) {
+      <p class="rule" data-testid="extra-plan">
+        <small>{{ 'plans.extra.' + x.category | t }}</small>
+      </p>
+    }
     @if (message()) {
       <p class="notice" role="status">{{ message() }}</p>
     }
@@ -206,8 +211,12 @@
         </div>
       </div>
     } @else {
-      <button type="button" class="btn-ghost edit-plans" (click)="startEdit()">
-        {{ 'plans.edit' | t }}
+      <button
+        type="button"
+        [class]="plans().length ? 'btn-ghost edit-plans' : 'primary edit-plans'"
+        (click)="startEdit()"
+      >
+        {{ (plans().length ? 'plans.edit' : 'plans.choose') | t }}
       </button>
     }
     @if (tinker()) {

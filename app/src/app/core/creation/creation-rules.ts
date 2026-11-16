@@ -1,4 +1,4 @@
-import { PLAN_GROUP } from '../artificer/plans';
+import { PLAN_GROUP, extraPlanOf } from '../artificer/plans';
 import { Character } from '../models/character';
 import {
   Ability,
@@ -276,6 +276,8 @@ export function optionGroupsFor(
   level: number,
   subclassId: string | null,
   options: ClassOption[],
+  /** The subclass, for what it adds to a group (Armorer: one more Armor plan). */
+  sub?: Subclass | null,
 ): OptionGroup[] {
   const mine = options.filter(
     (o) => o.classId === cls.id && (!o.subclassId || o.subclassId === subclassId),
@@ -293,12 +295,17 @@ export function optionGroupsFor(
             (a.prerequisites?.level ?? 1) - (b.prerequisites?.level ?? 1) ||
             a.name.localeCompare(b.name),
         ),
-        count: optionCount(cls, level, group),
+        count: plusExtra(
+          optionCount(cls, level, group),
+          group === PLAN_GROUP && !!extraPlanOf(sub, level),
+        ),
       }))
       // nothing to show before the level that gives the first one (plans: "-"; Metamagic: level 2)
       .filter((g) => (g.group !== PLAN_GROUP || g.count !== null) && g.count !== 0)
   );
 }
+
+const plusExtra = (n: number | null, extra: boolean) => (n !== null && extra ? n + 1 : n);
 
 /** Whether one more option of the group can be picked (a full group only lets you untick). */
 export function optionGroupFull(group: OptionGroup, chosen: number): boolean {

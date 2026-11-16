@@ -1725,7 +1725,10 @@ export const en = {
   'plans.knownTitle': 'Plans known',
   'plans.make': 'Create item',
   'plans.made': 'Created',
-  'plans.noPlans': 'You know no plans yet: choose them when you level up.',
+  'plans.noPlans': 'You know no plans yet: choose them with “Choose plans”.',
+  'plans.choose': 'Choose plans',
+  'plans.extra.Armor':
+    'Armor Replication: you know one more plan and can create one more item, both in the Armor category.',
   'plans.tinker':
     'Magic Item Tinker: you can also transform a created item into another of your plans once per Long Rest, charge it with a spell slot, and drain it for a temporary spell slot.',
   'plans.restTitle': 'Long Rest: items created with Replicate Magic Item',

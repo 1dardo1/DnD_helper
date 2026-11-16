@@ -1752,7 +1752,10 @@ export const es: Record<keyof typeof en, string> = {
   'plans.knownTitle': 'Planos conocidos',
   'plans.make': 'Crear objeto',
   'plans.made': 'Creado',
-  'plans.noPlans': 'Aún no conoces ningún plano: elígelos al subir de nivel.',
+  'plans.noPlans': 'Aún no conoces ningún plano: elígelos con «Elegir planos».',
+  'plans.choose': 'Elegir planos',
+  'plans.extra.Armor':
+    'Armor Replication: conoces un plano más y puedes crear un objeto más; los dos, de la categoría Armadura.',
   'plans.tinker':
     'Manitas de objetos mágicos: también puedes transformar un objeto creado en otro de tus planos, una vez por descanso largo; cargarlo con un espacio de conjuro y drenarlo para obtener un espacio temporal.',
   'plans.restTitle': 'Descanso largo: objetos creados con Replicar objeto mágico',

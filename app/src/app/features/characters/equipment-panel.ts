@@ -109,7 +109,11 @@ export class EquipmentPanel {
       // a magic weapon, armor or shield: its base (to choose or to change) and bonus
       const magic =
         v && item && gearKind(item)
-          ? { bases: baseCandidates(item, v.all), bonuses: bonusOptions(item) }
+          ? {
+              bases: baseCandidates(item, v.all),
+              // a replicated "Weapon +2": the plan fixes the bonus
+              bonuses: e.source === 'replicate' && e.bonus ? [] : bonusOptions(item),
+            }
           : null;
       const spec = enhancementOf(item);
       const hosts = spec && v ? enhancementHosts(item, this.character().inventory, v.byId) : [];

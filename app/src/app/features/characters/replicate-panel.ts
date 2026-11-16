@@ -94,8 +94,10 @@ export class ReplicatePanel {
     () => this.character().classes.find((k) => k.id === 'artificer')?.level ?? 0,
   );
   protected readonly counts = computed(() => {
-    const cls = this.data.value()?.rules.classes.get('artificer');
-    return cls ? planCounts(cls, this.level()) : null;
+    const rules = this.data.value()?.rules;
+    const cls = rules?.classes.get('artificer');
+    const subId = this.character().classes.find((k) => k.id === 'artificer')?.subclassId;
+    return cls ? planCounts(cls, this.level(), subId ? rules?.subclasses.get(subId) : null) : null;
   });
   protected readonly max = computed(() => this.counts()?.items ?? 2);
   protected readonly plans = computed<ResolvedPlan[]>(() => {
@@ -111,7 +113,10 @@ export class ReplicatePanel {
         plan: this.plans().find((p) => p.id === r.planId),
         orphan: !this.plans().some((p) => p.id === r.planId),
         maxCharges: maxCharges(this.data.value()?.rules.items.get(r.itemId)),
-        drainLevel: drainSlotLevel(this.data.value()?.rules.items.get(r.itemId)),
+        drainLevel: drainSlotLevel(
+          this.data.value()?.rules.items.get(r.itemId),
+          this.character().inventory.find((e) => e.id === r.inventoryId)?.bonus,
+        ),
       }))
       .map((c) => ({
         ...c,

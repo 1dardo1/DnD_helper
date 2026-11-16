@@ -309,10 +309,12 @@ export class CharacterCreate implements LeaveCheck {
         subclasses: subclassesFor(cls.id, [...d.rules.subclasses.values()]),
         slots: featSlots(cls, entry.level),
         // by level required, then by the name shown
-        optionGroups: optionGroupsFor(cls, entry.level, entry.subclassId, d.options).map((g) => ({
-          ...g,
-          options: defaultOrder(g.options, (o) => this.dataText.shortName(o.name)),
-        })),
+        optionGroups: optionGroupsFor(cls, entry.level, entry.subclassId, d.options, sub).map(
+          (g) => ({
+            ...g,
+            options: defaultOrder(g.options, (o) => this.dataText.shortName(o.name)),
+          }),
+        ),
         expertise: expertiseCount(cls, entry.level),
         sub,
         spells: sl && {

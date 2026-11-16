@@ -452,6 +452,16 @@ function normalizeChoices(base: Character['choices'], raw: Character['choices'] 
   return choices;
 }
 
+/**
+ * An Artificer's replicated "Weapon +2" made before the plan fixed its bonus: the bonus its plan's
+ * name gives ("+2"), so it isn't read as +1.
+ */
+function replicatedBonus(e: InventoryEntry): InventoryEntry {
+  if (e.source !== 'replicate' || e.bonus) return e;
+  const m = /\+(\d)$/.exec((e.name ?? '').trim());
+  return m ? { ...e, bonus: Number(m[1]) } : e;
+}
+
 /** '' or anything that isn't a string becomes null: "no folder" has one spelling everywhere. */
 function normalizeFolder(raw: unknown): string | null {
   return typeof raw === 'string' && raw.trim() ? raw.trim() : null;
@@ -473,7 +483,7 @@ export function normalizeCharacter(raw: unknown): Character | null {
     ...(portrait ? { portrait } : {}),
     choices: normalizeChoices(base.choices, c.choices),
     equipped: { ...base.equipped, ...(c.equipped ?? {}) },
-    inventory: c.inventory ?? inventoryFromEquipped(c.equipped),
+    inventory: (c.inventory ?? inventoryFromEquipped(c.equipped)).map(replicatedBonus),
     state: normalizeState(base.state, c.state),
     classes: (c.classes ?? []).map((k) => {
       const hp = k.hp ?? [];

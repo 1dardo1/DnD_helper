@@ -151,9 +151,22 @@ export function chargeMagicItem(
 
 // -- Drain Magic Item -----------------------------------------------------------------------
 
-/** Level of the slot a created item gives when drained: Common 1, Uncommon or Rare 2. */
-export function drainSlotLevel(item: Pick<Item, 'magic'> | undefined): number | null {
-  switch (item?.magic?.rarity?.toLowerCase()) {
+/**
+ * Level of the slot a created item gives when drained: Common 1, Uncommon or Rare 2. An item that
+ * comes in +1, +2 or +3 has the rarity of its bonus ("Uncommon (+1), Rare (+2), or Very Rare (+3)"):
+ * a Weapon +1 or +2 drains, a +3 doesn't.
+ */
+export function drainSlotLevel(
+  item: Pick<Item, 'magic'> | undefined,
+  bonus?: number,
+): number | null {
+  const raw = typeof item?.magic?.raw === 'string' ? item.magic.raw : '';
+  const byBonus = bonus
+    ? [...raw.matchAll(/(very rare|uncommon|common|rare|legendary)\s*\(\s*\+(\d)\s*\)/gi)].find(
+        (m) => Number(m[2]) === bonus,
+      )?.[1]
+    : undefined;
+  switch ((byBonus ?? item?.magic?.rarity)?.toLowerCase()) {
     case 'common':
       return 1;
     case 'uncommon':
@@ -178,7 +191,8 @@ export function drainMagicItem(
   items: Map<string, Item>,
 ): Character | null {
   const r = createdItems(ch).find((x) => x.inventoryId === inventoryId);
-  const level = drainSlotLevel(r && items.get(r.itemId));
+  const bonus = ch.inventory.find((e) => e.id === inventoryId)?.bonus;
+  const level = drainSlotLevel(r && items.get(r.itemId), bonus);
   if (!r || !level || !canDrain(ch)) return null;
   const c = removeReplicated(ch, inventoryId, items);
   return {
