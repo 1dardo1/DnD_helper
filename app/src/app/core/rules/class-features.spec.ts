@@ -536,3 +536,52 @@ describe('picks inside domain features (verification of the test characters)', (
     expect(chosen.resistances).toEqual(expect.arrayContaining(['Necrotic', 'Radiant']));
   });
 });
+
+describe('verification batch: proficiencies, languages, Expertise, Darkvision, Dueling', () => {
+  const skill = (s: ReturnType<typeof sheetOf>, id: string) =>
+    s.skills.find((x) => x.id === id)?.proficiency;
+  it('tools and weapons in benefit lists or with a choice next to them', () => {
+    expect(sheetOf('artificer', 3, 'artificer/alchemist-ua').proficiencies.tools).toContain(
+      "Alchemist's Supplies",
+    );
+    expect(sheetOf('artificer', 3, 'artificer/battle-smith-ua').proficiencies.weapons).toContain(
+      'Martial weapons',
+    );
+    const mm = sheetOf('rogue', 3, 'rogue/mastermind').proficiencies.tools;
+    expect(mm).toEqual(expect.arrayContaining(['Disguise Kit', 'Forgery Kit']));
+    expect(sheetOf('monk', 3, 'monk/way-of-the-drunken-master').proficiencies.tools).toContain(
+      "Brewer's Supplies",
+    );
+  });
+  it('languages a feature teaches (Sylvan, Druidic)', () => {
+    expect(sheetOf('druid', 3, 'druid/circle-of-the-shepherd').languages).toContain('Sylvan');
+    expect(sheetOf('bard', 3, 'bard/college-of-the-moon').languages).toContain('Druidic');
+  });
+  it('Expertise: Survivalist doubled, Unencumbered Grace if already proficient', () => {
+    const scout = sheetOf('rogue', 3, 'rogue/scout');
+    expect(skill(scout, 'nature')).toBe('expertise');
+    expect(skill(scout, 'survival')).toBe('expertise');
+    expect(skill(sheetOf('cleric', 3, 'cleric/freedom-domain-ua'), 'acrobatics')).toBe('full');
+  });
+  it('Darkvision + 60 when already there (Gloom Stalker with a Dwarf), its own 60 otherwise', () => {
+    expect(sheetOf('ranger', 3, 'ranger/gloom-stalker', { speciesId: 'dwarf' }).darkvision).toBe(
+      120 + 60,
+    );
+    expect(sheetOf('ranger', 3, 'ranger/gloom-stalker', { speciesId: 'human' }).darkvision).toBe(
+      60,
+    );
+  });
+  it('picks: Primal Knowledge skill, Primal Lore skill and Druid cantrip, Giant cantrip', () => {
+    const kinds = (s: ReturnType<typeof sheetOf>) =>
+      (s.featureChoices ?? []).flatMap((c) => c.picks.map((p) => p.pick));
+    expect(kinds(sheetOf('barbarian', 3, null)).some((p) => p.kind === 'skill')).toBe(true);
+    const moon = kinds(sheetOf('bard', 3, 'bard/college-of-the-moon'));
+    expect(moon.find((p) => p.kind === 'skill')?.from).toContain('nature');
+    expect(moon.find((p) => p.kind === 'cantrip')?.lists).toEqual(['druid']);
+    expect(
+      kinds(sheetOf('barbarian', 3, 'barbarian/path-of-the-giant')).find(
+        (p) => p.kind === 'cantrip',
+      )?.from,
+    ).toEqual(['druidcraft', 'thaumaturgy']);
+  });
+});

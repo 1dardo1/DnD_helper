@@ -337,6 +337,11 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     ...classPicked.skills,
   ]);
   const expertise = new Set(ch.choices.expertise);
+  // Unlight Revelation, Unencumbered Grace: the skill, and Expertise always or if already proficient
+  for (const x of traits.flatMap((t) => fx(t).expertise)) {
+    if (x.mode === 'always' || proficient.has(x.skill)) expertise.add(x.skill);
+    proficient.add(x.skill);
+  }
   // Feats that choose a single skill out of a closed list ("Acrobatics or Athletics", "Insight,
   // Investigation, or Perception"): only the chosen one applies. Keen Mind / Observant upgrade it
   // to Expertise instead when the character is already proficient from elsewhere.
@@ -493,12 +498,21 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   const senses: Sheet['senses'] = [];
   if (species?.darkvision)
     senses.push({ kind: 'darkvision', range: species.darkvision, source: species.name });
+  // a trait that extends Darkvision gives its own only to who has none (Umbral Sight, Shadow Arts)
+  const extenders = traits.filter((t) => fx(t).darkvisionPlus > 0);
   for (const t of traits)
     for (const x of fx(t).senses) {
+      if (x.kind === 'darkvision' && extenders.includes(t)) continue;
       const have = senses.find((y) => y.kind === x.kind);
       if (!have) senses.push({ ...x, source: t.name });
       else if (x.range > have.range) Object.assign(have, { range: x.range, source: t.name });
     }
+  for (const t of extenders) {
+    const have = senses.find((y) => y.kind === 'darkvision');
+    const own = fx(t).senses.find((x) => x.kind === 'darkvision');
+    if (have) Object.assign(have, { range: have.range + fx(t).darkvisionPlus, source: t.name });
+    else if (own) senses.push({ ...own, source: t.name });
+  }
   const darkvision = senses.find((x) => x.kind === 'darkvision')?.range ?? null;
 
   // -- spellcasting --------------------------------------------------------------------
@@ -762,6 +776,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
         'Common',
         ...ch.choices.languages,
         ...FEATURE_LANGUAGES.filter((l) => features.some((f) => f.name === l)),
+        ...traits.flatMap((t) => fx(t).languages),
         ...granted.languages(ch.choices.languages),
       ]),
     ],

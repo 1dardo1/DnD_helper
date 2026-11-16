@@ -13,6 +13,8 @@ export type SpeedKind = 'fly' | 'swim' | 'climb' | 'burrow';
 
 export interface TraitRules {
   senses: { kind: SenseKind; range: number }[];
+  /** "If you already have Darkvision, its range increases by 60 feet" (else its own Darkvision). */
+  darkvisionPlus: number;
   /** Extra movement: a number of feet, or 'speed' = "equal to your Speed". */
   speeds: { kind: SpeedKind; value: number | 'speed' }[];
   /** Walking speed set to this ("Your Speed increases to 35 feet"). */
@@ -21,6 +23,14 @@ export interface TraitRules {
   armorSpeed: { amount: number; unless: 'heavy' | 'armor' }[];
   /** Skill ids the text gives (no choice). */
   skills: string[];
+  /**
+   * Expertise in a skill the trait gives: 'always' ("proficiency in the Perception skill, if you lack
+   * it. You also gain Expertise in that skill"), or 'ifProficient' ("you gain Proficiency in
+   * Acrobatics. If you already have Proficiency in Acrobatics, you gain Expertise in it instead").
+   */
+  expertise: { skill: string; mode: 'always' | 'ifProficient' }[];
+  /** "You learn to speak, read, and write Sylvan", "You learn Druidic": a language, no choice. */
+  languages: string[];
   /** Known tools the text gives. */
   tools: string[];
   initiative: { pb: boolean; abilities: Ability[] };
@@ -191,10 +201,13 @@ const KIND_OF: Record<string, SpeedKind> = {
 function parseTrait(text: string, opts: { situational?: boolean; inState?: boolean }): TraitRules {
   const out: TraitRules = {
     senses: [],
+    darkvisionPlus: 0,
     speeds: [],
     speedTo: 0,
     armorSpeed: [],
     skills: [],
+    expertise: [],
+    languages: [],
     tools: [],
     initiative: { pb: false, abilities: [] },
     unarmored: [],
@@ -225,12 +238,12 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
   let listOfBenefits = false;
   for (const raw of paragraphs) {
     // a bullet or a bold benefit of a list: one of several options, or part of a temporary form
-    const bullet = /^[-•]\s/.test(raw);
-    const option = /^[-•*]/.test(raw) && !(bullet && listOfBenefits && !underCondition);
+    const option = /^[-•*]/.test(raw) && !(listOfBenefits && !underCondition);
     if (!/^[-•*]/.test(raw)) {
       underCondition = STATE_INTRO.test(plain(raw)) || INTRO.test(raw);
+      // "...paid off in two ways:", "You gain the following benefits."
       listOfBenefits =
-        /:\s*$/.test(raw) &&
+        (/:\s*$/.test(raw) || /\bthe following benefits\.?\s*$/i.test(raw)) &&
         !/\bchoose\b|\bof your choice\b|\bone of\b|\bfollowing options\b|\beither\b/i.test(raw);
     }
     const held = option && underCondition && !opts.inState;
@@ -249,6 +262,7 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
           out.skillBonus.push({ skills, ability: ABILITY_WORDS[check[3].toLowerCase()] });
       }
     }
+    if (!opts.situational && !held) readExpertise(out, plain(raw));
     for (const full of sentencesOf(plain(raw))) {
       const s = full
         .replace(/^[-•]\s+/, '')
@@ -305,7 +319,7 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
       const ranged = /\+(\d+) bonus to attack rolls (?:you make )?(?:with|on) ranged/i.exec(s);
       if (ranged) out.attack.ranged += Number(ranged[1]);
       const dueling =
-        /holding a Melee weapon in one hand and no other weapons, you gain a \+(\d+) bonus to damage rolls/i.exec(
+        /(?:holding|wielding) a Melee weapon in one hand and no other weapons, you gain a \+(\d+) bonus to damage rolls/i.exec(
           s,
         );
       if (dueling) out.attack.duelingDamage += Number(dueling[1]);
@@ -322,6 +336,11 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
         const better = /range of your Darkvision increases to (\d+) feet/i.exec(s);
         if (better) addSense(out, 'darkvision', Number(better[1]));
       }
+
+      const plus = /If you already have Darkvision[^.]*?, its range increases by (\d+) feet/i.exec(
+        s,
+      );
+      if (plus && !opts.situational) out.darkvisionPlus = Number(plus[1]);
 
       const devil = /see normally in (?:Dim Light and )?Darkness[^.]*?within (\d+) feet/i.exec(s);
       if (devil && !opts.situational) addSense(out, 'devils-sight', Number(devil[1]));
@@ -393,6 +412,11 @@ function readMore(
 ): void {
   if (situational || option) return;
   // -- armor and weapons: "you gain proficiency with Martial weapons and training with Heavy armor"
+  // ("the disguise kit, the forgery kit, and one gaming set of your choice": the fixed ones; "if you
+  // don't already have it" changes nothing)
+  s = s
+    .replace(/,? (?:and )?(?:one|two) [^,.]*? of your choice/gi, '')
+    .replace(/ if you don(?:'|’)t already have (?:it|them)/gi, '');
   if (!/\bor\b|of your choice|choose|if you don't|these weapons|that don't/i.test(s)) {
     const self = /^(?:Trained for battle, )?(?:You|you) (?:also )?(?:gain|have)\b/.test(s);
     if (self || /^You gain training/i.test(s)) {
@@ -405,10 +429,15 @@ function readMore(
           else if (/^(simple|martial) weapons$/i.test(w))
             addOnce(out.weapons, `${cap(w.split(' ')[0])} weapons`);
           else if (/^scimitars?$/i.test(w)) addOnce(out.weapons, 'Scimitar');
-          else if (/'s tools$|tools$|kit$/i.test(w)) addOnce(out.tools, titleCase(w));
+          else if (/'s tools$|tools$|kit$|supplies$/i.test(w)) addOnce(out.tools, titleCase(w));
         }
     }
   }
+  // -- languages: "You learn to speak, read, and write Sylvan.", "You learn Druidic and one cantrip"
+  const lang =
+    /^You (?:also )?learn to speak, read, and write ([A-Z][a-z]+)\.?$/.exec(s) ??
+    /^You (?:also )?learn (Druidic|Thieves' Cant)\b/.exec(s);
+  if (lang && !cond) addOnce(out.languages, lang[1]);
   // -- saving throws: "you gain proficiency in Wisdom and Charisma saving throws" -----------------
   if (!/\bif\b|\binstead\b|\bor\b|possession/i.test(s)) {
     const save =
@@ -522,4 +551,41 @@ function addSpeed(out: TraitRules, kind: SpeedKind | undefined, value: number | 
 /** A line that breaks in the middle of a sentence ("... regain all  \nexpended uses") is one line. */
 export function joinBroken(text: string): string {
   return text.replace(/([^.!?:*|)\]"\n])[ ]*\n(?=[a-z])/g, '$1 ');
+}
+
+/** Expertise a paragraph gives (TraitRules.expertise); the proficiency comes with it. */
+function readExpertise(out: TraitRules, p: string): void {
+  const upgrade =
+    /\bgain proficiency in (?:the )?([A-Z][A-Za-z ]+?)(?: skill)?\. If you already have proficiency in (?:it|that skill|the \1 skill|\1), you gain Expertise in it instead/i.exec(
+      p,
+    );
+  const also =
+    /\bproficiency in the ([A-Z][A-Za-z ]+?) skill, if you lack it\. You also gain Expertise in that skill/i.exec(
+      p,
+    );
+  // Survivalist: "proficiency in the Nature and Survival skills if you don't already have it. Your
+  // proficiency bonus is doubled for any ability check you make that uses either of those
+  // proficiencies"
+  if (
+    /proficiency bonus is doubled for any ability check you make that uses (?:either of those|that|this) proficienc/i.test(
+      p,
+    )
+  ) {
+    const both =
+      /proficiency in (?:the )?([A-Z][A-Za-z ]+?)(?: and (?:the )?([A-Z][A-Za-z ]+?))? skills?\b/.exec(
+        p,
+      );
+    for (const w of [both?.[1], both?.[2]]) {
+      const skill = w ? SKILL_WORDS[w.toLowerCase().trim()] : undefined;
+      if (skill && !out.expertise.some((x) => x.skill === skill))
+        out.expertise.push({ skill, mode: 'always' });
+    }
+  }
+  for (const [m, mode] of [
+    [upgrade, 'ifProficient'],
+    [also, 'always'],
+  ] as const) {
+    const skill = m ? SKILL_WORDS[m[1].toLowerCase().trim()] : undefined;
+    if (skill && !out.expertise.some((x) => x.skill === skill)) out.expertise.push({ skill, mode });
+  }
 }

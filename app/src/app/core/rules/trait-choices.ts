@@ -331,6 +331,15 @@ export function traitPicks(description: string | null | undefined): TraitPick[] 
     // "You learn two Wizard cantrips of your choice" (Student of Arcana), "one druid cantrip of
     // your choice" (Acolyte of Strength), "one necromancy cantrip of your choice from any spell
     // list" (Reaper): a class's list or a school
+    // "you learn a cantrip of your choice: either druidcraft or thaumaturgy" (Giant's Power)
+    const either = /\ba cantrip of your choice: either ([\w' ]+?) or ([\w' ]+?)\.?$/i.exec(
+      sentence,
+    );
+    if (either) add({ kind: 'cantrip', count: 1, from: spellIds(`${either[1]}, ${either[2]}`) });
+    // "one cantrip from the Druid spell list" (Primal Lore)
+    const fromList = /\bone cantrip from the (\w+) spell list\b/i.exec(sentence);
+    if (fromList && CLASS_LISTS.has(fromList[1].toLowerCase()))
+      add({ kind: 'cantrip', count: 1, from: null, lists: [fromList[1].toLowerCase()] });
     const cw = /\b(?:learn|know) (one|two) (\w+) cantrips? of your choice\b/i.exec(sentence);
     const word = cw?.[2].toLowerCase();
     if (cw && word && (CLASS_LISTS.has(word) || SCHOOLS.has(word)))
@@ -341,15 +350,18 @@ export function traitPicks(description: string | null | undefined): TraitPick[] 
         ...(CLASS_LISTS.has(word) ? { lists: [word] } : { schools: [word] }),
       });
 
+    // "another skill of your choice" (Primal Knowledge), "one additional skill of your choice"
+    // (Satire), "choose one of the following skills: ..." / "one of these skills" (Primal Lore,
+    // Otherworldly Glamour)
     const sk =
-      /\b(one|two|three)\s+(?:of the following\s+)?skills?\b(?:\s+proficienc\w+)?[^.:]*?\bof your choice\b(?::\s*(.+))?/i.exec(
+      /\b(one|two|three|another)\s+(?:additional\s+)?(?:of the following\s+|of these\s+)?skills?\b(?:\s+proficienc\w+)?[^.:]*?\bof your choice\b(?::\s*(.+))?/i.exec(
         sentence,
-      );
+      ) ?? /\bchoose (one|two) of (?:the following|these) skills\b[^:]*:\s*(.+)/i.exec(sentence);
     if (sk) {
       const from = sk[2] ? skillList(sk[2]) : [];
       add({
         kind: 'skill',
-        count: NUMBER_WORDS[sk[1].toLowerCase()],
+        count: NUMBER_WORDS[sk[1].toLowerCase()] ?? 1,
         from: from.length ? from : null,
       });
       continue;
