@@ -230,7 +230,7 @@ export class BackupPanel {
     await this.store.load();
     const items = planImport(
       read.flatMap((f) => f.characters),
-      this.store.all().map((r) => r.character),
+      this.store.visible().map((r) => r.character),
     );
     this.choices.set({});
     if (items.some((i) => i.kind === 'conflict')) {

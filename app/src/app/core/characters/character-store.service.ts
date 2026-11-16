@@ -2,6 +2,7 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 
 import { ConflictError, DataSource, DataSourceError } from '../data/data-source';
 import { Character, CharacterRecord, normalizeCharacter } from '../models/character';
+import { FolderLockService } from '../organize/folder-lock.service';
 import { SettingsService } from '../settings/settings.service';
 import { LocalDb } from '../storage/local-db';
 
@@ -21,11 +22,16 @@ export interface SyncResult {
  *   local → (commit) → sent → (read back, same sha) → synced
  * If the repo changed meanwhile, the commit is refused and the character becomes 'conflict',
  * keeping both versions until the user picks one. Nothing is ever overwritten silently.
+ *
+ * Characters in a folder with a password are written to the repo encrypted (FolderLockService):
+ * they are only read from the repo, and uploaded, while that folder is open on this device; the
+ * rest of the time they stay as they are, waiting.
  */
 @Injectable({ providedIn: 'root' })
 export class CharacterStore {
   private readonly db = inject(LocalDb);
   private readonly settings = inject(SettingsService);
+  private readonly locks = inject(FolderLockService);
 
   private readonly records = signal<CharacterRecord[]>([]);
   private loaded?: Promise<void>;
@@ -35,6 +41,8 @@ export class CharacterStore {
       .filter((r) => r.status !== 'pending-delete')
       .sort((a, b) => a.character.name.localeCompare(b.character.name)),
   );
+  /** The characters that can be shown now: not in a folder whose password wasn't entered. */
+  readonly visible = computed(() => this.all().filter((r) => this.locks.canSee(r.character)));
   readonly conflicts = computed(() => this.all().filter((r) => r.status === 'conflict'));
   /** Characters with changes not confirmed in the repo yet. */
   readonly pending = computed(
@@ -164,8 +172,9 @@ export class CharacterStore {
         continue;
       }
       const remoteFile = await source.readJsonWithSha<unknown>(file.path);
-      const remote = normalizeCharacter(remoteFile?.content);
-      if (!remoteFile || !remote) continue;
+      const remote = remoteFile ? await this.decode(remoteFile.content) : null;
+      // an encrypted character whose folder isn't open here: read it once it is
+      if (!remoteFile || !remote || remote === 'locked') continue;
       if (!local) {
         result.added++;
         await this.write({
@@ -218,8 +227,13 @@ export class CharacterStore {
           // the commit never made it: send it again below
         }
         if (r.status === 'local' || r.status === 'sent') {
-          const message = `Personaje: guardar "${r.character.name}" desde ${r.character.updatedBy}`;
-          const written = await source.writeJson(path, r.character, r.baseSha, message);
+          const content = await this.locks.encode(r.character);
+          // in a protected folder that isn't open now: it waits until it is
+          if (content === null) continue;
+          const message = this.locks.isProtected(r.character.folder)
+            ? `Personaje: guardar personaje protegido desde ${r.character.updatedBy}`
+            : `Personaje: guardar "${r.character.name}" desde ${r.character.updatedBy}`;
+          const written = await source.writeJson(path, content, r.baseSha, message);
           const edited = this.editedSince(r);
           if (edited) {
             // saved again while the commit was on its way: that edit goes in the next commit
@@ -238,7 +252,10 @@ export class CharacterStore {
             // Changed elsewhere after this device deleted it: keep the other version, don't lose it.
             await this.restoreFromRepo(source, r);
           } else {
-            await source.deleteFile(path, repoSha, `Personaje: borrar "${r.character.name}"`);
+            const message = this.locks.isProtected(r.character.folder)
+              ? 'Personaje: borrar personaje protegido'
+              : `Personaje: borrar "${r.character.name}"`;
+            await source.deleteFile(path, repoSha, message);
             await this.forget(r.character.id);
             result.deleted++;
           }
@@ -283,7 +300,9 @@ export class CharacterStore {
 
   private async markConflict(source: DataSource, r: CharacterRecord): Promise<number> {
     const file = await source.readJsonWithSha<unknown>(pathOf(r.character.id));
-    const remote = normalizeCharacter(file?.content);
+    const remote = file ? await this.decode(file.content) : null;
+    // the repo copy can't be opened here (its folder's password): leave it for later
+    if (remote === 'locked') return 0;
     if (!file || !remote) {
       // the repo copy is gone: what's here is the only version, upload it as new
       await this.write({ ...r, status: 'local', baseSha: null, sentSha: null });
@@ -295,7 +314,8 @@ export class CharacterStore {
 
   private async restoreFromRepo(source: DataSource, r: CharacterRecord): Promise<void> {
     const file = await source.readJsonWithSha<unknown>(pathOf(r.character.id));
-    const remote = normalizeCharacter(file?.content);
+    const remote = file ? await this.decode(file.content) : null;
+    if (remote === 'locked') return;
     if (!file || !remote) {
       await this.forget(r.character.id);
       return;
@@ -312,6 +332,27 @@ export class CharacterStore {
   private async forget(id: string): Promise<void> {
     await this.db.delete('characters', id);
     this.records.update((rs) => rs.filter((r) => r.character.id !== id));
+  }
+
+  /** A character file from the repo: plain JSON, or encrypted for a protected folder. */
+  private async decode(content: unknown): Promise<Character | 'locked' | null> {
+    return (await this.locks.decode(content)) ?? normalizeCharacter(content);
+  }
+
+  /**
+   * Marks every character of the folder for upload: after its password is set, changed or
+   * removed, so the repo copy is encrypted with the new key (or written in clear again).
+   */
+  async reupload(folder: string): Promise<number> {
+    await this.load();
+    let n = 0;
+    for (const r of this.records()) {
+      if ((r.character.folder ?? '').trim() !== folder.trim()) continue;
+      if (r.status === 'conflict' || r.status === 'pending-delete') continue;
+      await this.write({ ...r, status: 'local', sentSha: null });
+      n++;
+    }
+    return n;
   }
 
   private deviceName(): string {

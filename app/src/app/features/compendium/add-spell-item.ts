@@ -15,13 +15,13 @@ import { SpellItemPicker } from '../../shared/spell-item-picker';
   template: `
     <section class="add-spell">
       <h3>{{ 'spellitem.addTitle' | t }}</h3>
-      @if (store.all().length === 0) {
+      @if (store.visible().length === 0) {
         <p class="muted">{{ 'spellitem.noCharacters' | t }}</p>
       } @else {
         <label>
           {{ 'spellitem.character' | t }}
           <select (change)="selected.set($any($event.target).value)">
-            @for (r of store.all(); track r.character.id) {
+            @for (r of store.visible(); track r.character.id) {
               <option [value]="r.character.id" [selected]="r.character.id === characterId()">
                 {{ r.character.name }}
               </option>
@@ -81,7 +81,7 @@ export class AddSpellItem {
   protected readonly done = signal<{ spell: string; name: string; id: string } | null>(null);
 
   protected readonly characterId = computed(
-    () => this.selected() ?? this.store.all()[0]?.character.id ?? '',
+    () => this.selected() ?? this.store.visible()[0]?.character.id ?? '',
   );
 
   constructor() {

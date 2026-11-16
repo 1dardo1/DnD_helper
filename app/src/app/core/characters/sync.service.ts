@@ -4,6 +4,7 @@ import { RepositoryService } from '../data/repository.service';
 import { EncounterStore } from '../dm/encounter-store.service';
 import { HomebrewStore } from '../homebrew/homebrew-store.service';
 import { Character, CharacterRecord } from '../models/character';
+import { FolderLockService } from '../organize/folder-lock.service';
 import { CharacterStore, SyncResult } from './character-store.service';
 
 const EVERY_MS = 5 * 60 * 1000;
@@ -24,6 +25,7 @@ export class SyncService {
   private readonly repo = inject(RepositoryService);
   private readonly encounters = inject(EncounterStore);
   private readonly homebrew = inject(HomebrewStore);
+  private readonly folderLocks = inject(FolderLockService);
 
   readonly state = signal<SyncState>('idle');
   readonly lastSync = signal<string | null>(null);
@@ -113,6 +115,8 @@ export class SyncService {
     }
     this.state.set('syncing');
     try {
+      // which folders have a password, before reading their (encrypted) characters
+      await this.folderLocks.sync(source);
       const pulled = await this.store.pull(source);
       const pushed = await this.store.push(source);
       this.lastResult.set({

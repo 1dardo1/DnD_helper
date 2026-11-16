@@ -1,4 +1,5 @@
-import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Injector, inject, runInInjectionContext } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivateFn, Routes } from '@angular/router';
 
 import { unsavedEditGuard } from './features/creation/unsaved-edit.guard';
 
@@ -9,6 +10,17 @@ import { unsavedEditGuard } from './features/creation/unsaved-edit.guard';
 /** "Conjuros", "Dotes"...: the compendium section in the URL. */
 const typeTitle = (route: ActivatedRouteSnapshot) => `type.${route.paramMap.get('type')}`;
 const preload = { preload: true };
+
+/**
+ * A character in a folder with a password needs it first (features/characters/folder-unlocked.guard).
+ * Loaded on demand: the guard brings the character store, which must stay out of the first bundle.
+ */
+const folderUnlocked: CanActivateFn = (route) => {
+  const injector = inject(Injector);
+  return import('./features/characters/folder-unlocked.guard').then((m) =>
+    runInInjectionContext(injector, () => m.folderUnlocked(route)),
+  );
+};
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'compendium' },
@@ -58,6 +70,7 @@ export const routes: Routes = [
   {
     path: 'characters/:id/edit',
     title: 'title.edit',
+    canActivate: [folderUnlocked],
     loadComponent: () =>
       import('./features/creation/character-create').then((m) => m.CharacterCreate),
     canDeactivate: [unsavedEditGuard],
@@ -65,11 +78,13 @@ export const routes: Routes = [
   {
     path: 'characters/:id/level-up',
     title: 'title.levelUp',
+    canActivate: [folderUnlocked],
     loadComponent: () => import('./features/level-up/level-up').then((m) => m.LevelUp),
   },
   {
     path: 'characters/:id/conflict',
     title: 'title.conflict',
+    canActivate: [folderUnlocked],
     loadComponent: () =>
       import('./features/characters/character-conflict').then((m) => m.CharacterConflict),
   },
@@ -77,6 +92,7 @@ export const routes: Routes = [
     path: 'characters/:id',
     title: 'title.sheet',
     data: preload,
+    canActivate: [folderUnlocked],
     loadComponent: () =>
       import('./features/characters/character-sheet').then((m) => m.CharacterSheet),
     // the sheet's tabs (resumen, rasgos, conjuros, equipo, invocaciones, notas): the sheet reads

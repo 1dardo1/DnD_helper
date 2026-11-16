@@ -49,7 +49,7 @@ export class BackupService {
   /** All the characters and custom backgrounds on this device (null: there are none). */
   async exportAll(share = false): Promise<ExportOutcome | null> {
     await Promise.all([this.store.load(), this.homebrew.load()]);
-    const characters = this.store.all().map((r) => r.character);
+    const characters = this.store.visible().map((r) => r.character);
     const backgrounds = this.homebrew.backgrounds();
     if (!characters.length && !backgrounds.length) return null;
     const name = backupFileName(this.i18n.t('backup.fileWord'));

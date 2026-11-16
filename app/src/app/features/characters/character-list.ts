@@ -1,12 +1,14 @@
-import { Component, OnInit, inject, resource } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, OnInit, inject, resource, signal } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { CharacterStore } from '../../core/characters/character-store.service';
 import { SyncService } from '../../core/characters/sync.service';
 import { CompendiumService } from '../../core/compendium/compendium.service';
 import { DataTextService } from '../../core/i18n/data-text.service';
+import { FOLDER_TEXTS } from '../../core/i18n/folders.es';
 import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 import { Character, CharacterRecord } from '../../core/models/character';
+import { FolderLockService } from '../../core/organize/folder-lock.service';
 import { FolderPrefs } from '../../core/organize/folder-prefs';
 import {
   groupByFolder,
@@ -19,6 +21,7 @@ import { BackupPanel } from '../../shared/backup-panel';
 import { PortraitAvatar } from '../../shared/portrait-avatar';
 import { ClassThemeDirective } from '../../shared/theme/class-theme.directive';
 import { CharacterVitals } from './character-vitals';
+import { FolderPasswordDialog, FolderPasswordMode } from './folder-password-dialog';
 
 /** The select's "create a new folder" option, never a real folder name. */
 const NEW_FOLDER = '\u0000new';
@@ -34,6 +37,7 @@ const NEW_FOLDER = '\u0000new';
     BackupPanel,
     PortraitAvatar,
     CharacterVitals,
+    FolderPasswordDialog,
   ],
   template: `
     <h1>{{ 'characters.title' | t }}</h1>
@@ -63,21 +67,55 @@ const NEW_FOLDER = '\u0000new';
               (click)="toggleFolder(g.folder)"
             >
               <span class="chevron" [class.open]="!isCollapsed(g.folder)">▸</span>
+              @if (locks.isProtected(g.folder)) {
+                <span
+                  class="lock"
+                  role="img"
+                  [attr.aria-label]="'folderLock.locked' | t"
+                  [title]="'folderLock.locked' | t"
+                  >{{ locks.isLocked(g.folder) ? '🔒' : '🔓' }}</span
+                >
+              }
               {{ g.folder ?? ('folders.none' | t) }}
-              <span class="count">{{ g.items.length }}</span>
+              @if (!locks.isLocked(g.folder)) {
+                <span class="count">{{ g.items.length }}</span>
+              }
             </button>
             @if (g.folder) {
               <span class="folder-actions">
-                <button type="button" (click)="renameFolder(g.folder)">
-                  {{ 'folders.rename' | t }}
-                </button>
-                <button type="button" class="danger" (click)="deleteFolder(g.folder)">
-                  {{ 'folders.delete' | t }}
-                </button>
+                @if (locks.isLocked(g.folder)) {
+                  <button type="button" (click)="askPassword(g.folder, 'unlock')">
+                    {{ 'folderLock.unlock' | t }}
+                  </button>
+                } @else {
+                  <button type="button" (click)="renameFolder(g.folder)">
+                    {{ 'folders.rename' | t }}
+                  </button>
+                  @if (locks.isProtected(g.folder)) {
+                    <button type="button" (click)="locks.relock(g.folder)">
+                      {{ 'folderLock.relock' | t }}
+                    </button>
+                    <button type="button" (click)="askPassword(g.folder, 'change')">
+                      {{ 'folderLock.change' | t }}
+                    </button>
+                    <button type="button" (click)="askPassword(g.folder, 'remove')">
+                      {{ 'folderLock.remove' | t }}
+                    </button>
+                  } @else {
+                    <button type="button" (click)="askPassword(g.folder, 'set')">
+                      {{ 'folderLock.set' | t }}
+                    </button>
+                  }
+                  <button type="button" class="danger" (click)="deleteFolder(g.folder)">
+                    {{ 'folders.delete' | t }}
+                  </button>
+                }
               </span>
             }
           </h2>
-          @if (!isCollapsed(g.folder)) {
+          @if (locks.isLocked(g.folder)) {
+            <p class="folder-empty">{{ 'folderLock.hidden' | t }}</p>
+          } @else if (!isCollapsed(g.folder)) {
             @if (!g.items.length) {
               <p class="folder-empty">{{ 'characters.folderEmpty' | t }}</p>
             } @else {
@@ -118,7 +156,15 @@ const NEW_FOLDER = '\u0000new';
                           {{ 'folders.none' | t }}
                         </option>
                         @for (f of folderNames(); track f) {
-                          <option [value]="f" [selected]="r.character.folder === f">{{ f }}</option>
+                          @if (locks.isLocked(f)) {
+                            <option [value]="f" disabled>
+                              {{ 'folderLock.lockedOption' | t: { folder: f } }}
+                            </option>
+                          } @else {
+                            <option [value]="f" [selected]="r.character.folder === f">
+                              {{ f }}
+                            </option>
+                          }
                         }
                         <option [value]="newFolderOption">{{ 'folders.createOption' | t }}</option>
                       </select>
@@ -130,6 +176,14 @@ const NEW_FOLDER = '\u0000new';
           }
         </section>
       }
+    }
+
+    @if (passwordFor(); as p) {
+      <app-folder-password-dialog
+        [folder]="p.folder"
+        [mode]="p.mode"
+        (closed)="passwordFor.set(null)"
+      />
     }
 
     <section class="backup" aria-labelledby="backup-title">
@@ -181,6 +235,9 @@ const NEW_FOLDER = '\u0000new';
       display: flex;
       gap: var(--space-2);
       margin-left: auto;
+    }
+    .lock {
+      font-size: var(--fs-md, 1rem);
     }
     .folder-empty {
       color: var(--ink-soft);
@@ -284,6 +341,21 @@ export class CharacterList implements OnInit {
   private readonly compendium = inject(CompendiumService);
   private readonly i18n = inject(I18nService);
   private readonly rulesData = inject(RulesDataService);
+  protected readonly locks = inject(FolderLockService);
+  private readonly route = inject(ActivatedRoute);
+
+  /** The password dialog, while open: which folder and what for. */
+  protected readonly passwordFor = signal<{ folder: string; mode: FolderPasswordMode } | null>(
+    null,
+  );
+
+  constructor() {
+    this.i18n.extend(FOLDER_TEXTS);
+  }
+
+  protected askPassword(folder: string, mode: FolderPasswordMode): void {
+    this.passwordFor.set({ folder, mode });
+  }
 
   /** The compendium tables for the HP/AC chips, loaded once for the whole list (null: not yet). */
   protected readonly rules = resource({ loader: () => this.rulesData.load() });
@@ -332,6 +404,9 @@ export class CharacterList implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.store.load();
+    // a protected character was opened without its folder's password (folder-unlocked.guard)
+    const unlock = this.route.snapshot.queryParamMap.get('unlock');
+    if (unlock && this.locks.isLocked(unlock)) this.askPassword(unlock, 'unlock');
     void this.sync.sync();
   }
 
@@ -358,6 +433,7 @@ export class CharacterList implements OnInit {
     const next = prompt(this.i18n.t('folders.renamePrompt'), name)?.trim();
     if (!next || next === name) return;
     const to = this.folderPrefs.rename(name, next);
+    this.locks.renameFolder(name, to);
     await this.applyFolderChange(
       renameFolderIn(
         this.records(),
@@ -371,6 +447,8 @@ export class CharacterList implements OnInit {
 
   protected async deleteFolder(name: string): Promise<void> {
     if (!confirm(this.i18n.t('folders.deleteConfirm', { name }))) return;
+    // its characters go back to "no folder": in clear, like any other character there
+    if (this.locks.isProtected(name)) this.locks.removePassword(name);
     await this.applyFolderChange(
       removeFolderFrom(
         this.records(),

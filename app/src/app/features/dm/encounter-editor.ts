@@ -81,7 +81,7 @@ export class EncounterEditor {
     loader: async ({ params: id }) => {
       const [e] = await Promise.all([this.store.get(id), this.characterStore.load()]);
       if (!e) return null;
-      const byId = new Map(this.characterStore.all().map((r) => [r.character.id, r.character]));
+      const byId = new Map(this.characterStore.visible().map((r) => [r.character.id, r.character]));
       e.party = e.party.map((p) => {
         const c = p.characterId ? byId.get(p.characterId) : undefined;
         return c ? { ...p, name: c.name, level: characterLevel(c) } : p;
@@ -118,7 +118,7 @@ export class EncounterEditor {
 
   /** Saved characters to take the party from. */
   protected readonly characters = computed(() =>
-    this.characterStore.all().map((r) => ({
+    this.characterStore.visible().map((r) => ({
       id: r.character.id,
       name: r.character.name,
       level: characterLevel(r.character),
