@@ -16,6 +16,7 @@ import { matchesQuery } from '../../core/characters/sheet-helpers';
 import { DataNamePipe, DataTextService } from '../../core/i18n/data-text.service';
 import { PhrasePipe } from '../../core/i18n/glossary';
 import { TranslatePipe } from '../../core/i18n/i18n.service';
+import { Sheet } from '../../core/rules/sheet';
 import { Character } from '../../core/models/character';
 import { dropConcentration, startConcentration } from '../../core/play/concentration';
 import { Spell } from '../../core/models/compendium';
@@ -33,8 +34,15 @@ interface Caster {
   prepared: Spell[];
   /** Leveled spells it could prepare now. */
   available: Spell[];
+  /** Cantrips of its list, and how many it knows. */
+  availableCantrips: Spell[];
+  maxCantrips: number | null;
   maxPrepared: number | null;
   swap: 'any' | 'one' | null;
+  /** Spells its features keep always prepared (domain, circle, oath...): not counted, not removable. */
+  always: Spell[];
+  /** Where the always-prepared spells come from ("Circle of the Moon"). */
+  alwaysFrom: string[];
 }
 
 /**
@@ -56,6 +64,8 @@ interface Caster {
 })
 export class SpellBook {
   readonly character = input.required<Character>();
+  /** The computed sheet: cantrips known and the spells the class features keep prepared. */
+  readonly sheet = input<Sheet | null>(null);
   /** The character with its new spells (and the swap used up). */
   readonly changed = output<Character>();
 
@@ -108,14 +118,27 @@ export class SpellBook {
           .map((id) => byId.get(id))
           .filter((s): s is Spell => !!s),
       );
+      const sheet = this.sheet();
+      const forList = spellsFor(list, sc, entry.level, d.spells);
       out.push({
         classId: cls.id,
         name: cls.name,
         cantrips: mine.filter((s) => s.level === 0),
         prepared: mine.filter((s) => s.level > 0),
-        available: this.shown(spellsFor(list, sc, entry.level, d.spells).leveled),
+        available: this.shown(forList.leveled),
+        availableCantrips: this.shown(forList.cantrips),
+        maxCantrips:
+          sheet?.spellcasting.classes.find((x) => x.classId === cls.id)?.cantrips ??
+          sc.cantripsByLevel?.[entry.level - 1] ??
+          null,
         maxPrepared: sc.preparedByLevel?.[entry.level - 1] ?? null,
         swap: ch.state.spellSwap?.[cls.id] ?? null,
+        always: this.shown(
+          alwaysOf(sheet, cls.id)
+            .map((f) => byId.get(f.id))
+            .filter((x): x is Spell => !!x),
+        ),
+        alwaysFrom: [...new Set(alwaysOf(sheet, cls.id).map((f) => f.feat.name))],
       });
     }
     return out;
@@ -201,4 +224,11 @@ export class SpellBook {
   protected value(e: Event): string {
     return (e.target as HTMLSelectElement).value;
   }
+}
+
+/** The leveled spells a class's own features keep prepared (domain, circle, oath spells...). */
+function alwaysOf(sheet: Sheet | null, classId: string) {
+  return (sheet?.featSpells ?? []).filter(
+    (f) => f.classId === classId && f.always && f.cantrip !== true,
+  );
 }

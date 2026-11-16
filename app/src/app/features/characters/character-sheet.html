@@ -563,7 +563,7 @@
             <div class="spell-cols">
               @if (s.spellcasting.classes.length) {
                 <section class="spell-list">
-                  <app-spell-book [character]="c" (changed)="saveCharacter($event)" />
+                  <app-spell-book [character]="c" [sheet]="s" (changed)="saveCharacter($event)" />
                 </section>
               }
 

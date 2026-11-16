@@ -108,11 +108,60 @@
           </li>
         }
       </ul>
+      @if (c.always.length) {
+        <p class="list-title">
+          <strong>{{ 'spells.always' | t }}</strong>
+          <small>
+            ({{ 'spells.alwaysFrom' | t }}
+            @for (f of c.alwaysFrom; track f; let last = $last) {
+              {{ f | dataName: true }}{{ last ? '' : ', ' }}
+            }
+            )
+          </small>
+        </p>
+        <ul class="spells">
+          @for (s of shownOf(c.always); track s.id) {
+            <ng-container *ngTemplateOutlet="spellTpl; context: { $implicit: s }" />
+          }
+        </ul>
+      }
 
-      @if (c.swap === 'any') {
+      @if (c.swap === null && editing() !== c.classId) {
+        <p>
+          <button type="button" (click)="editing.set(c.classId)">
+            {{ 'spells.choose' | t }}
+          </button>
+        </p>
+      }
+      @if (c.swap === 'any' || (c.swap === null && editing() === c.classId)) {
         <aside class="sticky">
-          <p>{{ 'spells.swapAny' | t }}</p>
+          <p>{{ (c.swap === 'any' ? 'spells.swapAny' : 'spells.freeEdit') | t }}</p>
           @if (editing() === c.classId) {
+            @if (c.maxCantrips) {
+              <p class="list-title">
+                <strong>{{ 'spells.cantrips' | t }}</strong>
+                <span [class.issue]="c.cantrips.length > c.maxCantrips">
+                  ({{ c.cantrips.length }} / {{ c.maxCantrips }})</span
+                >
+              </p>
+              <ul class="choose">
+                @for (s of c.availableCantrips; track s.id) {
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        [checked]="isChosen(c.classId, s.id)"
+                        (change)="toggle(c.classId, s.id)"
+                      />
+                      {{ s.name | dataName }}
+                    </label>
+                  </li>
+                }
+              </ul>
+              <p class="list-title">
+                <strong>{{ 'spells.prepared' | t }}</strong>
+              </p>
+            }
             <ul class="choose">
               @for (s of c.available; track s.id) {
                 <li>

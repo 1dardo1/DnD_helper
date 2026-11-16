@@ -214,6 +214,8 @@ export interface SheetFeatSpell {
   slots: boolean;
   /** Only as a ritual ("You can cast Detect Magic as a ritual"). */
   ritual?: boolean;
+  /** The class whose (sub)class feature gives it: shown with that class's spells. */
+  classId?: string;
 }
 
 export interface SheetFeatUse {

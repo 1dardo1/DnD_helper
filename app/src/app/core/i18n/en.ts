@@ -837,6 +837,11 @@ export const en = {
   'spells.prepared': 'Prepared spells',
   'spells.swapAny': 'After the Long Rest you can change your prepared spells.',
   'spells.swapOne': 'After the Long Rest you can change one of your prepared spells.',
+  'spells.always': 'Always prepared',
+  'spells.alwaysFrom': 'from',
+  'spells.freeEdit':
+    'You can choose or change your spells whenever you like; by the rules, prepared spells change after a Long Rest and cantrips when you gain a level.',
+  'spells.choose': 'Choose spells',
   'spells.change': 'Change spells',
   'spells.done': 'Done',
   'spells.preparedCount': 'Prepared',

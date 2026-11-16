@@ -202,7 +202,11 @@ export class CharacterSheet {
   /** The spells the feats give (Familiar Friend's Find Familiar...): cantrips first, then by level. */
   protected readonly featSpells = computed(() => {
     const byId = new Map((this.allSpells.value() ?? []).map((sp) => [sp.id, sp]));
-    return (this.view.value()?.sheet.featSpells ?? [])
+    const sheet = this.view.value()?.sheet;
+    // the spells a caster's own (sub)class keeps prepared are listed in its spell book
+    const casters = new Set(sheet?.spellcasting.classes.map((c) => c.classId) ?? []);
+    return (sheet?.featSpells ?? [])
+      .filter((fs) => !(fs.classId && casters.has(fs.classId) && fs.always && fs.cantrip !== true))
       .map((fs) => {
         const known = byId.get(fs.id);
         return { ...fs, level: known?.level ?? (fs.cantrip ? 0 : null), known: !!known };

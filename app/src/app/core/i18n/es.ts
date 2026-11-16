@@ -845,6 +845,11 @@ export const es: Record<keyof typeof en, string> = {
   'spells.prepared': 'Conjuros preparados',
   'spells.swapAny': 'Tras el descanso largo puedes cambiar tus conjuros preparados.',
   'spells.swapOne': 'Tras el descanso largo puedes cambiar uno de tus conjuros preparados.',
+  'spells.always': 'Siempre preparados',
+  'spells.alwaysFrom': 'de',
+  'spells.freeEdit':
+    'Puedes elegir o cambiar tus conjuros cuando quieras; según las reglas, los preparados se cambian al terminar un descanso largo y los trucos al subir de nivel.',
+  'spells.choose': 'Elegir conjuros',
   'spells.change': 'Cambiar conjuros',
   'spells.done': 'Hecho',
   'spells.preparedCount': 'Preparados',

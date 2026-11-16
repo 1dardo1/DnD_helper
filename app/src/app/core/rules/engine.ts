@@ -1248,6 +1248,7 @@ function traitGrants(a: {
       freeKey: free ? key : null,
       slots: g.slots,
       ...(g.ritual ? { ritual: true } : {}),
+      ...(t.classId && (t.kind === 'class' || t.kind === 'subclass') ? { classId: t.classId } : {}),
     });
     if (free)
       uses.push({
