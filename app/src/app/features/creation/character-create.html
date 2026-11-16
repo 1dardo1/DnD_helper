@@ -151,6 +151,21 @@
                     (change)="setLevel(r.index, value($event))"
                   />
                 </label>
+                @if (keyOf(r.cls); as key) {
+                  <label>
+                    {{ 'create.keyAbility.' + key.name | t }}
+                    <select
+                      data-testid="key-ability"
+                      [value]="r.entry.spellAbility ?? ''"
+                      (change)="setSpellAbility(r.index, value($event))"
+                    >
+                      <option value="">{{ 'create.keyAbility.auto' | t }}</option>
+                      @for (a of key.choices; track a) {
+                        <option [value]="a">{{ 'ability.' + a | t }}</option>
+                      }
+                    </select>
+                  </label>
+                }
                 @if (r.index > 0) {
                   <button type="button" (click)="removeClass(r.index)">
                     {{ 'create.removeClass' | t }}
@@ -173,7 +188,7 @@
                         <app-class-info [sub]="s" [level]="r.entry.level" />
                       </ng-template>
                     </app-picker>
-                    @if (r.sub?.spellcasting?.abilityChoices; as choices) {
+                    @if (!keyOf(r.cls) && r.sub?.spellcasting?.abilityChoices; as choices) {
                       <label>
                         {{ 'create.spellAbility' | t }}
                         <select
@@ -684,7 +699,7 @@
                   <fieldset data-anchor="feats" [attr.data-jump]="'slot:' + s.slot">
                     <legend>{{ 'create.slot.' + s.kind | t: { level: s.level } }}</legend>
                     <app-picker
-                      [items]="featsFor(s.kind)"
+                      [items]="featsFor(s.kind, s.classId)"
                       [facets]="featFacets"
                       [selected]="slotFeat(s.slot) ? [slotFeat(s.slot)] : []"
                       [marks]="featMarks()[s.kind] ?? {}"

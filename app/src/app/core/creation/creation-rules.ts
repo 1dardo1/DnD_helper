@@ -147,6 +147,37 @@ export function featsForSlot(
   );
 }
 
+/**
+ * Fighting Style options a class's own Fighting Style feature names: "Instead of choosing one of
+ * those feats, you can choose the option below. **Blessed Warrior.** ..." (Paladin; Ranger:
+ * Druidic Warrior). Feat id → class id: only that class's Fighting Style slots offer them.
+ */
+export function classOnlyFeats(
+  classes: Iterable<DndClass>,
+  feats: readonly Feat[],
+): Map<string, string> {
+  const out = new Map<string, string>();
+  for (const cls of classes)
+    for (const f of cls.features) {
+      const text = f.description ?? '';
+      if (!/fighting style/i.test(f.name) || !/choose the option below/i.test(text)) continue;
+      for (const m of text.matchAll(/\*\*([^*]+?)\.\*\*/g)) {
+        const feat = feats.find((x) => x.category === 'fighting-style' && x.name === m[1]);
+        if (feat) out.set(feat.id, cls.id);
+      }
+    }
+  return out;
+}
+
+/** The feats of a slot of this class: those another class keeps for itself left out. */
+export function featsForClassSlot(
+  feats: readonly Feat[],
+  classId: string,
+  only: ReadonlyMap<string, string>,
+): Feat[] {
+  return feats.filter((f) => (only.get(f.id) ?? classId) === classId);
+}
+
 /** How many Expertise picks the class gives up to a level (each Expertise feature = 2 skills). */
 export function expertiseCount(cls: DndClass, level: number): number {
   return cls.progression.rows

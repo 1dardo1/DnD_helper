@@ -122,6 +122,8 @@ interface Ctx {
   poolDie: string | null;
   /** Text of the feature the definition belongs to. */
   text: string;
+  /** The modifier the class names and the player picks (Hemocraft: INT or WIS), if any. */
+  key: number | null;
 }
 
 interface Def {
@@ -699,6 +701,29 @@ export const DEFS: Def[] = [
     anchor: /The bonus equals your Intelligence modifier/,
     p: (c) => ({ n: plus(c.mod('INT')) }),
   },
+  // -- Blood Hunter ------------------------------------------------------------------------------
+  {
+    cls: 'blood-hunter',
+    feature: "Hunter's Bane",
+    id: 'hemocraftDc',
+    to: 'stats',
+    anchor: /\*\*Hemocraft save DC\*\* = 8 \+ your proficiency bonus \+ your Hemocraft modifier/,
+    p: (c) => (c.key === null ? null : { n: 8 + c.pb + c.key }),
+  },
+  {
+    cls: 'blood-hunter',
+    feature: 'Brand of Castigation',
+    id: 'brandOfCastigation',
+    to: 'notes',
+    anchor: /psychic damage equal to your Hemocraft modifier \(minimum of 1\)/,
+    also: [
+      {
+        feature: 'Brand of Tethering',
+        anchor: /increases to twice your Hemocraft modifier \(minimum of 2\)/,
+      },
+    ],
+    p: (c) => (c.key === null ? null : { n: c.level >= 13 ? 2 * min1(c.key) : min1(c.key) }),
+  },
 ];
 
 // -- save DCs written out in the text ----------------------------------------------------------------
@@ -750,6 +775,8 @@ export interface FeatureNumbersInput {
   martialArts: string | null;
   rageDamage: number;
   spellDc: (classId: string) => number | null;
+  /** The ability of the modifier the class names (Hemocraft), if it has one (class-ability.ts). */
+  keyAbility?: (classId: string) => Ability | undefined;
 }
 
 /** Notes and stats of the features the character has. */
@@ -780,6 +807,10 @@ export function featureNumbers(input: FeatureNumbersInput): {
       rage: input.rageDamage,
       spellDc: input.spellDc(c.id),
       poolDie: pool?.die ?? null,
+      key: (() => {
+        const a = input.keyAbility?.(c.id);
+        return a ? mod(a) : null;
+      })(),
       text:
         input.features.find((f) => f.name === def.feature && f.source.id === (def.sub ?? def.cls))
           ?.description ?? '',

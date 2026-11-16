@@ -207,6 +207,7 @@ export const en = {
   'sheet.warn.armorBase':
     'Magic armor "{name}": choose which armor it is in the inventory to work out the AC.',
   'sheet.warn.traitChoiceMissing': '{trait}: no option chosen yet.',
+  'sheet.warn.onlyFor': '{sub}: {who} only (your DM can lift the restriction).',
   'sheet.warn.chainedAbility':
     '{feat}: the +1 goes to the ability chosen for {parent} ({ability}).',
   'sheet.warn.traitPickMissing': '{trait}: pick what it asks for.',
@@ -451,6 +452,12 @@ export const en = {
   'play.pact': 'Pact Magic (level {level})',
   'play.slotPip': 'Level {level} slot {n} spent',
   'play.left': '{left} of {max} left',
+  'play.recharge.longRests1d4':
+    'Marked as recovered on a Long Rest; it really comes back after 1d4 Long Rests.',
+  'play.recharge.moveZero':
+    'Marked as recovered on a rest; it really comes back when you move 0 feet on one of your turns.',
+  'play.recharge.castSlot':
+    'Marked as recovered on a Long Rest; it also comes back when you cast a Sorcerer spell with a spell slot.',
   'play.resources': 'Class and feat resources used',
   'play.res.luckPoints': 'Luck Points',
   'sheet.featSource': 'Feat: {name}',
@@ -990,6 +997,9 @@ export const en = {
   'combat.stat.telepathy': 'telepathic link up to {miles} miles for {minutes} minutes',
   'combat.stat.telepathyOnly': 'telepathic link up to {miles} miles',
   'combat.stat.createThrall': 'the summoned Aberration has {n} Temporary Hit Points',
+  'combat.stat.hemocraftDc': 'Hemocraft DC {n}',
+  'combat.note.brandOfCastigation':
+    'Brand of Castigation: the branded creature takes {n} psychic damage each time it damages you or a creature within 5 feet of you',
   'combat.stat.flashOfGenius': 'Reaction: +{n} to a failed check or save',
   'sheet.mastery': 'Mastery',
   'sheet.mastery.chosen': 'Weapon Mastery ({count} / {slots})',

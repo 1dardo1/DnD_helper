@@ -360,6 +360,11 @@
                 <small>({{ 'sheet.featSource' | t: { name: (feat | dataName: true) } }})</small>
               }
             }
+            @if (r.recharge; as how) {
+              <small class="recharge" [attr.data-testid]="'recharge-' + how">{{
+                'play.recharge.' + how | t
+              }}</small>
+            }
           </span>
           @if (r.max <= maxPips) {
             <span class="pips">

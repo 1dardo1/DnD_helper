@@ -5,6 +5,7 @@ import { newCharacter } from '../models/character';
 import { featureChoiceKey } from './class-picks';
 import { sheetOf } from './real-data.testing';
 import { pickKey } from './trait-choices';
+import { classOnlyFeats, featsForClassSlot, featsForSlot } from '../creation/creation-rules';
 
 /**
  * Class and subclass features read from their real text (data/*.json): choices inside them
@@ -269,5 +270,110 @@ describe('answers to the rules doubts', () => {
       false,
     );
     expect(clear.featSpells.find((f) => f.feat.name === 'Cartomancer')?.ability).toBe('CHA');
+  });
+});
+
+describe('subclass restricted to a people (Path of the Battlerager: "Only dwarves can...")', () => {
+  const warned = (speciesId: string) =>
+    sheetOf('barbarian', 3, 'barbarian/path-of-the-battlerager', { speciesId }).warnings.some(
+      (w) => w.key === 'sheet.warn.onlyFor',
+    );
+  it('warns a human, not a dwarf nor a duergar ("Duergar are dwarves...")', () => {
+    expect(warned('human')).toBe(true);
+    expect(warned('dwarf')).toBe(false);
+    expect(warned('duergar')).toBe(false);
+  });
+});
+
+describe("Hemocraft for the whole Blood Hunter class (Hunter's Bane: Intelligence or Wisdom)", () => {
+  const bh = (level: number, sub: string | null, o: Parameters<typeof sheetOf>[3] = {}) =>
+    sheetOf('blood-hunter', level, sub, o);
+  const dc = (s: ReturnType<typeof sheetOf>) =>
+    s.combat.stats.find((x) => x.id === 'hemocraftDc')?.params?.['n'];
+
+  it('the higher of the two by default, the pick when there is one', () => {
+    const s = bh(1, null, { scores: { INT: 10, WIS: 16 } });
+    expect(s.classes[0].keyAbility).toEqual({
+      name: 'Hemocraft',
+      ability: 'WIS',
+      choices: ['INT', 'WIS'],
+    });
+    expect(dc(s)).toBe(8 + 2 + 3);
+    const ch = hero('blood-hunter', 1, null, { scores: { INT: 10, WIS: 16 } });
+    ch.classes[0].spellAbility = 'INT';
+    const picked = computeSheet(ch, REAL);
+    expect(picked.classes[0].keyAbility?.ability).toBe('INT');
+    expect(dc(picked)).toBe(8 + 2 + 0);
+  });
+
+  it('Dark Augmentation: + Hemocraft modifier to STR, DEX and CON saves only', () => {
+    const s = bh(10, null, { scores: { STR: 16, DEX: 14, CON: 14, INT: 10, WIS: 16 } });
+    expect(s.savingThrows.STR.modifier).toBe(3 + 3);
+    expect(s.savingThrows.CON.modifier).toBe(2 + 3);
+    expect(s.savingThrows.WIS.modifier).toBe(3); // not proficient, no bonus
+  });
+
+  it('Brand of Castigation: Hemocraft modifier, twice from Brand of Tethering', () => {
+    const note = (lv: number) =>
+      bh(lv, null, { scores: { WIS: 16, INT: 10 } }).combat.notes.find(
+        (x) => x.id === 'brandOfCastigation',
+      )?.params?.['n'];
+    expect(note(5)).toBeUndefined();
+    expect(note(6)).toBe(3);
+    expect(note(13)).toBe(6);
+  });
+
+  it('the Profane Soul casts with the Hemocraft ability', () => {
+    const s = bh(3, 'blood-hunter/order-of-the-profane-soul', { scores: { INT: 10, WIS: 16 } });
+    expect(s.spellcasting.classes[0].ability).toBe('WIS');
+  });
+});
+
+describe('Fighting Style options a class names for itself (Paladin: Blessed Warrior; Ranger: Druidic Warrior)', () => {
+  const feats = [...REAL.feats.values()];
+  const only = classOnlyFeats(REAL.classes.values(), feats);
+  const offered = (classId: string) =>
+    featsForClassSlot(featsForSlot('fighting-style', feats), classId, only).map((f) => f.id);
+
+  it("only that class's slots offer them", () => {
+    expect(only.get('blessed-warrior')).toBe('paladin');
+    expect(only.get('druidic-warrior')).toBe('ranger');
+    expect(offered('paladin')).toContain('blessed-warrior');
+    expect(offered('paladin')).not.toContain('druidic-warrior');
+    expect(offered('ranger')).toContain('druidic-warrior');
+    expect(offered('fighter')).not.toContain('blessed-warrior');
+    expect(offered('fighter')).toContain('archery');
+  });
+
+  it('two Cleric cantrips cast with Charisma', () => {
+    const slot = { featSlots: [{ slot: 'paladin:2', featId: 'blessed-warrior' }] };
+    expect(sheetOf('paladin', 2, null, slot).featMissing).toContainEqual(
+      expect.objectContaining({ feat: 'Blessed Warrior', what: 'cantrips' }),
+    );
+    const s = sheetOf('paladin', 2, null, {
+      ...slot,
+      featChoices: { 'paladin:2': { cantrips: ['guidance', 'sacred-flame'] } },
+    });
+    const bw = s.featSpells.filter((x) => x.feat.name === 'Blessed Warrior');
+    expect(bw.map((x) => x.ability)).toEqual(['CHA', 'CHA']);
+  });
+});
+
+describe('uses that come back some other way than a rest: a counter plus a note', () => {
+  const use = (s: ReturnType<typeof sheetOf>, name: string) =>
+    s.featUses.find((u) => u.feat === name);
+  it('Lethargy Resilience: 1d4 Long Rests → Long Rest with a note', () => {
+    const u = use(sheetOf('fighter', 1, null, { speciesId: 'khoravar' }), 'Lethargy Resilience');
+    expect(u).toMatchObject({ max: 1, rest: 'long', recharge: 'longRests1d4' });
+  });
+  it('Feline Agility: moving 0 feet → any rest with a note', () => {
+    const u = use(sheetOf('fighter', 1, null, { speciesId: 'tabaxi' }), 'Feline Agility');
+    expect(u).toMatchObject({ max: 1, rest: 'short-or-long', recharge: 'moveZero' });
+  });
+  it('Tides of Chaos: casting with a slot or a Long Rest', () => {
+    const s = sheetOf('sorcerer', 3, 'sorcerer/wild-magic-sorcery');
+    expect(use(s, 'Tides of Chaos')).toMatchObject({ max: 1, rest: 'long', recharge: 'castSlot' });
+    const r = playResources(s).find((x) => x.feat === 'Tides of Chaos');
+    expect(r?.recharge).toBe('castSlot');
   });
 });

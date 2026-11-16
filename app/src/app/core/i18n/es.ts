@@ -210,6 +210,7 @@ export const es: Record<keyof typeof en, string> = {
   'sheet.warn.armorBase':
     'Armadura mágica «{name}»: elige qué armadura es en el inventario para calcular la CA.',
   'sheet.warn.traitChoiceMissing': '{trait}: falta elegir una opción.',
+  'sheet.warn.onlyFor': '{sub}: solo para {who} (tu DM puede levantar la restricción).',
   'sheet.warn.chainedAbility':
     '{feat}: el +1 va a la característica elegida en {parent} ({ability}).',
   'sheet.warn.traitPickMissing': '{trait}: falta elegir lo que pide.',
@@ -455,6 +456,12 @@ export const es: Record<keyof typeof en, string> = {
   'play.pact': 'Magia de pacto (nivel {level})',
   'play.slotPip': 'Espacio {n} de nivel {level} gastado',
   'play.left': 'quedan {left} de {max}',
+  'play.recharge.longRests1d4':
+    'Se marca como recuperado en el descanso largo; en realidad vuelve tras 1d4 descansos largos.',
+  'play.recharge.moveZero':
+    'Se marca como recuperado al descansar; en realidad vuelve cuando te mueves 0 pies en uno de tus turnos.',
+  'play.recharge.castSlot':
+    'Se marca como recuperado en el descanso largo; también vuelve al lanzar un conjuro de hechicero con un espacio de conjuro.',
   'play.resources': 'Recursos de clase y de dote usados',
   'play.res.luckPoints': 'Puntos de suerte',
   'sheet.featSource': 'Dote: {name}',
@@ -1004,6 +1011,9 @@ export const es: Record<keyof typeof en, string> = {
   'combat.stat.telepathy': 'conexión telepática a {miles} millas durante {minutes} minutos',
   'combat.stat.telepathyOnly': 'conexión telepática a {miles} millas',
   'combat.stat.createThrall': 'la aberración invocada tiene {n} PG temporales',
+  'combat.stat.hemocraftDc': 'CD de hemocracia {n}',
+  'combat.note.brandOfCastigation':
+    'Marca de castigo: la criatura marcada recibe {n} de daño psíquico cada vez que te daña a ti o a una criatura a 5 pies de ti',
   'combat.stat.flashOfGenius': 'reacción: +{n} a una salvación o prueba fallida',
   'sheet.mastery': 'Maestría',
   'sheet.mastery.chosen': 'Maestría de armas ({count} / {slots})',

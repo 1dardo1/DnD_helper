@@ -155,7 +155,7 @@
                 <app-class-info [sub]="s" [level]="g.level" />
               </ng-template>
             </app-picker>
-            @if (g.sub?.spellcasting?.abilityChoices; as choices) {
+            @if (!keyOf(g.cls) && g.sub?.spellcasting?.abilityChoices; as choices) {
               <label>
                 {{ 'create.spellAbility' | t }}
                 <select
@@ -181,7 +181,7 @@
               <legend>{{ 'create.slot.' + s.kind | t: { level: s.level } }}</legend>
               <select [value]="slotFeat(s.slot)" (change)="setSlotFeat(s.slot, value($event))">
                 <option value="">—</option>
-                @for (f of featsFor(s.kind); track f.id) {
+                @for (f of featsFor(s.kind, s.classId); track f.id) {
                   <option [value]="f.id">
                     {{ f.name | dataName }}{{ f.edition === '2014' ? ' (2014)' : ''
                     }}{{ featProblems(f).length ? ' ⚠' : '' }}

@@ -184,6 +184,8 @@ export const wizardEn = {
   'create.step.details': 'Name and summary',
   'create.class': 'Class',
   'create.level': 'Level',
+  'create.keyAbility.Hemocraft': 'Hemocraft ability',
+  'create.keyAbility.auto': 'The higher one',
   'create.spellAbility': 'Spellcasting ability',
   'create.subclassAt': 'You choose your {title} at level {level}.',
   'create.hp': 'Hit points per level (d{die})',

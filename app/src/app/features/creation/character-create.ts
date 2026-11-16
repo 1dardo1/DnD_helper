@@ -1,3 +1,4 @@
+import { ClassKeyAbility, classKeyAbility } from '../../core/rules/class-ability';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   afterNextRender,
@@ -40,6 +41,8 @@ import {
   featSlots,
   SPECIES_SLOT,
   featsForSlot,
+  classOnlyFeats,
+  featsForClassSlot,
   featsForSpecies,
   optionGroupFull,
   optionGroupsFor,
@@ -759,6 +762,11 @@ export class CharacterCreate implements LeaveCheck {
     return c;
   }
 
+  /** A modifier the class names and lets the player pick (Hemocraft: INT or WIS). */
+  protected keyOf(cls: DndClass | null | undefined): ClassKeyAbility | null {
+    return cls ? classKeyAbility(cls) : null;
+  }
+
   protected value(e: Event): string {
     return (e.target as HTMLInputElement | HTMLSelectElement).value;
   }
@@ -1459,8 +1467,21 @@ export class CharacterCreate implements LeaveCheck {
     } satisfies Record<SlotKind, Feat[]>;
   });
 
-  protected featsFor(kind: SlotKind): Feat[] {
-    return this.feats()[kind];
+  /** Per class: Blessed Warrior only in a Paladin's slot, Druidic Warrior in a Ranger's. */
+  private readonly slotFeats = computed(() => {
+    const d = this.data.value();
+    const only = classOnlyFeats(d?.rules.classes.values() ?? [], d?.feats ?? []);
+    const lists = this.feats();
+    const cache = new Map<string, Feat[]>();
+    return (kind: SlotKind, classId: string) => {
+      const key = `${kind}:${classId}`;
+      if (!cache.has(key)) cache.set(key, featsForClassSlot(lists[kind], classId, only));
+      return cache.get(key)!;
+    };
+  });
+
+  protected featsFor(kind: SlotKind, classId = ''): Feat[] {
+    return classId ? this.slotFeats()(kind, classId) : this.feats()[kind];
   }
 
   /**

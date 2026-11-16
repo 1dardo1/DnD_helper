@@ -1,3 +1,4 @@
+import { ClassKeyAbility, classKeyAbility } from '../../core/rules/class-ability';
 import { FeatureChoice } from '../characters/feature-choice';
 import { SheetFeature, SheetFeatureChoice } from '../../core/rules/sheet';
 import {
@@ -21,6 +22,8 @@ import {
   TOOL_GROUPS,
   featIssues,
   featsForSlot,
+  classOnlyFeats,
+  featsForClassSlot,
   optionGroupFull,
   optionLocks,
   optionUncheckedNote,
@@ -400,6 +403,11 @@ export class LevelUp {
     if (ch) this.draft.set(fn(structuredClone(ch)));
   }
 
+  /** A modifier the class names and lets the player pick (Hemocraft: INT or WIS). */
+  protected keyOf(cls: DndClass | null | undefined): ClassKeyAbility | null {
+    return cls ? classKeyAbility(cls) : null;
+  }
+
   protected value(e: Event): string {
     return (e.target as HTMLInputElement | HTMLSelectElement).value;
   }
@@ -587,8 +595,15 @@ export class LevelUp {
     return (id && this.data.value()?.rules.species.get(id)) || null;
   }
 
-  protected featsFor(kind: 'asi' | 'fighting-style' | 'epic-boon'): Feat[] {
-    return this.featLists().get(kind) ?? [];
+  /** Blessed Warrior only in a Paladin's slot, Druidic Warrior in a Ranger's. */
+  private readonly classOnly = computed(() => {
+    const d = this.data.value();
+    return classOnlyFeats(d?.rules.classes.values() ?? [], d?.feats ?? []);
+  });
+
+  protected featsFor(kind: 'asi' | 'fighting-style' | 'epic-boon', classId = ''): Feat[] {
+    const all = this.featLists().get(kind) ?? [];
+    return classId ? featsForClassSlot(all, classId, this.classOnly()) : all;
   }
 
   /** In the default order of their type, by the name shown. */

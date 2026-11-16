@@ -1,3 +1,4 @@
+import type { RechargeNote } from './feat-effects';
 import type { SpeciesPick } from './species-picks';
 import type { SpellPoolCost } from './feat-effects';
 import type { HpLevelRow } from '../creation/hp-levels';
@@ -18,6 +19,11 @@ export interface Sheet {
     level: number;
     subclass: string | null;
     subclassId?: string | null;
+    /**
+     * A modifier the class names and lets the player pick (Blood Hunter: Hemocraft, Intelligence
+     * or Wisdom; class-ability.ts), with the ability in use.
+     */
+    keyAbility?: { name: string; ability: Ability; choices: Ability[] };
   }[];
   species: string | null;
   background: string | null;
@@ -229,6 +235,8 @@ export interface SheetFeatUse {
   kind: 'use' | 'spell';
   max: number;
   rest: 'long' | 'short-or-long';
+  /** It really comes back some other way: shown beside the counter (feat-effects RechargeNote). */
+  recharge?: RechargeNote;
 }
 
 export interface Bonus {
@@ -265,6 +273,7 @@ export interface SheetWarning {
     | 'sheet.warn.traitPickMissing'
     | 'sheet.warn.speciesAbilityMissing'
     | 'sheet.warn.weaponMastery'
-    | 'sheet.warn.chainedAbility';
+    | 'sheet.warn.chainedAbility'
+    | 'sheet.warn.onlyFor';
   params?: Record<string, string>;
 }

@@ -46,8 +46,13 @@ export interface TraitRules {
   speed: number;
   /** "+1 bonus to AC while wearing heavy armor" / "You gain a +1 bonus to your Armor Class". */
   ac: { amount: number; heavy: boolean }[];
-  /** "a bonus to saving throws equal to your Charisma modifier (minimum bonus of +1)". */
-  saveBonus: Ability[];
+  /**
+   * "a bonus to saving throws equal to your Charisma modifier (minimum bonus of +1)" (Aura of
+   * Protection: every save); "a bonus to Strength, Dexterity, and Constitution saving throws equal
+   * to your Hemocraft modifier (minimum of +1)" (Dark Augmentation: only those, with the class's
+   * own modifier: 'key', class-ability.ts).
+   */
+  saveBonus: { by: Ability | 'key'; only: Ability[] | null }[];
   /** "You know one extra cantrip from the Cleric spell list". */
   extraCantrips: { list: string; count: number }[];
   /** "a bonus to your Intelligence (Arcana or Religion) checks ... equals your Wisdom modifier". */
@@ -70,7 +75,7 @@ const DAMAGE_TYPES = [
   'thunder',
 ];
 
-const ABILITY_WORDS: Record<string, Ability> = {
+export const ABILITY_WORDS: Record<string, Ability> = {
   strength: 'STR',
   dexterity: 'DEX',
   constitution: 'CON',
@@ -463,10 +468,17 @@ function readMore(
   }
   // -- Aura of Protection: "a bonus to saving throws equal to your Charisma modifier" ----------------
   const sb =
-    /\bbonus to saving throws equal to your (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) modifier/i.exec(
+    /\bbonus to ((?:(?:Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)(?:,? (?:and )?)?)*)saving throws equal to your (\w+) modifier/i.exec(
       s,
     );
-  if (sb) addOnce(out.saveBonus, ABILITY_WORDS[sb[1].toLowerCase()]);
+  if (sb) {
+    const only = [...sb[1].matchAll(/\w+/g)]
+      .map((w) => ABILITY_WORDS[w[0].toLowerCase()])
+      .filter((a): a is Ability => !!a);
+    const by = ABILITY_WORDS[sb[2].toLowerCase()] ?? 'key';
+    if (!out.saveBonus.some((x) => x.by === by))
+      out.saveBonus.push({ by, only: only.length ? only : null });
+  }
   // -- Thaumaturge / Magician ------------------------------------------------------------------------
   const extra = /^You know (one|two) extra cantrips? from the (\w+) spell list/i.exec(s);
   if (extra)

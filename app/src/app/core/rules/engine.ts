@@ -46,6 +46,7 @@ import { NaturalWeapon, naturalWeaponOf, unarmedTypeOf } from './natural-weapons
 import { poolFor } from './pools';
 import { proficientWith } from './attacks';
 import { FeatureChoiceView, classFeatureViews } from './class-picks';
+import { classKeyAbility, keyAbilityPick } from './class-ability';
 import {
   SpeciesTraitView,
   chosenOf,
@@ -137,6 +138,8 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       features.push(
         ...gained(c.sub.features, c.level, { type: 'subclass', id: c.sub.id, name: c.sub.name }),
       );
+    const only = c.sub && c.level >= c.cls.subclassLevel ? onlyFor(c.sub, species) : null;
+    if (only) warnings.push({ key: 'sheet.warn.onlyFor', params: { sub: c.sub!.name, who: only } });
     if (!c.sub && c.level >= c.cls.subclassLevel)
       warnings.push({
         key: 'sheet.warn.noSubclass',
@@ -282,6 +285,16 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     abilities[a] = { score, modifier: modifier(score), base, bonuses };
   }
   const mod = (a: Ability) => abilities[a].modifier;
+  // a modifier the class names and lets the player pick (Hemocraft: Intelligence or Wisdom)
+  const keyAbilities = new Map<string, { name: string; ability: Ability; choices: Ability[] }>();
+  for (const c of classes) {
+    const key = classKeyAbility(c.cls);
+    if (key)
+      keyAbilities.set(c.cls.id, {
+        ...key,
+        ability: keyAbilityPick(key, c.spellAbility, (a) => abilities[a].score),
+      });
+  }
 
   // -- saves, skills, initiative -------------------------------------------------------
   const saveProf = new Set<Ability>([...(classes[0]?.cls.savingThrows ?? []), ...ch.choices.saves]);
@@ -291,15 +304,22 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     if (inc.source === 'resilient') saveProf.add(inc.ability);
   // Slippery Mind, Disciplined Survivor, Iron Mind...: "proficiency in Wisdom saving throws"
   for (const t of traits) for (const a of fx(t).saves) saveProf.add(a);
-  // Aura of Protection: + Charisma modifier (minimum +1) to every saving throw
-  const saveBonus = [...new Set(traits.flatMap((t) => fx(t).saveBonus))].reduce(
-    (n, a) => n + Math.max(1, mod(a)),
-    0,
-  );
+  // Aura of Protection: + Charisma modifier (minimum +1) to every saving throw; Dark Augmentation:
+  // + Hemocraft modifier (the class's own, class-ability.ts) to Strength, Dexterity and Constitution
+  const saveBonuses = new Map<string, { a: Ability; only: Ability[] | null }>();
+  for (const t of traits)
+    for (const x of fx(t).saveBonus) {
+      const a = x.by === 'key' ? keyAbilities.get(t.classId ?? '')?.ability : x.by;
+      if (a) saveBonuses.set(`${a}:${x.only?.join() ?? ''}`, { a, only: x.only });
+    }
+  const saveBonus = (save: Ability) =>
+    [...saveBonuses.values()]
+      .filter((x) => !x.only || x.only.includes(save))
+      .reduce((n, x) => n + Math.max(1, mod(x.a)), 0);
   for (const a of ABILITIES) {
     savingThrows[a] = {
       proficient: saveProf.has(a),
-      modifier: mod(a) + (saveProf.has(a) ? pb : 0) + saveBonus,
+      modifier: mod(a) + (saveProf.has(a) ? pb : 0) + saveBonus(a),
     };
   }
   const traitSkills = traits.flatMap((t) => fx(t).skills);
@@ -490,8 +510,13 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     return n === null ? null : n + extra;
   };
   const spellClasses = casters.map((c) => {
+    // Profane Soul: "Your chosen Hemocraft ability (Intelligence or Wisdom) is your spellcasting
+    // ability" - the class's own pick (class-ability.ts) when the subclass offers the same choice
+    const key = keyAbilities.get(c.cls.id)?.ability;
     const chosen = c.spellAbility && c.sc.abilityChoices?.includes(c.spellAbility);
-    const ability = (chosen ? c.spellAbility : c.sc.ability) ?? c.cls.primaryAbility[0] ?? 'INT';
+    const keyed = key && c.sc.abilityChoices?.includes(key) ? key : null;
+    const ability =
+      (chosen ? c.spellAbility : (keyed ?? c.sc.ability)) ?? c.cls.primaryAbility[0] ?? 'INT';
     return {
       classId: c.cls.id,
       ability,
@@ -611,6 +636,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       features,
       pb,
       spellDc: (classId) => spellClasses.find((x) => x.classId === classId)?.saveDc ?? null,
+      keyAbility: (classId) => keyAbilities.get(classId)?.ability,
       spells: new Set([...(ch.choices.spells ?? []), ...granted.spells.map((x) => x.id)]),
     },
   );
@@ -684,6 +710,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       level: c.level,
       subclass: c.sub?.name ?? null,
       subclassId: c.sub?.id ?? null,
+      ...(keyAbilities.has(c.cls.id) ? { keyAbility: keyAbilities.get(c.cls.id) } : {}),
     })),
     species: species?.name ?? null,
     background: background?.name ?? null,
@@ -1407,6 +1434,7 @@ function traitGrants(a: {
         kind: 'use',
         max: u.max === 'pb' ? a.pb : ability ? Math.max(1, mod(ability)) : (u.max as number),
         rest: u.rest,
+        ...(u.recharge ? { recharge: u.recharge } : {}),
       });
     }
   }
@@ -1555,6 +1583,7 @@ function combatOf(
     features: SheetFeature[];
     pb: number;
     spellDc: (classId: string) => number | null;
+    keyAbility: (classId: string) => Ability | undefined;
     /** Ids of the spells the character has chosen or is given. */
     spells: Set<string>;
   },
@@ -1631,6 +1660,7 @@ function combatOf(
     martialArts: combat.martialArts,
     rageDamage,
     spellDc: extra.spellDc,
+    keyAbility: extra.keyAbility,
   });
   combat.notes.push(...numbers.notes);
   combat.stats.push(...numbers.stats);
@@ -1663,4 +1693,22 @@ export function critRangeOf(features: Pick<SheetFeature, 'name' | 'description'>
     if (m) range = Math.min(range, Number(m[1]));
   }
   return range;
+}
+
+/**
+ * A subclass only some species may follow ("Restriction: Dwarves Only" - Path of the Battlerager:
+ * "Only dwarves can follow..."; the DM can lift it): the people it names when the character's
+ * species isn't one of them, null otherwise. The species counts when its name says so or its
+ * description makes it one of them ("Duergar are dwarves whose...").
+ */
+export function onlyFor(sub: Subclass, species: Species | null | undefined): string | null {
+  const rule = sub.features.find((f) => /^Restriction:/i.test(f.name));
+  const who = /\bOnly (\w+) can\b/i.exec(rule?.description ?? '')?.[1]?.toLowerCase();
+  if (!who) return null;
+  const one = who.replace(/ves$/, 'f').replace(/s$/, '');
+  if (!species) return who;
+  const name = `${species.id} ${species.name}`.toLowerCase();
+  const first = (species.description ?? '').replace(/[*_]/g, '').split(/(?<=\.)\s/)[0];
+  const isOne = name.includes(one) || new RegExp(`\\bare (?:\\w+ )?${who}\\b`, 'i').test(first);
+  return isOne ? null : who;
 }

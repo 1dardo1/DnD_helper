@@ -181,6 +181,8 @@ export const wizardEs: Record<keyof typeof wizardEn, string> = {
   'create.step.details': 'Nombre y resumen',
   'create.class': 'Clase',
   'create.level': 'Nivel',
+  'create.keyAbility.Hemocraft': 'Característica de hemocracia',
+  'create.keyAbility.auto': 'La más alta',
   'create.spellAbility': 'Característica para lanzar conjuros',
   'create.subclassAt': 'Eliges tu {title} a nivel {level}.',
   'create.hp': 'Puntos de golpe por nivel (d{die})',

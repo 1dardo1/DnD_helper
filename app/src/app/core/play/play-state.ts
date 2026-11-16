@@ -1,3 +1,4 @@
+import type { RechargeNote } from '../rules/feat-effects';
 import { Character } from '../models/character';
 import { ACTIVE_STATES } from '../rules/active-states';
 import { Sheet } from '../rules/sheet';
@@ -29,6 +30,8 @@ export interface PlayResource {
   feat?: string;
   /** Size of the dice it counts ("d8"), for a pool of dice or a resource that is a die. */
   die?: string;
+  /** How it really comes back, when not on a plain rest (play.recharge.<id>). */
+  recharge?: RechargeNote;
 }
 
 /**
@@ -309,6 +312,7 @@ export function playResources(sheet: Sheet): PlayResource[] {
       max: u.max,
       short: u.rest === 'short-or-long' ? 'all' : 0,
       feat: u.feat,
+      ...(u.recharge ? { recharge: u.recharge } : {}),
     });
   return resources;
 }

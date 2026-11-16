@@ -73,6 +73,11 @@ export interface FeatUseRule {
   max: 'pb' | Ability | number;
   rest: 'long' | 'short-or-long';
   /**
+   * The text brings it back some other way than a rest (RechargeNote): the counter recovers on the
+   * rest above, and the sheet says beside it how it really comes back.
+   */
+  recharge?: RechargeNote;
+  /**
    * A pool several feats may give (Death Points of Death Knight Initiate and Ascension): all the
    * feats with the same pool share one counter, so it is never counted twice.
    */
@@ -80,6 +85,34 @@ export interface FeatUseRule {
 }
 
 export type FeatPool = 'death-points' | 'psionic-energy-dice';
+
+/**
+ * How a use comes back when its text names no plain rest; the counter is refilled on a rest anyway
+ * and the sheet explains the real rule beside it (play.recharge.<id>):
+ *   longRests1d4: "you can't do so again until you finish 1d4 Long Rests" (Lethargy Resilience)
+ *   moveZero: "you can't use it again until you move 0 feet on one of your turns" (Feline Agility)
+ *   castSlot: "you must cast a Sorcerer spell with a spell slot or finish a Long Rest before you
+ *     can use this feature again" (Tides of Chaos)
+ */
+export type RechargeNote = 'longRests1d4' | 'moveZero' | 'castSlot';
+
+const RECHARGE: { re: RegExp; note: RechargeNote; rest: 'long' | 'short-or-long' }[] = [
+  {
+    re: /Once you use this \w+, you can(?:'|’)t (?:use it|do so) again until you finish 1d4 Long Rests/i,
+    note: 'longRests1d4',
+    rest: 'long',
+  },
+  {
+    re: /Once you use this \w+, you can(?:'|’)t use it again until you move 0 feet on one of your turns/i,
+    note: 'moveZero',
+    rest: 'short-or-long',
+  },
+  {
+    re: /you must cast an? \w+ spell with a spell slot or finish a Long Rest before you can use this \w+ again/i,
+    note: 'castSlot',
+    rest: 'long',
+  },
+];
 
 export interface SpellPoolCost {
   pool: FeatPool;
@@ -459,7 +492,10 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
       const onceUse = ONCE_USE.exec(p)?.[0];
       const onceRest = onceUse ? restIn(onceUse) : null;
       const sectionCounted = countedBy.has(section);
-      if (countRest && count && (/regain|recover/i.test(p) || regainRest)) {
+      const odd = RECHARGE.find((r) => r.re.test(p));
+      if (odd && !casting) {
+        add(out.uses, { label, max: 1, rest: odd.rest, recharge: odd.note });
+      } else if (countRest && count && (/regain|recover/i.test(p) || regainRest)) {
         add(out.uses, {
           label,
           max: count[1] ? (count[1].slice(0, 3).toUpperCase() as Ability) : 'pb',
@@ -660,6 +696,10 @@ export const FEAT_PICKS: Record<string, FeatPicks> = {
     cantrips: { count: 1, lists: ['cleric', 'wizard'], schools: ['necromancy'] },
   },
   'arcane-warrior': { cantrips: { count: 2, lists: ['wizard'] } },
+  // "You learn two cantrips of your choice from the cleric spell list ... Charisma is your
+  // spellcasting ability for them" (Paladin's Fighting Style option; Ranger: Druid list, Wisdom)
+  'blessed-warrior': { cantrips: { count: 2, lists: ['cleric'] } },
+  'druidic-warrior': { cantrips: { count: 2, lists: ['druid'] } },
   skilled: { skillsOrTools: 3 },
   crafter: { tools: { count: 3, group: "Artisan's Tools" } },
   musician: { tools: { count: 3, group: 'Musical Instrument' } },
