@@ -134,6 +134,13 @@ const LEVEL_LEAD =
 const plain = (s: string) => s.replace(/\*+/g, '').replace(/\s+/g, ' ').trim();
 const sentencesOf = (p: string) => p.split(/(?<=[.!?])\s+(?=[A-Z"'])/);
 
+/** The intro of benefits that only hold in a state: a form, a duration, a Rage, an action. */
+const STATE_INTRO =
+  /\b(?:while|whenever|until|as long as|for (?:\d+|1|one) (?:minutes?|hours?|rounds?)|as an? (?:Bonus Action|Action|Magic action)|Rage|transform\w*|lasts?)\b/i;
+
+/** The intro of a list of benefits that depend on something (a phase, a form, a choice). */
+const INTRO = /\bdepend(?:s|ing)? on\b|\bbased on your\b|\bcurrent phase\b|\bthe effect lasting\b/i;
+
 /** A sentence that only holds in a situation (an action, a duration, a condition, a transformation). */
 const CONDITIONAL =
   /\b(?:while|when|whenever|until|if|as an? (?:Bonus Action|Action|Magic action|Reaction)|as long as|for (?:\d+|1) (?:minutes?|hours?|rounds?|turns?)|Rage|choose|of your choice|nonmagical|starting|after|once|each time|can use|can take|can expend|instead|in place|at the start|at the end|one of the following|temporar\w+)\b/i;
@@ -201,9 +208,14 @@ function parseTrait(text: string, opts: { situational?: boolean }): TraitRules {
     .split(/\n+/)
     .map((p) => p.trim())
     .filter((p) => p && !p.startsWith('|') && !p.startsWith('#'));
+  // "While your Wrath of the Sea is active, you gain the following benefits:" — the bullets and bold
+  // benefits that follow only hold in that situation, even if each one reads unconditionally
+  let underCondition = false;
   for (const raw of paragraphs) {
     // a bullet or a bold benefit of a list: one of several options, or part of a temporary form
     const option = /^[-•*]/.test(raw);
+    if (!option) underCondition = STATE_INTRO.test(plain(raw)) || INTRO.test(raw);
+    const held = option && underCondition;
     // Thaumaturge / Magician: "a bonus to your Intelligence (Arcana or Religion) checks. The bonus
     // equals your Wisdom modifier" (two sentences)
     if (!opts.situational) {
@@ -221,7 +233,7 @@ function parseTrait(text: string, opts: { situational?: boolean }): TraitRules {
     }
     for (const full of sentencesOf(plain(raw))) {
       const s = full.replace(LEVEL_LEAD, '').replace(/^\w/, (c) => c.toUpperCase());
-      const cond = CONDITIONAL.test(s);
+      const cond = held || CONDITIONAL.test(s);
       readMore(out, s, cond, option, opts.situational === true);
 
       // -- initiative (the sentences are conditional: "When you roll Initiative, you can add ...")

@@ -184,6 +184,9 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
     .filter((p) => p && !p.startsWith('|') && !p.startsWith('#'));
 
   // the rest that gives back the uses, wherever the text says it ("You regain all expended uses...")
+  const featureOnce = /can(?:'|’)t use this (?:feature|trait) again until you finish/i.test(
+    plain(text),
+  );
   const regainRest = restIn(plain(text).match(/regain all expended uses[^.]*\./i)?.[0] ?? '');
 
   // the sections (bold headings, '' for the whole feature) whose uses already come from a formula
@@ -272,8 +275,13 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
       const isCantrip = g.cantrip === true;
       // "can cast it as a Magic action without expending a spell slot" with no rest: at will
       // (not when the text says what it costs: Death Points, a Psionic Energy Die)
+      // nor when it's one of the benefits of a feature used once per rest (The Third Eye's See
+      // Invisibility): the feature's own counter limits it
       const atWill =
-        casts && !poolCost && !/Long Rest|Short Rest|number of times|\bonce\b|\btwice\b/i.test(p);
+        casts &&
+        !poolCost &&
+        !featureOnce &&
+        !/Long Rest|Short Rest|number of times|\bonce\b|\btwice\b/i.test(p);
       out.spells.push({
         name: g.name,
         id: slug(g.name),

@@ -56,6 +56,12 @@ const TEXT_ONLY = new Set([
   'subclass:sorcerer/shadow-sorcery:Umbral Form',
   'subclass:sorcerer/wild-magic-sorcery:Tamed Surge',
   'subclass:wizard/abjurer:Spell Resistance',
+  // one of options chosen by the player (class-picks.ts): applied only when chosen
+  'subclass:barbarian/path-of-the-wild-heart:Aspect of the Wilds',
+  // a benefit picked with a Bonus Action, once per rest
+  'subclass:wizard/diviner:The Third Eye',
+  // a benefit of whoever carries the stone
+  "subclass:wizard/transmuter:Transmuter's Stone",
 ]);
 
 interface Check {

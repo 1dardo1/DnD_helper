@@ -102,3 +102,33 @@ describe('what class and subclass features give', () => {
     expect(wf.armorClass.value - base.armorClass.value).toBe(1);
   });
 });
+
+describe('benefits of a temporary state are not permanent', () => {
+  it.each([
+    ['sorcerer', 14, 'sorcerer/aberrant-sorcery', 'fly'],
+    ['sorcerer', 18, 'sorcerer/phoenix-sorcery', 'fly'],
+    ['warlock', 14, 'warlock/undead-patron', 'fly'],
+    ['druid', 10, 'druid/circle-of-the-sea', 'fly'],
+  ])('%s %i (%s): no %s speed outside the form', (cls, level, sub, kind) => {
+    expect(sheetOf(cls, level, sub).speed[kind]).toBeUndefined();
+  });
+
+  it.each([
+    ['sorcerer', 14, 'sorcerer/lunar-sorcery'],
+    ['blood-hunter', 7, 'blood-hunter/order-of-the-ghostslayer'],
+    ['monk', 6, 'monk/warrior-of-intoxication-ua'],
+    ['druid', 10, 'druid/circle-of-the-sea'],
+  ])('%s %i (%s): no resistances of a state', (cls, level, sub) => {
+    expect(sheetOf(cls, level, sub).resistances).toEqual([]);
+  });
+
+  it("keeps the permanent ones: Undead Patron's Necrotic Husk, Aberrant's Psychic Defenses", () => {
+    expect(sheetOf('warlock', 14, 'warlock/undead-patron').resistances).toEqual(['Necrotic']);
+    expect(sheetOf('sorcerer', 6, 'sorcerer/aberrant-sorcery').resistances).toEqual(['Psychic']);
+  });
+
+  it("The Third Eye's See Invisibility is not at will", () => {
+    const s = sheetOf('wizard', 10, 'wizard/diviner');
+    expect(s.featSpells.find((f) => f.id === 'see-invisibility')?.atWill ?? false).toBe(false);
+  });
+});

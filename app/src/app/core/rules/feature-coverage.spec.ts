@@ -19,6 +19,10 @@ const NEEDS =
 
 const TEXT_OK: Record<string, string> = {
   'barbarian/path-of-the-wild-heart:Power of the Wilds': 'option chosen at each Rage',
+  'barbarian/path-of-the-wild-heart:Aspect of the Wilds':
+    'option chosen on the sheet (class-picks)',
+  'druid/circle-of-the-sea:Stormborn': 'benefits only while Wrath of the Sea is active',
+  'sorcerer/aberrant-sorcery:Revelation in Flesh': 'benefits of a 10-minute transformation',
   'bard/college-of-dance:Tandem Footwork': 'uses the Bardic die shown on the counter',
   'bard/college-of-glamour:Mantle of Inspiration': 'uses the Bardic die shown on the counter',
   'bard/college-of-lore:Cutting Words': 'uses the Bardic die shown on the counter',
