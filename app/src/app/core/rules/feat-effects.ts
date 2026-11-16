@@ -294,7 +294,14 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
 
     // -- spells -------------------------------------------------------------------------
     const casts = /without (?:expending )?a spell slot|without a spell slot or/i.test(p);
-    const free = casts && /Long Rest/i.test(p);
+    // Paladin's Smite: "You always have the Divine Smite spell prepared." + next line "You can cast
+    // it without expending a spell slot, but you must finish a Long Rest before you can cast it
+    // this way again."
+    const next = paragraphs[paragraphs.indexOf(raw) + 1] ?? '';
+    const free =
+      (casts && /Long Rest/i.test(p)) ||
+      (/^You can cast it without expending a spell slot\b[^.]*\bLong Rest\b/i.test(plain(next)) &&
+        /\bthe ([A-Z][\w'’ ]+?) spell prepared\b/.test(p));
     const slots =
       /using (?:any |the )?spell slots|also cast (?:it|the spell|these spells?|those spells)/i.test(
         p,

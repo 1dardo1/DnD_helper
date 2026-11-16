@@ -585,3 +585,20 @@ describe('verification batch: proficiencies, languages, Expertise, Darkvision, D
     ).toEqual(['druidcraft', 'thaumaturgy']);
   });
 });
+
+describe('verification batch 2: free casts, partly situational features, resistances', () => {
+  it("Paladin's Smite: Divine Smite once without a slot per Long Rest", () => {
+    const s = sheetOf('paladin', 2);
+    expect(s.featSpells.find((f) => f.id === 'divine-smite')?.freeKey).toBeTruthy();
+    expect(
+      s.featUses.some((u) => u.label === 'Divine Smite' && u.max === 1 && u.rest === 'long'),
+    ).toBe(true);
+  });
+  it('Hungering Might: + Wisdom modifier to Constitution saves (the transformed part stays text)', () => {
+    const s = sheetOf('ranger', 7, 'ranger/hollow-warden', { scores: { WIS: 16, CON: 14 } });
+    expect(s.savingThrows.CON.modifier).toBe(2 + 3);
+  });
+  it('Thought Shield: Resistance to Psychic damage', () => {
+    expect(sheetOf('warlock', 10, 'warlock/great-old-one-patron').resistances).toContain('Psychic');
+  });
+});

@@ -153,6 +153,9 @@ const sentencesOf = (p: string) => p.split(/(?<=[.!?])\s+(?=[A-Z"'])/);
 const STATE_INTRO =
   /\b(?:while|whenever|until|as long as|for (?:\d+|1|one) (?:minutes?|hours?|rounds?)|as an? (?:Bonus Action|Action|Magic action)|Rage|transform\w*|lasts?)\b/i;
 
+/** What makes a paragraph of a situational feature hold only sometimes (engine.ts SITUATIONAL). */
+const SITUATIONAL_PARAGRAPH = /\bRage\b|Wild Shape|Starry Form|transform/i;
+
 /** The intro of a list of benefits that depend on something (a phase, a form, a choice). */
 const INTRO = /\bdepend(?:s|ing)? on\b|\bbased on your\b|\bcurrent phase\b|\bthe effect lasting\b/i;
 
@@ -236,7 +239,12 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
   // bullets after an intro that asks for nothing ("...becomes more powerful:") all apply (Saint of
   // Forge and Fire); after one that asks to choose, or a bold benefit, they are options
   let listOfBenefits = false;
+  // a feature only partly situational (Hungering Might: a save bonus, then a benefit "while you
+  // are transformed"): only its paragraphs that name the situation, and the lists under them
+  let situationalHere = false;
   for (const raw of paragraphs) {
+    if (!/^[-•*]/.test(raw)) situationalHere = SITUATIONAL_PARAGRAPH.test(raw);
+    const situational = !!opts.situational && situationalHere;
     // a bullet or a bold benefit of a list: one of several options, or part of a temporary form
     const option = /^[-•*]/.test(raw) && !(listOfBenefits && !underCondition);
     if (!/^[-•*]/.test(raw)) {
@@ -249,7 +257,7 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
     const held = option && underCondition && !opts.inState;
     // Thaumaturge / Magician: "a bonus to your Intelligence (Arcana or Religion) checks. The bonus
     // equals your Wisdom modifier" (two sentences)
-    if (!opts.situational) {
+    if (!situational) {
       const check =
         /bonus to your (?:Intelligence|Wisdom|Charisma|Strength|Dexterity) \(([A-Z][a-z ]+?) or ([A-Z][a-z ]+?)\) checks\. The bonus equals your (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) modifier/i.exec(
           plain(raw),
@@ -262,7 +270,7 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
           out.skillBonus.push({ skills, ability: ABILITY_WORDS[check[3].toLowerCase()] });
       }
     }
-    if (!opts.situational && !held) readExpertise(out, plain(raw));
+    if (!situational && !held) readExpertise(out, plain(raw));
     for (const full of sentencesOf(plain(raw))) {
       const s = full
         .replace(/^[-•]\s+/, '')
@@ -272,7 +280,7 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
       // minute", "while it's active")
       const cond =
         held || (opts.inState ? CONDITIONAL.test(s) && !STATE_INTRO.test(s) : CONDITIONAL.test(s));
-      readMore(out, s, cond, option && !opts.inState, opts.situational === true);
+      readMore(out, s, cond, option && !opts.inState, situational);
 
       // -- initiative (the sentences are conditional: "When you roll Initiative, you can add ...")
       if (/add your proficiency bonus to your initiative/i.test(s)) out.initiative.pb = true;
@@ -327,7 +335,7 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
       if (thrown) out.attack.thrownDamage += Number(thrown[1]);
 
       // -- senses: "You have Darkvision with a range of 60 feet" ------------------------------------
-      if (!cond && !opts.situational) {
+      if (!cond && !situational) {
         const sense =
           /\b(Darkvision|Blindsight|Tremorsense|Truesight)\b[^.]*?(?:range|radius) of (\d+) feet/i.exec(
             s,
@@ -340,13 +348,13 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
       const plus = /If you already have Darkvision[^.]*?, its range increases by (\d+) feet/i.exec(
         s,
       );
-      if (plus && !opts.situational) out.darkvisionPlus = Number(plus[1]);
+      if (plus && !situational) out.darkvisionPlus = Number(plus[1]);
 
       const devil = /see normally in (?:Dim Light and )?Darkness[^.]*?within (\d+) feet/i.exec(s);
-      if (devil && !opts.situational) addSense(out, 'devils-sight', Number(devil[1]));
+      if (devil && !situational) addSense(out, 'devils-sight', Number(devil[1]));
 
       // -- speeds -----------------------------------------------------------------------------------
-      if (!cond && !opts.situational) {
+      if (!cond && !situational) {
         const equal = /equal to your (?:normal |walking |walk )?speed/i.test(s);
         if (equal && /\b(?:have|gain)\b/i.test(s)) {
           for (const m of s.matchAll(/\b(fly|flying|swim|swimming|climb|climbing|burrow)\b/gi))
@@ -384,9 +392,17 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
       // -- resistances: "You have Resistance to Necrotic and Radiant damage" ----------------------------
       // (an aura counts: the Paladin is always in it — Aura of Warding)
       if (
-        !opts.situational &&
+        !situational &&
         (!cond ||
-          /^You and your allies have Resistance to [^.]+ while in your Aura of Protection/i.test(s))
+          /^You and your allies have Resistance to [^.]+ while in your Aura of Protection/i.test(
+            s,
+          ) ||
+          // Thought Shield: "You also have Resistance to Psychic damage, and whenever a creature
+          // deals Psychic damage to you, ..." (the condition is the second clause's)
+          (/^You (?:also )?have Resistance to [A-Za-z, ]+? damage, and (?:whenever|when)\b/i.test(
+            s,
+          ) &&
+            !CONDITIONAL.test(s.split(/, and (?:whenever|when)\b/i)[0])))
       ) {
         const r =
           /\b(?:You|you)(?: and your allies)? (?:also )?(?:have|gain) Resistance to (.+?)(?: damage)?(?:,? and you\b|\.|$| while in your Aura)/i.exec(

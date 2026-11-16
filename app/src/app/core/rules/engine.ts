@@ -1405,7 +1405,7 @@ function traitGrants(a: {
       const c = t.classId ? a.spellAbility(t.classId) : undefined;
       if (c) ability = c;
     }
-    const free = g.free && t.kind !== 'class';
+    const free = g.free;
     const key = `trait:${t.kind}:${t.id}:${g.id}`;
     spells.push({
       id: g.id,
