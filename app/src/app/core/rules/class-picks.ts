@@ -28,14 +28,20 @@ import { joinBroken } from './trait-effects';
 const HEADED_CHOOSE =
   /\bchoose one type of (\w+)\b[^.]*\.\s*Consult the table below that corresponds/i;
 
+/**
+ * Armor Model: "choose one of the following armor models: Dreadnought, Guardian, or Infiltrator"
+ * with a heading for each model ("##### Dreadnaught.").
+ */
+const NAMED_CHOOSE =
+  /\bchoose one of the following [a-z ]+?: ([A-Z][\w ]*(?:, [A-Z][\w ]*)*,? or [A-Z][\w ]*)\./;
+
 function headedChoice(text: string): TraitChoiceSplit | null {
-  const m = HEADED_CHOOSE.exec(text);
-  if (!m) return null;
+  if (!HEADED_CHOOSE.test(text) && !NAMED_CHOOSE.test(text)) return null;
   const parts = text.split(/^#{2,6}\s+(.+)$/m);
   if (parts.length < 5) return null;
   const options = [];
   for (let i = 1; i + 1 < parts.length; i += 2)
-    options.push({ name: parts[i].trim(), text: parts[i + 1].trim() });
+    options.push({ name: parts[i].trim().replace(/\.$/, ''), text: parts[i + 1].trim() });
   return { preamble: parts[0].trim(), tail: '', options };
 }
 
@@ -57,6 +63,9 @@ const REST_CHOICE =
 /** "Whenever you finish a Short or Long Rest, you can replace the chosen option with the other". */
 const OPTION_REST =
   /Whenever you finish a (Short or Long|Long|Short) Rest, you can (?:replace the chosen option|change your choice)/i;
+/** "You can change the armor's model whenever you finish a Short or Long Rest" (Armor Model). */
+const CHANGE_REST =
+  /You can change the [\w'’ ]+? whenever you finish a (Short or Long|Long|Short) Rest/i;
 
 const slug = (s: string) =>
   s
@@ -155,7 +164,9 @@ export function classFeatureViews(
       };
       for (const pick of classPicks(trait.description)) picks.push(make(pick));
       const rest = split
-        ? (OPTION_REST.exec(f.description ?? '') ?? REST_CHOICE.exec(f.description ?? ''))
+        ? (OPTION_REST.exec(f.description ?? '') ??
+          CHANGE_REST.exec(f.description ?? '') ??
+          REST_CHOICE.exec(f.description ?? ''))
         : null;
       out.push({
         trait,

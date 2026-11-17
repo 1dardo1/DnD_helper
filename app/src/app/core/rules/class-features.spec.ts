@@ -733,3 +733,17 @@ describe('pending batch: Expertise, Timeless, features "while your Rage is activ
     );
   });
 });
+
+describe('Armor Model: one model to choose, changeable after a rest', () => {
+  it('offers the three models from their headings, and only the chosen one applies', () => {
+    const key = featureChoiceKey('artificer/armorer-ua', 'Armor Model');
+    const s = sheetOf('artificer', 3, 'artificer/armorer-ua');
+    const c = s.featureChoices?.find((x) => x.key === key);
+    expect(c?.options?.map((o) => o.name)).toEqual(['Dreadnaught', 'Guardian', 'Infiltrator']);
+    expect(c?.optionRest).toBe('short');
+    const inf = sheetOf('artificer', 3, 'artificer/armorer-ua', {
+      traitChoices: { [key]: 'Infiltrator' },
+    });
+    expect(inf.featureChoices?.find((x) => x.key === key)?.chosen).toBe('Infiltrator');
+  });
+});
