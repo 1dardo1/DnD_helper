@@ -823,3 +823,20 @@ describe('leveled spells to choose inside a feature', () => {
     expect(s.featSpells.find((f) => f.id === 'telekinesis')?.freeKey).toBeTruthy();
   });
 });
+
+describe('spells and AC written another way', () => {
+  it('Star Map: Guidance and Guiding Bolt; Consult the Spirits: Augury and Clairvoyance', () => {
+    const stars = sheetOf('druid', 3, 'druid/circle-of-the-stars').featSpells.map((f) => f.id);
+    expect(stars).toEqual(expect.arrayContaining(['guidance', 'guiding-bolt']));
+    const ag = sheetOf(
+      'barbarian',
+      10,
+      'barbarian/path-of-the-ancestral-guardian-ua',
+    ).featSpells.map((f) => f.id);
+    expect(ag).toEqual(expect.arrayContaining(['augury', 'clairvoyance']));
+  });
+  it('Locathah: "your AC is 12 + your Dexterity modifier" without armor', () => {
+    const s = sheetOf('rogue', 1, null, { speciesId: 'locathah-lr', scores: { DEX: 14 } });
+    expect(s.armorClass.value).toBeGreaterThanOrEqual(12 + 2);
+  });
+});

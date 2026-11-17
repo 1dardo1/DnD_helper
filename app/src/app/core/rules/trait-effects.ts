@@ -315,7 +315,7 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
 
       // -- base Armor Class without armor ---------------------------------------------------------
       const ac =
-        /base Armor Class (?:equals|is) (\d+)(?: plus |\s*\+\s*)your (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)(?: and (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma))? modifiers?/i.exec(
+        /(?:base Armor Class|\byour AC) (?:equals|is) (\d+)(?: plus |\s*\+\s*)your (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)(?: and (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma))? modifiers?/i.exec(
           s,
         );
       if (ac && !/within|\bwhile you are\b/i.test(s)) {

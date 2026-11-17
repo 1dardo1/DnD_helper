@@ -337,6 +337,17 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
       /[Yy]ou can (?:also )?cast ([A-Z][\w'’ /-]+?)(?: on yourself)?(?: once)? without (?:expending )?a spell slot/g,
     ))
       grants.push({ name: m[1], cantrip: null, minLevel: 1 });
+    // Star Map: "While holding the map, you have the Guidance and Guiding Bolt spells prepared"
+    for (const m of p.matchAll(
+      /\byou have the ([A-Z][\w'’ ]+?) and ([A-Z][\w'’ ]+?) spells prepared/g,
+    ))
+      for (const n of [m[1], m[2]]) grants.push({ name: n, cantrip: null, minLevel: 1 });
+    // Consult the Spirits: "you cast the Augury or Clairvoyance spell, without expending a spell
+    // slot" (its own counter says how often)
+    for (const m of p.matchAll(
+      /\byou cast the ([A-Z][\w'’ ]+?) or ([A-Z][\w'’ ]+?) spell, without expending a spell slot/g,
+    ))
+      for (const n of [m[1], m[2]]) grants.push({ name: n, cantrip: null, minLevel: 1 });
     // Fool's Insight: "You can cast Detect Thoughts up to a number of times equal to your Charisma
     // modifier. You regain any expended uses of this ability after completing a long rest."
     for (const m of p.matchAll(
