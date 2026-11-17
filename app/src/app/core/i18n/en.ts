@@ -518,6 +518,8 @@ export const en = {
   'play.res.channelArcana': 'Channel Arcana',
   'play.res.resonantUtterance': 'Resonants',
   'play.res.balmOfTheSummerCourt': 'Balm of the Summer Court',
+  'play.res.experimentalElixir': 'Experimental Elixirs',
+  'play.res.spellStoringItem': 'Spell-Storing Item (uses)',
   'play.res.flashOfGenius': 'Flash of Genius',
   'play.res.hybridTransformation': 'Hybrid Transformation',
   'play.res.divineIntervention': 'Divine Intervention',

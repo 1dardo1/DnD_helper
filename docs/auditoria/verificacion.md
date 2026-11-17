@@ -54,25 +54,28 @@ el fallo de Elemental Fury (arreglado). **Artificiero Alchemist 3/5/11**: faltab
 No hay ningún personaje real tuyo de nivel 19 (los tuyos son de nivel 3 a 5): la prueba de nivel
 alto se hizo con el Paladín de nivel 19 y los de nivel 20 de la carpeta Pruebas.
 
+## Arreglado en la segunda tanda
+
+- Contadores: Psi Replenishment, Healing Hands, Mantle of Whispers, Channel Arcana, Resonants, Balm
+  of the Summer Court, Experimental Elixir, Spell-Storing Item, +1 Blood Maledict (Curse Specialist).
+- Lanzamientos gratis: Grasping Tentacles, Protection from Evil and Good (Monster Hunter), Voice of
+  Death (descanso corto, DES), Fool's Insight (CAR veces, sin contador duplicado).
+- Con la Furia activa: resistencias e inmunidades "while your Rage is active" (Lament, Berserker).
+- Pericia de Tyrants Herald; armas del Bladesinger; Crimson Rite con su dado de hemocracia.
+- Elecciones: Armor Model (por encabezados, cambiable en descanso), Scion of the Three y Giant Soul
+  (por tabla), Magical Discoveries y Mental Discipline (conjuros con nivel), Mystic Arcanum (un
+  conjuro de Brujo por arcano), Deft Explorer (una pericia y dos idiomas más).
+- Star Map (Guidance y Guiding Bolt), Consult the Spirits (Augury y Clairvoyance), CA natural del
+  Locathah. Timeless, Arcanomechanical Armor y +2 CON de Giant Soul ya salían bien.
+
 ## Pendiente (no arreglado aún)
 
-- **Selectores de subclase**: elemento Primordial, Vestige Spells, Theurgy (Divine Inspiration, Arcane Acolyte), Psionics, Giant Soul,
-  Scion of the Three, Favored Soul (dominio y armaduras), Armor Model (Armorer), Student of
-  Preservation, patrón del Profane Soul, Deft Explorer (pericia y 2
-  idiomas), arcano de Mystic Arcanum, los dos tatuajes de Beast Tattoo, Magical Discoveries (2 conjuros).
-- **Contadores**: Psi Replenishment, Healing Hands, Protection from Evil and Good (Monster Hunter),
-  Spell-Storing Item, Mantle of Whispers, Experimental Elixir, Channel Arcana, Resonant Utterance,
-  Power Surge, Grasping Tentacles gratis, House Insignia, Voice of Death (recarga corta y DES),
-  Curse Specialist (+1 Blood Maledict), Balm of the Summer Court, Harvest's Scythe, Lunar Embodiment.
-- **Crimson Rite**: sin selector de ritos ni daño del dado de hemocracia.
-- **Furia**: resistencias de Otherworldly Anguish (Lament) mientras la Furia está activa.
-- **Competencias y bonos**: armas marciales cuerpo a cuerpo sin Two-Handed/Heavy (Bladesinger),
-  armadura ligera (Arcanomechanical Armor), pericia en Intimidación (Sorcerer-King), Lore Mastery,
-  Bladework y Arcane Empowerment (INT en ataque), +2 CON de Giant Soul, Blessed Countenance,
-  inmunidad al cansancio de Timeless, CA natural de Locathah, Guidance de Star Map, conjuros de
-  Consult the Spirits y Fool's Insight en la lista de conjuros concedidos.
-- **Números por nivel sin calcular** (situacionales): Psychic Blades de Whispers, Banshee's Wail,
-  Spirit Shield, Storm Aura, Reckless Abandon, Mantle of Inspiration, Balm of Peace, Pull of Death.
+- Elecciones: elemento del Primordial, Vestige Spells, dominio de Theurgy, patrón del Profane Soul,
+  los dos tatuajes de Beast Tattoo (hoy no se aplica ninguno), habilidad de Student of Preservation.
+- House Insignia (un lanzamiento por conjuro de la tabla), Power Surge (se acumulan, no se gastan),
+  Lore Mastery, Bladework y Arcane Empowerment (INT en ataque), armas de fuego del City Domain.
+- Números por nivel de rasgos situacionales: Psychic Blades de Whispers, Banshee's Wail, Spirit
+  Shield, Storm Aura, Reckless Abandon, Mantle of Inspiration, Balm of Peace, Pull of Death.
 
 ## Clérigo — 24 personajes: 12 correctos, 12 con fallos
 

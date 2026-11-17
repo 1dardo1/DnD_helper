@@ -304,6 +304,30 @@ export const FEATURE_USES: {
     },
   },
   {
+    classId: 'artificer',
+    subclassId: 'artificer/alchemist-ua',
+    name: 'Experimental Elixir',
+    labelKey: 'play.res.experimentalElixir',
+    from: 3,
+    uses: (l) => (l >= 15 ? 5 : l >= 9 ? 4 : l >= 5 ? 3 : 2),
+    anchor: {
+      feature: 'Experimental Elixir',
+      text: /produce two elixirs.*a total of three at level 5, four at level 9, and five at level 15/,
+    },
+  },
+  {
+    // uses of the stored spell (back when a spell is stored again, after a rest)
+    classId: 'artificer',
+    name: 'Spell-Storing Item',
+    labelKey: 'play.res.spellStoringItem',
+    from: 11,
+    uses: (_, m) => 2 * m('INT'),
+    anchor: {
+      feature: 'Spell-Storing Item',
+      text: /used a number of times equal to twice your Intelligence modifier \(minimum of twice\)/,
+    },
+  },
+  {
     classId: 'wizard',
     name: 'Arcane Recovery',
     labelKey: 'play.res.arcaneRecovery',

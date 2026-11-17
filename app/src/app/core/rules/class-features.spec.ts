@@ -664,8 +664,10 @@ describe('resistances to choose and Divine Magic', () => {
 describe('counters found by the verification', () => {
   it('every anchored counter matches the real text of its feature', () => {
     for (const f of FEATURE_USES.filter((x) => x.anchor)) {
-      const sub = REAL.subclasses.get(f.subclassId!)!;
-      const feat = sub.features.find((x) => x.name === f.anchor!.feature);
+      const owner = f.subclassId
+        ? REAL.subclasses.get(f.subclassId)!
+        : REAL.classes.get(f.classId)!;
+      const feat = owner.features.find((x) => x.name === f.anchor!.feature);
       expect(feat?.description.replace(/\s+/g, ' '), `${f.subclassId} ${f.name}`).toMatch(
         f.anchor!.text,
       );

@@ -523,6 +523,8 @@ export const es: Record<keyof typeof en, string> = {
   'play.res.channelArcana': 'Canalizar arcano',
   'play.res.resonantUtterance': 'Resonantes',
   'play.res.balmOfTheSummerCourt': 'Bálsamo de la Corte de Verano',
+  'play.res.experimentalElixir': 'Elixires experimentales',
+  'play.res.spellStoringItem': 'Objeto almacén de conjuros (usos)',
   'play.res.flashOfGenius': 'Destello de genialidad',
   'play.res.hybridTransformation': 'Transformación híbrida',
   'play.res.divineIntervention': 'Intervención divina',
