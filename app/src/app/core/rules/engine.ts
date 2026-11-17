@@ -689,8 +689,23 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   tagNotes(combat.notes);
   tagNotes(combat.stats);
   // Rage: "You have Resistance to Bludgeoning, Piercing, and Slashing damage"
-  if (stateOn(combat.states, 'rage'))
+  const rageImmunities: string[] = [];
+  const rageConditions: string[] = [];
+  if (stateOn(combat.states, 'rage')) {
     for (const r of RAGE_RESISTANCES) if (!resistances.includes(r)) resistances.push(r);
+    // subclass features that hold "while your Rage is active" (Otherworldly Anguish: Resistance to
+    // Cold and Necrotic; Mindless Rage: Immunity to the Charmed and Frightened conditions)
+    for (const f of features)
+      for (const sentence of (f.description ?? '').replace(/\*+/g, '').split(/(?<=[.!?])\s+/))
+        if (/^(?:You|you)\b[^.]*\bwhile your Rage is active\.?$/.test(sentence.trim())) {
+          const r = traitRulesOfText(sentence.replace(/,? while your Rage is active/i, ''), {
+            inState: true,
+          });
+          for (const t of r.resistances) if (!resistances.includes(t)) resistances.push(t);
+          rageImmunities.push(...r.immunities);
+          rageConditions.push(...r.conditionImmunities);
+        }
+  }
   // Innate Sorcery: "The spell save DC of your Sorcerer spells increases by 1"
   if (stateOn(combat.states, 'innateSorcery'))
     for (const sc of spellClasses) if (sc.classId === 'sorcerer') sc.saveDc += 1;
@@ -703,8 +718,8 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   }
   // forms whose features only hold while they're on (Stormborn, Superior Dread...): their speeds,
   // resistances and immunities, read from the text as if unconditional
-  const formImmunities: string[] = [];
-  const formConditions: string[] = [];
+  const formImmunities: string[] = [...rageImmunities];
+  const formConditions: string[] = [...rageConditions];
   for (const def of ACTIVE_STATES)
     if (def.forms && stateOn(combat.states, def.id))
       for (const f of features)

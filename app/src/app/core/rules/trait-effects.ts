@@ -602,9 +602,14 @@ function readExpertise(out: TraitRules, p: string): void {
         out.expertise.push({ skill, mode: 'always' });
     }
   }
+  // Tyrants Herald: "You gain proficiency in the Intimidation skill if you don't already have it.
+  // You also have Expertise in Intimidation."
+  const plainAlso =
+    /\bYou also have Expertise in (?:the )?([A-Z][a-z]+(?: [A-Z][a-z]+)?)(?: skill)?\./.exec(p);
   for (const [m, mode] of [
     [upgrade, 'ifProficient'],
     [also, 'always'],
+    [plainAlso, 'always'],
   ] as const) {
     const skill = m ? SKILL_WORDS[m[1].toLowerCase().trim()] : undefined;
     if (skill && !out.expertise.some((x) => x.skill === skill)) out.expertise.push({ skill, mode });

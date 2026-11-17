@@ -705,3 +705,31 @@ describe('counters found by the verification', () => {
     expect(ph.featUses.find((u) => u.label === 'Speak with Dead')?.rest).toBe('short-or-long');
   });
 });
+
+describe('pending batch: Expertise, Timeless, features "while your Rage is active"', () => {
+  it('Tyrants Herald: Expertise in Intimidation; Timeless: immune to Exhaustion', () => {
+    expect(
+      sheetOf('warlock', 3, 'warlock/sorcerer-king-patron-ua').skills.find(
+        (x) => x.id === 'intimidation',
+      )?.proficiency,
+    ).toBe('expertise');
+    expect(sheetOf('ranger', 15, 'ranger/hollow-warden').conditionImmunities).toContain(
+      'Exhaustion',
+    );
+  });
+  it('Lament: Cold and Necrotic only while raging; Berserker: Charmed/Frightened immunity while raging', () => {
+    const raging = (sub: string, lv: number) => {
+      const ch = hero('barbarian', lv, sub);
+      return computeSheet({ ...ch, state: { ...ch.state, active: ['rage'] } }, REAL);
+    };
+    expect(sheetOf('barbarian', 10, 'barbarian/path-of-lament-ua').resistances).not.toContain(
+      'Cold',
+    );
+    expect(raging('barbarian/path-of-lament-ua', 10).resistances).toEqual(
+      expect.arrayContaining(['Cold', 'Necrotic']),
+    );
+    expect(raging('barbarian/path-of-the-berserker', 6).conditionImmunities).toEqual(
+      expect.arrayContaining(['Charmed', 'Frightened']),
+    );
+  });
+});
