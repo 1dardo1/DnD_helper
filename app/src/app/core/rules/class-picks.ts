@@ -45,6 +45,60 @@ function headedChoice(text: string): TraitChoiceSplit | null {
   return { preamble: parts[0].trim(), tail: '', options };
 }
 
+/**
+ * A choice made from a table's rows: "Select one of the giant types from the Mark of the Ordning
+ * table" (Giant Soul), "Choose one of the Dead Three: Bane, Bhaal, or Myrkul ... as detailed in the
+ * table below" (Scion of the Three). Each row is an option; its columns become what it gives:
+ * "Damage Resistance" → Resistance, "Cantrip" → the cantrip, "Spells at ... Level" → the spells.
+ */
+const TABLE_CHOOSE =
+  /\bSelect one of the [\w ]+? from the [\w'’ ]+? table\b|\bChoose one of the [\w ]+?: [A-Z][^.]*\.[^|]*\bas detailed in the table below\b/;
+
+function tableChoice(text: string): TraitChoiceSplit | null {
+  const m = TABLE_CHOOSE.exec(text);
+  if (!m) return null;
+  const lines = text.split('\n');
+  const start = lines.findIndex((l) => /^\|/.test(l.trim()));
+  if (start < 0) return null;
+  const rows = lines
+    .slice(start)
+    .filter((l) => /^\|/.test(l.trim()))
+    .map((l) =>
+      l
+        .trim()
+        .replace(/^\||\|$/g, '')
+        .split('|')
+        .map((c) => c.trim()),
+    );
+  const [head, , ...body] = rows;
+  if (!head || body.length < 2) return null;
+  const said = (h: string, v: string): string | null =>
+    /resistance/i.test(h)
+      ? `You have Resistance to ${v} damage.`
+      : /^cantrip$/i.test(h)
+        ? `You know the ${v} cantrip.`
+        : /^spells? at/i.test(h)
+          ? `You always have the ${v.replace(/, ([^,]+)$/, ' and $1')} ${v.includes(',') ? 'spells' : 'spell'} prepared.`
+          : null;
+  const options = body.map((r) => ({
+    name: r[0],
+    text: head
+      .slice(1)
+      .map((h, i) => said(h, r[i + 1] ?? ''))
+      .filter((x): x is string => !!x)
+      .join(' '),
+  }));
+  const end = lines.slice(start).findIndex((l) => !/^\|/.test(l.trim()) && l.trim());
+  const tail =
+    end < 0
+      ? ''
+      : lines
+          .slice(start + end)
+          .join('\n')
+          .trim();
+  return { preamble: lines.slice(0, start).join('\n').trim(), tail, options };
+}
+
 /** "one of the following [sacred roles|options|feature options] of your choice". */
 const CLASS_CHOOSE =
   /\bone of the following\b[^.\n]*\bof your choice\b|\bChoose one of (?:these|the following)\b|\bone of the following (?:feature )?options\b/i;
@@ -62,7 +116,7 @@ const REST_CHOICE =
   /When(?:ever)? you finish a (short or long|long|short) rest, choose one (?:of the following|type of)/i;
 /** "Whenever you finish a Short or Long Rest, you can replace the chosen option with the other". */
 const OPTION_REST =
-  /Whenever you finish a (Short or Long|Long|Short) Rest, you can (?:replace the chosen option|change your choice)/i;
+  /When(?:ever)? you finish a (Short or Long|Long|Short) Rest, you can (?:replace the chosen option|change your choice)/i;
 /** "You can change the armor's model whenever you finish a Short or Long Rest" (Armor Model). */
 const CHANGE_REST =
   /You can change the [\w'’ ]+? whenever you finish a (Short or Long|Long|Short) Rest/i;
@@ -94,7 +148,7 @@ export interface FeatureChoiceView extends SpeciesTraitView {
 /** The options of a feature that offers a choice of one of them (null: no such choice). */
 export function featureChoice(description: string | null | undefined): TraitChoiceSplit | null {
   const text = joinBroken(description ?? '').replace(/\r\n/g, '\n');
-  const headed = headedChoice(text);
+  const headed = headedChoice(text) ?? tableChoice(text);
   if (headed) return headed;
   const found = CLASS_CHOOSE.exec(text);
   if (!found) return null;

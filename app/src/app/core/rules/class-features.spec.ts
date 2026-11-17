@@ -768,3 +768,25 @@ describe('Training in War and Song: Melee Martial weapons without Two-Handed or 
     expect(ok('longbow')).toBe(false);
   });
 });
+
+describe('choices from a table (Giant Soul, Scion of the Three)', () => {
+  it('Scion of the Three: Bhaal gives Poison resistance and Blade Ward, changeable on a Long Rest', () => {
+    const key = featureChoiceKey('rogue/scion-of-the-three', 'Dread Allegiance');
+    const c = sheetOf('rogue', 3, 'rogue/scion-of-the-three').featureChoices?.find(
+      (x) => x.key === key,
+    );
+    expect(c?.options?.map((o) => o.name)).toEqual(['Bane', 'Bhaal', 'Myrkul']);
+    expect(c?.optionRest).toBe('long');
+    const s = sheetOf('rogue', 3, 'rogue/scion-of-the-three', { traitChoices: { [key]: 'Bhaal' } });
+    expect(s.resistances).toContain('Poison');
+    expect(s.featSpells.some((f) => f.id === 'blade-ward')).toBe(true);
+    expect(s.featSpells.some((f) => f.id === 'chill-touch')).toBe(false);
+  });
+  it('Giant Soul: the spells of the chosen giant type', () => {
+    const key = featureChoiceKey('sorcerer/giant-soul', 'Mark of the Ordning');
+    const s = sheetOf('sorcerer', 3, 'sorcerer/giant-soul', { traitChoices: { [key]: 'Frost' } });
+    const ids = s.featSpells.map((f) => f.id);
+    expect(ids).toEqual(expect.arrayContaining(['armor-of-agathys', 'hold-person']));
+    expect(ids).not.toContain('fog-cloud');
+  });
+});
