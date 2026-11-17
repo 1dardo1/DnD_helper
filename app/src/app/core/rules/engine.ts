@@ -1713,6 +1713,10 @@ function combatOf(
     rageDamage,
     spellDc: extra.spellDc,
     keyAbility: extra.keyAbility,
+    column: (id, name) => {
+      const c = classes.find((x) => x.cls.id === id);
+      return c ? col(c.cls, c.level, name) : '';
+    },
     feats: extra.feats,
     totalLevel: extra.totalLevel,
     chosen: extra.chosen,

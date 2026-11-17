@@ -44,6 +44,7 @@ export type UseKind = 'action' | 'bonus' | 'reaction' | 'free' | 'onHit' | 'pass
 /** How each definition is used (from the text of its feature) and what it spends. */
 const USE: Record<string, { action: UseKind; spends?: string; dc?: 'spell' | 'focus' }> = {
   brutalStrike: { action: 'onHit' },
+  crimsonRite: { action: 'onHit' },
   frenzy: { action: 'onHit' },
   divineFury: { action: 'onHit' },
   divineStrike: { action: 'onHit' },
@@ -132,6 +133,8 @@ interface Ctx {
   text: string;
   /** The modifier the class names and the player picks (Hemocraft: INT or WIS), if any. */
   key: number | null;
+  /** A column of the class's table at its level ("Hemocraft Die": "1d6"). */
+  col: (name: string) => string;
 }
 
 interface Def {
@@ -789,6 +792,15 @@ export const DEFS: Def[] = [
   },
   {
     cls: 'blood-hunter',
+    feature: 'Crimson Rite',
+    id: 'crimsonRite',
+    to: 'notes',
+    anchor:
+      /deal extra damage equal to your hemocraft die of the type determined by the chosen rite/,
+    p: (c) => (c.col('Hemocraft Die') ? { die: c.col('Hemocraft Die') } : null),
+  },
+  {
+    cls: 'blood-hunter',
     feature: 'Brand of Castigation',
     id: 'brandOfCastigation',
     to: 'notes',
@@ -854,6 +866,8 @@ export interface FeatureNumbersInput {
   spellDc: (classId: string) => number | null;
   /** The ability of the modifier the class names (Hemocraft), if it has one (class-ability.ts). */
   keyAbility?: (classId: string) => Ability | undefined;
+  /** A column of a class's table at its level. */
+  column?: (classId: string, name: string) => string;
   /** The character's feats, with the ability each one raised (Inspiring Leader). */
   feats?: { name: string; description: string; increased?: Ability }[];
   totalLevel?: number;
@@ -932,6 +946,7 @@ export function featureNumbers(input: FeatureNumbersInput): {
       rage: input.rageDamage,
       spellDc: input.spellDc(c.id),
       poolDie: pool?.die ?? null,
+      col: (name) => input.column?.(c.id, name) ?? '',
       key: (() => {
         const a = input.keyAbility?.(c.id);
         return a ? mod(a) : null;

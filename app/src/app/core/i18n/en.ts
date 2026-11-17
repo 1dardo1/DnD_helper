@@ -1021,6 +1021,8 @@ export const en = {
   'combat.stat.telepathyOnly': 'telepathic link up to {miles} miles',
   'combat.stat.createThrall': 'the summoned Aberration has {n} Temporary Hit Points',
   'combat.stat.hemocraftDc': 'Hemocraft DC {n}',
+  'combat.note.crimsonRite':
+    "Active Crimson Rite: +{die} damage of the rite's type with the weapon (activating it costs one hemocraft die of HP)",
   'combat.note.brandOfCastigation':
     'Brand of Castigation: the branded creature takes {n} psychic damage each time it damages you or a creature within 5 feet of you',
   'combat.stat.flashOfGenius': 'Reaction: +{n} to a failed check or save',

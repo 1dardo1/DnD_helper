@@ -747,3 +747,12 @@ describe('Armor Model: one model to choose, changeable after a rest', () => {
     expect(inf.featureChoices?.find((x) => x.key === key)?.chosen).toBe('Infiltrator');
   });
 });
+
+describe('Crimson Rite: extra damage of the hemocraft die', () => {
+  it('the die of the class table at its level', () => {
+    const note = (lv: number) =>
+      sheetOf('blood-hunter', lv).combat.notes.find((n) => n.id === 'crimsonRite')?.params;
+    expect(note(2)).toEqual({ die: '1d4' });
+    expect(note(11)).toEqual({ die: '1d8' });
+  });
+});

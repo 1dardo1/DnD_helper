@@ -1036,6 +1036,8 @@ export const es: Record<keyof typeof en, string> = {
   'combat.stat.telepathyOnly': 'conexión telepática a {miles} millas',
   'combat.stat.createThrall': 'la aberración invocada tiene {n} PG temporales',
   'combat.stat.hemocraftDc': 'CD de hemocracia {n}',
+  'combat.note.crimsonRite':
+    'Rito carmesí activo: +{die} de daño del tipo del rito con el arma (activarlo cuesta un dado de hemocracia de PG)',
   'combat.note.brandOfCastigation':
     'Marca de castigo: la criatura marcada recibe {n} de daño psíquico cada vez que te daña a ti o a una criatura a 5 pies de ti',
   'combat.stat.flashOfGenius': 'reacción: +{n} a una salvación o prueba fallida',
