@@ -384,6 +384,7 @@ export const es: Record<keyof typeof en, string> = {
   'create.traitPick.skill-or-tool': '{trait}: elige una habilidad o una herramienta',
   'create.traitPick.weapon-or-tool': '{trait}: elige {count} arma(s) o herramienta(s)',
   'create.traitPick.cantrip': '{trait}: elige un truco',
+  'create.traitPick.spell': '{trait}: elige {count} conjuro(s)',
   'create.traitPick.option': '{trait}: elige',
   'create.traitPick.form': '{trait}: elige la forma',
   'traitpick.rest.long':

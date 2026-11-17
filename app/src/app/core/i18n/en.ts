@@ -380,6 +380,7 @@ export const en = {
   'create.traitPick.skill-or-tool': '{trait}: choose a skill or a tool',
   'create.traitPick.weapon-or-tool': '{trait}: choose {count} weapon(s) or tool(s)',
   'create.traitPick.cantrip': '{trait}: choose a cantrip',
+  'create.traitPick.spell': '{trait}: choose {count} spell(s)',
   'create.traitPick.option': '{trait}: choose',
   'create.traitPick.form': '{trait}: choose the form',
   'traitpick.rest.long':

@@ -53,7 +53,10 @@ export interface PickOptionLabel {
             [facets]="spellFacets"
             [selected]="p.picked"
             [marks]="cantripMarks()"
-            [label]="'create.traitPick.cantrip' | t: { trait: traitName(), count: p.count }"
+            [label]="
+              (p.pick.spellLevels ? 'create.traitPick.spell' : 'create.traitPick.cantrip')
+                | t: { trait: traitName(), count: p.count }
+            "
             (picked)="pickCantrip($event.id, $event.on)"
           />
         }
@@ -248,7 +251,7 @@ export class TraitPicks {
     const p = this.pick().pick;
     return this.spells().filter(
       (s) =>
-        s.level === 0 &&
+        (p.spellLevels === 'any' || s.level === 0) &&
         (p.from
           ? p.from.includes(s.id)
           : (!p.lists || p.lists.some((l) => s.classes.includes(l))) &&

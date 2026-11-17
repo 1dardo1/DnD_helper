@@ -187,6 +187,11 @@ export interface TraitPick {
   lists?: string[];
   /** 'cantrip': the schools it may come from ("necromancy"), from any list. */
   schools?: string[];
+  /**
+   * 'cantrip' that may also be a leveled spell: 'any' ("a cantrip or a spell for which you have spell
+   * slots": Magical Discoveries; a named list of spells: Mental Discipline). Absent: cantrips only.
+   */
+  spellLevels?: 'any';
   /** Chosen anew when the character finishes this rest. */
   rest?: 'long' | 'short';
   /** The text asks for something the character doesn't have yet ("that you don't have", "a different cantrip"). */
@@ -343,6 +348,22 @@ export function traitPicks(description: string | null | undefined): TraitPick[] 
     if (cl) add({ kind: 'cantrip', count: 1, from: null, lists: [cl[1].toLowerCase()] });
     const cf = /\bone of the following cantrips of your choice:\s*(.+?)\.?$/i.exec(sentence);
     if (cf) add({ kind: 'cantrip', count: 1, from: spellIds(cf[1]) });
+    // Mental Discipline: "choose one of the following spells: Dominate Person, Scrying, or
+    // Telekinesis"
+    const fs = /\bchoose one of the following spells:\s*(.+?)\.?$/i.exec(sentence);
+    if (fs) add({ kind: 'cantrip', count: 1, from: spellIds(fs[1]), spellLevels: 'any' });
+    // Magical Discoveries: "You learn two spells of your choice. These spells can come from the
+    // Cleric, Druid, or Wizard spell list"
+    const ls = /^You learn (one|two) spells of your choice\.?$/i.exec(sentence.trim());
+    const from = ls && /These spells can come from the ([A-Za-z, ]+?) spell list/i.exec(text);
+    if (ls && from)
+      add({
+        kind: 'cantrip',
+        count: NUMBER_WORDS[ls[1].toLowerCase()],
+        from: null,
+        lists: listNames(from[1]),
+        spellLevels: 'any',
+      });
     // "You learn two Wizard cantrips of your choice" (Student of Arcana), "one druid cantrip of
     // your choice" (Acolyte of Strength), "one necromancy cantrip of your choice from any spell
     // list" (Reaper): a class's list or a school

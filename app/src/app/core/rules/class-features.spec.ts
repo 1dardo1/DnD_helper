@@ -802,3 +802,24 @@ it("Fool's Insight: one counter, not two", () => {
   const s = sheetOf('bard', 6, 'bard/college-of-satire-ua', { scores: { CHA: 16 } });
   expect(playResources(s).filter((r) => r.feat === "Fool's Insight")).toHaveLength(1);
 });
+
+describe('leveled spells to choose inside a feature', () => {
+  const spellPick = (s: ReturnType<typeof sheetOf>) =>
+    (s.featureChoices ?? []).flatMap((c) => c.picks).find((p) => p.pick.spellLevels === 'any');
+  it('Magical Discoveries: two spells from the Cleric, Druid or Wizard lists, always prepared', () => {
+    const p = spellPick(sheetOf('bard', 6, 'bard/college-of-lore'))!;
+    expect(p.pick).toMatchObject({ count: 2, lists: ['cleric', 'druid', 'wizard'] });
+    const s = sheetOf('bard', 6, 'bard/college-of-lore', {
+      traitPicks: { [p.key]: ['fireball', 'guidance'] },
+    });
+    expect(s.featSpells.find((f) => f.id === 'fireball')?.always).toBe(true);
+  });
+  it('Mental Discipline: one of three spells, cast once free per Long Rest', () => {
+    const p = spellPick(sheetOf('wizard', 10, 'wizard/psionics-ua'))!;
+    expect(p.pick.from).toEqual(['dominate-person', 'scrying', 'telekinesis']);
+    const s = sheetOf('wizard', 10, 'wizard/psionics-ua', {
+      traitPicks: { [p.key]: ['telekinesis'] },
+    });
+    expect(s.featSpells.find((f) => f.id === 'telekinesis')?.freeKey).toBeTruthy();
+  });
+});

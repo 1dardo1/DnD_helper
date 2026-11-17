@@ -608,7 +608,22 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     classCantrips: classViews.flatMap((v) =>
       v.picks
         .filter((p) => p.pick.kind === 'cantrip')
-        .flatMap((p) => p.picked.map((id) => ({ trait: v.trait.name, id, owner: v.owner }))),
+        .flatMap((p) =>
+          p.picked.map((id) => ({
+            trait: v.trait.name,
+            id,
+            owner: v.owner,
+            // a spell, not a cantrip (Magical Discoveries, Mental Discipline); its free cast
+            ...(p.pick.spellLevels
+              ? {
+                  spell: true,
+                  free: /cast the chosen spell once without expending a spell slot/i.test(
+                    v.text ?? '',
+                  ),
+                }
+              : {}),
+          })),
+        ),
     ),
   });
   granted.spells.push(...fromTraits.spells);
@@ -1388,6 +1403,9 @@ function traitGrants(a: {
   classCantrips?: {
     trait: string;
     id: string;
+    /** A leveled spell (always prepared), not a cantrip; free: once without a slot per Long Rest. */
+    spell?: boolean;
+    free?: boolean;
     owner: { type: 'class' | 'subclass'; id: string; classId: string };
   }[];
 }) {
@@ -1529,12 +1547,14 @@ function traitGrants(a: {
         name: nameOf(c.id),
         id: c.id,
         minLevel: 1,
-        cantrip: true,
-        free: false,
+        cantrip: c.spell ? null : true,
+        free: !!c.free,
         atWill: false,
         slots: false,
         freeUses: 1,
       },
+      // "You always have the chosen spells prepared" (a cantrip among them is simply known)
+      c.spell ? { always: true } : {},
     );
 
   // lineage / legacy spells of a species variant: "Level 3: Faerie Fire", "Level 5: Darkness"
