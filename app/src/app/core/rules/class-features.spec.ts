@@ -8,6 +8,8 @@ import { sheetOf } from './real-data.testing';
 import { pickKey } from './trait-choices';
 import {
   classOnlyFeats,
+  expertiseCount,
+  extraLanguages,
   featsForClassSlot,
   featsForSlot,
   spellsFor,
@@ -838,5 +840,15 @@ describe('spells and AC written another way', () => {
   it('Locathah: "your AC is 12 + your Dexterity modifier" without armor', () => {
     const s = sheetOf('rogue', 1, null, { speciesId: 'locathah-lr', scores: { DEX: 14 } });
     expect(s.armorClass.value).toBeGreaterThanOrEqual(12 + 2);
+  });
+});
+
+describe('Deft Explorer: one more Expertise and two more languages', () => {
+  it('the counts read from the text', () => {
+    const ranger = REAL.classes.get('ranger')!;
+    expect(expertiseCount(ranger, 1)).toBe(0);
+    expect(expertiseCount(ranger, 2)).toBe(1);
+    expect(extraLanguages(ranger, 2)).toBe(2);
+    expect(extraLanguages(REAL.classes.get('fighter')!, 20)).toBe(0);
   });
 });

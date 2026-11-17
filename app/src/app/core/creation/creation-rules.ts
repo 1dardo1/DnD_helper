@@ -184,11 +184,36 @@ export function featsForClassSlot(
   return feats.filter((f) => (only.get(f.id) ?? classId) === classId);
 }
 
-/** How many Expertise picks the class gives up to a level (each Expertise feature = 2 skills). */
+/**
+ * How many Expertise picks the class gives up to a level: each Expertise feature = 2 skills, and
+ * one more for a feature that says "Choose one of your skill proficiencies with which you lack
+ * Expertise. You gain Expertise in that skill" (Deft Explorer).
+ */
 export function expertiseCount(cls: DndClass, level: number): number {
-  return cls.progression.rows
+  const named = cls.progression.rows
     .slice(0, level)
     .reduce((n, r) => n + r.features.filter((f) => /^expertise$/i.test(f)).length * 2, 0);
+  const inText = (cls.features ?? []).filter(
+    (f) =>
+      f.level <= level &&
+      !/^expertise$/i.test(f.name) &&
+      /Choose one of your skill proficiencies with which you lack Expertise\. You gain Expertise in that skill/i.test(
+        f.description ?? '',
+      ),
+  ).length;
+  return named + inText;
+}
+
+const COUNT_WORDS: Record<string, number> = { one: 1, two: 2, three: 3 };
+
+/** Languages a class feature lets you choose up to a level: "You know two languages of your choice". */
+export function extraLanguages(cls: DndClass, level: number): number {
+  return (cls.features ?? [])
+    .filter((f) => f.level <= level)
+    .reduce((n, f) => {
+      const m = /You know (one|two|three) languages? of your choice/i.exec(f.description ?? '');
+      return n + (m ? COUNT_WORDS[m[1].toLowerCase()] : 0);
+    }, 0);
 }
 
 export function subclassesFor(classId: string, subclasses: Subclass[]): Subclass[] {
@@ -716,8 +741,17 @@ export function review(ch: Character, ctx: ReviewContext): StepNotes {
   if (ctx.species && ctx.species.size.length > 1 && !ch.size)
     miss('species', 'create.missing.size');
   const chosen = ch.choices.languages;
-  if (chosen.length < 2) miss('species', 'create.missing.languages', { count: 2 - chosen.length });
-  if (chosen.length > 2) out.species.push({ key: 'create.issue.tooManyLanguages', kind: 'issue' });
+  // two of every character, plus those a class feature lets you choose (Deft Explorer)
+  const langs =
+    2 +
+    ch.classes.reduce(
+      (n, c, i) => n + (ctx.classes[i] ? extraLanguages(ctx.classes[i]!, c.level) : 0),
+      0,
+    );
+  if (chosen.length < langs)
+    miss('species', 'create.missing.languages', { count: langs - chosen.length });
+  if (chosen.length > langs)
+    out.species.push({ key: 'create.issue.tooManyLanguages', params: { n: langs }, kind: 'issue' });
   for (const l of chosen.filter((l) => RARE_LANGUAGES.includes(l)))
     out.species.push({ key: 'create.issue.rareLanguage', params: { what: l }, kind: 'issue' });
 

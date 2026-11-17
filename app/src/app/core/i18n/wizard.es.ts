@@ -271,7 +271,7 @@ export const wizardEs: Record<keyof typeof wizardEn, string> = {
   'create.issue.multiclass': 'Para multiclasear en {cls} hace falta {what}.',
   'create.issue.multiclassUnknown':
     '{cls} no tiene datos de multiclase: no se añaden sus competencias.',
-  'create.issue.tooManyLanguages': 'Más de dos idiomas elegidos además del Común.',
+  'create.issue.tooManyLanguages': 'Más de {n} idiomas elegidos además del Común.',
   'create.issue.rareLanguage': '{what} es una lengua rara: consúltalo con tu DM.',
   'create.issue.tooManySkills': 'Más habilidades de clase que las {count} que te tocan.',
   'create.issue.featLevel': '{feat}: necesita nivel {level}.',

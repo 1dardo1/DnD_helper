@@ -273,7 +273,7 @@ export const wizardEn = {
   'create.issue.levelCap': 'Character level {total} is over 20.',
   'create.issue.multiclass': 'Multiclassing needs {what} for {cls}.',
   'create.issue.multiclassUnknown': "{cls} has no multiclass data: its proficiencies aren't added.",
-  'create.issue.tooManyLanguages': 'More than two languages chosen besides Common.',
+  'create.issue.tooManyLanguages': 'More than {n} languages chosen besides Common.',
   'create.issue.rareLanguage': '{what} is a rare language: check with your DM.',
   'create.issue.tooManySkills': 'More class skills than the {count} you get.',
   'create.issue.featLevel': '{feat}: needs level {level}.',
