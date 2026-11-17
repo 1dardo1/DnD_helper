@@ -217,6 +217,8 @@ export function classFeatureViews(
         };
       };
       for (const pick of classPicks(trait.description)) picks.push(make(pick));
+      const arcanum = arcanumPick(f.description ?? '', level);
+      if (arcanum) picks.push(make(arcanum));
       const rest = split
         ? (OPTION_REST.exec(f.description ?? '') ??
           CHANGE_REST.exec(f.description ?? '') ??
@@ -253,4 +255,25 @@ export function classFeatureViews(
  */
 export function classPicks(text: string): TraitPick[] {
   return traitPicks(text).filter((p) => p.kind !== 'option' && p.kind !== 'form');
+}
+
+/**
+ * Mystic Arcanum: "Choose one level 6 Warlock spell as this arcanum ... you gain another Warlock
+ * spell of your choice that can be cast in this way when you reach Warlock levels 13 (level 7
+ * spell), 15 (level 8 spell), and 17 (level 9 spell)": one spell of each level gained so far.
+ */
+export function arcanumPick(text: string, level: number): TraitPick | null {
+  const first = /Choose one level (\d) (\w+) spell as this arcanum/i.exec(text);
+  if (!first) return null;
+  const levels = [Number(first[1])];
+  for (const m of text.matchAll(/(\d+) \(level (\d) spell\)/g))
+    if (Number(m[1]) <= level) levels.push(Number(m[2]));
+  return {
+    kind: 'cantrip',
+    count: levels.length,
+    from: null,
+    lists: [first[2].toLowerCase()],
+    spellLevels: 'any',
+    levels,
+  };
 }

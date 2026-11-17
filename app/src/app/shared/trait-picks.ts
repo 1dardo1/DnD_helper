@@ -251,7 +251,7 @@ export class TraitPicks {
     const p = this.pick().pick;
     return this.spells().filter(
       (s) =>
-        (p.spellLevels === 'any' || s.level === 0) &&
+        (p.levels ? p.levels.includes(s.level) : p.spellLevels === 'any' || s.level === 0) &&
         (p.from
           ? p.from.includes(s.id)
           : (!p.lists || p.lists.some((l) => s.classes.includes(l))) &&

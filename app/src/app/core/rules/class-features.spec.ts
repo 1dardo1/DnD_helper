@@ -852,3 +852,15 @@ describe('Deft Explorer: one more Expertise and two more languages', () => {
     expect(extraLanguages(REAL.classes.get('fighter')!, 20)).toBe(0);
   });
 });
+
+describe('Mystic Arcanum: one Warlock spell of level 6, then 7, 8 and 9', () => {
+  const pick = (lv: number) =>
+    sheetOf('warlock', lv)
+      .featureChoices?.flatMap((c) => c.picks)
+      .find((p) => p.trait === 'Mystic Arcanum')?.pick;
+  it('one more arcanum at 13, 15 and 17, from the Warlock list', () => {
+    expect(pick(11)).toMatchObject({ count: 1, levels: [6], lists: ['warlock'] });
+    expect(pick(15)).toMatchObject({ count: 3, levels: [6, 7, 8] });
+    expect(pick(17)?.levels).toEqual([6, 7, 8, 9]);
+  });
+});

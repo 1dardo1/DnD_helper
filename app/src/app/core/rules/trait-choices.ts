@@ -192,6 +192,8 @@ export interface TraitPick {
    * slots": Magical Discoveries; a named list of spells: Mental Discipline). Absent: cantrips only.
    */
   spellLevels?: 'any';
+  /** 'cantrip' with spellLevels: only spells of these levels (Mystic Arcanum: 6, 7, 8, 9). */
+  levels?: number[];
   /** Chosen anew when the character finishes this rest. */
   rest?: 'long' | 'short';
   /** The text asks for something the character doesn't have yet ("that you don't have", "a different cantrip"). */
