@@ -310,6 +310,8 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
     const next = paragraphs[paragraphs.indexOf(raw) + 1] ?? '';
     const free =
       (casts && /Long Rest/i.test(p)) ||
+      (/You can cast [A-Z][\w'’ /-]+? up to a number of times equal to your \w+ modifier/.test(p) &&
+        /long rest/i.test(p)) ||
       // Hunter's Mysticism: "You can cast Protection from Evil and Good, but you cannot cast it
       // again with this feature until you finish a long rest"
       /cannot cast it again with this feature until you finish a long rest/i.test(p) ||
@@ -333,6 +335,12 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
     // "You can cast Mage Armor on yourself without expending a spell slot" (Eldritch Invocations)
     for (const m of p.matchAll(
       /[Yy]ou can (?:also )?cast ([A-Z][\w'’ /-]+?)(?: on yourself)?(?: once)? without (?:expending )?a spell slot/g,
+    ))
+      grants.push({ name: m[1], cantrip: null, minLevel: 1 });
+    // Fool's Insight: "You can cast Detect Thoughts up to a number of times equal to your Charisma
+    // modifier. You regain any expended uses of this ability after completing a long rest."
+    for (const m of p.matchAll(
+      /You can cast ([A-Z][\w'’ /-]+?) up to a number of times equal to your \w+ modifier/g,
     ))
       grants.push({ name: m[1], cantrip: null, minLevel: 1 });
     // "You always have the Find Familiar spell prepared" / "the A and B spells prepared"

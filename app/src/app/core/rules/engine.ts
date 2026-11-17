@@ -1471,7 +1471,9 @@ function traitGrants(a: {
     if (t.kind === 'class' && a.counted.has(t.name.toLowerCase())) continue;
     if (t.kind === 'subclass' && poolFor(t.subId, t.name)) continue; // a pool of dice (rules/pools.ts)
     const several = rules.uses.length > 1;
-    for (const u of rules.uses) {
+    // its one use is the free cast already counted (Fool's Insight: Detect Thoughts CHA times)
+    const freeCast = rules.spells.some((g) => g.free && g.minLevel <= a.totalLevel);
+    for (const u of several || !freeCast ? rules.uses : []) {
       const ability = typeof u.max === 'string' && u.max !== 'pb' ? u.max : null;
       uses.push({
         // the Artificer's panels keep these uses under keys of their own: same counter

@@ -790,3 +790,15 @@ describe('choices from a table (Giant Soul, Scion of the Three)', () => {
     expect(ids).not.toContain('fog-cloud');
   });
 });
+
+describe("Fool's Insight: Detect Thoughts CHA times per Long Rest", () => {
+  it('a free cast counted by the Charisma modifier', () => {
+    const s = sheetOf('bard', 6, 'bard/college-of-satire-ua', { scores: { CHA: 16 } });
+    expect(s.featSpells.find((f) => f.id === 'detect-thoughts')?.freeKey).toBeTruthy();
+  });
+});
+
+it("Fool's Insight: one counter, not two", () => {
+  const s = sheetOf('bard', 6, 'bard/college-of-satire-ua', { scores: { CHA: 16 } });
+  expect(playResources(s).filter((r) => r.feat === "Fool's Insight")).toHaveLength(1);
+});
