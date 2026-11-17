@@ -38,7 +38,7 @@ export interface PlayResource {
  * Uses that a feature's text gives instead of a class table column. from: class level;
  * subclassId: only for that subclass. What a Short Rest recovers is in rest-rules.ts.
  */
-const FEATURE_USES: {
+export const FEATURE_USES: {
   classId: string;
   subclassId?: string;
   name: string;
@@ -47,6 +47,10 @@ const FEATURE_USES: {
   uses: (level: number, mod: (a: 'INT' | 'WIS' | 'CHA') => number) => number;
   /** Class table column that holds the size of the die it counts ("Bardic Die"). */
   dieColumn?: string;
+  /** Size of the die it counts when the text says it ("a number of d6s"). */
+  die?: string;
+  /** The sentence of the feature's text the count comes from (checked against the data by a spec). */
+  anchor?: { feature: string; text: RegExp };
 }[] = [
   {
     classId: 'artificer',
@@ -216,6 +220,89 @@ const FEATURE_USES: {
     from: 20,
     uses: () => 2,
   },
+  // -- found by the verification of the test characters (docs/auditoria/verificacion.md) --
+  {
+    classId: 'fighter',
+    subclassId: 'fighter/psi-knight',
+    name: 'Psi Replenishment',
+    labelKey: 'play.res.psiReplenishment',
+    from: 3,
+    uses: () => 1,
+    anchor: {
+      feature: 'Psi Replenishment',
+      text: /can't use Psi Replenishment again until you finish a long rest/,
+    },
+  },
+  {
+    classId: 'sorcerer',
+    subclassId: 'sorcerer/psionic-soul',
+    name: 'Psi Replenishment',
+    labelKey: 'play.res.psiReplenishment',
+    from: 1,
+    uses: () => 1,
+    anchor: {
+      feature: 'Psi Replenishment',
+      text: /can't use Psi Replenishment again until you finish a long rest/,
+    },
+  },
+  {
+    classId: 'monk',
+    subclassId: 'monk/way-of-tranquility',
+    name: 'Healing Hands',
+    labelKey: 'play.res.healingHands',
+    from: 3,
+    uses: (l) => 10 * l,
+    anchor: { feature: 'Healing Hands', text: /hit points equal to your monk level × 10/ },
+  },
+  {
+    classId: 'bard',
+    subclassId: 'bard/college-of-whispers',
+    name: 'Mantle of Whispers',
+    labelKey: 'play.res.mantleOfWhispers',
+    from: 6,
+    uses: () => 1,
+    anchor: {
+      feature: 'Mantle of Whispers',
+      text: /can't capture another one with it until you finish a short or long rest/,
+    },
+  },
+  {
+    classId: 'wizard',
+    subclassId: 'wizard/theurgy-ua',
+    name: 'Channel Arcana',
+    labelKey: 'play.res.channelArcana',
+    from: 2,
+    uses: (l) => (l >= 18 ? 3 : l >= 6 ? 2 : 1),
+    anchor: {
+      feature: 'Channel Arcana',
+      text: /twice between rests, and beginning at 18th level, you can use it three times/,
+    },
+  },
+  {
+    classId: 'wizard',
+    subclassId: 'wizard/onomancy-ua',
+    name: 'Resonant Utterance',
+    labelKey: 'play.res.resonantUtterance',
+    from: 6,
+    uses: (l) => Math.floor(l / 2),
+    anchor: {
+      feature: 'Resonant Utterance',
+      text: /a number of times equal to half of your wizard level \(round down\)/,
+    },
+  },
+  {
+    classId: 'druid',
+    subclassId: 'druid/circle-of-dreams',
+    name: 'Balm of the Summer Court',
+    labelKey: 'play.res.balmOfTheSummerCourt',
+    from: 2,
+    uses: (l) => l,
+    die: 'd6',
+    anchor: {
+      feature: 'Balm of the Summer Court',
+      text: /a number of d6s equal to your druid level/,
+    },
+  },
   {
     classId: 'wizard',
     name: 'Arcane Recovery',
@@ -296,8 +383,16 @@ export function playResources(sheet: Sheet): PlayResource[] {
       ? column(f.classId, f.dieColumn)
       : f.name === 'Superiority Dice'
         ? superiorityDie(sheet)
-        : undefined;
+        : f.die;
     if (max > 0) resources.push(make(f.classId, f.name, max, f.labelKey, die));
+  }
+  // "You gain an additional use of your Blood Maledict feature" (Curse Specialist)
+  for (const feat of sheet.features ?? []) {
+    const more = /You gain an additional use of your ([A-Z][\w' ]+?) feature/.exec(
+      feat.description ?? '',
+    );
+    const r = more && resources.find((x) => x.name.toLowerCase() === more[1].toLowerCase());
+    if (r) r.max += 1;
   }
   // pools of dice read from the subclass feature's text (Psionic Energy Dice, Warrior of the Gods...)
   for (const p of poolsOf(sheet.features ?? [], sheet.classes))

@@ -63,6 +63,10 @@ export interface FeatSpellGrant {
   poolCost?: SpellPoolCost;
   /** Only as a ritual ("You can cast Detect Magic as a ritual"). */
   ritual?: boolean;
+  /** The free cast comes back on a Short or Long Rest ("You regain the ability ... Short or Long Rest"). */
+  freeRest?: 'short-or-long';
+  /** "using Dexterity as the spellcasting modifier" (Voice of Death). */
+  castWith?: Ability;
 }
 
 /** A countable use of a feat. */
@@ -294,13 +298,21 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
     const p = plain(raw);
 
     // -- spells -------------------------------------------------------------------------
-    const casts = /without (?:expending )?a spell slot|without a spell slot or/i.test(p);
+    const castWithWord =
+      /using (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) as the spellcasting modifier/i.exec(
+        p,
+      )?.[1];
+    const castWith = castWithWord ? (castWithWord.slice(0, 3).toUpperCase() as Ability) : undefined;
+    const casts = /without (?:expending |using )?a spell slot|without a spell slot or/i.test(p);
     // Paladin's Smite: "You always have the Divine Smite spell prepared." + next line "You can cast
     // it without expending a spell slot, but you must finish a Long Rest before you can cast it
     // this way again."
     const next = paragraphs[paragraphs.indexOf(raw) + 1] ?? '';
     const free =
       (casts && /Long Rest/i.test(p)) ||
+      // Hunter's Mysticism: "You can cast Protection from Evil and Good, but you cannot cast it
+      // again with this feature until you finish a long rest"
+      /cannot cast it again with this feature until you finish a long rest/i.test(p) ||
       (/^You can cast it without expending a spell slot\b[^.]*\bLong Rest\b/i.test(plain(next)) &&
         /\bthe ([A-Z][\w'’ ]+?) spell prepared\b/.test(p));
     const slots =
@@ -462,6 +474,12 @@ function parseText(feat: RuleText, bulletLabels: boolean): FeatRules {
             ? 'pb'
             : 1,
         ...(named ? { freeAbility: named } : {}),
+        ...(/regain the ability to cast it (?:this|that) way when you finish a Short or Long Rest/i.test(
+          text,
+        )
+          ? { freeRest: 'short-or-long' as const }
+          : {}),
+        ...(castWith ? { castWith } : {}),
         ...(poolCost && casts && !isCantrip ? { poolCost } : {}),
       });
     }

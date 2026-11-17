@@ -37,6 +37,8 @@ export const REST_RULES: Record<string, RestRule> = {
   'psionic energy dice': { short: 1 }, // Rogue, Soulknife; Fighter, Psi Warrior
   'despairing strike dice': { short: 'all' }, // Fighter, Sorrow Knight: Short or Long Rest
   'signature spells': { short: 'all' }, // Wizard 20: each of the two spells, per Short or Long Rest
+  'mantle of whispers': { short: 'all' }, // Bard, Whispers: "until you finish a short or long rest"
+  'channel arcana': { short: 'all' }, // Wizard, Theurgy: "When you finish a short or long rest"
   // -- numbers in the class tables that are not spent --
   'weapon mastery': { short: 0, passive: true },
   'plans known': { short: 0, passive: true },

@@ -1,6 +1,6 @@
 import { computeSheet } from './engine';
 import { REAL, REAL_SPELLS, hero } from './real-data.testing';
-import { longRest, playResources, restPerks, shortRest } from '../play/play-state';
+import { FEATURE_USES, longRest, playResources, restPerks, shortRest } from '../play/play-state';
 import { newCharacter } from '../models/character';
 import { featureChoiceKey } from './class-picks';
 import { sheetOf } from './real-data.testing';
@@ -655,5 +655,53 @@ describe('resistances to choose and Divine Magic', () => {
     expect(extraSpellLists(cls, 3, REAL.subclasses.get('sorcerer/divine-soul'))).toEqual([
       'cleric',
     ]);
+  });
+});
+
+describe('counters found by the verification', () => {
+  it('every anchored counter matches the real text of its feature', () => {
+    for (const f of FEATURE_USES.filter((x) => x.anchor)) {
+      const sub = REAL.subclasses.get(f.subclassId!)!;
+      const feat = sub.features.find((x) => x.name === f.anchor!.feature);
+      expect(feat?.description.replace(/\s+/g, ' '), `${f.subclassId} ${f.name}`).toMatch(
+        f.anchor!.text,
+      );
+    }
+  });
+  const res = (s: ReturnType<typeof sheetOf>, name: string) =>
+    playResources(s).find((r) => r.name === name);
+  it('Healing Hands 10 × level; Channel Arcana 1/2/3 back on a short rest; Balm d6 × level', () => {
+    expect(res(sheetOf('monk', 5, 'monk/way-of-tranquility'), 'Healing Hands')?.max).toBe(50);
+    expect(res(sheetOf('wizard', 6, 'wizard/theurgy-ua'), 'Channel Arcana')).toMatchObject({
+      max: 2,
+      short: 'all',
+    });
+    expect(
+      res(sheetOf('druid', 6, 'druid/circle-of-dreams'), 'Balm of the Summer Court'),
+    ).toMatchObject({ max: 6, die: 'd6' });
+  });
+  it('Curse Specialist: one more Blood Maledict', () => {
+    const base = res(
+      sheetOf('blood-hunter', 3, 'blood-hunter/order-of-the-mutant'),
+      'Blood Maledict',
+    )!.max;
+    expect(
+      res(sheetOf('blood-hunter', 3, 'blood-hunter/order-of-the-ghostslayer'), 'Blood Maledict')!
+        .max,
+    ).toBe(base + 1);
+  });
+  it('free casts: Grasping Tentacles, Protection from Evil and Good, Voice of Death (short rest, DEX)', () => {
+    const free = (s: ReturnType<typeof sheetOf>, id: string) =>
+      s.featSpells.find((f) => f.id === id);
+    expect(
+      free(sheetOf('warlock', 10, 'warlock/the-fathomless'), 'evards-black-tentacles')?.freeKey,
+    ).toBeTruthy();
+    expect(
+      free(sheetOf('fighter', 3, 'fighter/monster-hunter'), 'protection-from-evil-and-good')
+        ?.freeKey,
+    ).toBeTruthy();
+    const ph = sheetOf('rogue', 9, 'rogue/phantom');
+    expect(free(ph, 'speak-with-dead')?.ability).toBe('DEX');
+    expect(ph.featUses.find((u) => u.label === 'Speak with Dead')?.rest).toBe('short-or-long');
   });
 });

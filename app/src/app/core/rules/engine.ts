@@ -1396,7 +1396,8 @@ function traitGrants(a: {
   ) => {
     let ability: Ability = best;
     let chosen = true;
-    if (over.own) ability = over.own;
+    if (g.castWith) ability = g.castWith;
+    else if (over.own) ability = over.own;
     else if (t.kind === 'species') {
       if (speciesPicked) ability = speciesPicked;
       else if (speciesChoice) chosen = false;
@@ -1438,7 +1439,7 @@ function traitGrants(a: {
             : g.freeUses === 'mod'
               ? Math.max(1, mod(g.freeAbility ?? ability))
               : 1,
-        rest: 'long',
+        rest: g.freeRest ?? 'long',
       });
   };
 
