@@ -438,6 +438,14 @@ function readMore(
   s = s
     .replace(/,? (?:and )?(?:one|two) [^,.]*? of your choice/gi, '')
     .replace(/ if you don(?:'|’)t already have (?:it|them)/gi, '');
+  // Training in War and Song: "proficiency with all Melee Martial weapons that don't have the
+  // Two-Handed or Heavy property"
+  const melee =
+    /proficiency with all Melee Martial weapons that don(?:'|’)t have the ([\w-]+) or ([\w-]+) property/i.exec(
+      s,
+    );
+  if (melee)
+    addOnce(out.weapons, `Melee Martial weapons without the ${melee[1]} or ${melee[2]} property`);
   if (!/\bor\b|of your choice|choose|if you don't|these weapons|that don't/i.test(s)) {
     const self = /^(?:Trained for battle, )?(?:You|you) (?:also )?(?:gain|have)\b/.test(s);
     if (self || /^You gain training/i.test(s)) {

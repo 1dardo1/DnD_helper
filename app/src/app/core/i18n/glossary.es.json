@@ -41,7 +41,8 @@
     "simple": "sencilla",
     "martial": "marcial",
     "simple weapons and martial weapons that have the finesse or light property": "Armas sencillas y armas marciales con la propiedad sutil o ligera",
-    "simple weapons and martial weapons that have the light property": "Armas sencillas y armas marciales con la propiedad ligera"
+    "simple weapons and martial weapons that have the light property": "Armas sencillas y armas marciales con la propiedad ligera",
+    "melee martial weapons without the two-handed or heavy property": "Armas marciales cuerpo a cuerpo sin la propiedad a dos manos ni pesada"
   },
   "property": {
     "ammunition": "Munición",

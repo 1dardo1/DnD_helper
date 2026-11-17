@@ -1,3 +1,4 @@
+import { proficientWith } from './attacks';
 import { computeSheet } from './engine';
 import { REAL, REAL_SPELLS, hero } from './real-data.testing';
 import { FEATURE_USES, longRest, playResources, restPerks, shortRest } from '../play/play-state';
@@ -754,5 +755,16 @@ describe('Crimson Rite: extra damage of the hemocraft die', () => {
       sheetOf('blood-hunter', lv).combat.notes.find((n) => n.id === 'crimsonRite')?.params;
     expect(note(2)).toEqual({ die: '1d4' });
     expect(note(11)).toEqual({ die: '1d8' });
+  });
+});
+
+describe('Training in War and Song: Melee Martial weapons without Two-Handed or Heavy', () => {
+  it('a Rapier and a Longsword, not a Greatsword nor a Longbow', () => {
+    const s = sheetOf('wizard', 3, 'wizard/bladesinger');
+    const ok = (id: string) => proficientWith(s.proficiencies.weapons, REAL.items.get(id)!);
+    expect(ok('rapier')).toBe(true);
+    expect(ok('longsword')).toBe(true);
+    expect(ok('greatsword')).toBe(false);
+    expect(ok('longbow')).toBe(false);
   });
 });

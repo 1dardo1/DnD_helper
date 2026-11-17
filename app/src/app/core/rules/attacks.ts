@@ -81,6 +81,11 @@ export function proficientWith(weapons: string[], item: Item): boolean {
     if (t.includes(name)) return true;
     if (kind === 'simple' && /simple weapons/.test(t)) return true;
     if (kind !== 'martial' || !/martial weapons/.test(t)) return false;
+    // "Melee Martial weapons without the Two-Handed or Heavy property" (Bladesinger)
+    if (/^melee /.test(t) && item.weapon?.ranged) return false;
+    const without = /without the (.+?) property/.exec(t);
+    if (without && without[1].split(/\s+or\s+/).some((p) => !!prop(item, p.trim()))) return false;
+    if (without) return true;
     const needs = [...t.matchAll(/\b(finesse|light)\b/g)].map((m) => m[1]);
     return needs.length === 0 || needs.some((p) => !!prop(item, p));
   });
