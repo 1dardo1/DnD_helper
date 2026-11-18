@@ -5,6 +5,9 @@ export const foldersEs: Record<FoldersKey, string> = {
   'folderLock.locked': 'Carpeta con contraseña',
   'folderLock.unlock': 'Desbloquear',
   'folderLock.relock': 'Bloquear',
+  'folderLock.newWithPassword': 'Nueva carpeta con contraseña',
+  'folderLock.hint':
+    'Una carpeta puede tener contraseña: sus personajes se cifran, también en GitHub, y solo se abren con ella. Crea una carpeta (o pulsa «Poner contraseña» en una) para protegerla.',
   'folderLock.set': 'Poner contraseña',
   'folderLock.change': 'Cambiar contraseña',
   'folderLock.remove': 'Quitar contraseña',

@@ -6,6 +6,9 @@ export const foldersEn = {
   'folderLock.locked': 'Locked folder',
   'folderLock.unlock': 'Unlock',
   'folderLock.relock': 'Lock',
+  'folderLock.newWithPassword': 'New folder with password',
+  'folderLock.hint':
+    'A folder can have a password: its characters are encrypted, also on GitHub, and can only be opened with it. Create a folder (or use “Set password” on one) to protect it.',
   'folderLock.set': 'Set password',
   'folderLock.change': 'Change password',
   'folderLock.remove': 'Remove password',

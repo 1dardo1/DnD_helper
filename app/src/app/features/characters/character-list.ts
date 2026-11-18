@@ -56,7 +56,16 @@ const NEW_FOLDER = '\u0000new';
         <button type="button" class="btn-ghost new-folder" (click)="createFolder()">
           + {{ 'folders.new' | t }}
         </button>
+        <button
+          type="button"
+          class="btn-ghost new-folder"
+          data-testid="new-locked-folder"
+          (click)="createFolder(true)"
+        >
+          🔒 + {{ 'folderLock.newWithPassword' | t }}
+        </button>
       </p>
+      <p class="hint" data-testid="folder-lock-hint">{{ 'folderLock.hint' | t }}</p>
       @for (g of groups(); track g.folder ?? '') {
         <section class="folder-group">
           <h2 class="folder-header">
@@ -102,8 +111,8 @@ const NEW_FOLDER = '\u0000new';
                       {{ 'folderLock.remove' | t }}
                     </button>
                   } @else {
-                    <button type="button" (click)="askPassword(g.folder, 'set')">
-                      {{ 'folderLock.set' | t }}
+                    <button type="button" class="primary" (click)="askPassword(g.folder, 'set')">
+                      🔓 {{ 'folderLock.set' | t }}
                     </button>
                   }
                   <button type="button" class="danger" (click)="deleteFolder(g.folder)">
@@ -192,6 +201,11 @@ const NEW_FOLDER = '\u0000new';
     </section>
   `,
   styles: `
+    .hint {
+      margin: 0 0 var(--space-3);
+      font-size: var(--fs-sm);
+      color: var(--ink-soft);
+    }
     .new-folder {
       font-family: var(--font-note);
       font-weight: 700;
@@ -233,8 +247,10 @@ const NEW_FOLDER = '\u0000new';
     }
     .folder-actions {
       display: flex;
+      flex-wrap: wrap;
       gap: var(--space-2);
       margin-left: auto;
+      max-width: 100%;
     }
     .lock {
       font-size: var(--fs-md, 1rem);
@@ -412,9 +428,12 @@ export class CharacterList implements OnInit {
 
   // -- folders --------------------------------------------------------------------------------
 
-  protected createFolder(): void {
+  /** A new folder; `withPassword`: asks for its password right away. */
+  protected createFolder(withPassword = false): void {
     const name = prompt(this.i18n.t('folders.namePrompt'))?.trim();
-    if (name) this.folderPrefs.ensure(name);
+    if (!name) return;
+    this.folderPrefs.ensure(name);
+    if (withPassword) this.askPassword(name, 'set');
   }
 
   protected async moveCharacter(character: Character, value: string): Promise<void> {
