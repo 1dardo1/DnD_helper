@@ -257,3 +257,67 @@ describe('notes on the attack lines', () => {
     expect(before.some((a) => a.notes.some((n) => n.id === 'radiantStrikesRow'))).toBe(false);
   });
 });
+
+describe('numbers per level of subclass features (Whispers, Lament, Storm Herald, Glamour...)', () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const find = (list: { id: string }[], id: string) => list.find((n) => n.id === id) as any;
+
+  it('Whispers: Psychic Blades 2d6, 3d6, 5d6, 8d6', () => {
+    for (const [lvl, dice] of [
+      [3, '2d6'],
+      [5, '3d6'],
+      [10, '5d6'],
+      [15, '8d6'],
+    ] as const)
+      expect(
+        find(sheetOf('bard', lvl, 'bard/college-of-whispers').combat.notes, 'psychicBlades').params,
+      ).toEqual({ dice });
+  });
+
+  it("Lament: Banshee's Wail (Rage Damage d12, CON uses) and Deathly Wail (2 x level)", () => {
+    const s = sheetOf('barbarian', 14, 'barbarian/path-of-lament-ua');
+    expect(find(s.combat.stats, 'bansheesWail').params).toEqual({ dice: '3d12', uses: 2 });
+    expect(find(s.combat.stats, 'deathlyWail').params).toEqual({ n: 28 });
+    const low = sheetOf('barbarian', 3, 'barbarian/path-of-lament-ua');
+    expect(find(low.combat.stats, 'bansheesWail').params).toEqual({ dice: '2d12', uses: 2 });
+    expect(find(low.combat.stats, 'deathlyWail')).toBeUndefined();
+  });
+
+  it('Ancestral Guardian and Storm Herald: Rage Damage dice', () => {
+    const anc = sheetOf('barbarian', 6, 'barbarian/path-of-the-ancestral-guardian-ua');
+    expect(find(anc.combat.stats, 'spiritShield').params).toEqual({ dice: '2d6' });
+    const storm = sheetOf('barbarian', 9, 'barbarian/path-of-the-storm-herald-ua');
+    expect(find(storm.combat.stats, 'stormAura').params).toEqual({ d4: '3d4', d6: '3d6' });
+  });
+
+  it('Battlerager: Reckless Abandon = CON modifier, minimum 1', () => {
+    const id = 'barbarian/path-of-the-battlerager';
+    expect(find(sheetOf('barbarian', 6, id).combat.stats, 'recklessAbandon').params).toEqual({
+      n: 2,
+    });
+    const weak = sheetOf('barbarian', 6, id, { scores: { CON: 8 } });
+    expect(find(weak.combat.stats, 'recklessAbandon').params).toEqual({ n: 1 });
+  });
+
+  it('Glamour, Creation and Dance use the Bardic Inspiration die and Charisma', () => {
+    const glam = (lvl: number) =>
+      sheetOf('bard', lvl, 'bard/college-of-glamour', { scores: { CHA: 18 } });
+    expect(find(glam(3).combat.stats, 'mantleOfInspiration').params).toEqual({ die: 'd6', n: 4 });
+    expect(find(glam(10).combat.stats, 'mantleOfInspiration').params).toEqual({ die: 'd10', n: 4 });
+    const crea = (cha: number) =>
+      sheetOf('bard', 14, 'bard/college-of-creation', { scores: { CHA: cha } });
+    expect(find(crea(18).combat.stats, 'creativeCrescendo').params).toEqual({ n: 4 });
+    expect(find(crea(8).combat.stats, 'creativeCrescendo').params).toEqual({ n: 2 });
+    const dance = sheetOf('bard', 5, 'bard/college-of-dance', { scores: { DEX: 16 } });
+    expect(find(dance.combat.notes, 'bardicDamage').params).toEqual({ die: 'd8', mod: '+3' });
+  });
+
+  it('Peace: Balm of Peace 2d6 + WIS; Grave: Pull of Death 1d4, 1d6 from level 11', () => {
+    const peace = sheetOf('cleric', 3, 'cleric/peace-domain');
+    expect(find(peace.combat.stats, 'balmOfPeace').params).toEqual({ mod: '+2' });
+    const grave = (lvl: number) => sheetOf('cleric', lvl, 'cleric/grave-domain').combat.notes;
+    expect(find(grave(3), 'pullOfDeath').params).toEqual({ dice: '1d4' });
+    expect(find(grave(10), 'pullOfDeath').params).toEqual({ dice: '1d4' });
+    expect(find(grave(11), 'pullOfDeath').params).toEqual({ dice: '1d6' });
+  });
+});
