@@ -336,6 +336,18 @@ export function traitPicks(description: string | null | undefined): TraitPick[] 
         sentence,
       );
     if (tl) add({ kind: 'tool', count: NUMBER_WORDS[(tl[1] ?? tl[2]).toLowerCase()], from: null });
+    // Student of Preservation: "You gain proficiency with one type of Artisan's Tools of your
+    // choice" (not "one other type ... If you already have this proficiency": a fallback)
+    const art = /\bproficiency with (one|two) types? of Artisan['’]s Tools of your choice/i.exec(
+      sentence,
+    );
+    if (art)
+      add({
+        kind: 'tool',
+        count: NUMBER_WORDS[art[1].toLowerCase()],
+        from: null,
+        group: "Artisan's Tools",
+      });
     const kind = /\b(one|two)\s+(musical instrument|gaming set)s? of your choice/i.exec(sentence);
     if (kind)
       add({
