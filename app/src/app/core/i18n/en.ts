@@ -459,6 +459,8 @@ export const en = {
     'Marked as recovered on a rest; it really comes back when you move 0 feet on one of your turns.',
   'play.recharge.castSlot':
     'Marked as recovered on a Long Rest; it also comes back when you cast a Sorcerer spell with a spell slot.',
+  'play.recharge.powerSurge':
+    'Counts the ones you have stored: after a Long Rest you have 1 (mark the rest as spent); +1 when you finish a Short Rest with none and +1 when you end a spell with Dispel Magic or Counterspell. One per turn: extra Force damage equal to half your wizard level.',
   'play.resources': 'Class and feat resources used',
   'play.res.luckPoints': 'Luck Points',
   'sheet.featSource': 'Feat: {name}',
@@ -520,6 +522,7 @@ export const en = {
   'play.res.balmOfTheSummerCourt': 'Balm of the Summer Court',
   'play.res.experimentalElixir': 'Experimental Elixirs',
   'play.res.spellStoringItem': 'Spell-Storing Item (uses)',
+  'play.res.powerSurge': 'Power Surges',
   'play.res.flashOfGenius': 'Flash of Genius',
   'play.res.hybridTransformation': 'Hybrid Transformation',
   'play.res.divineIntervention': 'Divine Intervention',
@@ -953,6 +956,11 @@ export const en = {
   'combat.note.naturalWeapon': 'Unarmed Strike with the damage your species trait gives',
   'combat.note.pactBlade':
     'Pact weapon: if it is the bonded one, you can use CHA for attack and damage ({hit} / {dmg})',
+  'combat.note.arcaneEmpowerment':
+    'Arcane Empowerment: Intelligence for attack and damage with a magic weapon (included)',
+  'combat.note.bladework': 'Bladesong (Bladework): Intelligence for attack and damage (included)',
+  'combat.note.bladeworkOff':
+    'With the Bladesong active, Intelligence for attack and damage ({hit} / {dmg})',
   'combat.note.lifedrinker':
     'once per turn with the pact weapon: +1d6 Necrotic, Psychic or Radiant; spend a Hit Die to regain the roll + CON',
   'combat.stat.dc': 'DC {n}',

@@ -2,7 +2,7 @@ import type { RechargeNote } from './feat-effects';
 import type { SpeciesPick } from './species-picks';
 import type { SpellPoolCost } from './feat-effects';
 import type { HpLevelRow } from '../creation/hp-levels';
-import type { SheetActiveState } from './active-states';
+import type { ActiveStateId, SheetActiveState } from './active-states';
 import { Ability } from '../models/compendium';
 import type { FeatureNote } from './feature-stats';
 import type { NaturalWeapon } from './natural-weapons';
@@ -167,6 +167,11 @@ export interface CombatInfo {
   unarmedType: string | null;
   /** Pact of the Blade chosen: Charisma may replace the ability of the pact weapon's attacks. */
   pactBlade: boolean;
+  /**
+   * Intelligence may replace Strength or Dexterity for weapon attacks: with a magic weapon
+   * (Arcane Empowerment) or a proficient one (Bladework), only while `state` is on (Bladesong).
+   */
+  intWeapons?: { only: 'magic' | 'proficient'; state: ActiveStateId | null }[];
   /** Attack rolls score a critical hit from this number (Champion: 19, 18); 20 = normal. */
   critRange: number;
   /** Barbarian's Rage Damage bonus (0 without it): added to Strength attacks while raging. */

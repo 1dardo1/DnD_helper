@@ -463,6 +463,8 @@ export const es: Record<keyof typeof en, string> = {
     'Se marca como recuperado al descansar; en realidad vuelve cuando te mueves 0 pies en uno de tus turnos.',
   'play.recharge.castSlot':
     'Se marca como recuperado en el descanso largo; también vuelve al lanzar un conjuro de hechicero con un espacio de conjuro.',
+  'play.recharge.powerSurge':
+    'Cuenta las que tienes guardadas: tras un descanso largo te queda 1 (marca el resto como gastadas); +1 al terminar un descanso corto sin ninguna y +1 al acabar un conjuro con Disipar magia o Contrahechizo. Una por turno: daño de fuerza extra igual a la mitad de tu nivel de mago.',
   'play.resources': 'Recursos de clase y de dote usados',
   'play.res.luckPoints': 'Puntos de suerte',
   'sheet.featSource': 'Dote: {name}',
@@ -525,6 +527,7 @@ export const es: Record<keyof typeof en, string> = {
   'play.res.balmOfTheSummerCourt': 'Bálsamo de la Corte de Verano',
   'play.res.experimentalElixir': 'Elixires experimentales',
   'play.res.spellStoringItem': 'Objeto almacén de conjuros (usos)',
+  'play.res.powerSurge': 'Sobretensiones',
   'play.res.flashOfGenius': 'Destello de genialidad',
   'play.res.hybridTransformation': 'Transformación híbrida',
   'play.res.divineIntervention': 'Intervención divina',
@@ -964,6 +967,12 @@ export const es: Record<keyof typeof en, string> = {
   'combat.note.naturalWeapon': 'Ataque sin armas con el daño de tu rasgo de especie',
   'combat.note.pactBlade':
     'Arma de pacto: si es la vinculada, puedes usar CAR para ataque y daño ({hit} / {dmg})',
+  'combat.note.arcaneEmpowerment':
+    'Empoderamiento arcano: Inteligencia en ataque y daño con un arma mágica (incluido)',
+  'combat.note.bladework':
+    'Canción de espada (Bladework): Inteligencia en ataque y daño (incluido)',
+  'combat.note.bladeworkOff':
+    'Con la Canción de espada activa, Inteligencia en ataque y daño ({hit} / {dmg})',
   'combat.note.lifedrinker':
     'una vez por turno con el arma de pacto: +1d6 necrótico, psíquico o radiante; gasta un dado de golpe y recuperas la tirada + CON',
   'combat.stat.dc': 'CD {n}',
