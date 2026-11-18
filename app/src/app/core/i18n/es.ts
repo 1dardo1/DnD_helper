@@ -1043,6 +1043,28 @@ export const es: Record<keyof typeof en, string> = {
     'Rito carmesí activo: +{die} de daño del tipo del rito con el arma (activarlo cuesta un dado de hemocracia de PG)',
   'combat.note.brandOfCastigation':
     'Marca de castigo: la criatura marcada recibe {n} de daño psíquico cada vez que te daña a ti o a una criatura a 5 pies de ti',
+  'combat.note.psychicBlades':
+    'Cuchillas psíquicas: +{dice} de daño psíquico en un impacto con arma (gasta una Inspiración bárdica; una vez por asalto)',
+  'combat.stat.bansheesWail':
+    'Lamento de la banshee: {dice} de daño psíquico, mitad si supera la salvación de CON; {uses} usos por descanso largo',
+  'combat.stat.deathlyWail':
+    'Lamento mortal: si falla la salvación y tiene {n} PG o menos, cae a 0 PG',
+  'combat.stat.spiritShield':
+    'Reacción: reduces el daño que sufre otra criatura en {dice} (con la Furia activa)',
+  'combat.stat.stormAura':
+    'Aura de tormenta: Desierto {d4} de daño de fuego; Mar {d6} de daño de relámpago; Tundra resta {d4} a su próximo daño',
+  'combat.stat.recklessAbandon':
+    'Abandono temerario: {n} PG temporales al usar Ataque temerario con la Furia activa',
+  'combat.stat.mantleOfInspiration':
+    'Manto de inspiración: hasta {n} criaturas ganan el doble de la tirada de {die} en PG temporales',
+  'combat.stat.creativeCrescendo':
+    'Crescendo creativo: crea hasta {n} objetos a la vez con Actuación de creación',
+  'combat.note.bardicDamage':
+    'Daño bárdico: con un golpe sin armas, {die} + {mod} de daño contundente en vez del normal (no gasta el dado)',
+  'combat.stat.balmOfPeace':
+    'Bálsamo de paz: 2d6 {mod} PG a cada criatura a menos de 5 pies de tu movimiento',
+  'combat.note.pullOfDeath':
+    'Atracción de la muerte: +{dice} de daño necrótico a una criatura a la que le falten PG (una vez por turno)',
   'combat.stat.flashOfGenius': 'reacción: +{n} a una salvación o prueba fallida',
   'sheet.mastery': 'Maestría',
   'sheet.mastery.chosen': 'Maestría de armas ({count} / {slots})',

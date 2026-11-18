@@ -1028,6 +1028,28 @@ export const en = {
     "Active Crimson Rite: +{die} damage of the rite's type with the weapon (activating it costs one hemocraft die of HP)",
   'combat.note.brandOfCastigation':
     'Brand of Castigation: the branded creature takes {n} psychic damage each time it damages you or a creature within 5 feet of you',
+  'combat.note.psychicBlades':
+    'Psychic Blades: +{dice} psychic damage on a weapon hit (spends a Bardic Inspiration; once per round)',
+  'combat.stat.bansheesWail':
+    "Banshee's Wail: {dice} psychic damage, half on a successful CON save; {uses} uses per Long Rest",
+  'combat.stat.deathlyWail':
+    'Deathly Wail: on a failed save, a target with {n} HP or fewer drops to 0 HP',
+  'combat.stat.spiritShield':
+    'Reaction: reduce the damage another creature takes by {dice} (while Raging)',
+  'combat.stat.stormAura':
+    'Storm Aura: Desert {d4} Fire damage; Sea {d6} Lightning damage; Tundra subtracts {d4} from its next damage roll',
+  'combat.stat.recklessAbandon':
+    'Reckless Abandon: {n} Temporary Hit Points when you use Reckless Attack while Raging',
+  'combat.stat.mantleOfInspiration':
+    'Mantle of Inspiration: up to {n} creatures gain twice the {die} roll as Temporary Hit Points',
+  'combat.stat.creativeCrescendo':
+    'Creative Crescendo: create up to {n} items at once with Performance of Creation',
+  'combat.note.bardicDamage':
+    "Bardic Damage: on an Unarmed Strike, {die} + {mod} Bludgeoning damage instead of the strike's normal damage (doesn't expend the die)",
+  'combat.stat.balmOfPeace':
+    'Balm of Peace: 2d6 {mod} HP to each creature you move within 5 feet of',
+  'combat.note.pullOfDeath':
+    'Pull of Death: +{dice} Necrotic damage to a creature missing any HP (once per turn)',
   'combat.stat.flashOfGenius': 'Reaction: +{n} to a failed check or save',
   'sheet.mastery': 'Mastery',
   'sheet.mastery.chosen': 'Weapon Mastery ({count} / {slots})',

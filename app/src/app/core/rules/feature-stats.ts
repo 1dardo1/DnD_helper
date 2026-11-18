@@ -114,6 +114,17 @@ const USE: Record<string, { action: UseKind; spends?: string; dc?: 'spell' | 'fo
   telepathy: { action: 'bonus' },
   telepathyOnly: { action: 'bonus' },
   createThrall: { action: 'passive' },
+  psychicBlades: { action: 'onHit', spends: 'Bardic Inspiration' },
+  bansheesWail: { action: 'bonus', spends: "Banshee's Wail" },
+  deathlyWail: { action: 'passive' },
+  spiritShield: { action: 'reaction' },
+  stormAura: { action: 'bonus' },
+  recklessAbandon: { action: 'free' },
+  mantleOfInspiration: { action: 'bonus', spends: 'Bardic Inspiration' },
+  creativeCrescendo: { action: 'passive' },
+  bardicDamage: { action: 'onHit' },
+  balmOfPeace: { action: 'action', spends: 'Channel Divinity' },
+  pullOfDeath: { action: 'onHit' },
 };
 
 interface Ctx {
@@ -812,6 +823,117 @@ export const DEFS: Def[] = [
       },
     ],
     p: (c) => (c.key === null ? null : { n: c.level >= 13 ? 2 * min1(c.key) : min1(c.key) }),
+  },
+  // -- Bard, Barbarian and Cleric subclasses: numbers the text gives as a formula ---------------------
+  {
+    cls: 'bard',
+    sub: 'bard/college-of-whispers',
+    feature: 'Psychic Blades',
+    id: 'psychicBlades',
+    to: 'notes',
+    anchor: /additional 2d6 psychic damage[^]*3d6 at 5th level, 5d6 at 10th level, and 8d6 at 15th/,
+    p: (c) => ({ dice: `${c.level >= 15 ? 8 : c.level >= 10 ? 5 : c.level >= 5 ? 3 : 2}d6` }),
+  },
+  {
+    cls: 'barbarian',
+    sub: 'barbarian/path-of-lament-ua',
+    feature: "Banshee's Wail",
+    id: 'bansheesWail',
+    to: 'stats',
+    anchor:
+      /roll a number of d12s equal to your Rage Damage bonus[^]*a number of times equal to your Constitution modifier \(minimum of once\)/,
+    p: (c) => ({ dice: `${c.rage}d12`, uses: min1(c.mod('CON')) }),
+  },
+  {
+    cls: 'barbarian',
+    sub: 'barbarian/path-of-lament-ua',
+    feature: 'Otherworldly Anguish',
+    id: 'deathlyWail',
+    to: 'stats',
+    anchor: /Hit Points equal to twice your Barbarian level or fewer, it drops to 0 Hit Points/,
+    p: (c) => ({ n: 2 * c.level }),
+  },
+  {
+    cls: 'barbarian',
+    sub: 'barbarian/path-of-the-ancestral-guardian-ua',
+    feature: 'Spirit Shield',
+    id: 'spiritShield',
+    to: 'stats',
+    anchor: /roll a number of d6s equal to your Rage Damage bonus/,
+    p: (c) => ({ dice: `${c.rage}d6` }),
+  },
+  {
+    cls: 'barbarian',
+    sub: 'barbarian/path-of-the-storm-herald-ua',
+    feature: 'Storm Aura',
+    id: 'stormAura',
+    to: 'stats',
+    anchor:
+      /Desert\.\*\* When this effect is activated, roll a number of d4s equal to your Rage Damage bonus[^]*Sea\.\*\* When this effect is activated, roll a number of d6s equal to your Rage Damage bonus[^]*Tundra\.\*\* When this effect is activated, roll a number of d4s equal to your Rage Damage bonus/,
+    p: (c) => ({ d4: `${c.rage}d4`, d6: `${c.rage}d6` }),
+  },
+  {
+    cls: 'barbarian',
+    sub: 'barbarian/path-of-the-battlerager',
+    feature: 'Reckless Abandon',
+    id: 'recklessAbandon',
+    to: 'stats',
+    anchor: /temporary hit points equal to your Constitution modifier \(minimum of 1\)/,
+    p: (c) => ({ n: min1(c.mod('CON')) }),
+  },
+  {
+    cls: 'bard',
+    sub: 'bard/college-of-glamour',
+    feature: 'Mantle of Inspiration',
+    id: 'mantleOfInspiration',
+    to: 'stats',
+    anchor:
+      /up to a number equal to your Charisma modifier \(minimum of one creature\)[^]*Temporary Hit Points equal to two times the number rolled on the Bardic Inspiration die/,
+    p: (c) =>
+      c.col('Bardic Die')
+        ? { die: c.col('Bardic Die').toLowerCase(), n: min1(c.mod('CHA')) }
+        : null,
+  },
+  {
+    cls: 'bard',
+    sub: 'bard/college-of-creation',
+    feature: 'Creative Crescendo',
+    id: 'creativeCrescendo',
+    to: 'stats',
+    anchor: /number of items equals your Charisma modifier \(minimum of two items\)/,
+    p: (c) => ({ n: Math.max(2, c.mod('CHA')) }),
+  },
+  {
+    cls: 'bard',
+    sub: 'bard/college-of-dance',
+    feature: 'Dazzling Footwork',
+    id: 'bardicDamage',
+    to: 'notes',
+    anchor:
+      /Bludgeoning damage equal to a roll of your Bardic Inspiration die plus your Dexterity modifier/,
+    p: (c) =>
+      c.col('Bardic Die')
+        ? { die: c.col('Bardic Die').toLowerCase(), mod: plus(c.mod('DEX')) }
+        : null,
+  },
+  {
+    cls: 'cleric',
+    sub: 'cleric/peace-domain',
+    feature: 'Channel Divinity: Balm of Peace',
+    id: 'balmOfPeace',
+    to: 'stats',
+    anchor: /equal to 2d6 \+ your Wisdom modifier \(minimum of 1 hit point\)/,
+    p: (c) => ({ mod: plus(c.mod('WIS')) }),
+  },
+  {
+    cls: 'cleric',
+    sub: 'cleric/grave-domain',
+    feature: 'Circle of Mortality',
+    id: 'pullOfDeath',
+    to: 'notes',
+    anchor:
+      /extra 1d4 Necrotic damage\. This extra damage increases to 1d6 when you reach Cleric level 11/,
+    p: (c) => ({ dice: c.level >= 11 ? '1d6' : '1d4' }),
   },
 ];
 
