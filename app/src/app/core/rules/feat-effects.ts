@@ -97,8 +97,11 @@ export type FeatPool = 'death-points' | 'psionic-energy-dice';
  *   moveZero: "you can't use it again until you move 0 feet on one of your turns" (Feline Agility)
  *   castSlot: "you must cast a Sorcerer spell with a spell slot or finish a Long Rest before you
  *     can use this feature again" (Tides of Chaos)
+ *   powerSurge: "Whenever you finish a long rest, your number of power surges resets to one ... If
+ *     you end a short rest with no power surges, you gain one power surge" (War Magic; set in
+ *     play-state.ts FEATURE_USES, not read here)
  */
-export type RechargeNote = 'longRests1d4' | 'moveZero' | 'castSlot';
+export type RechargeNote = 'longRests1d4' | 'moveZero' | 'castSlot' | 'powerSurge';
 
 const RECHARGE: { re: RegExp; note: RechargeNote; rest: 'long' | 'short-or-long' }[] = [
   {

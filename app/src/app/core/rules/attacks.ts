@@ -126,7 +126,7 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
       (w.kind === 'simple' || item.name === 'Shortsword') &&
       !prop(item, 'two-handed') &&
       !prop(item, 'heavy');
-    const ability: Ability =
+    let ability: Ability =
       prop(item, 'finesse') || monkWeapon
         ? mod('DEX') > mod('STR')
           ? 'DEX'
@@ -135,6 +135,21 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
           ? 'DEX'
           : 'STR';
     const proficient = proficientWith(sheet.proficiencies.weapons, item);
+    // Arcane Empowerment (a magic weapon) / Bladework (a proficient weapon, in the Bladesong):
+    // Intelligence instead of Strength or Dexterity, when it is better; with the state off, a note
+    // with the line it would have (added below, once the line is built)
+    let intOff: string | null = null;
+    for (const x of combat?.intWeapons ?? []) {
+      if ((x.only === 'magic' ? !magic : !proficient) || mod('INT') <= mod(ability)) continue;
+      const id = x.only === 'magic' ? 'arcaneEmpowerment' : 'bladework';
+      if (x.state && !stateOn(combat?.states, x.state)) {
+        intOff = `${id}Off`;
+        continue;
+      }
+      ability = 'INT';
+      intOff = null;
+      notes.push({ id });
+    }
     const m = mod(ability);
     // an upgrade for ranged attacks does not reach the melee use of a Thrown weapon
     const ups: AttackUpgrade[] = upgrades.map((u) => ({
@@ -160,6 +175,16 @@ export function attacksFor(sheet: Sheet, weapons: WeaponEntry[]): Attack[] {
     }
     const versatileDie = /\(([^)]+)\)/.exec(prop(item, 'versatile') ?? '')?.[1] ?? null;
     const thrown = /(\d+\/\d+)/.exec(prop(item, 'thrown') ?? '')?.[1] ?? null;
+    if (intOff) {
+      const delta = mod('INT') - m;
+      notes.push({
+        id: intOff,
+        params: {
+          hit: signed(m + plus + styleAttack + (proficient ? pb : 0) + delta) || '+0',
+          dmg: `${dice}${signed(m + plus + dueling + delta)}`,
+        },
+      });
+    }
     out.push({
       entryId: id,
       name: magic ? magic.item.name : item.name,

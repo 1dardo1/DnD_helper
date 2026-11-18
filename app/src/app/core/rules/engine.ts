@@ -338,7 +338,9 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   ]);
   const expertise = new Set(ch.choices.expertise);
   // Unlight Revelation, Unencumbered Grace: the skill, and Expertise always or if already proficient
-  for (const x of traits.flatMap((t) => fx(t).expertise)) {
+  const traitExpertise = traits.flatMap((t) => fx(t).expertise);
+  for (const x of traitExpertise) {
+    if (x.mode === 'onlyIfProficient') continue; // after every proficiency (below)
     if (x.mode === 'always' || proficient.has(x.skill)) expertise.add(x.skill);
     proficient.add(x.skill);
   }
@@ -359,6 +361,9 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
       else proficient.add(id);
     }
   }
+  // Lore Mastery: Expertise in those skills only if proficient in them (no proficiency given)
+  for (const x of traitExpertise)
+    if (x.mode === 'onlyIfProficient' && proficient.has(x.skill)) expertise.add(x.skill);
   const jack = has('Jack of All Trades');
   const skills = Object.entries(SKILL_ABILITY).map(([id, ability]) => {
     const level: Sheet['skills'][number]['proficiency'] = expertise.has(id)
@@ -381,8 +386,13 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   const alert = feats.some((f) => /initiative proficiency/i.test(f.description));
   const iniPb = alert || traits.some((t) => fx(t).initiative.pb);
   const iniAbilities = new Set(traits.flatMap((t) => fx(t).initiative.abilities));
-  const initiative =
-    mod('DEX') + (iniPb ? pb : 0) + [...iniAbilities].reduce((n, a) => n + mod(a), 0);
+  // Lore Mastery: "it is either an Intelligence check or a Dexterity check for you (your
+  // choice)": the better of them
+  const iniBase = Math.max(
+    mod('DEX'),
+    ...traits.flatMap((t) => fx(t).initiative.instead).map((a) => mod(a)),
+  );
+  const initiative = iniBase + (iniPb ? pb : 0) + [...iniAbilities].reduce((n, a) => n + mod(a), 0);
 
   // -- hit points ----------------------------------------------------------------------
   // per level: the die (full at level 1 of the first class) or the method chosen for it
@@ -1589,24 +1599,45 @@ function traitGrants(a: {
 
   // domain, oath, circle... spells: always prepared from the class level in the table (not a 2014
   // Warlock patron's expanded list: those are only added to the list to choose from)
-  for (const { sub, level } of a.subclasses)
+  for (const { sub, level } of a.subclasses) {
+    // House Insignia: "Once you cast a spell using your insignia, you can't cast that spell again
+    // until you finish a Long Rest" (one free cast of each spell of the table, no spell slots), with
+    // the feature's own ability ("Charisma is your spellcasting ability for spells you cast with
+    // your insignia")
+    const once = sub.features.find(
+      (f) =>
+        f.level <= level &&
+        /Once you cast a spell using your \w+, you can(?:'|’)t cast that spell again until you finish a Long Rest/i.test(
+          f.description,
+        ),
+    );
+    const onceAbility = once ? featRules(once).ability : null;
     for (const row of expandsSpellList(sub) ? [] : (chosenSpellRows(sub, a.ch) ?? sub.spells ?? []))
       if (row.classLevel <= level)
         for (const name of row.spells)
           add(
-            { kind: 'subclass', name: sub.name, id: slugOf(sub.name), classId: sub.classId },
+            {
+              kind: 'subclass',
+              name: once?.name ?? sub.name,
+              id: slugOf(once?.name ?? sub.name),
+              classId: sub.classId,
+            },
             {
               name,
               id: slug(name),
               minLevel: 1,
               cantrip: null,
-              free: false,
+              free: !!once,
               atWill: false,
-              slots: true,
+              slots: !once,
               freeUses: 1,
             },
-            { always: true },
+            {
+              always: true,
+              own: onceAbility?.mode === 'fixed' ? onceAbility.ability : null,
+            },
           );
+  }
   return { spells, uses, resistances, missing };
 }
 
@@ -1714,6 +1745,25 @@ function combatOf(
   if (rogue) {
     const dice = col(rogue.cls, rogue.level, 'Sneak Attack');
     if (dice) combat.notes.push({ id: 'sneak', source: 'Sneak Attack', params: { n: dice } });
+  }
+  // Arcane Empowerment: "When you attack with a magic weapon, you can use your Intelligence
+  // modifier, instead of Strength or Dexterity modifier, for the attack and damage rolls";
+  // Bladework (while the Bladesong is active): "Whenever you attack with a weapon with which you
+  // have proficiency, you can use your Intelligence modifier for the attack and damage rolls"
+  for (const f of extra.features) {
+    const text = (f.description ?? '').replace(/\*+/g, '').replace(/\s+/g, ' ');
+    const m =
+      /\b(?:When|Whenever) you attack with (a magic weapon|a weapon with which you have proficiency), you can use your Intelligence modifier,? (?:instead of Strength or Dexterity(?: modifier)?,? )?for the attack and damage rolls/i.exec(
+        text,
+      );
+    if (!m) continue;
+    const state = ACTIVE_STATES.find(
+      (d) => d.feature?.name === f.name && d.feature.sub === f.source.id,
+    );
+    (combat.intWeapons ??= []).push({
+      only: /magic/i.test(m[1]) ? 'magic' : 'proficient',
+      state: state?.id ?? null,
+    });
   }
   for (const { opt } of options)
     if (opt.id === 'eldritch-invocation/lifedrinker')

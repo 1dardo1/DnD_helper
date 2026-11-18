@@ -1,4 +1,4 @@
-import { proficientWith } from './attacks';
+import { WeaponEntry, attacksFor, proficientWith } from './attacks';
 import { computeSheet } from './engine';
 import { REAL, REAL_SPELLS, hero } from './real-data.testing';
 import { FEATURE_USES, longRest, playResources, restPerks, shortRest } from '../play/play-state';
@@ -864,5 +864,101 @@ describe('Mystic Arcanum: one Warlock spell of level 6, then 7, 8 and 9', () => 
     expect(pick(11)).toMatchObject({ count: 1, levels: [6], lists: ['warlock'] });
     expect(pick(15)).toMatchObject({ count: 3, levels: [6, 7, 8] });
     expect(pick(17)?.levels).toEqual([6, 7, 8, 9]);
+  });
+});
+
+describe('subclass features left pending by the verification', () => {
+  const skill = (s: ReturnType<typeof sheetOf>, id: string) => s.skills.find((k) => k.id === id)!;
+
+  it('Lore Mastery: Expertise in Arcana/History/Nature/Religion only if already proficient', () => {
+    const s = sheetOf('wizard', 3, 'wizard/lore-mastery', { skills: ['arcana', 'history'] });
+    expect(skill(s, 'arcana').proficiency).toBe('expertise');
+    expect(skill(s, 'history').proficiency).toBe('expertise');
+    // no proficiency given: Nature and Religion stay as they were
+    expect(skill(s, 'nature').proficiency).toBe('none');
+    expect(skill(s, 'religion').proficiency).toBe('none');
+    expect(skill(s, 'arcana').modifier).toBe(s.abilities.INT.modifier + 2 * s.proficiencyBonus);
+  });
+
+  it('Lore Mastery: Initiative is an Intelligence or a Dexterity check (the better one)', () => {
+    const lore = (scores: { DEX: number; INT: number }) =>
+      sheetOf('wizard', 3, 'wizard/lore-mastery', { scores }).initiative;
+    expect(lore({ DEX: 10, INT: 18 })).toBe(4);
+    expect(lore({ DEX: 16, INT: 12 })).toBe(3);
+    expect(sheetOf('wizard', 3, null, { scores: { DEX: 10, INT: 18 } }).initiative).toBe(0);
+  });
+
+  const item = (id: string) => REAL.items.get(id)!;
+  const entry = (id: string, magic?: number): WeaponEntry => ({
+    id: `e-${id}`,
+    equipped: true,
+    item: item(id),
+    ...(magic ? { magic: { item: item('weapon-1-2-or-3'), bonus: magic } } : {}),
+  });
+  const row = (s: ReturnType<typeof sheetOf>, w: WeaponEntry) =>
+    attacksFor(s, [w]).find((a) => a.entryId === w.id)!;
+
+  it('Arcane Empowerment: Intelligence for attack and damage with a magic weapon only', () => {
+    const s = sheetOf('artificer', 3, 'artificer/battle-smith-ua', {
+      scores: { STR: 10, DEX: 10, INT: 16 },
+    });
+    const magic = row(s, entry('longsword', 1));
+    expect(magic.ability).toBe('INT');
+    expect(magic.bonus).toBe(3 + 1 + s.proficiencyBonus);
+    expect(magic.damage).toBe('1d8+4');
+    expect(magic.notes).toContainEqual({ id: 'arcaneEmpowerment' });
+    const plain = row(s, entry('longsword'));
+    expect(plain.ability).toBe('STR');
+    expect(plain.damage).toBe('1d8');
+  });
+
+  it('Bladework: Intelligence with a proficient weapon only while the Bladesong is on', () => {
+    const scores = { STR: 8, DEX: 14, INT: 18 };
+    const off = sheetOf('wizard', 3, 'wizard/bladesinger', { scores });
+    const offRow = row(off, entry('dagger'));
+    expect(offRow.ability).toBe('DEX');
+    expect(offRow.notes).toContainEqual({
+      id: 'bladeworkOff',
+      params: { hit: `+${4 + off.proficiencyBonus}`, dmg: '1d4+4' },
+    });
+    const c = hero('wizard', 3, 'wizard/bladesinger', { scores });
+    c.state = { ...c.state, active: ['bladesong'] };
+    const on = row(computeSheet(c, REAL), entry('dagger'));
+    expect(on.ability).toBe('INT');
+    expect(on.damage).toBe('1d4+4');
+    expect(on.notes).toContainEqual({ id: 'bladework' });
+  });
+
+  it('City Domain: proficiency with land vehicles; sidearms are no weapon of the compendium', () => {
+    const s = sheetOf('cleric', 3, 'cleric/city-domain-ua');
+    expect(s.proficiencies.tools).toContain('Vehicles (Land)');
+    expect(s.proficiencies.weapons.some((w) => /sidearm/i.test(w))).toBe(false);
+  });
+
+  it('House Insignia: each table spell once per Long Rest, with Charisma, no spell slots', () => {
+    const s = sheetOf('rogue', 9, 'rogue/house-agent-ua', { scores: { INT: 18, CHA: 12 } });
+    for (const id of ['charm-person', 'suggestion', 'hypnotic-pattern']) {
+      const sp = s.featSpells.find((f) => f.id === id)!;
+      expect(sp, id).toMatchObject({ ability: 'CHA', slots: false });
+      expect(sp.freeKey, id).toBeTruthy();
+      const use = playResources(s).find((r) => r.key === sp.freeKey);
+      expect(use?.max, id).toBe(1);
+      expect(use?.short, id).toBe(0);
+    }
+    expect(s.featSpells.find((f) => f.id === 'friends')?.ability).toBe('CHA');
+    expect(s.featSpells.find((f) => f.id === 'find-familiar')?.ritual).toBe(true);
+    const at3 = sheetOf('rogue', 3, 'rogue/house-agent-ua').featSpells.map((f) => f.id);
+    expect(at3).toContain('charm-person');
+    expect(at3).not.toContain('suggestion');
+  });
+
+  it('Power Surge: up to INT modifier (min. 1) stored, with how it really comes back', () => {
+    const res = (lv: number, INT: number) =>
+      playResources(sheetOf('wizard', lv, 'wizard/war-magic', { scores: { INT } })).find(
+        (r) => r.name === 'Power Surge',
+      );
+    expect(res(6, 16)).toMatchObject({ max: 3, recharge: 'powerSurge', short: 0 });
+    expect(res(6, 8)?.max).toBe(1);
+    expect(res(5, 16)).toBeUndefined();
   });
 });

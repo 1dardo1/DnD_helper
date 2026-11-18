@@ -51,6 +51,8 @@ export const FEATURE_USES: {
   die?: string;
   /** The sentence of the feature's text the count comes from (checked against the data by a spec). */
   anchor?: { feature: string; text: RegExp };
+  /** How it really comes back, when not on a plain rest (play.recharge.<id>). */
+  recharge?: RechargeNote;
 }[] = [
   {
     classId: 'artificer',
@@ -328,6 +330,21 @@ export const FEATURE_USES: {
     },
   },
   {
+    // stored, not spent from a full counter: back to one on a Long Rest, +1 after a Short Rest with
+    // none and after ending a spell with Dispel Magic or Counterspell (the note says it)
+    classId: 'wizard',
+    subclassId: 'wizard/war-magic',
+    name: 'Power Surge',
+    labelKey: 'play.res.powerSurge',
+    from: 6,
+    uses: (_, m) => m('INT'),
+    anchor: {
+      feature: 'Power Surge',
+      text: /store a maximum number of power surges equal to your Intelligence modifier \(minimum of one\)\. Whenever you finish a long rest, your number of power surges resets to one/,
+    },
+    recharge: 'powerSurge',
+  },
+  {
     classId: 'wizard',
     name: 'Arcane Recovery',
     labelKey: 'play.res.arcaneRecovery',
@@ -408,7 +425,11 @@ export function playResources(sheet: Sheet): PlayResource[] {
       : f.name === 'Superiority Dice'
         ? superiorityDie(sheet)
         : f.die;
-    if (max > 0) resources.push(make(f.classId, f.name, max, f.labelKey, die));
+    if (max > 0)
+      resources.push({
+        ...make(f.classId, f.name, max, f.labelKey, die),
+        ...(f.recharge ? { recharge: f.recharge } : {}),
+      });
   }
   // "You gain an additional use of your Blood Maledict feature" (Curse Specialist)
   for (const feat of sheet.features ?? []) {

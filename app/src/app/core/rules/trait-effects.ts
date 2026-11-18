@@ -26,14 +26,22 @@ export interface TraitRules {
   /**
    * Expertise in a skill the trait gives: 'always' ("proficiency in the Perception skill, if you lack
    * it. You also gain Expertise in that skill"), or 'ifProficient' ("you gain Proficiency in
-   * Acrobatics. If you already have Proficiency in Acrobatics, you gain Expertise in it instead").
+   * Acrobatics. If you already have Proficiency in Acrobatics, you gain Expertise in it instead");
+   * 'onlyIfProficient': Expertise only, and only with a proficiency from elsewhere ("Your
+   * proficiency bonus is doubled for any ability check you make that uses the Arcana, History,
+   * Nature, or Religion skill if you are proficient in that skill": Lore Mastery).
    */
-  expertise: { skill: string; mode: 'always' | 'ifProficient' }[];
+  expertise: { skill: string; mode: 'always' | 'ifProficient' | 'onlyIfProficient' }[];
   /** "You learn to speak, read, and write Sylvan", "You learn Druidic": a language, no choice. */
   languages: string[];
   /** Known tools the text gives. */
   tools: string[];
-  initiative: { pb: boolean; abilities: Ability[] };
+  /**
+   * pb / abilities: added to the roll. instead: abilities the roll may use in place of Dexterity
+   * ("When you roll initiative, it is either an Intelligence check or a Dexterity check for you
+   * (your choice)": Lore Mastery).
+   */
+  initiative: { pb: boolean; abilities: Ability[]; instead: Ability[] };
   /** "While you aren't wearing armor, your base Armor Class equals 10 plus your DEX and CHA". */
   unarmored: { base: number; abilities: Ability[]; shield: boolean }[];
   /** Hit Point maximum: base once, then per level of the class (or character) that grants it. */
@@ -144,7 +152,7 @@ const CONDITIONS = [
 /** "At 3rd level, " / "When you choose this domain at 1st level, " / "Starting at 7th level, ":
  * the level is already the feature's; what follows is what it gives. */
 const LEVEL_LEAD =
-  /^(?:(?:Also |Starting |Beginning )?at \d+(?:st|nd|rd|th)[ -]level|When you (?:choose|join|adopt) [^,]{0,60}? at \d+(?:st|nd|rd|th) level|When you reach \d+(?:st|nd|rd|th)[ -]level),\s*/i;
+  /^(?:(?:Also (?:starting |beginning )?|Starting |Beginning )?at \d+(?:st|nd|rd|th)[ -]level|When you (?:choose|join|adopt) [^,]{0,60}? at \d+(?:st|nd|rd|th) level|When you reach \d+(?:st|nd|rd|th)[ -]level),\s*/i;
 
 const plain = (s: string) => s.replace(/\*+/g, '').replace(/\s+/g, ' ').trim();
 const sentencesOf = (p: string) => p.split(/(?<=[.!?])\s+(?=[A-Z"'])/);
@@ -212,7 +220,7 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
     expertise: [],
     languages: [],
     tools: [],
-    initiative: { pb: false, abilities: [] },
+    initiative: { pb: false, abilities: [], instead: [] },
     unarmored: [],
     hpGrowth: null,
     resistances: [],
@@ -296,6 +304,14 @@ function parseTrait(text: string, opts: { situational?: boolean; inState?: boole
       if (ini) {
         const a = ABILITY_WORDS[(ini[1] ?? ini[2]).toLowerCase()];
         if (a && !out.initiative.abilities.includes(a)) out.initiative.abilities.push(a);
+      }
+      const either =
+        /roll initiative, it is either an? (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) check or an? (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) check for you/i.exec(
+          s,
+        );
+      for (const w of either ? [either[1], either[2]] : []) {
+        const a = ABILITY_WORDS[w.toLowerCase()];
+        if (a !== 'DEX') addOnce(out.initiative.instead, a);
       }
 
       // -- walking speed that is lost in armor -------------------------------------------------
@@ -450,10 +466,16 @@ function readMore(
     const self = /^(?:Trained for battle, )?(?:You|you) (?:also )?(?:gain|have)\b/.test(s);
     if (self || /^You gain training/i.test(s)) {
       for (const m of s.matchAll(/\b(?:proficiency|training) with ([^.;]+)/gi))
-        for (const item of m[1].split(/,\s*(?:and\s+)?|\s+and\s+(?:training with\s+)?/)) {
+        for (const item of m[1].split(
+          /,\s*(?:and\s+)?|\s+and\s+(?:(?:training|proficiency) with\s+)?/,
+        )) {
           const w = item.trim().replace(/^the\s+/i, '');
           const armor = /^(light|medium|heavy)(?: armor)?$/i.exec(w);
-          if (armor) addOnce(out.armor, `${cap(armor[1])} armor`);
+          // City Domain: "proficiency with sidearms and proficiency with vehicles (land)" (the
+          // sidearms are no weapon category of the compendium: they stay as text)
+          const vehicles = /^vehicles \((land|water|air)\)$/i.exec(w);
+          if (vehicles) addOnce(out.tools, `Vehicles (${cap(vehicles[1])})`);
+          else if (armor) addOnce(out.armor, `${cap(armor[1])} armor`);
           else if (/^shields?$/i.test(w)) addOnce(out.armor, 'Shields');
           else if (/^(simple|martial) weapons$/i.test(w))
             addOnce(out.weapons, `${cap(w.split(' ')[0])} weapons`);
@@ -612,6 +634,17 @@ function readExpertise(out: TraitRules, p: string): void {
   }
   // Tyrants Herald: "You gain proficiency in the Intimidation skill if you don't already have it.
   // You also have Expertise in Intimidation."
+  // Lore Mastery: "Your proficiency bonus is doubled for any ability check you make that uses the
+  // Arcana, History, Nature, or Religion skill if you are proficient in that skill"
+  const doubled =
+    /proficiency bonus is doubled for any ability check you make that uses the ([A-Z][A-Za-z ,]+?) skill if you are proficient in that skill/.exec(
+      p,
+    );
+  for (const w of doubled ? doubled[1].split(/,\s*(?:or\s+)?|\s+or\s+/) : []) {
+    const skill = SKILL_WORDS[w.toLowerCase().trim()];
+    if (skill && !out.expertise.some((x) => x.skill === skill))
+      out.expertise.push({ skill, mode: 'onlyIfProficient' });
+  }
   const plainAlso =
     /\bYou also have Expertise in (?:the )?([A-Z][a-z]+(?: [A-Z][a-z]+)?)(?: skill)?\./.exec(p);
   for (const [m, mode] of [
