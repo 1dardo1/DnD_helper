@@ -3,7 +3,7 @@ import { computeSheet } from './engine';
 import { REAL, REAL_SPELLS, hero } from './real-data.testing';
 import { FEATURE_USES, longRest, playResources, restPerks, shortRest } from '../play/play-state';
 import { newCharacter } from '../models/character';
-import { featureChoiceKey } from './class-picks';
+import { classFeatureViews, featureChoiceKey } from './class-picks';
 import { sheetOf } from './real-data.testing';
 import { pickKey } from './trait-choices';
 import {
@@ -960,5 +960,177 @@ describe('subclass features left pending by the verification', () => {
     expect(res(6, 16)).toMatchObject({ max: 3, recharge: 'powerSurge', short: 0 });
     expect(res(6, 8)?.max).toBe(1);
     expect(res(5, 16)).toBeUndefined();
+  });
+});
+
+describe('subclass choices read from their text: element, domain, patron, tattoos, tools', () => {
+  type S = ReturnType<typeof sheetOf>;
+  const ids = (s: S) => s.featSpells.map((f) => f.id);
+  const missing = (s: S, trait: string) =>
+    s.warnings.some(
+      (w) => w.key === 'sheet.warn.traitChoiceMissing' && w.params?.['trait'] === trait,
+    );
+  const options = (s: S, feature: string) =>
+    s.featureChoices?.find((c) => c.feature === feature)?.options?.map((o) => o.name);
+
+  describe('Primordial Patron: "the spells corresponding to your chosen element"', () => {
+    const sub = 'warlock/primordial-patron-ua';
+    const key = featureChoiceKey(sub, 'Elemental Spells');
+    it('offers the columns of the table and warns while none is chosen', () => {
+      const s = sheetOf('warlock', 5, sub);
+      expect(options(s, 'Elemental Spells')).toEqual(['Air', 'Earth', 'Fire', 'Water']);
+      expect(missing(s, 'Elemental Spells')).toBe(true);
+      expect(ids(s)).not.toContain('burning-hands');
+    });
+    it('Fire: the primordial spells and the fire ones, by Warlock level', () => {
+      const s = sheetOf('warlock', 5, sub, { traitChoices: { [key]: 'Fire' } });
+      expect(ids(s)).toEqual(
+        expect.arrayContaining([
+          'chromatic-orb',
+          'darkvision',
+          'burning-hands',
+          'heat-metal',
+          'elemental-weapon',
+          'fireball',
+        ]),
+      );
+      expect(ids(s)).not.toContain('feather-fall');
+      expect(ids(s)).not.toContain('wall-of-fire'); // Warlock level 7
+      expect(missing(s, 'Elemental Spells')).toBe(false);
+    });
+  });
+
+  describe('Vestige Spells: "Select one of the following Cleric domains"', () => {
+    const sub = 'warlock/vestige-patron';
+    const key = featureChoiceKey(sub, 'Vestige Spells');
+    it('the four domains; none prepared until one is chosen', () => {
+      const s = sheetOf('warlock', 3, sub);
+      expect(options(s, 'Vestige Spells')).toEqual(['Life', 'Light', 'Trickery', 'War']);
+      expect(missing(s, 'Vestige Spells')).toBe(true);
+      expect(ids(s)).not.toContain('guiding-bolt');
+    });
+    it("War at Warlock 3: the text's example; Spirit Guardians at 5", () => {
+      const s = sheetOf('warlock', 3, sub, { traitChoices: { [key]: 'War' } });
+      expect(ids(s)).toEqual(
+        expect.arrayContaining([
+          'guiding-bolt',
+          'magic-weapon',
+          'shield-of-faith',
+          'spiritual-weapon',
+        ]),
+      );
+      expect(ids(s)).not.toContain('spirit-guardians');
+      const at5 = sheetOf('warlock', 5, sub, { traitChoices: { [key]: 'War' } });
+      expect(ids(at5)).toContain('spirit-guardians');
+    });
+  });
+
+  describe("Profane Soul: the patron chosen in Otherworldly Patron picks each feature's part", () => {
+    const sub = 'blood-hunter/order-of-the-profane-soul';
+    const key = featureChoiceKey(sub, 'Otherworldly Patron');
+    it('the patrons of the table; nothing of any of them until one is chosen', () => {
+      const s = sheetOf('blood-hunter', 7, sub);
+      expect(options(s, 'Otherworldly Patron')).toEqual(
+        expect.arrayContaining(['Archfey', 'Fiend', 'Great Old One', 'Undying', 'Fathomless']),
+      );
+      expect(options(s, 'Otherworldly Patron')).toHaveLength(9);
+      expect(missing(s, 'Otherworldly Patron')).toBe(true);
+      expect(ids(s)).not.toContain('blur');
+      expect(ids(s)).not.toContain('gust-of-wind');
+      // no selector of their own in the features that depend on it
+      expect(options(s, 'Rite Focus')).toBeUndefined();
+    });
+    it('Fathomless: Revealed Arcana is Gust of Wind (not Blur); Unsealed Arcana at 15', () => {
+      const s = sheetOf('blood-hunter', 7, sub, { traitChoices: { [key]: 'Fathomless' } });
+      expect(ids(s)).toContain('gust-of-wind');
+      expect(ids(s)).not.toContain('blur');
+      expect(ids(s)).not.toContain('lightning-bolt');
+      const at15 = sheetOf('blood-hunter', 15, sub, { traitChoices: { [key]: 'Fathomless' } });
+      expect(ids(at15)).toContain('lightning-bolt');
+      expect(ids(at15)).not.toContain('fireball');
+    });
+    it('each option tells what it gives in the features that depend on it', () => {
+      const fiend = sheetOf('blood-hunter', 7, sub)
+        .featureChoices?.find((c) => c.feature === 'Otherworldly Patron')
+        ?.options?.find((o) => o.name === 'Fiend');
+      expect(fiend?.text).toContain('Rite Focus (3)');
+      expect(fiend?.text).toContain('You can cast Scorching Ray.');
+    });
+  });
+
+  describe('Theurgy: a cleric domain, and its benefits at Wizard 6, 10 and 14', () => {
+    const sub = 'wizard/theurgy-ua';
+    const key = featureChoiceKey(sub, 'Divine Inspiration');
+    const forge = (level: number) =>
+      sheetOf('wizard', level, sub, { traitChoices: { [key]: 'Forge Domain' } });
+    it('Divine Inspiration offers the domains of the compendium (no deities in the data)', () => {
+      const s = sheetOf('wizard', 3, sub);
+      expect(options(s, 'Divine Inspiration')).toEqual(
+        expect.arrayContaining(['Life Domain', 'Knowledge Domain', 'Forge Domain']),
+      );
+      expect(missing(s, 'Divine Inspiration')).toBe(true);
+    });
+    it("Forge at 6: its 1st-level benefits without the armor (smith's tools, not heavy armor)", () => {
+      const has = (s: S) => s.proficiencies.tools.some((t) => /smith's tools/i.test(t));
+      expect(has(forge(5))).toBe(false);
+      expect(has(forge(6))).toBe(true);
+      expect(forge(6).proficiencies.armor).not.toContain('Heavy armor');
+    });
+    it('Forge at 10: its 6th-level benefits (Soul of the Forge: Resistance to Fire)', () => {
+      expect(forge(9).resistances).not.toContain('Fire');
+      expect(forge(10).resistances).toContain('Fire');
+    });
+    it("Channel Arcana gets the domain's Channel Divinity option; Arcane Acolyte the rest", () => {
+      const views = classFeatureViews(
+        [{ cls: REAL.classes.get('wizard')!, sub: REAL.subclasses.get(sub)!, level: 6 }],
+        { ...hero('wizard', 6).choices, traitChoices: { [key]: 'Forge Domain' } },
+        REAL.subclasses,
+      );
+      const text = (n: string) => views.find((v) => v.trait.name === n)?.text ?? '';
+      expect(text('Channel Arcana')).toContain('create simple items');
+      expect(text('Arcane Acolyte')).not.toContain('create simple items');
+      expect(text('Arcane Acolyte')).toContain('imbue magic into a weapon or armor');
+    });
+  });
+
+  describe('Beast Tattoo: "Choose two tattoos from the following options"', () => {
+    const sub = 'monk/tattooed-warrior-ua8-18-09-25';
+    const key = pickKey(featureChoiceKey(sub, 'Beast Tattoo'), 'option');
+    it('a pick of two of the five; asks for it while missing', () => {
+      const s = sheetOf('monk', 3, sub);
+      const p = s.featureChoices?.find((c) => c.feature === 'Beast Tattoo')?.picks[0];
+      expect(p?.count).toBe(2);
+      expect(p?.pick.from).toEqual(['Bat', 'Butterfly', 'Crane', 'Horse', 'Tortoise']);
+      expect(s.warnings).toContainEqual({
+        key: 'sheet.warn.traitPickMissing',
+        params: { trait: 'Beast Tattoo' },
+      });
+    });
+    it('Bat and Horse: Blindsight 10 ft, Dancing Lights and Message; nothing of the others', () => {
+      const s = sheetOf('monk', 3, sub, { traitPicks: { [key]: ['Bat', 'Horse'] } });
+      expect(s.senses.find((x) => x.kind === 'blindsight')?.range).toBe(10);
+      expect(ids(s)).toEqual(expect.arrayContaining(['dancing-lights', 'message']));
+      expect(ids(s)).not.toContain('light');
+      expect(ids(s)).not.toContain('spare-the-dying');
+    });
+    it('Celestial Tattoo ("Choose a tattoo"): one of three', () => {
+      expect(options(sheetOf('monk', 6, sub), 'Celestial Tattoo')).toEqual([
+        'Comet',
+        'Eclipse',
+        'Sunburst',
+      ]);
+    });
+  });
+
+  describe("Student of Preservation: one type of Artisan's Tools of your choice", () => {
+    const sub = 'druid/circle-of-preservation-ua';
+    it("a pick among the Artisan's Tools; the chosen one is proficient", () => {
+      const p = sheetOf('druid', 3, sub)
+        .featureChoices?.find((c) => c.feature === 'Student of Preservation')
+        ?.picks.find((x) => x.pick.kind === 'tool');
+      expect(p?.pick).toMatchObject({ count: 1, group: "Artisan's Tools" });
+      const done = sheetOf('druid', 3, sub, { traitPicks: { [p!.key]: ["Mason's Tools"] } });
+      expect(done.proficiencies.tools).toContain("Mason's Tools");
+    });
   });
 });

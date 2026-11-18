@@ -155,7 +155,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
   // Class and subclass features that offer a choice (Divine Order, Hunter's Prey...) or ask to pick
   // a skill, a damage type, a cantrip... (class-picks.ts): resolved against the character's picks
   // like the species' traits. Nothing chosen: none of the options applies, and it warns.
-  const classViews = classFeatureViews(classes, ch.choices);
+  const classViews = classFeatureViews(classes, ch.choices, data.subclasses);
   const classPicked = speciesGains(classViews);
   const classView = new Map(classViews.map((v) => [`${v.owner.id}|${v.trait.name}`, v]));
   for (const v of classViews)
@@ -603,6 +603,7 @@ export function computeSheet(ch: Character, data: RulesData): Sheet {
     species,
     variantName: ch.species?.variant ?? null,
     subclasses: classes.flatMap((c) => (c.sub ? [{ sub: c.sub, level: c.level }] : [])),
+    related: data.subclasses,
     ch,
     abilities,
     spellAbility: (classId) => spellClasses.find((x) => x.classId === classId)?.ability,
@@ -1396,6 +1397,8 @@ function traitGrants(a: {
   species: Species | undefined;
   variantName: string | null;
   subclasses: { sub: Subclass; level: number }[];
+  /** The compendium's subclasses: a feature may choose another class's (Vestige Spells). */
+  related?: ReadonlyMap<string, Subclass>;
   ch: Character;
   abilities: Sheet['abilities'];
   spellAbility: (classId: string) => Ability | undefined;
@@ -1612,7 +1615,9 @@ function traitGrants(a: {
         ),
     );
     const onceAbility = once ? featRules(once).ability : null;
-    for (const row of expandsSpellList(sub) ? [] : (chosenSpellRows(sub, a.ch) ?? sub.spells ?? []))
+    for (const row of expandsSpellList(sub)
+      ? []
+      : (chosenSpellRows(sub, a.ch, a.related) ?? sub.spells ?? []))
       if (row.classLevel <= level)
         for (const name of row.spells)
           add(
@@ -1852,9 +1857,10 @@ export function onlyFor(sub: Subclass, species: Species | null | undefined): str
 export function chosenSpellRows(
   sub: Subclass,
   ch: Character,
+  related?: ReadonlyMap<string, Subclass>,
 ): { classLevel: number; spells: string[] }[] | null {
   for (const f of sub.features) {
-    const split = featureChoice(f.description);
+    const split = featureChoice(f.description, related);
     if (!split || !split.options.some((o) => /^\|\s*\d+\s*\|/m.test(o.text))) continue;
     const chosen = ch.choices.traitChoices?.[featureChoiceKey(sub.id, f.name)];
     const option = split.options.find((o) => o.name === chosen);

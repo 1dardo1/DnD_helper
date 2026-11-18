@@ -68,14 +68,29 @@ alto se hizo con el Paladín de nivel 19 y los de nivel 20 de la carpeta Pruebas
 - Star Map (Guidance y Guiding Bolt), Consult the Spirits (Augury y Clairvoyance), CA natural del
   Locathah. Timeless, Arcanomechanical Armor y +2 CON de Giant Soul ya salían bien.
 
+## Arreglado en la tercera tanda (subagentes)
+
+- Selectores: elemento del Primordial, Vestige Spells (dominio), Theurgy (dominio, Channel Arcana,
+  Arcane Acolyte/Priest/High Priest), patrón del Profane Soul (9), tatuajes (Beast Tattoo: dos de
+  cinco; Celestial, Nature y Monster Tattoo: uno), herramienta de artesano (Student of Preservation,
+  Blessings of Knowledge, Student of War).
+- Mecánicas: Lore Mastery (pericia en las habilidades en que ya eres competente; iniciativa con la
+  mejor de INT o DES), Bladework y Arcane Empowerment (INT en ataque y daño), House Insignia (un
+  lanzamiento por conjuro de la tabla), Power Surge (contador aproximado), "Vehicles (Land)" del City Domain.
+- Números por nivel: Psychic Blades, Banshee's Wail, Deathly Wail, Spirit Shield, Storm Aura,
+  Reckless Abandon, Mantle of Inspiration, Creative Crescendo, Bardic Damage, Balm of Peace, Pull of Death.
+
 ## Pendiente (no arreglado aún)
 
-- Elecciones: elemento del Primordial, Vestige Spells, dominio de Theurgy, patrón del Profane Soul,
-  los dos tatuajes de Beast Tattoo (hoy no se aplica ninguno), habilidad de Student of Preservation.
-- House Insignia (un lanzamiento por conjuro de la tabla), Power Surge (se acumulan, no se gastan),
-  Lore Mastery, Bladework y Arcane Empowerment (INT en ataque), armas de fuego del City Domain.
-- Números por nivel de rasgos situacionales: Psychic Blades de Whispers, Banshee's Wail, Spirit
-  Shield, Storm Aura, Reckless Abandon, Mantle of Inspiration, Balm of Peace, Pull of Death.
+- **Primordial**: el tipo de daño y la resistencia dependen de la tabla "Primordial Patrons", que no
+  está en los datos (hay que extraerla en el scraper). Sin elemento elegido no se prepara ningún conjuro.
+- **Theurgy**: la lista de deidades no está en los datos (se ofrecen todos los dominios) y falta
+  "Arcane Initiate" (meter conjuros del dominio en el libro).
+- **Asistente de creación**: no pide las elecciones de rasgos de clase/subclase (solo la hoja y la
+  subida de nivel); un tatuaje no se puede rehacer tras un descanso largo.
+- **Power Surge**: el contador no reinicia a 1 ni suma +1 tras un descanso corto sin ninguno; el daño
+  extra (mitad del nivel de mago) no está calculado. **City Domain**: "sidearms" no es una categoría de
+  los datos.
 
 ## Clérigo — 24 personajes: 12 correctos, 12 con fallos
 
