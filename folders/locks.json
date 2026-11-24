@@ -15,6 +15,19 @@
         "iv": "ukCR9gkQGW9uIc+I",
         "data": "2509YHcy6hU8VizdIsIywzaoKSXtilsvJj/Izu0uh153CVe3sZo="
       }
+    },
+    {
+      "folder": "Pepo",
+      "salt": "msnXS1jx3/wCaW7LxBnfOg==",
+      "argon2": {
+        "memoryKiB": 19456,
+        "passes": 2,
+        "parallelism": 1
+      },
+      "check": {
+        "iv": "5mfXs9PF7xTyZgRi",
+        "data": "IK5yz4FOu5LMwzb/HFdtXo+I2qm1GaVwiJeoJgK24W9fySEtHLc="
+      }
     }
   ]
 }
