@@ -142,6 +142,31 @@
   </form>
 </section>
 
+<section aria-labelledby="assistant-title">
+  <h2 id="assistant-title">{{ 'settings.sec.assistant' | t }}</h2>
+  <p class="help">{{ 'settings.assistantHelp' | t }}</p>
+  <form (ngSubmit)="saveAssistant()" class="fields">
+    <label>
+      {{ 'settings.assistantUrl' | t }}
+      <input
+        name="assistantUrl"
+        type="url"
+        inputmode="url"
+        autocomplete="off"
+        placeholder="https://"
+        [(ngModel)]="assistantUrl"
+      />
+      <small>{{ 'settings.assistantUrlHelp' | t }}</small>
+    </label>
+    <div class="row">
+      <button type="submit" class="primary">{{ 'common.save' | t }}</button>
+    </div>
+    @if (assistantMessage()) {
+      <p role="status" class="message">{{ assistantMessage() }}</p>
+    }
+  </form>
+</section>
+
 <section aria-labelledby="version-title">
   <h2 id="version-title">{{ 'settings.sec.version' | t }}</h2>
   <dl class="version">

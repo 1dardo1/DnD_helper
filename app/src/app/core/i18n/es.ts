@@ -8,6 +8,7 @@ export const es: Record<keyof typeof en, string> = {
   'nav.characters': 'Personajes',
   'nav.create': 'Nuevo personaje',
   'nav.dm': 'Mesa del DM',
+  'nav.assistant': 'Asistente',
   'nav.settings': 'Ajustes',
   'lang.es': 'Español',
   'lang.en': 'English',
@@ -90,6 +91,7 @@ export const es: Record<keyof typeof en, string> = {
   'type.rule': 'Otras reglas',
 
   'compendium.title': 'Compendio',
+  'assistant.title': 'Asistente de reglas',
   'compendium.intro':
     'Todo lo extraído de las wikis, con el contenido de 2014 adaptado a las reglas de 2024.',
   'compendium.entries': '{count} entradas',

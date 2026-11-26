@@ -18,6 +18,8 @@ export interface Settings {
   textSize: TextSize;
   /** No transitions or smooth scrolling, even if the device doesn't ask for it. */
   reduceMotion: boolean;
+  /** Address of the rules assistant's proxy; empty = the one built into the app (none: search only). */
+  assistantUrl: string;
 }
 
 const STORAGE_KEY = 'dnd-helper.settings';
@@ -32,6 +34,7 @@ export const DEFAULT_SETTINGS: Settings = {
   theme: 'auto',
   textSize: 'normal',
   reduceMotion: false,
+  assistantUrl: '',
 };
 
 /** User settings, kept in this browser's localStorage (they never leave the device). */

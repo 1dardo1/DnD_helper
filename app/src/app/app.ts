@@ -26,6 +26,7 @@ export class App {
     { path: '/characters', label: 'nav.characters' },
     { path: '/characters/new', label: 'nav.create' },
     { path: '/dm', label: 'nav.dm' },
+    { path: '/assistant', label: 'nav.assistant' },
     { path: '/settings', label: 'nav.settings' },
   ] as const;
 
