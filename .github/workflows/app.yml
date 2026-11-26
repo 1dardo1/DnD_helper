@@ -11,6 +11,31 @@ permissions:
   contents: read
 
 jobs:
+  # Los dispositivos guardan data/*.json en caché y solo lo vuelven a bajar si cambia
+  # data/meta.json. verify.sh ya lo comprueba en local; esto hace lo mismo en CI para que un
+  # cambio de datos que se salte verify.sh no deje a los dispositivos con datos viejos.
+  data-meta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Un cambio en data/ actualiza data/meta.json
+        env:
+          BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BASE" 2>/dev/null; then
+            echo "Sin commit base con el que comparar: no hay nada que comprobar."
+            exit 0
+          fi
+          changed="$(git diff --name-only "$BASE" HEAD -- data | grep -v '^data/meta.json$' || true)"
+          if [ -n "$changed" ] && ! git diff --name-only "$BASE" HEAD -- data/meta.json | grep -q .; then
+            echo "::error::Cambiaste data/ sin actualizar data/meta.json: los dispositivos con caché no verían el cambio."
+            echo "$changed"
+            exit 1
+          fi
+          echo "ok"
+
   build:
     runs-on: ubuntu-latest
     defaults:
