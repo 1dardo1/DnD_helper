@@ -43,3 +43,18 @@ Las imágenes se generan con Cloudflare Workers AI (modelo FLUX.1 schnell), grat
    - `CLOUDFLARE_ACCOUNT_ID`: el Account ID
    - `CLOUDFLARE_API_TOKEN`: el token
 5. Avisa: se lanzará primero una prueba con 3–4 especies para que apruebes el estilo.
+
+## 3. Asistente de reglas (Worker de Cloudflare)
+
+El asistente de reglas necesita un pequeño Worker en tu cuenta de Cloudflare (código en `worker/`,
+detalles en `worker/README.md`). Lo que solo puedes hacer tú:
+
+1. **Token con permiso de desplegar.** El token de los retratos (plantilla "Workers AI") puede no
+   bastar. Crea uno nuevo o amplía el existente con *Account → Workers AI → Read y Edit* **y**
+   *Account → Workers Scripts → Edit*, y actualiza el secreto `CLOUDFLARE_API_TOKEN` en GitHub.
+2. **Lanza el despliegue:** Actions → "Asistente de reglas (Worker)" → Run workflow. Si faltan los
+   secretos, avisa con un mensaje claro y no despliega nada. En el resumen aparece la URL.
+3. **Pega la URL** (`https://dnd-helper-assistant.<tu-subdominio>.workers.dev`) en el ajuste
+   `ASSISTANT_URL` de la app, o dísela a Claude para que la ponga como valor por defecto.
+   La primera vez, Cloudflare puede pedirte elegir tu subdominio `workers.dev` en el panel
+   (Workers & Pages).
