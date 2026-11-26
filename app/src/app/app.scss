@@ -337,10 +337,12 @@ main {
 }
 
 // Wide: everything on one row. The ribbons keep their width and the status wraps in what's left.
-// (from 84rem: below it the status was squeezed into three lines next to the theme button)
-@media (min-width: 84rem) {
+// (from 100rem: below it the status and the ribbons do not fit in one row; the two-row layout is used)
+@media (min-width: 100rem) {
   .topbar {
-    grid-template-columns: auto 1fr minmax(0, auto) auto auto;
+    // the status keeps at least 10rem: without it the ribbons (max-content) took the whole row
+    // and the status wrapped into a sliver under the Settings ribbon
+    grid-template-columns: auto 1fr minmax(10rem, auto) auto auto;
   }
 
   nav {
@@ -349,7 +351,7 @@ main {
 }
 
 // Tablets / narrow desktops: brand, status and language on top, ribbons on a second row.
-@media (min-width: #{$phone + 0.01rem}) and (max-width: 83.99rem) {
+@media (min-width: #{$phone + 0.01rem}) and (max-width: 99.99rem) {
   .topbar {
     grid-template-columns: auto 1fr auto auto;
     grid-template-areas:
