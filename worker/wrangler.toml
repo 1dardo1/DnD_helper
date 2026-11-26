@@ -8,3 +8,9 @@ binding = "AI"
 
 [observability]
 enabled = true
+
+[vars]
+# Optional base URL of a retrieval service (the worker calls POST <url>/search). Empty = disabled:
+# the excerpts come from the request, exactly as before. No service is deployed yet; see README.md
+# and docs/adr/0011-retrieval-service-consumer.md. Do not put credentials here.
+RETRIEVAL_URL = ""

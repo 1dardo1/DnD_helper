@@ -34,3 +34,4 @@ Later ADRs (0009 onward) are meant to be written before or while the decision is
 | [0008](0008-generated-compendium-pipeline.md) | The compendium is generated, not hand-written | Accepted (retrospective, documented 2026-11-26) |
 | 0009 | Rules assistant: retrieval in the browser, generation behind a proxy | Proposed |
 | 0010 | The assistant proxy runs as a Cloudflare Worker | Proposed |
+| [0011](0011-retrieval-service-consumer.md) | The assistant worker as a consumer of a retrieval service | Proposed |

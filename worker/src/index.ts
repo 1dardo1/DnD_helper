@@ -8,6 +8,9 @@ export const MODEL_TIMEOUT_MS = 20_000;
 export const MAX_BODY_BYTES = 24 * 1024;
 export const RATE_LIMIT = 20; // requests...
 export const RATE_WINDOW_MS = 10 * 60 * 1000; // ...per 10 minutes, per IP (per isolate)
+export const RETRIEVAL_TIMEOUT_MS = 4_000; // whole budget for the retrieval call, retry included
+export const RETRIEVAL_K = 6; // hits requested and maximum used
+export const RETRIEVAL_MAX_BYTES = 256 * 1024; // larger responses are treated as invalid
 
 export const ALLOWED_ORIGINS = [
   'https://1dardo1.github.io',
@@ -23,6 +26,8 @@ export interface AiBinding {
 }
 export interface Env {
   AI: AiBinding;
+  /** Optional base URL of a retrieval service. Empty or unset: contexts come from the request. */
+  RETRIEVAL_URL?: string;
 }
 
 export interface Context {
@@ -41,6 +46,17 @@ export interface AskRequest {
 
 const isStr = (v: unknown): v is string => typeof v === 'string';
 
+/** Shared by request contexts and retrieval hits: null when the entry is malformed. */
+function parseContext(c: unknown): Context | null {
+  if (!c || typeof c !== 'object') return null;
+  const { id, type, title, text } = c as Record<string, unknown>;
+  if (!isStr(id) || !id || id.length > 200 || /[\]\[\s]/.test(id)) return null;
+  if (!isStr(type) || type.length > 50) return null;
+  if (!isStr(title) || title.length > 200) return null;
+  if (!isStr(text) || text.length > 2000) return null;
+  return { id, type, title, text };
+}
+
 export function validate(body: unknown): AskRequest | null {
   if (!body || typeof body !== 'object') return null;
   const b = body as Record<string, unknown>;
@@ -49,16 +65,103 @@ export function validate(body: unknown): AskRequest | null {
   if (!Array.isArray(b.contexts) || b.contexts.length < 1 || b.contexts.length > 8) return null;
   const contexts: Context[] = [];
   for (const c of b.contexts) {
-    if (!c || typeof c !== 'object') return null;
-    const { id, type, title, text } = c as Record<string, unknown>;
-    if (!isStr(id) || !id || id.length > 200 || /[\]\[\s]/.test(id)) return null;
-    if (!isStr(type) || type.length > 50) return null;
-    if (!isStr(title) || title.length > 200) return null;
-    if (!isStr(text) || text.length > 2000) return null;
-    contexts.push({ id, type, title, text });
+    const parsed = parseContext(c);
+    if (!parsed) return null;
+    contexts.push(parsed);
   }
   if (new Set(contexts.map((c) => c.id)).size !== contexts.length) return null;
   return { question: b.question.trim(), lang: b.lang, contexts };
+}
+
+// ---------- retrieval service (optional) ----------
+
+/**
+ * Keeps the well-formed hits of a retrieval response: malformed ones and repeated ids are dropped,
+ * at most RETRIEVAL_K are used, in the service's order. Returns null when the shape is wrong.
+ */
+export function parseHits(data: unknown): Context[] | null {
+  if (!data || typeof data !== 'object') return null;
+  const hits = (data as Record<string, unknown>).hits;
+  if (!Array.isArray(hits)) return null;
+  const out: Context[] = [];
+  const seen = new Set<string>();
+  for (const h of hits) {
+    const c = parseContext(h);
+    if (!c || seen.has(c.id)) continue;
+    seen.add(c.id);
+    out.push(c);
+    if (out.length === RETRIEVAL_K) break;
+  }
+  return out;
+}
+
+export type RetrievalFailure = 'timeout' | 'network' | 'http' | 'invalid_json' | 'no_valid_hits' | 'bad_url';
+export interface RetrievalResult {
+  contexts: Context[] | null;
+  /** HTTP status of the service, 0 when there was none (network error, timeout, bad URL). */
+  status: number;
+  failure?: RetrievalFailure;
+}
+
+/** Normalised base URL, or null when retrieval is not configured. */
+export function retrievalBase(env: Env): string | null {
+  const v = typeof env.RETRIEVAL_URL === 'string' ? env.RETRIEVAL_URL.trim() : '';
+  return v ? v.replace(/\/+$/, '') : null;
+}
+
+/**
+ * POST {base}/search with {query, lang, k}. One shared 4 s deadline; one retry only when fetch
+ * itself throws (network error), never after a timeout or an HTTP answer. Never throws.
+ * The request carries the question and language only, never the client's contexts.
+ */
+export async function retrieve(base: string, req: AskRequest): Promise<RetrievalResult> {
+  let target: string;
+  try {
+    const u = new URL(`${base}/search`);
+    if (u.protocol !== 'https:' && u.protocol !== 'http:') throw new Error('protocol');
+    target = u.toString();
+  } catch {
+    return { contexts: null, status: 0, failure: 'bad_url' };
+  }
+  const controller = new AbortController();
+  let timedOut = false;
+  const timer = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, RETRIEVAL_TIMEOUT_MS);
+  const init: RequestInit = {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', accept: 'application/json' },
+    body: JSON.stringify({ query: req.question, lang: req.lang, k: RETRIEVAL_K }),
+    signal: controller.signal,
+  };
+  try {
+    let res: Response | null = null;
+    for (let attempt = 0; attempt < 2 && !res; attempt++) {
+      try {
+        res = await fetch(target, init);
+      } catch {
+        if (timedOut || controller.signal.aborted) return { contexts: null, status: 0, failure: 'timeout' };
+        if (attempt === 1) return { contexts: null, status: 0, failure: 'network' };
+      }
+    }
+    if (!res) return { contexts: null, status: 0, failure: 'network' };
+    if (res.status !== 200) return { contexts: null, status: res.status, failure: 'http' };
+    let data: unknown;
+    try {
+      const text = await res.text();
+      if (text.length > RETRIEVAL_MAX_BYTES) throw new Error('too_large');
+      data = JSON.parse(text);
+    } catch {
+      return { contexts: null, status: 200, failure: timedOut ? 'timeout' : 'invalid_json' };
+    }
+    const contexts = parseHits(data);
+    if (contexts === null) return { contexts: null, status: 200, failure: 'invalid_json' };
+    if (contexts.length === 0) return { contexts: null, status: 200, failure: 'no_valid_hits' };
+    return { contexts, status: 200 };
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 // ---------- prompt ----------
@@ -244,25 +347,47 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     return json({ error: 'bad_request' }, 400, cors);
   }
 
+  // Contexts for the model: the retrieval service's hits when configured and usable, else the
+  // client's. Only status, timing and counts are logged, never the question or the hits.
+  let used = req.contexts;
+  let source: 'service' | 'client' = 'client';
+  const base = retrievalBase(env);
+  if (base) {
+    const t0 = Date.now();
+    const r = await retrieve(base, req);
+    log({
+      event: 'retrieval',
+      status: r.status,
+      hits: r.contexts?.length ?? 0,
+      ...(r.failure ? { failure: r.failure } : {}),
+      ms: Date.now() - t0,
+    });
+    if (r.contexts) {
+      used = r.contexts;
+      source = 'service';
+    }
+  }
+
   try {
     const out = await withTimeout(
-      env.AI.run(MODEL, { messages: buildMessages(req), max_tokens: MAX_TOKENS, temperature: 0.2 }),
+      env.AI.run(MODEL, { messages: buildMessages({ ...req, contexts: used }), max_tokens: MAX_TOKENS, temperature: 0.2 }),
       MODEL_TIMEOUT_MS,
     );
     const answer = extractAnswer(out);
     if (!answer) throw new Error('empty_answer');
-    const citations = parseCitations(answer, req.contexts);
+    const citations = parseCitations(answer, used);
     log({
       event: 'ask',
       status: 200,
       ip: ipHash,
       lang: req.lang,
       qLen: req.question.length,
-      contexts: req.contexts.length,
+      retrieval: source,
+      contexts: used.length,
       citations: citations.length,
       ms: Date.now() - started,
     });
-    return json({ answer, citations, model: MODEL }, 200, cors);
+    return json({ answer, citations, model: MODEL, retrieval: source }, 200, cors);
   } catch (e) {
     log({
       event: 'ask',
