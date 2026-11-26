@@ -1,0 +1,355 @@
+{
+  "description": "Fixed evaluation set for the rules assistant retriever (docs/ASSISTANT-EVAL.md). Every expected id is a compendium entry \"<type>:<id>\" whose real text answers the question (any one of them counts). kind: direct = the entry name is in the question; paraphrase = it is not; facts = the answer is in the entry's structured data (hit die, AC, hit points...).",
+  "questions": [
+    {
+      "id": "q01",
+      "lang": "en",
+      "kind": "direct",
+      "question": "How much damage does Fireball deal and what is its area?",
+      "expected": ["spell:fireball"]
+    },
+    {
+      "id": "q02",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "Which spell lets me teleport up to 30 feet as a Bonus Action?",
+      "expected": ["spell:misty-step"]
+    },
+    {
+      "id": "q03",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "Is there a reaction spell that makes an enemy's spell fail if it fails a Constitution save?",
+      "expected": ["spell:counterspell"]
+    },
+    {
+      "id": "q04",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "Which reaction gives me a +5 bonus to AC and protects me from Magic Missile?",
+      "expected": ["spell:shield"]
+    },
+    {
+      "id": "q05",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "Which spell brings back a creature that died within the last minute?",
+      "expected": ["spell:revivify"]
+    },
+    {
+      "id": "q06",
+      "lang": "en",
+      "kind": "direct",
+      "question": "What does my base AC become with Mage Armor if I wear no armor?",
+      "expected": ["spell:mage-armor"]
+    },
+    {
+      "id": "q07",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "Which feat lets me add my Proficiency Bonus to Initiative rolls?",
+      "expected": ["feat:alert"]
+    },
+    {
+      "id": "q08",
+      "lang": "en",
+      "kind": "direct",
+      "question": "How do Luck Points work and when do I get them back?",
+      "expected": ["feat:lucky"]
+    },
+    {
+      "id": "q09",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "Which feat raises my Hit Point maximum by twice my character level?",
+      "expected": ["feat:tough"]
+    },
+    {
+      "id": "q10",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "Which feat lets me ignore the Loading property of a crossbow?",
+      "expected": ["feat:crossbow-expert"]
+    },
+    {
+      "id": "q11",
+      "lang": "en",
+      "kind": "direct",
+      "question": "How does the Dragonborn breath weapon work?",
+      "expected": ["species:dragonborn"]
+    },
+    {
+      "id": "q12",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "How many extra hit points does a Dwarf get at each level?",
+      "expected": ["species:dwarf"]
+    },
+    {
+      "id": "q13",
+      "lang": "en",
+      "kind": "facts",
+      "question": "What is the Barbarian's hit die?",
+      "expected": ["class:barbarian"]
+    },
+    {
+      "id": "q14",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "Which cleric domain makes my healing spells heal extra Hit Points?",
+      "expected": ["subclass:cleric/life-domain"]
+    },
+    {
+      "id": "q15",
+      "lang": "en",
+      "kind": "facts",
+      "question": "What is the base armor class of chain mail and how much Strength does it need?",
+      "expected": ["item:chain-mail"]
+    },
+    {
+      "id": "q16",
+      "lang": "en",
+      "kind": "facts",
+      "question": "What damage does a longbow deal and what is its range?",
+      "expected": ["item:longbow"]
+    },
+    {
+      "id": "q17",
+      "lang": "en",
+      "kind": "direct",
+      "question": "How much weight can a Bag of Holding carry?",
+      "expected": ["item:bag-of-holding"]
+    },
+    {
+      "id": "q18",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "Which magic cloak grants a +1 bonus to Armor Class and saving throws?",
+      "expected": ["item:cloak-of-protection"]
+    },
+    {
+      "id": "q19",
+      "lang": "en",
+      "kind": "facts",
+      "question": "How many hit points does an Owlbear have?",
+      "expected": ["monster:owlbear"]
+    },
+    {
+      "id": "q20",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "Which undead creature can drop to 1 Hit Point instead of 0 with a Constitution saving throw?",
+      "expected": ["monster:zombie", "monster:ogre-zombie"]
+    },
+    {
+      "id": "q21",
+      "lang": "en",
+      "kind": "direct",
+      "question": "What benefits do I get if I take the Dodge action?",
+      "expected": ["rule:actions/dodge"]
+    },
+    {
+      "id": "q22",
+      "lang": "en",
+      "kind": "direct",
+      "question": "When can I make an Opportunity Attack?",
+      "expected": ["rule:actions/opportunity-attacks"]
+    },
+    {
+      "id": "q23",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "How do I wait for a trigger and then act with my Reaction?",
+      "expected": ["rule:actions/ready"]
+    },
+    {
+      "id": "q24",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "Which Eldritch Invocation lets me add my Charisma modifier to the damage of a cantrip?",
+      "expected": ["option:eldritch-invocation/agonizing-blast"]
+    },
+    {
+      "id": "q25",
+      "lang": "en",
+      "kind": "paraphrase",
+      "question": "Which background gives the Savage Attacker feat?",
+      "expected": ["background:soldier", "background:shadowmasters-exile"]
+    },
+    {
+      "id": "q26",
+      "lang": "es",
+      "kind": "direct",
+      "question": "¿Cuánto daño hace Bola de fuego?",
+      "expected": ["spell:fireball"]
+    },
+    {
+      "id": "q27",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Qué conjuro me da la condición de Invisible hasta que ataque o lance un conjuro?",
+      "expected": ["spell:invisibility"]
+    },
+    {
+      "id": "q28",
+      "lang": "es",
+      "kind": "direct",
+      "question": "¿Qué daño hace Descarga sobrenatural?",
+      "expected": ["spell:eldritch-blast"]
+    },
+    {
+      "id": "q29",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Qué conjuro deja paralizado a un humanoide si falla una salvación de Sabiduría?",
+      "expected": ["spell:hold-person"]
+    },
+    {
+      "id": "q30",
+      "lang": "es",
+      "kind": "direct",
+      "question": "¿Cuántos puntos de golpe cura Palabra curativa y qué tipo de acción es?",
+      "expected": ["spell:healing-word"]
+    },
+    {
+      "id": "q31",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Qué conjuro devuelve a la vida a una criatura que murió hace menos de un minuto?",
+      "expected": ["spell:revivify"]
+    },
+    {
+      "id": "q32",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Qué conjuro da una velocidad de vuelo de 60 pies a una criatura dispuesta?",
+      "expected": ["spell:fly"]
+    },
+    {
+      "id": "q33",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Cómo puedo sentir efectos mágicos a 30 pies de mí?",
+      "expected": ["spell:detect-magic"]
+    },
+    {
+      "id": "q34",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Qué dote me deja tirar dos veces los dados de daño de mi arma?",
+      "expected": ["feat:savage-attacker"]
+    },
+    {
+      "id": "q35",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Qué dote me da ventaja en las salvaciones de Constitución para mantener la concentración?",
+      "expected": ["feat:war-caster"]
+    },
+    {
+      "id": "q36",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Qué dote me permite hacer un ataque de oportunidad cuando un enemigo se Destraba?",
+      "expected": ["feat:sentinel"]
+    },
+    {
+      "id": "q37",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Qué especie puede cambiar su tamaño a Grande como acción adicional a partir del nivel 5?",
+      "expected": ["species:goliath"]
+    },
+    {
+      "id": "q38",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Qué especie puede volver a tirar un 1 en el d20 de una prueba de d20?",
+      "expected": ["species:halfling", "species:kor"]
+    },
+    {
+      "id": "q39",
+      "lang": "es",
+      "kind": "facts",
+      "question": "¿Qué dado de golpe tiene el Mago?",
+      "expected": ["class:wizard"]
+    },
+    {
+      "id": "q40",
+      "lang": "es",
+      "kind": "direct",
+      "question": "¿Qué ventajas da al pícaro la subclase Ladrón?",
+      "expected": ["subclass:rogue/thief"]
+    },
+    {
+      "id": "q41",
+      "lang": "es",
+      "kind": "facts",
+      "question": "¿Qué CA da una armadura de placas y cuánta Fuerza necesita?",
+      "expected": ["item:plate-armor"]
+    },
+    {
+      "id": "q42",
+      "lang": "es",
+      "kind": "direct",
+      "question": "¿Cuántos puntos de golpe recupera una poción de curación?",
+      "expected": ["item:potion-of-healing"]
+    },
+    {
+      "id": "q43",
+      "lang": "es",
+      "kind": "facts",
+      "question": "¿Cuánto daño hace un hacha de mano y qué propiedades tiene?",
+      "expected": ["item:handaxe"]
+    },
+    {
+      "id": "q44",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Qué CD hay que superar para romper una cuerda?",
+      "expected": ["item:rope"]
+    },
+    {
+      "id": "q45",
+      "lang": "es",
+      "kind": "facts",
+      "question": "¿Cuántos puntos de golpe tiene un ogro?",
+      "expected": ["monster:ogre"]
+    },
+    {
+      "id": "q46",
+      "lang": "es",
+      "kind": "facts",
+      "question": "¿Cuántos puntos de golpe tiene una araña gigante?",
+      "expected": ["monster:giant-spider"]
+    },
+    {
+      "id": "q47",
+      "lang": "es",
+      "kind": "direct",
+      "question": "¿Qué hace la acción Ayudar?",
+      "expected": ["rule:actions/help"]
+    },
+    {
+      "id": "q48",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Qué requisitos hay para multiclasear?",
+      "expected": ["rule:class/multiclassing"]
+    },
+    {
+      "id": "q49",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Qué trasfondo da la dote Atacante salvaje?",
+      "expected": ["background:soldier", "background:shadowmasters-exile"]
+    },
+    {
+      "id": "q50",
+      "lang": "es",
+      "kind": "paraphrase",
+      "question": "¿Cómo convenzo a un monstruo de que haga algo?",
+      "expected": ["rule:actions/influence"]
+    }
+  ]
+}
