@@ -10,6 +10,7 @@ import { RepositoryService } from '../../core/data/repository.service';
 import { I18nService, LocalDatePipe, TranslatePipe } from '../../core/i18n/i18n.service';
 import { settingsEn } from '../../core/i18n/settings.en';
 import { settingsEs } from '../../core/i18n/settings.es';
+import { normaliseAssistantUrl } from '../../core/assistant/http-answer-provider';
 import { DataMeta } from '../../core/models/compendium';
 import { AppUpdateService } from '../../core/pwa/app-update.service';
 import { TEXT_SIZES, THEMES } from '../../core/settings/appearance';
@@ -58,6 +59,9 @@ export class SettingsPage {
     branch,
   }))(this.settings.settings());
   protected readonly message = signal('');
+  /** The assistant's address, edited in the form and applied on "Save". */
+  protected assistantUrl = this.settings.settings().assistantUrl;
+  protected readonly assistantMessage = signal('');
   protected readonly versionMessage = signal('');
 
   /** The encrypted token served with the app (null: none yet), to unlock it on this device. */
@@ -111,6 +115,17 @@ export class SettingsPage {
     });
     this.compendium.reset();
     this.message.set(this.i18n.t('settings.saved'));
+  }
+
+  protected saveAssistant(): void {
+    const typed = this.assistantUrl.trim();
+    if (typed && !normaliseAssistantUrl(typed)) {
+      this.assistantMessage.set(this.i18n.t('settings.assistantUrlInvalid' as never));
+      return;
+    }
+    this.assistantUrl = normaliseAssistantUrl(typed);
+    this.settings.update({ assistantUrl: this.assistantUrl });
+    this.assistantMessage.set(this.i18n.t('settings.saved'));
   }
 
   protected async test(): Promise<void> {

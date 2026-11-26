@@ -1,0 +1,19 @@
+{
+  "name": "dnd-helper-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Rules assistant proxy (Cloudflare Worker + Workers AI) for D&D Helper",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261125.1",
+    "typescript": "7.0.2",
+    "vitest": "5.1.2",
+    "wrangler": "4.168.0"
+  }
+}

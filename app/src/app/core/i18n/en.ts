@@ -6,6 +6,7 @@ export const en = {
   'nav.characters': 'Characters',
   'nav.create': 'New character',
   'nav.dm': "DM's table",
+  'nav.assistant': 'Assistant',
   'nav.settings': 'Settings',
   'lang.es': 'Español',
   'lang.en': 'English',
@@ -87,6 +88,7 @@ export const en = {
   'type.rule': 'Other rules',
 
   'compendium.title': 'Compendium',
+  'assistant.title': 'Rules assistant',
   'compendium.intro':
     'Everything extracted from the wikis, with 2014 content adapted to the 2024 rules.',
   'compendium.entries': '{count} entries',

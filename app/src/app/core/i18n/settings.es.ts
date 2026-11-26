@@ -57,4 +57,11 @@ export const settingsEs: Record<keyof typeof settingsEn, string> = {
   'version.step.failed': 'Algo ha fallado. Inténtalo de nuevo con conexión.',
   'version.copy': 'Copiar diagnóstico',
   'version.copied': 'Diagnóstico copiado: pégalo donde lo necesites.',
+  'settings.sec.assistant': 'Asistente de reglas',
+  'settings.assistantHelp':
+    'El asistente siempre busca en el compendio de este dispositivo. Para recibir además una respuesta redactada, indica la dirección del servicio que la escribe con IA. Sin ella, el asistente solo enseña las entradas que encuentra.',
+  'settings.assistantUrl': 'Dirección del servicio del asistente',
+  'settings.assistantUrlHelp':
+    'Por ejemplo https://asistente.tu-cuenta.workers.dev (sin /ask). Déjala vacía para usar solo la búsqueda.',
+  'settings.assistantUrlInvalid': 'La dirección debe empezar por https:// (o http://).',
 };

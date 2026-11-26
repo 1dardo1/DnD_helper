@@ -1,0 +1,10 @@
+name = "dnd-helper-assistant"
+main = "src/index.ts"
+compatibility_date = "2026-01-01"
+workers_dev = true
+
+[ai]
+binding = "AI"
+
+[observability]
+enabled = true
