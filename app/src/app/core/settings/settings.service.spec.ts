@@ -20,6 +20,13 @@ describe('stored settings', () => {
     expect('dataSource' in s).toBe(false);
   });
 
+  it('the assistant address is optional: empty unless set', () => {
+    localStorage.setItem(KEY, JSON.stringify({ language: 'es' }));
+    expect(readStoredSettings().assistantUrl).toBe('');
+    localStorage.setItem(KEY, JSON.stringify({ assistantUrl: 'https://a.workers.dev' }));
+    expect(readStoredSettings().assistantUrl).toBe('https://a.workers.dev');
+  });
+
   it('invalid values fall back to the defaults', () => {
     localStorage.setItem(KEY, JSON.stringify({ language: 'fr', theme: 'neon', textSize: 'huge' }));
     const s = readStoredSettings();

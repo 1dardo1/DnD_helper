@@ -59,4 +59,11 @@ export const settingsEn = {
   'version.step.failed': 'Something failed. Try again with a connection.',
   'version.copy': 'Copy diagnostics',
   'version.copied': 'Diagnostics copied: paste them where you need them.',
+  'settings.sec.assistant': 'Rules assistant',
+  'settings.assistantHelp':
+    'The assistant always searches the compendium on this device. To also get a written answer, give the address of the service that writes it with AI. Without it, the assistant only lists the entries it found.',
+  'settings.assistantUrl': 'Assistant service address',
+  'settings.assistantUrlHelp':
+    'Like https://assistant.your-account.workers.dev (without /ask). Leave it empty to use only the search.',
+  'settings.assistantUrlInvalid': 'The address must start with https:// (or http://).',
 };

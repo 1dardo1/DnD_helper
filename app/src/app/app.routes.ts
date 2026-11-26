@@ -123,6 +123,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/dm/combat/combat-page').then((m) => m.CombatPage),
   },
   {
+    path: 'assistant',
+    title: 'assistant.title',
+    loadComponent: () => import('./features/assistant/assistant-page').then((m) => m.AssistantPage),
+  },
+  {
     path: 'settings',
     title: 'settings.title',
     loadComponent: () => import('./features/settings/settings-page').then((m) => m.SettingsPage),

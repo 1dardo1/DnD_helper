@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --watch=false",
+    "eval:assistant": "ng test --watch=false --include=src/app/core/assistant/eval/retrieval-eval.spec.ts",
     "sync-dev-data": "node scripts/sync-dev-data.mjs",
     "check-glossary": "node scripts/check-glossary.mjs",
     "prestart": "npm run sync-dev-data",
